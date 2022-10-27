@@ -1,0 +1,5 @@
+class mgCTexture
+{
+public:
+  mgCTexture();
+};

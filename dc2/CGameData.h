@@ -1,0 +1,5 @@
+class CGameData
+{
+public:
+  CGameData();
+};

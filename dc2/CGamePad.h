@@ -1,0 +1,5 @@
+class CGamePad
+{
+public:
+  CGamePad();
+};

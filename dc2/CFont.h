@@ -1,0 +1,5 @@
+class CFont
+{
+public:
+  CFont();
+};
