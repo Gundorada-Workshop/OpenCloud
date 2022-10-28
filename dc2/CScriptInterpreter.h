@@ -1,5 +1,5 @@
-// TODO
-struct SPI_TAG_PARAM;
+#pragma once
+#include "SpiStack.h"
 
 class CScriptInterpreter
 {

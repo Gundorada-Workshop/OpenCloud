@@ -1,5 +1,4 @@
 #pragma once
-#include <cstdint>
 
 enum SPI_STACK_DATA_TYPE
 {
@@ -21,6 +20,9 @@ struct SPI_STACK
     float as_float;
   };
 };
+
+// TODO
+struct SPI_TAG_PARAM;
 
 // 00146470
 // Get an string off the stack
