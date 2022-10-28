@@ -1,5 +1,30 @@
 #include "mgCDrawPrim.h"
 
+void mgCDrawPrim::BeginDma()
+{
+  // TODO
+}
+
+void mgCDrawPrim::EndDma()
+{
+  // TODO
+}
+
+void mgCDrawPrim::Color(sint, sint, sint, sint)
+{
+  // TODO
+}
+
+void mgCDrawPrim::TextureCrd4(int, int)
+{
+  // TODO
+}
+
+void mgCDrawPrim::Vertex4(int, int, int)
+{
+  // TODO
+}
+
 void mgCDrawPrim::Flush()
 {
   EndDma();

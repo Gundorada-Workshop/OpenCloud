@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build">
+  <Import Project="$(SolutionDir)\.msvc\Base.Compile.Props" />
+  <Import Project="$(SolutionDir)\.msvc\Debug.Compile.Props" />
+  <Import Project="$(SolutionDir)\.msvc\FastDebug.Compile.Props" />
+  <Import Project="$(SolutionDir)\.msvc\Release.Compile.Props" />
+  <Import Project="$(SolutionDir)\.msvc\Base.Link.Props" />
+  <Import Project="$(SolutionDir)\.msvc\Release.Link.Props" />
+</Project>

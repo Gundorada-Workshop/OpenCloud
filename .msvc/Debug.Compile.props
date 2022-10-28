@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
+    <!-- Debug Settings -->
+    <ClCompile>
+      <!-- Disable all optimization -->
+      <Optimization>Disabled</Optimization>
+      <!-- Set the _DEBUG macro as the STL expects -->
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+</Project>

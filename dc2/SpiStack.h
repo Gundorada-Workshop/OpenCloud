@@ -1,5 +1,5 @@
 #pragma once
-#include "Types.h"
+#include "common/types.h"
 
 enum SPI_STACK_DATA_TYPE
 {

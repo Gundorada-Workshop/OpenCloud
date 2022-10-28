@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+    <!-- Release Settings -->
+    <ClCompile>
+      <!-- Set optimization for maximum speed -->
+      <Optimization>MaxSpeed</Optimization>
+      <!-- Favor speed -->
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <!-- Inline everything -->
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <!-- Don't enable WPO it's too slow for local building -->
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <!-- Set NDEBUG as STL expects -->
+      <PreprocessorDefinitions>_NDEBUG%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+</Project>

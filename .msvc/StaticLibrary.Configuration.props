@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <Import Project="$(SolutionDir)\.msvc\Base.Configuration.Props" />
+  <Import Project="$(SolutionDir)\.msvc\Debug.Configuration.Props" />
+  <Import Project="$(SolutionDir)\.msvc\Release.Configuration.Props" />
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <TargetName>$(ProjectName.ToLower())</TargetName>
+    <OutDir>$(SolutionDir)build\$(Configuration.ToLower())-$(Platform.ToLower())\</OutDir>
+  </PropertyGroup>
+</Project>

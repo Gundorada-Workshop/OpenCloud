@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(SolutionDir)\.msvc\Base.Targets.Props" />
+  <Import Project="$(SolutionDir)\.msvc\Base.Globals.Props" />
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{DC4A4239-8C6B-42DD-9612-999041EE0B5C}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(SolutionDir)\.msvc\Application.Configuration.Props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
+  <ItemGroup>
+    <ClInclude Include="CEditData.h" />
+    <ClInclude Include="CFishAquarium.h" />
+    <ClInclude Include="CFont.h" />
+    <ClInclude Include="CGameData.h" />
+    <ClInclude Include="CGameDataUsed.h" />
+    <ClInclude Include="CGamePad.h" />
+    <ClInclude Include="CInventUserData.h" />
+    <ClInclude Include="CMenuSystemData.h" />
+    <ClInclude Include="CMonsterBox.h" />
+    <ClInclude Include="CQuestData.h" />
+    <ClInclude Include="CSaveData.h" />
+    <ClInclude Include="CSaveDataDungeon.h" />
+    <ClInclude Include="CScene.h" />
+    <ClInclude Include="CScriptInterpreter.h" />
+    <ClInclude Include="CUserDataManager.h" />
+    <ClInclude Include="MainLoop.h" />
+    <ClInclude Include="mgCDrawEnv.h" />
+    <ClInclude Include="mgCDrawPrim.h" />
+    <ClInclude Include="mgCMemory.h" />
+    <ClInclude Include="mgCTexture.h" />
+    <ClInclude Include="SpiStack.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CGamePad.cc" />
+    <ClCompile Include="CScriptInterpreter.cc" />
+    <ClCompile Include="main.cc" />
+    <ClCompile Include="MainLoop.cc" />
+    <ClCompile Include="mgCDrawPrim.cc" />
+    <ClCompile Include="SpiStack.cc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

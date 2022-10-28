@@ -15,6 +15,26 @@ static sint AxisCalibration(sint axis)
   return ((axis - 177) * 128) / 78;
 }
 
+sint CGamePad::GetRX()
+{
+  return 0; // TODO
+}
+
+sint CGamePad::GetRY()
+{
+  return 0; // TODO
+}
+
+sint CGamePad::GetLX()
+{
+  return 0; // TODO
+}
+
+sint CGamePad::GetLY()
+{
+  return 0; // TODO
+}
+
 f32 CGamePad::GetRXf()
 {
   return static_cast<f32>(GetRX()) / 128.0f;

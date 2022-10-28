@@ -1,5 +1,5 @@
 #pragma once
-#include "Types.h"
+#include "common/types.h"
 #include "SpiStack.h"
 
 class CScriptInterpreter
@@ -17,7 +17,10 @@ public:
   void Run();
 
   // 00146590
-  sint GetNextTAG(sint);
+  sint GetNextTAG(sint)
+  {
+    return 0; // TODO
+  }
 
   // 00146760
   sint hash(char* str);

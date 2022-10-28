@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <Import Project="$(SolutionDir)\.msvc\Base.Configuration.Props" />
+  <Import Project="$(SolutionDir)\.msvc\Debug.Configuration.Props" />
+  <Import Project="$(SolutionDir)\.msvc\Release.Configuration.Props" />
+  <PropertyGroup>
+    <ConfigurationType>Application</ConfigurationType>
+    <TargetName>$(ProjectName.ToLower())-$(Configuration.ToLower())-$(Platform.ToLower())</TargetName>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+  </PropertyGroup>
+</Project>

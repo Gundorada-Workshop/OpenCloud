@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ItemDefinitionGroup>
+    <!-- All common compiler settings -->
+    <ClCompile>
+      <!-- Use multiple processes for compile -->
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <!-- Disable warnings from external code -->
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <!-- Disable the analyzer on external code -->
+      <DisableAnalyzeExternal>true</DisableAnalyzeExternal>
+      <!-- Decent warning level for our code -->
+      <WarningLevel>Level3</WarningLevel>
+      <!-- Use the latest C++ standard -->
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <!-- Disable exceptions -->
+      <ExceptionHandling>false</ExceptionHandling>
+      <!-- Enable standard conformance -->
+      <ConformanceMode>true</ConformanceMode>
+      <!-- Request the compiler replace some functions with intrinsics -->
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <!-- COMDAT -->
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <!-- Disable runtime type info (dynamic_cast/typeid) -->
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <!-- Treat sources at utf-8 -->
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <!-- Enable "Non-virtual member function hides base class virtual function"-->
+      <AdditionalOptions>/w44263 %(AdditionalOptions)</AdditionalOptions>
+      <!-- Enable "Class has virtual functions, but destructor is not virtual" -->
+      <AdditionalOptions>/w44265 %(AdditionalOptions)</AdditionalOptions>
+      <!-- Enable " Reinterpret cast between related types" -->
+      <AdditionalOptions>/w44946 %(AdditionalOptions)</AdditionalOptions>
+      <!-- Enable the __cplusplus macro -->
+      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <!-- Enable enhanced debugging info for optimized build -->
+      <AdditionalOptions>/Zo %(AdditionalOptions)</AdditionalOptions>
+      <!-- Exceptions need an additional define to be disabled in the STL -->
+      <PreprocessorDefinitions>_HAS_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- Don't include a bunch of Windows junk -->
+      <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- Don't allow Windows to add min/max defines that conflict with anything called min/max -->
+      <PreprocessorDefinitions>NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- Bring in our includes -->
+      <AdditionalIncludeDirectories>$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dc2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\libcdio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <BuildLog>
+      <Path>$(SolutionDir)build\$(Configuration.ToLower())-$(Platform.ToLower())\$(MSBuildProjectName).log</Path>
+    </BuildLog>
+  </ItemDefinitionGroup>
+</Project>

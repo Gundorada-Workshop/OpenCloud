@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <!-- Use unicode -->
+    <CharacterSet>Unicode</CharacterSet>
+    <!-- Use toolset -->
+    <PlatformToolset>v143</PlatformToolset>
+    <IntDir>$(SolutionDir)build\$(Configuration.ToLower())-$(Platform.ToLower())\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+</Project>

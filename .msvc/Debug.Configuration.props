@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
+    <!-- Enable debug libraries -->
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+</Project>

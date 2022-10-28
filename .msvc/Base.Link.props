@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <!-- All common linker settings -->
+    <Link>
+      <!-- Always generate debug information -->
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <!-- Linker warnings are errors -->
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+      <!-- DbgHelp: see common/debug.hpp -->
+      <AdditionalDependencies>DbgHelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+</Project>

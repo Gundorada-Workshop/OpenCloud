@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='FastDebug'">
+    <!-- Debug Settings -->
+    <ClCompile>
+      <!-- ALWAYS_INLINE only -->
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <!-- Enable checked iterators but disable iterator debugging -->
+      <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- Add a macro for identifying fast debug builds -->
+      <PreprocessorDefinitions>_FDEBUG%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+</Project>

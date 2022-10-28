@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Types.h"
+#include "common/types.h"
+
 #include "mgCMemory.h"
 #include "mgCTexture.h"
 

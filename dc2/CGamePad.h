@@ -1,5 +1,5 @@
 #pragma once
-#include "Types.h"
+#include "common/types.h"
 
 // todo
 struct PAD_STATUS;
