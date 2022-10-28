@@ -1,0 +1,3 @@
+[submodule "external/libcdio"]
+	path = external/libcdio
+	url = https://git.savannah.gnu.org/git/libcdio.git
