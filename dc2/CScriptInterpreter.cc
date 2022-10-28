@@ -16,9 +16,9 @@ void CScriptInterpreter::Run()
   while(GetNextTAG(1) > -1) { }
 }
 
-unsigned int CScriptInterpreter::hash(char* str)
+sint CScriptInterpreter::hash(char* str)
 {
-  unsigned int out = 0;
+  sint out = 0;
 
   while(*str != '\0')
   {

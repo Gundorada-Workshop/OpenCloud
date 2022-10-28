@@ -1,4 +1,5 @@
 #pragma once
+#include "Types.h"
 
 class CUserDataManager
 {
@@ -7,10 +8,10 @@ public:
   void Initialize();
 
   // 0019b9a0
-  void JoinPartyMember(int chara);
+  void JoinPartyMember(sint chara);
 
   // 0019baa0
-  void EnableCharaChange(int chara);
+  void EnableCharaChange(sint chara);
 
   // 0019c420
   void SetRoboName(const char* name);

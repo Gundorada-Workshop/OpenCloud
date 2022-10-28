@@ -1,4 +1,5 @@
 #pragma once
+#include "Types.h"
 
 enum SPI_STACK_DATA_TYPE
 {
@@ -15,9 +16,9 @@ struct SPI_STACK
   // so a union of those types seems like an idea
   union
   {
-    int as_integer;
+    sint as_integer;
     char* as_string;
-    float as_float;
+    f32 as_float;
   };
 };
 
@@ -29,10 +30,10 @@ struct SPI_TAG_PARAM;
 char* GetStackString(SPI_STACK* stack);
 // 001463e0
 // Get an integer off the stack
-int GetStackInt(SPI_STACK* stack);
+sint GetStackInt(SPI_STACK* stack);
 // 00146430
 // Get a float off the stack
-float GetStackFloat(SPI_STACK* stack);
+f32 GetStackFloat(SPI_STACK* stack);
 // 001464a0
 // Get a vec3 off the stack
-void spiGetStackVector(float v[3], SPI_STACK* stack);
+void spiGetStackVector(vec3 v, SPI_STACK* stack);

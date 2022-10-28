@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Types.h"
 #include "mgCMemory.h"
 #include "mgCTexture.h"
 
@@ -34,7 +35,7 @@ public:
   void BeginPrim2(int);
 
   // 00134890
-  void BeginPrim2(unsigned int, unsigned int, int);
+  void BeginPrim2(uint, uint, sint);
 
   // 00134940
   void EndPrim2();
@@ -43,95 +44,95 @@ public:
   void End2();
 
   // 00134aa0
-  void Data0(float[4]);
+  void Data0(vec4);
 
   // 00134ac0
-  void Data4(float[4]);
+  void Data4(vec4);
 
   // 00134ae0
-  void Data(int[4]);
+  void Data(ivec4);
 
   // 00134b00
-  void DirectData(int);
+  void DirectData(sint);
 
   // 00134b20
   // note: x and y are fixed point (>> 4)
-  void Vertex(int x, int y, int z);
+  void Vertex(sint x, sint y, sint z);
 
   // 00134b30
-  void Vertex(float x, float y, float z);
+  void Vertex(f32 x, f32 y, f32 z);
 
   // 00134bb0
-  void Vertex4(int x, int y, int z);
+  void Vertex4(sint x, sint y, sint z);
 
   // 00134b70
-  void Vertex4(float v[3]);
+  void Vertex4(vec3);
 
   // 00134c60
-  void Vertex4(int v[3]);
+  void Vertex4(ivec3);
 
   // 00134c80
-  void Color(int r, int g, int b, int a);
+  void Color(sint r, sint g, sint b, sint a);
 
   // 00134cf0
-  void Color(float rgba[4]);
+  void Color(vec4);
 
   // 00134d30
   // fixed point (<< 4)
-  void TextureCrd4(int s, int t);
+  void TextureCrd4(sint s, sint t);
 
   // 00134d70
-  void TextureCrd(int s, int t);
+  void TextureCrd(sint s, sint t);
 
   // 00134d80
-  void Direct(unsigned long, unsigned long);
+  void Direct(ulong, ulong);
 
   // 00134da0
   void Texture(mgCTexture* texture);
 
   // 00134ec0
-  void AlphaBlendEnable(int);
+  void AlphaBlendEnable(sint);
 
   // 00134ee0
-  void AlphaBlend(int);
+  void AlphaBlend(sint);
 
   // 00134ef0
-  void AlphaTestEnable(int);
+  void AlphaTestEnable(sint);
 
   // 00134f10
-  void AlphaTest(int, int);
+  void AlphaTest(sint, sint);
 
   // 00134f50
   // destination alpha
-  void DAlphaTest(int, int);
+  void DAlphaTest(sint, sint);
 
   // 00134f90
-  void DepthTestEnable(int);
+  void DepthTestEnable(sint);
 
   // 00134ff0
-  void DepthTest(int);
+  void DepthTest(sint);
 
   // 00135090
-  void ZMask(int);
+  void ZMask(sint);
 
   // 001350a0
-  void TextureMapEnable(int);
+  void TextureMapEnable(sint);
 
   // 001350c0
-  void Bilinear(int);
+  void Bilinear(sint);
 
   // 001350d0
-  void Shading(int);
+  void Shading(sint);
 
   // 001350f0
-  void AntiAliasing(int);
+  void AntiAliasing(sint);
 
   // 00135110
-  void FogEnable(int);
+  void FogEnable(sint);
 
   // 00135130
-  void Coord(int);
+  void Coord(sint);
 
   // 00135140
-  void GetOffset(int*, int*);
+  void GetOffset(sint*, sint*);
 };

@@ -1,4 +1,5 @@
 #pragma once
+#include "Types.h"
 
 // todo
 struct PAD_STATUS;
@@ -21,19 +22,19 @@ public:
   void Step(int);
 
   // 0014af80
-  int GetRX();
+  sint GetRX();
 
   // 0014af90
-  int GetRY();
+  sint GetRY();
 
   // 0014afa0
-  int GetLX();
+  sint GetLX();
 
   // 0014afb0
-  int GetLY();
+  sint GetLY();
 
   // 0014afc0
-  int GetRX2();
+  sint GetRX2();
 
   // 0014afd0
   void CancelAutoRepeat();
@@ -42,43 +43,43 @@ public:
   void CancelAutoRepeat2();
 
   // 0014b0b0
-  void SetAutoRepeat(int, int, int);
+  void SetAutoRepeat(sint, sint, sint);
 
   // 0014b130
-  void SetAutoRepeat2(int, int, int);
+  void SetAutoRepeat2(sint, sint, sint);
 
   // 0014b1c0
-  void KeyLock(int val);
+  void KeyLock(sint val);
 
   // 0014b1d0
-  void KeyLock2(int val);
+  void KeyLock2(sint val);
 
   // 0014b1e0
-  void DebugKeyLock(int val);
+  void DebugKeyLock(sint val);
 
   // 0014b1f0
-  unsigned int GetPadOn();
+  uint GetPadOn();
 
   // 0014b220
-  unsigned int GetPadDown();
+  uint GetPadDown();
 
   // 0014b250
-  unsigned int GetPadUp();
+  uint GetPadUp();
 
   // 0014b280
-  float GetRXf();
+  f32 GetRXf();
 
   // 0014b2c0
-  float GetRYf();
+  f32 GetRYf();
 
   // 0014b300
-  float GetLXf();
+  f32 GetLXf();
 
   // 0014b340
-  float GetLYf();
+  f32 GetLYf();
 
   // 0014b380
-  float GetRXf2();
+  f32 GetRXf2();
 
   // 0014b3c0
   bool On(int);
@@ -99,16 +100,16 @@ public:
   void AutoRepeatOff();
 
   // 0014b510
-  void MenuModeOn(int);
+  void MenuModeOn(sint);
 
   // 0014b520
   void MenuModeOff();
 
   // 0014b530
-  void SetVibration(int, int, int);
+  void SetVibration(sint, sint, sint);
 
   // 0014b590
-  void VibrationEnable(int);
+  void VibrationEnable(sint);
 
   // 0014b5a0
   void StopVibration();
