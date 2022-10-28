@@ -1,7 +1,4 @@
-void MainLoop()
-{
-  // todo
-}
+#include "MainLoop.h"
 
 int main()
 {
