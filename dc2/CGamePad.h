@@ -19,7 +19,7 @@ public:
   void Update();
 
   // 0014ae30
-  void Step(int);
+  void Step(sint);
 
   // 0014af80
   sint GetRX();
@@ -82,19 +82,19 @@ public:
   f32 GetRXf2();
 
   // 0014b3c0
-  bool On(int);
+  bool On(sint);
 
   // 0014b3f0
-  bool On2(int);
+  bool On2(sint);
 
   // 0014b430
-  bool Down(int);
+  bool Down(sint);
 
   // 0014b470
-  bool Down2(int);
+  bool Down2(sint);
 
   // 0014b4c0
-  bool Up(int);
+  bool Up(sint);
 
   // 0014b500
   void AutoRepeatOff();

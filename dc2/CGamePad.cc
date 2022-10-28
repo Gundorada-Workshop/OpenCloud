@@ -3,7 +3,7 @@
 #include <cmath>
 
 // 0014aef0
-static int AxisCalibration(int axis)
+static sint AxisCalibration(sint axis)
 {
   // dead zone
   if(std::abs(axis - 128) < 50)
@@ -15,22 +15,22 @@ static int AxisCalibration(int axis)
   return ((axis - 177) * 128) / 78;
 }
 
-float CGamePad::GetRXf()
+f32 CGamePad::GetRXf()
 {
-  return static_cast<float>(GetRX()) / 128.0f;
+  return static_cast<f32>(GetRX()) / 128.0f;
 }
 
-float CGamePad::GetRYf()
+f32 CGamePad::GetRYf()
 {
-  return static_cast<float>(GetRY()) / 128.0f;
+  return static_cast<f32>(GetRY()) / 128.0f;
 }
 
-float CGamePad::GetLXf()
+f32 CGamePad::GetLXf()
 {
-  return static_cast<float>(GetLX()) / 128.0f;
+  return static_cast<f32>(GetLX()) / 128.0f;
 }
 
-float CGamePad::GetLYf()
+f32 CGamePad::GetLYf()
 {
-  return static_cast<float>(GetLY()) / 128.0f;
+  return static_cast<f32>(GetLY()) / 128.0f;
 }
