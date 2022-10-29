@@ -636,6 +636,7 @@ static bool __GRAVITY(SPI_STACK* stack, int)
   return true;
 }
 
+// 003340b0
 const std::array<SPI_TAG_PARAM, 14> tex_tag =
 {
   "TEX_ANIME",          texTEX_ANIME,
@@ -654,6 +655,7 @@ const std::array<SPI_TAG_PARAM, 14> tex_tag =
   NULL, nullptr
 };
 
+// 003349f0
 const std::array<SPI_TAG_PARAM, 16> cfg_tag =
 {
   "DRAW_OFF_RECT",       cfgDRAW_OFF_RECT,
@@ -674,6 +676,7 @@ const std::array<SPI_TAG_PARAM, 16> cfg_tag =
   NULL, nullptr,
 };
 
+// 00334730
 const std::array<SPI_TAG_PARAM, 88> map_tag =
 {
   "d",                      mapDummy,
