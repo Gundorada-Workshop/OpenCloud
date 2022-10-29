@@ -33,6 +33,7 @@
     <ClInclude Include="mgCMemory.h" />
     <ClInclude Include="mgCTexture.h" />
     <ClInclude Include="SInit.h" />
+    <ClInclude Include="mgCTextureManager.h" />
     <ClInclude Include="SpiStack.h" />
     <ClInclude Include="Tags.h" />
   </ItemGroup>
@@ -46,6 +47,7 @@
     <ClCompile Include="mgCDrawPrim.cc" />
     <ClCompile Include="mgCMemory.cc" />
     <ClCompile Include="SInit.cc" />
+    <ClCompile Include="mgCTextureManager.cc" />
     <ClCompile Include="SpiStack.cc" />
     <ClCompile Include="Tags.cc" />
   </ItemGroup>
