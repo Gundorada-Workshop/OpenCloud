@@ -656,6 +656,56 @@ static bool _SKIN_MOTION(SPI_STACK* stack, int)
   return true;
 }
 
+static bool _TREE_MAPINFO(SPI_STACK* stack, int)
+{
+  return true;
+}
+
+static bool _GLID_INFO(SPI_STACK* stack, int)
+{
+  return true;
+}
+
+static bool _ROOT_INFO(SPI_STACK* stack, int)
+{
+  return true;
+}
+
+static bool _ROOM_INFO(SPI_STACK* stack, int)
+{
+  return true;
+}
+
+static bool _ROOM_LINK(SPI_STACK* stack, int)
+{
+  return true;
+}
+
+static bool _ROOM_OPTION(SPI_STACK* stack, int)
+{
+  return true;
+}
+
+static bool _ROOM_TEXNO(SPI_STACK* stack, int)
+{
+  return true;
+}
+
+static bool _ROOM_KEYROOM(SPI_STACK* stack, int)
+{
+  return true;
+}
+
+static bool _ROOM_FLOOR_INFO(SPI_STACK* stack, int)
+{
+  return true;
+}
+
+static bool _ROOM_TITLE(SPI_STACK* stack, int)
+{
+  return true;
+}
+
 // 003340b0
 const std::array<SPI_TAG_PARAM, 14> tex_tag =
 {
@@ -849,5 +899,21 @@ const std::array<SPI_TAG_PARAM, 5> skin_tag =
   "IMG_END", _SKIN_IMG_END,
   "MODEL",   _SKIN_MODEL,
   "MOTION",  _SKIN_MOTION,
+  NULL, nullptr
+};
+
+// 0035d010
+const std::array<SPI_TAG_PARAM, 12> tree_map_tag =
+{
+  "TREE_INFO",  _TREE_MAPINFO,
+  "GI",         _GLID_INFO,
+  "RT",         _ROOT_INFO,
+  "RI",         _ROOM_INFO,
+  "RI_LINK",    _ROOM_LINK,
+  "RI_OP",      _ROOM_OPTION,
+  "RI_TEX",     _ROOM_TEXNO,
+  "RI_KEYROOM", _ROOM_KEYROOM,
+  "RF_INFO",    _ROOM_FLOOR_INFO,
+  "RI_TITLE",   _ROOM_TITLE,
   NULL, nullptr
 };
