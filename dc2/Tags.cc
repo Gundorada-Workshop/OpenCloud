@@ -826,6 +826,16 @@ static bool _MES_SYS_SPECTOL(SPI_STACK* stack, int)
   return true;
 }
 
+static bool amapIMG(SPI_STACK* stack, int)
+{
+  return true;
+}
+
+static bool amapPCP(SPI_STACK* stack, int)
+{
+  return true;
+}
+
 
 // 003340b0
 const std::array<SPI_TAG_PARAM, 14> tex_tag =
@@ -1066,5 +1076,13 @@ const std::array<SPI_TAG_PARAM, 25> gamedata_tag =
   "FISH",       _DATAFISH,
   "MES_SYS",    _MES_SYS,
   "MES_SYSSPE", _MES_SYS_SPECTOL,
+  NULL, nullptr
+};
+
+// 00334a80
+const std::array<SPI_TAG_PARAM, 3> add_mapinfo_tag =
+{
+  "IMG", amapIMG,
+  "PCP", amapPCP,
   NULL, nullptr
 };
