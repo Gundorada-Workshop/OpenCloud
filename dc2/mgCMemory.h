@@ -61,16 +61,16 @@ public:
 	}
 
 	// Debug representation of the purpose of this memory.
-	char label[0x10];
-	usize heap_size;
-	void* heap_start;
+	char m_label[0x10];
+	usize m_heap_size;
+	void* m_heap_start;
 	// FIXME: NAME:
 	void* field_18;
 	// FIXME: NAME:
 	bool field_1C;
-	void* stack_start;
-	usize stack_current_allocated;
-	usize stack_max_allocated;
+	void* m_stack_start;
+	usize m_stack_current_allocated;
+	usize m_stack_max_allocated;
 	// FIXME: NAME: UNKNOWNTYPE: (pointer - see StartStackMode?)
 	void* field_2C;
 };
