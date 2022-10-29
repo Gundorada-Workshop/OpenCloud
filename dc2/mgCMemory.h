@@ -45,11 +45,20 @@ public:
 
 	// 00139D90
 	// Aligns the stack to a 0x40 boundary.
-	void* stAlign64();
+	void stAlign64();
 
 	// 00139E00
 	// See stAlign64
-	void* Align64();
+	void Align64();
+
+	// 00139E70
+	// Sets the buffer for this memory.
+	void stSetBuffer(void* stack_start, usize capacity);
+
+	// 00146260
+	mgCMemory() {
+		this->Initialize();
+	}
 
 	// Debug representation of the purpose of this memory.
 	char label[0x10];
