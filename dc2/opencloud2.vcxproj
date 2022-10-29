@@ -18,6 +18,7 @@
     <ClInclude Include="CGameDataUsed.h" />
     <ClInclude Include="CGamePad.h" />
     <ClInclude Include="CInventUserData.h" />
+    <ClInclude Include="CMap.h" />
     <ClInclude Include="CMenuSystemData.h" />
     <ClInclude Include="CMonsterBox.h" />
     <ClInclude Include="CQuestData.h" />
@@ -37,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CGamePad.cc" />
+    <ClCompile Include="CMap.cc" />
     <ClCompile Include="CScriptInterpreter.cc" />
     <ClCompile Include="FishingObj.cc" />
     <ClCompile Include="main.cc" />

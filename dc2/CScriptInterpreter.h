@@ -9,9 +9,15 @@ public:
   CScriptInterpreter();
 
   // 001467b0
-  void SetTag(SPI_TAG_PARAM* param);
+  void SetTag(const SPI_TAG_PARAM* param)
+  {
+    // TODO
+  }
 
-  void SetScript(char* script, sint script_size);
+  void SetScript(const char* script, sint script_size)
+  {
+    // TODO
+  }
 
   // 00146720
   void Run();
