@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include "common/types.h"
 
 enum SPI_STACK_DATA_TYPE
@@ -22,8 +23,11 @@ struct SPI_STACK
   };
 };
 
-// TODO
-struct SPI_TAG_PARAM;
+struct SPI_TAG_PARAM
+{
+  const char* tag_name;
+  std::function<bool(SPI_STACK*, int)> func;
+};
 
 // 00146470
 // Get an string off the stack

@@ -31,6 +31,7 @@
     <ClInclude Include="mgCMemory.h" />
     <ClInclude Include="mgCTexture.h" />
     <ClInclude Include="SpiStack.h" />
+    <ClInclude Include="TexTag.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CGamePad.cc" />
@@ -39,6 +40,7 @@
     <ClCompile Include="MainLoop.cc" />
     <ClCompile Include="mgCDrawPrim.cc" />
     <ClCompile Include="SpiStack.cc" />
+    <ClCompile Include="TexTag.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
