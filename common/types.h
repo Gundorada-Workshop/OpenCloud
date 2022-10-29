@@ -23,6 +23,7 @@ using s32    = std::int32_t;
 using s64    = std::int64_t;
 using schar  = signed char;
 using sint   = signed int;
+using ssize  = std::intmax_t;
 
 template<typename usize S>
 using ivec = std::array<s32, S>;
