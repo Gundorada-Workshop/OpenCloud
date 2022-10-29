@@ -636,6 +636,26 @@ static bool __GRAVITY(SPI_STACK* stack, int)
   return true;
 }
 
+static bool _SKIN_IMG(SPI_STACK* stack, int)
+{
+  return true;
+}
+
+static bool _SKIN_IMG_END(SPI_STACK* stack, int)
+{
+  return true;
+}
+
+static bool _SKIN_MODEL(SPI_STACK* stack, int)
+{
+  return true;
+}
+
+static bool _SKIN_MOTION(SPI_STACK* stack, int)
+{
+  return true;
+}
+
 // 003340b0
 const std::array<SPI_TAG_PARAM, 14> tex_tag =
 {
@@ -819,5 +839,15 @@ const std::array<SPI_TAG_PARAM, 48> effm_tag =
   "TEX_GET_TYPE",  __TEX_GET_TYPE,
   "TEX_NAME",      __TEX_NAME,
   "GRAVITY",       __GRAVITY,
+  NULL, nullptr
+};
+
+// 00334db0
+const std::array<SPI_TAG_PARAM, 5> skin_tag =
+{
+  "IMG",     _SKIN_IMG,
+  "IMG_END", _SKIN_IMG_END,
+  "MODEL",   _SKIN_MODEL,
+  "MOTION",  _SKIN_MOTION,
   NULL, nullptr
 };
