@@ -1,6 +1,19 @@
 #pragma once
 #include "common/types.h"
 
+
+struct SHeapMemHead
+{
+	// FIXME: NAME:
+	void* field_0;
+	// FIXME: NAME: UNKNOWNTYPE:
+	u32 field_4;
+	// FIXME: NAME: UNKNOWNTYPE:
+	u32 field_8;
+	// FIXME: NAME:
+	SHeapMemHead* field_C;
+};
+
 /**
  * A mgCMemory is a stack of 0x10-sized blocks.
  */
@@ -18,7 +31,7 @@ public:
 
 	// 00139AA0
 	// FIXME: NAME: arguments (and specific numeric types?)
-	void StartStackMode(int i1, int i2);
+	void* StartStackMode(int i1, int i2);
 
 	// 00139BD0
 	void EndStackMode();
@@ -64,13 +77,12 @@ public:
 	char m_label[0x10];
 	usize m_heap_size;
 	void* m_heap_start;
-	// FIXME: NAME:
-	void* field_18;
+	SHeapMemHead* m_heap_mem_head;
 	// FIXME: NAME:
 	bool field_1C;
 	void* m_stack_start;
 	usize m_stack_current_allocated;
 	usize m_stack_max_allocated;
-	// FIXME: NAME: UNKNOWNTYPE: (pointer - see StartStackMode?)
-	void* field_2C;
+	// FIXME: NAME:
+	SHeapMemHead* field_2C;
 };
