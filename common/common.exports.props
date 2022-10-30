@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ItemGroup>
+    <ProjectReference Include="$(SolutionDir)common\common.vcxproj">
+      <Project>{3024747D-56A5-4B76-835A-12C3899004A7}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(SolutionDir)external\fmt.exports.props" />
+</Project>

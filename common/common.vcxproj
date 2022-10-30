@@ -20,6 +20,9 @@
     <ClCompile Include="log.cc" />
     <ClCompile Include="strings.cc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="common.exports.props" />
+  </ItemGroup>
   <Import Project="$(SolutionDir)external\fmt.exports.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

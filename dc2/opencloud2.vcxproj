@@ -158,5 +158,6 @@
     <ClCompile Include="UserData.cc" />
     <ClCompile Include="Vlgr_Info.cc" />
   </ItemGroup>
+  <Import Project="$(SolutionDir)common\common.exports.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

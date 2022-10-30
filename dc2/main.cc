@@ -1,6 +1,8 @@
 #include <Windows.h>
 #include <cstdlib>
 
+#include "common/console.h"
+
 #include "MainLoop.h"
 #include "SInit.h"
 
@@ -8,8 +10,20 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
   _In_ LPSTR /*lpCmdLine*/, _In_ INT /*nCmdShow*/)
 
 {
+  // start the console
+  // todo: report message box to user
+  if (!common::console::initialize())
+    return EXIT_FAILURE;
+
+  // metrowerks has some weird static initialization thing
+  // we don't, so we do that here
   StaticInitializers::Init();
+
+  // the main loop
   MainLoop();
+
+  // free the console
+  common::console::shutdown();
 
   return EXIT_SUCCESS;
 }
