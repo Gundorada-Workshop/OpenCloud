@@ -11,6 +11,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
   <ItemGroup>
+    <ClInclude Include="CCharacter2.h" />
     <ClInclude Include="CEditData.h" />
     <ClInclude Include="CEffectManager.h" />
     <ClInclude Include="CFishAquarium.h" />
@@ -39,6 +40,7 @@
     <ClInclude Include="Tags.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CCharacter2.cc" />
     <ClCompile Include="CEffectManager.cc" />
     <ClCompile Include="CGamePad.cc" />
     <ClCompile Include="CMap.cc" />
