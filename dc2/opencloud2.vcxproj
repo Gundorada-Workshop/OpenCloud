@@ -121,6 +121,7 @@
     <ClCompile Include="Fishing.cc" />
     <ClCompile Include="FishingObj.cc" />
     <ClCompile Include="GameData.cc" />
+    <ClCompile Include="globals.cc" />
     <ClCompile Include="GyoRace.cc" />
     <ClCompile Include="HelpMes.cc" />
     <ClCompile Include="InventMn.cc" />

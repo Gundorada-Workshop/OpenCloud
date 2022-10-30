@@ -13,12 +13,12 @@ namespace Photo
 
 const char* GetMesTxt(ssize index)
 {
-	if (index < 0 || msg_text[0].size() <= index || language < 0 || msg_text.size() <= language)
+	if (index < 0 || msg_text[0].size() <= index || _g_language < 0 || msg_text.size() <= _g_language)
 	{
 		return null_txt;
 	}
 
-	return msg_text[language][index];
+	return msg_text[_g_language][index];
 }
 
 float PhotoAddProjection(void)

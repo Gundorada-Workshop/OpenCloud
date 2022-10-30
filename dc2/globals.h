@@ -9,4 +9,4 @@ enum Language : s32
 };
 
 // 00376FC0
-static Language language;
+extern Language _g_language;
