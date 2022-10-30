@@ -10,10 +10,21 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
   <ItemGroup>
+    <ClInclude Include="console.h" />
+    <ClInclude Include="debug.h" />
+    <ClInclude Include="log.h" />
+    <ClInclude Include="strings.h" />
     <ClInclude Include="types.h" />
   </ItemGroup>
   <ItemGroup>
-
+    <ClCompile Include="console.cc" />
+    <ClCompile Include="debug.cc" />
+    <ClCompile Include="log.cc" />
+    <ClCompile Include="strings.cc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="common.exports.props" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)external\fmt.exports.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\fmt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(SolutionDir)external\fmt.vcxproj">
+      <Project>{3badae77-7397-46d5-8fa7-d72b3c216cf0}</Project>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
