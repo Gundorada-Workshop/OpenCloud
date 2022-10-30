@@ -11,13 +11,19 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
   <ItemGroup>
+    <ClInclude Include="CCharacter2.h" />
+    <ClInclude Include="CDngFloorManager.h" />
+    <ClInclude Include="CDynamicAnime.h" />
     <ClInclude Include="CEditData.h" />
+    <ClInclude Include="CEffectManager.h" />
     <ClInclude Include="CFishAquarium.h" />
     <ClInclude Include="CFont.h" />
     <ClInclude Include="CGameData.h" />
     <ClInclude Include="CGameDataUsed.h" />
     <ClInclude Include="CGamePad.h" />
     <ClInclude Include="CInventUserData.h" />
+    <ClInclude Include="CMap.h" />
+    <ClInclude Include="CMapInfo.h" />
     <ClInclude Include="CMenuSystemData.h" />
     <ClInclude Include="CMonsterBox.h" />
     <ClInclude Include="CQuestData.h" />
@@ -32,11 +38,18 @@
     <ClInclude Include="mgCMemory.h" />
     <ClInclude Include="mgCTexture.h" />
     <ClInclude Include="SInit.h" />
+    <ClInclude Include="mgCTextureManager.h" />
     <ClInclude Include="SpiStack.h" />
-    <ClInclude Include="Tags.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CCharacter2.cc" />
+    <ClCompile Include="CDngFloorManager.cc" />
+    <ClCompile Include="CDynamicAnime.cc" />
+    <ClCompile Include="CEffectManager.cc" />
+    <ClCompile Include="CGameData.cc" />
     <ClCompile Include="CGamePad.cc" />
+    <ClCompile Include="CMap.cc" />
+    <ClCompile Include="CMapInfo.cc" />
     <ClCompile Include="CScriptInterpreter.cc" />
     <ClCompile Include="FishingObj.cc" />
     <ClCompile Include="main.cc" />
@@ -44,8 +57,8 @@
     <ClCompile Include="mgCDrawPrim.cc" />
     <ClCompile Include="mgCMemory.cc" />
     <ClCompile Include="SInit.cc" />
+    <ClCompile Include="mgCTextureManager.cc" />
     <ClCompile Include="SpiStack.cc" />
-    <ClCompile Include="Tags.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
