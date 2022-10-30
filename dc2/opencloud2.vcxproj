@@ -46,6 +46,7 @@
     <ClCompile Include="CDngFloorManager.cc" />
     <ClCompile Include="CDynamicAnime.cc" />
     <ClCompile Include="CEffectManager.cc" />
+    <ClCompile Include="CGameData.cc" />
     <ClCompile Include="CGamePad.cc" />
     <ClCompile Include="CMap.cc" />
     <ClCompile Include="CScriptInterpreter.cc" />
