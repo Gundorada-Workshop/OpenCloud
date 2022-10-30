@@ -4,6 +4,7 @@
 #include <string_view>
 
 #include <fmt/core.h>
+#include <fmt/chrono.h>
 
 #include "types.h"
 
