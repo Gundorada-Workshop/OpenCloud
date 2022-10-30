@@ -42,6 +42,12 @@ namespace common::log
   // disable a callback
   void disable_output_callback(output_callback::cb_handle handle);
 
+  // disable a channel
+  void disable_channel(std::string_view channel);
+
+  // enable a channel
+  void enable_channel(std::string_view channel);
+
   // write to the callbacks
   void write(std::string_view channel, level lvl, std::string_view file, std::string_view func, std::string_view msg);
 
