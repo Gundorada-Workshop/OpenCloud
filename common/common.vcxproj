@@ -15,5 +15,6 @@
   <ItemGroup>
 
   </ItemGroup>
+  <Import Project="$(SolutionDir)external\fmt.exports.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

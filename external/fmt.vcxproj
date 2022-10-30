@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(SolutionDir)\.msvc\Base.Targets.Props" />
+  <Import Project="$(SolutionDir)\.msvc\Base.Globals.Props" />
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{3BADAE77-7397-46D5-8FA7-D72B3C216CF0}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(SolutionDir)\.msvc\StaticLibrary.Configuration.Props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
+  <ItemGroup>
+    <ClInclude Include="fmt\include\fmt\args.h" />
+    <ClInclude Include="fmt\include\fmt\chrono.h" />
+    <ClInclude Include="fmt\include\fmt\color.h" />
+    <ClInclude Include="fmt\include\fmt\compile.h" />
+    <ClInclude Include="fmt\include\fmt\core.h" />
+    <ClInclude Include="fmt\include\fmt\format-inl.h" />
+    <ClInclude Include="fmt\include\fmt\format.h" />
+    <ClInclude Include="fmt\include\fmt\os.h" />
+    <ClInclude Include="fmt\include\fmt\ostream.h" />
+    <ClInclude Include="fmt\include\fmt\printf.h" />
+    <ClInclude Include="fmt\include\fmt\ranges.h" />
+    <ClInclude Include="fmt\include\fmt\std.h" />
+    <ClInclude Include="fmt\include\fmt\xchar.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="fmt\src\fmt.cc">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="fmt\src\format.cc" />
+    <ClCompile Include="fmt\src\os.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fmt.exports.props" />
+  </ItemGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <!-- throws a bunch of unreachable code warnings -->
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <AdditionalIncludeDirectories>fmt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>
