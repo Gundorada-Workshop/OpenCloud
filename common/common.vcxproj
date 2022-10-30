@@ -11,6 +11,7 @@
   <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
   <ItemGroup>
     <ClInclude Include="console.h" />
+    <ClInclude Include="console_logger.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="log.h" />
     <ClInclude Include="strings.h" />
@@ -18,6 +19,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="console.cc" />
+    <ClCompile Include="console_logger.cpp" />
     <ClCompile Include="debug.cc" />
     <ClCompile Include="log.cc" />
     <ClCompile Include="strings.cc" />
