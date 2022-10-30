@@ -83,7 +83,6 @@
     <ClInclude Include="SpiStack.h" />
     <ClInclude Include="SubGame.h" />
     <ClInclude Include="SysMes.h" />
-    <ClInclude Include="Tags.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="UserData.h" />
     <ClInclude Include="Vlgr_Info.h" />
@@ -147,7 +146,6 @@
     <ClCompile Include="Snd_Mngr.cc" />
     <ClCompile Include="SubGame.cc" />
     <ClCompile Include="SysMes.cc" />
-    <ClCompile Include="Tags.cc" />
     <ClCompile Include="Title.cc" />
     <ClCompile Include="UserData.cc" />
     <ClCompile Include="Vlgr_Info.cc" />
