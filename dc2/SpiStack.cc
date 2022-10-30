@@ -1,6 +1,6 @@
 #include "SpiStack.h"
 
-char* GetStackString(SPI_STACK* stack)
+char* spiGetStackString(SPI_STACK* stack)
 {
   if(stack->data_type != SPI_DATA_TYPE_STR)
   {
@@ -10,7 +10,7 @@ char* GetStackString(SPI_STACK* stack)
   return stack->as_string;
 }
 
-sint GetStackInt(SPI_STACK* stack)
+sint spiGetStackInt(SPI_STACK* stack)
 {
   switch (stack->data_type)
   {
@@ -23,7 +23,7 @@ sint GetStackInt(SPI_STACK* stack)
   return 0;
 }
 
-f32 GetStackFloat(SPI_STACK* stack)
+f32 spiGetStackFloat(SPI_STACK* stack)
 {
   switch(stack->data_type)
   {
@@ -38,7 +38,7 @@ f32 GetStackFloat(SPI_STACK* stack)
 
 void spiGetStackVector(vec3 v, SPI_STACK* stack)
 {
-  v[0] = GetStackFloat(stack);
-  v[1] = GetStackFloat(++stack);
-  v[2] = GetStackFloat(++stack);
+  v[0] = spiGetStackFloat(stack);
+  v[1] = spiGetStackFloat(++stack);
+  v[2] = spiGetStackFloat(++stack);
 }

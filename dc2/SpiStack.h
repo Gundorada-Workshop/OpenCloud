@@ -31,13 +31,13 @@ struct SPI_TAG_PARAM
 
 // 00146470
 // Get an string off the stack
-char* GetStackString(SPI_STACK* stack);
+char* spiGetStackString(SPI_STACK* stack);
 // 001463e0
 // Get an integer off the stack
-sint GetStackInt(SPI_STACK* stack);
+sint spiGetStackInt(SPI_STACK* stack);
 // 00146430
 // Get a float off the stack
-f32 GetStackFloat(SPI_STACK* stack);
+f32 spiGetStackFloat(SPI_STACK* stack);
 // 001464a0
 // Get a vec3 off the stack
 void spiGetStackVector(vec3 v, SPI_STACK* stack);
