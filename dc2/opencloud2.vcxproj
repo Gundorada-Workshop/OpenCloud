@@ -23,6 +23,7 @@
     <ClInclude Include="CGamePad.h" />
     <ClInclude Include="CInventUserData.h" />
     <ClInclude Include="CMap.h" />
+    <ClInclude Include="CMapInfo.h" />
     <ClInclude Include="CMenuSystemData.h" />
     <ClInclude Include="CMonsterBox.h" />
     <ClInclude Include="CQuestData.h" />
@@ -39,7 +40,6 @@
     <ClInclude Include="SInit.h" />
     <ClInclude Include="mgCTextureManager.h" />
     <ClInclude Include="SpiStack.h" />
-    <ClInclude Include="Tags.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCharacter2.cc" />
@@ -49,6 +49,7 @@
     <ClCompile Include="CGameData.cc" />
     <ClCompile Include="CGamePad.cc" />
     <ClCompile Include="CMap.cc" />
+    <ClCompile Include="CMapInfo.cc" />
     <ClCompile Include="CScriptInterpreter.cc" />
     <ClCompile Include="FishingObj.cc" />
     <ClCompile Include="main.cc" />
@@ -58,7 +59,6 @@
     <ClCompile Include="SInit.cc" />
     <ClCompile Include="mgCTextureManager.cc" />
     <ClCompile Include="SpiStack.cc" />
-    <ClCompile Include="Tags.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

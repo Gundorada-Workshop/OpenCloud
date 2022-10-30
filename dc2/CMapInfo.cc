@@ -1,4 +1,5 @@
-#include "Tags.h"
+#include "CMapInfo.h"
+#include "CScriptInterpreter.h"
 
 static bool amapIMG(SPI_STACK* stack, int)
 {
@@ -11,7 +12,7 @@ static bool amapPCP(SPI_STACK* stack, int)
 }
 
 // 00334a80
-const std::array<SPI_TAG_PARAM, 3> add_mapinfo_tag =
+static const std::array<SPI_TAG_PARAM, 3> add_mapinfo_tag =
 {
   "IMG", amapIMG,
   "PCP", amapPCP,
