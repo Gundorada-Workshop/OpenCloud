@@ -10,10 +10,12 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
   <ItemGroup>
+    <ClInclude Include="log.h" />
     <ClInclude Include="strings.h" />
     <ClInclude Include="types.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="log.cc" />
     <ClCompile Include="strings.cc" />
   </ItemGroup>
   <Import Project="$(SolutionDir)external\fmt.exports.props" />
