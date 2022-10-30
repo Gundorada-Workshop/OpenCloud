@@ -1,6 +1,6 @@
 #pragma once
 
-class CCharecter2
+class CCharacter2
 {
 
 };

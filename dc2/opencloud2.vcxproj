@@ -15,6 +15,7 @@
     <ClInclude Include="CDngFloorManager.h" />
     <ClInclude Include="CDynamicAnime.h" />
     <ClInclude Include="CEditData.h" />
+    <ClInclude Include="CEffect.h" />
     <ClInclude Include="CEffectManager.h" />
     <ClInclude Include="CFishAquarium.h" />
     <ClInclude Include="CFont.h" />
@@ -27,6 +28,7 @@
     <ClInclude Include="CMenuSystemData.h" />
     <ClInclude Include="CMonsterBox.h" />
     <ClInclude Include="ConvViewLP.h" />
+    <ClInclude Include="CPadControl.h" />
     <ClInclude Include="CQuestData.h" />
     <ClInclude Include="CSaveData.h" />
     <ClInclude Include="CSaveDataDungeon.h" />
@@ -91,12 +93,14 @@
     <ClCompile Include="CCharacter2.cc" />
     <ClCompile Include="CDngFloorManager.cc" />
     <ClCompile Include="CDynamicAnime.cc" />
+    <ClCompile Include="CEffect.cc" />
     <ClCompile Include="CEffectManager.cc" />
     <ClCompile Include="CGameData.cc" />
     <ClCompile Include="CGamePad.cc" />
     <ClCompile Include="CMap.cc" />
     <ClCompile Include="CMapInfo.cc" />
     <ClCompile Include="ConvViewLP.cc" />
+    <ClCompile Include="CPadControl.cc" />
     <ClCompile Include="CScriptInterpreter.cc" />
     <ClCompile Include="DngMenu.cc" />
     <ClCompile Include="Dng_Debug.cc" />
