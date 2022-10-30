@@ -21,7 +21,7 @@ namespace common::log
 
   struct output_callback
   {
-    using fncb = std::function<void(level, std::string_view, std::string_view, std::string_view)>;
+    using fncb = std::function<void(std::string_view, level, std::string_view, std::string_view, std::string_view)>;
 
     using cb_handle = usize;
 
@@ -42,53 +42,61 @@ namespace common::log
   // disable a callback
   void disable_output_callback(output_callback::cb_handle handle);
 
+  // disable a channel
+  void disable_channel(std::string_view channel);
+
+  // enable a channel
+  void enable_channel(std::string_view channel);
+
   // write to the callbacks
-  void write(level lvl, std::string_view file, std::string_view func, std::string_view msg);
+  void write(std::string_view channel, level lvl, std::string_view file, std::string_view func, std::string_view msg);
 
   // write with formatting
   template<typename ...Args>
-  void write_format(level lvl, std::string_view file, std::string_view func_name, fmt::format_string<Args...> fmtstr, Args&&... args)
+  void write_format(std::string_view channel, level lvl, std::string_view file, std::string_view func_name, fmt::format_string<Args...> fmtstr, Args&&... args)
   {
     std::string msg = strings::format(fmtstr, std::forward<Args>(args)...);
 
-    write(lvl, file, func_name, msg);
+    write(channel, lvl, file, func_name, msg);
   }
 }
 
 // log error
-#define LERR(...) \
-  common::log::write_format(common::log::level::error, __FILE__, __func__, __VA_ARGS__);
+#define log_error(...) \
+  common::log::write_format(log_channel, common::log::level::error, __FILE__, __func__, __VA_ARGS__);
 
 // log warning
-#define LWARN(...) \
-  common::log::write_format(common::log::level::warning, __FILE__, __func__, __VA_ARGS__);
+#define log_warn(...) \
+  common::log::write_format(log_channel, common::log::level::warning, __FILE__, __func__, __VA_ARGS__);
 
 // log performance
-#define LPERF(...) \
-  common::log::write_format(common::log::level::performance, __FILE__, __func__, __VA_ARGS__);
+#define log_perf(...) \
+  common::log::write_format(log_channel, common::log::level::performance, __FILE__, __func__, __VA_ARGS__);
 
 // log info
-#define LINFO(...) \
-  common::log::write_format(common::log::level::info, __FILE__, __func__, __VA_ARGS__);
-
+#define log_info(...) \
+  common::log::write_format(log_channel, common::log::level::info, __FILE__, __func__, __VA_ARGS__);
 
 // don't enable these on release
 #if defined(_DEBUG)
 // log trace
-#define LTRACE(...) \
-  common::log::write_format(common::log::level::trace, __FILE__, __func__, __VA_ARGS__);
+#define log_trace(...) \
+  common::log::write_format(log_channel, common::log::level::trace, __FILE__, __func__, __VA_ARGS__);
 
 // log debug
-#define LDEBUG(...) \
-  common::log::write_format(common::log::level::debug, __FILE__, __func__, __VA_ARGS__);
+#define log_debug(...) \
+  common::log::write_format(log_channel, common::log::level::debug, __FILE__, __func__, __VA_ARGS__);
 #else
-#define LTRACE                      \
+#define log_trace                   \
   do                                \
   {                                 \
   } while(0)
 
-#define LDEBUG                      \
+#define log_debug                   \
   do                                \
   {                                 \
   } while(0)
 #endif
+
+#define set_log_channel(ch) \
+  namespace{ const char* log_channel = ch; }
