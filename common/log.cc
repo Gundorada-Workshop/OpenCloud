@@ -101,12 +101,12 @@ namespace common::log
     enable_by_handle(handle, false);
   }
 
-  void write(level lvl, std::string_view file, std::string_view func, std::string_view msg)
+  void write(std::string_view channel , level lvl, std::string_view file, std::string_view func, std::string_view msg)
   {
     for (const auto& cb : s_callbacks)
     {
       if (cb.enable)
-        cb.callback(lvl, file, func, msg);
+        cb.callback(channel, lvl, file, func, msg);
     }
   }
 }
