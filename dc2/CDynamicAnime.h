@@ -1,8 +1,6 @@
 #pragma once
+#include "mg_Frame.h"
 #include "mgCMemory.h"
-
-// todo
-class mgCFrame;
 
 class CDynamicAnime
 {

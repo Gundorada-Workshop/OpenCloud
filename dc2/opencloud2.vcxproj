@@ -73,6 +73,7 @@
     <ClInclude Include="mgCMemory.h" />
     <ClInclude Include="mgCTexture.h" />
     <ClInclude Include="mgLib.h" />
+    <ClInclude Include="mg_Frame.h" />
     <ClInclude Include="mg_TAnime.h" />
     <ClInclude Include="MovieViewLp.h" />
     <ClInclude Include="NameRegi.h" />
@@ -137,6 +138,7 @@
     <ClCompile Include="MenuSys.cc" />
     <ClCompile Include="mgCDrawPrim.cc" />
     <ClCompile Include="mgCMemory.cc" />
+    <ClCompile Include="mg_Frame.cc" />
     <ClCompile Include="mgLib.cc" />
     <ClCompile Include="mg_TAnime.cc" />
     <ClCompile Include="MovieViewLp.cc" />

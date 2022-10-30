@@ -40,3 +40,5 @@ using vec = std::array<f32, S>;
 
 using vec4 = vec<4>;
 using vec3 = vec<3>;
+
+using matrix4 = std::array<vec4, 4>;
