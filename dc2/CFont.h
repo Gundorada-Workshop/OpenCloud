@@ -3,5 +3,8 @@
 class CFont
 {
 public:
-  CFont();
+	CFont();
+
+	// 002D5D40
+	void Initialize(void);
 };

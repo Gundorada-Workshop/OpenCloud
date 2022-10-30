@@ -52,6 +52,7 @@
     <ClInclude Include="Fishing.h" />
     <ClInclude Include="FishingObj.h" />
     <ClInclude Include="GameData.h" />
+    <ClInclude Include="globals.h" />
     <ClInclude Include="GyoRace.h" />
     <ClInclude Include="HelpMes.h" />
     <ClInclude Include="InventMn.h" />
@@ -96,6 +97,7 @@
     <ClCompile Include="CDynamicAnime.cc" />
     <ClCompile Include="CEffect.cc" />
     <ClCompile Include="CEffectManager.cc" />
+    <ClCompile Include="CFont.cc" />
     <ClCompile Include="CGameData.cc" />
     <ClCompile Include="CGamePad.cc" />
     <ClCompile Include="CMap.cc" />
