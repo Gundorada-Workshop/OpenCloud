@@ -91,7 +91,7 @@ constexpr static u32 dword_35E6D8 = 2;
 // 0035E6E0
 constexpr static u64 qword_35E6E0 = 0x2FFFFFFFF;
 // 0035E6E8
-constexpr static u32 flt_35E6E8 = 0.0f;
+constexpr static float flt_35E6E8 = 0.0f;
 // 0035E6F0
 constexpr static u64 qword_35E6F0 = 0xFFFFFFFF;
 // 0035E6F8
