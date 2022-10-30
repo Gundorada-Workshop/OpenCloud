@@ -12,6 +12,8 @@
   <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
   <ItemGroup>
     <ClInclude Include="CCharacter2.h" />
+    <ClInclude Include="CDngFloorManager.h" />
+    <ClInclude Include="CDynamicAnime.h" />
     <ClInclude Include="CEditData.h" />
     <ClInclude Include="CEffectManager.h" />
     <ClInclude Include="CFishAquarium.h" />
@@ -41,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCharacter2.cc" />
+    <ClCompile Include="CDngFloorManager.cc" />
+    <ClCompile Include="CDynamicAnime.cc" />
     <ClCompile Include="CEffectManager.cc" />
     <ClCompile Include="CGamePad.cc" />
     <ClCompile Include="CMap.cc" />

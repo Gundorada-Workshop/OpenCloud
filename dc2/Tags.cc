@@ -1,57 +1,5 @@
 #include "Tags.h"
 
-
-
-static bool _TREE_MAPINFO(SPI_STACK* stack, int)
-{
-  return true;
-}
-
-static bool _GLID_INFO(SPI_STACK* stack, int)
-{
-  return true;
-}
-
-static bool _ROOT_INFO(SPI_STACK* stack, int)
-{
-  return true;
-}
-
-static bool _ROOM_INFO(SPI_STACK* stack, int)
-{
-  return true;
-}
-
-static bool _ROOM_LINK(SPI_STACK* stack, int)
-{
-  return true;
-}
-
-static bool _ROOM_OPTION(SPI_STACK* stack, int)
-{
-  return true;
-}
-
-static bool _ROOM_TEXNO(SPI_STACK* stack, int)
-{
-  return true;
-}
-
-static bool _ROOM_KEYROOM(SPI_STACK* stack, int)
-{
-  return true;
-}
-
-static bool _ROOM_FLOOR_INFO(SPI_STACK* stack, int)
-{
-  return true;
-}
-
-static bool _ROOM_TITLE(SPI_STACK* stack, int)
-{
-  return true;
-}
-
 static bool _DATACOMINIT(SPI_STACK* stack, int)
 {
   return true;
@@ -181,22 +129,6 @@ static bool amapPCP(SPI_STACK* stack, int)
 {
   return true;
 }
-
-// 0035d010
-const std::array<SPI_TAG_PARAM, 12> tree_map_tag =
-{
-  "TREE_INFO",  _TREE_MAPINFO,
-  "GI",         _GLID_INFO,
-  "RT",         _ROOT_INFO,
-  "RI",         _ROOM_INFO,
-  "RI_LINK",    _ROOM_LINK,
-  "RI_OP",      _ROOM_OPTION,
-  "RI_TEX",     _ROOM_TEXNO,
-  "RI_KEYROOM", _ROOM_KEYROOM,
-  "RF_INFO",    _ROOM_FLOOR_INFO,
-  "RI_TITLE",   _ROOM_TITLE,
-  NULL, nullptr
-};
 
 // 003359a0
 const std::array<SPI_TAG_PARAM, 25> gamedata_tag =
