@@ -90,7 +90,7 @@ namespace common::debug
   } while (0)
 
 #define unimplemented_member(type, pos) \
-  type m_unk_field_#pos{ };
+  type m_unk_field_##pos{ };
 
 #if defined(_DEBUG) || defined(_FDEBUG)
 

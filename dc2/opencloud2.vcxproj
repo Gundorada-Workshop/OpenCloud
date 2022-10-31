@@ -81,6 +81,7 @@
     <ClInclude Include="NowLoad.h" />
     <ClInclude Include="PBuggy.h" />
     <ClInclude Include="Photo.h" />
+    <ClInclude Include="sceVu0.h" />
     <ClInclude Include="SInit.h" />
     <ClInclude Include="mgCTextureManager.h" />
     <ClInclude Include="Snd_Mngr.h" />
@@ -149,6 +150,7 @@
     <ClCompile Include="NowLoad.cc" />
     <ClCompile Include="PBuggy.cc" />
     <ClCompile Include="Photo.cc" />
+    <ClCompile Include="sceVu0.cc" />
     <ClCompile Include="SInit.cc" />
     <ClCompile Include="mgCTextureManager.cc" />
     <ClCompile Include="SpiStack.cc" />
