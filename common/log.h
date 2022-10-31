@@ -87,12 +87,12 @@ namespace common::log
 #define log_debug(...) \
   common::log::write_format(log_channel, common::log::level::debug, __FILE__, __func__, __VA_ARGS__);
 #else
-#define log_trace                   \
+#define log_trace(...)              \
   do                                \
   {                                 \
   } while(0)
 
-#define log_debug                   \
+#define log_debug(...)              \
   do                                \
   {                                 \
   } while(0)
