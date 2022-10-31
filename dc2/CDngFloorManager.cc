@@ -1,56 +1,111 @@
+#include "common/debug.h"
+#include "common/log.h"
+
 #include "CDngFloorManager.h"
 #include "CScriptInterpreter.h"
+
+set_log_channel("CDngFloorMAnager");
 
 static CDngFloorManager* _tree_dngmap{ nullptr };
 static mgCMemory* _tree_spi_stack{ nullptr };
 
-static bool _TREE_MAPINFO(SPI_STACK* stack, int)
+// 002f8ce0
+static bool _TREE_MAPINFO(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _GLID_INFO(SPI_STACK* stack, int)
+// 002f8db0
+static bool _GLID_INFO(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _ROOT_INFO(SPI_STACK* stack, int)
+// 002f8ea0
+static bool _ROOT_INFO(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _ROOM_INFO(SPI_STACK* stack, int)
+// 002f8f00
+static bool _ROOM_INFO(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _ROOM_LINK(SPI_STACK* stack, int)
+// 002f8fd0
+static bool _ROOM_LINK(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _ROOM_OPTION(SPI_STACK* stack, int)
+// 002f9050
+static bool _ROOM_OPTION(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _ROOM_TEXNO(SPI_STACK* stack, int)
+// 002f91d0
+static bool _ROOM_TEXNO(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _ROOM_KEYROOM(SPI_STACK* stack, int)
+// 002f9160
+static bool _ROOM_KEYROOM(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _ROOM_FLOOR_INFO(SPI_STACK* stack, int)
+// 002f9230
+static bool _ROOM_FLOOR_INFO(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _ROOM_TITLE(SPI_STACK* stack, int)
+// 002f93a0
+static bool _ROOM_TITLE(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
@@ -70,13 +125,16 @@ static const std::array<SPI_TAG_PARAM, 12> tree_map_tag =
   NULL, nullptr
 };
 
+// 002f9420
 void CDngFloorManager::AnalyzeFile(const char* script, int script_size, mgCMemory* tree_stack)
 {
+  log_trace("AnalyzeFile({}, {}, {})", fmt::ptr(script), script_size, fmt::ptr(tree_stack));
+
   _tree_dngmap = this;
   _tree_spi_stack = tree_stack;
 
   tree_stack->Align64();
-  //_menu_dng_debug_glidcnt = 0;
+  unimplemented_var(_menu_dng_debug_glidcnt = 0);
 
   CScriptInterpreter interpreter{ };
   interpreter.SetTag(tree_map_tag.data());
@@ -88,7 +146,10 @@ void CDngFloorManager::AnalyzeFile(const char* script, int script_size, mgCMemor
   RelationGlid();
 }
 
+// 002f9e40
 void CDngFloorManager::RelationGlid()
 {
-  // todo
+  log_trace("RelationGlid()");
+
+  todo;
 }

@@ -1,123 +1,246 @@
+
+#include "common/debug.h"
+#include "common/log.h"
+
 #include "CGameData.h"
 #include "CScriptInterpreter.h"
 
-static bool _DATACOMINIT(SPI_STACK* stack, int)
+set_log_channel("CGameData");
+
+// 00194750
+static bool _DATACOMINIT(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _DATACOM(SPI_STACK* stack, int)
+// 001947a0
+static bool _DATACOM(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _DATAWEBNUM(SPI_STACK* stack, int)
+// 001949c0
+static bool _DATAWEBNUM(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _DATAWEP(SPI_STACK* stack, int)
+// 00194a00
+static bool _DATAWEP(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _DATAWEP_ST(SPI_STACK* stack, int)
+// 00194a60
+static bool _DATAWEP_ST(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _DATAWEP_ST_L(SPI_STACK* stack, int)
+// 00194ac0
+static bool _DATAWEP_ST_L(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _DATAWEP2_ST(SPI_STACK* stack, int)
+// 00194b20
+static bool _DATAWEP2_ST(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _DATAWEP2_ST_L(SPI_STACK* stack, int)
+// 00194ba0
+static bool _DATAWEP2_ST_L(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _DATAWEP_SPE(SPI_STACK* stack, int)
+// 00194c20
+static bool _DATAWEP_SPE(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _DATAWEP_BUILDUP(SPI_STACK* stack, int)
+// 00194d10
+static bool _DATAWEP_BUILDUP(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _DATAITEMINIT(SPI_STACK* stack, int)
+// 00194dc0
+static bool _DATAITEMINIT(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _DATAITEM(SPI_STACK* stack, int)
+// 00194e00
+static bool _DATAITEM(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _DATAATTACHINIT(SPI_STACK* stack, int)
+// 00194ee0
+static bool _DATAATTACHINIT(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _DATAATTACH_ST(SPI_STACK* stack, int)
+// 00194f20
+static bool _DATAATTACH_ST(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _DATAATTACH_ST2(SPI_STACK* stack, int)
+// 00194fa0
+static bool _DATAATTACH_ST2(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _DATAATTACH_ST_SP(SPI_STACK* stack, int)
+// 00195020
+static bool _DATAATTACH_ST_SP(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _DATAROBOINIT(SPI_STACK* stack, int)
+// 00195070
+static bool _DATAROBOINIT(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _DATAROBO_ANALYZE(SPI_STACK* stack, int)
+// 001950b0
+static bool _DATAROBO_ANALYZE(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _DATAGUARDNUM(SPI_STACK* stack, int)
+// 001953a0
+static bool _DATAGUARDNUM(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _DATAGUARD(SPI_STACK* stack, int)
+// 001953d0
+static bool _DATAGUARD(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _DATAFISHINIT(SPI_STACK* stack, int)
+static bool _DATAFISHINIT(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _DATAFISH(SPI_STACK* stack, int)
+// 001952a0
+static bool _DATAFISH(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _MES_SYS(SPI_STACK* stack, int)
+static bool _MES_SYS(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
-static bool _MES_SYS_SPECTOL(SPI_STACK* stack, int)
+static bool _MES_SYS_SPECTOL(SPI_STACK* stack, int stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  todo;
+
   return true;
 }
 
@@ -153,5 +276,7 @@ static const std::array<SPI_TAG_PARAM, 25> gamedata_tag =
 
 CGameData::CGameData()
 {
-  // todo
+  log_trace("CGameData()");
+
+  todo;
 }

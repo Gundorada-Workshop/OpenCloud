@@ -1,9 +1,13 @@
 ﻿#pragma once
-#include <assert.h>
+#include "common/debug.h"
+#include "common/log.h"
+
 #include "mgCTexture.h"
 #include "CFont.h"
 #include "Photo.h"
 #include "globals.h"
+
+set_log_channel("Photo");
 
 // 0035E6A0
 constexpr static std::array<std::array<const char*, 4>, 2> msg_text = {
@@ -75,12 +79,16 @@ namespace Photo
 {
 	void SInit()
 	{
+		log_trace("SInit()");
+
 		stru_1F5DDF0.Initialize();
 	}
 }
 
 const char* GetMesTxt(ssize index)
 {
+	log_trace("GetMesTxt({})", index);
+
 	if (index < 0 || msg_text[0].size() <= index || _g_language < 0 || msg_text.size() <= _g_language)
 	{
 		return null_txt;
@@ -89,23 +97,30 @@ const char* GetMesTxt(ssize index)
 	return msg_text[_g_language][index];
 }
 
-float PhotoAddProjection(void)
+float PhotoAddProjection()
 {
+	log_trace("PhotoAddProjection()");
+
 	if (!NowTakePhoto())
 	{
 		return 0.0f;
 	}
+
 	return flt_378714;
 }
 
-void InitPhotoTitle(void)
+void InitPhotoTitle()
 {
+	log_trace("InitPhotoTitle()");
+
 	dword_37872C = 0;
 	byte_1F5DEA0[0] = '\0';
 }
 
-void InitTakePhoto(void)
+void InitTakePhoto()
 {
+	log_trace("InitTakePhoto()");
+
 	dword_378710 = 0;
 	flt_378714 = 0.0f;
 	InitPhotoTitle();
@@ -116,63 +131,70 @@ void InitTakePhoto(void)
 	dword_378730 = 0;
 }
 
-void LoadTakePhoto(int, mgCMemory& unused)
+void LoadTakePhoto(int unk, mgCMemory& unused)
 {
-	// TODO
-	assert(false);
+	todo;
 }
 
-void StartTakePhoto(void)
+void StartTakePhoto()
 {
+	log_trace("StartTakePhoto()");
+
 	InitTakePhoto();
 	dword_378710 = 2;
 }
 
-void EndTakePhoto(void)
+void EndTakePhoto()
 {
+	log_trace("EndTakePhoto()");
+
 	InitTakePhoto();
 }
 
-bool NowTakePhoto(void)
+bool NowTakePhoto()
 {
+	log_trace("NowTakePhoto()");
+
 	return dword_378710 != 0;
 }
 
-bool IsEnablePhotoMenu(void)
+bool IsEnablePhotoMenu()
 {
+	log_trace("IsEnablePhotoMenu()");
+
 	return (dword_378710 ^ 2) == 0;
 }
 
-void HidePhoto(void)
+void HidePhoto()
 {
+	log_trace("HidePhoto()");
+
 	dword_378724 = 0;
 }
 
-bool GhostPhotoTiming(void)
+bool GhostPhotoTiming()
 {
+	log_trace("GhostPhotoTiming()");
+
 	return dword_378710 == 5 || dword_378710 == 3;
 }
 
 void LoopTakePhoto(CPadControl& padControl, CInventUserData& invest_user_data)
 {
-	// TODO
-	assert(false);
+	todo;
 }
 
 void DrawTakePhoto(USER_PICTURE_INFO& picture_info, float* fp)
 {
-	// TODO
-	assert(false);
+	todo;
 }
 
 void SetTookPhotoData(USER_PICTURE_INFO& picture_info)
 {
-	// TODO
-	assert(false);
+	todo;
 }
 
 void DrawTakePhotoSystem(s32 i1, CInventUserData& invest_user_data)
 {
-	// TODO
-	assert(false);
+	todo;
 }
