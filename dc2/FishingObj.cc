@@ -177,14 +177,14 @@ void GetTriPose(matrix4& m1, matrix4& m2, vec4& v1)
 
 void GetHariPos(vec4& v1, vec4& v2)
 {
-	memcpy(&v1, &stru_1F5E0A0[stru_1F5E0A0.size() - 1][0], sizeof(vec4));
-	memcpy(&v2, &stru_1F5E0A0[stru_1F5E0A0.size() - 1][1], sizeof(vec4));
+	sceVu0CopyVector(v1, stru_1F5E0A0[stru_1F5E0A0.size() - 1][0]);
+	sceVu0CopyVector(v2, stru_1F5E0A0[stru_1F5E0A0.size() - 1][1]);
 }
 
 void GetUkiPos(vec4& v1, vec4& v2)
 {
-	memcpy(&v1, &stru_1F5E0A0[stru_1F5E0A0.size() - 4][0], sizeof(vec4));
-	memcpy(&v2, &stru_1F5E0A0[stru_1F5E0A0.size() - 4][1], sizeof(vec4));
+	sceVu0CopyVector(v1, stru_1F5E0A0[stru_1F5E0A0.size() - 4][0]);
+	sceVu0CopyVector(v2, stru_1F5E0A0[stru_1F5E0A0.size() - 4][1]);
 }
 
 void PullUki(float f)
@@ -265,9 +265,9 @@ int GetNextChanceCnt(void)
 
 bool InitFishBattle(void)
 {
-	memcpy(&stru_1F5EDB0, &stru_1F5E0A0[stru_1F5E0A0.size() - 1][0], sizeof(vec4));
-	memcpy(&stru_1F5ED60, &stru_1F5E0A0[stru_1F5E0A0.size() - 1][0], sizeof(vec4));
-	memcpy(&stru_1F5ED70, &stru_1F5E0A0[stru_1F5E0A0.size() - 1][0], sizeof(vec4));
+	sceVu0CopyVector(stru_1F5EDB0, stru_1F5E0A0[stru_1F5E0A0.size() - 1][0]);
+	sceVu0CopyVector(stru_1F5ED60, stru_1F5E0A0[stru_1F5E0A0.size() - 1][0]);
+	sceVu0CopyVector(stru_1F5ED70, stru_1F5E0A0[stru_1F5E0A0.size() - 1][0]);
 	mgZeroVector(stru_1F5ED80);
 	flt_378750 = mgDistVector(stru_1F5E0A0[stru_1F5E0A0.size() - 1][0], stru_1F5E0A0[4][0]);
 	dword_378760 = 0;
@@ -323,8 +323,8 @@ void FishBattle(CScene& scene, CCPoly& poly, int i)
 
 void GetFishPosVelo(vec4& pos, vec4& velocity)
 {
-	memcpy(&pos, &stru_1F5ED60, sizeof(vec4));
-	memcpy(&velocity, &stru_1F5ED80, sizeof(vec4));
+	sceVu0CopyVector(pos, stru_1F5ED60);
+	sceVu0CopyVector(velocity, stru_1F5ED80);
 }
 
 void BindFishObj(void)

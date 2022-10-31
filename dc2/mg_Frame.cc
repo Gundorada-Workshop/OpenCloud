@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <string.h>
 #include "mg_Frame.h"
+#include "sceVu0.h"
 
 
 namespace mg_Frame
@@ -13,8 +14,8 @@ namespace mg_Frame
 
 mgVu0FBOX::mgVu0FBOX(mgVu0FBOX& box)
 {
-	memcpy(&m_corner1, &box.m_corner1, sizeof(m_corner1));
-	memcpy(&m_corner2, &box.m_corner2, sizeof(m_corner2));
+	sceVu0CopyVector(m_corner1, box.m_corner1);
+	sceVu0CopyVector(m_corner2, box.m_corner2);
 }
 
 void mgCObject::ChangeParam(void)

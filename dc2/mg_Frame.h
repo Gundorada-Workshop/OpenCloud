@@ -16,16 +16,16 @@ namespace mg_Frame
 
 struct mgPOINT_LIGHT
 {
-	vec4 field_0;
-	vec4 field_10;
+	alignas(16) vec4 field_0;
+	alignas(16) vec4 field_10;
 	float field_20;
 	float field_24;
 };
 
 struct mgVu0FBOX
 {
-	vec4 m_corner1;
-	vec4 m_corner2;
+	alignas(16) vec4 m_corner1;
+	alignas(16) vec4 m_corner2;
 
 	// 00139890
 	mgVu0FBOX(mgVu0FBOX& box);
