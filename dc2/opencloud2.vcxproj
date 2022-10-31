@@ -23,6 +23,7 @@
     <ClInclude Include="CGameDataUsed.h" />
     <ClInclude Include="CGamePad.h" />
     <ClInclude Include="CInventUserData.h" />
+    <ClInclude Include="ClsMes.h" />
     <ClInclude Include="CMap.h" />
     <ClInclude Include="CMapInfo.h" />
     <ClInclude Include="CMenuSystemData.h" />
