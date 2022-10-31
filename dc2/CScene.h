@@ -2,54 +2,125 @@
 #include <array>
 #include "common/debug.h"
 #include "common/types.h"
+#include "CCharacter2.h"
+
+
+// <this file>.cpp: likely 00282AC0 to 00286074
+
 
 // TODO
+class CEffectScriptMan;
+class CMap;
+class CMapSky;
+class ClsMes;
+class mgCCamera;
 class CMdsListSet {};
 class CFadeInOut {};
 class CFireRaster {};
 class CThunderEffect {};
 class CDngFloorManager {};
 
-class CSceneCharacter
+
+class CSceneData
 {
 public:
+	void Initialize(void);
 
+	// 0
+	_UNKNOWN m_unk_field_0;
+	// 4
+	_UNKNOWN m_unk_field_4;
+	// 8
+	char m_name[32];
+	// 28
+	s32 m_unk_field_28;
+	// 2C
+	_UNKNOWN m_unk_field_2C;
+	// 30
+	_UNKNOWN m_unk_field_30;
 };
 
-class CSceneCamera
+class CSceneCharacter : CSceneData
 {
 public:
+	// 00282AE0
+	bool AssignData(CCharacter2* chara, char* name);
+	// 00282B40
+	void Initialize(void);
 
+	// 34
+	_UNKNOWN m_unk_field_34;
+	// 38
+	s32 m_unk_field_38;
+	// 3C
+	s32 m_unk_field_3C;
 };
 
-class CSceneMessage
+class CSceneMap : CSceneData
 {
 public:
+	// 00282B60
+	void Initialize(void);
+	// 00282B70
+	bool AssignData(CMap* map, char* name);
 
+	// 34
+	_UNKNOWN m_unk_field_34;
 };
 
-class CSceneMap
+class CSceneMessage : CSceneData
 {
 public:
+	// 00282BF0
+	void Initialize(void);
+	// 00282C00
+	bool AssignData(ClsMes* message, char* name);
 
+	// 34
+	_UNKNOWN m_unk_field_34;
 };
 
-class CSceneSky
+class CSceneCamera : CSceneData
 {
 public:
+	// 00282C80
+	bool AssignData(mgCCamera* camera, char* name);
+	// 00282D00
+	void Initialize(void);
 
+	// 34
+	_UNKNOWN m_unk_field_34;
 };
 
-class CSceneGameObj
+class CSceneSky : CSceneData
 {
 public:
+	// 00282D10
+	bool AssignData(CMapSky* sky, char* name);
+	// 00282D90
+	void Initialize(void);
 
+	// 34
+	_UNKNOWN m_unk_field_34;
 };
 
-class CSceneEffect
+class CSceneGameObj : CSceneCharacter
 {
 public:
+	// 00282DA0
+	void Initialize(void);
+};
 
+class CSceneEffect : CSceneData
+{
+public:
+	// 00282DB0
+	void Initialize(void);
+	// 00282DC0
+	bool AssignData(CEffectScriptMan* script_manager, char* name);
+
+	// 34
+	_UNKNOWN m_unk_field_34;
 };
 
 class CScene

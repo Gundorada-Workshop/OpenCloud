@@ -106,6 +106,7 @@
     <ClCompile Include="CMapInfo.cc" />
     <ClCompile Include="ConvViewLP.cc" />
     <ClCompile Include="CPadControl.cc" />
+    <ClCompile Include="CScene.cc" />
     <ClCompile Include="CScriptInterpreter.cc" />
     <ClCompile Include="DngMenu.cc" />
     <ClCompile Include="Dng_Debug.cc" />
