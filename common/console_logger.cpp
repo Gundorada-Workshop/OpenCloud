@@ -11,7 +11,7 @@ namespace common::log::console_logger
   {
     const auto now = std::chrono::system_clock::now();
 
-    std::string out = strings::format("{} [{}] {}", now, chan, msg);
+    std::string out = strings::format("{} [{}] {}\n", now, chan, msg);
 
     console::write(out);
   }
