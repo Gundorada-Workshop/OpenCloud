@@ -92,6 +92,8 @@ namespace common::debug
 #define unimplemented_member(type, pos) \
   type m_unk_field_##pos{ };
 
+#define _UNKNOWN int
+
 #if defined(_DEBUG) || defined(_FDEBUG)
 
 #define debug_assert(cnd) assert(cnd)
