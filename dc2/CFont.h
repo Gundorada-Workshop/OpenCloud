@@ -6,5 +6,5 @@ public:
 	CFont();
 
 	// 002D5D40
-	void Initialize(void);
+	void Initialize();
 };

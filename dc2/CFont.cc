@@ -1,11 +1,20 @@
+#include "common/debug.h"
+#include "common/log.h"
+
 #include "CFont.h"
+
+set_log_channel("CFont");
 
 CFont::CFont()
 {
-	// TODO
+	log_trace("CFont()");
+
+	todo;
 }
 
-void CFont::Initialize(void)
+void CFont::Initialize()
 {
-	// TODO
+	log_trace("Initialize()");
+
+	todo;
 }
