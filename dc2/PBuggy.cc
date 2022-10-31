@@ -1,10 +1,14 @@
 #pragma once
-#include <assert.h>
+#include "common/debug.h"
+#include "common/log.h"
+
 #include "PBuggy.h"
 #include "mgLib.h"
 #include "CCharacter2.h"
 #include "CEffect.h"
 #include "mgCMemory.h"
+
+set_log_channel("PBuggy");
 
 // 00376B34
 static s32 BuggyHP = 1;
@@ -140,6 +144,8 @@ namespace PBuggy
 {
 	void SInit()
 	{
+		log_trace("SInit");
+
 		stru_1F5F950.Initialize();
 
 		stru_1F5F9A0.field_0 = 0;
@@ -149,62 +155,78 @@ namespace PBuggy
 	}
 }
 
-bool sgInitBuggy(SubGameInfo*)
+bool sgInitBuggy(SubGameInfo* info)
 {
-	// TODO
-	assert(false);
+	log_trace("sgInitBuggy({})", fmt::ptr(info));
+
+	todo;
+
 	return false;
 }
 
-bool sgExitBuggy(SubGameInfo*)
+bool sgExitBuggy(SubGameInfo* info)
 {
-	// TODO
-	assert(false);
+	log_trace("sgExitBuggy({})", fmt::ptr(info));
+
+	todo;
+
 	return false;
 }
 
-bool sgLoopBuggy(SubGameInfo*)
+bool sgLoopBuggy(SubGameInfo* info)
 {
-	// TODO
-	assert(false);
+	log_trace("sgLoopBuggy({})", fmt::ptr(info));
+
+	todo;
+
 	return false;
 }
 
-bool sgDrawBuggy(SubGameInfo*)
+bool sgDrawBuggy(SubGameInfo* info)
 {
-	// TODO
-	assert(false);
+	log_trace("sgDrawBuggy({})", fmt::ptr(info));
+
+	todo;
+
 	return false;
 }
 
-bool sgEffectDrawBuggy(SubGameInfo*)
+bool sgEffectDrawBuggy(SubGameInfo* info)
 {
-	// TODO
-	assert(false);
+	log_trace("sgEffectDrawBuggy({})", fmt::ptr(info));
+
+	todo;
+
 	return false;
 }
 
-bool sgSystemDrawBuggy(SubGameInfo*)
+bool sgSystemDrawBuggy(SubGameInfo* info)
 {
-	// TODO
-	assert(false);
+	log_trace("sgSystemDrawBuggy({})", fmt::ptr(info));
+
+	todo;
+
 	return false;
 }
 
-void CharaControl(SubGameInfo*, CPadControl*)
+void CharaControl(SubGameInfo* info, CPadControl* padctrl)
 {
-	// TODO
-	assert(false);
+	log_trace("CharaControl({}, {})", fmt::ptr(info), fmt::ptr(padctrl));
+
+	todo;
 }
 
-void InitBuggy(CScene*)
+void InitBuggy(CScene* scene)
 {
-	// TODO
-	assert(false);
+	log_trace("InitBuggy({})", fmt::ptr(scene));
+
+	todo;
 }
 
 void BuggyDamage(s32 i1)
 {
+	log_trace("BuggyDamage({})", i1);
+
 	if (dword_3787D4 == 1)
 	{
 		return;
@@ -218,50 +240,64 @@ void BuggyDamage(s32 i1)
 	BuggyHP -= 1;
 }
 
-void PlayBuggyLoopSe(CScene*)
+void PlayBuggyLoopSe(CScene* scene)
 {
-	// TODO
-	assert(false);
+	log_trace("PlayBuggyLoopSe({})", fmt::ptr(scene));
+
+	todo;
 }
 
 // 00315510
-void BuggyControl(CScene*)
+void BuggyControl(CScene* scene)
 {
-	// TODO
-	assert(false);
+	log_trace("BuggyControl({})", fmt::ptr(scene));
+
+	todo;
 }
 
-void InitBomb(CScene*)
+void InitBomb(CScene* scene)
 {
-	// TODO
-	assert(false);
+	log_trace("InitBomb({})", fmt::ptr(scene));
+
+	todo;
 }
 
-bool TakeBombCheck(void)
+bool TakeBombCheck()
 {
+	log_trace("TakeBombCheck()");
+
 	return (dword_3787F8 ^ 3) == 0;
 }
 
-bool TakeBomb(void)
+bool TakeBomb()
 {
+	log_trace("TakeBomb()");
+
 	if (!TakeBombCheck())
 	{
 		return false;
 	}
 
 	dword_3787F8 = 4;
+
 	return true;
 }
 
 bool ThrowBomb(vec4& dir)
 {
-	// TODO
-	assert(false);
+	// todo: need formatter for vec4
+	// log_trace("ThrowBomb({})", dir);
+	log_trace("ThrowBomb(dir)");
+
+	todo;
+
 	return false;
 }
 
-bool BombBomb(void)
+bool BombBomb()
 {
+	log_trace("BombBomb()");
+
 	if (dword_3787F8 != 6)
 	{
 		return false;
@@ -271,22 +307,27 @@ bool BombBomb(void)
 
 	dword_3787FC = 0;
 	dword_378800 = true;
+
 	return true;
 }
 
-bool NowPutBomb(void)
+bool NowPutBomb()
 {
+	log_trace("NowPutBomb()");
+
 	return (dword_3787F8 ^ 3) == 0;
 }
 
-void BombControl(CScene*)
+void BombControl(CScene* scene)
 {
-	// TODO
-	assert(false);
+	log_trace("BombControl({})", fmt::ptr(scene));
+
+	todo;
 }
 
-void BombCheck(CScene*)
+void BombCheck(CScene* scene)
 {
-	// TODO
-	assert(false);
+	log_trace("BombCheck({})", fmt::ptr(scene));
+
+	todo;
 }
