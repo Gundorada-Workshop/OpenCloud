@@ -63,36 +63,36 @@ namespace common::log
 
 // log error
 #define log_error(...) \
-  common::log::write_format(log_channel, common::log::level::error, __FILE__, __func__, __VA_ARGS__);
+  common::log::write_format(log_channel, common::log::level::error, __FILE__, __func__, __VA_ARGS__)
 
 // log warning
 #define log_warn(...) \
-  common::log::write_format(log_channel, common::log::level::warning, __FILE__, __func__, __VA_ARGS__);
+  common::log::write_format(log_channel, common::log::level::warning, __FILE__, __func__, __VA_ARGS__)
 
 // log performance
 #define log_perf(...) \
-  common::log::write_format(log_channel, common::log::level::performance, __FILE__, __func__, __VA_ARGS__);
+  common::log::write_format(log_channel, common::log::level::performance, __FILE__, __func__, __VA_ARGS__)
 
 // log info
 #define log_info(...) \
-  common::log::write_format(log_channel, common::log::level::info, __FILE__, __func__, __VA_ARGS__);
+  common::log::write_format(log_channel, common::log::level::info, __FILE__, __func__, __VA_ARGS__)
 
 // don't enable these on release
 #if defined(_DEBUG)
 // log trace
 #define log_trace(...) \
-  common::log::write_format(log_channel, common::log::level::trace, __FILE__, __func__, __VA_ARGS__);
+  common::log::write_format(log_channel, common::log::level::trace, __FILE__, __func__, __VA_ARGS__)
 
 // log debug
 #define log_debug(...) \
-  common::log::write_format(log_channel, common::log::level::debug, __FILE__, __func__, __VA_ARGS__);
+  common::log::write_format(log_channel, common::log::level::debug, __FILE__, __func__, __VA_ARGS__)
 #else
-#define log_trace                   \
+#define log_trace(...)              \
   do                                \
   {                                 \
   } while(0)
 
-#define log_debug                   \
+#define log_debug(...)              \
   do                                \
   {                                 \
   } while(0)

@@ -14,6 +14,8 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
   _In_ LPSTR /*lpCmdLine*/, _In_ INT /*nCmdShow*/)
 
 {
+  log_trace("WinMain()");
+
   // start the console
   // todo: report message box to user
   if (!common::console::initialize())
