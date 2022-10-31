@@ -182,7 +182,7 @@ namespace common::console
 
   bool prompt(std::string_view question)
   {
-    write("{} [y/n]: ");
+    write_format("{} [y/n]: ", question);
 
     const auto res = read();
 

@@ -5,6 +5,7 @@
 
 #include "types.h"
 #include "strings.h"
+#include "debug.h"
 
 namespace common::log
 {
@@ -58,6 +59,25 @@ namespace common::log
     std::string msg = strings::format(fmtstr, std::forward<Args>(args)...);
 
     write(channel, lvl, file, func_name, msg);
+  }
+
+  inline std::string level_string(level lvl)
+  {
+    switch (lvl)
+    {
+    case level::debug:
+      return "DBG";
+    case level::error:
+      return "ERR";
+    case level::info:
+      return "INF";
+    case level::performance:
+      return "PRF";
+    case level::trace:
+      return "TRC";
+    }
+
+    return "[UNK]";
   }
 }
 

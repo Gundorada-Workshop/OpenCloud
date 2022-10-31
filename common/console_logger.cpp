@@ -5,13 +5,13 @@
 
 namespace common::log::console_logger
 {
-  static std::optional<output_callback::cb_handle> s_callback_handle{ }
-;
-  static void console_log_callback(std::string_view chan, level level, std::string_view file, std::string_view fn, std::string_view msg)
+  static std::optional<output_callback::cb_handle> s_callback_handle{ };
+
+  static void console_log_callback(std::string_view chan, level lvl, std::string_view file, std::string_view fn, std::string_view msg)
   {
     const auto now = std::chrono::system_clock::now();
 
-    std::string out = strings::format("{} [{}] {}\n", now, chan, msg);
+    std::string out = strings::format("{} [{}] {:<15} {}\n", now, level_string(lvl), chan, msg);
 
     console::write(out);
   }
