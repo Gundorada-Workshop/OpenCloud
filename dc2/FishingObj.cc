@@ -51,23 +51,23 @@ static alignas(16) std::array<std::array<vec4, 3>, 64> stru_1F5E0A0;
 // 01F5ECA0
 static alignas(16) std::array<std::array<vec4, 3>, 3> stru_1F5ECA0;
 // 01F5ED30
-static vec4 stru_1F5ED30;
+static alignas(16) vec4 stru_1F5ED30;
 // 01F5ED40
-static vec4 stru_1F5ED40;
+static alignas(16) vec4 stru_1F5ED40;
 // 01F5ED50
-static vec4 stru_1F5ED50;
+static alignas(16) vec4 stru_1F5ED50;
 // 01F5ED60
-static vec4 stru_1F5ED60;
+static alignas(16) vec4 stru_1F5ED60;
 // 01F5ED70
-static vec4 stru_1F5ED70;
+static alignas(16) vec4 stru_1F5ED70;
 // 01F5ED80
-static vec4 stru_1F5ED80;
+static alignas(16) vec4 stru_1F5ED80;
 // 01F5ED90
-static vec4 stru_1F5ED90;
+static alignas(16) vec4 stru_1F5ED90;
 // 01F5EDA0
-static vec4 stru_1F5EDA0;
+static alignas(16) vec4 stru_1F5EDA0;
 // 01F5EDB0
-static vec4 stru_1F5EDB0;
+static alignas(16) vec4 stru_1F5EDB0;
 // 01F5EDC0
 static CFishObj s_lure_obj;
 // 01F5F190
@@ -75,7 +75,7 @@ static CFishObj s_uki_obj;
 // 01F5F560
 static CFishObj s_hari_obj;
 // 01F5F930
-static vec4 stru_1F5F930;
+static alignas(16) vec4 stru_1F5F930;
 
 namespace FishingObj
 {
