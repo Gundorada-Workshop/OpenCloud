@@ -151,13 +151,25 @@ namespace common::console
   void write(std::string_view msg)
   {
     const auto s = std::string{ msg };
+
+#if defined(_WIN32)
+    const auto wide = strings::to_wstring(s).value_or(L"");
+    fwprintf(stderr, L"%s", wide.c_str());
+#else
     fprintf(stdout, "%s", s.c_str());
+#endif
   }
 
   void write_error(std::string_view msg)
   {
     const auto s = std::string{ msg };
+
+#if defined(_WIN32)
+    const auto wide = strings::to_wstring(s).value_or(L"");
+    fwprintf(stderr, L"%s", wide.c_str());
+#else
     fprintf(stderr, "%s", s.c_str());
+#endif
   }
 
   std::string read()
