@@ -3,6 +3,7 @@
 #include "common/debug.h"
 #include "common/types.h"
 #include "CCharacter2.h"
+#include "CDngFloorManager.h"
 
 
 // <this file>.cpp: likely 00282AC0 to 00286074
@@ -18,7 +19,6 @@ class CMdsListSet {};
 class CFadeInOut {};
 class CFireRaster {};
 class CThunderEffect {};
-class CDngFloorManager {};
 
 
 class CSceneData

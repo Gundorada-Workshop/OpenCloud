@@ -93,6 +93,7 @@ namespace common::debug
   type m_unk_field_##pos{ };
 
 #define _UNKNOWN int
+#define _UNKNOWNPOINTER void*
 
 #if defined(_DEBUG) || defined(_FDEBUG)
 
