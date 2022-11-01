@@ -1,8 +1,11 @@
 #include <string>
 #include "common/debug.h"
+#include "common/log.h"
 #include "CScene.h"
 #include "MainLoop.h"
 #include "mgCMemory.h"
+
+set_log_channel("MainLoop")
 
 // 003D8070
 static SMainLoopUnk1 stru_3D8070;
@@ -31,6 +34,8 @@ namespace MainLoop_SInit
 {
 	void SInit()
 	{
+		log_trace("SInit");
+
 		memset(&stru_3D8070, 0, sizeof(stru_3D8070));
 
 		s_debug_font.Initialize();
@@ -41,22 +46,24 @@ namespace MainLoop_SInit
 
 		s_main_stack.Initialize();
 
-		for (int i = 0; i < s_main_scene.m_n_characters; ++i)
+		for (auto& character : s_main_scene.m_characters)
 		{
-			s_main_scene.m_characters[i].Initialize();
+			character.Initialize();
 		}
 
-		for (int i = 0; i < s_main_scene.m_n_cameras; ++i)
+		for (auto& camera : s_main_scene.m_cameras)
 		{
-			s_main_scene.m_cameras[i].Initialize();
+			camera.Initialize();
 		}
 
-		for (int i = 0; i < s_main_scene.m_n_messages; ++i)
+		for (auto& message : s_main_scene.m_messages)
 		{
-			s_main_scene.m_messages[i].Initialize();
+			message.Initialize();
 		}
 
-		// 00373694
+		s_main_scene.m_mds_list_set.Initialize();
+
+		// 0037369C
 		todo;
 	}
 }

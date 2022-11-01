@@ -4,6 +4,7 @@
 #include "common/types.h"
 #include "CCharacter2.h"
 #include "CDngFloorManager.h"
+#include "CMdsListSet.h"
 
 
 // <this file>.cpp: likely 00282AC0 to 00286074
@@ -15,7 +16,6 @@ class CMap;
 class CMapSky;
 class ClsMes;
 class mgCCamera;
-class CMdsListSet {};
 class CFadeInOut {};
 class CFireRaster {};
 class CThunderEffect {};
@@ -44,7 +44,7 @@ class CSceneCharacter : CSceneData
 {
 public:
   // 00282AE0
-  bool AssignData(CCharacter2* chara, char* name);
+  bool AssignData(CCharacter2& chara, char* name);
   // 00282B40
   void Initialize(void);
 
@@ -62,7 +62,7 @@ public:
   // 00282B60
   void Initialize(void);
   // 00282B70
-  bool AssignData(CMap* map, char* name);
+  bool AssignData(CMap& map, char* name);
 
   // 34
   _UNKNOWN m_unk_field_34;
@@ -74,7 +74,7 @@ public:
   // 00282BF0
   void Initialize(void);
   // 00282C00
-  bool AssignData(ClsMes* message, char* name);
+  bool AssignData(ClsMes& message, char* name);
 
   // 34
   _UNKNOWN m_unk_field_34;
@@ -84,7 +84,7 @@ class CSceneCamera : CSceneData
 {
 public:
   // 00282C80
-  bool AssignData(mgCCamera* camera, char* name);
+  bool AssignData(mgCCamera& camera, char* name);
   // 00282D00
   void Initialize(void);
 
@@ -96,7 +96,7 @@ class CSceneSky : CSceneData
 {
 public:
   // 00282D10
-  bool AssignData(CMapSky* sky, char* name);
+  bool AssignData(CMapSky& sky, char* name);
   // 00282D90
   void Initialize(void);
 
@@ -117,7 +117,7 @@ public:
   // 00282DB0
   void Initialize(void);
   // 00282DC0
-  bool AssignData(CEffectScriptMan* script_manager, char* name);
+  bool AssignData(CEffectScriptMan& script_manager, char* name);
 
   // 34
   _UNKNOWN m_unk_field_34;
@@ -152,7 +152,7 @@ public:
   // 220C
   std::array<CSceneMessage, 8> m_messages;
   // 23D0
-  CMdsListSet m_unk_field_23D0;
+  CMdsListSet m_mds_list_set;
 
   // ?
 

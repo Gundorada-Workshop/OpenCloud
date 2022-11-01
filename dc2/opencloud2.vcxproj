@@ -26,6 +26,7 @@
     <ClInclude Include="ClsMes.h" />
     <ClInclude Include="CMap.h" />
     <ClInclude Include="CMapInfo.h" />
+    <ClInclude Include="CMdsListSet.h" />
     <ClInclude Include="CMenuSystemData.h" />
     <ClInclude Include="CMonsterBox.h" />
     <ClInclude Include="ConvViewLP.h" />
@@ -104,6 +105,7 @@
     <ClCompile Include="CGamePad.cc" />
     <ClCompile Include="CMap.cc" />
     <ClCompile Include="CMapInfo.cc" />
+    <ClCompile Include="CMdsListSet.cc" />
     <ClCompile Include="ConvViewLP.cc" />
     <ClCompile Include="CPadControl.cc" />
     <ClCompile Include="CScene.cc" />
