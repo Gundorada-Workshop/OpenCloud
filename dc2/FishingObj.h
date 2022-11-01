@@ -10,6 +10,7 @@ class CCPoly;
 
 namespace FishingObj
 {
+	// 00374BE0
 	void SInit();
 }
 

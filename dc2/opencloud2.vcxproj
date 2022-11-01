@@ -26,6 +26,7 @@
     <ClInclude Include="ClsMes.h" />
     <ClInclude Include="CMap.h" />
     <ClInclude Include="CMapInfo.h" />
+    <ClInclude Include="CMdsListSet.h" />
     <ClInclude Include="CMenuSystemData.h" />
     <ClInclude Include="CMonsterBox.h" />
     <ClInclude Include="ConvViewLP.h" />
@@ -36,6 +37,7 @@
     <ClInclude Include="CScene.h" />
     <ClInclude Include="CScriptInterpreter.h" />
     <ClInclude Include="CUserDataManager.h" />
+    <ClInclude Include="CVillager.h" />
     <ClInclude Include="DbgFont.h" />
     <ClInclude Include="DngMenu.h" />
     <ClInclude Include="Dng_Debug.h" />
@@ -104,6 +106,7 @@
     <ClCompile Include="CGamePad.cc" />
     <ClCompile Include="CMap.cc" />
     <ClCompile Include="CMapInfo.cc" />
+    <ClCompile Include="CMdsListSet.cc" />
     <ClCompile Include="ConvViewLP.cc" />
     <ClCompile Include="CPadControl.cc" />
     <ClCompile Include="CScene.cc" />
@@ -144,6 +147,7 @@
     <ClCompile Include="MenuSys.cc" />
     <ClCompile Include="mgCDrawPrim.cc" />
     <ClCompile Include="mgCMemory.cc" />
+    <ClCompile Include="mgCTexture.cc" />
     <ClCompile Include="mg_Frame.cc" />
     <ClCompile Include="mgLib.cc" />
     <ClCompile Include="mg_TAnime.cc" />
