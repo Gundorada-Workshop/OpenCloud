@@ -28,9 +28,9 @@ void CSceneCharacter::Initialize()
 {
 	log_trace("CSceneCharacter:Initialize()");
 
-	m_unk_field_34 = 0;
-	m_unk_field_38 = -1;
-	m_unk_field_3C = -1;
+	m_character = nullptr;
+	m_texb = -1;
+	m_chara_no = -1;
 	CSceneData::Initialize();
 }
 
@@ -38,7 +38,7 @@ void CSceneMap::Initialize()
 {
 	log_trace("CSceneMap:Initialize()");
 
-	m_unk_field_34 = 0;
+	m_map = nullptr;
 	CSceneData::Initialize();
 }
 
@@ -54,7 +54,7 @@ void CSceneMessage::Initialize()
 {
 	log_trace("CSceneMessage::Initialize()");
 
-	m_unk_field_34 = 0;
+	m_message = nullptr;
 	CSceneData::Initialize();
 }
 
@@ -78,7 +78,7 @@ void CSceneCamera::Initialize()
 {
 	log_trace("CSceneCamera::Initialize()");
 
-	m_unk_field_34 = 0;
+	m_camera = nullptr;
 	CSceneData::Initialize();
 }
 
@@ -94,7 +94,7 @@ void CSceneSky::Initialize()
 {
 	log_trace("CSceneSky::Initialize()");
 
-	m_unk_field_34 = 0;
+	m_sky = nullptr;
 	CSceneData::Initialize();
 }
 
@@ -109,7 +109,7 @@ void CSceneEffect::Initialize()
 {
 	log_trace("CSceneEffect::Initialize()");
 
-	m_unk_field_34 = 0;
+	m_effect = nullptr;
 	CSceneData::Initialize();
 }
 
