@@ -6,4 +6,5 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(SolutionDir)external\fmt.exports.props" />
+  <Import Project="$(SolutionDir)external\glm.exports.props"/>
 </Project>
