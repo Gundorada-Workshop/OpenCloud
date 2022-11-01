@@ -4,6 +4,7 @@
 #include "CScene.h"
 #include "MainLoop.h"
 #include "mgCMemory.h"
+#include "mgCTexture.h"
 
 set_log_channel("MainLoop")
 
@@ -34,7 +35,7 @@ namespace MainLoop_SInit
 {
 	void SInit()
 	{
-		log_trace("SInit");
+		log_trace("MainLoop::SInit");
 
 		memset(&stru_3D8070, 0, sizeof(stru_3D8070));
 
@@ -48,22 +49,46 @@ namespace MainLoop_SInit
 
 		for (auto& character : s_main_scene.m_characters)
 		{
+			dynamic_cast<CSceneData&>(character).Initialize();
 			character.Initialize();
 		}
 
 		for (auto& camera : s_main_scene.m_cameras)
 		{
+			dynamic_cast<CSceneData&>(camera).Initialize();
 			camera.Initialize();
 		}
 
 		for (auto& message : s_main_scene.m_messages)
 		{
+			dynamic_cast<CSceneData&>(message).Initialize();
 			message.Initialize();
 		}
 
 		s_main_scene.m_mds_list_set.Initialize();
 
-		// 0037369C
+		new (&s_main_scene.m_fire_raster) mgCTexture;
+
+		for (auto& unk_var : s_main_scene.m_fire_raster.m_unk_field_70)
+		{
+			memset(&unk_var, 0, sizeof(unk_var));
+		}
+
+		s_main_scene.m_fire_raster.Initialize();
+
+		for (auto& sky : s_main_scene.m_skies)
+		{
+			dynamic_cast<CSceneData&>(sky).Initialize();
+			sky.Initialize();
+		}
+
+		for (auto& effect : s_main_scene.m_effects)
+		{
+			dynamic_cast<CSceneData&>(effect).Initialize();
+			effect.Initialize();
+		}
+
+		// 003737AC
 		todo;
 	}
 }

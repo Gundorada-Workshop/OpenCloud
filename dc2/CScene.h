@@ -3,6 +3,7 @@
 #include "common/debug.h"
 #include "common/types.h"
 #include "CCharacter2.h"
+#include "CEffect.h"
 #include "CDngFloorManager.h"
 #include "CMdsListSet.h"
 
@@ -17,7 +18,6 @@ class CMapSky;
 class ClsMes;
 class mgCCamera;
 class CFadeInOut {};
-class CFireRaster {};
 class CThunderEffect {};
 
 
@@ -40,7 +40,7 @@ public:
   _UNKNOWN m_unk_field_30;
 };
 
-class CSceneCharacter : CSceneData
+class CSceneCharacter : public CSceneData
 {
 public:
   // 00282AE0
@@ -56,7 +56,7 @@ public:
   s32 m_unk_field_3C;
 };
 
-class CSceneMap : CSceneData
+class CSceneMap : public CSceneData
 {
 public:
   // 00282B60
@@ -68,7 +68,7 @@ public:
   _UNKNOWN m_unk_field_34;
 };
 
-class CSceneMessage : CSceneData
+class CSceneMessage : public CSceneData
 {
 public:
   // 00282BF0
@@ -80,7 +80,7 @@ public:
   _UNKNOWN m_unk_field_34;
 };
 
-class CSceneCamera : CSceneData
+class CSceneCamera : public CSceneData
 {
 public:
   // 00282C80
@@ -92,7 +92,7 @@ public:
   _UNKNOWN m_unk_field_34;
 };
 
-class CSceneSky : CSceneData
+class CSceneSky : public CSceneData
 {
 public:
   // 00282D10
@@ -104,14 +104,14 @@ public:
   _UNKNOWN m_unk_field_34;
 };
 
-class CSceneGameObj : CSceneCharacter
+class CSceneGameObj : public CSceneCharacter
 {
 public:
   // 00282DA0
   void Initialize(void);
 };
 
-class CSceneEffect : CSceneData
+class CSceneEffect : public CSceneData
 {
 public:
   // 00282DB0
@@ -157,25 +157,25 @@ public:
   // ?
 
   // 24F0
-  CFireRaster m_unk_field_24F0;
+  CFireRaster m_fire_raster;
   // 27E0
-  usize m_unk_field_27E0;
+  usize m_n_maps;
   // 27E4
-  std::array<CSceneMap, 4> m_unk_field_27E4;
+  std::array<CSceneMap, 4> m_maps;
   // 28C4
-  usize m_unk_field_28C4;
+  usize m_n_skies;
   // 28C8
-  std::array<CSceneSky, 4> m_unk_field_28C8;
+  std::array<CSceneSky, 4> m_skies;
   // 29A8
-  usize m_unk_field_29A8;
+  usize m_n_gameobjs;
   // 29AC
-  std::array<CSceneGameObj, 4> m_unk_field_29AC;
+  std::array<CSceneGameObj, 4> m_gameobjs;
   // 2AAC
-  usize m_unk_field_2AAC;
+  usize m_n_effects;
   // 2AB0
-  std::array<CSceneEffect, 8> m_unk_field_2AB0;
+  std::array<CSceneEffect, 8> m_effects;
   // 2C70
-  CFadeInOut m_unk_field_2C70;
+  CFadeInOut m_fade_in_out;
   // 2CA0
   _UNKNOWN m_unk_field_2CA0;
 

@@ -146,6 +146,7 @@
     <ClCompile Include="MenuSys.cc" />
     <ClCompile Include="mgCDrawPrim.cc" />
     <ClCompile Include="mgCMemory.cc" />
+    <ClCompile Include="mgCTexture.cc" />
     <ClCompile Include="mg_Frame.cc" />
     <ClCompile Include="mgLib.cc" />
     <ClCompile Include="mg_TAnime.cc" />
