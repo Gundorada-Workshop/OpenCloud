@@ -1,9 +1,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include "common/debug.h"
+#include "common/log.h"
 #include "FishingObj.h"
 #include "mgLib.h"
 #include "sceVu0.h"
+
+set_log_channel("FishingObj")
 
 // 00378734
 static float s_water_level;
@@ -79,56 +82,86 @@ static alignas(16) vec4 stru_1F5F930;
 
 namespace FishingObj
 {
+	// 00374BE0
 	void SInit()
 	{
+		log_trace("SInit");
+
 		memset(&s_lure_obj, 0, sizeof(s_lure_obj));
 		memset(&s_uki_obj, 0, sizeof(s_uki_obj));
 		memset(&s_hari_obj, 0, sizeof(s_hari_obj));
 	}
 }
 
-void CFishObj::MovePoint(void)
+// 003130B0
+void CFishObj::MovePoint()
 {
+	log_trace("MovePoint");
+
 	todo;
 }
 
+// 00313140
 void CFishObj::FloatPoint(float f)
 {
+	log_trace("FloatPoint({})", f);
+
 	todo;
 }
 
-void CFishObj::BindStep(void)
+// 00313310
+void CFishObj::BindStep()
 {
+	log_trace("BindStep");
+
 	todo;
 }
 
+// 00313380
 void CFishObj::Correct(CCPoly& poly, int i, float f)
 {
+	log_trace("Correct({}, {}, {})", fmt::ptr(&poly), i, f);
+
 	todo;
 }
 
+// 0030F9B0
 void SetFishingMode(int fishing_mode)
 {
+	log_trace("SetFishingMode({})", fishing_mode);
+
 	s_fishing_mode = fishing_mode;
 }
 
+// 0030F9C0
 int GetFishingMode()
 {
+	log_trace("GetFishingMode");
+
 	return s_fishing_mode;
 }
 
+// 0030F9D0
 void SetWaterLevel(float water_level)
 {
+	log_trace("SetWaterLevel({})", water_level);
+
 	s_water_level = water_level;
 }
 
-float GetWaterLevel(void)
+// 0030F9E0
+float GetWaterLevel()
 {
+	log_trace("GetWaterLevel");
+
 	return s_water_level;
 }
 
-CFishObj* GetActiveHariObj(void)
+// 0030F9F0
+CFishObj* GetActiveHariObj()
 {
+	log_trace("GetActiveHariObj");
+
 	if (s_fishing_mode != 2)
 	{
 		return &s_hari_obj;
@@ -136,8 +169,11 @@ CFishObj* GetActiveHariObj(void)
 	return &s_lure_obj;
 }
 
-CFishObj* GetActiveUkiObj(void)
+// 0030FA20
+CFishObj* GetActiveUkiObj()
 {
+	log_trace("GetActiveUkiObj");
+
 	if (s_fishing_mode != 2)
 	{
 		return &s_uki_obj;
@@ -145,13 +181,19 @@ CFishObj* GetActiveUkiObj(void)
 	return nullptr;
 }
 
+// 0030FA50
 void ExtendLine(float delta)
 {
+	log_trace("ExtendLine({})", delta);
+
 	todo;
 }
 
-float GetNowLineLength(void)
+// 0030FC10
+float GetNowLineLength()
 {
+	log_trace("GetNowLineLength");
+
 	if (dword_37874C)
 	{
 		return flt_378750;
@@ -160,45 +202,69 @@ float GetNowLineLength(void)
 	return (63 - dword_378738) * 5.0f + flt_37873C;
 }
 
-float GetMinLineLength(void)
+// 0030FC60
+float GetMinLineLength()
 {
+	log_trace("GetMinLineLength");
+
 	return 25.0f;
 }
 
+// 0030FC70
 void InitRodPoint(mgCFrame& fr1, mgCFrame& fr2)
 {
+	log_trace("InitRodPoint({}, {})", fmt::ptr(&fr1), fmt::ptr(&fr2));
+
 	todo;
 }
 
+// 00310020
 void GetTriPose(matrix4& m1, matrix4& m2, vec4& v1)
 {
+	log_trace("GetTriPose({}, {}, {})", fmt::ptr(&m1), fmt::ptr(&m2), fmt::ptr(&v1));
+
 	todo;
 }
 
+// 003101F0
 void GetHariPos(vec4& v1, vec4& v2)
 {
+	log_trace("GetHariPos({}, {})", fmt::ptr(&v1), fmt::ptr(&v2));
+
 	sceVu0CopyVector(v1, stru_1F5E0A0[stru_1F5E0A0.size() - 1][0]);
 	sceVu0CopyVector(v2, stru_1F5E0A0[stru_1F5E0A0.size() - 1][1]);
 }
 
+// 00310220
 void GetUkiPos(vec4& v1, vec4& v2)
 {
+	log_trace("GetUkiPos({}, {})", fmt::ptr(&v1), fmt::ptr(&v2));
+
 	sceVu0CopyVector(v1, stru_1F5E0A0[stru_1F5E0A0.size() - 4][0]);
 	sceVu0CopyVector(v2, stru_1F5E0A0[stru_1F5E0A0.size() - 4][1]);
 }
 
+// 00310250
 void PullUki(float f)
 {
+	log_trace("PullUki({})", f);
+
 	stru_1F5E0A0[stru_1F5E0A0.size() - 1][2][1] -= f;
 }
 
+// 00310270
 void SetShowHari(bool enabled)
 {
+	log_trace("SetShowHari({})", enabled);
+
 	s_show_hari = enabled;
 }
 
-bool GetShowHari(void)
+// 00310280
+bool GetShowHari()
 {
+	log_trace("GetShowHari()");
+
 	vec4 v1;
 	vec4 v2;
 	GetHariPos(v1, v2);
@@ -212,59 +278,89 @@ bool GetShowHari(void)
 	return s_show_hari;
 }
 
+// 003102E0
 void SetLurePose(mgCFrame& frame)
 {
+	log_trace("SetLurePose({})", fmt::ptr(&frame));
+
 	todo;
 }
 
+// 003103D0
 void SetUkiPose(mgCFrame& fr1, mgCFrame& fr2)
 {
+	log_trace("SetUkiPose({}, {})", fmt::ptr(&fr1), fmt::ptr(&fr2));
+
 	todo;
 }
 
+// 003105C0
 void CastingLure(vec4& v)
 {
+	log_trace("CastingLure({})", fmt::ptr(&v));
+
 	todo;
 }
 
-void EndCastingLure(void)
+// 00310730
+void EndCastingLure()
 {
+	log_trace("CastingLure()");
+
 	dword_378740 = false;
 	dword_378744 = 0;
 	dword_378748 = 0;
 }
 
+// 00310740
 bool CatchLine(vec4& v, float f)
 {
+	log_trace("CatchLine({}, {})", fmt::ptr(&v), f);
+
 	todo;
 	return false;
 }
 
+// 00310890
 void SlowLineVelo(float multiplier)
 {
+	log_trace("SlowLineVelo({})", multiplier);
+
 	for (usize index = dword_378738; index < stru_1F5E0A0.size(); ++index)
 	{
 		sceVu0ScaleVector(stru_1F5E0A0[index][2], stru_1F5E0A0[index][2], multiplier);
 	}
 }
 
-void ResetLineVelo(void)
+// 00310910
+void ResetLineVelo()
 {
+	log_trace("ResetLineVelo()");
+
 	todo;
 }
 
+// 003109D0
 void ResetLine(vec4& v)
 {
+	log_trace("ResetLine({})", fmt::ptr(&v));
+
 	todo;
 }
 
-int GetNextChanceCnt(void)
+// 00310B60
+int GetNextChanceCnt()
 {
+	log_trace("GetNextChanceCnt()");
+
 	return rand() % 80 + 60;
 }
 
-bool InitFishBattle(void)
+// 00310BA0
+bool InitFishBattle()
 {
+	log_trace("InitFishBattle()");
+
 	sceVu0CopyVector(stru_1F5EDB0, stru_1F5E0A0[stru_1F5E0A0.size() - 1][0]);
 	sceVu0CopyVector(stru_1F5ED60, stru_1F5E0A0[stru_1F5E0A0.size() - 1][0]);
 	sceVu0CopyVector(stru_1F5ED70, stru_1F5E0A0[stru_1F5E0A0.size() - 1][0]);
@@ -278,16 +374,22 @@ bool InitFishBattle(void)
 	return true;
 }
 
-bool EndFishBattle(void)
+// 00310C30
+bool EndFishBattle()
 {
+	log_trace("EndFishBattle()");
+
 	dword_37874C = false;
 	s_next_chance_cnt = 0;
 	dword_37876C = 0;
 	return true;
 }
 
+// 00310C50
 int CheckRodActionChance(int i, bool& pi)
 {
+	log_trace("CheckRodActionChance({}, {})", i, fmt::ptr(&pi));
+
 	pi = false;
 
 	if (!dword_37874C)
@@ -316,29 +418,44 @@ int CheckRodActionChance(int i, bool& pi)
 	return -1;
 }
 
+// 00310CC0
 void FishBattle(CScene& scene, CCPoly& poly, int i)
 {
+	log_trace("FishBattle({}, {}, {})", fmt::ptr(&scene), fmt::ptr(&poly), i);
+
 	todo;
 }
 
+// 00311070
 void GetFishPosVelo(vec4& pos, vec4& velocity)
 {
+	log_trace("GetFishPosVelo({}, {})", fmt::ptr(&pos), fmt::ptr(&velocity));
+
 	sceVu0CopyVector(pos, stru_1F5ED60);
 	sceVu0CopyVector(velocity, stru_1F5ED80);
 }
 
-void BindFishObj(void)
+// 003110A0
+void BindFishObj()
 {
+	log_trace("BindFishObj()");
+
 	todo;
 }
 
+// 00311290
 void RodStep(CScene& scene, CCPoly& poly)
 {
+	log_trace("RodStep({}, {})", fmt::ptr(&scene), fmt::ptr(&poly));
+
 	todo;
 }
 
+// 00312200
 void BindPosition(vec4& v1, vec4& v2, float f1, float f2)
 {
+	log_trace("BindPosition({}, {}, {}, {})", fmt::ptr(&v1), fmt::ptr(&v2), f1, f2);
+
 	alignas(16) vec4 var_10;
 	alignas(16) vec4 var_20;
 	alignas(16) vec4 var_30;
@@ -355,27 +472,42 @@ void BindPosition(vec4& v1, vec4& v2, float f1, float f2)
 	mgSubVector(v2, var_10);
 }
 
-void DrawFishingLine(void)
+// 003122E0
+void DrawFishingLine()
 {
+	log_trace("DrawFishingLine()");
+
 	todo;
 }
 
-void DrawFishingActionChance(void)
+// 003125D0
+void DrawFishingActionChance()
 {
+	log_trace("DrawFishingActionChance()");
+
 	todo;
 }
 
+// 003128E0
 void InitLureObj(int i, mgCFrame& frame)
 {
+	log_trace("InitLureObj({}, {})", i, fmt::ptr(&frame));
+
 	todo;
 }
 
+// 00312D20
 void InitUkiObj(int i, mgCFrame& frame1, mgCFrame& frame2)
 {
+	log_trace("InitUkiObj({}, {}, {})", i, fmt::ptr(&frame1), fmt::ptr(&frame2));
+
 	todo;
 }
 
+// 00313570
 void ParaBlend(vec4& v1, float f1, vec4& v2, s32 i)
 {
+	log_trace("ParaBlend({}, {}, {}, {})", fmt::ptr(&v1), f1, fmt::ptr(&v2), i);
+
 	todo;
 }
