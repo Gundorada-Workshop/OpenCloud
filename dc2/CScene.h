@@ -126,7 +126,8 @@ public:
 class CScene
 {
 public:
-  CScene();
+  // 00282EA0
+  virtual void Initialize();
 
   // 0
   usize m_unk_field_0;
@@ -139,17 +140,17 @@ public:
   // 3C
   _UNKNOWN m_unk_field_3C;
   // 40
-  usize m_unk_field_40;
+  usize m_n_characters;
   // 44
-  std::array<CSceneCharacter, 128> m_unk_field_44;
+  std::array<CSceneCharacter, 128> m_characters;
   // 2044
-  usize m_unk_field_2044;
+  usize m_n_cameras;
   // 2048
-  std::array<CSceneCamera, 8> m_unk_field_2048;
+  std::array<CSceneCamera, 8> m_cameras;
   // 2208
-  usize m_unk_field_2208;
+  usize m_n_messages;
   // 220C
-  std::array<CSceneMessage, 8> m_unk_field_220C;
+  std::array<CSceneMessage, 8> m_messages;
   // 23D0
   CMdsListSet m_unk_field_23D0;
 
