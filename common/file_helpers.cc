@@ -1,7 +1,14 @@
 ﻿#include "common/file_helpers.h"
+#include "common/debug.h"
+
+#if defined(_WIN32)
+#include "Windows.h"
+#endif
 
 namespace common::file_helpers
 {
+  static std::string s_application_directory{ };
+
   static consteval const char native_path_seperator()
   {
 #if defined(_WIN32)
@@ -140,5 +147,102 @@ namespace common::file_helpers
     to_native_path(out);
 
     return out;
+  }
+
+  bool open_native(std::FILE** file, std::string_view path, std::string_view mode)
+  {
+    if (!file)
+      panicf("File is null opening {} with mode {}", path, mode);
+
+#if defined(_WIN32)
+    const auto wfilename = common::strings::to_wstring(path);
+    const auto wmode = common::strings::to_wstring(mode);
+
+    if (!wfilename)
+      return false;
+
+    if (_wfopen_s(file, wfilename->c_str(), wmode->c_str()) != 0)
+      return false;
+
+    return true;
+#else
+    return false;
+#endif
+  }
+
+  u64 tell64(std::FILE* file)
+  {
+    if (!file)
+      panicf("File is null");
+
+#if defined(_WIN32)
+    return _ftelli64(file);
+#else
+    return 0;
+#endif
+  }
+
+  bool seek64(std::FILE* file, u64 offset, u64 whence)
+  {
+    if (!file)
+      panicf("File is null seeking to {} from {}", offset, whence);
+
+#if defined(_WIN32)
+    return _fseeki64(file, offset, static_cast<int>(whence)) == 0;
+#else
+    return false;
+#endif
+  }
+
+  bool create_directory(std::string_view path)
+  {
+#if defined(_WIN32)
+    const auto wdir = common::strings::to_wstring(path);
+    if (!wdir)
+      panicf("Failed to convert directory path to UTF16: ", path);
+
+    const auto res = CreateDirectoryW(wdir->c_str(), NULL);
+
+    if (!res)
+    {
+      const auto err = GetLastError();
+
+      if (err != ERROR_ALREADY_EXISTS)
+        return false;
+    }
+
+    return true;
+#else
+    return false;
+#endif
+  }
+
+  void set_application_directory(std::string_view path)
+  {
+    assert_msg(s_application_directory.empty(), "Application directory already set");
+
+    s_application_directory = std::string{ path };
+  }
+
+  std::string_view get_application_directory()
+  {
+    assert_msg(!s_application_directory.empty(), "Application directory needs to be set before calling get_parent_directory()");
+
+    return s_application_directory;
+  }
+
+  std::string get_working_directory()
+  {
+#if defined(_WIN32)
+    TCHAR dir[MAX_PATH];
+    GetCurrentDirectoryW(MAX_PATH, dir);
+
+    auto working_dir = common::strings::to_utf8(dir);
+
+    if (!working_dir)
+      panicf("Failed to convert working directory path to UTF8");
+
+    return *working_dir;
+#endif
   }
 }

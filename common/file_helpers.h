@@ -1,4 +1,6 @@
 #pragma once
+#include <cstdio>
+#include "common/types.h"
 #include "common/strings.h"
 
 namespace common::file_helpers
@@ -22,4 +24,27 @@ namespace common::file_helpers
 
   // converts a path to the native
   std::string native_path(std::string_view path);
+
+  // open a file using the native method
+  bool open_native(std::FILE** file, std::string_view path, std::string_view mode);
+
+  // tell a file (64 bit)
+  u64 tell64(std::FILE* file);
+
+  // seek to position (64 bit)
+  bool seek64(std::FILE* file, u64 offset, u64 whence);
+
+  // create a directory
+  // if directory already exists returns true
+  bool create_directory(std::string_view path);
+
+  // set the application directory
+  // should be called with an argv from main
+  void set_application_directory(std::string_view path);
+
+  // get the application directory
+  std::string_view get_application_directory();
+
+  // get the current working directory
+  std::string get_working_directory();
 }
