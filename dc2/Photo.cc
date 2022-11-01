@@ -9,20 +9,6 @@
 
 set_log_channel("Photo");
 
-// 0035E6A0
-constexpr static std::array<std::array<const char*, 4>, 2> msg_text = {
-	// Japanese (4)
-	"(A):写真を確認",
-	"(#):写真をとる",
-	"ユリスの写真家レベルが上がった",
-	"(R):ズーム",
-
-	// English (4)
-	"(A):Confirm Picture",
-	"(#):Take Picture",
-	"Max's photography level increased!",
-	"(R):zoom (O):Back",
-};
 // 0035E6C0
 constexpr static vec4 stru_35E6C0 = { 0.0f, 0.0f, 0.0f, 1.0f };
 // 0035E6D0
@@ -47,9 +33,6 @@ constexpr static vec4 stru_35E720 = { -1.0f, 0.0f, 1.0f, 0.0f };
 constexpr static vec4 stru_35E730 = { 0.0f, 2.0f, 0.0f, 0.0f };
 // 0035E740
 constexpr static vec4 stru_35E740 = { 0.0f, 0.0f, 0.0f, 1.0f };
-
-// 00376B30
-constexpr static const char null_txt[] = "";
 
 // 00378710
 static u32 dword_378710;
@@ -87,14 +70,29 @@ namespace Photo
 
 const char* GetMesTxt(ssize index)
 {
+	// 0035E6A0
+	constexpr static std::array<std::array<const char*, 4>, 2> mes_txt = {
+		// Japanese (4)
+		"(A):写真を確認",
+		"(#):写真をとる",
+		"ユリスの写真家レベルが上がった",
+		"(R):ズーム",
+
+		// English (4)
+		"(A):Confirm Picture",
+		"(#):Take Picture",
+		"Max's photography level increased!",
+		"(R):zoom (O):Back",
+	};
+
 	log_trace("GetMesTxt({})", index);
 
-	if (index < 0 || msg_text[0].size() <= index || _g_language < 0 || msg_text.size() <= _g_language)
+	if (index < 0 || mes_txt[0].size() <= index || _g_language < 0 || mes_txt.size() <= _g_language)
 	{
-		return null_txt;
+		return "";
 	}
 
-	return msg_text[_g_language][index];
+	return mes_txt[_g_language][index];
 }
 
 float PhotoAddProjection()
@@ -194,7 +192,7 @@ void SetTookPhotoData(USER_PICTURE_INFO& picture_info)
 	todo;
 }
 
-void DrawTakePhotoSystem(s32 i1, CInventUserData& invest_user_data)
+void DrawTakePhotoSystem(s32 i1, CInventUserData& invent_user_data)
 {
 	todo;
 }

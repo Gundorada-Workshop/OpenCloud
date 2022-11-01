@@ -64,4 +64,4 @@ void DrawTakePhoto(USER_PICTURE_INFO& picture_info, float* fp);
 void SetTookPhotoData(USER_PICTURE_INFO& picture_info);
 
 // 0030F6A0
-void DrawTakePhotoSystem(s32 i1, CInventUserData& invest_user_data);
+void DrawTakePhotoSystem(s32 i1, CInventUserData& invent_user_data);
