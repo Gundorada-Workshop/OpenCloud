@@ -79,10 +79,10 @@ public:
 	void* m_heap_start;
 	SHeapMemHead* m_heap_mem_head;
 	// FIXME: NAME:
-	bool field_1C;
+	bool m_unk_field_1C;
 	void* m_stack_start;
 	usize m_stack_current_allocated;
 	usize m_stack_max_allocated;
 	// FIXME: NAME:
-	SHeapMemHead* field_2C;
+	SHeapMemHead* m_unk_field_2C;
 };

@@ -18,13 +18,13 @@ class CEffectScriptMan;
 class CMap;
 class CMapSky;
 class ClsMes;
-class mgCCamera;
+class mgCCamera {};
 struct InScreenFuncInfo {};
 struct SCN_LOADMAP_INFO2 {};
 class CThunderEffect {};
 
 
-enum ESceneDataType
+enum class ESceneDataType
 {
   Character = 1,
   Map = 2,
@@ -34,6 +34,73 @@ enum ESceneDataType
   GameObj_7 = 7
 };
 
+template<>
+struct fmt::formatter<ESceneDataType> : fmt::formatter<std::string_view>
+{
+  template<typename FormatContext>
+  auto format(const ESceneDataType& data_type, FormatContext& ctx)
+  {
+    std::string out;
+    switch (data_type)
+    {
+      case ESceneDataType::Character:
+        out = "Character";
+        break;
+      case ESceneDataType::Map:
+        out = "Map";
+        break;
+      case ESceneDataType::Message:
+        out = "Message";
+        break;
+      case ESceneDataType::Camera:
+        out = "Camera";
+        break;
+      case ESceneDataType::GameObj_6:
+        out = "GameObj (6)";
+        break;
+      case ESceneDataType::GameObj_7:
+        out = "GameObj (7)";
+        break;
+      default:
+        out = "Unknown";
+        break;
+    }
+
+    constexpr std::string_view tpl =
+    {
+      "ESceneDataType({})"
+    };
+
+    return fmt::format_to(ctx.out(), tpl, out);
+  }
+};
+
+enum class ESceneDataStatus
+{
+  Initial = 0,
+  UNK_1 = 1,
+  Active = 2,
+  Assigned = 4,
+  UNK_8 = 8,
+  UNK_10 = 16,
+  UNK_20 = 32,
+};
+IMPLEMENT_ENUM_CLASS_BITWISE_OPERATORS(ESceneDataStatus);
+
+template<>
+struct fmt::formatter<ESceneDataStatus> : fmt::formatter<std::string_view>
+{
+  template<typename FormatContext>
+  auto format(const ESceneDataStatus& data_status, FormatContext& ctx)
+  {
+    constexpr std::string_view tpl =
+    {
+      "ESceneDataStatus({})"
+    };
+
+    return fmt::format_to(ctx.out(), tpl, std::to_underlying(data_status));
+  }
+};
 
 class CSceneData
 {
@@ -41,7 +108,7 @@ public:
   void Initialize(void);
 
   // 0
-  _UNKNOWN m_unk_field_0;
+  ESceneDataStatus m_status;
   // 4
   // NOTE: Retrieved in CScene::GetType; some enumeration, maybe?
   _UNKNOWN m_unk_field_4;
@@ -59,7 +126,7 @@ class CSceneCharacter : public CSceneData
 {
 public:
   // 00282AE0
-  bool AssignData(CCharacter2& chara, char* name);
+  bool AssignData(CCharacter2* chara, const char* name);
   // 00282B40
   void Initialize(void);
 
@@ -77,7 +144,7 @@ public:
   // 00282B60
   void Initialize(void);
   // 00282B70
-  bool AssignData(CMap& map, char* name);
+  bool AssignData(CMap* map, const char* name);
 
   // 34
   CMap* m_map;
@@ -89,7 +156,7 @@ public:
   // 00282BF0
   void Initialize(void);
   // 00282C00
-  bool AssignData(ClsMes& message, char* name);
+  bool AssignData(ClsMes* message, const char* name);
 
   // 34
   ClsMes* m_message;
@@ -99,7 +166,7 @@ class CSceneCamera : public CSceneData
 {
 public:
   // 00282C80
-  bool AssignData(mgCCamera& camera, char* name);
+  bool AssignData(mgCCamera* camera, const char* name);
   // 00282D00
   void Initialize(void);
 
@@ -111,7 +178,7 @@ class CSceneSky : public CSceneData
 {
 public:
   // 00282D10
-  bool AssignData(CMapSky& sky, char* name);
+  bool AssignData(CMapSky* sky, const char* name);
   // 00282D90
   void Initialize(void);
 
@@ -132,10 +199,10 @@ public:
   // 00282DB0
   void Initialize(void);
   // 00282DC0
-  bool AssignData(CEffectScriptMan& script_manager, char* name);
+  bool AssignData(CEffectScriptMan* script_manager, const char* name);
 
   // 34
-  CEffect* m_effect;
+  CEffectScriptMan* m_effect_script_manager;
 };
 
 class CSceneEventData
@@ -220,17 +287,17 @@ public:
   // 002836A0
   CSceneData* GetData(ESceneDataType data_type, ssize index);
   // 00283740
-  s32 AssignCamera(ssize camera_index, mgCCamera& camera, const char* name);
+  s32 AssignCamera(ssize camera_index, mgCCamera* camera, const char* name);
   // 00283820
   ssize GetCameraID(const char* name);
   // 002838C0
   mgCCamera* GetCamera(ssize camera_index);
   // 00283910
-  s32 AssignMessage(ssize message_index, ClsMes& message, const char* name);
+  s32 AssignMessage(ssize message_index, ClsMes* message, const char* name);
   // 002839E0
   ClsMes* GetMessage(ssize message_index);
   // 00283A30
-  s32 AssignChara(ssize character_index, CCharacter2& character, const char* name);
+  s32 AssignChara(ssize character_index, CCharacter2* character, const char* name);
   // 00283B00
   void SetCharaNo(ssize character_index, ssize character_no);
   // 00283B30
@@ -238,7 +305,7 @@ public:
   // 00283B60
   CCharacter2* GetCharacter(ssize character_index);
   // 00283BB0
-  ssize AssignMap(ssize map_index, CMap& map, const char* name);
+  ssize AssignMap(ssize map_index, CMap* map, const char* name);
   // 00283C90
   const char* GetMapName(ssize map_index);
   // 00283CC0
@@ -254,15 +321,15 @@ public:
   // 002842F0
   void DrawScreenFunc(mgCFrame& frame);
   // 00284390
-  ssize AssignSky(ssize sky_index, CMapSky& sky, const char* name);
+  ssize AssignSky(ssize sky_index, CMapSky* sky, const char* name);
   // 00284460
   bool DeleteSky(ssize sky_index);
   // 002844A0
-  ssize AssignEffect(ssize effect_index, CEffect& effect, const char* name);
+  ssize AssignEffect(ssize effect_index, CEffectScriptMan* effect, const char* name);
   // 00284510
   void DeleteEffect(ssize effect_index);
   // 00284540
-  CEffect* GetEffect(ssize effect_index);
+  CEffectScriptMan* GetEffect(ssize effect_index);
   // 00284570
   void StepEffectScript(ssize effect_index);
   // 00284600
@@ -274,11 +341,11 @@ public:
   // 00284700
   void ResetActive(ESceneDataType data_type, ssize data_index);
   // 00284740
-  void SetStatus(ESceneDataType data_type, ssize data_index, s32 status_bitmask);
+  void SetStatus(ESceneDataType data_type, ssize data_index, ESceneDataStatus status);
   // 00284780
-  void ResetStatus(ESceneDataType data_type, ssize data_index, s32 status_bitmask);
+  void ResetStatus(ESceneDataType data_type, ssize data_index, ESceneDataStatus status);
   // 002847C0
-  s32 GetStatus(ESceneDataType data_type, ssize data_index);
+  ESceneDataStatus GetStatus(ESceneDataType data_type, ssize data_index);
   // 002847F0
   void SetType(ESceneDataType data_type, ssize data_index, _UNKNOWN _data_type);
   // 00284820
@@ -548,9 +615,9 @@ public:
 
 
   // 0
-  usize m_n_stacks;
+  usize m_n_stacks_capacity;
   // 4
-  _UNKNOWN m_unk_field_4;
+  usize m_n_stacks_length;
   // 8
   std::array<mgCMemory*, 12> m_stacks;
   // 38
@@ -602,7 +669,7 @@ public:
   // 2E50
   _UNKNOWN m_unk_field_2E50;
   // 2E54
-  _UNKNOWN m_unk_field_2E54;
+  s32 m_unk_field_2E54;
   // 2E58
   _UNKNOWN m_unk_field_2E58;
   // 2E5C

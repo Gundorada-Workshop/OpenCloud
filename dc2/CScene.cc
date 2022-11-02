@@ -4,11 +4,12 @@
 
 set_log_channel("CScene");
 
+// 00282AC0
 void CSceneData::Initialize()
 {
 	log_trace("CSceneData::Initialize()");
 
-	m_unk_field_0 = 0;
+	m_status = ESceneDataStatus::Initial;
 	m_unk_field_4 = 0;
 	m_name[0] = '\0';
 	m_unk_field_28 = -1;
@@ -16,17 +17,29 @@ void CSceneData::Initialize()
 	m_unk_field_30 = 0;
 }
 
-bool CSceneCharacter::AssignData(CCharacter2& chara, char* name)
+// 00282AE0
+bool CSceneCharacter::AssignData(CCharacter2* chara, const char* name)
 {
-	log_trace("CSceneCharacter::AssignData({}, {})", fmt::ptr(&chara), name);
+	log_trace("CSceneCharacter::AssignData({}, {})", fmt::ptr(chara), name);
 
-	todo;
-	return false;
+	if (name == nullptr || chara == nullptr)
+	{
+		return false;
+	}
+
+	m_status = ESceneDataStatus::Initial;
+	m_character = chara;
+	strcpy(m_name, name);
+
+	m_status |= ESceneDataStatus::Assigned;
+	
+	return true;
 }
 
+// 00282B40
 void CSceneCharacter::Initialize()
 {
-	log_trace("CSceneCharacter:Initialize()");
+	log_trace("CSceneCharacter::Initialize()");
 
 	m_character = nullptr;
 	m_texb = -1;
@@ -34,6 +47,7 @@ void CSceneCharacter::Initialize()
 	CSceneData::Initialize();
 }
 
+// 00282B60
 void CSceneMap::Initialize()
 {
 	log_trace("CSceneMap:Initialize()");
@@ -42,14 +56,28 @@ void CSceneMap::Initialize()
 	CSceneData::Initialize();
 }
 
-bool CSceneMap::AssignData(CMap& map, char* name)
+// 00282B70
+bool CSceneMap::AssignData(CMap* map, const char* name)
 {
-	log_trace("CSceneMap::AssignData({}, {})", fmt::ptr(&map), name);
+	log_trace("CSceneMap::AssignData({}, {})", fmt::ptr(map), name);
 
-	todo;
-	return false;
+	if (name == nullptr || map == nullptr)
+	{
+		return false;
+	}
+
+	Initialize();
+
+	m_status = ESceneDataStatus::Initial;
+	m_map = map;
+	strcpy(m_name, name);
+
+	m_status |= ESceneDataStatus::Assigned;
+
+	return true;
 }
 
+// 00282BF0
 void CSceneMessage::Initialize()
 {
 	log_trace("CSceneMessage::Initialize()");
@@ -58,22 +86,65 @@ void CSceneMessage::Initialize()
 	CSceneData::Initialize();
 }
 
-bool CSceneMessage::AssignData(ClsMes& message, char* name)
+// 00282C00
+bool CSceneMessage::AssignData(ClsMes* message, const char* name)
 {
-	log_trace("CSceneMessage::AssignData({}, {})", fmt::ptr(&message), name);
+	log_trace("CSceneMessage::AssignData({}, {})", fmt::ptr(message), name);
 
-	todo;
-	return false;
+	if (message == nullptr)
+	{
+		return false;
+	}
+
+	Initialize();
+
+	m_status = ESceneDataStatus::Initial;
+	m_message = message;
+
+	if (name != nullptr)
+	{
+		strcpy(m_name, name);
+	}
+	else
+	{
+		m_name[0] = '\0';
+	}
+
+	m_status |= ESceneDataStatus::Assigned;
+
+	return true;
 }
 
-bool CSceneCamera::AssignData(mgCCamera& camera, char* name)
+// 00282C80
+bool CSceneCamera::AssignData(mgCCamera* camera, const char* name)
 {
-	log_trace("CSceneCamera::AssignData({}, {})", fmt::ptr(&camera), name);
+	log_trace("CSceneCamera::AssignData({}, {})", fmt::ptr(camera), name);
 
-	todo;
-	return false;
+	if (camera == nullptr)
+	{
+		return false;
+	}
+
+	Initialize();
+
+	m_status = ESceneDataStatus::Initial;
+	m_camera = camera;
+
+	if (name != nullptr)
+	{
+		strcpy(m_name, name);
+	}
+	else
+	{
+		m_name[0] = '\0';
+	}
+
+	m_status |= ESceneDataStatus::Assigned;
+
+	return true;
 }
 
+// 00282D00
 void CSceneCamera::Initialize()
 {
 	log_trace("CSceneCamera::Initialize()");
@@ -82,14 +153,36 @@ void CSceneCamera::Initialize()
 	CSceneData::Initialize();
 }
 
-bool CSceneSky::AssignData(CMapSky& sky, char* name)
+// 00282D10
+bool CSceneSky::AssignData(CMapSky* sky, const char* name)
 {
-	log_trace("CSceneSky::AssignData({}, {})", fmt::ptr(&sky), name);
+	log_trace("CSceneSky::AssignData({}, {})", fmt::ptr(sky), name);
 
-	todo;
-	return false;
+	if (sky == nullptr)
+	{
+		return false;
+	}
+
+	Initialize();
+
+	m_status = ESceneDataStatus::Initial;
+	m_sky = sky;
+
+	if (name != nullptr)
+	{
+		strcpy(m_name, name);
+	}
+	else
+	{
+		m_name[0] = '\0';
+	}
+
+	m_status |= ESceneDataStatus::Assigned;
+
+	return true;
 }
 
+// 00282D90
 void CSceneSky::Initialize()
 {
 	log_trace("CSceneSky::Initialize()");
@@ -98,6 +191,7 @@ void CSceneSky::Initialize()
 	CSceneData::Initialize();
 }
 
+// 00282DA0
 void CSceneGameObj::Initialize()
 {
 	log_trace("CSceneGameObj::Initialize()");
@@ -105,20 +199,42 @@ void CSceneGameObj::Initialize()
 	CSceneCharacter::Initialize();
 }
 
+// 00282DB0
 void CSceneEffect::Initialize()
 {
 	log_trace("CSceneEffect::Initialize()");
 
-	m_effect = nullptr;
+	m_effect_script_manager = nullptr;
 	CSceneData::Initialize();
 }
 
-bool CSceneEffect::AssignData(CEffectScriptMan& script_manager, char* name)
+// 00282DC0
+bool CSceneEffect::AssignData(CEffectScriptMan* script_manager, const char* name)
 {
-	log_trace("CSceneEffect::AssignData({}, {})", fmt::ptr(&script_manager), name);
+	log_trace("CSceneEffect::AssignData({}, {})", fmt::ptr(script_manager), name);
 
-	todo;
-	return false;
+	if (script_manager == nullptr)
+	{
+		return false;
+	}
+
+	Initialize();
+
+	m_status = ESceneDataStatus::Initial;
+	m_effect_script_manager = script_manager;
+
+	if (name != nullptr)
+	{
+		strcpy(m_name, name);
+	}
+	else
+	{
+		m_name[0] = '\0';
+	}
+
+	m_status |= ESceneDataStatus::Assigned;
+
+	return true;
 }
 
 // 00282E40
@@ -142,7 +258,12 @@ void CScene::SetStack(ssize stack_index, mgCMemory& stack)
 {
 	log_trace("CScene::{}({}, {})", __func__, stack_index, fmt::ptr(&stack));
 
-	todo;
+	if (stack_index < 0 || m_n_stacks_capacity >= stack_index)
+	{
+		return;
+	}
+
+	m_stacks[stack_index] = &stack;
 }
 
 // 00283150
@@ -150,8 +271,12 @@ mgCMemory* CScene::GetStack(ssize stack_index)
 {
 	log_trace("CScene::{}({})", __func__, stack_index);
 
-	todo;
-	return nullptr;
+	if (stack_index < 0 || m_n_stacks_capacity >= stack_index)
+	{
+		return nullptr;
+	}
+
+	return m_stacks[stack_index];
 }
 
 // 002831D0
@@ -159,7 +284,19 @@ void CScene::ClearStack(ssize stack_index)
 {
 	log_trace("CScene::{}({})", __func__, stack_index);
 
-	todo;
+	for (int i = stack_index; i < m_n_stacks_capacity; ++i)
+	{
+		if (m_stacks[i] != nullptr)
+		{
+			m_stacks[i]->m_stack_current_allocated = 0;
+			m_stacks[i]->m_unk_field_1C = false;
+
+			if (stack_index != i)
+			{
+				m_stacks[i]->stSetBuffer(nullptr, 0);
+			}
+		}
+	}
 }
 
 // 00283270
@@ -167,16 +304,43 @@ void CScene::AssignStack(ssize stack_index)
 {
 	log_trace("CScene::{}({})", __func__, stack_index);
 
-	todo;
+	if (stack_index < 2)
+	{
+		return;
+	}
+
+	mgCMemory* current_stack = m_stacks[stack_index];
+	mgCMemory* previous_stack = m_stacks[stack_index - 1];
+	if (previous_stack->m_stack_max_allocated < 0)
+	{
+		AssignStack(stack_index - 1);
+	}
+
+	previous_stack->Align64();
+	previous_stack->m_unk_field_1C = true;
+
+	usize max_allocated = previous_stack->m_stack_max_allocated;
+	usize current_allocated = previous_stack->m_stack_current_allocated;
+	usize buf_size = max_allocated - current_allocated;
+	void* new_stack_start = reinterpret_cast<void*>(reinterpret_cast<uptr>(previous_stack->m_stack_start) + current_allocated * 0x10);
+	current_stack->stSetBuffer(new_stack_start, buf_size);
+
+	current_stack->m_stack_current_allocated = 0;
+	current_stack->m_unk_field_1C = false;
+	m_n_stacks_length = stack_index;
 }
 
 // 00283340
-CSceneCharacter* GetSceneCharacter(ssize character_index)
+CSceneCharacter* CScene::GetSceneCharacter(ssize character_index)
 {
 	log_trace("CScene::{}({})", __func__, character_index);
 
-	todo;
-	return nullptr;
+	if (character_index < 0 || m_n_characters <= character_index)
+	{
+		return nullptr;
+	}
+
+	return &m_characters[character_index];
 }
 
 // 00283340
@@ -184,8 +348,12 @@ CSceneMap* CScene::GetSceneMap(ssize map_index)
 {
 	log_trace("CScene::{}({})", __func__, map_index);
 
-	todo;
-	return nullptr;
+	if (map_index < 0 || m_n_maps <= map_index)
+	{
+		return nullptr;
+	}
+
+	return &m_maps[map_index];
 }
 
 // 002833C0
@@ -193,8 +361,12 @@ CSceneMessage* CScene::GetSceneMessage(ssize message_index)
 {
 	log_trace("CScene::{}({})", __func__, message_index);
 
-	todo;
-	return nullptr;
+	if (message_index < 0 || m_n_messages <= message_index)
+	{
+		return nullptr;
+	}
+
+	return &m_messages[message_index];
 }
 
 // 00283400
@@ -202,8 +374,12 @@ CSceneCamera* CScene::GetSceneCamera(ssize camera_index)
 {
 	log_trace("CScene::{}({})", __func__, camera_index);
 
-	todo;
-	return nullptr;
+	if (camera_index < 0 || m_n_cameras <= camera_index)
+	{
+		return nullptr;
+	}
+
+	return &m_cameras[camera_index];
 }
 
 // 00283440
@@ -211,8 +387,12 @@ CSceneSky* CScene::GetSceneSky(ssize sky_index)
 {
 	log_trace("CScene::{}({})", __func__, sky_index);
 
-	todo;
-	return nullptr;
+	if (sky_index < 0 || m_n_skies <= sky_index)
+	{
+		return nullptr;
+	}
+
+	return &m_skies[sky_index];
 }
 
 // 00283480
@@ -220,8 +400,12 @@ CSceneGameObj* CScene::GetSceneGameObj(ssize gameobj_index)
 {
 	log_trace("CScene::{}({})", __func__, gameobj_index);
 
-	todo;
-	return nullptr;
+	if (gameobj_index < 0 || m_n_gameobjs <= gameobj_index)
+	{
+		return nullptr;
+	}
+
+	return &m_gameobjs[gameobj_index];
 }
 
 // 002834C0
@@ -229,8 +413,12 @@ CSceneEffect* CScene::GetSceneEffect(ssize effect_index)
 {
 	log_trace("CScene::{}({})", __func__, effect_index);
 
-	todo;
-	return nullptr;
+	if (effect_index < 0 || m_n_effects <= effect_index)
+	{
+		return nullptr;
+	}
+
+	return &m_effects[effect_index];
 }
 
 // 00283500
@@ -254,19 +442,61 @@ bool CScene::CheckMDSName(ssize map_index, const char* mds_name)
 // 002836A0
 CSceneData* CScene::GetData(ESceneDataType data_type, ssize index)
 {
-	log_trace("CScene::{}()", __func__, data_type, index);
+	log_trace("CScene::{}({}, {})", __func__, data_type, index);
 
-	todo;
-	return nullptr;
+	switch (data_type)
+	{
+		case ESceneDataType::Character:
+			return GetSceneCharacter(index);
+		case ESceneDataType::Map:
+			return GetSceneMap(index);
+		case ESceneDataType::Message:
+			return GetSceneMessage(index);
+		case ESceneDataType::Camera:
+			return GetSceneCamera(index);
+		case ESceneDataType::GameObj_6:
+		case ESceneDataType::GameObj_7:
+			return GetSceneGameObj(index);
+		default:
+			return nullptr;
+	}
 }
 
 // 00283740
-s32 CScene::AssignCamera(ssize camera_index, mgCCamera& camera, const char* name)
+s32 CScene::AssignCamera(ssize camera_index, mgCCamera* camera, const char* name)
 {
-	log_trace("CScene::{}({}, {}, {})", __func__, camera_index, fmt::ptr(&camera), name);
+	log_trace("CScene::{}({}, {}, {})", __func__, camera_index, fmt::ptr(camera), name);
 
-	todo;
-	return -1;
+	if (camera_index < 0)
+	{
+		// NOTE: There's more code here, but it doesn't appear to mutate any state
+		// and always leads back to the same path, so it appears to effectively be a no-op.
+		return -1;
+	}
+
+	CSceneCamera* scene_camera = GetSceneCamera(camera_index);
+	if (scene_camera == nullptr)
+	{
+		return -1;
+	}
+
+	if (name == nullptr)
+	{
+		name = "no_name";
+	}
+
+	if (m_unk_field_2E54 < 0)
+	{
+		m_unk_field_2E54 = camera_index;
+	}
+
+	bool result = scene_camera->AssignData(camera, name);
+	if (!result)
+	{
+		return -1;
+	}
+
+	return camera_index;
 }
 
 // 00283820
@@ -274,7 +504,28 @@ ssize CScene::GetCameraID(const char* name)
 {
 	log_trace("CScene::{}({})", __func__, name);
 
-	todo;
+	if (name == nullptr)
+	{
+		return -1;
+	}
+
+	for (int i = 0; i < m_n_cameras; ++i)
+	{
+		CSceneCamera* camera = GetSceneCamera(i);
+		if (camera == nullptr)
+		{
+			continue;
+		}
+		if (camera->m_status == ESceneDataStatus::Initial)
+		{
+			continue;
+		}
+		if (strcmp(name, camera->m_name) == 0)
+		{
+			return i;
+		}
+	}
+
 	return -1;
 }
 
@@ -283,17 +534,50 @@ mgCCamera* CScene::GetCamera(ssize camera_index)
 {
 	log_trace("CScene::{}({})", __func__, camera_index);
 
-	todo;
-	return nullptr;
+	CSceneCamera* scene_camera = GetSceneCamera(camera_index);
+	if (scene_camera == nullptr)
+	{
+		return nullptr;
+	}
+
+	if (scene_camera->m_status == ESceneDataStatus::Initial)
+	{
+		return nullptr;
+	}
+	
+	return scene_camera->m_camera;
 }
 
 // 00283910
-s32 CScene::AssignMessage(ssize message_index, ClsMes& message, const char* name)
+s32 CScene::AssignMessage(ssize message_index, ClsMes* message, const char* name)
 {
-	log_trace("CScene::{}({}, {}, {})", __func__, message_index, fmt::ptr(&message), name);
+	log_trace("CScene::{}({}, {}, {})", __func__, message_index, fmt::ptr(message), name);
 
-	todo;
-	return -1;
+	if (message_index < 0)
+	{
+		// NOTE: There's more code here, but it doesn't appear to mutate any state
+		// and always leads back to the same path, so it appears to effectively be a no-op.
+		return -1;
+	}
+
+	CSceneMessage* scene_message = GetSceneMessage(message_index);
+	if (scene_message == nullptr)
+	{
+		return -1;
+	}
+
+	if (name == nullptr)
+	{
+		name = "no_name";
+	}
+
+	bool result = scene_message->AssignData(message, name);
+	if (!result)
+	{
+		return -1;
+	}
+
+	return message_index;
 }
 
 // 002839E0
@@ -301,17 +585,50 @@ ClsMes* CScene::GetMessage(ssize message_index)
 {
 	log_trace("CScene::{}({})", __func__, message_index);
 
-	todo;
-	return nullptr;
+	CSceneMessage* scene_message = GetSceneMessage(message_index);
+	if (scene_message == nullptr)
+	{
+		return nullptr;
+	}
+
+	if (scene_message->m_status == ESceneDataStatus::Initial)
+	{
+		return nullptr;
+	}
+
+	return scene_message->m_message;
 }
 
 // 00283A30
-s32 CScene::AssignChara(ssize character_index, CCharacter2& character, const char* name)
+s32 CScene::AssignChara(ssize character_index, CCharacter2* character, const char* name)
 {
-	log_trace("CScene::{}({}, {}, {})", __func__, character_index, fmt::ptr(&character), name);
+	log_trace("CScene::{}({}, {}, {})", __func__, character_index, fmt::ptr(character), name);
 
-	todo;
-	return -1;
+	if (character_index < 0)
+	{
+		// NOTE: There's more code here, but it doesn't appear to mutate any state
+		// and always leads back to the same path, so it appears to effectively be a no-op.
+		return -1;
+	}
+
+	CSceneCharacter* scene_character = GetSceneCharacter(character_index);
+	if (scene_character == nullptr)
+	{
+		return -1;
+	}
+
+	if (name == nullptr)
+	{
+		name = "no_name";
+	}
+
+	bool result = scene_character->AssignData(character, name);
+	if (!result)
+	{
+		return -1;
+	}
+
+	return character_index;
 }
 
 // 00283B00
@@ -319,7 +636,11 @@ void CScene::SetCharaNo(ssize character_index, ssize character_no)
 {
 	log_trace("CScene::{}({})", __func__, character_index, character_no);
 
-	todo;
+	CSceneCharacter* scene_character = GetSceneCharacter(character_index);
+	if (scene_character != nullptr)
+	{
+		scene_character->m_chara_no = character_no;
+	}
 }
 
 // 00283B30
@@ -327,8 +648,14 @@ ssize CScene::GetCharaNo(ssize character_index)
 {
 	log_trace("CScene::{}({})", __func__, character_index);
 
-	todo;
-	return -1;
+	CSceneCharacter* scene_character = GetSceneCharacter(character_index);
+	
+	if (scene_character == nullptr)
+	{
+		return -1;
+	}
+
+	return scene_character->m_chara_no;
 }
 ;
 // 00283B60
@@ -336,17 +663,54 @@ CCharacter2* CScene::GetCharacter(ssize character_index)
 {
 	log_trace("CScene::{}({})", __func__, character_index);
 
-	todo;
-	return nullptr;
+	CSceneCharacter* scene_character = GetSceneCharacter(character_index);
+	if (scene_character == nullptr)
+	{
+		return nullptr;
+	}
+	if (scene_character->m_status == ESceneDataStatus::Initial)
+	{
+		return nullptr;
+	}
+
+	return scene_character->m_character;
 }
 
 // 00283BB0
-ssize CScene::AssignMap(ssize map_index, CMap& map, const char* name)
+ssize CScene::AssignMap(ssize map_index, CMap* map, const char* name)
 {
-	log_trace("CScene::{}({}, {}, {})", __func__, map_index, fmt::ptr(&map), name);
+	log_trace("CScene::{}({}, {}, {})", __func__, map_index, fmt::ptr(map), name);
 
-	todo;
-	return -1;
+	if (map_index < 0)
+	{
+		// NOTE: There's more code here, but it doesn't appear to mutate any state
+		// and always leads back to the same path, so it appears to effectively be a no-op.
+		return -1;
+	}
+
+	CSceneMap* scene_map = GetSceneMap(map_index);
+	if (scene_map == nullptr)
+	{
+		return -1;
+	}
+
+	if (name == nullptr)
+	{
+		name = "no_name";
+	}
+
+	if (m_unk_field_2E5C < 0)
+	{
+		m_unk_field_2E5C = map_index;
+	}
+
+	bool result = scene_map->AssignData(map, name);
+	if (!result)
+	{
+		return -1;
+	}
+
+	return map_index;
 }
 
 // 00283C90
@@ -354,8 +718,12 @@ const char* CScene::GetMapName(ssize map_index)
 {
 	log_trace("CScene::{}({})", __func__, map_index);
 
-	todo;
-	return "";
+	CSceneMap* scene_map = GetSceneMap(map_index);
+	if (scene_map != nullptr)
+	{
+		return scene_map->m_name;
+	}
+	return nullptr;
 }
 
 // 00283CC0
@@ -363,7 +731,28 @@ ssize CScene::GetMapID(const char* name)
 {
 	log_trace("CScene::{}()", __func__);
 
-	todo;
+	if (name == nullptr)
+	{
+		return -1;
+	}
+
+	for (int i = 0; i < m_n_maps; ++i)
+	{
+		CSceneMap* scene_map = GetSceneMap(i);
+		if (scene_map == nullptr)
+		{
+			continue;
+		}
+		if (scene_map->m_status == ESceneDataStatus::Initial)
+		{
+			continue;
+		}
+		if (strcmp(name, scene_map->m_name) == 0)
+		{
+			return i;
+		}
+	}
+
 	return -1;
 }
 
@@ -372,8 +761,17 @@ CMap* CScene::GetMap(ssize map_index)
 {
 	log_trace("CScene::{}({})", __func__, map_index);
 
-	todo;
-	return nullptr;
+	CSceneMap* scene_map = GetSceneMap(map_index);
+	if (scene_map == nullptr)
+	{
+		return nullptr;
+	}
+	if (scene_map->m_status == ESceneDataStatus::Initial)
+	{
+		return nullptr;
+	}
+
+	return scene_map->m_map;
 }
 
 // 00283DB0
@@ -381,8 +779,17 @@ CMapSky* CScene::GetSky(ssize sky_index)
 {
 	log_trace("CScene::{}({})", __func__, sky_index);
 
-	todo;
-	return nullptr;
+	CSceneSky* scene_sky = GetSceneSky(sky_index);
+	if (scene_sky == nullptr)
+	{
+		return nullptr;
+	}
+	if (scene_sky->m_status == ESceneDataStatus::Initial)
+	{
+		return nullptr;
+	}
+
+	return scene_sky->m_sky;
 }
 
 // 00283E00
@@ -390,8 +797,14 @@ ssize CScene::GetMainMapNo()
 {
 	log_trace("CScene::{}()", __func__);
 
-	todo;
-	return -1;
+	if (m_unk_field_2E5C == 0)
+	{
+		return m_now_map_no;
+	}
+	else
+	{
+		return m_now_sub_map_no;
+	}
 }
 
 // 00283E30
@@ -408,16 +821,47 @@ void CScene::DrawScreenFunc(mgCFrame& frame)
 {
 	log_trace("CScene::{}({})", __func__, fmt::ptr(&frame));
 
-	todo;
+	for (int i = 0; i < m_n_maps; ++i)
+	{
+		CMap* map = GetMap(i);
+		if (IsActive(ESceneDataType::Map, i))
+		{
+			todo;
+			// map->DrawScreenFunc(frame);
+		}
+	}
 }
 
 // 00284390
-ssize CScene::AssignSky(ssize sky_index, CMapSky& sky, const char* name)
+ssize CScene::AssignSky(ssize sky_index, CMapSky* sky, const char* name)
 {
-	log_trace("CScene::{}({}, {}, {})", __func__, sky_index, fmt::ptr(&sky), name);
+	log_trace("CScene::{}({}, {}, {})", __func__, sky_index, fmt::ptr(sky), name);
 
-	todo;
-	return -1;
+	if (sky_index < 0)
+	{
+		// NOTE: There's more code here, but it doesn't appear to mutate any state
+		// and always leads back to the same path, so it appears to effectively be a no-op.
+		return -1;
+	}
+
+	CSceneSky* scene_sky = GetSceneSky(sky_index);
+	if (scene_sky == nullptr)
+	{
+		return -1;
+	}
+
+	if (name == nullptr)
+	{
+		name = "no_name";
+	}
+
+	bool result = scene_sky->AssignData(sky, name);
+	if (!result)
+	{
+		return -1;
+	}
+
+	return sky_index;
 }
 
 // 00284460
@@ -425,17 +869,39 @@ bool CScene::DeleteSky(ssize sky_index)
 {
 	log_trace("CScene::{}({})", __func__, sky_index);
 
-	todo;
-	return false;
+	CSceneSky* scene_sky = GetSceneSky(sky_index);
+	if (scene_sky == nullptr)
+	{
+		return false;
+	}
+
+	scene_sky->Initialize();
+	return true;
 }
 
 // 002844A0
-ssize CScene::AssignEffect(ssize effect_index, CEffect& effect, const char* name)
+ssize CScene::AssignEffect(ssize effect_index, CEffectScriptMan* effect_manager, const char* name)
 {
-	log_trace("CScene::{}({}, {}, {})", __func__, effect_index, fmt::ptr(&effect), name);
+	log_trace("CScene::{}({}, {}, {})", __func__, effect_index, fmt::ptr(effect_manager), name);
 
-	todo;
-	return -1;
+	CSceneEffect* scene_effect = GetSceneEffect(effect_index);
+	if (scene_effect == nullptr)
+	{
+		return -1;
+	}
+
+	if (name == nullptr)
+	{
+		name = "no_name";
+	}
+
+	bool result = scene_effect->AssignData(effect_manager, name);
+	if (!result)
+	{
+		return -1;
+	}
+
+	return effect_index;
 }
 
 // 00284510
@@ -443,16 +909,24 @@ void CScene::DeleteEffect(ssize effect_index)
 {
 	log_trace("CScene::{}({})", __func__, effect_index);
 
-	todo;
+	CSceneEffect* scene_effect = GetSceneEffect(effect_index);
+	if (scene_effect != nullptr)
+	{
+		scene_effect->Initialize();
+	}
 }
 
 // 00284540
-CEffect* CScene::GetEffect(ssize effect_index)
+CEffectScriptMan* CScene::GetEffect(ssize effect_index)
 {
 	log_trace("CScene::{}({})", __func__, effect_index);
 
-	todo;
-	return nullptr;
+	CSceneEffect* scene_effect = GetSceneEffect(effect_index);
+	if (scene_effect == nullptr)
+	{
+		return nullptr;
+	}
+	return scene_effect->m_effect_script_manager;
 }
 
 // 00284570
@@ -460,7 +934,29 @@ void CScene::StepEffectScript(ssize effect_index)
 {
 	log_trace("CScene::{}({})", __func__, effect_index);
 
-	todo;
+	CEffectScriptMan* effect;
+	if (effect_index >= 0)
+	{
+		// Step a particular effect
+		effect = GetEffect(effect_index);
+		if (effect != nullptr)
+		{
+			todo;
+			//effect->Step();
+		}
+		return;
+	}
+
+	// Step all effects
+	for (int i = 0; i < m_n_effects; ++i)
+	{
+		effect = GetEffect(i);
+		if (effect != nullptr)
+		{
+			todo;
+			//effect->Step();
+		}
+	}
 }
 
 // 00284600
@@ -468,7 +964,29 @@ void CScene::DrawEffectScript(ssize effect_index)
 {
 	log_trace("CScene::{}({})", __func__, effect_index);
 
-	todo;
+	CEffectScriptMan* effect;
+	if (effect_index >= 0)
+	{
+		// Draw a particular effect
+		effect = GetEffect(effect_index);
+		if (effect != nullptr)
+		{
+			todo;
+			//effect->Draw();
+		}
+		return;
+	}
+
+	// Draw all effects
+	for (int i = 0; i < m_n_effects; ++i)
+	{
+		effect = GetEffect(i);
+		if (effect != nullptr)
+		{
+			todo;
+			//effect->Draw();
+		}
+	}
 }
 
 // 00284690
@@ -476,8 +994,15 @@ bool CScene::IsActive(ESceneDataType data_type, ssize data_index)
 {
 	log_trace("CScene::{}({}, {})", __func__, data_type, data_index);
 
-	todo;
-	return false;
+	CSceneData* scene_data = GetData(data_type, data_index);
+	if (scene_data == nullptr)
+	{
+		return false;
+	}
+
+	using Status = ESceneDataStatus;
+	return (scene_data->m_status & (Status::Assigned | Status::Active)) \
+		== (Status::Assigned | Status::Active);
 }
 
 // 002846D0
@@ -485,7 +1010,13 @@ void CScene::SetActive(ESceneDataType data_type, ssize data_index)
 {
 	log_trace("CScene::{}({}, {})", __func__, data_type, data_index);
 
-	todo;
+	CSceneData* scene_data = GetData(data_type, data_index);
+	if (scene_data == nullptr)
+	{
+		return;
+	}
+
+	scene_data->m_status |= ESceneDataStatus::Active;
 }
 
 // 00284700
@@ -493,32 +1024,55 @@ void CScene::ResetActive(ESceneDataType data_type, ssize data_index)
 {
 	log_trace("CScene::{}({}, {})", __func__, data_type, data_index);
 
-	todo;
+	CSceneData* scene_data = GetData(data_type, data_index);
+	if (scene_data == nullptr)
+	{
+		return;
+	}
+
+	scene_data->m_status &= ~(ESceneDataStatus::Active);
 }
 
 // 00284740
-void CScene::SetStatus(ESceneDataType data_type, ssize data_index, s32 status_bitmask)
+void CScene::SetStatus(ESceneDataType data_type, ssize data_index, ESceneDataStatus status)
 {
-	log_trace("CScene::{}({}, {}, {})", __func__, data_type, data_index, status_bitmask);
+	log_trace("CScene::{}({}, {}, {})", __func__, data_type, data_index, status);
 
-	todo;
+	CSceneData* scene_data = GetData(data_type, data_index);
+	if (scene_data == nullptr)
+	{
+		return;
+	}
+
+	scene_data->m_status = status;
 }
 
 // 00284780
-void CScene::ResetStatus(ESceneDataType data_type, ssize data_index, s32 status_bitmask)
+void CScene::ResetStatus(ESceneDataType data_type, ssize data_index, ESceneDataStatus status)
 {
-	log_trace("CScene::{}({}, {}, {})", __func__, data_type, data_index, status_bitmask);
+	log_trace("CScene::{}({}, {}, {})", __func__, data_type, data_index, status);
 
-	todo;
+	CSceneData* scene_data = GetData(data_type, data_index);
+	if (scene_data == nullptr)
+	{
+		return;
+	}
+
+	scene_data->m_status &= ~(status);
 }
 
 // 002847C0
-s32 CScene::GetStatus(ESceneDataType data_type, ssize data_index)
+ESceneDataStatus CScene::GetStatus(ESceneDataType data_type, ssize data_index)
 {
 	log_trace("CScene::{}({}, {})", __func__, data_type, data_index);
 
-	todo;
-	return -1;
+	CSceneData* scene_data = GetData(data_type, data_index);
+	if (scene_data == nullptr)
+	{
+		return ESceneDataStatus::Initial;
+	}
+
+	return scene_data->m_status;
 }
 
 // 002847F0
@@ -544,8 +1098,15 @@ usize CScene::GetActiveMaps(CMap** maps_dest, usize maps_capacity)
 {
 	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(maps_dest), maps_capacity);
 
-	todo;
-	return 0;
+	int found_maps = 0;
+	for (int i = 0; i < m_n_maps && found_maps < maps_capacity; ++i)
+	{
+		if (IsActive(ESceneDataType::Map, i))
+		{
+			maps_dest[found_maps++] = GetMap(i);
+		}
+	}
+	return found_maps;
 }
 
 // 00284900
@@ -594,7 +1155,8 @@ void CScene::SetWind(const glm::vec4& wind_direction, float wind_velocity)
 {
 	log_trace("CScene::{}()", __func__, fmt::ptr(&wind_direction), wind_velocity);
 
-	todo;
+	m_wind_velocity = wind_velocity;
+	m_wind_direction = glm::normalize(wind_direction);
 }
 
 // 00284B40
@@ -602,7 +1164,7 @@ void CScene::ResetWind()
 {
 	log_trace("CScene::{}()", __func__);
 
-	todo;
+	m_wind_velocity = 0.0f;
 }
 
 // 00284B50
@@ -611,8 +1173,8 @@ float CScene::GetWind(glm::vec4& direction)
 {
 	log_trace("CScene::{}({})", __func__, fmt::ptr(&direction));
 
-	todo;
-	return 0.0f;
+	direction = m_wind_direction;
+	return m_wind_velocity;
 }
 
 // 00284B60
@@ -620,7 +1182,11 @@ void CScene::SetNowMapNo(s32 now_map_no)
 {
 	log_trace("CScene::{}({})", __func__, now_map_no);
 
-	todo;
+	if (m_now_map_no != now_map_no)
+	{
+		m_last_map_no = m_now_map_no;
+	}
+	m_now_map_no = now_map_no;
 }
 
 // 00284B80
@@ -628,7 +1194,11 @@ void CScene::SetNowSubMapNo(s32 now_sub_map_no)
 {
 	log_trace("CScene::{}({})", __func__, now_sub_map_no);
 
-	todo;
+	if (m_now_sub_map_no != now_sub_map_no)
+	{
+		m_last_sub_map_no = m_now_map_no;
+	}
+	m_now_sub_map_no = now_sub_map_no;
 }
 
 // 00284BA0
@@ -644,7 +1214,11 @@ void CScene::DeleteChara(ssize character_index)
 {
 	log_trace("CScene::{}({})", __func__, character_index);
 
-	todo;
+	CSceneCharacter* scene_character = GetSceneCharacter(character_index);
+	if (scene_character != nullptr)
+	{
+		scene_character->Initialize();
+	}
 }
 
 // 002853E0
@@ -1305,7 +1879,8 @@ void CScene::GetMoonPosition(glm::vec4& moon_position)
 {
 	log_trace("CScene::{}({})", __func__, fmt::ptr(&moon_position));
 
-	todo;
+	GetSunPosition(moon_position);
+	moon_position.y *= -1;
 }
 
 // 002C8370
@@ -1329,7 +1904,17 @@ void CScene::EffectStep()
 {
 	log_trace("CScene::{}()", __func__);
 
+	CMap* maps[4];
+	usize f = GetActiveMaps(maps, sizeof(maps) / sizeof(CMap*));
+
+	for (int i = 0; i < f; ++i)
+	{
+		todo;
+		//maps[i]->EffectStep();
+	}
+
 	todo;
+	//m_fire_raster.Step()
 }
 
 // 002C8820
