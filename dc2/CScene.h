@@ -11,9 +11,6 @@
 #include "mg_Frame.h"
 
 
-// <this file>.cpp: likely 00282AC0 to 00286074
-
-
 // TODO
 class CCameraControl;
 class CCPoly;
@@ -233,7 +230,7 @@ public:
   // 002839E0
   ClsMes* GetMessage(ssize message_index);
   // 00283A30
-  s32 AssignChara(ssize character_index, CCharacter2* character, const char* name);
+  s32 AssignChara(ssize character_index, CCharacter2& character, const char* name);
   // 00283B00
   void SetCharaNo(ssize character_index, ssize character_no);
   // 00283B30
@@ -253,7 +250,7 @@ public:
   // 00283E00
   ssize GetMainMapNo();
   // 00283E30
-  _UNKNOWNPOINTER InScreenFunc(InScreenFuncInfo* func_info);
+  _UNKNOWNPOINTER InScreenFunc(InScreenFuncInfo& func_info);
   // 002842F0
   void DrawScreenFunc(mgCFrame& frame);
   // 00284390
@@ -527,7 +524,7 @@ public:
   // 002CA540
   bool GetTalkEvent(glm::vec4& v, CSceneEventData& event_data);
   // 002CA880
-  void StepVillager(void);
+  void StepVillager();
   // 002CACD0
   void StayNearVillager(glm::vec4& v, _UNKNOWNPOINTER pi);
   // 002CAE60
