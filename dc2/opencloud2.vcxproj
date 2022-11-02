@@ -16,7 +16,7 @@
     <ClInclude Include="CDynamicAnime.h" />
     <ClInclude Include="CEditData.h" />
     <ClInclude Include="CEffect.h" />
-    <ClInclude Include="CEffectManager.h" />
+    <ClInclude Include="CEffectScriptMan.h" />
     <ClInclude Include="CFishAquarium.h" />
     <ClInclude Include="CFont.h" />
     <ClInclude Include="CGameData.h" />
@@ -83,7 +83,6 @@
     <ClInclude Include="NowLoad.h" />
     <ClInclude Include="PBuggy.h" />
     <ClInclude Include="Photo.h" />
-    <ClInclude Include="sceVu0.h" />
     <ClInclude Include="SInit.h" />
     <ClInclude Include="mgCTextureManager.h" />
     <ClInclude Include="Snd_Mngr.h" />
@@ -99,7 +98,6 @@
     <ClCompile Include="CDngFloorManager.cc" />
     <ClCompile Include="CDynamicAnime.cc" />
     <ClCompile Include="CEffect.cc" />
-    <ClCompile Include="CEffectManager.cc" />
     <ClCompile Include="CFont.cc" />
     <ClCompile Include="CGameData.cc" />
     <ClCompile Include="CGamePad.cc" />
@@ -155,7 +153,6 @@
     <ClCompile Include="NowLoad.cc" />
     <ClCompile Include="PBuggy.cc" />
     <ClCompile Include="Photo.cc" />
-    <ClCompile Include="sceVu0.cc" />
     <ClCompile Include="SInit.cc" />
     <ClCompile Include="mgCTextureManager.cc" />
     <ClCompile Include="SpiStack.cc" />

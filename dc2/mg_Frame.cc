@@ -1,7 +1,6 @@
 #include <assert.h>
 #include <string.h>
 #include "mg_Frame.h"
-#include "sceVu0.h"
 
 
 namespace mg_Frame
@@ -14,23 +13,23 @@ namespace mg_Frame
 
 mgVu0FBOX::mgVu0FBOX(mgVu0FBOX& box)
 {
-	sceVu0CopyVector(m_corner1, box.m_corner1);
-	sceVu0CopyVector(m_corner2, box.m_corner2);
+	m_corner1 = box.m_corner1;
+	m_corner2 = box.m_corner2;
 }
 
-void mgCObject::ChangeParam(void)
+void mgCObject::ChangeParam()
 {
 	// TODO
 	assert(false);
 }
 
-void mgCObject::UseParam(void)
+void mgCObject::UseParam()
 {
 	// TODO
 	assert(false);
 }
 
-void mgCObject::SetPosition(vec4&)
+void mgCObject::SetPosition(glm::vec4& v)
 {
 	// TODO
 	assert(false);
@@ -42,13 +41,13 @@ void mgCObject::SetPosition(float x, float y, float z)
 	assert(false);
 }
 
-void mgCObject::GetPosition(vec4&)
+void mgCObject::GetPosition(glm::vec4& v)
 {
 	// TODO
 	assert(false);
 }
 
-void mgCObject::SetRotation(vec4&)
+void mgCObject::SetRotation(glm::vec4& v)
 {
 	// TODO
 	assert(false);
@@ -60,13 +59,13 @@ void mgCObject::SetRotation(float x, float y, float z)
 	assert(false);
 }
 
-void mgCObject::GetRotation(vec4&)
+void mgCObject::GetRotation(glm::vec4& v)
 {
 	// TODO
 	assert(false);
 }
 
-void mgCObject::SetScale(vec4&)
+void mgCObject::SetScale(glm::vec4& v)
 {
 	// TODO
 	assert(false);
@@ -78,26 +77,26 @@ void mgCObject::SetScale(float x, float y, float z)
 	assert(false);
 }
 
-void mgCObject::GetScale(vec4&)
+void mgCObject::GetScale(glm::vec4& v)
 {
 	// TODO
 	assert(false);
 }
 
-void mgCObject::Draw(void)
+void mgCObject::Draw()
 {
 	// TODO
 	assert(false);
 }
 
-int mgCObject::DrawDirect(void)
+int mgCObject::DrawDirect()
 {
 	// TODO
 	assert(false);
 	return 0;
 }
 
-void mgCObject::Initialize(void)
+void mgCObject::Initialize()
 {
 	// TODO
 	assert(false);

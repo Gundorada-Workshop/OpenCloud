@@ -33,6 +33,7 @@ static CScene s_main_scene;
 
 namespace MainLoop_SInit
 {
+	// 00373580
 	void SInit()
 	{
 		log_trace("SInit");
@@ -96,8 +97,30 @@ namespace MainLoop_SInit
 		}
 
 		s_main_scene.m_fade_in_out.Initialize();
+		s_main_scene.m_scn_loadmap_info.Initialize();
+		memset(&s_main_scene.m_scene_event_data, 0, sizeof(s_main_scene.m_scene_event_data));
 
-		// 003737AC
+		for (auto& villager_data : s_main_scene.m_villager_manager.m_villager_data)
+		{
+			villager_data.Initialize();
+		}
+
+		s_main_scene.m_villager_manager.Initialize();
+
+		for (auto& bgm_info : s_main_scene.m_bgm_info)
+		{
+			bgm_info.m_stack.Initialize();
+		}
+
+		s_main_scene.m_unk_field_9DD0.Initialize();
+		s_main_scene.m_unk_field_A450.Initialize();
+		s_main_scene.m_unk_field_C4A0.Initialize();
+		s_main_scene.m_unk_field_E4E0.Initialize();
+		s_main_scene.m_unk_field_10510.Initialize();
+
+		s_main_scene.m_loop_se_manager.Initialize();
+
+		// 373878
 		todo;
 	}
 }
@@ -105,17 +128,23 @@ namespace MainLoop_SInit
 // 00190840
 CFont* GetDebugFont()
 {
+	log_trace("{}", __func__);
+
 	return &s_debug_font;
 }
 
 // 001908F0
 mgCMemory* GetMainStack()
 {
+	log_trace("{}", __func__);
+
 	return &s_main_stack;
 }
 
 // 00190CB0
 void MainLoop()
 {
+	log_trace("{}", __func__);
+
 	todo;
 }

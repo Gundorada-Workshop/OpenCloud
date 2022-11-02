@@ -1,5 +1,6 @@
 #pragma once
 #include <array>
+#include "glm/glm.hpp"
 #include "common/debug.h"
 #include "common/types.h"
 #include "CScene.h"
@@ -16,8 +17,8 @@ namespace FishingObj
 
 struct SUnk1
 {
-	unimplemented_member(vec4*, 0);
-	unimplemented_member(vec4*, 4);
+	unimplemented_member(glm::vec4*, 0);
+	unimplemented_member(glm::vec4*, 4);
 	unimplemented_member(float, 8);
 	unimplemented_member(float, C);
 };
@@ -35,7 +36,7 @@ public:
 	void Correct(CCPoly& poly, int i, float f);
 
 	unimplemented_member(usize, 0);
-	alignas(16) std::array<std::array<vec4, 3>, 8> m_unk_field_10;
+	std::array<std::array<glm::vec4, 3>, 8> m_unk_field_10;
 	unimplemented_member(usize, 190);
 	std::array<SUnk1, 6> m_unk_field_194;
 	// TODO more members
@@ -62,11 +63,11 @@ float GetMinLineLength(void);
 // 0030FC70
 void InitRodPoint(mgCFrame& fr1, mgCFrame& fr2);
 // 00310020
-void GetTriPose(matrix4& m1, matrix4& m2, vec4& v1);
+void GetTriPose(glm::mat4& m1, glm::mat4& m2, glm::vec4& v1);
 // 003101F0
-void GetHariPos(vec4& v1, vec4& v2);
+void GetHariPos(glm::vec4& v1, glm::vec4& v2);
 // 00310220
-void GetUkiPos(vec4& v1, vec4& v2);
+void GetUkiPos(glm::vec4& v1, glm::vec4& v2);
 // 00310250
 void PullUki(float f);
 // 00310270
@@ -78,17 +79,17 @@ void SetLurePose(mgCFrame& frame);
 // 003103D0
 void SetUkiPose(mgCFrame& fr1, mgCFrame& fr2);
 // 003105C0
-void CastingLure(vec4& v);
+void CastingLure(glm::vec4& v);
 // 00310730
 void EndCastingLure(void);
 // 00310740
-bool CatchLine(vec4& v, float f);
+bool CatchLine(glm::vec4& v, float f);
 // 00310890
 void SlowLineVelo(float f);
 // 00310910
 void ResetLineVelo(void);
 // 003109D0
-void ResetLine(vec4& v);
+void ResetLine(glm::vec4& v);
 // 00310B60
 int GetNextChanceCnt(void);
 // 00310BA0
@@ -100,13 +101,13 @@ int CheckRodActionChance(int i, int& pi);
 // 00310CC0
 void FishBattle(CScene& scene, CCPoly& poly, int i);
 // 00311070
-void GetFishPosVelo(vec4& pos, vec4& velocity);
+void GetFishPosVelo(glm::vec4& pos, glm::vec4& velocity);
 // 003110A0
 void BindFishObj(void);
 // 00311290
 void RodStep(CScene& scene, CCPoly& poly);
 // 00312200
-void BindPosition(vec4& v1, vec4& v2, float f1, float f2);
+void BindPosition(glm::vec4& v1, glm::vec4& v2, float f1, float f2);
 // 003122E0
 void DrawFishingLine(void);
 // 003125D0
@@ -116,4 +117,4 @@ void InitLureObj(int i, mgCFrame& frame);
 // 00312D20
 void InitUkiObj(int i, mgCFrame& frame1, mgCFrame& frame2);
 // 00313570
-void ParaBlend(vec4& v1, float f1, vec4& v2, s32 i);
+void ParaBlend(glm::vec4& v1, float f1, glm::vec4& v2, s32 i);

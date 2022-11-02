@@ -1,10 +1,10 @@
 #include <stdlib.h>
 #include <string.h>
+#include "glm/glm.hpp"
 #include "common/debug.h"
 #include "common/log.h"
 #include "FishingObj.h"
 #include "mgLib.h"
-#include "sceVu0.h"
 
 set_log_channel("FishingObj")
 
@@ -42,35 +42,35 @@ static s32 dword_37876C;
 static s32 dword_378770;
 
 // 01F5DF20
-static alignas(16) std::array<std::array<vec4, 3>, 5> stru_1F5DF20;
+static std::array<std::array<glm::vec4, 3>, 5> stru_1F5DF20;
 // 01F5E010
-static alignas(16) std::array<vec4, 5> stru_1F5E010;
+static std::array<glm::vec4, 5> stru_1F5E010;
 // 01F5E060
 static std::array<mgCFrame*, 8> stru_1F5E060;
 // 01F5E080
 static std::array<float, 8> stru_1F5E080;
 // 01F5E0A0
-static alignas(16) std::array<std::array<vec4, 3>, 64> stru_1F5E0A0;
+static std::array<std::array<glm::vec4, 3>, 64> stru_1F5E0A0;
 // 01F5ECA0
-static alignas(16) std::array<std::array<vec4, 3>, 3> stru_1F5ECA0;
+static std::array<std::array<glm::vec4, 3>, 3> stru_1F5ECA0;
 // 01F5ED30
-static alignas(16) vec4 stru_1F5ED30;
+static glm::vec4 stru_1F5ED30;
 // 01F5ED40
-static alignas(16) vec4 stru_1F5ED40;
+static glm::vec4 stru_1F5ED40;
 // 01F5ED50
-static alignas(16) vec4 stru_1F5ED50;
+static glm::vec4 stru_1F5ED50;
 // 01F5ED60
-static alignas(16) vec4 stru_1F5ED60;
+static glm::vec4 stru_1F5ED60;
 // 01F5ED70
-static alignas(16) vec4 stru_1F5ED70;
+static glm::vec4 stru_1F5ED70;
 // 01F5ED80
-static alignas(16) vec4 stru_1F5ED80;
+static glm::vec4 stru_1F5ED80;
 // 01F5ED90
-static alignas(16) vec4 stru_1F5ED90;
+static glm::vec4 stru_1F5ED90;
 // 01F5EDA0
-static alignas(16) vec4 stru_1F5EDA0;
+static glm::vec4 stru_1F5EDA0;
 // 01F5EDB0
-static alignas(16) vec4 stru_1F5EDB0;
+static glm::vec4 stru_1F5EDB0;
 // 01F5EDC0
 static CFishObj s_lure_obj;
 // 01F5F190
@@ -78,7 +78,7 @@ static CFishObj s_uki_obj;
 // 01F5F560
 static CFishObj s_hari_obj;
 // 01F5F930
-static alignas(16) vec4 stru_1F5F930;
+static glm::vec4 stru_1F5F930;
 
 namespace FishingObj
 {
@@ -219,7 +219,7 @@ void InitRodPoint(mgCFrame& fr1, mgCFrame& fr2)
 }
 
 // 00310020
-void GetTriPose(matrix4& m1, matrix4& m2, vec4& v1)
+void GetTriPose(glm::mat4& m1, glm::mat4& m2, glm::vec4& v1)
 {
 	log_trace("GetTriPose({}, {}, {})", fmt::ptr(&m1), fmt::ptr(&m2), fmt::ptr(&v1));
 
@@ -227,21 +227,21 @@ void GetTriPose(matrix4& m1, matrix4& m2, vec4& v1)
 }
 
 // 003101F0
-void GetHariPos(vec4& v1, vec4& v2)
+void GetHariPos(glm::vec4& v1, glm::vec4& v2)
 {
 	log_trace("GetHariPos({}, {})", fmt::ptr(&v1), fmt::ptr(&v2));
 
-	sceVu0CopyVector(v1, stru_1F5E0A0[stru_1F5E0A0.size() - 1][0]);
-	sceVu0CopyVector(v2, stru_1F5E0A0[stru_1F5E0A0.size() - 1][1]);
+	v1 = stru_1F5E0A0[stru_1F5E0A0.size() - 1][0];
+	v2 = stru_1F5E0A0[stru_1F5E0A0.size() - 1][1];
 }
 
 // 00310220
-void GetUkiPos(vec4& v1, vec4& v2)
+void GetUkiPos(glm::vec4& v1, glm::vec4& v2)
 {
 	log_trace("GetUkiPos({}, {})", fmt::ptr(&v1), fmt::ptr(&v2));
 
-	sceVu0CopyVector(v1, stru_1F5E0A0[stru_1F5E0A0.size() - 4][0]);
-	sceVu0CopyVector(v2, stru_1F5E0A0[stru_1F5E0A0.size() - 4][1]);
+	v1 = stru_1F5E0A0[stru_1F5E0A0.size() - 4][0];
+	v2 = stru_1F5E0A0[stru_1F5E0A0.size() - 4][1];
 }
 
 // 00310250
@@ -265,8 +265,8 @@ bool GetShowHari()
 {
 	log_trace("GetShowHari()");
 
-	vec4 v1;
-	vec4 v2;
+	glm::vec4 v1;
+	glm::vec4 v2;
 	GetHariPos(v1, v2);
 
 	float water_level = GetWaterLevel() - 3.0f;
@@ -295,7 +295,7 @@ void SetUkiPose(mgCFrame& fr1, mgCFrame& fr2)
 }
 
 // 003105C0
-void CastingLure(vec4& v)
+void CastingLure(glm::vec4& v)
 {
 	log_trace("CastingLure({})", fmt::ptr(&v));
 
@@ -313,7 +313,7 @@ void EndCastingLure()
 }
 
 // 00310740
-bool CatchLine(vec4& v, float f)
+bool CatchLine(glm::vec4& v, float f)
 {
 	log_trace("CatchLine({}, {})", fmt::ptr(&v), f);
 
@@ -328,7 +328,7 @@ void SlowLineVelo(float multiplier)
 
 	for (usize index = dword_378738; index < stru_1F5E0A0.size(); ++index)
 	{
-		sceVu0ScaleVector(stru_1F5E0A0[index][2], stru_1F5E0A0[index][2], multiplier);
+		stru_1F5E0A0[index][2] *= multiplier;
 	}
 }
 
@@ -361,11 +361,12 @@ bool InitFishBattle()
 {
 	log_trace("InitFishBattle()");
 
-	sceVu0CopyVector(stru_1F5EDB0, stru_1F5E0A0[stru_1F5E0A0.size() - 1][0]);
-	sceVu0CopyVector(stru_1F5ED60, stru_1F5E0A0[stru_1F5E0A0.size() - 1][0]);
-	sceVu0CopyVector(stru_1F5ED70, stru_1F5E0A0[stru_1F5E0A0.size() - 1][0]);
-	mgZeroVector(stru_1F5ED80);
-	flt_378750 = mgDistVector(stru_1F5E0A0[stru_1F5E0A0.size() - 1][0], stru_1F5E0A0[4][0]);
+	stru_1F5EDB0 = stru_1F5E0A0[stru_1F5E0A0.size() - 1][0];
+	stru_1F5ED60 = stru_1F5E0A0[stru_1F5E0A0.size() - 1][0];
+	stru_1F5ED70 = stru_1F5E0A0[stru_1F5E0A0.size() - 1][0];
+	stru_1F5ED80 = glm::vec4(0.0f);
+
+	flt_378750 = glm::distance(glm::vec3(stru_1F5E0A0[stru_1F5E0A0.size() - 1][0]), glm::vec3(stru_1F5E0A0[4][0]));
 	dword_378760 = 0;
 	dword_37874C = true;
 	flt_378764 = 0.0f;
@@ -427,12 +428,12 @@ void FishBattle(CScene& scene, CCPoly& poly, int i)
 }
 
 // 00311070
-void GetFishPosVelo(vec4& pos, vec4& velocity)
+void GetFishPosVelo(glm::vec4& pos, glm::vec4& velocity)
 {
 	log_trace("GetFishPosVelo({}, {})", fmt::ptr(&pos), fmt::ptr(&velocity));
 
-	sceVu0CopyVector(pos, stru_1F5ED60);
-	sceVu0CopyVector(velocity, stru_1F5ED80);
+	pos = stru_1F5ED60;
+	velocity = stru_1F5ED80;
 }
 
 // 003110A0
@@ -452,24 +453,23 @@ void RodStep(CScene& scene, CCPoly& poly)
 }
 
 // 00312200
-void BindPosition(vec4& v1, vec4& v2, float f1, float f2)
+void BindPosition(glm::vec4& v1, glm::vec4& v2, float f1, float f2)
 {
 	log_trace("BindPosition({}, {}, {}, {})", fmt::ptr(&v1), fmt::ptr(&v2), f1, f2);
 
-	alignas(16) vec4 var_10;
-	alignas(16) vec4 var_20;
-	alignas(16) vec4 var_30;
-	sceVu0SubVector(var_30, v1, v2);
-	float f0 = mgDistVector(var_30);
+	glm::vec4 var_10;
+	glm::vec4 var_20;
+	glm::vec4 var_30 = v1 - v2;
+	float f0 = glm::distance(glm::vec3(var_30), glm::vec3(0.0f));
 	float f21 = f0 - f1;
 	float f20 = f0;
 	f0 -= f2;
 	f0 *= f21;
-	sceVu0ScaleVector(var_20, var_30, f0 / f20);
+	var_20 = var_30 * (f0 / f20);
 	f0 = f2 * f21;
-	sceVu0ScaleVector(var_10, var_30, f0 / f20);
-	mgSubVector(v1, var_20);
-	mgSubVector(v2, var_10);
+	var_10 = var_30 * (f0 / f20);
+	v1 -= var_20;
+	v2 -= var_10;
 }
 
 // 003122E0

@@ -28,3 +28,18 @@ void CVillagerData::Initialize()
   m_unk_field_50 = glm::vec4(0.0f);
   m_unk_field_60 = glm::vec4(0.0f);
 }
+
+// 002CD220
+void CVillagerMngr::Initialize()
+{
+  log_trace("CVillagerMngr::Initialize()");
+
+  m_n_villager_data = m_villager_data.size();
+
+  for (auto& villager_data : m_villager_data)
+  {
+    villager_data.Initialize();
+  }
+
+  m_unk_field_0 = 0;
+}

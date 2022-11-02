@@ -2,6 +2,7 @@
 #include <array>
 #include "common/debug.h"
 #include "common/types.h"
+#include "CScriptInterpreter.h"
 #include "mgCTexture.h"
 
 class CEffect
@@ -9,6 +10,24 @@ class CEffect
 public:
 
 };
+
+class CEffectManager
+{
+public:
+  void GetBufferNums(const char* script, int script_size, int* unk, int* unk2);
+  void GetEffectNums(int unk0, int unk2);
+
+public:
+  // 0x34
+  int count{ };
+  // 0x220
+  int alpha_blend{ };
+  // 0x224
+  int alpha_type{ };
+  // 0x228
+  int alpha{ };
+};
+
 
 class CFadeInOut
 {
@@ -51,4 +70,21 @@ public:
   // 70
   // FIXME: Unknown inner type (or even if it is an array?) (size 0x20)
   std::array<std::array<char, 32>, 20> m_unk_field_70;
+};
+
+class CThunderEffect
+{
+public:
+  // 00184820
+  void Initialize();
+
+  // 0
+  _UNKNOWN m_unk_field_0;
+
+  // 90
+  _UNKNOWN m_unk_field_90;
+  // 94
+  _UNKNOWN m_unk_field_94;
+  // 98
+  _UNKNOWN m_unk_field_98;
 };

@@ -5,8 +5,10 @@
 #include "common/types.h"
 #include "CCharacter2.h"
 #include "CEffect.h"
+#include "CEffectScriptMan.h"
 #include "CDngFloorManager.h"
 #include "CMdsListSet.h"
+#include "Snd_Mngr.h"
 #include "Vlgr_Info.h"
 #include "mg_Frame.h"
 
@@ -14,14 +16,11 @@
 // TODO
 class CCameraControl;
 class CCPoly;
-class CEffectScriptMan;
 class CMap;
 class CMapSky;
 class ClsMes;
 class mgCCamera {};
 struct InScreenFuncInfo {};
-struct SCN_LOADMAP_INFO2 {};
-class CThunderEffect {};
 
 
 enum class ESceneDataType
@@ -100,6 +99,13 @@ struct fmt::formatter<ESceneDataStatus> : fmt::formatter<std::string_view>
 
     return fmt::format_to(ctx.out(), tpl, std::to_underlying(data_status));
   }
+};
+
+struct SCN_LOADMAP_INFO2 
+{
+public:
+  // 00285150
+  void Initialize();
 };
 
 class CSceneData
@@ -240,6 +246,11 @@ public:
     _UNKNOWN m_unk_field_20;
     // 24
     _UNKNOWN m_unk_field_24;
+
+    // ?
+
+    // 430
+    mgCMemory m_stack;
   };
 
   struct BGM_STATUS
@@ -257,6 +268,7 @@ public:
   // 00282E40
   void InitAllData();
   // 00282EA0
+  // BUG: ? No reason for this method to be virtual
   virtual void Initialize();
   // 00283150
   void SetStack(ssize stack_index, mgCMemory& stack);
@@ -663,17 +675,16 @@ public:
   CFadeInOut m_fade_in_out;
   // 2CA0
   _UNKNOWN m_unk_field_2CA0;
-
-  // ?
-
+  // 2CA8
+  SCN_LOADMAP_INFO2 m_scn_loadmap_info;
   // 2E50
-  _UNKNOWN m_unk_field_2E50;
+  s32 m_unk_field_2E50;
   // 2E54
   s32 m_unk_field_2E54;
   // 2E58
-  _UNKNOWN m_unk_field_2E58;
+  s32 m_unk_field_2E58;
   // 2E5C
-  _UNKNOWN m_unk_field_2E5C;
+  s32 m_unk_field_2E5C;
   // 2E60
   s32 m_now_map_no;
   // 2E64
@@ -694,13 +705,16 @@ public:
   _UNKNOWN m_unk_field_2E80;
   // 2E84
   _UNKNOWN m_unk_field_2E84;
-
-  // ?
-
+  // 2E90
+  CSceneEventData m_scene_event_data;
   // 2F64
   _UNKNOWN m_unk_field_2F64;
+  // 2F68
+  _UNKNOWN m_unk_field_2F68;
+  // 2F6C
+  _UNKNOWN m_unk_field_2F6C;
   // 2F70
-  _UNKNOWN m_unk_field_2F70;
+  float m_unk_field_2F70;
   // 2F74
   _UNKNOWN m_unk_field_2F74;
   // 2F78
@@ -740,9 +754,14 @@ public:
 
   // ?
 
+  // 3038
+  _UNKNOWN m_unk_field_3038;
+  // 303C
+  _UNKNOWN m_unk_field_303C;
+  // 3040
+  _UNKNOWN m_unk_field_3040;
   // 3050
   CVillagerMngr m_villager_manager;
-
   // 3E60
   _UNKNOWN m_unk_field_3E60;
   // 3E64
@@ -752,6 +771,37 @@ public:
 
   // ?
 
-  // NOTE: vtable is stored at a struct offset of 0x10548, which just has CScene::Initialize at +0x8
-  // I don't make the rules
+  // 9080
+  std::array<BGM_INFO, 2> m_bgm_info;
+
+  // ?
+
+  // 9DD0
+  mgCMemory m_unk_field_9DD0;
+
+  // ?
+
+  // A450
+  mgCMemory m_unk_field_A450;
+
+  // ?
+
+  // C4A0
+  mgCMemory m_unk_field_C4A0;
+
+  // ?
+
+  // E4E0
+  mgCMemory m_unk_field_E4E0;
+
+  // ?
+
+  // 10510
+  mgCMemory m_unk_field_10510;
+  // 10540
+  CLoopSeMngr m_loop_se_manager;
+  // NOTE: size 0x1054C (vtable @ 0x10548)
 };
+
+// 00284BA0
+void LoadMapData(SCN_LOADMAP_INFO2& info, bool b);

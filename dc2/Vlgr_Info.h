@@ -69,7 +69,15 @@ public:
 class CVillagerMngr
 {
 public:
+  // 002CD220
+  void Initialize();
 
+  // 0
+  _UNKNOWN m_unk_field_0;
+  // 4
+  usize m_n_villager_data;
+  // 10
+  std::array<CVillagerData, 0x20> m_villager_data;
 };
 
 class CVillagerInfo

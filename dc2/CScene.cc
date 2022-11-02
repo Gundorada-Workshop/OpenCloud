@@ -4,6 +4,12 @@
 
 set_log_channel("CScene");
 
+// 00285150
+void SCN_LOADMAP_INFO2::Initialize()
+{
+	memset(this, 0, sizeof(this));
+}
+
 // 00282AC0
 void CSceneData::Initialize()
 {
@@ -242,7 +248,17 @@ void CScene::InitAllData()
 {
 	log_trace("CScene::{}()", __func__);
 
-	todo;
+	Initialize();
+
+	m_unk_field_2F6C = 0;
+	m_unk_field_2F68 = 0;
+	m_unk_field_3040 = 0;
+	m_now_map_no = -1;
+	m_now_sub_map_no = -1;
+	m_last_map_no = -1;
+	m_last_sub_map_no = -1;
+	m_unk_field_3038 = 0;
+	m_unk_field_303C = 0;
 }
 
 // 00282EA0
@@ -250,7 +266,76 @@ void CScene::Initialize()
 {
 	log_trace("CScene::{}()", __func__);
 
-	todo;
+	m_n_stacks_capacity = m_stacks.size();
+	for (int i = 0; i < m_n_stacks_capacity; ++i)
+	{
+		m_stacks[i] = nullptr;
+	}
+
+	m_unk_field_38 = 0;
+	m_unk_field_3C = 0;
+
+	m_n_characters = m_characters.size();
+	for (int i = 0; i < m_n_characters; ++i)
+	{
+		m_characters[i].Initialize();
+	}
+
+	m_n_cameras = m_cameras.size();
+	for (int i = 0; i < m_n_cameras; ++i)
+	{
+		m_cameras[i].Initialize();
+	}
+
+	m_n_messages = m_messages.size();
+	for (int i = 0; i < m_n_messages; ++i)
+	{
+		m_messages[i].Initialize();
+	}
+
+	m_n_maps = m_maps.size();
+	for (int i = 0; i < m_n_maps; ++i)
+	{
+		m_maps[i].Initialize();
+	}
+
+	m_n_skies = m_skies.size();
+	for (int i = 0; i < m_n_skies; ++i)
+	{
+		m_skies[i].Initialize();
+	}
+
+	m_n_gameobjs = m_gameobjs.size();
+	// BUG: this loop uses m_n_skies, not m_n_gameobjs (they're the same value)
+	for (int i = 0; i < m_n_skies; ++i)
+	{
+		m_gameobjs[i].Initialize();
+	}
+
+	m_n_effects = m_effects.size();
+	for (int i = 0; i < m_n_effects; ++i)
+	{
+		m_effects[i].Initialize();
+	}
+
+	m_mds_list_set.Initialize();
+	m_fade_in_out.Initialize();
+
+	m_unk_field_2E50 = -1;
+	m_unk_field_2E54 = -1;
+	m_unk_field_2E58 = -1;
+	m_unk_field_2E5C = -1;
+
+	m_unk_field_2E70 = 0;
+	m_unk_field_2E74 = 0;
+	m_unk_field_2E78 = 0;
+	m_unk_field_2E7C = 0;
+	m_unk_field_2E80 = 0;
+
+	m_unk_field_2F70 = 0.00088f;
+	m_unk_field_2F74 = 0;
+
+	m_fire_raster.Initialize();
 }
 
 // 00283150
@@ -2210,6 +2295,14 @@ s32 CScene::GetGameObjectEvent(glm::vec4& v, CSceneEventData& event_data)
 void CScene::DrawGameObject(ssize gameobj_index)
 {
 	log_trace("CScene::{}()", __func__, gameobj_index);
+
+	todo;
+}
+
+// 00284BA0
+void LoadMapData(SCN_LOADMAP_INFO2& info, bool b)
+{
+	log_trace("{}()", __func__, fmt::ptr(&info), b);
 
 	todo;
 }

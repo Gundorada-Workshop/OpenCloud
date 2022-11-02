@@ -1,4 +1,5 @@
 #pragma once
+#include "glm/glm.hpp"
 #include "common/debug.h"
 #include "common/log.h"
 
@@ -132,10 +133,10 @@ static s32 dword_378810;
 static mgCMemory stru_1F5F950;
 
 // 01F5F980
-static vec4 stru_1F5F980;
+static glm::vec4 stru_1F5F980;
 
 // 01F5F990
-static vec4 stru_1F5F990;
+static glm::vec4 stru_1F5F990;
 
 // 01F5F9A0
 static STRU_1F5F9A0 stru_1F5F9A0;
@@ -303,7 +304,7 @@ bool BombBomb()
 		return false;
 	}
 
-	mgZeroVector(stru_1F5F990);
+	stru_1F5F990 = glm::vec4(0.0f);
 
 	dword_3787FC = 0;
 	dword_378800 = true;

@@ -1,4 +1,5 @@
 #pragma once
+#include "glm/glm.hpp"
 #include "common/types.h"
 
 // TODO
@@ -16,16 +17,16 @@ namespace mg_Frame
 
 struct mgPOINT_LIGHT
 {
-	alignas(16) vec4 field_0;
-	alignas(16) vec4 field_10;
+	glm::vec4 field_0;
+	glm::vec4 field_10;
 	float field_20;
 	float field_24;
 };
 
 struct mgVu0FBOX
 {
-	alignas(16) vec4 m_corner1;
-	alignas(16) vec4 m_corner2;
+	glm::vec4 m_corner1;
+	glm::vec4 m_corner2;
 
 	// 00139890
 	mgVu0FBOX(mgVu0FBOX& box);
@@ -37,15 +38,15 @@ public:
 	// NOTE: See vtable @ 00374FE0
 	virtual void ChangeParam(void);
 	virtual void UseParam(void);
-	virtual void SetPosition(vec4&);
+	virtual void SetPosition(glm::vec4&);
 	virtual void SetPosition(float x, float y, float z);
-	virtual void GetPosition(vec4&);
-	virtual void SetRotation(vec4&);
+	virtual void GetPosition(glm::vec4&);
+	virtual void SetRotation(glm::vec4&);
 	virtual void SetRotation(float x, float y, float z);
-	virtual void GetRotation(vec4&);
-	virtual void SetScale(vec4&);
+	virtual void GetRotation(glm::vec4&);
+	virtual void SetScale(glm::vec4&);
 	virtual void SetScale(float x, float y, float z);
-	virtual void GetScale(vec4&);
+	virtual void GetScale(glm::vec4&);
 	virtual void Draw(void);
 	// FIXME: Unknown return type
 	virtual int DrawDirect(void);
@@ -102,22 +103,22 @@ public:
 	void SetName(char* name);
 
 	// 001365A0
-	void SetTransMatrix(vec4& v);
+	void SetTransMatrix(glm::vec4& v);
 
 	// 001365F0
-	void SetBBox(vec4& corner1, vec4& corner2);
+	void SetBBox(glm::vec4& corner1, glm::vec4& corner2);
 
 	// 001366F0
-	void GetBBox(vec4& corner1, vec4& corner2);
+	void GetBBox(glm::vec4& corner1, glm::vec4& corner2);
 
 	// 00136760
-	void SetBSphere(vec4& origin, float radius);
+	void SetBSphere(glm::vec4& origin, float radius);
 
 	// 001367B0
 	mgCFrame* GetFrame(usize i);
 
 	// 0013688C
-	void RemakeBBox(vec4& corner1, vec4& corner2);
+	void RemakeBBox(glm::vec4& corner1, glm::vec4& corner2);
 
 	// 00136A80
 	int GetFrameNum(void);
@@ -144,22 +145,22 @@ public:
 	void ClearChildFlag(void);
 
 	// 00136CE0
-	void GetLocalMatrix(matrix4& m1);
+	void GetLocalMatrix(glm::mat4& m1);
 
 	// 00136E40
-	void GetBBoardMatrix(int i1, matrix4& m1, mgRENDER_INFO& render_info);
+	void GetBBoardMatrix(int i1, glm::mat4& m1, mgRENDER_INFO& render_info);
 
 	// 00137030
-	void GetLWMatrix(matrix4& m1);
+	void GetLWMatrix(glm::mat4& m1);
 
 	// 001371B0
-	void GetLWMatrixTopBottom(matrix4& m1);
+	void GetLWMatrixTopBottom(glm::mat4& m1);
 
 	// 00137320
-	void GetInverseMatrix(matrix4& m1);
+	void GetInverseMatrix(glm::mat4& m1);
 
 	// 00137590
-	void SetTransMatrix(matrix4& m1);
+	void SetTransMatrix(glm::mat4& m1);
 
 	// 001376D0
 	void SearchFrame(char* s);
@@ -168,13 +169,13 @@ public:
 	void SearchFrameID(char* s);
 
 	// 001377E0
-	void GetWorldPosition(vec4& v1, vec4& v2);
+	void GetWorldPosition(glm::vec4& v1, glm::vec4& v2);
 
 	// 00137830
-	void GetWorldPosition0(vec4& v1);
+	void GetWorldPosition0(glm::vec4& v1);
 
 	// 00137870
-	void GetWorldDir(vec4& v1, vec4& v2);
+	void GetWorldDir(glm::vec4& v1, glm::vec4& v2);
 
 	// 00137930
 	void SetRotType(int i1);
