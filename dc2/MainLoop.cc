@@ -35,7 +35,7 @@ namespace MainLoop_SInit
 {
 	void SInit()
 	{
-		log_trace("MainLoop::SInit");
+		log_trace("SInit");
 
 		memset(&stru_3D8070, 0, sizeof(stru_3D8070));
 
@@ -82,11 +82,20 @@ namespace MainLoop_SInit
 			sky.Initialize();
 		}
 
+		for (auto& gameobj : s_main_scene.m_gameobjs)
+		{
+			dynamic_cast<CSceneData&>(gameobj).Initialize();
+			dynamic_cast<CSceneCharacter&>(gameobj).Initialize();
+			gameobj.Initialize();
+		}
+
 		for (auto& effect : s_main_scene.m_effects)
 		{
 			dynamic_cast<CSceneData&>(effect).Initialize();
 			effect.Initialize();
 		}
+
+		s_main_scene.m_fade_in_out.Initialize();
 
 		// 003737AC
 		todo;

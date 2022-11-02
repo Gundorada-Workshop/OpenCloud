@@ -37,7 +37,6 @@
     <ClInclude Include="CScene.h" />
     <ClInclude Include="CScriptInterpreter.h" />
     <ClInclude Include="CUserDataManager.h" />
-    <ClInclude Include="CVillager.h" />
     <ClInclude Include="DbgFont.h" />
     <ClInclude Include="DngMenu.h" />
     <ClInclude Include="Dng_Debug.h" />

@@ -16,7 +16,7 @@ void mgCMemory::Initialize()
 	m_stack_start = nullptr;
 	m_stack_current_allocated = 0;
 	m_stack_max_allocated = 0;
-	field_1C = false;
+	m_unk_field_1C = false;
 }
 
 void mgCMemory::SetHeapMem(void* heap, usize heap_size)
@@ -60,7 +60,7 @@ void* mgCMemory::StartStackMode(int i1, int i2)
 
 	// FIXME: very messy, probably doesn't work, the 0x10 align in original code
 	// may be due to the size of SHeapMemHead, which would be different in Windows
-	field_2C = nullptr;
+	m_unk_field_2C = nullptr;
 	i2 += 1;
 
 	SHeapMemHead *heap_mem_head = m_heap_mem_head;
@@ -117,31 +117,31 @@ void* mgCMemory::StartStackMode(int i1, int i2)
 	if (t2 == nullptr)
 		return nullptr;
 
-	field_2C = t2;
-	field_2C->field_C = heap_mem_head->field_C;
-	heap_mem_head->field_C = field_2C;
-	field_2C->field_4 = 1;
+	m_unk_field_2C = t2;
+	m_unk_field_2C->field_C = heap_mem_head->field_C;
+	heap_mem_head->field_C = m_unk_field_2C;
+	m_unk_field_2C->field_4 = 1;
 
-	field_2C->field_0 = field_2C + 1;
+	m_unk_field_2C->field_0 = m_unk_field_2C + 1;
 	// NOTE: Custom 0x10 alignment (not in original code)
-	field_2C->field_0 = reinterpret_cast<void*>((reinterpret_cast<uptr>(field_2C->field_0) + 0xF) & ~0xF);
+	m_unk_field_2C->field_0 = reinterpret_cast<void*>((reinterpret_cast<uptr>(m_unk_field_2C->field_0) + 0xF) & ~0xF);
 
-	m_stack_start = field_2C->field_0;
+	m_stack_start = m_unk_field_2C->field_0;
 
 	m_stack_max_allocated = t0;
-	return field_2C->field_0;
+	return m_unk_field_2C->field_0;
 }
 
 void mgCMemory::EndStackMode()
 {
 	log_trace("EndStackMode()");
 
-	if (field_2C == nullptr)
+	if (m_unk_field_2C == nullptr)
 		return;
 
 	usize a1 = m_stack_current_allocated;
-	field_2C->field_4 += static_cast<u32>(a1);
-	field_2C = nullptr;
+	m_unk_field_2C->field_4 += static_cast<u32>(a1);
+	m_unk_field_2C = nullptr;
 	m_stack_start = nullptr;
 	m_stack_max_allocated = 0;
 	m_stack_current_allocated = 0;
@@ -159,7 +159,7 @@ void* mgCMemory::stAllocTest(ssize n_blocks)
 {
 	log_trace("stAllocTest({})", n_blocks);
 
-	if (!field_1C)
+	if (!m_unk_field_1C)
 		return nullptr;
 
 	usize current_allocated = m_stack_current_allocated;
@@ -176,7 +176,7 @@ void* mgCMemory::stAlloc(ssize n_blocks)
 {
 	log_trace("stAlloc({})", n_blocks);
 
-	if (!field_1C)
+	if (!m_unk_field_1C)
 		return nullptr;
 
 	if (n_blocks <= 0)
@@ -206,7 +206,7 @@ void mgCMemory::stAlign64()
 {
 	log_trace("stAlign64()");
 
-	if (!field_1C)
+	if (!m_unk_field_1C)
 		return;
 
 	usize current_allocated = m_stack_current_allocated;
