@@ -145,7 +145,7 @@ namespace PBuggy
 {
 	void SInit()
 	{
-		log_trace("SInit");
+		log_trace("SInit()");
 
 		stru_1F5F950.Initialize();
 
