@@ -4,7 +4,7 @@
 #include "common/log.h"
 
 #include "font.h"
-#include "globals.h"
+#include "mainloop.h"
 #include "mg_texture.h"
 #include "photo.h"
 
@@ -88,12 +88,12 @@ const char* GetMesTxt(ssize index)
 
 	log_trace("GetMesTxt({})", index);
 
-	if (index < 0 || mes_txt[0].size() <= index || _g_language < 0 || mes_txt.size() <= _g_language)
+	if (index < 0 || mes_txt[0].size() <= index || g_language < 0 || mes_txt.size() <= g_language)
 	{
 		return "";
 	}
 
-	return mes_txt[_g_language][index];
+	return mes_txt[g_language][index];
 }
 
 float PhotoAddProjection()

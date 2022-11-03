@@ -13,6 +13,9 @@
 
 set_log_channel("mainloop")
 
+// 00376FC0
+Language::Language g_language;
+
 // 003D8070
 static SMainLoopUnk1 stru_3D8070;
 // 003D8090

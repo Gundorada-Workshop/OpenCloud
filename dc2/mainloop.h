@@ -4,6 +4,19 @@
 #include "font.h"
 #include "mg_memory.h"
 
+namespace Language
+{
+	enum Language : s32
+	{
+		Japanese = 0,
+		English = 1,
+		COUNT = 2
+	};
+}
+
+// 00376FC0
+extern Language::Language g_language;
+
 struct SMainLoopUnk1
 {
 	bool m_unk_field_0;
