@@ -1,12 +1,15 @@
 #pragma once
 #include "common/types.h"
 
-enum Language : s32
+namespace Language
 {
-	Japanese = 0,
-	English = 1,
-	COUNT = 2
-};
+	enum Language : s32
+	{
+		Japanese = 0,
+		English = 1,
+		COUNT = 2
+	};
+}
 
 // 00376FC0
-extern Language _g_language;
+extern Language::Language _g_language;

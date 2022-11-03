@@ -5,8 +5,8 @@
 #include "common/log.h"
 #include "common/console_logger.h"
 
-#include "MainLoop.h"
-#include "SInit.h"
+#include "mainloop.h"
+#include "sinit.h"
 
 set_log_channel("WINMAIN");
 
