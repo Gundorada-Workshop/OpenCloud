@@ -2,13 +2,12 @@
 #include "common/debug.h"
 #include "common/types.h"
 #include "gamedata.h"
+#include "inventmn.h"
 
 // ~ 00196C20 - 001A2080
 
 // TODO THIS FILE
 struct MOS_CHANGE_PARAM {};
-class CFishingRecord {};
-class CFishingTournament {};
 class CBattleCharaInfo {};
 
 class CGameDataUsed
@@ -46,6 +45,20 @@ public:
   _UNKNOWN m_unk_field_528;
   // 52C
   _UNKNOWN m_unk_field_52C;
+};
+
+class CFishingRecord
+{
+public:
+  // 0019AE10
+  CFishingRecord();
+};
+
+class CFishingTournament
+{
+public:
+  // 0019AF30
+  void Initialize();
 };
 
 struct SUserDataManagerUnkStruct1
@@ -99,6 +112,11 @@ public:
 
   // ??
 
+  // 7F30
+  CInventUserData m_invent_user_data;
+
+  // ??
+
   // 44D90
   u16 m_unk_field_44D90;
   // 44D92
@@ -117,6 +135,13 @@ public:
   u16 m_unk_field_44D9E;
   // 44DA0
   u16 m_unk_field_44DA0;
+
+  // ?
+
+  // 451E8
+  CFishingTournament m_fishing_tournament;
+  // 45258
+  CFishingRecord m_fishing_record;
 
   // SIZE 0x457A0
 };

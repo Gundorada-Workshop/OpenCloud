@@ -48,6 +48,22 @@ void CGameDataUsed::Initialize()
   memset(this, 0, sizeof(this));
 }
 
+// 0019AE10
+CFishingRecord::CFishingRecord()
+{
+  log_trace("CFishingRecord::CFishingRecord()");
+
+  memset(this, 0, sizeof(this));
+}
+
+// 0019AF30
+void CFishingTournament::Initialize()
+{
+  log_trace("CFishingTournament::Initialize()");
+
+  memset(this, 0, sizeof(this));
+}
+
 // 001943B0
 CUserDataManager::CUserDataManager()
 {
@@ -96,7 +112,9 @@ CUserDataManager::CUserDataManager()
   }
 
   m_fish_aquarium.Initialize();
-  todo;
+  m_invent_user_data.Initialize();
+  m_fishing_tournament.Initialize();
+  new (&m_fishing_record) CFishingRecord;
 }
 
 // 0019B160
