@@ -13,6 +13,7 @@
     <ClInclude Include="console.h" />
     <ClInclude Include="console_logger.h" />
     <ClInclude Include="debug.h" />
+    <ClInclude Include="file_helpers.h" />
     <ClInclude Include="log.h" />
     <ClInclude Include="strings.h" />
     <ClInclude Include="types.h" />
@@ -21,13 +22,14 @@
     <ClCompile Include="console.cc" />
     <ClCompile Include="console_logger.cpp" />
     <ClCompile Include="debug.cc" />
+    <ClCompile Include="file_helpers.cc" />
     <ClCompile Include="log.cc" />
     <ClCompile Include="strings.cc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="common.exports.props" />
   </ItemGroup>
-  <Import Project="$(SolutionDir)external\glm.exports.props"/>
+  <Import Project="$(SolutionDir)external\glm.exports.props" />
   <Import Project="$(SolutionDir)external\fmt.exports.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
