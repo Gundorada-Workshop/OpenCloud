@@ -9,16 +9,6 @@ class CDataWeapon {};
 class CDataRoboPart {};
 class CDataBreedFish {};
 
-
-class CEditData
-{
-public:
-  // 002a89c0
-  void Initialize();
-  // 002a8a10
-  void InitPlaceData();
-};
-
 class CGameData
 {
 public:

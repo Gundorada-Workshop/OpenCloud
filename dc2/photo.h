@@ -4,6 +4,7 @@
 #include "gamepad.h"
 #include "inventmn.h"
 #include "mg_memory.h"
+#include "userdata.h"
 
 // ~ 0030E4C0 - 0030F9B0
 
@@ -11,17 +12,6 @@ namespace Photo
 {
 	void SInit();
 }
-
-struct USER_PICTURE_INFO
-{
-	u8 field_0;
-	u8 field_1;
-	u16 field_2;
-	u16 field_4;
-	u16 field_6;
-	u16 field_8;
-	u16 field_A;
-};
 
 // 0030E4C0
 const char* GetMesTxt(ssize index);

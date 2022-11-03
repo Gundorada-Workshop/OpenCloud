@@ -78,8 +78,7 @@ public:
   void Initialize();
 
   // 70
-  // FIXME: Unknown inner type (or even if it is an array?) (size 0x20)
-  std::array<std::array<char, 32>, 20> m_unk_field_70;
+  std::array<_UNKNOWNSTRUCT(0x20), 20> m_unk_field_70;
 };
 
 class CThunderEffect

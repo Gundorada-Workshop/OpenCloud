@@ -1,10 +1,15 @@
 #include <string>
 #include "common/debug.h"
 #include "common/log.h"
+#include "editdata.h"
+#include "ls_mes.h"
 #include "mainloop.h"
+#include "menusave.h"
 #include "mg_memory.h"
 #include "mg_texture.h"
 #include "scene.h"
+#include "quest.h"
+#include "userdata.h"
 
 set_log_channel("mainloop")
 
@@ -29,7 +34,24 @@ static alignas(16) char s_main_stack_data[33554432];
 static mgCMemory s_main_stack;
 // 01DD8260
 static CScene s_main_scene;
-
+// 01DEA0B0
+static mgCMemory stru_1DEA0B0;
+// 01E017E0
+static mgCMemory stru_1E017E0;
+// 01E03434
+static std::array<CEditData, 5> stru_1E03434;
+// 01E1EAB0
+static CUserDataManager stru_1E1EAB0;
+// 01E64250
+static CQuestData stru_1E64250;
+// 01E658D0
+static CMenuSystemData stru_1E658D0;
+// 01E67180
+static mgCMemory stru_1E67180;
+// 01E672B0
+static std::array<mgCTexture, 2> stru_1E672B0;
+// 01E67390
+static ClsMes stru_1E67390;
 
 namespace MainLoop_SInit
 {
@@ -50,19 +72,19 @@ namespace MainLoop_SInit
 
 		for (auto& character : s_main_scene.m_characters)
 		{
-			dynamic_cast<CSceneData&>(character).Initialize();
+			static_cast<CSceneData&>(character).Initialize();
 			character.Initialize();
 		}
 
 		for (auto& camera : s_main_scene.m_cameras)
 		{
-			dynamic_cast<CSceneData&>(camera).Initialize();
+			static_cast<CSceneData&>(camera).Initialize();
 			camera.Initialize();
 		}
 
 		for (auto& message : s_main_scene.m_messages)
 		{
-			dynamic_cast<CSceneData&>(message).Initialize();
+			static_cast<CSceneData&>(message).Initialize();
 			message.Initialize();
 		}
 
@@ -79,20 +101,20 @@ namespace MainLoop_SInit
 
 		for (auto& sky : s_main_scene.m_skies)
 		{
-			dynamic_cast<CSceneData&>(sky).Initialize();
+			static_cast<CSceneData&>(sky).Initialize();
 			sky.Initialize();
 		}
 
 		for (auto& gameobj : s_main_scene.m_gameobjs)
 		{
-			dynamic_cast<CSceneData&>(gameobj).Initialize();
-			dynamic_cast<CSceneCharacter&>(gameobj).Initialize();
+			static_cast<CSceneData&>(gameobj).Initialize();
+			static_cast<CSceneCharacter&>(gameobj).Initialize();
 			gameobj.Initialize();
 		}
 
 		for (auto& effect : s_main_scene.m_effects)
 		{
-			dynamic_cast<CSceneData&>(effect).Initialize();
+			static_cast<CSceneData&>(effect).Initialize();
 			effect.Initialize();
 		}
 
@@ -120,8 +142,26 @@ namespace MainLoop_SInit
 
 		s_main_scene.m_loop_se_manager.Initialize();
 
-		// 373878
-		todo;
+		s_main_scene.InitAllData();
+
+		stru_1DEA0B0.Initialize();
+		stru_1E017E0.Initialize();
+
+		for (auto& edit_data : stru_1E03434)
+		{
+			new (&edit_data) CEditData;
+		}
+
+		new (&stru_1E1EAB0) CUserDataManager;
+		stru_1E64250.Initialize();
+		new (&stru_1E658D0) CMenuSystemData;
+
+		for (auto& texture : stru_1E672B0)
+		{
+			new (&texture) mgCTexture;
+		}
+
+		new (&stru_1E67390) ClsMes;
 	}
 }
 
