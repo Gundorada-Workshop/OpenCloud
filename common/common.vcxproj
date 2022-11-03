@@ -15,6 +15,7 @@
     <ClInclude Include="debug.h" />
     <ClInclude Include="file_helpers.h" />
     <ClInclude Include="log.h" />
+    <ClInclude Include="scoped_function.h" />
     <ClInclude Include="strings.h" />
     <ClInclude Include="types.h" />
   </ItemGroup>

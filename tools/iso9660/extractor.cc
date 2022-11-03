@@ -1,5 +1,6 @@
 #include "common/log.h"
 #include "common/debug.h"
+#include "common/scoped_function.h"
 
 #include "extractor.h"
 
@@ -395,6 +396,10 @@ namespace iso9660
     if (!common::file_helpers::open_native(&output_file, output_path, "w+b"))
       return false;
 
+    common::scoped_function([&]() {
+      fclose(output_file);
+    });
+
     for (usize i = 0; i < sector_count; ++i)
     {
       const auto current_sector = sector + i;
@@ -416,8 +421,6 @@ namespace iso9660
       if (fwrite(&tmp[0], m_sector_size, 1, output_file) != 1)
         return false;
     }
-
-    fclose(output_file);
 
     return true;
   }

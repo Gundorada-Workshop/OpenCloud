@@ -10,6 +10,7 @@
 #include "common/log.h"
 #include "common/console_logger.h"
 #include "common/file_helpers.h"
+#include "common/scoped_function.h"
 
 #include "iso9660/extractor.h"
 
@@ -95,12 +96,6 @@ static bool initialize_console_logger()
   return true;
 }
 
-static void shutdown_console_logger()
-{
-  log::console_logger::shutdown();
-  console::shutdown();
-}
-
 INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInstance*/,
   _In_ LPSTR /*lpCmdLine*/, _In_ INT /*nCmdShow*/)
 
@@ -108,6 +103,11 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
   // we need the console for this
   if (!initialize_console_logger())
     return EXIT_FAILURE;
+
+  scoped_function cleanup([&]() {
+    log::console_logger::shutdown();
+    console::shutdown();
+  });
 
   auto arg_list = get_cmd_line_utf8();
 
@@ -122,20 +122,13 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
   if (help)
   {
     print_help(program_name);
-
-    shutdown_console_logger();
-
     return EXIT_SUCCESS;
   }
 
   if (!iso_path)
   {
     log_error("ISO path required.");
-
     print_help(program_name);
-
-    shutdown_console_logger();
-
     return EXIT_FAILURE;
   }
 
@@ -144,9 +137,6 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
   if (!iso)
   {
     log_error("Unable to open ISO {}.", *iso_path);
-
-    shutdown_console_logger();
-
     return EXIT_FAILURE;
   }
 
@@ -156,9 +146,6 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
   if (!file_helpers::create_directory(output_directory))
   {
     log_error("Unable to create directory {}", output_directory);
-
-    shutdown_console_logger();
-
     return EXIT_FAILURE;
   }
 
@@ -175,8 +162,8 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
   static std::array<std::string, 3> directories =
   {
     "MOVIE",
-    common::file_helpers::append("MOVIE", "TUTO"),
-    common::file_helpers::append("MOVIE", "TUTO2")
+    file_helpers::append("MOVIE", "TUTO"),
+    file_helpers::append("MOVIE", "TUTO2")
   };
 
   for (const auto& dir : directories)
@@ -188,9 +175,6 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
     if (!file_helpers::create_directory(full_path))
     {
       log_error("Unable to create directory {}", full_path);
-
-      shutdown_console_logger();
-
       return EXIT_FAILURE;
     }
   }
@@ -200,9 +184,6 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
     if (!iso->extract_file(filename, output_directory))
     {
       log_error("Failed to extract file {}", filename);
-
-      shutdown_console_logger();
-
       return EXIT_FAILURE;
     }
   }
@@ -212,14 +193,9 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
     if (!iso->extract_directory(dir, output_directory))
     {
       log_error("Failed to extract directory: {}", dir);
-
-      shutdown_console_logger();
-
       return EXIT_FAILURE;
     }
   }
-
-  shutdown_console_logger();
 
   return EXIT_SUCCESS;
 }
