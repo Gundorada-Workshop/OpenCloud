@@ -1,3 +1,3 @@
 #include "globals.h"
 
-Language _g_language;
+Language::Language _g_language;
