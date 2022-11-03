@@ -29,6 +29,8 @@ public:
 class CMenuSystemData
 {
 public:
+  // 002F12D0
+  CMenuSystemData();
   // 002f1300
   void MenuSystemDataInit();
 };

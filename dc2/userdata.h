@@ -11,7 +11,14 @@ class CFishingRecord {};
 class CFishingTournament {};
 class CBattleCharaInfo {};
 
-class CGameDataUsed;
+class CGameDataUsed
+{
+public:
+  // 00197090
+  CGameDataUsed();
+  // 001970c0
+  void Initialize();
+};
 
 class CFishAquarium
 {
@@ -55,6 +62,9 @@ struct SUserDataManagerUnkStruct1
 class CUserDataManager
 {
 public:
+  // 001943B0
+  CUserDataManager();
+
   // 0019b160
   void Initialize();
 
@@ -79,18 +89,37 @@ public:
 
   // 4690
   std::array<CGameDataUsed, 4> m_unk_field_4690;
+
+  // ?
+  
+  // 4880
+  std::array<CGameDataUsed, 2> m_unk_field_4880;
+  // 4958
+  CFishAquarium m_fish_aquarium;
+
+  // ??
+
+  // 44D90
+  u16 m_unk_field_44D90;
+  // 44D92
+  u16 m_unk_field_44D92;
+  // 44D94
+  u16 m_unk_field_44D94;
+  // 44D96
+  u16 m_unk_field_44D96;
+  // 44D98
+  u16 m_unk_field_44D98;
+  // 44D9A
+  u16 m_unk_field_44D9A;
+  // 44D9C
+  u16 m_unk_field_44D9C;
+  // 44D9E
+  u16 m_unk_field_44D9E;
+  // 44DA0
+  u16 m_unk_field_44DA0;
+
+  // SIZE 0x457A0
 };
-
-class CGameDataUsed
-{
-public:
-  // 00197090
-  CGameDataUsed();
-  // 001970c0
-  void Initialize();
-};
-
-
 
 class CMonsterBox
 {

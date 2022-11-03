@@ -47,3 +47,64 @@ void CGameDataUsed::Initialize()
 
   memset(this, 0, sizeof(this));
 }
+
+// 001943B0
+CUserDataManager::CUserDataManager()
+{
+  log_trace("CUserDataManager::CUserDataManager()");
+
+  for (auto& game_data_used : m_unk_field_0)
+  {
+    new (&game_data_used) CGameDataUsed;
+  }
+
+  for (auto& unk_struct : m_unk_field_3F48)
+  {
+    for (auto& game_data_used : unk_struct.m_unk_field_2C)
+    {
+      new (&game_data_used) CGameDataUsed;
+    }
+    for (auto& game_data_used : unk_struct.m_unk_field_170)
+    {
+      new (&game_data_used) CGameDataUsed;
+    }
+  }
+
+  for (auto& game_data_used : m_unk_field_4690)
+  {
+    new (&game_data_used) CGameDataUsed;
+  }
+
+  for (auto& game_data_used : m_unk_field_4880)
+  {
+    new (&game_data_used) CGameDataUsed;
+  }
+
+  for (auto& game_data_used : m_fish_aquarium.m_unk_field_4)
+  {
+    new (&game_data_used) CGameDataUsed;
+  }
+
+  for (auto& game_data_used : m_fish_aquarium.m_unk_field_28C)
+  {
+    new (&game_data_used) CGameDataUsed;
+  }
+
+  for (auto& game_data_used : m_fish_aquarium.m_unk_field_43C)
+  {
+    new (&game_data_used) CGameDataUsed;
+  }
+
+  m_fish_aquarium.Initialize();
+  todo;
+}
+
+// 0019B160
+void CUserDataManager::Initialize()
+{
+  log_trace("CUserDataManager::Initialize()");
+
+  memset(this, 0, sizeof(this));
+
+  todo;
+}

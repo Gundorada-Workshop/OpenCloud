@@ -2,10 +2,14 @@
 #include "common/debug.h"
 #include "common/log.h"
 #include "editdata.h"
+#include "ls_mes.h"
 #include "mainloop.h"
+#include "menusave.h"
 #include "mg_memory.h"
 #include "mg_texture.h"
 #include "scene.h"
+#include "quest.h"
+#include "userdata.h"
 
 set_log_channel("mainloop")
 
@@ -36,6 +40,18 @@ static mgCMemory stru_1DEA0B0;
 static mgCMemory stru_1E017E0;
 // 01E03434
 static std::array<CEditData, 5> stru_1E03434;
+// 01E1EAB0
+static CUserDataManager stru_1E1EAB0;
+// 01E64250
+static CQuestData stru_1E64250;
+// 01E658D0
+static CMenuSystemData stru_1E658D0;
+// 01E67180
+static mgCMemory stru_1E67180;
+// 01E672B0
+static std::array<mgCTexture, 2> stru_1E672B0;
+// 01E67390
+static ClsMes stru_1E67390;
 
 namespace MainLoop_SInit
 {
@@ -136,8 +152,16 @@ namespace MainLoop_SInit
 			new (&edit_data) CEditData;
 		}
 
-		// 003738C8
-		todo;
+		new (&stru_1E1EAB0) CUserDataManager;
+		stru_1E64250.Initialize();
+		new (&stru_1E658D0) CMenuSystemData;
+
+		for (auto& texture : stru_1E672B0)
+		{
+			new (&texture) mgCTexture;
+		}
+
+		new (&stru_1E67390) ClsMes;
 	}
 }
 
