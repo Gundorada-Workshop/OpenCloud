@@ -336,6 +336,22 @@ void CScene::Initialize()
 	m_unk_field_2F74 = 0;
 
 	m_fire_raster.Initialize();
+	m_thunder_effect.Initialize();
+	m_unk_field_2F64 = 0;
+	m_dng_floor_manager.Initialize();
+
+	m_unk_field_2F90 = 0;
+	m_unk_field_2F94 = 0;
+	m_unk_field_2FFC = 1.0f;
+	m_unk_field_3008 = 0;
+	m_unk_field_300C = 0;
+	m_unk_field_3010 = 0;
+	m_unk_field_2FD4 = -1;
+	m_wind_velocity = 0.0f;
+	m_wind_direction = glm::vec4(0.0f);
+
+	m_unk_field_3E60 = -1;
+	m_unk_field_3E64 = -1;
 }
 
 // 00283150

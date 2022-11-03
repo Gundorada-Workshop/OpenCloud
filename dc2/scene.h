@@ -729,19 +729,19 @@ public:
   // ?
 
   // 2FA4
-  CDngFloorManager m_unk_field_2FA4;
+  CDngFloorManager m_dng_floor_manager;
   // 2FB4
   _UNKNOWN m_unk_field_2FB4;
 
   // ?
 
   // 2FD4
-  _UNKNOWN m_unk_field_2FD4;
+  s16 m_unk_field_2FD4;
 
   // ?
 
   // 2FFC
-  _UNKNOWN m_unk_field_2FFC;
+  float m_unk_field_2FFC;
 
   // ?
 
@@ -767,7 +767,7 @@ public:
   // 3E64
   _UNKNOWN m_unk_field_3E64;
   // 3E70
-  CThunderEffect m_unk_field_3E70;
+  CThunderEffect m_thunder_effect;
 
   // ?
 
