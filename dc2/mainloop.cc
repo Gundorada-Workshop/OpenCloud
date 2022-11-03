@@ -1,6 +1,7 @@
 #include <string>
 #include "common/debug.h"
 #include "common/log.h"
+#include "editdata.h"
 #include "mainloop.h"
 #include "mg_memory.h"
 #include "mg_texture.h"
@@ -29,7 +30,12 @@ static alignas(16) char s_main_stack_data[33554432];
 static mgCMemory s_main_stack;
 // 01DD8260
 static CScene s_main_scene;
-
+// 01DEA0B0
+static mgCMemory stru_1DEA0B0;
+// 01E017E0
+static mgCMemory stru_1E017E0;
+// 01E03434
+static std::array<CEditData, 5> stru_1E03434;
 
 namespace MainLoop_SInit
 {
@@ -50,19 +56,19 @@ namespace MainLoop_SInit
 
 		for (auto& character : s_main_scene.m_characters)
 		{
-			dynamic_cast<CSceneData&>(character).Initialize();
+			static_cast<CSceneData&>(character).Initialize();
 			character.Initialize();
 		}
 
 		for (auto& camera : s_main_scene.m_cameras)
 		{
-			dynamic_cast<CSceneData&>(camera).Initialize();
+			static_cast<CSceneData&>(camera).Initialize();
 			camera.Initialize();
 		}
 
 		for (auto& message : s_main_scene.m_messages)
 		{
-			dynamic_cast<CSceneData&>(message).Initialize();
+			static_cast<CSceneData&>(message).Initialize();
 			message.Initialize();
 		}
 
@@ -79,20 +85,20 @@ namespace MainLoop_SInit
 
 		for (auto& sky : s_main_scene.m_skies)
 		{
-			dynamic_cast<CSceneData&>(sky).Initialize();
+			static_cast<CSceneData&>(sky).Initialize();
 			sky.Initialize();
 		}
 
 		for (auto& gameobj : s_main_scene.m_gameobjs)
 		{
-			dynamic_cast<CSceneData&>(gameobj).Initialize();
-			dynamic_cast<CSceneCharacter&>(gameobj).Initialize();
+			static_cast<CSceneData&>(gameobj).Initialize();
+			static_cast<CSceneCharacter&>(gameobj).Initialize();
 			gameobj.Initialize();
 		}
 
 		for (auto& effect : s_main_scene.m_effects)
 		{
-			dynamic_cast<CSceneData&>(effect).Initialize();
+			static_cast<CSceneData&>(effect).Initialize();
 			effect.Initialize();
 		}
 
@@ -120,7 +126,17 @@ namespace MainLoop_SInit
 
 		s_main_scene.m_loop_se_manager.Initialize();
 
-		// 373878
+		s_main_scene.InitAllData();
+
+		stru_1DEA0B0.Initialize();
+		stru_1E017E0.Initialize();
+
+		for (auto& edit_data : stru_1E03434)
+		{
+			new (&edit_data) CEditData;
+		}
+
+		// 003738C8
 		todo;
 	}
 }

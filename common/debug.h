@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include "types.h"
 #include "strings.h"
 
@@ -93,6 +94,7 @@ namespace common::debug
   type m_unk_field_##pos{ };
 
 #define _UNKNOWN int
+#define _UNKNOWNSTRUCT(size) std::array<u8, size>
 #define _UNKNOWNPOINTER void*
 
 #if defined(_DEBUG) || defined(_FDEBUG)
