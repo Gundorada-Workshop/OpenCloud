@@ -6,11 +6,16 @@
 
 set_log_channel("mg_texture");
 
+// 00376C28
 static mgCTextureManager* TexManager{ nullptr };
+// 00376C20
 static mgCTextureAnime* pLoadTexAnime{ nullptr };
+// 00376C2C
 static mgCMemory* TexAnimeStack{ nullptr };
-static char* _group_name{ NULL };
-static int _ta_enable = 0;
+// 00376C30
+static char* group_name{ NULL };
+// 00376C34
+static int ta_enable = 0;
 
 static bool texTEX_ANIME(SPI_STACK* stack, int)
 {
@@ -23,10 +28,10 @@ static bool texTEX_ANIME(SPI_STACK* stack, int)
 
     strcpy(dest, s);
 
-    _group_name = dest;
+    group_name = dest;
   }
 
-  _ta_enable = spiGetStackInt(++stack);
+  ta_enable = spiGetStackInt(++stack);
 
   return true;
 }
@@ -165,8 +170,8 @@ void mgCTextureManager::LoadCFGFile(const char* file, int size, mgCMemory* tex_a
   CScriptInterpreter interpreter{ };
 
   unimplemented_var(_pTexAnime = 0);
-  _group_name = 0;
-  _ta_enable = 0;
+  group_name = 0;
+  ta_enable = 0;
   unimplemented_var(_now_texb = 0xffffffff);
   unimplemented_var(_now_group = 0xffffffff);
   unimplemented_var(texBugPatch = 0);

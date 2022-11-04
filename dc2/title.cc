@@ -1,21 +1,33 @@
 #include "title.h"
 
+static mgCMemory DataBuffer;
+static mgCMemory TitleMapBuffer;
+static mgCMemory TitleWorkBuffer;
+static mgCMemory Stack_ReadBuff;
+static mgCMemory Stack_MenuCharaBuff_Fix;
+static std::array<mgCMemory, 5> Stack_MenuCharaBuff;
+
+// FIXME; maybe size 0x10 struct?
+static bool HDDINFO;
+static bool dword_1F062D8;
+static bool dword_1F062DC;
+
 namespace Title
 {
 	void SInit()
 	{
-		stru_1F06070.Initialize();
-		stru_1F060A0.Initialize();
-		stru_1F060D0.Initialize();
-		stru_1F06100.Initialize();
-		stru_1F06130.Initialize();
+		DataBuffer.Initialize();
+		TitleMapBuffer.Initialize();
+		TitleWorkBuffer.Initialize();
+		Stack_ReadBuff.Initialize();
+		Stack_MenuCharaBuff_Fix.Initialize();
 
-		for (auto& stack : stru_1F06160)
+		for (auto& stack : Stack_MenuCharaBuff)
 		{
 			new (&stack) mgCMemory();
 		}
 
-		dword_1F062D0 = false;
+		HDDINFO = false;
 		dword_1F062D8 = false;
 		dword_1F062DC = false;
 	}

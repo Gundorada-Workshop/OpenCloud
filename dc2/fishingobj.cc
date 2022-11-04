@@ -8,76 +8,76 @@
 set_log_channel("fishingobj")
 
 // 00378734
-static float s_water_level;
+static float WaterLevel;
 // 00378738
-static s32 dword_378738;
+static s32 LineTop;
 // 0037873C
-static float flt_37873C;
+static float LineTopDist;
 // 00378740
-static bool dword_378740;
+static bool CastingLureFlag;
 // 00378744
-static s32 dword_378744;
+static s32 CastingLureTime;
 // 00378748
-static s32 dword_378748;
+static s32 AddLineSpeed;
 // 0037874C
-static bool dword_37874C;
+static bool BattleFlag;
 // 00378750
-static float flt_378750;
+static float BattleLineDist;
 // 00378754
-static bool s_show_hari;
+static bool ShowHari;
 // 00378758
-static bool dword_378758;
+static bool LureLessFlag;
 // 0037875C
-static u32 s_fishing_mode;
+static u32 NowMode;
 // 00378760
-static s32 dword_378760;
+static s32 NowFishSpeed;
 // 00378764
-static float flt_378764;
+static float NowFishRot;
 // 00378768
-static s32 s_next_chance_cnt;
+static s32 ActionChanceNextCnt;
 // 0037876C
-static s32 dword_37876C;
+static s32 ActionChanceCnt;
 // 00378770
-static s32 dword_378770;
+static s32 ActionChanceDir;
 
 // 01F5DF20
-static std::array<std::array<glm::vec4, 3>, 5> stru_1F5DF20;
+static std::array<std::array<glm::vec4, 3>, 5> RodPoint;
 // 01F5E010
-static std::array<glm::vec4, 5> stru_1F5E010;
+static std::array<glm::vec4, 5> RodPointDist;
 // 01F5E060
-static std::array<mgCFrame*, 8> stru_1F5E060;
+static std::array<mgCFrame*, 8> SaoFrame;
 // 01F5E080
-static std::array<float, 8> stru_1F5E080;
+static std::array<float, 8> SaoDist;
 // 01F5E0A0
-static std::array<std::array<glm::vec4, 3>, 64> stru_1F5E0A0;
+static std::array<std::array<glm::vec4, 3>, 64> LinePoint;
 // 01F5ECA0
-static std::array<std::array<glm::vec4, 3>, 3> stru_1F5ECA0;
+static std::array<std::array<glm::vec4, 3>, 3> LurePoint;
 // 01F5ED30
-static glm::vec4 stru_1F5ED30;
+static glm::vec4 FlyingPoint;
 // 01F5ED40
 static glm::vec4 stru_1F5ED40;
 // 01F5ED50
 static glm::vec4 stru_1F5ED50;
 // 01F5ED60
-static glm::vec4 stru_1F5ED60;
+static glm::vec4 FishPoint;
 // 01F5ED70
 static glm::vec4 stru_1F5ED70;
 // 01F5ED80
 static glm::vec4 stru_1F5ED80;
 // 01F5ED90
-static glm::vec4 stru_1F5ED90;
+static glm::vec4 CastingPoint;
 // 01F5EDA0
 static glm::vec4 stru_1F5EDA0;
 // 01F5EDB0
 static glm::vec4 stru_1F5EDB0;
 // 01F5EDC0
-static CFishObj s_lure_obj;
+static CFishObj LureObj;
 // 01F5F190
-static CFishObj s_uki_obj;
+static CFishObj UkiObj;
 // 01F5F560
-static CFishObj s_hari_obj;
+static CFishObj HariObj;
 // 01F5F930
-static glm::vec4 stru_1F5F930;
+static glm::vec4 ChanceBarPos;
 
 namespace FishingObj
 {
@@ -86,9 +86,9 @@ namespace FishingObj
 	{
 		log_trace("SInit");
 
-		memset(&s_lure_obj, 0, sizeof(s_lure_obj));
-		memset(&s_uki_obj, 0, sizeof(s_uki_obj));
-		memset(&s_hari_obj, 0, sizeof(s_hari_obj));
+		memset(&LureObj, 0, sizeof(LureObj));
+		memset(&UkiObj, 0, sizeof(UkiObj));
+		memset(&HariObj, 0, sizeof(HariObj));
 	}
 }
 
@@ -129,7 +129,7 @@ void SetFishingMode(int fishing_mode)
 {
 	log_trace("SetFishingMode({})", fishing_mode);
 
-	s_fishing_mode = fishing_mode;
+	NowMode = fishing_mode;
 }
 
 // 0030F9C0
@@ -137,7 +137,7 @@ int GetFishingMode()
 {
 	log_trace("GetFishingMode");
 
-	return s_fishing_mode;
+	return NowMode;
 }
 
 // 0030F9D0
@@ -145,7 +145,7 @@ void SetWaterLevel(float water_level)
 {
 	log_trace("SetWaterLevel({})", water_level);
 
-	s_water_level = water_level;
+	WaterLevel = water_level;
 }
 
 // 0030F9E0
@@ -153,7 +153,7 @@ float GetWaterLevel()
 {
 	log_trace("GetWaterLevel");
 
-	return s_water_level;
+	return WaterLevel;
 }
 
 // 0030F9F0
@@ -161,11 +161,11 @@ CFishObj* GetActiveHariObj()
 {
 	log_trace("GetActiveHariObj");
 
-	if (s_fishing_mode != 2)
+	if (NowMode != 2)
 	{
-		return &s_hari_obj;
+		return &HariObj;
 	}
-	return &s_lure_obj;
+	return &LureObj;
 }
 
 // 0030FA20
@@ -173,9 +173,9 @@ CFishObj* GetActiveUkiObj()
 {
 	log_trace("GetActiveUkiObj");
 
-	if (s_fishing_mode != 2)
+	if (NowMode != 2)
 	{
-		return &s_uki_obj;
+		return &UkiObj;
 	}
 	return nullptr;
 }
@@ -193,12 +193,12 @@ float GetNowLineLength()
 {
 	log_trace("GetNowLineLength");
 
-	if (dword_37874C)
+	if (BattleFlag)
 	{
-		return flt_378750;
+		return BattleLineDist;
 	}
 
-	return (63 - dword_378738) * 5.0f + flt_37873C;
+	return (63 - LineTop) * 5.0f + LineTopDist;
 }
 
 // 0030FC60
@@ -230,8 +230,8 @@ void GetHariPos(glm::vec4& v1, glm::vec4& v2)
 {
 	log_trace("GetHariPos({}, {})", fmt::ptr(&v1), fmt::ptr(&v2));
 
-	v1 = stru_1F5E0A0[stru_1F5E0A0.size() - 1][0];
-	v2 = stru_1F5E0A0[stru_1F5E0A0.size() - 1][1];
+	v1 = LinePoint[LinePoint.size() - 1][0];
+	v2 = LinePoint[LinePoint.size() - 1][1];
 }
 
 // 00310220
@@ -239,8 +239,8 @@ void GetUkiPos(glm::vec4& v1, glm::vec4& v2)
 {
 	log_trace("GetUkiPos({}, {})", fmt::ptr(&v1), fmt::ptr(&v2));
 
-	v1 = stru_1F5E0A0[stru_1F5E0A0.size() - 4][0];
-	v2 = stru_1F5E0A0[stru_1F5E0A0.size() - 4][1];
+	v1 = LinePoint[LinePoint.size() - 4][0];
+	v2 = LinePoint[LinePoint.size() - 4][1];
 }
 
 // 00310250
@@ -248,7 +248,7 @@ void PullUki(float f)
 {
 	log_trace("PullUki({})", f);
 
-	stru_1F5E0A0[stru_1F5E0A0.size() - 1][2][1] -= f;
+	LinePoint[LinePoint.size() - 1][2][1] -= f;
 }
 
 // 00310270
@@ -256,7 +256,7 @@ void SetShowHari(bool enabled)
 {
 	log_trace("SetShowHari({})", enabled);
 
-	s_show_hari = enabled;
+	ShowHari = enabled;
 }
 
 // 00310280
@@ -274,7 +274,7 @@ bool GetShowHari()
 	{
 		return false;
 	}
-	return s_show_hari;
+	return ShowHari;
 }
 
 // 003102E0
@@ -306,9 +306,9 @@ void EndCastingLure()
 {
 	log_trace("CastingLure()");
 
-	dword_378740 = false;
-	dword_378744 = 0;
-	dword_378748 = 0;
+	CastingLureFlag = false;
+	CastingLureTime = 0;
+	AddLineSpeed = 0;
 }
 
 // 00310740
@@ -325,9 +325,9 @@ void SlowLineVelo(float multiplier)
 {
 	log_trace("SlowLineVelo({})", multiplier);
 
-	for (usize index = dword_378738; index < stru_1F5E0A0.size(); ++index)
+	for (usize index = LineTop; index < LinePoint.size(); ++index)
 	{
-		stru_1F5E0A0[index][2] *= multiplier;
+		LinePoint[index][2] *= multiplier;
 	}
 }
 
@@ -360,17 +360,17 @@ bool InitFishBattle()
 {
 	log_trace("InitFishBattle()");
 
-	stru_1F5EDB0 = stru_1F5E0A0[stru_1F5E0A0.size() - 1][0];
-	stru_1F5ED60 = stru_1F5E0A0[stru_1F5E0A0.size() - 1][0];
-	stru_1F5ED70 = stru_1F5E0A0[stru_1F5E0A0.size() - 1][0];
+	stru_1F5EDB0 = LinePoint[LinePoint.size() - 1][0];
+	FishPoint = LinePoint[LinePoint.size() - 1][0];
+	stru_1F5ED70 = LinePoint[LinePoint.size() - 1][0];
 	stru_1F5ED80 = glm::vec4(0.0f);
 
-	flt_378750 = glm::distance(glm::vec3(stru_1F5E0A0[stru_1F5E0A0.size() - 1][0]), glm::vec3(stru_1F5E0A0[4][0]));
-	dword_378760 = 0;
-	dword_37874C = true;
-	flt_378764 = 0.0f;
-	s_next_chance_cnt = GetNextChanceCnt();
-	dword_37876C = 0;
+	BattleLineDist = glm::distance(glm::vec3(LinePoint[LinePoint.size() - 1][0]), glm::vec3(LinePoint[4][0]));
+	NowFishSpeed = 0;
+	BattleFlag = true;
+	NowFishRot = 0.0f;
+	ActionChanceNextCnt = GetNextChanceCnt();
+	ActionChanceCnt = 0;
 	return true;
 }
 
@@ -379,9 +379,9 @@ bool EndFishBattle()
 {
 	log_trace("EndFishBattle()");
 
-	dword_37874C = false;
-	s_next_chance_cnt = 0;
-	dword_37876C = 0;
+	BattleFlag = false;
+	ActionChanceNextCnt = 0;
+	ActionChanceCnt = 0;
 	return true;
 }
 
@@ -392,17 +392,17 @@ int CheckRodActionChance(int i, bool& pi)
 
 	pi = false;
 
-	if (!dword_37874C)
+	if (!BattleFlag)
 	{
 		return 0;
 	}
 
-	if (dword_37876C <= 0)
+	if (ActionChanceCnt <= 0)
 	{
 		return 0;
 	}
 
-	int check = dword_378770 * i > 0;
+	int check = ActionChanceDir * i > 0;
 
 	if (check > 0)
 	{
@@ -414,7 +414,7 @@ int CheckRodActionChance(int i, bool& pi)
 		return -1;
 	}
 
-	pi = (dword_37874C ^ 0x1C) == 0;
+	pi = (BattleFlag ^ 0x1C) == 0;
 	return -1;
 }
 
@@ -431,7 +431,7 @@ void GetFishPosVelo(glm::vec4& pos, glm::vec4& velocity)
 {
 	log_trace("GetFishPosVelo({}, {})", fmt::ptr(&pos), fmt::ptr(&velocity));
 
-	pos = stru_1F5ED60;
+	pos = FishPoint;
 	velocity = stru_1F5ED80;
 }
 

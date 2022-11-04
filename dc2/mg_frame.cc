@@ -5,7 +5,7 @@
 set_log_channel("mg_frame");
 
 // 00380DA0
-static mgCFrameAttr stru_380DA0;
+static mgCFrameAttr dmy_attr;
 
 namespace mg_frame
 {
@@ -13,7 +13,7 @@ namespace mg_frame
 	{
 		log_trace("SInit()");
 
-		new (&stru_380DA0) mgCFrameAttr();
+		new (&dmy_attr) mgCFrameAttr();
 	}
 }
 

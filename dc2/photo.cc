@@ -11,53 +11,65 @@
 set_log_channel("Photo");
 
 // 0035E6C0
+// FIXME: inline function data
 constexpr static glm::vec4 stru_35E6C0 = { 0.0f, 0.0f, 0.0f, 1.0f };
 // 0035E6D0
+// FIXME: inline function data
 constexpr static u64 qword_35E6D0 = 0x100000000;
 // 0035E6D8
+// FIXME: inline function data
 constexpr static u32 dword_35E6D8 = 2;
 // 0035E6E0
+// FIXME: inline function data
 constexpr static u64 qword_35E6E0 = 0x2FFFFFFFF;
 // 0035E6E8
+// FIXME: inline function data
 constexpr static float flt_35E6E8 = 0.0f;
 // 0035E6F0
+// FIXME: inline function data
 constexpr static u64 qword_35E6F0 = 0xFFFFFFFF;
 // 0035E6F8
+// FIXME: inline function data
 constexpr static u32 dword_35E6F8 = 2;
 // 0035E700
+// FIXME: inline function data
 constexpr static glm::vec4 stru_35E700 = { -1.0f, 3.0f, -3.0f, 1.0f };
 // 0035E710
+// FIXME: inline function data
 constexpr static glm::vec4 stru_35E710 = { 2.0f, -5.0f, 4.0f, -1.0f };
 // 0035E720
+// FIXME: inline function data
 constexpr static glm::vec4 stru_35E720 = { -1.0f, 0.0f, 1.0f, 0.0f };
 // 0035E730
+// FIXME: inline function data
 constexpr static glm::vec4 stru_35E730 = { 0.0f, 2.0f, 0.0f, 0.0f };
 // 0035E740
+// FIXME: inline function data
 constexpr static glm::vec4 stru_35E740 = { 0.0f, 0.0f, 0.0f, 1.0f };
 
 // 00378710
-static u32 dword_378710;
+static u32 TakePhotoMode;
 // 00378714
-static float flt_378714;
+static float AddProj;
 // 00378718
-static int dword_378718;
+static int CameraTexb;
 // 0037871C
-static mgCTexture* dword_37871C;
+static mgCTexture* WorkTex;
 // 00378720
-static s32 dword_378720;
+static s32 ShutterAnmCnt;
 // 00378724
-static s32 dword_378724;
+static s32 ShowTakePhotoCnt;
 // 00378728
-static bool dword_378728;
+static bool OpenMenu;
 // 0037872C
-static int dword_37872C;
+static int ShowTitleCnt;
 // 00378730
-static int dword_378730;
+static int ShowLevelUpCnt;
 
 // 01F5DDF0
-static CFont stru_1F5DDF0;
+static CFont Font;
 // 01F5DEA0
-static char byte_1F5DEA0[0x80];
+static char PhotoTitle[0x80];
 
 namespace Photo
 {
@@ -65,7 +77,7 @@ namespace Photo
 	{
 		log_trace("SInit()");
 
-		stru_1F5DDF0.Initialize();
+		Font.Initialize();
 	}
 }
 
@@ -88,12 +100,12 @@ const char* GetMesTxt(ssize index)
 
 	log_trace("GetMesTxt({})", index);
 
-	if (index < 0 || mes_txt[0].size() <= index || g_language < 0 || mes_txt.size() <= g_language)
+	if (index < 0 || mes_txt[0].size() <= index || LanguageCode < 0 || mes_txt.size() <= LanguageCode)
 	{
 		return "";
 	}
 
-	return mes_txt[g_language][index];
+	return mes_txt[LanguageCode][index];
 }
 
 float PhotoAddProjection()
@@ -105,29 +117,29 @@ float PhotoAddProjection()
 		return 0.0f;
 	}
 
-	return flt_378714;
+	return AddProj;
 }
 
 void InitPhotoTitle()
 {
 	log_trace("InitPhotoTitle()");
 
-	dword_37872C = 0;
-	byte_1F5DEA0[0] = '\0';
+	ShowTitleCnt = 0;
+	PhotoTitle[0] = '\0';
 }
 
 void InitTakePhoto()
 {
 	log_trace("InitTakePhoto()");
 
-	dword_378710 = 0;
-	flt_378714 = 0.0f;
+	TakePhotoMode = 0;
+	AddProj = 0.0f;
 	InitPhotoTitle();
-	dword_378724 = 0;
-	dword_378718 = -1;
-	dword_378720 = 0;
-	dword_378728 = false;
-	dword_378730 = 0;
+	ShowTakePhotoCnt = 0;
+	CameraTexb = -1;
+	ShutterAnmCnt = 0;
+	OpenMenu = false;
+	ShowLevelUpCnt = 0;
 }
 
 void LoadTakePhoto(int unk, mgCMemory& unused)
@@ -140,7 +152,7 @@ void StartTakePhoto()
 	log_trace("StartTakePhoto()");
 
 	InitTakePhoto();
-	dword_378710 = 2;
+	TakePhotoMode = 2;
 }
 
 void EndTakePhoto()
@@ -154,28 +166,28 @@ bool NowTakePhoto()
 {
 	log_trace("NowTakePhoto()");
 
-	return dword_378710 != 0;
+	return TakePhotoMode != 0;
 }
 
 bool IsEnablePhotoMenu()
 {
 	log_trace("IsEnablePhotoMenu()");
 
-	return (dword_378710 ^ 2) == 0;
+	return (TakePhotoMode ^ 2) == 0;
 }
 
 void HidePhoto()
 {
 	log_trace("HidePhoto()");
 
-	dword_378724 = 0;
+	ShowTakePhotoCnt = 0;
 }
 
 bool GhostPhotoTiming()
 {
 	log_trace("GhostPhotoTiming()");
 
-	return dword_378710 == 5 || dword_378710 == 3;
+	return TakePhotoMode == 5 || TakePhotoMode == 3;
 }
 
 void LoopTakePhoto(CPadControl& padControl, CInventUserData& invest_user_data)

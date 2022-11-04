@@ -14,33 +14,36 @@
 set_log_channel("mainloop")
 
 // 00376FC0
-Language::Language g_language;
+Language::Language LanguageCode;
 
 // 003D8070
-static SMainLoopUnk1 stru_3D8070;
+static SDebugInfo DebugInfo;
 // 003D8090
-static CFont s_debug_font;
+static CFont Font;
 // 003D8140
-static SMainLoopUnk2 stru_3D8140;
+static SInitArg InitArg;
 // 003D8190
-static SMainLoopUnk2 stru_3D8190;
+static SInitArg NextInitArg;
 // 003D81E0
-static SMainLoopUnk2 stru_3D81E0;
+static SInitArg PrevInitArg;
 // 003D8230
-// FIXME: Magic?
-static alignas(16) char s_sub_game_save_data[80000];
+// FIXME: 0x1A000000 bytes (26MB) in PS2. Might need to adjust slightly for windows.
+// Bumped up to 40MB (0x28000000) on Windows (to adjust for slightly bigger datatypes)
+static alignas(16) char main_buffer[0x28000000];
 // 01DD8230
-// FIXME: 27182976 bytes in PS2. Might need to adjust slightly for windows.
-// Bumped up to 32MB (33554432) on Windows (to adjust for slightly bigger datatypes)
-static alignas(16) char s_main_stack_data[33554432];
-// 01DD8230
-static mgCMemory s_main_stack;
+static mgCMemory MainBuffer;
 // 01DD8260
-static CScene s_main_scene;
+static CScene MainScene;
+// 01DE87B0
+static char SystemSeBuff[0x1900];
 // 01DEA0B0
-static mgCMemory stru_1DEA0B0;
+static mgCMemory SystemSeStack;
 // 01E017E0
-static mgCMemory stru_1E017E0;
+static mgCMemory InfoStack;
+// 01E01810
+static CSaveData SaveData;
+
+// FIXME: The following are part of CSaveData (01E01810) and need to be folded in
 // 01E03434
 static std::array<CEditData, 5> stru_1E03434;
 // 01E1EAB0
@@ -49,12 +52,13 @@ static CUserDataManager stru_1E1EAB0;
 static CQuestData stru_1E64250;
 // 01E658D0
 static CMenuSystemData stru_1E658D0;
+
 // 01E67180
-static mgCMemory stru_1E67180;
+static mgCMemory MenuBuffer;
 // 01E672B0
-static std::array<mgCTexture, 2> stru_1E672B0;
+static std::array<mgCTexture, 2> FontTex;
 // 01E67390
-static ClsMes stru_1E67390;
+static ClsMes PauseMes;
 
 namespace MainLoop_SInit
 {
@@ -63,92 +67,92 @@ namespace MainLoop_SInit
 	{
 		log_trace("SInit");
 
-		memset(&stru_3D8070, 0, sizeof(stru_3D8070));
+		memset(&DebugInfo, 0, sizeof(DebugInfo));
 
-		s_debug_font.Initialize();
+		Font.Initialize();
 
-		memset(&stru_3D8140, 0, sizeof(stru_3D8140));
-		memset(&stru_3D8190, 0, sizeof(stru_3D8190));
-		memset(&stru_3D81E0, 0, sizeof(stru_3D81E0));
+		memset(&InitArg, 0, sizeof(InitArg));
+		memset(&NextInitArg, 0, sizeof(NextInitArg));
+		memset(&PrevInitArg, 0, sizeof(PrevInitArg));
 
-		s_main_stack.Initialize();
+		MainBuffer.Initialize();
 
-		for (auto& character : s_main_scene.m_characters)
+		for (auto& character : MainScene.m_characters)
 		{
 			static_cast<CSceneData&>(character).Initialize();
 			character.Initialize();
 		}
 
-		for (auto& camera : s_main_scene.m_cameras)
+		for (auto& camera : MainScene.m_cameras)
 		{
 			static_cast<CSceneData&>(camera).Initialize();
 			camera.Initialize();
 		}
 
-		for (auto& message : s_main_scene.m_messages)
+		for (auto& message : MainScene.m_messages)
 		{
 			static_cast<CSceneData&>(message).Initialize();
 			message.Initialize();
 		}
 
-		s_main_scene.m_mds_list_set.Initialize();
+		MainScene.m_mds_list_set.Initialize();
 
-		new (&s_main_scene.m_fire_raster) mgCTexture;
+		new (&MainScene.m_fire_raster) mgCTexture;
 
-		for (auto& unk_var : s_main_scene.m_fire_raster.m_unk_field_70)
+		for (auto& unk_var : MainScene.m_fire_raster.m_unk_field_70)
 		{
 			memset(&unk_var, 0, sizeof(unk_var));
 		}
 
-		s_main_scene.m_fire_raster.Initialize();
+		MainScene.m_fire_raster.Initialize();
 
-		for (auto& sky : s_main_scene.m_skies)
+		for (auto& sky : MainScene.m_skies)
 		{
 			static_cast<CSceneData&>(sky).Initialize();
 			sky.Initialize();
 		}
 
-		for (auto& gameobj : s_main_scene.m_gameobjs)
+		for (auto& gameobj : MainScene.m_gameobjs)
 		{
 			static_cast<CSceneData&>(gameobj).Initialize();
 			static_cast<CSceneCharacter&>(gameobj).Initialize();
 			gameobj.Initialize();
 		}
 
-		for (auto& effect : s_main_scene.m_effects)
+		for (auto& effect : MainScene.m_effects)
 		{
 			static_cast<CSceneData&>(effect).Initialize();
 			effect.Initialize();
 		}
 
-		s_main_scene.m_fade_in_out.Initialize();
-		s_main_scene.m_scn_loadmap_info.Initialize();
-		memset(&s_main_scene.m_scene_event_data, 0, sizeof(s_main_scene.m_scene_event_data));
+		MainScene.m_fade_in_out.Initialize();
+		MainScene.m_scn_loadmap_info.Initialize();
+		memset(&MainScene.m_scene_event_data, 0, sizeof(MainScene.m_scene_event_data));
 
-		for (auto& villager_data : s_main_scene.m_villager_manager.m_villager_data)
+		for (auto& villager_data : MainScene.m_villager_manager.m_villager_data)
 		{
 			villager_data.Initialize();
 		}
 
-		s_main_scene.m_villager_manager.Initialize();
+		MainScene.m_villager_manager.Initialize();
 
-		for (auto& bgm_info : s_main_scene.m_bgm_info)
+		for (auto& bgm_info : MainScene.m_bgm_info)
 		{
 			bgm_info.m_stack.Initialize();
 		}
 
-		s_main_scene.m_unk_field_9DD0.Initialize();
-		s_main_scene.m_unk_field_A450.Initialize();
-		s_main_scene.m_unk_field_C4A0.Initialize();
-		s_main_scene.m_unk_field_E4E0.Initialize();
-		s_main_scene.m_unk_field_10510.Initialize();
+		MainScene.m_unk_field_9DD0.Initialize();
+		MainScene.m_unk_field_A450.Initialize();
+		MainScene.m_unk_field_C4A0.Initialize();
+		MainScene.m_unk_field_E4E0.Initialize();
+		MainScene.m_unk_field_10510.Initialize();
 
-		s_main_scene.m_loop_se_manager.Initialize();
+		MainScene.m_loop_se_manager.Initialize();
 
-		s_main_scene.InitAllData();
+		MainScene.InitAllData();
 
-		stru_1DEA0B0.Initialize();
-		stru_1E017E0.Initialize();
+		SystemSeStack.Initialize();
+		InfoStack.Initialize();
 
 		for (auto& edit_data : stru_1E03434)
 		{
@@ -159,12 +163,12 @@ namespace MainLoop_SInit
 		stru_1E64250.Initialize();
 		new (&stru_1E658D0) CMenuSystemData;
 
-		for (auto& texture : stru_1E672B0)
+		for (auto& texture : FontTex)
 		{
 			new (&texture) mgCTexture;
 		}
 
-		new (&stru_1E67390) ClsMes;
+		new (&PauseMes) ClsMes;
 	}
 }
 
@@ -173,7 +177,7 @@ CFont* GetDebugFont()
 {
 	log_trace("{}", __func__);
 
-	return &s_debug_font;
+	return &Font;
 }
 
 // 001908F0
@@ -181,7 +185,7 @@ mgCMemory* GetMainStack()
 {
 	log_trace("{}", __func__);
 
-	return &s_main_stack;
+	return &MainBuffer;
 }
 
 // 00190CB0

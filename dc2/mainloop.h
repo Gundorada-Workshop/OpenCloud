@@ -15,9 +15,9 @@ namespace Language
 }
 
 // 00376FC0
-extern Language::Language g_language;
+extern Language::Language LanguageCode;
 
-struct SMainLoopUnk1
+struct SDebugInfo
 {
 	bool m_unk_field_0;
 	s32 m_unk_field_4;
@@ -26,7 +26,7 @@ struct SMainLoopUnk1
 	s32 m_unk_field_10;
 };
 
-struct SMainLoopUnk2
+struct SInitArg
 {
 	// 0
 	_UNKNOWN m_unk_field_0;

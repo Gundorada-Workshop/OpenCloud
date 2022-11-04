@@ -4,7 +4,7 @@
 set_log_channel("mg_tanime");
 
 // 00380E70
-static mgCTexAnimeData stru_380E70;
+static mgCTexAnimeData nowTexData;
 
 namespace mg_tanime
 {
@@ -13,7 +13,7 @@ namespace mg_tanime
   {
     log_trace("SInit()");
 
-    new (&stru_380E70) mgCTexAnimeData;
+    new (&nowTexData) mgCTexAnimeData;
   }
 }
 
