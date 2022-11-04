@@ -1,5 +1,6 @@
 #include "sinit.h"
 #include "fishingobj.h"
+#include "gamedata.h"
 #include "mainloop.h"
 #include "mg_frame.h"
 #include "mg_lib.h"
@@ -13,6 +14,7 @@ namespace StaticInitializers
 {
 	void Init()
 	{
+		gamedata::SInit();
 		FishingObj::SInit();
 		MainLoop_SInit::SInit();
 		mg_frame::SInit();
