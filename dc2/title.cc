@@ -7,7 +7,7 @@ static mgCMemory Stack_ReadBuff;
 static mgCMemory Stack_MenuCharaBuff_Fix;
 static std::array<mgCMemory, 5> Stack_MenuCharaBuff;
 
-// FIXME; maybe size 0x10 struct?
+// FIXME; maybe size 0x30 struct?
 static bool HDDINFO;
 static bool dword_1F062D8;
 static bool dword_1F062DC;
