@@ -134,6 +134,31 @@ const std::array<SPI_TAG_PARAM, 14> tex_tag =
   NULL, nullptr
 };
 
+// 0012C6D0
+mgCTextureBlock::mgCTextureBlock()
+{
+  log_trace("mgCTextureBlock::mgCTextureBlock()");
+
+  Initialize();
+}
+
+// 0012C700
+void mgCTextureBlock::Initialize()
+{
+  log_trace("mgCTextureBlock::Initialize()");
+
+  m_unk_field_0 = 0;
+  m_unk_field_4 = 0;
+  m_unk_field_8 = 0;
+  m_unk_field_C = 0;
+}
+
+// 0012C7E0
+mgCTextureManager::mgCTextureManager()
+{
+  new (&m_unk_field_14) mgCTextureBlock;
+}
+
 // 0013d8c0
 void mgCTextureManager::LoadCFGFile(const char* file, int size, mgCMemory* tex_anime_stack, mgCTextureAnime* tex_anime)
 {

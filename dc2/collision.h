@@ -8,3 +8,4 @@ class CCollisionMDT {};
 class CColFrame {};
 class CColPrim {};
 class CColPrimMan {};
+class CCPoly {};

@@ -1,6 +1,10 @@
 #pragma once
 #include "common/types.h"
 
+// Is this what DC2 does to convert sizes to memory alloc sizes?
+#define BYTES_TO_BLOCKS(size) \
+	(size + 0x2F) / 0x10
+
 
 struct SHeapMemHead
 {
@@ -69,9 +73,7 @@ public:
 	void stSetBuffer(void* stack_start, usize capacity);
 
 	// 00146260
-	mgCMemory() {
-		this->Initialize();
-	}
+	mgCMemory();
 
 	// Debug representation of the purpose of this memory.
 	char m_label[0x10];

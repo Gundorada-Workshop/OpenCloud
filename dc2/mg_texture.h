@@ -7,14 +7,34 @@
 
 // ~ 0012C480 - 0012F1C0
 
-// THIS FILE TODO
-class mgCTextureBlock {};
+class mgCTextureBlock
+{
+public:
+  // 0012C6D0
+  mgCTextureBlock();
+  // 0012C700
+  void Initialize();
+
+  // 0
+  _UNKNOWN m_unk_field_0;
+  // 4
+  _UNKNOWN m_unk_field_4;
+  // 8
+  _UNKNOWN m_unk_field_8;
+  // C
+  _UNKNOWN m_unk_field_C;
+};
 
 class mgCTextureManager
 {
 public:
+  // 0012C7E0
+  mgCTextureManager();
   // 0013D8C0
   void LoadCFGFile(const char* file, int size, mgCMemory* text_anime_stack, mgCTextureAnime* tex_anime);
+
+  // 14
+  mgCTextureBlock m_unk_field_14;
 };
 
 class mgCTexture

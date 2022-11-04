@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include "glm/glm.hpp"
 #include "common/types.h"
 #include "mg_memory.h"
@@ -11,7 +12,6 @@ class mgCVisual {};
 class mgCVisualAttr {};
 class mgCMDTBuilder {};
 class mgCVisualFixMDT {};
-class mgCDrawManager {};
 class mgMaterial {};
 class MDT_HEADER {};
 class mgCShadowMDT {};
@@ -36,8 +36,12 @@ struct mgPOINT_LIGHT
 
 struct mgVu0FBOX
 {
-	glm::vec4 m_corner1;
-	glm::vec4 m_corner2;
+	// 0
+	// Corner 1
+	glm::vec4 m_a;
+	// 10
+	// Corner 2
+	glm::vec4 m_b;
 
 	// 00139890
 	mgVu0FBOX(mgVu0FBOX& box);
@@ -177,6 +181,22 @@ public:
 
 	// 00135140
 	void GetOffset(sint*, sint*);
+};
+
+class mgCDrawManager 
+{
+public:
+	// 00135180
+	mgCDrawManager();
+
+	// 64
+	_UNKNOWNPOINTER m_unk_field_64;
+	// 68
+	u32 m_unk_field_68;
+	// 6C
+	_UNKNOWN m_unk_field_6C;
+	// 70
+	_UNKNOWN m_unk_field_70;
 };
 
 class mgCObject
@@ -450,6 +470,10 @@ public:
 
 	// 00139800
 	void SetFogParam(float f1, float f2, u8 i1, u8 i2, u8 i3, float f3, float f4);
+
+
+	// F20
+	std::array<mgCDrawEnv, 2> m_unk_field_F20;
 };
 
 // 00135B90

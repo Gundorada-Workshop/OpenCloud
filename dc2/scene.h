@@ -4,22 +4,20 @@
 #include "common/debug.h"
 #include "common/types.h"
 #include "character.h"
+#include "collision.h"
 #include "effect.h"
 #include "effect_script.h"
 #include "dng_main.h"
+#include "map.h"
 #include "mds_img.h"
+#include "mg_camera.h"
 #include "mg_frame.h"
+#include "ls_mes.h"
 #include "snd_mngr.h"
 #include "villager.h"
 
 
 // TODO
-class CCameraControl;
-class CCPoly;
-class CMap;
-class CMapSky;
-class ClsMes;
-class mgCCamera {};
 struct InScreenFuncInfo {};
 
 

@@ -2,6 +2,7 @@
 #include "fishingobj.h"
 #include "mainloop.h"
 #include "mg_frame.h"
+#include "mg_lib.h"
 #include "mg_tanime.h"
 #include "pbuggy.h"
 #include "photo.h"
@@ -14,6 +15,7 @@ namespace StaticInitializers
 		FishingObj::SInit();
 		MainLoop_SInit::SInit();
 		mg_frame::SInit();
+		mg_lib::SInit();
 		mg_tanime::SInit();
 		PBuggy::SInit();
 		Photo::SInit();

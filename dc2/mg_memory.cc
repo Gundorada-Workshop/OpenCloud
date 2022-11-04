@@ -6,7 +6,7 @@ set_log_channel("mg_memory");
 
 void mgCMemory::Initialize()
 {
-	log_trace("Initialize()");
+	log_trace("mgCMemory::Initialize()");
 
 	m_heap_size = 0;
 	m_heap_start = nullptr;
@@ -18,9 +18,10 @@ void mgCMemory::Initialize()
 	m_unk_field_1C = false;
 }
 
+// 00139930
 void mgCMemory::SetHeapMem(void* heap, usize heap_size)
 {
-	log_trace("SetHeapMem({}, {})", fmt::ptr(heap), heap_size);
+	log_trace("mgCMemory::SetHeapMem({}, {})", fmt::ptr(heap), heap_size);
 
 	// TODO: This is a bit weird; heap memory has to be investigated further
 	m_heap_size = heap_size;
@@ -42,9 +43,10 @@ void mgCMemory::SetHeapMem(void* heap, usize heap_size)
 	m_heap_mem_head->field_C->field_C = 0;
 }
 
+// 001399D0
 void mgCMemory::ClearHeapMem()
 {
-	log_trace("ClearHeapMem()");
+	log_trace("mgCMemory::ClearHeapMem()");
 
 	void* heap_start = m_heap_start;
 	usize heap_size = m_heap_size;
@@ -53,9 +55,10 @@ void mgCMemory::ClearHeapMem()
 	SetHeapMem(heap_start, heap_size);
 }
 
+// 00139AA0
 void* mgCMemory::StartStackMode(int i1, int i2)
 {
-	log_trace("StartStackMode({}, {})", i1, i2);
+	log_trace("mgCMemory::StartStackMode({}, {})", i1, i2);
 
 	// FIXME: very messy, probably doesn't work, the 0x10 align in original code
 	// may be due to the size of SHeapMemHead, which would be different in Windows
@@ -131,9 +134,10 @@ void* mgCMemory::StartStackMode(int i1, int i2)
 	return m_unk_field_2C->field_0;
 }
 
+// 00139BD0
 void mgCMemory::EndStackMode()
 {
-	log_trace("EndStackMode()");
+	log_trace("mgCMemory::EndStackMode()");
 
 	if (m_unk_field_2C == nullptr)
 		return;
@@ -146,17 +150,19 @@ void mgCMemory::EndStackMode()
 	m_stack_current_allocated = 0;
 }
 
+// 00139BD0
 void* mgCMemory::stAlloc64(ssize n_blocks)
 {
-	log_trace("stAlloc64({})", n_blocks);
+	log_trace("mgCMemory::stAlloc64({})", n_blocks);
 
 	stAlign64();
 	return stAlloc(n_blocks);
 }
 
+// 00139C50
 void* mgCMemory::stAllocTest(ssize n_blocks)
 {
-	log_trace("stAllocTest({})", n_blocks);
+	log_trace("mgCMemory::stAllocTest({})", n_blocks);
 
 	if (!m_unk_field_1C)
 		return nullptr;
@@ -171,9 +177,10 @@ void* mgCMemory::stAllocTest(ssize n_blocks)
 	return static_cast<char*>(m_stack_start) + (current_allocated * 0x10);
 }
 
+// 00139CB0
 void* mgCMemory::stAlloc(ssize n_blocks)
 {
-	log_trace("stAlloc({})", n_blocks);
+	log_trace("mgCMemory::stAlloc({})", n_blocks);
 
 	if (!m_unk_field_1C)
 		return nullptr;
@@ -194,16 +201,18 @@ void* mgCMemory::stAlloc(ssize n_blocks)
 	return result;
 }
 
+// 00139D20
 void* mgCMemory::Alloc(ssize n_blocks)
 {
-	log_trace("Alloc({})", n_blocks);
+	log_trace("mgCMemory::Alloc({})", n_blocks);
 
 	return stAlloc(n_blocks);
 }
 
+// 00139D20
 void mgCMemory::stAlign64()
 {
-	log_trace("stAlign64()");
+	log_trace("mgCMemory::stAlign64()");
 
 	if (!m_unk_field_1C)
 		return;
@@ -219,18 +228,28 @@ void mgCMemory::stAlign64()
 		m_stack_max_allocated = m_stack_current_allocated;
 }
 
+// 00139E00
 void mgCMemory::Align64()
 {
-	log_trace("Align64()");
+	log_trace("mgCMemory::Align64()");
 
 	stAlign64();
 }
 
+// 00139E70
 void mgCMemory::stSetBuffer(void* stack_start, usize capacity)
 {
-	log_trace("stSetBuffer({}, {})", fmt::ptr(stack_start), capacity);
+	log_trace("mgCMemory::stSetBuffer({}, {})", fmt::ptr(stack_start), capacity);
 
 	m_stack_start = stack_start;
 	m_stack_current_allocated = 0;
 	m_stack_max_allocated = capacity;
+}
+
+// 00146260
+mgCMemory::mgCMemory()
+{
+	log_trace("mgCMemory::mgCMemory()");
+
+	Initialize();
 }
