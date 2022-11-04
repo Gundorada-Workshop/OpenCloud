@@ -402,7 +402,7 @@ int CheckRodActionChance(int i, bool& pi)
 		return 0;
 	}
 
-	int check = ActionChanceDir * i > 0;
+	int check = ActionChanceDir * i;
 
 	if (check > 0)
 	{
