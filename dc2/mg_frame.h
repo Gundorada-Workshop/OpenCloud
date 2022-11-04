@@ -402,6 +402,24 @@ public:
 
 	// 00138880
 	mgCDrawEnv(mgCDrawEnv& other);
+
+	// 0
+	u64 m_unk_field_0;
+	// 8
+	u64 m_unk_field_8;
+	// 10
+	u64 m_unk_field_10;
+	// 18
+	u64 m_unk_field_18;
+	
+	// ?
+
+	// 28
+	u64 m_unk_field_28;
+	// 30
+	u64 m_unk_field_30;
+	// 38
+	u64 m_unk_field_38;
 };
 
 struct mgRENDER_INFO

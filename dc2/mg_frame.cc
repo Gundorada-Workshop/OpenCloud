@@ -195,15 +195,41 @@ void mgCFrame::SetVisual(mgCVisual* visual)
 
 void mgCDrawEnv::Initialize(bool b)
 {
-	todo;
+	log_trace("mgCDrawEnv::mgCDrawEnv({})", b);
+
+	// Pulled these from runtime
+	// Metrowerks can go chew on a bag of rocks
+	m_unk_field_0 = 0x10000000'00008003;
+	m_unk_field_8 = 0x00000000'0000000E;
+	m_unk_field_10 = 0x00000000'0005000B;
+	m_unk_field_30 = 0x44;
+
+	if (b)
+	{
+		m_unk_field_18 = 0x48;
+		m_unk_field_28 = 0x4F;
+		m_unk_field_38 = 0x43;
+	}
+	else
+	{
+		m_unk_field_18 = 0x47;
+		m_unk_field_28 = 0x4E;
+		m_unk_field_38 = 0x42;
+	}
 }
 
+// 00138850
 mgCDrawEnv::mgCDrawEnv()
 {
+	log_trace("mgCDrawEnv::mgCDrawEnv()");
+
 	Initialize(false);
 }
 
+// 00138880
 mgCDrawEnv::mgCDrawEnv(mgCDrawEnv& other)
 {
+	log_trace("mgCDrawEnv::mgCDrawEnv({})", fmt::ptr(&other));
+
 	memcpy(this, &other, sizeof(this));
 }
