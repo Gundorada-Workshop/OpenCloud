@@ -4,7 +4,7 @@
 #include "common/log.h"
 
 #include "character.h"
-#include "effect.h"
+#include "effect_script.h"
 #include "mg_lib.h"
 #include "mg_memory.h"
 #include "pbuggy.h"
@@ -15,144 +15,149 @@ set_log_channel("pbuggy");
 static s32 BuggyHP = 1;
 
 // 00378774
-static CCharacter2* dword_378774;
+static CCharacter2* BuggyChara;
 // 00378778
-static CCharacter2* dword_378778;
+static CCharacter2* PorcussChara;
 // 0037877C
-static CCharacter2* dword_37877C;
+static CCharacter2* MucchoChara;
 // 00378780
-static CCharacter2* dword_378780;
+static CCharacter2* BombChara;
 // 00378784
-static CCharacter2* dword_378784;
+static CCharacter2* StarbullChara;
 // 00378788
-static CCharacter2* dword_378788;
+static CCharacter2* GunFireEff;
 // 0037878C
-static CCharacter2* dword_37878C;
+static CCharacter2* GunHitEff;
 
 // 00378790
-static s32 dword_378790;
+static s32 BombEffHandle;
 
 // 00378794
-static s32 dword_378794;
+static s32 SmokeEffHandle;
 
 // 00378798
-static s32 dword_378798;
+static s32 BuggyTexb;
 
 // 0037879C
-static s32 dword_37879C;
+static s32 PorcussTexb;
 
 // 003787A0
-static s32 dword_3787A0;
+static s32 MucchoTexb;
 
 // 003787A4
-static s32 dword_3787A4;
+static s32 EffectTexb;
 
 // 003787A8
-static s32 dword_3787A8;
+static s32 EffectTexbNum;
 
 // 003787AC
-static s32 dword_3787AC;
+static s32 BombTexb;
 
 // 003787B0
-static s32 dword_3787B0;
+static s32 StarbullTexb;
 
 // 003787B4
-static s32 dword_3787B4;
+static s32 GunEffTexb;
 
 // 003787B8
-static s32 dword_3787B8;
+static s32 SysTexb;
 
 // 003787BC
-static CEffect* dword_3787BC;
+static CEffectScriptMan* EffectMan;
 
 // 003787C0
-static s32 dword_3787C0;
+static s32 RunEventNo;
 
 // 003787C4
-// FIXME: Unknown pointer type
-static void* dword_3787C4;
+char *WorkBuff;
 
 // 003787C8
-static s32 dword_3787C8;
+static s32 BuggySndID;
 
 // 003787CC
-static bool dword_3787CC;
+static bool IntroHelpMesFlag;
 
 // 003787D0
-static bool dword_3787D0;
+static int CharaStatus;
 
 // 003787D4
-static s32 dword_3787D4;
+static s32 BuggyStatus;
 
 // 003787D8
-static bool dword_3787D8;
+static bool BuggyStatusStep;
 
 // 003787DC
-static float flt_3787DC;
+static float BuggyHPf;
 
 // 003787E0
-static float flt_3787E0;
+static float TrainHP;
 
 // 003787E4
-static s32 dword_3787E4;
+static s32 BuggyActCount;
 
 // 003787E8
-static bool dword_3787E8;
+static s32 BuggySidePos;
 
 // 003787EC
-static bool dword_3787EC;
+static s32 BuggyDamageMotion;
 
 // 003787F0
-static s32 dword_3787F0;
+static s32 GunFireEffDraw;
 
 // 003787F4
-static s32 dword_3787F4;
+static s32 GunHitEffDraw;
 
 // 003787F8
-static u32 dword_3787F8;
+static u32 BombStatus;
 
 // 003787FC
-static s32 dword_3787FC;
+static s32 BombCount;
 
 // 00378800
-static bool dword_378800;
+static bool BombHitObj;
 
 // 00378804
-static s32 dword_378804;
+static s32 BombImpact;
 
 // 00378808
-static s32 dword_378808;
+// FIXME: static fn var
+static s32 test$1252;
 
 // 0037880C
-static bool dword_37880C;
+// FIXME: static fn var
+static bool init$1253;
 
 // 00378810
-static s32 dword_378810;
+// FIXME: static fn var
+static s32 reload_cnt$1348;
+
+// 01F5F940
+static glm::vec4 StarbullPos;
 
 // 01F5F950
-static mgCMemory stru_1F5F950;
+static mgCMemory EffectBuff;
 
 // 01F5F980
-static glm::vec4 stru_1F5F980;
+static glm::vec4 BuggyVelo;
 
 // 01F5F990
-static glm::vec4 stru_1F5F990;
+static glm::vec4 BombVelo;
 
 // 01F5F9A0
-static STRU_1F5F9A0 stru_1F5F9A0;
+static STRU_1F5F9A0 PolVoice;
 
 namespace PBuggy
 {
 	void SInit()
 	{
-		log_trace("SInit");
+		log_trace("SInit()");
 
-		stru_1F5F950.Initialize();
+		EffectBuff.Initialize();
 
-		stru_1F5F9A0.field_0 = 0;
-		stru_1F5F9A0.field_8 = false;
-		stru_1F5F9A0.field_C = 1.0f;
-		stru_1F5F9A0.field_10 = 1.0f;
+		PolVoice.field_0 = 0;
+		PolVoice.field_8 = false;
+		PolVoice.field_C = 1.0f;
+		PolVoice.field_10 = 1.0f;
 	}
 }
 
@@ -228,16 +233,16 @@ void BuggyDamage(s32 i1)
 {
 	log_trace("BuggyDamage({})", i1);
 
-	if (dword_3787D4 == 1)
+	if (BuggyStatus == 1)
 	{
 		return;
 	}
 
-	dword_3787EC = i1;
-	dword_3787D4 = 2;
-	dword_3787D8 = false;
-	dword_3787E4 = 1;
-	dword_378800 = true;
+	BuggyDamageMotion = i1;
+	BuggyStatus = 2;
+	BuggyStatusStep = false;
+	BuggyActCount = 1;
+	BombHitObj = true;
 	BuggyHP -= 1;
 }
 
@@ -267,7 +272,7 @@ bool TakeBombCheck()
 {
 	log_trace("TakeBombCheck()");
 
-	return (dword_3787F8 ^ 3) == 0;
+	return (BombStatus ^ 3) == 0;
 }
 
 bool TakeBomb()
@@ -279,7 +284,7 @@ bool TakeBomb()
 		return false;
 	}
 
-	dword_3787F8 = 4;
+	BombStatus = 4;
 
 	return true;
 }
@@ -299,15 +304,15 @@ bool BombBomb()
 {
 	log_trace("BombBomb()");
 
-	if (dword_3787F8 != 6)
+	if (BombStatus != 6)
 	{
 		return false;
 	}
 
-	stru_1F5F990 = glm::vec4(0.0f);
+	BombVelo = glm::vec4(0.0f);
 
-	dword_3787FC = 0;
-	dword_378800 = true;
+	BombCount = 0;
+	BombHitObj = true;
 
 	return true;
 }
@@ -316,7 +321,7 @@ bool NowPutBomb()
 {
 	log_trace("NowPutBomb()");
 
-	return (dword_3787F8 ^ 3) == 0;
+	return (BombStatus ^ 3) == 0;
 }
 
 void BombControl(CScene* scene)

@@ -6,11 +6,16 @@
 
 set_log_channel("mg_texture");
 
+// 00376C28
 static mgCTextureManager* TexManager{ nullptr };
+// 00376C20
 static mgCTextureAnime* pLoadTexAnime{ nullptr };
+// 00376C2C
 static mgCMemory* TexAnimeStack{ nullptr };
-static char* _group_name{ NULL };
-static int _ta_enable = 0;
+// 00376C30
+static char* group_name{ NULL };
+// 00376C34
+static int ta_enable = 0;
 
 static bool texTEX_ANIME(SPI_STACK* stack, int)
 {
@@ -23,10 +28,10 @@ static bool texTEX_ANIME(SPI_STACK* stack, int)
 
     strcpy(dest, s);
 
-    _group_name = dest;
+    group_name = dest;
   }
 
-  _ta_enable = spiGetStackInt(++stack);
+  ta_enable = spiGetStackInt(++stack);
 
   return true;
 }
@@ -134,14 +139,39 @@ const std::array<SPI_TAG_PARAM, 14> tex_tag =
   NULL, nullptr
 };
 
+// 0012C6D0
+mgCTextureBlock::mgCTextureBlock()
+{
+  log_trace("mgCTextureBlock::mgCTextureBlock()");
+
+  Initialize();
+}
+
+// 0012C700
+void mgCTextureBlock::Initialize()
+{
+  log_trace("mgCTextureBlock::Initialize()");
+
+  m_unk_field_0 = 0;
+  m_unk_field_4 = 0;
+  m_unk_field_8 = 0;
+  m_unk_field_C = 0;
+}
+
+// 0012C7E0
+mgCTextureManager::mgCTextureManager()
+{
+  new (&m_unk_field_14) mgCTextureBlock;
+}
+
 // 0013d8c0
 void mgCTextureManager::LoadCFGFile(const char* file, int size, mgCMemory* tex_anime_stack, mgCTextureAnime* tex_anime)
 {
   CScriptInterpreter interpreter{ };
 
   unimplemented_var(_pTexAnime = 0);
-  _group_name = 0;
-  _ta_enable = 0;
+  group_name = 0;
+  ta_enable = 0;
   unimplemented_var(_now_texb = 0xffffffff);
   unimplemented_var(_now_group = 0xffffffff);
   unimplemented_var(texBugPatch = 0);

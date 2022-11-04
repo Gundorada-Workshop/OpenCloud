@@ -4,7 +4,20 @@
 #include "font.h"
 #include "mg_memory.h"
 
-struct SMainLoopUnk1
+namespace Language
+{
+	enum Language : s32
+	{
+		Japanese = 0,
+		English = 1,
+		COUNT = 2
+	};
+}
+
+// 00376FC0
+extern Language::Language LanguageCode;
+
+struct SDebugInfo
 {
 	bool m_unk_field_0;
 	s32 m_unk_field_4;
@@ -13,7 +26,7 @@ struct SMainLoopUnk1
 	s32 m_unk_field_10;
 };
 
-struct SMainLoopUnk2
+struct SInitArg
 {
 	// 0
 	_UNKNOWN m_unk_field_0;

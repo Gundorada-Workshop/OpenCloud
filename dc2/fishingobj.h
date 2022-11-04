@@ -3,6 +3,7 @@
 #include "glm/glm.hpp"
 #include "common/debug.h"
 #include "common/types.h"
+#include "collision.h"
 #include "mg_frame.h"
 #include "scene.h"
 

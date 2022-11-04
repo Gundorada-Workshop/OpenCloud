@@ -1,21 +1,26 @@
 #include <string.h>
+#include "common/log.h"
 #include "mg_frame.h"
 
+set_log_channel("mg_frame");
+
 // 00380DA0
-static mgCFrameAttr stru_380DA0;
+static mgCFrameAttr dmy_attr;
 
 namespace mg_frame
 {
 	void SInit()
 	{
-		new (&stru_380DA0) mgCFrameAttr();
+		log_trace("SInit()");
+
+		new (&dmy_attr) mgCFrameAttr();
 	}
 }
 
 mgVu0FBOX::mgVu0FBOX(mgVu0FBOX& box)
 {
-	m_corner1 = box.m_corner1;
-	m_corner2 = box.m_corner2;
+	m_a = box.m_a;
+	m_b = box.m_b;
 }
 
 void mgCDrawPrim::BeginDma()
@@ -73,6 +78,16 @@ void mgCDrawPrim::Color(glm::vec4 rgba)
 void mgCDrawPrim::TextureCrd(sint s, sint t)
 {
 	TextureCrd4(s << 4, t << 4);
+}
+
+// 00135180
+mgCDrawManager::mgCDrawManager()
+{
+	log_trace("mgCDrawManager::mgCDrawManager()");
+
+	m_unk_field_68 = 0x40;
+	m_unk_field_6C = 0;
+	m_unk_field_70 = 0;
 }
 
 void mgCObject::ChangeParam()

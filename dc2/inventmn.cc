@@ -6,7 +6,7 @@ set_log_channel("inventmn");
 // 001FE170
 void Initialize_USER_PICTURE_INFO(USER_PICTURE_INFO* user_picture_info)
 {
-  log_trace("Initialize_USER_PICTURE_INFO", fmt::ptr(user_picture_info));
+  log_trace("Initialize_USER_PICTURE_INFO({})", fmt::ptr(user_picture_info));
 
   if (user_picture_info == nullptr)
   {
