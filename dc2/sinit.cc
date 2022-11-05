@@ -10,6 +10,7 @@
 #include "pbuggy.h"
 #include "photo.h"
 #include "title.h"
+#include "userdata.h"
 
 namespace StaticInitializers
 {
@@ -26,5 +27,6 @@ namespace StaticInitializers
 		PBuggy::SInit();
 		Photo::SInit();
 		Title::SInit();
+		userdata::SInit();
 	}
 }

@@ -4,6 +4,19 @@
 
 set_log_channel("userdata");
 
+// 01E9B130
+static CBattleCharaInfo BattleParameter;
+
+namespace userdata
+{
+  void SInit()
+  {
+    log_trace("SInit()");
+
+    BattleParameter.Initialize();
+  }
+}
+
 // 0019a160
 void CFishAquarium::Initialize()
 {
@@ -125,4 +138,21 @@ void CUserDataManager::Initialize()
   memset(this, 0, sizeof(this));
 
   todo;
+}
+
+// 0019EF70
+void CBattleCharaInfo::Initialize()
+{
+  log_trace("CBattleCharaInfo::Initialize()");
+
+  memset(this, 0, sizeof(this));
+
+  m_unk_field_0 = 0;
+  m_unk_field_6 = -1;
+  m_unk_field_8 = 0;
+  m_unk_field_74 = 0;
+  m_unk_field_30 = 0;
+  m_unk_field_7C = 0;
+  m_unk_field_80 = -1.0f;
+  m_unk_field_84 = -1.0f;
 }

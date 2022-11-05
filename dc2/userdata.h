@@ -6,9 +6,14 @@
 
 // ~ 00196C20 - 001A2080
 
+namespace userdata
+{
+  // 0019EF70
+  void SInit();
+}
+
 // TODO THIS FILE
 struct MOS_CHANGE_PARAM {};
-class CBattleCharaInfo {};
 
 class CGameDataUsed
 {
@@ -151,4 +156,41 @@ class CMonsterBox
 public:
   // 0019ab50
   void Initialize();
+};
+
+class CBattleCharaInfo
+{
+public:
+  // 0019EF70
+  void Initialize();
+
+  // 0
+  s16 m_unk_field_0;
+
+  // ?
+
+  // 6
+  s16 m_unk_field_6;
+  // 8
+  _UNKNOWN m_unk_field_8;
+
+  // ?
+
+  // 30
+  _UNKNOWN m_unk_field_30;
+  // 74
+  _UNKNOWN m_unk_field_74;
+
+  // ?
+
+  // 7C
+  _UNKNOWN m_unk_field_7C;
+  // 80
+  float m_unk_field_80;
+  // 84
+  float m_unk_field_84;
+
+  // ?
+
+  // Size 0x90
 };
