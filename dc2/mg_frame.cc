@@ -13,14 +13,278 @@ namespace mg_frame
 	{
 		log_trace("SInit()");
 
-		new (&dmy_attr) mgCFrameAttr();
+		dmy_attr = mgCFrameAttr();
 	}
 }
 
-mgVu0FBOX::mgVu0FBOX(mgVu0FBOX& box)
+mgVu0FBOX::mgVu0FBOX(mgVu0FBOX& other)
 {
-	m_a = box.m_a;
-	m_b = box.m_b;
+	log_trace("mgVu0FBOX::mgVu0FBOX({})", fmt::ptr(&other));
+
+	m_a = other.m_a;
+	m_b = other.m_b;
+}
+
+// 0013E7B0
+void mgCVisualAttr::Initialize()
+{
+	log_trace("mgCVisualAttr::Initialize()");
+
+	memset(this, 0, sizeof(this));
+
+	m_unk_field_0 = -1;
+	m_unk_field_8 = 1;
+	m_unk_field_14 = -1;
+}
+
+// 0013E7F0
+mgCVisualAttr::mgCVisualAttr()
+{
+	log_trace("mgCVisualAttr::mgCVisualAttr()");
+
+	Initialize();
+}
+
+// 00133740
+int mgCVisual::Iam()
+{
+	log_trace("mgCVisual::{}()", __func__);
+
+	return 0;
+}
+
+// 00134300
+int mgCVisual::GetMaterialNum()
+{
+	log_trace("mgCVisual::{}()", __func__);
+
+	return 0;
+}
+
+// 00134310
+_UNKNOWNPOINTER mgCVisual::GetpMaterial()
+{
+	log_trace("mgCVisual::{}()", __func__);
+
+	return nullptr;
+}
+
+// 00134320
+_UNKNOWNPOINTER mgCVisual::GetMaterial(ssize index)
+{
+	log_trace("mgCVisual::{}({})", __func__, index);
+
+	return nullptr;
+}
+
+// 00133750
+mgCVisual* mgCVisual::Copy(mgCMemory& stack)
+{
+	log_trace("mgCVisual::{}({})", __func__, fmt::ptr(&stack));
+
+	return this;
+}
+
+// 00134330
+bool mgCVisual::CreateBBox(glm::vec4& v1, glm::vec4& v2, glm::mat4& m1)
+{
+	log_trace("mgCVisual::{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&m1));
+
+	return false;
+}
+
+// 00134340
+_UNKNOWNPOINTER mgCVisual::CreateRenderInfoPacket(_UNKNOWNPOINTER p, glm::mat4& m1, mgRENDER_INFO& render_info)
+{
+	log_trace("mgCVisual::{}({}, {}, {})", __func__, fmt::ptr(p), fmt::ptr(&m1), fmt::ptr(&render_info));
+
+	return nullptr;
+}
+// 001342F0
+_UNKNOWNPOINTER mgCVisual::CreatePacket(mgCMemory& mem1, mgCMemory& mem2)
+{
+	log_trace("mgCVisual::{}({}, {})", __func__, fmt::ptr(&mem1), fmt::ptr(&mem2));
+
+	return nullptr;
+}
+
+// 00134360
+_UNKNOWN mgCVisual::Draw(glm::mat4& m1, mgCDrawManager& draw_man)
+{
+	log_trace("mgCVisual::{}({}, {})", __func__, fmt::ptr(&m1), fmt::ptr(&draw_man));
+
+	return Draw(nullptr, m1, draw_man);
+}
+
+// 00134350
+_UNKNOWN mgCVisual::Draw(_UNKNOWNPOINTER p, glm::mat4& m1, mgCDrawManager& draw_man)
+{
+	log_trace("mgCVisual::{}({}, {}, {})", __func__, fmt::ptr(p), fmt::ptr(&m1), fmt::ptr(&draw_man));
+
+	return 0;
+}
+
+// 00132DC0
+void mgCVisual::Initialize()
+{
+	log_trace("mgCVisual::Initialize()");
+
+	m_unk_field_0 = 0;
+	m_unk_field_4 = 0;
+	m_unk_field_8 = 0;
+	m_unk_field_10 = 0;
+	m_unk_field_14 = 0;
+}
+
+// 00134280
+int mgCVisualMDT::Iam()
+{
+	log_trace("mgCVisualMDT::{}()", __func__);
+
+	return 1;
+}
+
+// 00134290
+int mgCVisualMDT::GetMaterialNum()
+{
+	log_trace("mgCVisualMDT::{}()", __func__);
+
+	return m_material_num;
+}
+
+// 001342A0
+_UNKNOWNPOINTER mgCVisualMDT::GetpMaterial()
+{
+	log_trace("mgCVisualMDT::{}()", __func__);
+
+	return m_p_material;
+}
+
+// 0013EF60
+_UNKNOWNPOINTER mgCVisualMDT::GetMaterial(ssize index)
+{
+	log_trace("mgCVisualMDT::{}({})", __func__, index);
+
+	todo;
+	return nullptr;
+}
+
+// 0013EFC0
+bool mgCVisualMDT::CreateBBox(glm::vec4& v1, glm::vec4& v2, glm::mat4& m1)
+{
+	log_trace("mgCVisualMDT::{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&m1));
+
+	if (m_unk_field_20 <= 0)
+	{
+		return false;
+	}
+
+	glm::mat4* mat = m_unk_field_30;
+	if (mat == nullptr)
+	{
+		return false;
+	}
+	else
+	{
+		// 0013EFF0
+		todo;
+		return true;
+	}
+}
+
+// 001404D0
+_UNKNOWNPOINTER mgCVisualMDT::CreateRenderInfoPacket(_UNKNOWNPOINTER p, glm::mat4& m1, mgRENDER_INFO& render_info)
+{
+	log_trace("mgCVisualMDT::{}({}, {}, {})", __func__, fmt::ptr(p), fmt::ptr(&m1), fmt::ptr(&render_info));
+
+	todo;
+	return nullptr;
+}
+
+// 001342B0
+_UNKNOWN mgCVisualMDT::Draw(glm::mat4& m1, mgCDrawManager& draw_man)
+{
+	log_trace("mgCVisualMDT::{}({}, {})", __func__, fmt::ptr(&m1), fmt::ptr(&draw_man));
+
+	return Draw(nullptr, m1, draw_man);
+}
+
+// 0013F4E0
+_UNKNOWN mgCVisualMDT::Draw(_UNKNOWNPOINTER p, glm::mat4& m1, mgCDrawManager& draw_man)
+{
+	log_trace("mgCVisualMDT::{}({}, {}, {})", __func__, fmt::ptr(p), fmt::ptr(&m1), fmt::ptr(&draw_man));
+
+	return 0;
+}
+
+
+// 0013EAC0
+void mgCVisualMDT::Initialize()
+{
+	log_trace("mgCVisualMDT::Initialize()");
+
+	m_unk_field_20 = 0;
+	m_unk_field_30 = nullptr;
+	m_unk_field_24 = 0;
+	m_unk_field_34 = 0;
+	m_unk_field_38 = 0;
+	m_unk_field_3C = 0;
+	m_material_num = 0;
+	m_p_material = nullptr;
+	m_unk_field_48 = 0;
+
+	m_unk_field_0 = 0;
+	m_unk_field_4 = 0;
+	m_unk_field_8 = 0;
+	m_unk_field_14 = 0;
+	m_unk_field_10 = 0;
+	
+	m_unk_field_10 = 60;
+	m_unk_field_14 = 180;
+}
+
+// 0013F6A0
+_DWORD mgCVisualMDT::CreatePacket(mgCDrawManager& draw_man)
+{
+	log_trace("mgCVisualMDT::{}({})", __func__, fmt::ptr(&draw_man));
+
+	todo;
+	return 0;
+}
+
+// 0013FF60
+_DWORD mgCVisualMDT::CreateFacePacket(_UNKNOWNPOINTER p, mgCFace& face)
+{
+	log_trace("mgCVisualMDT::{}({}, {})", __func__, fmt::ptr(p), fmt::ptr(&face));
+
+	todo;
+	return 0;
+}
+
+// 0013F010
+mgCFace* mgCVisualMDT::CreateFace(FACES_ID& faces_id, mgCMemory& mem1, mgCMemory& mem2, mgCFace&& faces)
+{
+	log_trace("mgCVisualMDT::{}({}, {}, {}, {})", __func__, fmt::ptr(&faces_id), fmt::ptr(&mem1), fmt::ptr(&mem2), fmt::ptr(&faces));
+
+	todo;
+	return nullptr;
+}
+
+// 00140BE0
+_UNKNOWNPOINTER mgCVisualMDT::CreateExtRenderInfoPacket(_UNKNOWNPOINTER p, glm::mat4& m1, mgRENDER_INFO& render_info)
+{
+	log_trace("mgCVisualMDT::{}({}, {}, {})", __func__, fmt::ptr(p), fmt::ptr(&m1), fmt::ptr(&render_info));
+
+	return nullptr;
+}
+
+// 0013F290
+bool mgCVisualMDT::DataAssignMT(MDT_HEADER* mdt_header, mgCMemory& stack, mgCTextureManager* texture_man)
+{
+	log_trace("mgCVisualMDT::{}({}, {}, {})", __func__, fmt::ptr(mdt_header), fmt::ptr(&stack), fmt::ptr(texture_man));
+
+	todo;
+	return false;
 }
 
 void mgCDrawPrim::BeginDma()
@@ -90,120 +354,311 @@ mgCDrawManager::mgCDrawManager()
 	m_unk_field_70 = 0;
 }
 
+// 00138810
 void mgCObject::ChangeParam()
 {
-	todo;
+	log_trace("mgCObject::ChangeParam()");
+
+	m_unk_field_40 = true;
 }
 
+// 00138820
 void mgCObject::UseParam()
 {
-	todo;
+	log_trace("mgCObject::UseParam()");
+
+	m_unk_field_40 = true;
 }
 
-void mgCObject::SetPosition(glm::vec4& v)
+// 00136190
+void mgCObject::SetPosition(const glm::vec4& v)
 {
-	todo;
+	log_trace("mgCObject::SetPosition({}) (x, y, z = {}, {}, {})", fmt::ptr(&v), v.x, v.y, v.z);
+
+	if (static_cast<glm::vec3>(v) == static_cast<glm::vec3>(m_position))
+	{
+		return;
+	}
+
+	m_unk_field_44 = true;
+	m_position = v;
+	m_position.w = 1.0f;
+	m_unk_field_40 = true;
 }
 
+// 00136220
 void mgCObject::SetPosition(float x, float y, float z)
 {
-	todo;
+	log_trace("mgCObject::SetPosition({}, {}, {})", x, y, z);
+
+	glm::vec4 pos = glm::vec4(x, y, z, 1.0f);
+	SetPosition(pos);
 }
 
+// 00136260
 void mgCObject::GetPosition(glm::vec4& v)
 {
-	todo;
+	log_trace("mgCObject::GetPosition({})", fmt::ptr(&v));
+
+	v = m_position;
 }
 
-void mgCObject::SetRotation(glm::vec4& v)
+// 00136270
+void mgCObject::SetRotation(const glm::vec4& v)
 {
-	todo;
+	log_trace("mgCObject::SetRotation({}) (x, y, z = {}, {}, {})", fmt::ptr(&v), v.x, v.y, v.z);
+
+	if (static_cast<glm::vec3>(v) == static_cast<glm::vec3>(m_rotation))
+	{
+		return;
+	}
+
+	m_unk_field_44 = true;
+	m_rotation = v;
+	m_rotation.w = 0.0f;
+	m_unk_field_40 = true;
 }
 
+// 001362F0
 void mgCObject::SetRotation(float x, float y, float z)
 {
-	todo;
+	log_trace("mgCObject::SetRotation({}, {}, {})", x, y, z);
+
+	glm::vec4 rot = glm::vec4(x, y, z, 0.0f);
+	SetPosition(rot);
 }
 
+// 00136330
 void mgCObject::GetRotation(glm::vec4& v)
 {
-	todo;
+	log_trace("mgCObject::GetRotation({})", fmt::ptr(&v));
+
+	v = m_rotation;
 }
 
-void mgCObject::SetScale(glm::vec4& v)
+// 00136340
+void mgCObject::SetScale(const glm::vec4& v)
 {
-	todo;
+	log_trace("mgCObject::SetScale({}) (x, y, z = {}, {}, {})", fmt::ptr(&v), v.x, v.y, v.z);
+
+	if (static_cast<glm::vec3>(v) == static_cast<glm::vec3>(m_scale))
+	{
+		return;
+	}
+
+	m_unk_field_44 = true;
+	m_scale = v;
+	m_scale.w = 0.0f;
+	m_unk_field_40 = true;
 }
 
+// 001363C0
 void mgCObject::SetScale(float x, float y, float z)
 {
-	todo;
+	log_trace("mgCObject::SetScale({}, {}, {})", x, y, z);
+
+	glm::vec4 scale = glm::vec4(x, y, z, 0.0f);
+	SetScale(scale);
 }
 
+// 00136400
 void mgCObject::GetScale(glm::vec4& v)
 {
-	todo;
+	log_trace("mgCObject::GetScale({})", fmt::ptr(&v));
+
+	v = m_scale;
 }
 
-void mgCObject::Draw()
+// 00138840
+_UNKNOWN mgCObject::Draw()
 {
-	todo;
+	log_trace("mgCObject::Draw()");
+
+	return 0;
 }
 
-int mgCObject::DrawDirect()
+// 00138830
+_UNKNOWN mgCObject::DrawDirect()
 {
+	log_trace("mgCObject::DrawDirect()");
+
+	return 0;
+}
+
+// 00136410
+void mgCObject::Initialize()
+{
+	log_trace("mgCObject::Initialize()");
+
+	SetPosition(0.0f, 0.0f, 0.0f);
+	SetRotation(0.0f, 0.0f, 0.0f);
+	SetScale(1.0f, 1.0f, 1.0f);
+	m_unk_field_40 = true;
+	m_unk_field_44 = false;
+}
+
+// 00161DF0
+mgCObject::mgCObject()
+{
+	log_trace("mgCObject::mgCObject()");
+
+	Initialize();
+}
+
+// 00136510
+void mgCFrameBase::Initialize()
+{
+	log_trace("mgCFrameBase::Initialize()");
+
+	mgCObject::Initialize();
+}
+
+// 00135AD0
+void mgCFrameAttr::Initialize()
+{
+	log_trace("mgCFrameAttr::Initialize()");
+
+	memset(this, 0, sizeof(mgCFrameAttr));
+
+	mgCVisualAttr::Initialize();
+	
+	m_unk_field_7C = 128.0f;
+	m_unk_field_78 = 128.0f;
+	m_unk_field_74 = 128.0f;
+	m_unk_field_70 = 128.0f;
+
+	m_unk_field_0 = -1;
+	m_unk_field_18 = 1;
+	m_unk_field_8 = 1;
+	m_unk_field_3C = 0;
+	
+	m_unk_field_20 = 100.0f;
+	m_unk_field_30 = 1;
+	m_unk_field_44 = 1.0f;
+	m_unk_field_80 = 1;
+
+	m_unk_field_5C = 0;
+	m_unk_field_58 = 0;
+	m_unk_field_50 = 0;
+	m_unk_field_54 = 1.0f;
+
+	m_unk_field_8C = 0;
+	m_unk_field_84 = 0;
+}
+
+// 00135B60
+mgCFrameAttr::mgCFrameAttr()
+{
+	log_trace("mgCFrameAttr::mgCFrameAttr()");
+
+	Initialize();
+}
+
+// 001387F0
+_UNKNOWN mgCFrame::Draw()
+{
+	log_trace("mgCFrame::Draw()");
+
 	todo;
 	return 0;
 }
 
-void mgCObject::Initialize()
+// 00136520
+void mgCFrame::Initialize()
 {
-	todo;
+	log_trace("mgCFrame::Initialize()");
+
+	m_unk_field_60 = 0;
+	m_unk_field_5C = 0;
+	m_unk_field_58 = 0;
+	m_unk_field_54 = 0;
+	m_unk_field_70 = glm::mat4(1.0f);
+	m_unk_field_B0 = glm::mat4(1.0f);
+	m_name = nullptr;
+	m_unk_field_100 = 0;
+	m_unk_field_FC = 0;
+	m_unk_field_F8 = 0;
+	m_unk_field_F4 = 0;
+	m_unk_field_64 = 0;
+	m_unk_field_68 = 0;
+	m_unk_field_6C = 0;
+	m_unk_field_F0 = 0;
+
+	mgCObject::Initialize();
 }
 
-mgCObject::mgCObject()
-{
-	Initialize();
-}
-
-void mgCFrameAttr::Initialize()
-{
-	memset(this, 0, sizeof(mgCFrameAttr));
-
-	// TODO: More member variable setting down here
-}
-
-mgCFrameAttr::mgCFrameAttr()
-{
-	Initialize();
-}
-
+// 00136890
 void mgCFrame::GetWorldBBox(mgVu0FBOX& box)
 {
+	log_trace("mgCFrame::GetWorldBBox({})", fmt::ptr(&box));
+
 	todo;
 }
 
-void mgCFrame::Draw(void* p)
+// 00137E10
+void mgCFrame::Draw(_UNKNOWNPOINTER p)
 {
+	log_trace("mgCFrame::Draw({})", fmt::ptr(p));
+
 	todo;
 }
 
+// 00132D90
 void mgCFrame::SetVisual(mgCVisual* visual)
 {
+	log_trace("mgCFrame::SetVisual({})", fmt::ptr(visual));
+
 	todo;
 }
 
+// 00136490
+mgCFrame::mgCFrame()
+{
+	log_trace("mgCFrame::mgCFrame()");
+
+	mgCObject::Initialize();
+	mgCFrameBase::Initialize();
+	Initialize();
+}
+
+// 001388B0
 void mgCDrawEnv::Initialize(bool b)
 {
-	todo;
+	log_trace("mgCDrawEnv::Initialize({})", b);
+
+	// Pulled these from runtime
+	// Metrowerks can go chew on a bag of rocks
+	m_unk_field_0 = 0x10000000'00008003;
+	m_unk_field_8 = 0x00000000'0000000E;
+	m_unk_field_10 = 0x00000000'0005000B;
+	m_unk_field_30 = 0x44;
+
+	if (b)
+	{
+		m_unk_field_18 = 0x48;
+		m_unk_field_28 = 0x4F;
+		m_unk_field_38 = 0x43;
+	}
+	else
+	{
+		m_unk_field_18 = 0x47;
+		m_unk_field_28 = 0x4E;
+		m_unk_field_38 = 0x42;
+	}
 }
 
+// 00138850
 mgCDrawEnv::mgCDrawEnv()
 {
+	log_trace("mgCDrawEnv::mgCDrawEnv()");
+
 	Initialize(false);
 }
 
+// 00138880
 mgCDrawEnv::mgCDrawEnv(mgCDrawEnv& other)
 {
+	log_trace("mgCDrawEnv::mgCDrawEnv({})", fmt::ptr(&other));
+
 	memcpy(this, &other, sizeof(this));
 }

@@ -79,25 +79,25 @@ namespace MainLoop_SInit
 
 		for (auto& character : MainScene.m_characters)
 		{
-			static_cast<CSceneData&>(character).Initialize();
+			character.CSceneData::Initialize();
 			character.Initialize();
 		}
 
 		for (auto& camera : MainScene.m_cameras)
 		{
-			static_cast<CSceneData&>(camera).Initialize();
+			camera.CSceneData::Initialize();
 			camera.Initialize();
 		}
 
 		for (auto& message : MainScene.m_messages)
 		{
-			static_cast<CSceneData&>(message).Initialize();
+			message.CSceneData::Initialize();
 			message.Initialize();
 		}
 
 		MainScene.m_mds_list_set.Initialize();
 
-		new (&MainScene.m_fire_raster) mgCTexture;
+		MainScene.m_fire_raster = static_cast<CFireRaster>(mgCTexture());
 
 		for (auto& unk_var : MainScene.m_fire_raster.m_unk_field_70)
 		{
@@ -108,20 +108,20 @@ namespace MainLoop_SInit
 
 		for (auto& sky : MainScene.m_skies)
 		{
-			static_cast<CSceneData&>(sky).Initialize();
+			sky.CSceneData::Initialize();
 			sky.Initialize();
 		}
 
 		for (auto& gameobj : MainScene.m_gameobjs)
 		{
-			static_cast<CSceneData&>(gameobj).Initialize();
-			static_cast<CSceneCharacter&>(gameobj).Initialize();
+			gameobj.CSceneData::Initialize();
+			gameobj.CSceneCharacter::Initialize();
 			gameobj.Initialize();
 		}
 
 		for (auto& effect : MainScene.m_effects)
 		{
-			static_cast<CSceneData&>(effect).Initialize();
+			effect.CSceneData::Initialize();
 			effect.Initialize();
 		}
 
@@ -156,19 +156,19 @@ namespace MainLoop_SInit
 
 		for (auto& edit_data : stru_1E03434)
 		{
-			new (&edit_data) CEditData;
+			edit_data = CEditData();
 		}
 
-		new (&stru_1E1EAB0) CUserDataManager;
+		stru_1E1EAB0 = CUserDataManager();
 		stru_1E64250.Initialize();
-		new (&stru_1E658D0) CMenuSystemData;
+		stru_1E658D0 = CMenuSystemData();
 
 		for (auto& texture : FontTex)
 		{
-			new (&texture) mgCTexture;
+			texture = mgCTexture();
 		}
 
-		new (&PauseMes) ClsMes;
+		PauseMes = ClsMes();
 	}
 }
 

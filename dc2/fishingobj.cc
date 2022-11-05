@@ -84,7 +84,7 @@ namespace FishingObj
 	// 00374BE0
 	void SInit()
 	{
-		log_trace("SInit");
+		log_trace("SInit()");
 
 		memset(&LureObj, 0, sizeof(LureObj));
 		memset(&UkiObj, 0, sizeof(UkiObj));
@@ -95,7 +95,7 @@ namespace FishingObj
 // 003130B0
 void CFishObj::MovePoint()
 {
-	log_trace("MovePoint");
+	log_trace("MovePoint()");
 
 	todo;
 }
@@ -111,7 +111,7 @@ void CFishObj::FloatPoint(float f)
 // 00313310
 void CFishObj::BindStep()
 {
-	log_trace("BindStep");
+	log_trace("BindStep()");
 
 	todo;
 }
@@ -135,7 +135,7 @@ void SetFishingMode(int fishing_mode)
 // 0030F9C0
 int GetFishingMode()
 {
-	log_trace("GetFishingMode");
+	log_trace("GetFishingMode()");
 
 	return NowMode;
 }
@@ -151,7 +151,7 @@ void SetWaterLevel(float water_level)
 // 0030F9E0
 float GetWaterLevel()
 {
-	log_trace("GetWaterLevel");
+	log_trace("GetWaterLevel()");
 
 	return WaterLevel;
 }
@@ -159,7 +159,7 @@ float GetWaterLevel()
 // 0030F9F0
 CFishObj* GetActiveHariObj()
 {
-	log_trace("GetActiveHariObj");
+	log_trace("GetActiveHariObj()");
 
 	if (NowMode != 2)
 	{
@@ -171,7 +171,7 @@ CFishObj* GetActiveHariObj()
 // 0030FA20
 CFishObj* GetActiveUkiObj()
 {
-	log_trace("GetActiveUkiObj");
+	log_trace("GetActiveUkiObj()");
 
 	if (NowMode != 2)
 	{
@@ -191,7 +191,7 @@ void ExtendLine(float delta)
 // 0030FC10
 float GetNowLineLength()
 {
-	log_trace("GetNowLineLength");
+	log_trace("GetNowLineLength()");
 
 	if (BattleFlag)
 	{
@@ -204,7 +204,7 @@ float GetNowLineLength()
 // 0030FC60
 float GetMinLineLength()
 {
-	log_trace("GetMinLineLength");
+	log_trace("GetMinLineLength()");
 
 	return 25.0f;
 }
@@ -402,7 +402,7 @@ int CheckRodActionChance(int i, bool& pi)
 		return 0;
 	}
 
-	int check = ActionChanceDir * i > 0;
+	int check = ActionChanceDir * i;
 
 	if (check > 0)
 	{

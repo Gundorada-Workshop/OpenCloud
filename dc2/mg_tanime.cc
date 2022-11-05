@@ -13,7 +13,7 @@ namespace mg_tanime
   {
     log_trace("SInit()");
 
-    new (&nowTexData) mgCTexAnimeData;
+    nowTexData = mgCTexAnimeData();
   }
 }
 
