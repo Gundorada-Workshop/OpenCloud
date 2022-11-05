@@ -91,9 +91,9 @@ public:
 	// 24 001342F0
 	virtual _UNKNOWNPOINTER CreatePacket(mgCMemory& mem1, mgCMemory& mem2);
 	// 28 00134360
-	virtual _UNKNOWN Draw(glm::mat4& m1, mgCDrawManager& draw_man);
+	virtual _UNKNOWNPOINTER Draw(glm::mat4& m1, mgCDrawManager& draw_man);
 	// 2C 00134350
-	virtual _UNKNOWN Draw(_UNKNOWNPOINTER p, glm::mat4& m1, mgCDrawManager& draw_man);
+	virtual _UNKNOWNPOINTER Draw(_UNKNOWNPOINTER p, glm::mat4& m1, mgCDrawManager& draw_man);
 	// 30 00132DC0
 	virtual void Initialize();
 
@@ -136,9 +136,9 @@ public:
 	virtual _UNKNOWNPOINTER CreateRenderInfoPacket(_UNKNOWNPOINTER p, glm::mat4& m1, mgRENDER_INFO& render_info);
 	// 24 001342F0 (mgCVisual::CreatePacket)
 	// 28 001342B0
-	virtual _UNKNOWN Draw(glm::mat4& m1, mgCDrawManager& draw_man);
+	virtual _UNKNOWNPOINTER Draw(glm::mat4& m1, mgCDrawManager& draw_man);
 	// 2C 0013F4E0
-	virtual _UNKNOWN Draw(_UNKNOWNPOINTER p, glm::mat4& m1, mgCDrawManager& draw_man);
+	virtual _UNKNOWNPOINTER Draw(_UNKNOWNPOINTER p, glm::mat4& m1, mgCDrawManager& draw_man);
 	// 30 0013EAC0
 	virtual void Initialize();
 	// 34 0013F6A0
@@ -380,9 +380,9 @@ public:
 	// 30 00136400
 	virtual void GetScale(glm::vec4&);
 	// 34 00138840
-	virtual _UNKNOWN Draw();
+	virtual _UNKNOWNPOINTER Draw();
 	// 38 00138830
-	virtual _UNKNOWN DrawDirect();
+	virtual _UNKNOWNPOINTER DrawDirect();
 	// 3C 00136410
 	virtual void Initialize();
 
@@ -520,7 +520,7 @@ public:
 	// 2C 001363C0 (mgCObject::SetScale)
 	// 30 00136400 (mgCObject::GetScale)
 	// 34 001387F0
-	virtual _UNKNOWN Draw();
+	virtual _UNKNOWNPOINTER Draw();
 	// 38 00138830 (mgCObject::DrawDirect)
 	// 3C 00136520
 	virtual void Initialize();
@@ -770,6 +770,8 @@ public:
 	// 00139800
 	void SetFogParam(float f1, float f2, u8 i1, u8 i2, u8 i3, float f3, float f4);
 
+	// 3A0
+	glm::vec4 camera_pos;
 
 	// F20
 	std::array<mgCDrawEnv, 2> m_unk_field_F20;

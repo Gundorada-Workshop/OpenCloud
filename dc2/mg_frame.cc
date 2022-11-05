@@ -109,7 +109,7 @@ _UNKNOWNPOINTER mgCVisual::CreatePacket(mgCMemory& mem1, mgCMemory& mem2)
 }
 
 // 00134360
-_UNKNOWN mgCVisual::Draw(glm::mat4& m1, mgCDrawManager& draw_man)
+_UNKNOWNPOINTER mgCVisual::Draw(glm::mat4& m1, mgCDrawManager& draw_man)
 {
 	log_trace("mgCVisual::{}({}, {})", __func__, fmt::ptr(&m1), fmt::ptr(&draw_man));
 
@@ -117,11 +117,11 @@ _UNKNOWN mgCVisual::Draw(glm::mat4& m1, mgCDrawManager& draw_man)
 }
 
 // 00134350
-_UNKNOWN mgCVisual::Draw(_UNKNOWNPOINTER p, glm::mat4& m1, mgCDrawManager& draw_man)
+_UNKNOWNPOINTER mgCVisual::Draw(_UNKNOWNPOINTER p, glm::mat4& m1, mgCDrawManager& draw_man)
 {
 	log_trace("mgCVisual::{}({}, {}, {})", __func__, fmt::ptr(p), fmt::ptr(&m1), fmt::ptr(&draw_man));
 
-	return 0;
+	return nullptr;
 }
 
 // 00132DC0
@@ -202,7 +202,7 @@ _UNKNOWNPOINTER mgCVisualMDT::CreateRenderInfoPacket(_UNKNOWNPOINTER p, glm::mat
 }
 
 // 001342B0
-_UNKNOWN mgCVisualMDT::Draw(glm::mat4& m1, mgCDrawManager& draw_man)
+_UNKNOWNPOINTER mgCVisualMDT::Draw(glm::mat4& m1, mgCDrawManager& draw_man)
 {
 	log_trace("mgCVisualMDT::{}({}, {})", __func__, fmt::ptr(&m1), fmt::ptr(&draw_man));
 
@@ -210,11 +210,11 @@ _UNKNOWN mgCVisualMDT::Draw(glm::mat4& m1, mgCDrawManager& draw_man)
 }
 
 // 0013F4E0
-_UNKNOWN mgCVisualMDT::Draw(_UNKNOWNPOINTER p, glm::mat4& m1, mgCDrawManager& draw_man)
+_UNKNOWNPOINTER mgCVisualMDT::Draw(_UNKNOWNPOINTER p, glm::mat4& m1, mgCDrawManager& draw_man)
 {
 	log_trace("mgCVisualMDT::{}({}, {}, {})", __func__, fmt::ptr(p), fmt::ptr(&m1), fmt::ptr(&draw_man));
 
-	return 0;
+	return nullptr;
 }
 
 
@@ -470,19 +470,19 @@ void mgCObject::GetScale(glm::vec4& v)
 }
 
 // 00138840
-_UNKNOWN mgCObject::Draw()
+_UNKNOWNPOINTER mgCObject::Draw()
 {
 	log_trace("mgCObject::Draw()");
 
-	return 0;
+	return nullptr;
 }
 
 // 00138830
-_UNKNOWN mgCObject::DrawDirect()
+_UNKNOWNPOINTER mgCObject::DrawDirect()
 {
 	log_trace("mgCObject::DrawDirect()");
 
-	return 0;
+	return nullptr;
 }
 
 // 00136410
@@ -555,12 +555,12 @@ mgCFrameAttr::mgCFrameAttr()
 }
 
 // 001387F0
-_UNKNOWN mgCFrame::Draw()
+_UNKNOWNPOINTER mgCFrame::Draw()
 {
 	log_trace("mgCFrame::Draw()");
 
 	todo;
-	return 0;
+	return nullptr;
 }
 
 // 00136520

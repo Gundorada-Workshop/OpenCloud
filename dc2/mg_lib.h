@@ -1,4 +1,5 @@
 #pragma once
+#include "glm/glm.hpp"
 #include "common/types.h"
 #include "mg_camera.h"
 #include "mg_frame.h"
@@ -19,3 +20,10 @@ namespace mg_lib
   // 00373440
   void SInit();
 }
+
+// 00142F90
+_UNKNOWNPOINTER mgDraw(mgCFrame* frame);
+// 00142FD0
+_UNKNOWNPOINTER mgDrawDirect(mgCFrame* frame);
+// 00145B20
+float mgGetDistFromCamera(glm::vec4& point);

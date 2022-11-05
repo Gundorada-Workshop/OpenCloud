@@ -57,3 +57,38 @@ namespace mg_lib
     }
   }
 }
+
+// 00142F90
+_UNKNOWNPOINTER mgDraw(mgCFrame* frame)
+{
+  log_trace("mgDraw({})", fmt::ptr(frame));
+
+  if (frame == nullptr)
+  {
+    return nullptr;
+  }
+
+  return frame->Draw();
+}
+
+// 00142FD0
+_UNKNOWNPOINTER mgDrawDirect(mgCFrame* frame)
+{
+  log_trace("mgDraw({})", fmt::ptr(frame));
+
+  if (frame == nullptr)
+  {
+    return nullptr;
+  }
+
+  // Likely not applicable to Windows anyways
+  todo;
+}
+
+// 00145B20
+float mgGetDistFromCamera(glm::vec4& point)
+{
+  log_trace("mgGetDistFromCamera({})", fmt::ptr(&point));
+
+  return glm::distance(point, mgRenderInfo.camera_pos);
+}
