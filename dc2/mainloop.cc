@@ -65,7 +65,7 @@ namespace MainLoop_SInit
 	// 00373580
 	void SInit()
 	{
-		log_trace("SInit");
+		log_trace("SInit()");
 
 		memset(&DebugInfo, 0, sizeof(DebugInfo));
 
@@ -175,7 +175,7 @@ namespace MainLoop_SInit
 // 00190840
 CFont* GetDebugFont()
 {
-	log_trace("{}", __func__);
+	log_trace("{}()", __func__);
 
 	return &Font;
 }
@@ -183,7 +183,7 @@ CFont* GetDebugFont()
 // 001908F0
 mgCMemory* GetMainStack()
 {
-	log_trace("{}", __func__);
+	log_trace("{}()", __func__);
 
 	return &MainBuffer;
 }
@@ -191,7 +191,7 @@ mgCMemory* GetMainStack()
 // 00190CB0
 void MainLoop()
 {
-	log_trace("{}", __func__);
+	log_trace("{}()", __func__);
 
 	todo;
 }
