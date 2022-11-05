@@ -616,8 +616,6 @@ mgCFrame::mgCFrame()
 {
 	log_trace("mgCFrame::mgCFrame()");
 
-	mgCObject::Initialize();
-	mgCFrameBase::Initialize();
 	Initialize();
 }
 

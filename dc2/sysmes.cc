@@ -26,8 +26,8 @@ namespace sysmes
     log_trace("SInit()");
 
     SystemMesStack.Initialize();
-    SystemMessage = ClsMes();
-    SystemMessage2 = ClsMes();
-    SystemMessage3 = ClsMes();
+    new (&SystemMessage) ClsMes();
+    new (&SystemMessage2) ClsMes();
+    new (&SystemMessage3) ClsMes();
   }
 }
