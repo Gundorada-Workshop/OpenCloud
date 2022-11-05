@@ -163,10 +163,8 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
   // these are the files we're interested in
   static constexpr std::array files =
   {
-    "DATA.DAT",
     "DATA.HD2",
     "DATA.HD3",
-    "SOUND.DAT",
     "SOUND.HD3"
   };
 
