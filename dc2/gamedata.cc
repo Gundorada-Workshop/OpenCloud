@@ -40,19 +40,19 @@ namespace gamedata
 
     for (auto& data_item : local_itemdata)
     {
-      data_item = CDataItem();
+      new (&data_item) CDataItem();
     }
     for (auto& data_weapon : local_weapondata)
     {
-      data_weapon = CDataWeapon();
+      new (&data_weapon) CDataWeapon();
     }
     for (auto& data_attach : local_attachdata)
     {
-      data_attach = CDataAttach();
+      new (&data_attach) CDataAttach();
     }
     for (auto& data_fish : local_fishdata)
     {
-      data_fish = CDataBreedFish();
+      new (&data_fish) CDataBreedFish();
     }
   }
 }

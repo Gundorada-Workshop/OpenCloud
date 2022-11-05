@@ -70,21 +70,21 @@ namespace editloop
   {
     log_trace("SInit()");
 
-    WaveTable = CWaveTable();
+    new (&WaveTable) CWaveTable;
 
-    EventMes1 = ClsMes();
+    new (&EventMes1) ClsMes;
 
     buf0.Initialize();
     buf1.Initialize();
 
     for (auto& stack : data_buf)
     {
-      stack = mgCMemory();
+      new (&stack) mgCMemory();
     }
 
     for (auto& stack : init_dbuf)
     {
-      stack = mgCMemory();
+      new (&stack) mgCMemory();
     }
 
     WorkBuffer.Initialize();
@@ -100,12 +100,12 @@ namespace editloop
 
     for (auto& stack : EventBuff)
     {
-      stack = mgCMemory();
+      new (&stack) mgCMemory();
     }
 
     for (auto& stack : CharaBufs)
     {
-      stack = mgCMemory();
+      new (&stack) mgCMemory();
     }
 
     FishingBuff.Initialize();
@@ -124,7 +124,7 @@ namespace editloop
     TestVisual.mgCVisual::Initialize();
     TestVisual.Initialize();
 
-    TestFrame = mgCFrame();
+    new (&TestFrame) mgCFrame();
   }
 }
 
