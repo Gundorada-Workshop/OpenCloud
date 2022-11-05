@@ -195,7 +195,7 @@ void mgCFrame::SetVisual(mgCVisual* visual)
 
 void mgCDrawEnv::Initialize(bool b)
 {
-	log_trace("mgCDrawEnv::mgCDrawEnv({})", b);
+	log_trace("mgCDrawEnv::Initialize({})", b);
 
 	// Pulled these from runtime
 	// Metrowerks can go chew on a bag of rocks
