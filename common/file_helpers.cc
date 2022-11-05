@@ -74,9 +74,7 @@ namespace common::file_helpers
     auto last_sep = last_seperator_position(path);
 
     if (last_sep == std::string_view::npos)
-    {
-      return {};
-    }
+      return path;
 
     return path.substr(++last_sep, path.size());
   }
@@ -87,9 +85,7 @@ namespace common::file_helpers
     const auto first_period = file_name.find_first_of(".");
 
     if (first_period == std::string_view::npos)
-    {
-      return {};
-    }
+      return path;
 
     return file_name.substr(0, first_period);
   }
@@ -100,9 +96,7 @@ namespace common::file_helpers
     auto first_period = file_name.find_first_of(".");
 
     if (first_period == std::string_view::npos)
-    {
       return {};
-    }
 
     return file_name.substr(++first_period, file_name.size());
   }
@@ -112,9 +106,7 @@ namespace common::file_helpers
     const auto last_sep_pos = last_seperator_position(path);
 
     if (last_sep_pos == std::string_view::npos)
-    {
       return {};
-    }
 
     return path.substr(0, last_sep_pos);
   }
@@ -122,6 +114,9 @@ namespace common::file_helpers
   std::string append(std::string_view path, std::string_view item)
   {
     std::string out{ path };
+
+    if (out.empty())
+      return std::string{ item };
 
     append_to_path(out, item);
 

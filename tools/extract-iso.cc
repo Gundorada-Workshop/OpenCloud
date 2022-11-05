@@ -12,7 +12,8 @@
 #include "common/file_helpers.h"
 #include "common/scoped_function.h"
 
-#include "iso9660/extractor.h"
+#include "iso9660/iso_file.h"
+#include "data_extractor.h"
 
 set_log_channel("ExtractISO")
 
@@ -132,22 +133,32 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
     return EXIT_FAILURE;
   }
 
-  auto iso = iso9660::extractor::open(*iso_path);
+  g_iso_file = iso9660::file::open(*iso_path);
 
-  if (!iso)
+  if (!g_iso_file)
+  {
+    log_error("Unable to open ISO {}", *iso_path);
+    return EXIT_FAILURE;
+  }
+
+  auto extractor = extractor::open(*iso_path);
+
+  if (!extractor)
   {
     log_error("Unable to open ISO {}.", *iso_path);
     return EXIT_FAILURE;
   }
 
-  // default to the working directory
-  auto output_directory = output.value_or(file_helpers::append(file_helpers::get_application_directory(), "DATA"));
+  if (output)
+    extractor->set_output_directory(*output);
 
-  if (!file_helpers::create_directory(output_directory))
+  if (!extractor->create_output_directory())
   {
-    log_error("Unable to create directory {}", output_directory);
+    log_error("Failed to create output directory");
     return EXIT_FAILURE;
   }
+
+  const auto output_directory = extractor->get_output_directory();
 
   // these are the files we're interested in
   static constexpr std::array files =
@@ -166,22 +177,9 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
     file_helpers::append("MOVIE", "TUTO2")
   };
 
-  for (const auto& dir : directories)
-  {
-    const auto full_path = file_helpers::append(output_directory, dir);
-
-    log_info("Creating directory {}", full_path);
-
-    if (!file_helpers::create_directory(full_path))
-    {
-      log_error("Unable to create directory {}", full_path);
-      return EXIT_FAILURE;
-    }
-  }
-
   for (const auto& filename : files)
   {
-    if (!iso->extract_file(filename, output_directory))
+    if (!extractor->extract_file(filename))
     {
       log_error("Failed to extract file {}", filename);
       return EXIT_FAILURE;
@@ -190,7 +188,7 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
 
   for (const auto& dir : directories)
   {
-    if (!iso->extract_directory(dir, output_directory))
+    if (!extractor->extract_directory(dir))
     {
       log_error("Failed to extract directory: {}", dir);
       return EXIT_FAILURE;
