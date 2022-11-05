@@ -84,50 +84,50 @@ CUserDataManager::CUserDataManager()
 
   for (auto& game_data_used : m_unk_field_0)
   {
-    game_data_used = CGameDataUsed();
+    new (&game_data_used) CGameDataUsed;
   }
 
   for (auto& unk_struct : m_unk_field_3F48)
   {
     for (auto& game_data_used : unk_struct.m_unk_field_2C)
     {
-      game_data_used = CGameDataUsed();
+      new (&game_data_used) CGameDataUsed;
     }
     for (auto& game_data_used : unk_struct.m_unk_field_170)
     {
-      game_data_used = CGameDataUsed();
+      new (&game_data_used) CGameDataUsed;
     }
   }
 
   for (auto& game_data_used : m_unk_field_4690)
   {
-    game_data_used = CGameDataUsed();
+    new (&game_data_used) CGameDataUsed;
   }
 
   for (auto& game_data_used : m_unk_field_4880)
   {
-    game_data_used = CGameDataUsed();
+    new (&game_data_used) CGameDataUsed;
   }
 
   for (auto& game_data_used : m_fish_aquarium.m_unk_field_4)
   {
-    game_data_used = CGameDataUsed();
+    new (&game_data_used) CGameDataUsed;
   }
 
   for (auto& game_data_used : m_fish_aquarium.m_unk_field_28C)
   {
-    game_data_used = CGameDataUsed();
+    new (&game_data_used) CGameDataUsed;
   }
 
   for (auto& game_data_used : m_fish_aquarium.m_unk_field_43C)
   {
-    game_data_used = CGameDataUsed();
+    new (&game_data_used) CGameDataUsed;
   }
 
   m_fish_aquarium.Initialize();
   m_invent_user_data.Initialize();
   m_fishing_tournament.Initialize();
-  m_fishing_record = CFishingRecord();
+  new (&m_fishing_record) CFishingRecord;
 }
 
 // 0019B160

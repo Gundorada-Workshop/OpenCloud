@@ -18,12 +18,12 @@ namespace snd_mngr
 
     for (auto& port_info : PortInfo)
     {
-      port_info = sndPortInfo();
+      new (&port_info) sndPortInfo;
     }
 
     for (auto& sequencer : SeSequencer)
     {
-      sequencer = sndCSeSeq();
+      new (&sequencer) sndCSeSeq;
     }
   }
 }
