@@ -30,7 +30,7 @@ namespace editctrl
   // 00373A30
   void SInit()
   {
-    log_trace("editctrl");
+    log_trace("SInit()");
 
     memset(&MoveInfo, 0, sizeof(MoveInfo));
     memset(&LadderData, 0, sizeof(LadderData));

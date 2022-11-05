@@ -24,7 +24,7 @@ namespace Title
 
 		for (auto& stack : Stack_MenuCharaBuff)
 		{
-			new (&stack) mgCMemory();
+			stack = mgCMemory();
 		}
 
 		HDDINFO = false;

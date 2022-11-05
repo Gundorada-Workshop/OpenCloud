@@ -1,5 +1,6 @@
 #include "sinit.h"
 #include "editctrl.h"
+#include "editloop.h"
 #include "fishingobj.h"
 #include "gamedata.h"
 #include "mainloop.h"
@@ -18,6 +19,7 @@ namespace StaticInitializers
 	void Init()
 	{
 		editctrl::SInit();
+		editloop::SInit();
 		FishingObj::SInit();
 		gamedata::SInit();
 		MainLoop_SInit::SInit();

@@ -33,27 +33,27 @@ namespace mg_lib
 
     for (auto& draw_env : mgRenderInfo.m_unk_field_F20)
     {
-      new (&draw_env) mgCDrawEnv;
+      draw_env = mgCDrawEnv();
     }
 
-    new (&mgTexManager) mgCTextureManager;
-    new (&mgDrawManager) mgCDrawManager;
+    mgTexManager = mgCTextureManager();
+    mgDrawManager = mgCDrawManager();
 
     for (auto& memory : packet_buf)
     {
-      new (&memory) mgCMemory;
+      memory = mgCMemory();
     }
 
     for (auto& memory : data_buf)
     {
-      new (&memory) mgCMemory;
+      memory = mgCMemory();
     }
 
-    new (&frame_tex) mgCTexture;
+    frame_tex = mgCTexture();
 
     for (auto& texture : fixz_tex)
     {
-      new (&texture) mgCTexture;
+      texture = mgCTexture();
     }
   }
 }

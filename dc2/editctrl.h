@@ -9,7 +9,6 @@ namespace editctrl
 }
 
 // TODO THIS FILE
-class CWaveTable {};
 class CEditCollision {};
 
 struct MoveCheckInfo

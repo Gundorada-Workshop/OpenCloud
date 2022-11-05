@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include "common/debug.h"
 #include "common/types.h"
 #include "mg_memory.h"

@@ -24,8 +24,8 @@ ClsMes::ClsMes()
   log_trace("ClsMes::ClsMes()");
 
   // Done twice (?)
-  static_cast<CFont*>(this)->Initialize();
-  static_cast<CFont*>(this)->Initialize();
+  CFont::Initialize();
+  CFont::Initialize();
 
   m_unk_field_B4 = 0;
   m_unk_field_B8 = 100;
