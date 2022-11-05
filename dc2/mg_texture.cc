@@ -161,7 +161,7 @@ void mgCTextureBlock::Initialize()
 // 0012C7E0
 mgCTextureManager::mgCTextureManager()
 {
-  m_unk_field_14 = mgCTextureBlock();
+  new (&m_unk_field_14) mgCTextureBlock;
 }
 
 // 0013d8c0

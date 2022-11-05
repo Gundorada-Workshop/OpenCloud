@@ -97,7 +97,7 @@ namespace MainLoop_SInit
 
 		MainScene.m_mds_list_set.Initialize();
 
-		MainScene.m_fire_raster = static_cast<CFireRaster>(mgCTexture());
+		new (&MainScene.m_fire_raster) mgCTexture;
 
 		for (auto& unk_var : MainScene.m_fire_raster.m_unk_field_70)
 		{
@@ -156,19 +156,19 @@ namespace MainLoop_SInit
 
 		for (auto& edit_data : stru_1E03434)
 		{
-			edit_data = CEditData();
+			new (&edit_data) CEditData;
 		}
 
-		stru_1E1EAB0 = CUserDataManager();
+		new (&stru_1E1EAB0) CUserDataManager;
 		stru_1E64250.Initialize();
-		stru_1E658D0 = CMenuSystemData();
+		new (&stru_1E658D0) CMenuSystemData;
 
 		for (auto& texture : FontTex)
 		{
-			texture = mgCTexture();
+			new (&texture) mgCTexture;
 		}
 
-		PauseMes = ClsMes();
+		new (&PauseMes) ClsMes;
 	}
 }
 

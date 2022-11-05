@@ -13,7 +13,7 @@ namespace mg_frame
 	{
 		log_trace("SInit()");
 
-		dmy_attr = mgCFrameAttr();
+		new (&dmy_attr) mgCFrameAttr();
 	}
 }
 
