@@ -25,6 +25,12 @@ mgVu0FBOX::mgVu0FBOX(mgVu0FBOX& other)
 	m_b = other.m_b;
 }
 
+// 001343a0
+mgCDrawPrim::mgCDrawPrim()
+{
+	// TODO
+}
+
 // 0013E7B0
 void mgCVisualAttr::Initialize()
 {

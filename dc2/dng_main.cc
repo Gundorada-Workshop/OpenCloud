@@ -1,8 +1,34 @@
+#include <array>
 #include "common/log.h"
 #include "dng_main.h"
 #include "mg_math.h"
 
 set_log_channel("dng_main");
+
+CAutoMapGen AutoMapGen;
+
+// 001D4C40
+void CMiniMapSymbol::DrawSymbol(glm::vec4& pos, EMiniMapSymbol::EMiniMapSymbol symbol_type)
+{
+  // 0033D8A0
+  static std::array<MINIMAP_SYMBOL_DATA, EMiniMapSymbol::COUNT + 1> symbol_table
+  {
+    EMiniMapSymbol::SphidaShotGuide, {255, 0,   0},   10, 10, false, true,
+    EMiniMapSymbol::TreasureBox,     {96,  64,  0},   10, 10, false, true,
+    EMiniMapSymbol::RandomCircle,    {255, 255, 0},   10, 10, false, true,
+    EMiniMapSymbol::GeoStone,        {255, 0,   180}, 10, 10, false, true,
+    EMiniMapSymbol::SphidaRedGoal,   {255, 0,   0},   14, 14, false, false,
+    EMiniMapSymbol::SphidaBlueGoal,  {0,   64,  255}, 14, 14, false, false,
+    EMiniMapSymbol::SphidaRedBall,   {255, 0,   0},   10, 10, true,  false,
+    EMiniMapSymbol::SphidaBlueBall,  {0,   0,   255}, 10, 10, true,  false,
+    EMiniMapSymbol::Monster,         {255, 0,   0},   10, 10, true,  true,
+    EMiniMapSymbol::TERMINATOR,      {0,   0,   0},   0,  0,  false, false,
+  };
+
+  log_trace("CMiniMapSymbol::DrawSymbol({}, {})", fmt::ptr(&pos), symbol_type);
+
+  todo;
+}
 
 // 002F8CC0
 void CDngFloorManager::Initialize()

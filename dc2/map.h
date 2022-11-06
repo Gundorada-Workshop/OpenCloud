@@ -1,5 +1,6 @@
 #pragma once
 #include "mg_memory.h"
+#include "object.h"
 
 // ~ 0015C420 - 00168400
 
@@ -13,7 +14,6 @@ template <typename T> class CList
 // TODO THIS FILE
 class CMapFlagData {};
 class CPartsGroup {};
-class CMapParts {};
 class CFuncPoint {};
 struct PieceMaterial {};
 class CCameraInfo {};
@@ -32,4 +32,10 @@ class CMap
 {
 public:
   void LoadCfgFile(const char* file, int size, mgCMemory* map_stack);
+};
+
+class CMapParts : public CObject
+{
+public:
+  // TODO
 };

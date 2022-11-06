@@ -3,14 +3,12 @@
 #include "glm/glm.hpp"
 #include "common/debug.h"
 #include "common/types.h"
+#include "map.h"
 #include "mg_memory.h"
 #include "ls_mes.h"
 #include "object.h"
 
 // ~ 001BE6F0 - 001EA760
-
-// External forward declarations
-class CScene;
 
 // TODO THIS FILE
 class CChillAfterHit {};
@@ -38,14 +36,74 @@ class CEnemyLifeGage {};
 class CDamageScore {};
 class CDamageScore2 {};
 class CWarningGage2 {};
-class CMiniMapSymbol {};
 class CHealingPoint {};
-class CAutoMapGen {};
 class CActiveMonster {};
 class CMonsterLocateInfo {};
 class CMonsterMan {};
 class CPreSprite {};
 struct GLID_INFO {};
+
+// Forward declarations
+class CScene;
+class CAutoMapGen;
+
+// 01EA0480
+extern CAutoMapGen AutoMapGen;
+
+class CAutoMapGen
+{
+public:
+
+  // 0
+  CMapParts* m_map_parts;
+
+  // 50
+  mgCDrawPrim m_unk_field_50;
+
+  // SIZE 0x290
+};
+
+namespace EMiniMapSymbol
+{
+  enum EMiniMapSymbol : s16
+  {
+    TERMINATOR = -1,
+    SphidaShotGuide = 0,
+    TreasureBox = 1,
+    RandomCircle = 2,
+    GeoStone = 3,
+    SphidaRedGoal = 4,
+    SphidaBlueGoal = 5,
+    SphidaRedBall = 6,
+    SphidaBlueBall = 7,
+    Monster = 8,
+    COUNT = 9,
+  };
+}
+
+struct MINIMAP_SYMBOL_DATA
+{
+  // 0
+  EMiniMapSymbol::EMiniMapSymbol id;
+  // 2, 4, 6
+  glm::u16vec3 rgb;
+  // 8
+  s16 m_unk_field_8;
+  // A
+  s16 m_unk_field_A;
+  // C
+  bool m_unk_field_C;
+  // E
+  bool m_unk_field_E;
+  // SIZE 0x10
+};
+
+class CMiniMapSymbol
+{
+public:
+  // 001D4C40
+  void DrawSymbol(glm::vec4& pos, EMiniMapSymbol::EMiniMapSymbol symbol_type);
+};
 
 class CDngFloorManager
 {

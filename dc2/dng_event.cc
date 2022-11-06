@@ -1,1 +1,117 @@
+#include <cmath>
+#include "common/log.h"
 #include "dng_event.h"
+#include "dng_main.h"
+#include "mg_lib.h"
+
+set_log_channel("dng_event");
+
+// 0028BD20
+void CGeoStone::Initialize()
+{
+  log_trace("CGeoStone::Initialize()");
+
+  CCharacter2::Initialize();
+  m_flag = false;
+}
+
+// 0028BCA0
+bool CGeoStone::CheckEvent(glm::vec4& position)
+{
+  log_trace("CGeoStone::{}({})", __func__, fmt::ptr(&position));
+
+  if (!m_flag)
+  {
+    return false;
+  }
+
+  glm::vec4 stone_position;
+  GetPosition(stone_position);
+
+  return glm::distance(stone_position, position) <= 30.0f;
+}
+
+// 0028BA80
+void CGeoStone::GeoDraw(glm::vec4& position)
+{
+  log_trace("CGeoStone::{}({})", __func__, fmt::ptr(&position));
+
+  if (!m_flag)
+  {
+    return;
+  }
+
+  glm::vec4 orig_pos;
+  GetPosition(orig_pos);
+  glm::vec4 draw_pos{ orig_pos };
+
+  if (glm::distance(draw_pos, position) < 1000.0f || !m_unk_field_668)
+  {
+    if (m_unk_field_668)
+    {
+      // Before drawing, adjust the y position of the stone.
+      // This gives the illusion of the stone floating up and down over time.
+      draw_pos.y = draw_pos.y + (sinf(m_height_offset_sine) * 3.0f);
+    }
+
+    SetPosition(draw_pos);
+    DrawDirect();
+  }
+
+  // Restore the stone's original position
+  SetPosition(orig_pos);
+}
+
+// 0028BB70
+void CGeoStone::DrawMiniMapSymbol(CMiniMapSymbol* mini_map_symbol)
+{
+  log_trace("CGeoStone::{}({})", __func__, fmt::ptr(mini_map_symbol));
+
+  if (!m_flag)
+  {
+    glm::vec4 stone_position;
+    GetPosition(stone_position);
+
+    mini_map_symbol->DrawSymbol(stone_position, EMiniMapSymbol::GeoStone);
+  }
+}
+
+// 0028BBC0
+void CGeoStone::SetFlag(bool flag)
+{
+  log_trace("CGeoStone::{}({})", __func__, flag);
+
+  m_flag = flag;
+  if (!m_flag)
+  {
+    return;
+  }
+
+  if (AutoMapGen.m_map_parts == nullptr)
+  {
+    return;
+  }
+
+  AutoMapGen.m_map_parts->SetPosition(glm::vec4{ 0.0f, -99999.0f, 0.0f, 1.0f });
+}
+
+// 0028BC20
+void CGeoStone::GeoStep()
+{
+  log_trace("CGeoStone::{}()", __func__);
+
+  if (!m_flag)
+  {
+    return;
+  }
+
+  CCharacter2::Step();
+
+  m_height_offset_sine += DEGREES_TO_RADIANS(3.0f);
+
+  if (m_height_offset_sine > M_PI_F)
+  {
+    // Mantain a continuous bound from -pi to +pi
+    m_height_offset_sine -= (M_PI_F * 2);
+  }
+}
