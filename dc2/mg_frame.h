@@ -9,7 +9,6 @@
 // ~ 00131B60 - 00139900
 
 // THIS FILE TODO
-
 class mgCMDTBuilder {};
 class mgCVisualFixMDT {};
 class mgMaterial {};
@@ -27,6 +26,33 @@ namespace mg_frame
 {
 	void SInit();
 }
+
+template<typename T>
+struct mgRect
+{
+public:
+	// 0
+	T m_ax;
+	// 4
+	T m_ay;
+	// 8
+	T m_bx;
+	// C
+	T m_by;
+
+	// 0013E390 (s32)
+	// 001F24F0 (float)
+	// 002BFC30 (s16)
+	inline void Set(T ax, T ay, T bx, T by)
+	{
+		//log_trace("mgRect::Set({}, {}, {}, {})", ax, ay, bx, by);
+
+		m_ax = ax;
+		m_ay = ay;
+		m_bx = bx;
+		m_by = by;
+	}
+};
 
 class mgCVisualAttr
 {
@@ -91,9 +117,9 @@ public:
 	// 24 001342F0
 	virtual _UNKNOWNPOINTER CreatePacket(mgCMemory& mem1, mgCMemory& mem2);
 	// 28 00134360
-	virtual _UNKNOWN Draw(glm::mat4& m1, mgCDrawManager& draw_man);
+	virtual _UNKNOWNPOINTER Draw(glm::mat4& m1, mgCDrawManager& draw_man);
 	// 2C 00134350
-	virtual _UNKNOWN Draw(_UNKNOWNPOINTER p, glm::mat4& m1, mgCDrawManager& draw_man);
+	virtual _UNKNOWNPOINTER Draw(_UNKNOWNPOINTER p, glm::mat4& m1, mgCDrawManager& draw_man);
 	// 30 00132DC0
 	virtual void Initialize();
 
@@ -136,9 +162,9 @@ public:
 	virtual _UNKNOWNPOINTER CreateRenderInfoPacket(_UNKNOWNPOINTER p, glm::mat4& m1, mgRENDER_INFO& render_info);
 	// 24 001342F0 (mgCVisual::CreatePacket)
 	// 28 001342B0
-	virtual _UNKNOWN Draw(glm::mat4& m1, mgCDrawManager& draw_man);
+	virtual _UNKNOWNPOINTER Draw(glm::mat4& m1, mgCDrawManager& draw_man);
 	// 2C 0013F4E0
-	virtual _UNKNOWN Draw(_UNKNOWNPOINTER p, glm::mat4& m1, mgCDrawManager& draw_man);
+	virtual _UNKNOWNPOINTER Draw(_UNKNOWNPOINTER p, glm::mat4& m1, mgCDrawManager& draw_man);
 	// 30 0013EAC0
 	virtual void Initialize();
 	// 34 0013F6A0
@@ -199,142 +225,6 @@ struct mgVu0FBOX
 	mgVu0FBOX(mgVu0FBOX& box);
 };
 
-class mgCDrawPrim
-{
-public:
-	// 001343a0
-	mgCDrawPrim();
-
-	// 00134410
-	void Initialize(mgCMemory* memory);
-
-	// 001344a0
-	void Begin();
-
-	// 00134530
-	void BeginDma();
-
-	// 001345c0
-	void EndDma();
-
-	// 00134660
-	void Flush();
-
-	// 00134690
-	void End();
-
-	// 001346d0
-	void Begin2();
-
-	// 00134860
-	void BeginPrim2(int);
-
-	// 00134890
-	void BeginPrim2(uint, uint, sint);
-
-	// 00134940
-	void EndPrim2();
-
-	// 00134a20
-	void End2();
-
-	// 00134aa0
-	void Data0(vec4);
-
-	// 00134ac0
-	void Data4(vec4);
-
-	// 00134ae0
-	void Data(ivec4);
-
-	// 00134b00
-	void DirectData(sint);
-
-	// 00134b20
-	// note: x and y are fixed point (>> 4)
-	void Vertex(sint x, sint y, sint z);
-
-	// 00134b30
-	void Vertex(f32 x, f32 y, f32 z);
-
-	// 00134bb0
-	void Vertex4(sint x, sint y, sint z);
-
-	// 00134b70
-	void Vertex4(glm::vec4 v);
-
-	// Custom
-	void Vertex4(glm::vec3 v);
-
-	// 00134c60
-	void Vertex4(glm::ivec3 v);
-
-	// 00134c80
-	void Color(sint r, sint g, sint b, sint a);
-
-	// 00134cf0
-	void Color(glm::vec4 v);
-
-	// 00134d30
-	// fixed point (<< 4)
-	void TextureCrd4(sint s, sint t);
-
-	// 00134d70
-	void TextureCrd(sint s, sint t);
-
-	// 00134d80
-	void Direct(ulong, ulong);
-
-	// 00134da0
-	void Texture(mgCTexture* texture);
-
-	// 00134ec0
-	void AlphaBlendEnable(sint);
-
-	// 00134ee0
-	void AlphaBlend(sint);
-
-	// 00134ef0
-	void AlphaTestEnable(sint);
-
-	// 00134f10
-	void AlphaTest(sint, sint);
-
-	// 00134f50
-	// destination alpha
-	void DAlphaTest(sint, sint);
-
-	// 00134f90
-	void DepthTestEnable(sint);
-
-	// 00134ff0
-	void DepthTest(sint);
-
-	// 00135090
-	void ZMask(sint);
-
-	// 001350a0
-	void TextureMapEnable(sint);
-
-	// 001350c0
-	void Bilinear(sint);
-
-	// 001350d0
-	void Shading(sint);
-
-	// 001350f0
-	void AntiAliasing(sint);
-
-	// 00135110
-	void FogEnable(sint);
-
-	// 00135130
-	void Coord(sint);
-
-	// 00135140
-	void GetOffset(sint*, sint*);
-};
-
 class mgCDrawManager 
 {
 public:
@@ -380,9 +270,9 @@ public:
 	// 30 00136400
 	virtual void GetScale(glm::vec4&);
 	// 34 00138840
-	virtual _UNKNOWN Draw();
+	virtual _UNKNOWNPOINTER Draw();
 	// 38 00138830
-	virtual _UNKNOWN DrawDirect();
+	virtual _UNKNOWNPOINTER DrawDirect();
 	// 3C 00136410
 	virtual void Initialize();
 
@@ -520,7 +410,7 @@ public:
 	// 2C 001363C0 (mgCObject::SetScale)
 	// 30 00136400 (mgCObject::GetScale)
 	// 34 001387F0
-	virtual _UNKNOWN Draw();
+	virtual _UNKNOWNPOINTER Draw();
 	// 38 00138830 (mgCObject::DrawDirect)
 	// 3C 00136520
 	virtual void Initialize();
@@ -703,6 +593,171 @@ public:
 	u64 m_unk_field_38;
 };
 
+class mgCDrawPrim
+{
+public:
+	// 001343a0
+	// Current member initialization should generate correct default constructor
+	//mgCDrawPrim();
+
+	// 00134410
+	void Initialize(mgCMemory* memory);
+
+	// 001344a0
+	void Begin();
+
+	// 00134530
+	void BeginDma();
+
+	// 001345c0
+	void EndDma();
+
+	// 00134660
+	void Flush();
+
+	// 00134690
+	void End();
+
+	// 001346d0
+	void Begin2();
+
+	// 00134860
+	void BeginPrim2(int);
+
+	// 00134890
+	void BeginPrim2(uint, uint, sint);
+
+	// 00134940
+	void EndPrim2();
+
+	// 00134a20
+	void End2();
+
+	// 00134aa0
+	void Data0(vec4);
+
+	// 00134ac0
+	void Data4(vec4);
+
+	// 00134ae0
+	void Data(ivec4);
+
+	// 00134b00
+	void DirectData(sint);
+
+	// 00134b20
+	// note: x and y are fixed point (>> 4)
+	void Vertex(sint x, sint y, sint z);
+
+	// 00134b30
+	void Vertex(f32 x, f32 y, f32 z);
+
+	// 00134bb0
+	void Vertex4(sint x, sint y, sint z);
+
+	// 00134b70
+	void Vertex4(glm::vec4 v);
+
+	// Custom
+	void Vertex4(glm::vec3 v);
+
+	// 00134c60
+	void Vertex4(glm::ivec3 v);
+
+	// 00134c80
+	void Color(sint r, sint g, sint b, sint a);
+
+	// 00134cf0
+	void Color(glm::vec4 v);
+
+	// 00134d30
+	// fixed point (<< 4)
+	void TextureCrd4(sint s, sint t);
+
+	// 00134d70
+	void TextureCrd(sint s, sint t);
+
+	// 00134d80
+	void Direct(ulong, ulong);
+
+	// 00134da0
+	void Texture(mgCTexture* texture);
+
+	// 00134ec0
+	void AlphaBlendEnable(sint);
+
+	// 00134ee0
+	void AlphaBlend(sint);
+
+	// 00134ef0
+	void AlphaTestEnable(sint);
+
+	// 00134f10
+	void AlphaTest(sint, sint);
+
+	// 00134f50
+	// destination alpha
+	void DAlphaTest(sint, sint);
+
+	// 00134f90
+	void DepthTestEnable(sint);
+
+	// 00134ff0
+	void DepthTest(sint);
+
+	// 00135090
+	void ZMask(sint);
+
+	// 001350a0
+	void TextureMapEnable(sint);
+
+	// 001350c0
+	void Bilinear(sint);
+
+	// 001350d0
+	void Shading(sint);
+
+	// 001350f0
+	void AntiAliasing(sint);
+
+	// 00135110
+	void FogEnable(sint);
+
+	// 00135130
+	void Coord(sint);
+
+	// 00135140
+	void GetOffset(sint*, sint*);
+
+	// 0
+	_DWORD m_unk_field_0{};
+	// 4
+	_DWORD m_unk_field_4{};
+	// 8
+	_DWORD m_unk_field_8{};
+	// 10
+	mgCDrawEnv m_unk_field_10{};
+	// 50
+	_DWORD m_unk_field_50{ 0x100 };
+	// 58
+	mgCTexture m_unk_field_58{};
+	// C8
+	bool m_unk_field_C8{ true };
+	// CC
+	bool m_unk_field_CC{ true };
+	// DO
+	bool m_unk_field_D0{ true };
+
+	// ?
+
+	// F8
+	float m_unk_field_F8{ 1.0f };
+	// FC
+	_DWORD m_unk_field_FC{};
+
+	// SIZE 0x100
+};
+
 struct mgRENDER_INFO
 {
 public:
@@ -770,6 +825,8 @@ public:
 	// 00139800
 	void SetFogParam(float f1, float f2, u8 i1, u8 i2, u8 i3, float f3, float f4);
 
+	// 3A0
+	glm::vec4 camera_pos;
 
 	// F20
 	std::array<mgCDrawEnv, 2> m_unk_field_F20;

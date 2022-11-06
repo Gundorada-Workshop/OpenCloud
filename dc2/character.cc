@@ -1,8 +1,372 @@
 #include "common/log.h"
 #include "character.h"
+#include "mg_lib.h"
 #include "script_interpreter.h"
 
 set_log_channel("character")
+
+// 00172DE0
+void CCharacter2::SetPosition(glm::vec4& v)
+{
+  log_trace("CCharacter2::{}({})", __func__, fmt::ptr(&v));
+
+  mgCObject::SetPosition(v);
+}
+
+// 00172DE0
+void CCharacter2::SetPosition(float x, float y, float z)
+{
+  log_trace("CCharacter2::{}({}, {}, {})", __func__, x, y, z);
+
+  mgCObject::SetPosition({ x, y, z, 1.0f });
+}
+
+// 00172F60
+_UNKNOWNPOINTER CCharacter2::Draw()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+  return nullptr;
+}
+
+// 001731F0
+_UNKNOWNPOINTER CCharacter2::DrawDirect()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+  return nullptr;
+}
+
+// 00175340
+void CCharacter2::Initialize()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+}
+
+// 00173170
+float CCharacter2::GetCameraDist()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+  return 0.0f;
+}
+
+// 00173120
+bool CCharacter2::DrawStep()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+  return false;
+}
+
+// 001751D0
+void CCharacter2::LoadPack(void* file_buf, char* file_name, mgCMemory* mem1, mgCMemory* mem2, mgCMemory* mem3, _DWORD i, CCharacter2* character2)
+{
+  log_trace("CCharacter2::{}({}, {}, {}, {}, {}, {}, {})", __func__, fmt::ptr(file_buf), file_name, fmt::ptr(mem1), fmt::ptr(mem2), fmt::ptr(mem3), i, fmt::ptr(character2));
+
+  LoadChrFile(file_buf, file_name, mem1, mem2, mem3, i, character2, true);
+}
+// 00175200
+void CCharacter2::LoadPackNoLine(void* file_buf, char* file_name, mgCMemory* mem1, mgCMemory* mem2, mgCMemory* mem3, _DWORD i, CCharacter2* character2)
+{
+  log_trace("CCharacter2::{}({}, {}, {}, {}, {}, {}, {})", __func__, fmt::ptr(file_buf), file_name, fmt::ptr(mem1), fmt::ptr(mem2), fmt::ptr(mem3), i, fmt::ptr(character2));
+
+  LoadChrFile(file_buf, file_name, mem1, mem2, mem3, i, character2, false);
+}
+// 00175230
+void CCharacter2::LoadChrFile(void* file_buf, char* file_name, mgCMemory* mem1, mgCMemory* mem2, mgCMemory* mem3, _DWORD i, CCharacter2* character2, bool b)
+{
+  log_trace("CCharacter2::{}({}, {}, {}, {}, {}, {}, {}, {})", __func__, fmt::ptr(file_buf), file_name, fmt::ptr(mem1), fmt::ptr(mem2), fmt::ptr(mem3), i, fmt::ptr(character2), b);
+
+  todo;
+}
+
+// 00168410
+int CCharacter2::GetMotionStatus()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  return m_motion_status;
+}
+// 00168420
+_UNKNOWNPOINTER CCharacter2::GetNowMotionName()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  return m_now_motion_name;
+}
+
+// 001738C0
+bool CCharacter2::CheckMotionEnd()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  if (m_now_motion_name == nullptr)
+  {
+    return true;
+  }
+
+  // 001738D4
+  todo;
+}
+
+// 00168440
+float CCharacter2::GetNowFrameWait()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  return m_now_frame_wait;
+}
+
+// 00173890
+float CCharacter2::GetChgStepWait()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  if (m_motion_status != 3)
+  {
+    return -1.0f;
+  }
+
+  return m_chg_step_wait;
+}
+
+
+// 00168450
+void CCharacter2::SetNowFrame(float now_frame)
+{
+  log_trace("CCharacter2::{}({})", __func__, now_frame);
+
+  m_now_frame = now_frame;
+}
+
+// 001739B0
+void CCharacter2::SetNowFrameWeight(float weight)
+{
+  log_trace("CCharacter2::{}({})", __func__, weight);
+
+  if (m_now_motion_name == nullptr)
+  {
+    return;
+  }
+
+  weight = std::clamp(weight, 0.0f, 1.0f);
+
+  // 001739FC
+  todo;
+  // virtual call (t9) = SetNowFrame(...)
+}
+
+// 00168460
+float CCharacter2::GetNowFrame()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  return m_now_frame;
+}
+
+// 00175160
+float CCharacter2::GetWaitToFrame(const char* c, float f)
+{
+  log_trace("CCharacter2::{}({}, {})", __func__, c, f);
+
+  todo;
+  return 0.0f;
+}
+
+// 00173930
+void CCharacter2::SetMotion(_DWORD i1, _DWORD i2)
+{
+  log_trace("CCharacter2::{}({}, {})", __func__, i1, i2);
+
+  todo;
+}
+
+// 001739A0
+void CCharacter2::SetMotion(char* c, int i)
+{
+  log_trace("CCharacter2::{}({}, {})", __func__, c, i);
+
+  SetMotionPara(c, i, -1);
+}
+
+// 00173870
+void CCharacter2::ResetMotion()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  m_now_motion_name = nullptr;
+  m_unk_field_368 = 0;
+  m_unk_field_3A8 = 0;
+  m_unk_field_3A4 = 0;
+}
+
+// 00173860
+void CCharacter2::SetStep(float frame_step)
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  m_frame_step = frame_step;
+}
+
+// 00168470
+float CCharacter2::GetStep()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  return m_now_frame;
+}
+
+// 00173840
+float CCharacter2::GetDefaultStep()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  if (m_now_motion_name == nullptr)
+  {
+    return 0.0f;
+  }
+
+  // 0017384C
+  todo;
+}
+
+// 00168480
+void CCharacter2::SetFadeFlag(bool flag)
+{
+  log_trace("CCharacter2::{}({})", __func__, flag);
+
+  m_fade_flag = flag;
+}
+
+// 00168490
+bool CCharacter2::GetFadeFlag()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  return m_fade_flag;
+}
+
+// 00173610
+_UNKNOWNPOINTER CCharacter2::DrawShadowDirect()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  if (!m_visible || !CheckDraw() || m_unk_field_2C0 == nullptr)
+  {
+    return nullptr;
+  }
+
+  ShadowStep();
+  m_unk_field_2C0->SetPosition(m_position);
+  m_unk_field_2C0->SetRotation(m_rotation);
+  m_unk_field_2C0->SetScale(m_scale);
+
+  // 001736A8
+  todo;
+  return nullptr;
+}
+
+// 00174580
+void CCharacter2::NormalDrive()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+}
+
+// 00173ED0
+void CCharacter2::Step()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+}
+
+// 00174910
+void CCharacter2::ShadowStep()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+}
+
+// 001743C0
+void CCharacter2::SetWind(float velocity, glm::vec4& direction)
+{
+  log_trace("CCharacter2::{}({}, {})", __func__, velocity, fmt::ptr(&direction));
+
+  for (int i = 0; i < m_n_unk_field_130; ++i)
+  {
+    m_unk_field_130[i].SetWind(velocity, direction);
+  }
+}
+
+// 00174440
+void CCharacter2::ResetWind()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  for (int i = 0; i < m_n_unk_field_130; ++i)
+  {
+    m_unk_field_130[i].ResetWind();
+  }
+}
+
+// 001744A0
+void CCharacter2::SetFloor(float floor)
+{
+  log_trace("CCharacter2::{}({})", __func__, floor);
+
+  todo;
+}
+
+// 00174520
+void CCharacter2::ResetFloor()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+}
+
+// 00178C70
+void CCharacter2::Copy(CCharacter2& other, mgCMemory* memory)
+{
+  log_trace("CCharacter2::{}({}, {})", __func__, fmt::ptr(&other), fmt::ptr(memory));
+
+  todo;
+}
+
+// 001684A0
+s32 CCharacter2::GetCopySize()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  return m_unk_field_11C > 0 ? m_unk_field_11C : m_unk_field_118;
+}
+
+// 00177CB0
+void CCharacter2::DrawEffect()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+}
+
+// 00173A40
+void CCharacter2::SetMotionPara(char* c, int i1, s32 i2)
+{
+  log_trace("CCharacter2::{}({}, {}, {})", __func__, c, i1, i2);
+
+  todo;
+}
+
 
 // 00177f20
 static bool _SKIN_IMG(SPI_STACK* stack, int stack_count)
@@ -341,28 +705,62 @@ const std::array<SPI_TAG_PARAM, 27> dynmc_tag =
 
 void CDynamicAnime::Load(const char* script, int script_size, mgCFrame* frame, mgCMemory* stack)
 {
-  log_trace("Load({}, {}, {}, {})", fmt::ptr(script), script_size, fmt::ptr(frame), fmt::ptr(stack));
+  log_trace("CDynamicAnime::Load({}, {}, {}, {})", fmt::ptr(script), script_size, fmt::ptr(frame), fmt::ptr(stack));
 
   todo;
 }
 
 void CDynamicAnime::NewVertexTable(int unk, mgCMemory* stack)
 {
-  log_trace("NewVertexTable({}, {})", unk, fmt::ptr(stack));
+  log_trace("CDynamicAnime::NewVertexTable({}, {})", unk, fmt::ptr(stack));
 
   todo;
 }
 
 void CDynamicAnime::NewBoundingBoxTable(int unk, mgCMemory* stack)
 {
-  log_trace("NewBoundingBoxTable({}, {})", unk, fmt::ptr(stack));
+  log_trace("CDynamicAnime::NewBoundingBoxTable({}, {})", unk, fmt::ptr(stack));
 
   todo;
 }
 
 void CDynamicAnime::NewCollisionTable(int unk, mgCMemory* stack)
 {
-  log_trace("NewCollisionTable({}, {})", unk, fmt::ptr(stack));
+  log_trace("CDynamicAnime::NewCollisionTable({}, {})", unk, fmt::ptr(stack));
 
   todo;
+}
+
+// 00179E70
+void CDynamicAnime::SetWind(float velocity, glm::vec4& direction)
+{
+  log_trace("CDynamicAnime::SetWind({}, {})", velocity, fmt::ptr(&direction));
+
+  m_wind_velocity = velocity;
+  m_wind_direction = glm::normalize(direction);
+}
+
+// 00179E80
+void CDynamicAnime::ResetWind()
+{
+  log_trace("CDynamicAnime::ResetWind()");
+
+  m_wind_velocity = 0.0f;
+}
+
+// 00179E90
+void CDynamicAnime::SetFloor(float floor)
+{
+  log_trace("CDynamicAnime::SetFloor({})", floor);
+
+  m_unk_field_88 = true;
+  m_floor = floor;
+}
+
+// 00179EA0
+void CDynamicAnime::ResetFloor()
+{
+  log_trace("CDynamicAnime::ResetFloor()");
+
+  m_unk_field_88 = false;
 }

@@ -1,4 +1,5 @@
 #include "sinit.h"
+#include "dng_debug.h"
 #include "editctrl.h"
 #include "editloop.h"
 #include "fishingobj.h"
@@ -18,6 +19,7 @@ namespace StaticInitializers
 {
 	void Init()
 	{
+		dng_debug::SInit();
 		editctrl::SInit();
 		editloop::SInit();
 		FishingObj::SInit();
