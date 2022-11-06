@@ -13,7 +13,7 @@ extern mgRENDER_INFO mgRenderInfo;
 // 00381EF0
 extern mgCTextureManager mgTexManager;
 // 003820E0
-extern mgCDrawManager g_draw_mavnager;
+extern mgCDrawManager mgDrawManager;
 
 namespace mg_lib
 {

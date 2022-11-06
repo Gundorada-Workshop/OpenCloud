@@ -28,6 +28,33 @@ namespace mg_frame
 	void SInit();
 }
 
+template<typename T>
+struct mgRect
+{
+public:
+	// 0
+	T m_ax;
+	// 4
+	T m_ay;
+	// 8
+	T m_bx;
+	// C
+	T m_by;
+
+	// 0013E390 (s32)
+	// 001F24F0 (float)
+	// 002BFC30 (s16)
+	inline void Set(T ax, T ay, T bx, T by)
+	{
+		log_trace("mgRect::Set({}, {}, {}, {})", ax, ay, bx, by);
+
+		m_ax = ax;
+		m_ay = ay;
+		m_bx = bx;
+		m_by = by;
+	}
+};
+
 class mgCVisualAttr
 {
 public:
