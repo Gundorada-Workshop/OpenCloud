@@ -65,7 +65,7 @@ public:
 	// 50
 	float m_far_dist;
 	// 54
-	bool m_unk_field_54;
+	bool m_fade_flag;
 	// 58
 	float m_alpha;
 	// 5C

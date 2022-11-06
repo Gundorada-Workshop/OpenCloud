@@ -9,7 +9,6 @@
 // ~ 00131B60 - 00139900
 
 // THIS FILE TODO
-
 class mgCMDTBuilder {};
 class mgCVisualFixMDT {};
 class mgMaterial {};
@@ -46,7 +45,7 @@ public:
 	// 002BFC30 (s16)
 	inline void Set(T ax, T ay, T bx, T by)
 	{
-		log_trace("mgRect::Set({}, {}, {}, {})", ax, ay, bx, by);
+		//log_trace("mgRect::Set({}, {}, {}, {})", ax, ay, bx, by);
 
 		m_ax = ax;
 		m_ay = ay;

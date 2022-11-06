@@ -44,7 +44,7 @@ void CObject::Initialize()
   SetScale(1.0f, 1.0f, 1.0f);
 
   m_far_dist = -1.0f;
-  m_unk_field_54 = false;
+  m_fade_flag = false;
   m_alpha = -1.0f;
   m_fade_delta = 0.2f;
   m_near_dist = -1.0f;
@@ -109,8 +109,10 @@ bool CObject::FarClip(float distance, float* alpha_result)
     m_alpha = is_visible ? 1.0f : 0.0f;
   }
 
-  if (!m_unk_field_54)
+  if (!m_fade_flag)
   {
+    // If we don't want a fade, we either want to be
+    // max alpha or no alpha
     return is_visible;
   }
 
@@ -145,7 +147,7 @@ float CObject::GetAlpha()
 {
   log_trace("CObject::{}()", __func__);
 
-  if (m_unk_field_54)
+  if (m_fade_flag)
   {
     return m_alpha;
   }
@@ -210,7 +212,7 @@ bool CObject::CheckDraw()
 {
   log_trace("CObject::{}()", __func__);
 
-  if (m_unk_field_54)
+  if (m_fade_flag)
   {
     return m_alpha != 0.0f;
   }
