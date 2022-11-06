@@ -33,7 +33,6 @@ class CPiyori {};
 class CGiftMark {};
 class CEnemyGekirin {};
 class CEnemyLifeGage {};
-class CDamageScore {};
 class CDamageScore2 {};
 class CWarningGage2 {};
 class CHealingPoint {};
@@ -61,6 +60,13 @@ public:
   mgCDrawPrim m_unk_field_50;
 
   // SIZE 0x290
+};
+
+class CDamageScore 
+{
+public:
+  // 48
+  glm::u16vec3 m_rgb{ 0x80,0x80,0x80 };
 };
 
 namespace EMiniMapSymbol
