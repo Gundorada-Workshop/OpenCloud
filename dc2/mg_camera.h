@@ -150,10 +150,134 @@ public:
   float m_step_epsilon;
   // 5C
   bool m_stopped;
+
+  // SIZE 0x64 (vtable @ 0x64 - struct align 0x70 ?)
 };
 
 class mgCCameraFollow : public mgCCamera
 {
 public:
+  // 00131A90
+  mgCCameraFollow(
+    float follow_distance,
+    float height,
+    float angle,
+    float speed
+  );
 
+  // 00131740
+  virtual void Step(int steps);
+  // 00131950
+  virtual void Stay();
+  // 00131B20
+  virtual int Iam() const;
+
+  // 00131680
+  void GetFollowNextPos(glm::vec3& dest) const;
+  // 00131700
+  inline void GetFollowNext(glm::vec3& dest) const
+  {
+    GetFollow(dest);
+    dest += m_follow_offset;
+  }
+  // 00131990
+  inline void SetFollow(const glm::vec3& follow_pos)
+  {
+    m_follow = follow_pos;
+  }
+  // 001319A0
+  inline void FollowOn()
+  {
+    m_following = true;
+  }
+  // 001319B0
+  inline void FollowOff()
+  {
+    m_following = false;
+  }
+  // 001319C0
+  inline void SetAngle(float angle)
+  {
+    m_angle_soon = angle;
+  }
+  // 001319D0
+  inline void SetAngleSoon(float angle)
+  {
+    m_angle_soon = angle;
+    m_angle = angle;
+  }
+  // 001319E0
+  inline float GetAngle() const
+  {
+    return m_angle;
+  }
+  // 001319F0
+  inline void AddAngle(float delta)
+  {
+    m_angle_soon += delta;
+  }
+  // 00131A00
+  inline void SetDistance(float distance)
+  {
+    m_distance = distance;
+  }
+  // 00131A10
+  inline float GetDistance() const
+  {
+    return m_distance;
+  }
+  // 00131A20
+  inline void AddDistance(float delta)
+  {
+    m_distance += delta;
+  }
+  // 00131A30
+  inline void SetHeight(float height)
+  {
+    m_height = height;
+  }
+  // 00131A40
+  inline float GetHeight() const
+  {
+    return m_height;
+  }
+  // 00131A50
+  inline void AddHeight(float delta)
+  {
+    m_height += delta;
+  }
+  // 00131A60
+  inline void SetFollowOffset(const glm::vec3& offset)
+  {
+    m_follow_offset = offset;
+  }
+  // 00131A70
+  inline void GetFollow(glm::vec3& dest) const
+  {
+    dest = m_follow;
+  }
+  // 00131A80
+  inline void GetFollowOffset(glm::vec3& dest) const
+  {
+    dest = m_follow_offset;
+  }
+
+  // 70
+  glm::vec3 m_follow;
+  // 80
+  glm::vec3 m_follow_offset;
+  // 90
+  float m_distance;
+  // 94
+  float m_height;
+  // 98
+  float m_angle_soon;
+  // 9C
+  float m_angle;
+  // A0
+  bool m_following;
+  // B0
+  glm::vec3 m_follow_next;
+
+  // SIZE 0xC0
 };

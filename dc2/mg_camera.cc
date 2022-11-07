@@ -1,5 +1,6 @@
 #include "common/log.h"
 #include "mg_camera.h"
+#include "mg_math.h"
 
 set_log_channel("mg_camera");
 
@@ -46,6 +47,13 @@ void mgCCamera::Step(int steps)
     m_rotation_speed = 1.0f;
   }
 
+  if (steps < 0)
+  {
+    // Instantly go to next
+    m_position = m_next_position;
+    m_reference = m_next_reference;
+  }
+
   for (int i = 0; i < steps; ++i)
   {
     if (m_position_speed <= 1.0f && m_rotation_speed <= 1.0f)
@@ -82,7 +90,7 @@ void mgCCamera::Step(int steps)
     }
   }
 
-  // Record our pitch and yaw
+  // Record our pitch and yaw (these probably aren't pitch and yaw?)
   glm::vec3 direction;
   GetDir(direction);
 
@@ -135,4 +143,129 @@ int mgCCamera::Iam() const
   log_trace("mgCCamera::Iam()");
 
   return 0;
+}
+
+// 00131A90
+mgCCameraFollow::mgCCameraFollow(
+  float follow_distance,
+  float height,
+  float angle,
+  float speed
+) : mgCCamera(speed)
+{
+  log_trace(
+    "mgCCameraFollow::mgCCameraFollow({}, {}, {}, {})",
+    follow_distance,
+    height,
+    angle,
+    speed
+  );
+
+  m_follow_next = glm::vec3(0.0f);
+  m_angle_soon = angle;
+  m_angle = angle;
+  m_distance = follow_distance;
+  m_height = height;
+  m_follow_offset = glm::vec3(0.0f);
+  m_following = true;
+}
+
+// 00131740
+void mgCCameraFollow::Step(int steps)
+{
+  log_trace("mgCCameraFollow::{}({})", __func__, steps);
+
+  if (m_stopped || StopCamera)
+  {
+    return;
+  }
+
+  m_follow_next = m_follow + m_follow_offset;
+
+  if (steps < -1)
+  {
+    // Instantly go to next
+    if (m_following)
+    { 
+      m_angle = m_angle_soon;
+      glm::vec3 next_pos;
+      GetFollowNextPos(next_pos);
+      SetNextPos(next_pos);
+      SetNextRef(m_follow_next);
+    }
+    mgCCamera::Step(steps);
+  }
+  else
+  {
+    // Clamp m_angle_soon to [0, 360.0] degrees in radians
+    if (m_angle_soon > DEGREES_TO_RADIANS(360.0f))
+    {
+      m_angle_soon -= DEGREES_TO_RADIANS(360.0f);
+    }
+    if (m_angle_soon < 0)
+    {
+      m_angle_soon += DEGREES_TO_RADIANS(360.0f);
+    }
+
+    for (int i = 0; i < steps; ++i)
+    {
+      if (m_following)
+      {
+        m_angle = mgAngleInterpolate(
+          m_angle,
+          m_angle_soon,
+          std::max(m_position_speed / 2.0f, 1.0f),
+          true
+        );
+
+        if (m_position_speed < 1.1f)
+        {
+          m_angle = m_angle_soon;
+        }
+
+        glm::vec3 next_pos;
+        GetFollowNextPos(next_pos);
+        SetNextPos(next_pos);
+        SetNextRef(m_follow_next);
+      }
+      mgCCamera::Step();
+    }
+
+    if (m_following)
+    {
+      m_angle_soon = m_angleH;
+      m_angle = m_angleH;
+    }
+  }
+}
+
+// 00131950
+void mgCCameraFollow::Stay()
+{
+  log_trace("mgCCameraFollow::{}()", __func__);
+
+  mgCCamera::Stay();
+
+  if (m_following)
+  {
+    m_follow_next = m_next_reference;
+    m_angle_soon = m_angle;
+  }
+}
+
+// 00131B20
+int mgCCameraFollow::Iam() const
+{
+  log_trace("mgCCameraFollow::{}()", __func__);
+
+  return 1;
+}
+
+// 00131680
+void mgCCameraFollow::GetFollowNextPos(glm::vec3& dest) const
+{
+  log_trace("mgCCameraFollow::{}({})", __func__, fmt::ptr(&dest));
+  dest.x = m_follow_next.x + (m_distance * sinf(m_angle));
+  dest.y = m_follow_next.y + m_height;
+  dest.z = m_follow_next.z + (m_distance * cosf(m_angle));
 }
