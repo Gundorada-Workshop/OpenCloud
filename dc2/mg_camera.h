@@ -29,37 +29,100 @@ public:
   virtual int Iam() const;
 
   // 001313E0
-  inline void SetPos(float x, float y, float z);
+  inline void SetPos(float x, float y, float z)
+  {
+    SetPos(glm::vec3(x, y, z));
+  }
+
   // 00131410
-  inline void SetPos(const glm::vec3& pos);
+  inline void SetPos(const glm::vec3& pos)
+  {
+    m_position = pos;
+  }
+
   // 00131420
-  inline void SetNextPos(float x, float y, float z);
+  inline void SetNextPos(float x, float y, float z)
+  {
+    SetNextPos(glm::vec3(x, y, z));
+  }
+
   // 00131430
-  inline void SetNextPos(const glm::vec3& next_pos);
+  inline void SetNextPos(const glm::vec3& next_pos)
+  {
+    m_next_position = next_pos;
+  }
+
   // 00131440
-  inline void SetRef(float h, float p, float r);
+  inline void SetRef(float h, float p, float r)
+  {
+    SetRef(glm::vec3(h, p, r));
+  }
+
   // 00131460
-  inline void SetRef(const glm::vec3& ref);
+  inline void SetRef(const glm::vec3& ref)
+  {
+    m_reference = ref;
+  }
+
   // 00131470
-  inline void SetNextRef(float h, float p, float r);
+  inline void SetNextRef(float h, float p, float r)
+  {
+    SetNextRef(glm::vec3(h, p, r));
+  }
+
   // 00131480
-  inline void SetNextRef(const glm::vec3& next_ref);
+  inline void SetNextRef(const glm::vec3& next_ref)
+  {
+    m_reference = next_ref;
+  }
+
   // 00131490
-  inline void GetDir(glm::vec3& dest) const;
+  inline void GetDir(glm::vec3& dest) const
+  {
+    dest = m_reference - m_position;
+  }
+
   // 001315C0
-  inline void SetRoll(float roll);
+  inline void SetRoll(float roll)
+  {
+    m_roll = roll;
+  }
+
   // 001315D0
-  inline void GetPos(glm::vec3& dest) const;
+  inline void GetPos(glm::vec3& dest) const
+  {
+    dest = m_position;
+  }
+
   // 001315E0
-  inline void GetRef(glm::vec3& dest) const;
+  inline void GetRef(glm::vec3& dest) const
+  {
+    dest = m_reference;
+  }
+
   // 001315F0
-  inline void GetNextPos(glm::vec3& dest) const;
+  inline void GetNextPos(glm::vec3& dest) const
+  {
+    dest = m_next_position;
+  }
+
   // 00131600
-  inline void GetNextRef(glm::vec3& dest) const;
+  inline void GetNextRef(glm::vec3& dest) const
+  {
+    dest = m_next_reference;
+  }
+
   // 00131610
-  inline float GetAngleH() const;
+  inline float GetAngleH() const
+  {
+    return m_angleH;
+  }
+
   // 00131620
-  inline float GetAngleV() const;
+  inline float GetAngleV() const
+  {
+    return m_angleV;
+  }
 
   static bool StopCamera;
 
