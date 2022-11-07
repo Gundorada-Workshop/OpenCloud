@@ -38,6 +38,10 @@ namespace common::file_helpers
   // if directory already exists returns true
   bool create_directory(std::string_view path);
 
+  // same as create directory
+  // but attempts to create all directories in the path
+  bool create_directories(std::string_view path);
+
   // set the application directory
   // should be called with an argv from main
   void set_application_directory(std::string_view path);
