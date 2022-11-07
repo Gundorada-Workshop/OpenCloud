@@ -110,7 +110,7 @@ namespace iso9660
       file_flag_exists = 1 << 0,
       // 0: not a directory
       // 1: directory
-      file_flag_direcrtory = 1 << 1,
+      file_flag_directory = 1 << 1,
       // 0: not an associated file
       // 1: associated file
       file_flag_associated = 1 << 2,
@@ -149,11 +149,9 @@ namespace iso9660
     iso723_t volume_sequence_num;
     // length of the string held in name
     iso711_t name_length;
-    // the string
-    char name[1];
   };
 
-  static_assert(sizeof(dirent) == 34);
+  static_assert(sizeof(dirent) == 33);
 
   struct path_table_entry
   {
@@ -225,6 +223,8 @@ namespace iso9660
     path_table_de path_table_lba;
     // root directory
     dirent root_dir_ent;
+    // this isn't in the spec but root dirent ends in a empty char array
+    char pad[1];
     // volume set
     dchar volume_set_id[max_volume_set_id_size];
     // publisher id
@@ -262,3 +262,131 @@ namespace iso9660
   static_assert(sizeof(volume_descriptor_primary) == constants::assumed_sector_size);
   #pragma pack(pop)
 }
+
+// dual endian u16 entry
+template<>
+struct fmt::formatter<iso9660::iso723_t> : formatter<std::string_view>
+{
+  auto format(iso9660::iso723_t de, format_context& ctx)
+  {
+    return fmt::format_to(ctx.out(), "{}", iso9660::deget(de));
+  }
+};
+
+// dual endian u32 entry
+template<>
+struct fmt::formatter<iso9660::iso733_t> : formatter<std::string_view>
+{
+  auto format(iso9660::iso733_t de, format_context& ctx)
+  {
+    return fmt::format_to(ctx.out(), "{}", iso9660::deget(de));
+  }
+};
+
+// short datetime
+template<>
+struct fmt::formatter<iso9660::datetime_short_format> : formatter<std::string_view>
+{
+  auto format(const iso9660::datetime_short_format& dt, format_context& ctx)
+  {
+    const auto year = dt.years_since_1900 + 1900;
+
+    static constexpr std::string_view tpl =
+    {
+      "iso9660 datetime(year: {}, month: {}, day: {}, hour: {}, minute: {}, second: {}, gmt offset: {})"
+    };
+
+    return fmt::format_to(ctx.out(), tpl, year, dt.months, dt.days, dt.hours, dt.minutes, dt.seconds, dt.gmt_offset);
+  }
+};
+
+// long datetime
+template<>
+struct fmt::formatter<iso9660::datetime_long_format> : formatter<std::string_view>
+{
+  auto format(const iso9660::datetime_long_format& dt, format_context& ctx)
+  {
+    // yes, it's really encoded this way
+    const auto full_year = (dt.year[3] * 1000) + (dt.year[2] * 100) + (dt.year[1] * 10) + dt.year[0];
+    const auto full_month = (dt.month[1] * 10) + dt.month[0];
+    const auto full_day = (dt.day[1] * 10) + dt.day[0];
+    const auto full_hour = (dt.hour[1] * 10) + dt.hour[0];
+    const auto full_min = (dt.minute[1] * 10) + dt.minute[0];
+    const auto full_sec = (dt.seconds[1] * 10) + dt.seconds[0];
+
+    static constexpr std::string_view tpl =
+    {
+      "iso9660 datetime(year: {}, month: {}, day: {}, hour: {}, minute: {}, second: {}, gmt offset: {})"
+    };
+
+    return fmt::format_to(ctx.out(), tpl, full_year, full_month, full_day , full_hour, full_min, full_sec, dt.gmt_offset);
+  }
+};
+
+template<>
+struct fmt::formatter<iso9660::volume_descriptor_header> : formatter<std::string_view>
+{
+  auto format(const iso9660::volume_descriptor_header& header, format_context& ctx)
+  {
+    static constexpr std::string_view tpl =
+    {
+      "vdh(magic: {}, type: {}, version: {})"
+    };
+
+    return fmt::format_to(ctx.out(), tpl, header.magic, header.type, header.version);
+  }
+};
+
+template<>
+struct fmt::formatter<iso9660::volume_descriptor_base> : formatter<std::string_view>
+{
+  auto format(const iso9660::volume_descriptor_base& desc, format_context& ctx)
+  {
+    static constexpr std::string_view tpl =
+    {
+      "vd base(header: {})"
+    };
+
+    return fmt::format_to(ctx.out(), tpl, desc.header);
+  }
+};
+
+template<>
+struct fmt::formatter<iso9660::volume_descriptor_primary::path_table_location_entry> : formatter<std::string_view>
+{
+  auto format(const iso9660::volume_descriptor_primary::path_table_location_entry& path_table, format_context& ctx)
+  {
+    static constexpr std::string_view tpl =
+    {
+      "path table location(table: {}, optional table: {})"
+    };
+
+    return fmt::format_to(ctx.out(), tpl, path_table.table, path_table.optional_table);
+  }
+};
+
+// dual endian of above
+template<>
+struct fmt::formatter<iso9660::volume_descriptor_primary::path_table_de> : formatter<std::string_view>
+{
+  auto format(const iso9660::volume_descriptor_primary::path_table_de& path_table, format_context& ctx)
+  {
+    return fmt::format_to(ctx.out(), "{}", iso9660::deget(path_table));
+  }
+};
+
+template<>
+struct fmt::formatter<iso9660::path_table_entry> : formatter<std::string_view>
+{
+  auto format(const iso9660::path_table_entry& path_table, format_context& ctx)
+  {
+    static constexpr std::string_view tpl =
+    {
+      "path table entry(XA length: {}, extent: {}, name length: {}, parent: {})"
+    };
+
+    return fmt::format_to(ctx.out(), tpl,
+      path_table.extended_attributes_length, path_table.extent,
+      path_table.name_length, path_table.parent);
+  }
+};

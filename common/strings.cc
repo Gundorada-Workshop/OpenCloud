@@ -6,8 +6,11 @@
 namespace common::strings
 {
 #if defined(_WIN32)
-  std::optional<std::string>  to_utf8(std::wstring_view wide)
+  std::optional<std::string> to_utf8(std::wstring_view wide)
   {
+    if (wide.empty())
+      return std::string{ };
+
     auto size = WideCharToMultiByte(CP_UTF8, 0, wide.data(),
       static_cast<int>(wide.size()), nullptr, 0, 0, nullptr);
 
@@ -28,6 +31,9 @@ namespace common::strings
 
   std::optional<std::wstring> to_wstring(std::string_view utf8)
   {
+    if (utf8.empty())
+      return std::wstring{ };
+
     auto size = MultiByteToWideChar(CP_UTF8, 0, utf8.data(), static_cast<int>(utf8.size()), nullptr, 0);
 
     if (size < 1)

@@ -69,6 +69,8 @@ namespace common::log
       return "DBG";
     case level::error:
       return "ERR";
+    case level::warning:
+      return "WRN";
     case level::info:
       return "INF";
     case level::performance:

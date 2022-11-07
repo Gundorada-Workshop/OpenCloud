@@ -22,4 +22,15 @@ namespace common::strings
   {
     return fmt::format(fmtstr, std::forward<Args>(args)...);
   }
+
+  static inline std::string lowercase(std::string_view s)
+  {
+    std::string out{ s };
+
+    std::transform(out.begin(), out.end(), out.begin(), [&](char ch) {
+        return std::tolower(ch);
+    });
+
+    return out;
+  }
 }

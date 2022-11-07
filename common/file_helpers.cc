@@ -74,9 +74,7 @@ namespace common::file_helpers
     auto last_sep = last_seperator_position(path);
 
     if (last_sep == std::string_view::npos)
-    {
-      return {};
-    }
+      return path;
 
     return path.substr(++last_sep, path.size());
   }
@@ -87,9 +85,7 @@ namespace common::file_helpers
     const auto first_period = file_name.find_first_of(".");
 
     if (first_period == std::string_view::npos)
-    {
-      return {};
-    }
+      return path;
 
     return file_name.substr(0, first_period);
   }
@@ -100,9 +96,7 @@ namespace common::file_helpers
     auto first_period = file_name.find_first_of(".");
 
     if (first_period == std::string_view::npos)
-    {
       return {};
-    }
 
     return file_name.substr(++first_period, file_name.size());
   }
@@ -112,9 +106,7 @@ namespace common::file_helpers
     const auto last_sep_pos = last_seperator_position(path);
 
     if (last_sep_pos == std::string_view::npos)
-    {
       return {};
-    }
 
     return path.substr(0, last_sep_pos);
   }
@@ -122,6 +114,9 @@ namespace common::file_helpers
   std::string append(std::string_view path, std::string_view item)
   {
     std::string out{ path };
+
+    if (out.empty())
+      return std::string{ item };
 
     append_to_path(out, item);
 
@@ -215,6 +210,49 @@ namespace common::file_helpers
 #else
     return false;
 #endif
+  }
+
+  bool create_directories(std::string_view path)
+  {
+    // just try it non-recursive
+    // it'll work if the path exists or we only have to create the last directory component
+    if (create_directory(path))
+      return true;
+
+    std::string_view::size_type current_sep_position = 0;
+    while (true)
+    {
+      // get the remaining components view of the path string
+      // for example, this will start as the full path D:\\path\\to\\thing
+      // as the loop iterates it will drop off the front becoming path\\to\\thing and then to\\thing
+      const auto remaining_path_components = path.substr(current_sep_position, path.size() - current_sep_position);
+
+      // now get the next path seperator from the remaining components view
+      const auto next_seperator = remaining_path_components.find_first_of("\\/");
+
+      if (next_seperator == std::string_view::npos)
+        break;
+
+      // we want to include the seperator in the current components view
+      current_sep_position += next_seperator + 1;
+
+      // now get the current component view of the path string
+      // as the loop iterates this will become D:\\ then D:\\path\\ then D:\\path\\to\\ etc
+      const auto current_commponents = path.substr(0, current_sep_position);
+
+      // don't try to create a drive
+      // this will be something like C:\\ which is 3 characters
+      // we need the drive designation for creating the paths though so we don't remove it
+      if (current_commponents.contains(":") && current_sep_position == 3)
+        continue;
+
+      if (!create_directory(current_commponents))
+        return false;
+    }
+
+    // finally create the last directory as the loop ends early if there is no final path seperator
+    // if the path already exists this will succeed handling the other case
+    return create_directory(path);
   }
 
   void set_application_directory(std::string_view path)

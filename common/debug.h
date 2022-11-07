@@ -59,7 +59,7 @@ namespace common::debug
 #define assert(cnd)                        \
   do                                       \
   {                                        \
-    if (!cnd)                              \
+    if (!(cnd))                            \
       common::debug::runtime_assert(#cnd); \
   } while (0)
 
@@ -67,7 +67,7 @@ namespace common::debug
 #define assert_msg(cnd, msg)                                     \
   do                                                             \
   {                                                              \
-    if (!cnd)                                                    \
+    if (!(cnd))                                                  \
       common::debug::runtime_assert_format("{}: {}", #cnd, msg); \
   } while (0)
 
