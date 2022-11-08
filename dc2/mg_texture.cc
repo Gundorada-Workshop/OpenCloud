@@ -1,21 +1,31 @@
 #include "common/debug.h"
 #include "common/log.h"
+#include "common/types.h"
 #include "mg_memory.h"
+#include "mg_tanime.h"
 #include "mg_texture.h"
 #include "script_interpreter.h"
 
 set_log_channel("mg_texture");
 
-// 00376C28
-static mgCTextureManager* TexManager{ nullptr };
+// 00376C1C
+static mgCTextureAnime* pTexAnime{ nullptr };
 // 00376C20
 static mgCTextureAnime* pLoadTexAnime{ nullptr };
+// 00376C24
+static s32 now_group{ 0 };
+// 00376C28
+static mgCTextureManager* TexManager{ nullptr };
 // 00376C2C
 static mgCMemory* TexAnimeStack{ nullptr };
 // 00376C30
-static char* group_name{ NULL };
+static char* group_name{ nullptr };
 // 00376C34
-static int ta_enable = 0;
+static int ta_enable{ 0 };
+// 00376C38
+static usize now_texb{ 0 };
+// 00376C3C
+static bool texBugPatch{ false };
 
 static bool texTEX_ANIME(SPI_STACK* stack, int)
 {
@@ -170,7 +180,7 @@ u8 mgCTextureManager::hash(const char* str) const
     hash &= 0xFF;
     hash <<= 8;
     hash += c;
-    hash %= 101;
+    hash %= m_textures_bucket.size();
   }
 
   return hash & 0xFF;
@@ -235,12 +245,12 @@ void mgCTextureManager::LoadCFGFile(const char* file, int size, mgCMemory* tex_a
 {
   CScriptInterpreter interpreter{ };
 
-  unimplemented_var(_pTexAnime = 0);
-  group_name = 0;
+  pTexAnime = nullptr;
+  group_name = nullptr;
   ta_enable = 0;
-  unimplemented_var(_now_texb = 0xffffffff);
-  unimplemented_var(_now_group = 0xffffffff);
-  unimplemented_var(texBugPatch = 0);
+  now_texb = 0xffffffff;
+  now_group = 0xffffffff;
+  texBugPatch = 0;
 
   pLoadTexAnime = tex_anime;
   TexManager = this;
@@ -264,8 +274,8 @@ void mgCTexture::Initialize()
 {
   log_trace("mgCTexture::Initialize()");
 
-  m_unk_field_8[0] = '\0';
-  m_unk_field_0 = -1;
+  m_name[0] = '\0';
+  m_hash_uuid = -1;
 
   for (float& f : m_unk_field_50)
   {

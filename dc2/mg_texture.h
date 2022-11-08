@@ -58,6 +58,8 @@ public:
   _DWORD m_unk_field_10{};
   // 14
   mgCTextureBlock m_unk_field_14{};
+  // 24
+  std::array<mgCTexture*, 101> m_textures_bucket;
 
   // 1C0
   _DWORD m_unk_field_1C0{};
@@ -75,7 +77,7 @@ public:
   void Initialize();
 
   // 0
-  s16 m_unk_field_0;
+  s16 m_hash_uuid;
   // 2
   s16 m_unk_field_2;
   // 4
@@ -83,7 +85,7 @@ public:
   // 6
   s16 m_unk_field_6;
   // 8
-  char m_unk_field_8[0x20];
+  std::array<char, 0x20> m_name;
   // 28
   _UNKNOWN m_unk_field_28;
   // 2C
