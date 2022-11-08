@@ -33,7 +33,7 @@ public:
   // 8
   mgCTexture* m_texture;
   // C
-  _UNKNOWN m_unk_field_C;
+  mgCTextureAnime* m_texture_anime;
 };
 
 class mgCTextureManager
@@ -44,7 +44,8 @@ private:
   // 0012CE90
 
 public:
-  
+  // 0012C830
+  void SetTableBuffer(int i1, int i2, mgCMemory* stack);
   // 0012D050
   mgCTexture* GetTexture(const char* name, ssize i);
   // 0012D140
@@ -59,9 +60,9 @@ public:
   void LoadCFGFile(const char* file, int size, mgCMemory* text_anime_stack, mgCTextureAnime* tex_anime);
 
   // C
-  _DWORD m_unk_field_C{};
+  usize m_unk_field_C{};
   // 10
-  _DWORD m_unk_field_10{};
+  mgCTextureBlock* m_unk_field_10{};
   // 14
   mgCTextureBlock m_unk_field_14{};
   // 24
@@ -72,6 +73,9 @@ public:
   
   // 1D0
   _DWORD m_unk_field_1D0{};
+
+  // 1D8
+  std::array<char, 0x18> m_unk_field_1D8;
 };
 
 class mgCTexture

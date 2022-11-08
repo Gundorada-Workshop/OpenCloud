@@ -165,7 +165,7 @@ void mgCTextureBlock::Initialize()
   m_unk_field_0 = 0;
   m_unk_field_4 = 0;
   m_texture = nullptr;
-  m_unk_field_C = 0;
+  m_texture_anime = 0;
 }
 
 // 0012C720
@@ -206,6 +206,36 @@ void mgCTextureBlock::Delete(mgCTexture* texture)
     }
     prev_tex = tex;
   }
+}
+
+// 0012C830
+void mgCTextureManager::SetTableBuffer(int i1, int i2, mgCMemory* stack)
+{
+  log_trace("mgCTextureBlock::SetTableBuffer({}, {}, {})", i1, i2, fmt::ptr(stack));
+
+  m_unk_field_C = i1;
+  mgCTextureBlock* buf = static_cast<mgCTextureBlock*>(
+    stack->Alloc(
+      BYTES_TO_BLOCKS(
+        sizeof(mgCTextureBlock) * i1
+      )
+    )
+  );
+
+  m_unk_field_10 = buf;
+  if (buf != nullptr)
+  {
+    for (int i = 0; i < i1; ++i)
+    {
+      new (&buf[i]) mgCTextureBlock;
+    }
+  }
+  else
+  {
+    m_unk_field_C = 0;
+  }
+
+  todo;
 }
 
 // 0012CC70
