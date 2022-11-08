@@ -158,13 +158,24 @@ void mgCTextureBlock::Initialize()
   m_unk_field_C = 0;
 }
 
-// 0012C7E0
-mgCTextureManager::mgCTextureManager()
+// 0012CC70
+u8 mgCTextureManager::hash(const char* str) const
 {
-  log_trace("mgCTextureManager::mgCTextureManager()");
+  log_trace("mgCTextureManager::hash({})", str);
 
-  todo;
+  int hash = 0;
+
+  for (char c = *str; c != '\0'; c = *(++str))
+  {
+    hash &= 0xFF;
+    hash <<= 8;
+    hash += c;
+    hash %= 101;
+  }
+
+  return hash & 0xFF;
 }
+
 
 // 0012D050
 mgCTexture* mgCTextureManager::GetTexture(const char* name, ssize i)

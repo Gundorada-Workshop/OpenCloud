@@ -16,6 +16,8 @@
 #include "title.h"
 #include "userdata.h"
 
+set_log_channel("sinit")
+
 namespace StaticInitializers
 {
 	void Init()

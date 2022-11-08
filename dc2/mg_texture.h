@@ -34,9 +34,11 @@ public:
 
 class mgCTextureManager
 {
+private:
+  // 0012CC70
+  u8 hash(const char* str) const;
 public:
-  // 0012C7E0
-  mgCTextureManager();
+  
   // 0012D050
   mgCTexture* GetTexture(const char* name, ssize i);
   // 0012D140
@@ -50,8 +52,18 @@ public:
   // 0013D8C0
   void LoadCFGFile(const char* file, int size, mgCMemory* text_anime_stack, mgCTextureAnime* tex_anime);
 
+  // C
+  _DWORD m_unk_field_C{};
+  // 10
+  _DWORD m_unk_field_10{};
   // 14
-  mgCTextureBlock m_unk_field_14;
+  mgCTextureBlock m_unk_field_14{};
+
+  // 1C0
+  _DWORD m_unk_field_1C0{};
+  
+  // 1D0
+  _DWORD m_unk_field_1D0{};
 };
 
 class mgCTexture
