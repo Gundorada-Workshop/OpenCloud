@@ -50,7 +50,7 @@ public:
   // 001313A0
   virtual void Stay();
   // 001314D0
-  virtual void GetCameraMatrix(glm::mat4& dest) const;
+  virtual glm::mat4 GetCameraMatrix() const;
   // 00131B50
   virtual int Iam() const;
 
@@ -103,9 +103,9 @@ public:
   }
 
   // 00131490
-  inline void GetDir(glm::vec3& dest) const
+  inline glm::vec3 GetDir() const
   {
-    dest = m_reference - m_position;
+    return m_reference - m_position;
   }
 
   // 001315C0
@@ -115,27 +115,27 @@ public:
   }
 
   // 001315D0
-  inline void GetPos(glm::vec3& dest) const
+  inline glm::vec3 GetPos() const
   {
-    dest = m_position;
+    return m_position;
   }
 
   // 001315E0
-  inline void GetRef(glm::vec3& dest) const
+  inline glm::vec3 GetRef() const
   {
-    dest = m_reference;
+    return m_reference;
   }
 
   // 001315F0
-  inline void GetNextPos(glm::vec3& dest) const
+  inline glm::vec3 GetNextPos() const
   {
-    dest = m_next_position;
+    return m_next_position;
   }
 
   // 00131600
-  inline void GetNextRef(glm::vec3& dest) const
+  inline glm::vec3 GetNextRef() const
   {
-    dest = m_next_reference;
+    return m_next_reference;
   }
 
   // 00131610
@@ -191,12 +191,11 @@ public:
   virtual int Iam() const;
 
   // 00131680
-  void GetFollowNextPos(glm::vec3& dest) const;
+  glm::vec3 GetFollowNextPos() const;
   // 00131700
-  inline void GetFollowNext(glm::vec3& dest) const
+  inline glm::vec3 GetFollowNext() const
   {
-    GetFollow(dest);
-    dest += m_follow_offset;
+    return GetFollow() + m_follow_offset;
   }
   // 00131990
   inline void SetFollow(const glm::vec3& follow_pos)
@@ -270,13 +269,13 @@ public:
     m_follow_offset = offset;
   }
   // 00131A70
-  inline void GetFollow(glm::vec3& dest) const
+  inline glm::vec3 GetFollow() const
   {
-    dest = m_follow;
+    return m_follow;
   }
   // 00131A80
-  inline void GetFollowOffset(glm::vec3& dest) const
+  inline glm::vec3 GetFollowOffset() const
   {
-    dest = m_follow_offset;
+    return m_follow_offset;
   }
 };

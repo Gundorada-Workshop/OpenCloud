@@ -115,19 +115,15 @@ void CCameraControl::MoveCamera(const Control& control, const glm::vec3& v, CCPo
 
   CameraCtrlParam& active_param = GetActiveParam();
   
-  glm::vec3 follow;
-  glm::vec3 follow_offset;
   glm::vec3 next_difference;
   glm::vec3 next_difference_normal;
   glm::vec3 var_10 = glm::vec3(0);
 
-  GetFollow(follow);
-  GetFollowOffset(follow_offset);
-  m_next_reference = follow + follow_offset;
+  m_next_reference = GetFollow() + GetFollowOffset();
 
   next_difference = m_next_reference - m_next_position;
   next_difference.y = 0.0f;
-  glm::normalize(next_difference_normal);
+  next_difference_normal = glm::normalize(next_difference);
   float dist = glm::distance(next_difference, glm::vec3(0));
 
   if (dist > 0.0f)
@@ -298,9 +294,12 @@ void CCameraControl::CheckGround(CCPoly* c_poly, usize i)
 }
 
 // 002ED250
-void CCameraControl::GetCameraMatrix(glm::mat4& dest)
+glm::mat4 CCameraControl::GetCameraMatrix()
 {
-  log_trace("CCameraControl::{}({})", __func__, fmt::ptr(&dest));
+  log_trace("CCameraControl::{}()", __func__);
+
+  todo;
+  return glm::mat4(1.0f);
 }
 
 void CCameraControl::CopyParam(CCameraControl& other)

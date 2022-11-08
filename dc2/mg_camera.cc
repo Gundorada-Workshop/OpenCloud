@@ -92,8 +92,7 @@ void mgCCamera::Step(int steps)
   }
 
   // Record our pitch and yaw (these probably aren't pitch and yaw?)
-  glm::vec3 direction;
-  GetDir(direction);
+  glm::vec3 direction = GetDir();
 
   glm::vec3 direction_normal = glm::normalize(glm::vec3{ direction.x, 0.0f, direction.z });
   m_angleH = atan2f(direction_normal.x, direction_normal.z);
@@ -126,12 +125,12 @@ void mgCCamera::Stay()
 }
 
 // 001314D0
-void mgCCamera::GetCameraMatrix(glm::mat4& dest) const
+glm::mat4 mgCCamera::GetCameraMatrix() const
 {
-  log_trace("mgCCamera::GetCameraMatrix({})", fmt::ptr(&dest));
+  log_trace("mgCCamera::GetCameraMatrix()");
 
   // FIXME: Check if this is correct
-  dest = glm::lookAt(
+  return glm::lookAt(
     m_position,
     m_reference,
     glm::vec3(0, 1, 0)
@@ -189,9 +188,7 @@ void mgCCameraFollow::Step(int steps)
     if (m_following)
     { 
       m_angle = m_angle_soon;
-      glm::vec3 next_pos;
-      GetFollowNextPos(next_pos);
-      SetNextPos(next_pos);
+      SetNextPos(GetFollowNextPos());
       SetNextRef(m_follow_next);
     }
     mgCCamera::Step(steps);
@@ -224,9 +221,7 @@ void mgCCameraFollow::Step(int steps)
           m_angle = m_angle_soon;
         }
 
-        glm::vec3 next_pos;
-        GetFollowNextPos(next_pos);
-        SetNextPos(next_pos);
+        SetNextPos(GetFollowNextPos());
         SetNextRef(m_follow_next);
       }
       mgCCamera::Step();
@@ -263,10 +258,13 @@ int mgCCameraFollow::Iam() const
 }
 
 // 00131680
-void mgCCameraFollow::GetFollowNextPos(glm::vec3& dest) const
+glm::vec3 mgCCameraFollow::GetFollowNextPos() const
 {
-  log_trace("mgCCameraFollow::{}({})", __func__, fmt::ptr(&dest));
-  dest.x = m_follow_next.x + (m_distance * sinf(m_angle));
-  dest.y = m_follow_next.y + m_height;
-  dest.z = m_follow_next.z + (m_distance * cosf(m_angle));
+  log_trace("mgCCameraFollow::{}()", __func__);
+  
+  return glm::vec3(
+    m_follow_next.x + (m_distance * sinf(m_angle)),
+    m_follow_next.y + m_height,
+    m_follow_next.z + (m_distance * cosf(m_angle))
+  );
 }

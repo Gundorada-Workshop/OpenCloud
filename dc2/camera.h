@@ -98,7 +98,7 @@ public:
   virtual void Step(int steps = 1);
 
   // 002ED250
-  virtual void GetCameraMatrix(glm::mat4& dest);
+  virtual glm::mat4 GetCameraMatrix();
 
   // 002ED3D0
   virtual int Iam();
