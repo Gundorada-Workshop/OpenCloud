@@ -118,3 +118,33 @@ public:
   usize m_n_unk_field_4;
   _UNKNOWNPOINTER m_unk_field_4;
 };
+
+// 0018D1E0
+void sndSetMasterVol(float volume, int i);
+
+// 0018D270
+float sndGetMasterVol(int i);
+
+// 0018D2B0
+void sndMasterVolFadeInOut(int i1, int i2, float f1, float f2);
+
+// 0018D650
+void sndStep(float f);
+
+// 0018E060
+void sndSePlay(uint u1, int i1, int i2);
+
+// 0018E410
+void sndPortSqPause(int port_no);
+
+// 0018E460
+void sndPortSqReplay(int port_no);
+
+// 00190530
+void sndStreamPause();
+
+// 00190560
+void sndStreamRePlay();
+
+// 00190590
+int sndStreamGetState();

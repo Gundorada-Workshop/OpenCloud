@@ -17,6 +17,11 @@ namespace mg_frame
 	}
 }
 
+// 00376C70
+s32 mgScreenWidth{};
+// 00376C74
+s32 mgScreenHeight{};
+
 mgVu0FBOX::mgVu0FBOX(mgVu0FBOX& other)
 {
 	log_trace("mgVu0FBOX::mgVu0FBOX({})", fmt::ptr(&other));
@@ -24,8 +29,6 @@ mgVu0FBOX::mgVu0FBOX(mgVu0FBOX& other)
 	m_a = other.m_a;
 	m_b = other.m_b;
 }
-
-
 
 // 0013E7B0
 void mgCVisualAttr::Initialize()
@@ -289,61 +292,342 @@ bool mgCVisualMDT::DataAssignMT(MDT_HEADER* mdt_header, mgCMemory& stack, mgCTex
 	return false;
 }
 
+// 00134410
+void mgCDrawPrim::Initialize(mgCMemory* memory, sceVif1Packet* vif1_packet)
+{
+	log_trace("mgCDrawPrim::Initialize({}, {})", fmt::ptr(memory), fmt::ptr(vif1_packet));
+
+	todo;
+}
+
+// 001344A0
+void mgCDrawPrim::Begin(int i)
+{
+	log_trace("mgCDrawPrim::{}({})", __func__, i);
+
+	todo;
+}
+
+
+// 00134530
 void mgCDrawPrim::BeginDma()
 {
-	// TODO
+	log_trace("mgCDrawPrim::{}()", __func__);
+
+	todo;
 }
 
+// 001345C0
 void mgCDrawPrim::EndDma()
 {
-	// TODO
+	log_trace("mgCDrawPrim::{}()", __func__);
+
+	todo;
 }
 
-void mgCDrawPrim::Color(sint, sint, sint, sint)
-{
-	// TODO
-}
-
-void mgCDrawPrim::TextureCrd4(int, int)
-{
-	// TODO
-}
-
-void mgCDrawPrim::Vertex4(int, int, int)
-{
-	// TODO
-}
-
+// 00134660
 void mgCDrawPrim::Flush()
 {
+	log_trace("mgCDrawPrim::{}()", __func__);
+
 	EndDma();
 	BeginDma();
 }
 
-void mgCDrawPrim::Vertex(sint x, sint y, sint z)
+// 00134690
+void mgCDrawPrim::End()
 {
+	log_trace("mgCDrawPrim::{}()", __func__);
+
+	todo;
+}
+
+// 001346D0
+void mgCDrawPrim::Begin2()
+{
+	log_trace("mgCDrawPrim::{}()", __func__);
+
+	todo;
+}
+
+// 00134860
+void mgCDrawPrim::BeginPrim2(sint i)
+{
+	log_trace("mgCDrawPrim::{}({})", __func__, i);
+
+	todo;
+}
+
+// 00134860
+void mgCDrawPrim::BeginPrim2(sint i1, uint i2, uint i3, uint i4)
+{
+	log_trace("mgCDrawPrim::{}({}, {}, {}, {})", __func__, i1, i2, i3, i4);
+
+	todo;
+}
+
+// 00134940
+void mgCDrawPrim::EndPrim2()
+{
+	log_trace("mgCDrawPrim::{}()", __func__);
+
+	todo;
+}
+
+// 00134A20
+void mgCDrawPrim::End2()
+{
+	log_trace("mgCDrawPrim::{}()", __func__);
+
+	todo;
+}
+
+// 00134AA0
+void mgCDrawPrim::Data0(glm::vec4 v)
+{
+	log_trace("mgCDrawPrim::{}(({}, {}, {}, {}))", __func__, v.x, v.y, v.z, v.w);
+
+	todo;
+}
+
+// 00134AC0
+void mgCDrawPrim::Data4(glm::vec4 v)
+{
+	log_trace("mgCDrawPrim::{}(({}, {}, {}, {}))", __func__, v.x, v.y, v.z, v.w);
+
+	todo;
+}
+
+// 00134AE0
+void mgCDrawPrim::Data(glm::ivec4 v)
+{
+	log_trace("mgCDrawPrim::{}(({}, {}, {}, {}))", __func__, v.x, v.y, v.z, v.w);
+
+	todo;
+}
+
+// 00134AE0
+void mgCDrawPrim::DirectData(int i)
+{
+	log_trace("mgCDrawPrim::{}({})", __func__, i);
+
+	todo;
+}
+
+// 00134B20
+void mgCDrawPrim::Vertex(int x, int y, int z)
+{
+	log_trace("mgCDrawPrim::{}({}, {}, {})", __func__, x, y, z);
+
 	Vertex4(x << 4, y << 4, z);
+}
+
+// 00134B30
+void mgCDrawPrim::Vertex(float x, float y, float z)
+{
+	log_trace("mgCDrawPrim::{}({}, {}, {})", __func__, x, y, z);
+
+	todo;
+}
+
+// 00134B70
+void mgCDrawPrim::Vertex(glm::vec3 v)
+{
+	log_trace("mgCDrawPrim::{}({}, {}, {})", __func__, v.x, v.y, v.z);
+
+	todo;
+}
+
+// 00134BB0
+void mgCDrawPrim::Vertex4(int x, int y, int z)
+{
+	log_trace("mgCDrawPrim::{}({}, {}, {})", __func__, x, y, z);
+
+	todo;
+}
+
+// 00134C60
+void mgCDrawPrim::Vertex4(glm::ivec3 v)
+{
+	log_trace("mgCDrawPrim::{}({}, {}, {})", __func__, v.x, v.y, v.z);
+
+	Vertex4(v[0], v[1], v[2]);
 }
 
 void mgCDrawPrim::Vertex4(glm::vec3 v)
 {
+	log_trace("mgCDrawPrim::{}({}, {}, {})", __func__, v.x, v.y, v.z);
+
 	Vertex4(static_cast<sint>(v.x), static_cast<sint>(v.y), static_cast<sint>(v.z));
 }
 
-void mgCDrawPrim::Vertex4(glm::ivec3 v)
+// 00134C80
+void mgCDrawPrim::Color(sint r, sint g, sint b, sint a)
 {
-	Vertex4(v[0], v[1], v[2]);
+	log_trace("mgCDrawPrim::{}({}, {}, {}, {})", __func__, r, g, b, a);
+
+	todo;
 }
 
+// 00134CF0
 void mgCDrawPrim::Color(glm::vec4 rgba)
 {
+	log_trace("mgCDrawPrim::{}(({}, {}, {}, {}))", __func__, rgba.r, rgba.g, rgba.b, rgba.a);
+
 	Color(static_cast<sint>(rgba[0]), static_cast<sint>(rgba[1]),
 		static_cast<sint>(rgba[2]), static_cast<sint>(rgba[3]));
 }
 
+// 00134D30
+void mgCDrawPrim::TextureCrd4(int s, int t)
+{
+	log_trace("mgCDrawPrim::{}({}, {})", __func__, s, t);
+
+	todo;
+}
+
+// 00134D70
 void mgCDrawPrim::TextureCrd(sint s, sint t)
 {
+	log_trace("mgCDrawPrim::{}({}, {})", __func__, s, t);
+
 	TextureCrd4(s << 4, t << 4);
+}
+
+// 00134D80
+void mgCDrawPrim::Direct(ulong i1, ulong i2)
+{
+	log_trace("mgCDrawPrim::{}({}, {})", __func__, i1, i2);
+
+	todo;
+}
+
+// 00134DA0
+void mgCDrawPrim::Texture(mgCTexture* texture)
+{
+	log_trace("mgCDrawPrim::{}({})", __func__, fmt::ptr(texture));
+
+	todo;
+}
+
+// 00134EC0
+void mgCDrawPrim::AlphaBlendEnable(bool value)
+{
+	log_trace("mgCDrawPrim::{}({})", __func__, value);
+
+	todo;
+}
+
+// 00134EE0
+void mgCDrawPrim::AlphaBlend(int alpha_mode)
+{
+	log_trace("mgCDrawPrim::{}({})", __func__, alpha_mode);
+
+	todo;
+}
+
+// 00134EF0
+void mgCDrawPrim::AlphaTestEnable(bool value)
+{
+	log_trace("mgCDrawPrim::{}({})", __func__, value);
+
+	todo;
+}
+
+// 00134EE0
+void mgCDrawPrim::AlphaTest(int i1, int i2)
+{
+	log_trace("mgCDrawPrim::{}({}, {})", __func__, i1, i2);
+
+	todo;
+}
+
+// 00134F50
+void mgCDrawPrim::DAlphaTest(int i1, int i2)
+{
+	log_trace("mgCDrawPrim::{}({}, {})", __func__, i1, i2);
+
+	todo;
+}
+
+// 00134EF0
+void mgCDrawPrim::DepthTestEnable(bool value)
+{
+	log_trace("mgCDrawPrim::{}({})", __func__, value);
+
+	todo;
+}
+
+// 00134FF0
+void mgCDrawPrim::DepthTest(int i)
+{
+	log_trace("mgCDrawPrim::{}({})", __func__, i);
+
+	todo;
+}
+
+// 00135090
+void mgCDrawPrim::ZMask(int zmask)
+{
+	log_trace("mgCDrawPrim::{}({})", __func__, zmask);
+
+	todo;
+}
+
+// 001350A0
+void mgCDrawPrim::TextureMapEnable(bool value)
+{
+	log_trace("mgCDrawPrim::{}({})", __func__, value);
+
+	todo;
+}
+
+// 001350C0
+void mgCDrawPrim::Bilinear(bool value)
+{
+	log_trace("mgCDrawPrim::{}({})", __func__, value);
+
+	todo;
+}
+
+// 001350D0
+void mgCDrawPrim::Shading(bool value)
+{
+	log_trace("mgCDrawPrim::{}({})", __func__, value);
+
+	todo;
+}
+
+// 001350F0
+void mgCDrawPrim::AntiAliasing(bool value)
+{
+	log_trace("mgCDrawPrim::{}({})", __func__, value);
+
+	todo;
+}
+
+// 00135110
+void mgCDrawPrim::FogEnable(bool value)
+{
+	log_trace("mgCDrawPrim::{}({})", __func__, value);
+
+	todo;
+}
+
+// 00135130
+void mgCDrawPrim::Coord(int i)
+{
+	log_trace("mgCDrawPrim::{}({})", __func__, i);
+
+	todo;
+}
+
+// 00135140
+void mgCDrawPrim::GetOffset(int* i1, int*i2)
+{
+	log_trace("mgCDrawPrim::{}({}, {})", __func__, fmt::ptr(i1), fmt::ptr(i2));
+
+	todo;
 }
 
 // 00135180

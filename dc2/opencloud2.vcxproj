@@ -32,6 +32,7 @@
     <ClInclude Include="map.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="run_script.h" />
+    <ClInclude Include="sce_temp.h" />
     <ClInclude Include="script_interpreter.h" />
     <ClInclude Include="dbg_font.h" />
     <ClInclude Include="dngmenu.h" />

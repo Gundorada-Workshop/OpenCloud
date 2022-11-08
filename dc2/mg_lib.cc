@@ -58,6 +58,14 @@ namespace mg_lib
   }
 }
 
+// 001421E0
+void mgBeginFrame(mgCDrawManager* draw_man)
+{
+  log_trace("{}({})", __func__, fmt::ptr(draw_man));
+
+  todo;
+}
+
 // 00142F90
 _UNKNOWNPOINTER mgDraw(mgCFrame* frame)
 {
@@ -74,7 +82,7 @@ _UNKNOWNPOINTER mgDraw(mgCFrame* frame)
 // 00142FD0
 _UNKNOWNPOINTER mgDrawDirect(mgCFrame* frame)
 {
-  log_trace("mgDraw({})", fmt::ptr(frame));
+  log_trace("mgDrawDirect({})", fmt::ptr(frame));
 
   if (frame == nullptr)
   {
@@ -82,6 +90,30 @@ _UNKNOWNPOINTER mgDrawDirect(mgCFrame* frame)
   }
 
   // Likely not applicable to Windows anyways
+  todo;
+}
+
+// 001425B0
+void mgEndFrame(mgCDrawManager* draw_man)
+{
+  log_trace("{}({})", __func__, fmt::ptr(draw_man));
+
+  todo;
+}
+
+// 00144400
+void mgGetFrameBackBuffer(mgCTexture* texture)
+{
+  log_trace("mgGetFrameBackBuffer({})", fmt::ptr(texture));
+
+  todo;
+}
+
+// 001445A0
+void mgSetPkMoveImage(sceGsTex0* tex1, mgRect<int>* rect, sceGsTex0* tex2, int i1, int i2, int i3)
+{
+  log_trace("mgSetPkMoveImage({})", fmt::ptr(tex1), fmt::ptr(rect), fmt::ptr(tex2), i1, i2, i3);
+
   todo;
 }
 

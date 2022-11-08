@@ -2,13 +2,20 @@
 #include "common/types.h"
 
 // todo
-struct PAD_STATUS;
+struct PAD_STATUS {};
+
+// forward declare
+class CGamePad;
+class CPadControl;
+
+// 003D76E0
+extern CGamePad GamePad;
+// 003D7B60
+extern CPadControl PadCtrl;
 
 class CGamePad
 {
 public:
-  CGamePad();
-
   // 0014a830
   void WaitEnable();
 
@@ -139,5 +146,8 @@ public:
 class CPadControl
 {
 public:
-
+  // 002ED4E0
+  bool Btn(int button);
+  // 002ED550
+  void Update(CGamePad* game_pad);
 };

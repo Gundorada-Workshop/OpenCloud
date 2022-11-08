@@ -4,8 +4,15 @@
 #include "common/types.h"
 #include "mg_memory.h"
 #include "mg_tanime.h"
+#include "sce_temp.h"
 
 // ~ 0012C480 - 0012F1C0
+
+// TODO
+class mgCEnterIMGInfo {};
+
+// Forward declare
+class mgCTexture;
 
 class mgCTextureBlock
 {
@@ -30,6 +37,16 @@ class mgCTextureManager
 public:
   // 0012C7E0
   mgCTextureManager();
+  // 0012D050
+  mgCTexture* GetTexture(const char* name, ssize i);
+  // 0012D140
+  void EnterTexture(usize texb, const char* name, _UNKNOWNPOINTER p1, s32 width, s32 height, u32 i3, _UNKNOWNPOINTER p2, u64 i4, int i5);
+  // 0012DA90
+  void EnterIMGFile(u8* img_file_buff, usize texb, mgCMemory* stack, mgCEnterIMGInfo* enter_info);
+  // 0012E540
+  void DeleteBlock(usize texb);
+  // 0012E850
+  void ReloadTexture(usize texb, sceVif1Packet* vif1_packet);
   // 0013D8C0
   void LoadCFGFile(const char* file, int size, mgCMemory* text_anime_stack, mgCTextureAnime* tex_anime);
 

@@ -2,6 +2,7 @@
 #include "common/debug.h"
 #include "common/types.h"
 #include "font.h"
+#include "menusave.h"
 #include "mg_memory.h"
 
 namespace Language
@@ -47,10 +48,22 @@ namespace MainLoop_SInit
 }
 
 // 00190840
-CFont* GetDebugFont(void);
+CFont* GetDebugFont();
+
+// 00190860
+u32 GetSystemSndId();
+
+// 00190880
+CSaveData* GetSaveData();
 
 // 001908F0
-mgCMemory* GetMainStack(void);
+mgCMemory* GetMainStack();
+
+// 00190BE0
+void PlayTimeCount(bool flag);
+
+// 00190BF0
+bool GetPlayTimeCountFlag();
 
 // 00190CB0
 void MainLoop();

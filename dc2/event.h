@@ -6,3 +6,6 @@
 class C3DSpline {};
 class CCameraPas {};
 class CCharaPas {};
+
+// 002554C0
+void SkipEventStart();

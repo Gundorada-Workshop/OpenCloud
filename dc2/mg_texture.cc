@@ -161,7 +161,62 @@ void mgCTextureBlock::Initialize()
 // 0012C7E0
 mgCTextureManager::mgCTextureManager()
 {
-  new (&m_unk_field_14) mgCTextureBlock;
+  log_trace("mgCTextureManager::mgCTextureManager()");
+
+  todo;
+}
+
+// 0012D050
+mgCTexture* mgCTextureManager::GetTexture(const char* name, ssize i)
+{
+  log_trace("mgCTextureManager::{}({}, {})", __func__, name, i);
+
+  todo;
+  return nullptr;
+}
+
+// 0012D140
+void mgCTextureManager::EnterTexture(usize texb, const char* name, _UNKNOWNPOINTER p1, s32 width, s32 height, u32 i3, _UNKNOWNPOINTER p2, u64 i4, int i5)
+{
+  log_trace(
+    "mgCTextureManager::{}({}, {}, {}, {}, {}, {}, {}, {}, {})",
+    __func__,
+    texb,
+    name,
+    fmt::ptr(p1),
+    width,
+    height,
+    i3,
+    fmt::ptr(p2),
+    i4,
+    i5
+  );
+
+  todo;
+}
+
+// 0012DA90
+void mgCTextureManager::EnterIMGFile(u8* img_file_buff, usize texb, mgCMemory* stack, mgCEnterIMGInfo* enter_info)
+{
+  log_trace("mgCTextureManager::{}({}, {}, {}, {})", __func__, fmt::ptr(img_file_buff), texb, fmt::ptr(stack), fmt::ptr(enter_info));
+
+  todo;
+}
+
+// 0012E540
+void mgCTextureManager::DeleteBlock(usize texb)
+{
+  log_trace("mgCTextureManager::DeleteBlock({})", texb);
+
+  todo;
+}
+
+// 0012E850
+void mgCTextureManager::ReloadTexture(usize texb, sceVif1Packet* vif1_packet)
+{
+  log_trace("mgCTextureManager::ReloadTexture({}, {})", texb, fmt::ptr(vif1_packet));
+
+  todo;
 }
 
 // 0013d8c0
