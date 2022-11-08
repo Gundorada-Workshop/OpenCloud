@@ -575,9 +575,6 @@ public:
 	// 00138850
 	mgCDrawEnv();
 
-	// 00138880
-	mgCDrawEnv(mgCDrawEnv& other);
-
 	// 0
 	u64 m_unk_field_0;
 	// 8

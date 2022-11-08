@@ -938,11 +938,3 @@ mgCDrawEnv::mgCDrawEnv()
 
 	Initialize(false);
 }
-
-// 00138880
-mgCDrawEnv::mgCDrawEnv(mgCDrawEnv& other)
-{
-	log_trace("mgCDrawEnv::mgCDrawEnv({})", fmt::ptr(&other));
-
-	memcpy(this, &other, sizeof(this));
-}
