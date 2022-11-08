@@ -8,6 +8,32 @@
 
 class mgCCamera
 {
+private:
+  // 40
+  float m_roll;
+  // 44
+  _DWORD m_unk_field_44;
+  // 58
+  float m_step_epsilon;
+protected:
+  // 0
+  glm::vec3 m_position;
+  // 10
+  glm::vec3 m_reference;
+  // 20
+  glm::vec3 m_next_position;
+  // 30
+  glm::vec3 m_next_reference;
+  // 48
+  float m_position_speed;
+  // 4C
+  float m_rotation_speed;
+  // 50
+  float m_angleH;
+  // 54
+  float m_angleV;
+  // 5C
+  bool m_stopped;
 public:
   // 00131630
   // speed is how long it takes the camera to reach its target, in frames (30fps).
@@ -124,38 +150,30 @@ public:
     return m_angleV;
   }
 
+  // 00376C00
   static bool StopCamera;
-
-  // 0
-  glm::vec3 m_position;
-  // 10
-  glm::vec3 m_reference;
-  // 20
-  glm::vec3 m_next_position;
-  // 30
-  glm::vec3 m_next_reference;
-  // 40
-  float m_roll;
-  // 44
-  _DWORD m_unk_field_44;
-  // 48
-  float m_position_speed;
-  // 4C
-  float m_rotation_speed;
-  // 50
-  float m_angleH;
-  // 54
-  float m_angleV;
-  // 58
-  float m_step_epsilon;
-  // 5C
-  bool m_stopped;
-
-  // SIZE 0x64 (vtable @ 0x64 - struct align 0x70 ?)
 };
 
 class mgCCameraFollow : public mgCCamera
 {
+private:
+protected:
+  // 70
+  glm::vec3 m_follow;
+  // 80
+  glm::vec3 m_follow_offset;
+  // 90
+  float m_distance;
+  // 94
+  float m_height;
+  // 98
+  float m_angle_soon;
+  // 9C
+  float m_angle;
+  // A0
+  bool m_following;
+  // B0
+  glm::vec3 m_follow_next;
 public:
   // 00131A90
   mgCCameraFollow(
@@ -261,23 +279,4 @@ public:
   {
     dest = m_follow_offset;
   }
-
-  // 70
-  glm::vec3 m_follow;
-  // 80
-  glm::vec3 m_follow_offset;
-  // 90
-  float m_distance;
-  // 94
-  float m_height;
-  // 98
-  float m_angle_soon;
-  // 9C
-  float m_angle;
-  // A0
-  bool m_following;
-  // B0
-  glm::vec3 m_follow_next;
-
-  // SIZE 0xC0
 };
