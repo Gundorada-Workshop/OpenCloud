@@ -164,8 +164,48 @@ void mgCTextureBlock::Initialize()
 
   m_unk_field_0 = 0;
   m_unk_field_4 = 0;
-  m_unk_field_8 = 0;
+  m_texture = nullptr;
   m_unk_field_C = 0;
+}
+
+// 0012C720
+void mgCTextureBlock::Add(mgCTexture* texture)
+{
+  log_trace("mgCTextureBlock::Add({})", fmt::ptr(texture));
+
+  texture->m_next = nullptr;
+  if (m_texture == nullptr)
+  {
+    m_texture = texture;
+    return;
+  }
+
+  mgCTexture* tex = m_texture;
+  for (; tex->m_next != nullptr; tex = tex->m_next) {}
+  tex->m_next = texture;
+}
+
+// 0012C780
+void mgCTextureBlock::Delete(mgCTexture* texture)
+{
+  log_trace("mgCTextureBlock::Delete({})", fmt::ptr(texture));
+
+  mgCTexture* prev_tex = nullptr;
+  for (mgCTexture* tex = m_texture; tex->m_next != nullptr; tex = tex->m_next)
+  {
+    if (texture == tex)
+    {
+      if (prev_tex == nullptr)
+      {
+        m_texture = tex->m_next;
+      }
+      else
+      {
+        prev_tex->m_next = tex->m_next;
+      }
+    }
+    prev_tex = tex;
+  }
 }
 
 // 0012CC70
@@ -297,5 +337,5 @@ void mgCTexture::Initialize()
   m_unk_field_28 = 0;
   m_unk_field_2C = 0;
   m_unk_field_30 = 0;
-  m_unk_field_68 = 0;
+  m_next = nullptr;
 }

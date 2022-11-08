@@ -21,13 +21,17 @@ public:
   mgCTextureBlock();
   // 0012C700
   void Initialize();
+  // 0012C720
+  void Add(mgCTexture* texture);
+  // 0012C780
+  void Delete(mgCTexture* texture);
 
   // 0
   _UNKNOWN m_unk_field_0;
   // 4
   _UNKNOWN m_unk_field_4;
   // 8
-  _UNKNOWN m_unk_field_8;
+  mgCTexture* m_texture;
   // C
   _UNKNOWN m_unk_field_C;
 };
@@ -37,6 +41,8 @@ class mgCTextureManager
 private:
   // 0012CC70
   u8 hash(const char* str) const;
+  // 0012CE90
+
 public:
   
   // 0012D050
@@ -59,7 +65,7 @@ public:
   // 14
   mgCTextureBlock m_unk_field_14{};
   // 24
-  std::array<mgCTexture*, 101> m_textures_bucket;
+  std::array<mgCTextureBlock*, 101> m_textures_bucket;
 
   // 1C0
   _DWORD m_unk_field_1C0{};
@@ -87,14 +93,14 @@ public:
   // 8
   std::array<char, 0x20> m_name;
   // 28
-  _UNKNOWN m_unk_field_28;
+  _DWORD m_unk_field_28;
   // 2C
-  _UNKNOWN m_unk_field_2C;
+  _DWORD m_unk_field_2C;
   // 30
-  _UNKNOWN m_unk_field_30;
+  _DWORD m_unk_field_30;
   // ??
   // 38
-  _UNKNOWN m_unk_field_38;
+  _DWORD m_unk_field_38;
   // 3C
   u8 m_unk_field_3C;
   // 40
@@ -104,9 +110,9 @@ public:
   // 50
   std::array<float, 4> m_unk_field_50;
   // 60
-  _UNKNOWN m_unk_field_60;
+  _DWORD m_unk_field_60;
   // 64
-  _UNKNOWN m_unk_field_64;
+  _DWORD m_unk_field_64;
   // 68
-  _UNKNOWN m_unk_field_68;
+  mgCTexture* m_next;
 };
