@@ -30,6 +30,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "external", "external", "{B7584972-373B-4199-A285-5CCD599277EE}"
 	ProjectSection(SolutionItems) = preProject
 		external\glm.exports.props = external\glm.exports.props
+		external\wil.exports.props = external\wil.exports.props
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fmt", "external\fmt.vcxproj", "{3BADAE77-7397-46D5-8FA7-D72B3C216CF0}"
