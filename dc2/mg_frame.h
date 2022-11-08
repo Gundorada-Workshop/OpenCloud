@@ -584,8 +584,8 @@ public:
 	// 18
 	u64 m_unk_field_18;
 	
-	// ?
-
+	// 24
+	u8 m_unk_field_24;
 	// 28
 	u64 m_unk_field_28;
 	// 30

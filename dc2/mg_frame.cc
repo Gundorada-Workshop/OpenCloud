@@ -938,3 +938,62 @@ mgCDrawEnv::mgCDrawEnv()
 
 	Initialize(false);
 }
+
+void mgCDrawEnv::SetAlpha(u8 alpha_mode)
+{
+	switch (alpha_mode)
+	{
+		case 4:
+			m_unk_field_30 = 0x80'0000002A;
+			break;
+		case 3:
+			m_unk_field_30 = 0x42;
+			break;
+		case 2:
+			m_unk_field_30 = 0x48;
+			break;
+		case 1:
+			m_unk_field_30 = 0x44;
+			break;
+		default:
+			break;
+	}
+}
+
+// 001389E0
+u8 mgCDrawEnv::GetAlphaMacroID()
+{
+	log_trace("mgCDrawEnv::{}()", __func__);
+
+	switch (m_unk_field_30)
+	{
+		case 0x80'0000002A:
+			return 4;
+		case 0x42:
+			return 3;
+		case 0x48:
+			return 2;
+		case 0x44:
+			return 1;
+		default:
+			return 0;
+	}
+}
+
+// 00138A40
+void mgCDrawEnv::SetZBuf(int i)
+{
+	log_trace("mgCDrawEnv::{}({})", __func__, i);
+
+	switch (i)
+	{
+		case 1:
+			m_unk_field_24 &= ~1;
+			break;
+		case -1:
+			m_unk_field_24 |= 1;
+			break;
+		default:
+			break;
+	}
+}
