@@ -1,5 +1,7 @@
+#include <array>
 #include "common/log.h"
 #include "mg_camera.h"
+#include "mg_math.h"
 
 set_log_channel("mg_camera");
 
@@ -29,6 +31,8 @@ mgCCamera::mgCCamera(float speed)
 // 00131110
 void mgCCamera::Step(int steps)
 {
+  log_trace("mgCCamera::Step({})", steps);
+
   if (m_stopped || StopCamera)
   {
     return;
@@ -42,6 +46,13 @@ void mgCCamera::Step(int steps)
   if (m_rotation_speed <= 0.0f)
   {
     m_rotation_speed = 1.0f;
+  }
+
+  if (steps < 0)
+  {
+    // Instantly go to next
+    m_position = m_next_position;
+    m_reference = m_next_reference;
   }
 
   for (int i = 0; i < steps; ++i)
@@ -80,9 +91,8 @@ void mgCCamera::Step(int steps)
     }
   }
 
-  // Record our pitch and yaw
-  glm::vec3 direction;
-  GetDir(direction);
+  // Record our pitch and yaw (these probably aren't pitch and yaw?)
+  glm::vec3 direction = GetDir();
 
   glm::vec3 direction_normal = glm::normalize(glm::vec3{ direction.x, 0.0f, direction.z });
   m_angleH = atan2f(direction_normal.x, direction_normal.z);
@@ -115,12 +125,12 @@ void mgCCamera::Stay()
 }
 
 // 001314D0
-void mgCCamera::GetCameraMatrix(glm::mat4& dest) const
+glm::mat4 mgCCamera::GetCameraMatrix() const
 {
-  log_trace("mgCCamera::GetCameraMatrix({})", fmt::ptr(&dest));
+  log_trace("mgCCamera::GetCameraMatrix()");
 
   // FIXME: Check if this is correct
-  dest = glm::lookAt(
+  return glm::lookAt(
     m_position,
     m_reference,
     glm::vec3(0, 1, 0)
@@ -135,130 +145,126 @@ int mgCCamera::Iam() const
   return 0;
 }
 
-// 001313E0
-inline void mgCCamera::SetPos(float x, float y, float z)
+// 00131A90
+mgCCameraFollow::mgCCameraFollow(
+  float follow_distance,
+  float height,
+  float angle,
+  float speed
+) : mgCCamera(speed)
 {
-  log_trace("mgCCamera::{}({}, {}, {})", __func__, x, y, z);
+  log_trace(
+    "mgCCameraFollow::mgCCameraFollow({}, {}, {}, {})",
+    follow_distance,
+    height,
+    angle,
+    speed
+  );
 
-  SetPos(glm::vec3(x, y, z));
+  m_follow_next = glm::vec3(0.0f);
+  m_angle_soon = angle;
+  m_angle = angle;
+  m_distance = follow_distance;
+  m_height = height;
+  m_follow_offset = glm::vec3(0.0f);
+  m_following = true;
 }
 
-// 00131410
-inline void mgCCamera::SetPos(const glm::vec3& pos)
+// 00131740
+void mgCCameraFollow::Step(int steps)
 {
-  log_trace("mgCCamera::{}({})", __func__, fmt::ptr(&pos));
+  log_trace("mgCCameraFollow::{}({})", __func__, steps);
 
-  m_position = pos;
+  if (m_stopped || StopCamera)
+  {
+    return;
+  }
+
+  m_follow_next = m_follow + m_follow_offset;
+
+  if (steps < -1)
+  {
+    // Instantly go to next
+    if (m_following)
+    { 
+      m_angle = m_angle_soon;
+      SetNextPos(GetFollowNextPos());
+      SetNextRef(m_follow_next);
+    }
+    mgCCamera::Step(steps);
+  }
+  else
+  {
+    // Clamp m_angle_soon to [0, 360.0] degrees in radians
+    if (m_angle_soon > DEGREES_TO_RADIANS(360.0f))
+    {
+      m_angle_soon -= DEGREES_TO_RADIANS(360.0f);
+    }
+    if (m_angle_soon < 0)
+    {
+      m_angle_soon += DEGREES_TO_RADIANS(360.0f);
+    }
+
+    for (int i = 0; i < steps; ++i)
+    {
+      if (m_following)
+      {
+        m_angle = mgAngleInterpolate(
+          m_angle,
+          m_angle_soon,
+          std::max(m_position_speed / 2.0f, 1.0f),
+          true
+        );
+
+        if (m_position_speed < 1.1f)
+        {
+          m_angle = m_angle_soon;
+        }
+
+        SetNextPos(GetFollowNextPos());
+        SetNextRef(m_follow_next);
+      }
+      mgCCamera::Step();
+    }
+
+    if (m_following)
+    {
+      m_angle_soon = m_angleH;
+      m_angle = m_angleH;
+    }
+  }
 }
 
-// 00131420
-inline void mgCCamera::SetNextPos(float x, float y, float z)
+// 00131950
+void mgCCameraFollow::Stay()
 {
-  log_trace("mgCCamera::{}({}, {}, {})", __func__, x, y, z);
+  log_trace("mgCCameraFollow::{}()", __func__);
 
-  SetNextPos(glm::vec3(x, y, z));
+  mgCCamera::Stay();
+
+  if (m_following)
+  {
+    m_follow_next = m_next_reference;
+    m_angle_soon = m_angle;
+  }
 }
 
-// 00131430
-inline void mgCCamera::SetNextPos(const glm::vec3& next_pos)
+// 00131B20
+int mgCCameraFollow::Iam() const
 {
-  log_trace("mgCCamera::{}({})", __func__, fmt::ptr(&next_pos));
+  log_trace("mgCCameraFollow::{}()", __func__);
 
-  m_next_position = next_pos;
+  return 1;
 }
 
-// 00131440
-inline void mgCCamera::SetRef(float h, float p, float r)
+// 00131680
+glm::vec3 mgCCameraFollow::GetFollowNextPos() const
 {
-  log_trace("mgCCamera::{}({}, {}, {})", __func__, h, p, r);
-
-  SetRef(glm::vec3(h, p, r));
-}
-
-// 00131460
-inline void mgCCamera::SetRef(const glm::vec3& ref)
-{
-  log_trace("mgCCamera::{}({})", __func__, fmt::ptr(&ref));
-
-  m_reference = ref;
-}
-
-// 00131470
-inline void mgCCamera::SetNextRef(float h, float p, float r)
-{
-  log_trace("mgCCamera::{}({}, {}, {})", __func__, h, p, r);
-
-  SetNextRef(glm::vec3(h, p, r));
-}
-
-// 00131480
-inline void mgCCamera::SetNextRef(const glm::vec3& next_ref)
-{
-  log_trace("mgCCamera::{}({})", __func__, fmt::ptr(&next_ref));
-
-  m_reference = next_ref;
-}
-
-// 00131490
-inline void mgCCamera::GetDir(glm::vec3& dest) const
-{
-  log_trace("mgCCamera::GetDir({})", fmt::ptr(&dest));
-
-  dest = m_reference - m_position;
-}
-
-// 001315C0
-inline void mgCCamera::SetRoll(float roll)
-{
-  log_trace("mgCCamera::{}({})", __func__, roll);
-
-  m_roll = roll;
-}
-
-// 001315D0
-inline void mgCCamera::GetPos(glm::vec3& dest) const
-{
-  log_trace("mgCCamera::{}({})", __func__, fmt::ptr(&dest));
-
-  dest = m_position;
-}
-
-// 001315E0
-inline void mgCCamera::GetRef(glm::vec3& dest) const
-{
-  log_trace("mgCCamera::{}({})", __func__, fmt::ptr(&dest));
-
-  dest = m_reference;
-}
-
-// 001315F0
-inline void mgCCamera::GetNextPos(glm::vec3& dest) const
-{
-  log_trace("mgCCamera::{}({})", __func__, fmt::ptr(&dest));
-
-  dest = m_next_position;
-}
-
-// 00131600
-inline void mgCCamera::GetNextRef(glm::vec3& dest) const
-{
-  log_trace("mgCCamera::{}({})", __func__, fmt::ptr(&dest));
-
-  dest = m_next_reference;
-}
-
-// 00131610
-inline float mgCCamera::GetAngleH() const
-{
-  log_trace("mgCCamera::{}()", __func__);
-
-  return m_angleH;
-}
-
-// 00131620
-inline float mgCCamera::GetAngleV() const
-{
-  log_trace("mgCCamera::{}()", __func__);
-
-  return m_angleV;
+  log_trace("mgCCameraFollow::{}()", __func__);
+  
+  return glm::vec3(
+    m_follow_next.x + (m_distance * sinf(m_angle)),
+    m_follow_next.y + m_height,
+    m_follow_next.z + (m_distance * cosf(m_angle))
+  );
 }
