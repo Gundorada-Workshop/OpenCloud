@@ -166,7 +166,7 @@ public:
   );
 
   // 00131740
-  virtual void Step(int steps);
+  virtual void Step(int steps = 1);
   // 00131950
   virtual void Stay();
   // 00131B20

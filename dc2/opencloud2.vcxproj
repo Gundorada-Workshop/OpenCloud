@@ -11,6 +11,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
   <ItemGroup>
+    <ClInclude Include="camera.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effect_script.h" />
     <ClInclude Include="font.h" />
@@ -88,6 +89,7 @@
     <ClInclude Include="vlgr_info.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="camera.cc" />
     <ClCompile Include="character.cc" />
     <ClCompile Include="dbg_font.cc" />
     <ClCompile Include="effect.cc" />

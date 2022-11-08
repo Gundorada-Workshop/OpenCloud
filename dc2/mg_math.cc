@@ -8,15 +8,7 @@ float mgAngleInterpolate(float f12, float f13, float f14, bool b)
 {
   log_trace("{}({}, {}, {}, {})", __func__, f12, f13, f14, b);
 
-  float f1 = f13 - f12;
-  if (f1 > DEGREES_TO_RADIANS(180.0f))
-  {
-    f1 = DEGREES_TO_RADIANS(360.0f) - f1;
-  }
-  if (f1 <= DEGREES_TO_RADIANS(-180.0f))
-  {
-    f1 = DEGREES_TO_RADIANS(360.0f) + f1;
-  }
+  float f1 = mgAngleClamp(f13 - f12);
 
   if (!b)
   {
@@ -53,15 +45,59 @@ float mgAngleInterpolate(float f12, float f13, float f14, bool b)
     }
   }
 
-  float f0 = f12 + f2;
-  if (f0 > DEGREES_TO_RADIANS(-180.0f))
+  return mgAngleClamp(f12 + f2);
+}
+
+// 00130D10
+s32 mgAngleCmp(float f12, float f13, float f14)
+{
+  log_trace("{}({}, {}, {})", __func__, f12, f13, f14);
+
+  float n = f12 - f13;
+  if (n == 0.0f)
   {
-    f0 -= DEGREES_TO_RADIANS(360.0f);
-  }
-  if (f0 <= DEGREES_TO_RADIANS(180.0f))
-  {
-    f0 += DEGREES_TO_RADIANS(360.0f);
+    return 0;
   }
 
-  return f0;
+  n = mgAngleClamp(n);
+
+  if (n > f14)
+  {
+    return 1;
+  }
+  if (n < f14)
+  {
+    return -1;
+  }
+  return 0;
+}
+
+// 00130DD0
+float mgAngleLimit(float f)
+{
+  log_trace("{}({})", __func__, f);
+
+  // need to test this
+  return mgAngleClamp(fmodf(f, M_2PI_F));
+}
+
+// 00130EE0
+float mgRnd()
+{
+  log_trace("{}()", __func__);
+
+  return rand() / static_cast<float>(std::numeric_limits<s32>::max());
+}
+
+// 00130F20
+// for when you want a rand that returns [-6, 6] but really biases towards 0
+// for whatever reason
+float mgNRnd()
+{
+  float f = 0;
+  for (int i = 0; i < 12; ++i)
+  {
+    f += mgRnd();
+  }
+  return f - 6.0f;
 }

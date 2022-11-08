@@ -1,3 +1,4 @@
+#include <array>
 #include "common/log.h"
 #include "mg_camera.h"
 #include "mg_math.h"
