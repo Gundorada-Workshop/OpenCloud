@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(SolutionDir)\.msvc\Base.Targets.Props" />
+  <Import Project="$(SolutionDir)\.msvc\Base.Globals.Props" />
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7370DD41-9528-46EE-AD33-EDC26F7C4327}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(SolutionDir)\.msvc\Application.Configuration.Props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
+  <ItemGroup>
+    <ClCompile Include="winmain.cc" />
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <Import Project="$(SolutionDir)dc2\opencloud2.exports.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

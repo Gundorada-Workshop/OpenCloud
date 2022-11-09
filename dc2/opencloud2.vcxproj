@@ -7,7 +7,7 @@
     <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <Import Project="$(SolutionDir)\.msvc\Application.Configuration.Props" />
+  <Import Project="$(SolutionDir)\.msvc\StaticLibrary.Configuration.Props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
   <ItemGroup>
@@ -132,7 +132,6 @@
     <ClCompile Include="gyorace.cc" />
     <ClCompile Include="helpmes.cc" />
     <ClCompile Include="inventmn.cc" />
-    <ClCompile Include="main.cc" />
     <ClCompile Include="mainloop.cc" />
     <ClCompile Include="mainloop3.cc" />
     <ClCompile Include="mapjump.cc" />
@@ -167,6 +166,9 @@
     <ClCompile Include="villager.cc" />
     <ClCompile Include="vlgr_info.cc" />
     <ClCompile Include="object.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="opencloud2.exports.props" />
   </ItemGroup>
   <Import Project="$(SolutionDir)common\common.exports.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
