@@ -11,8 +11,6 @@
 
 set_log_channel("nowload");
 
-u32 GetSystemSndId(void);
-
 // 00378694
 static bool load_skip_img{};
 // 00378698

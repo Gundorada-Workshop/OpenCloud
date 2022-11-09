@@ -4,6 +4,7 @@
 #include "common/debug.h"
 #include "common/types.h"
 #include "map.h"
+#include "mg_frame.h"
 #include "mg_memory.h"
 #include "ls_mes.h"
 #include "object.h"
@@ -11,10 +12,8 @@
 // ~ 001BE6F0 - 001EA760
 
 // TODO THIS FILE
-class CChillAfterHit {};
 class CFireAfterHit {};
 class CTornado {};
-class CThunder {};
 class CSparcEffect {};
 class CMiniEffParam {};
 class CPalletAnime {};
@@ -111,6 +110,35 @@ struct MINIMAP_SYMBOL_DATA
   // E
   bool m_unk_field_E;
   // SIZE 0x10
+};
+
+class CChillAfterHit
+{
+public:
+  // 001D4880
+  CChillAfterHit();
+  // 001BE6F0
+  void Initialize();
+
+  // 0
+  _DWORD m_unk_field_0;
+  // 4
+  _DWORD m_unk_field_4;
+  // 8
+  _DWORD m_unk_field_8;
+  // 10
+  glm::vec4 m_unk_field_10;
+  // 20
+  _UNKNOWNSTRUCT(0x780) m_unk_field_20;
+};
+
+class CThunder : mgCFrame
+{
+public:
+  // 110
+  mgCFrameAttr m_unk_field_110{};
+
+  // SIZE 0xDC0
 };
 
 class CMiniMapSymbol

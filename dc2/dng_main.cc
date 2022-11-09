@@ -1,11 +1,35 @@
 #include <array>
 #include "common/log.h"
+#include "character.h"
 #include "dng_main.h"
 #include "mg_math.h"
 
 set_log_channel("dng_main");
 
+// 01EA0480
 CAutoMapGen AutoMapGen;
+// 01EB3C90
+CCharacter2 LaserGunModel;
+
+// 001D4880
+CChillAfterHit::CChillAfterHit()
+{
+  log_trace("CChillAfterHit::CChillAfterHit()");
+
+  Initialize();
+}
+
+// 001BE6F0
+void CChillAfterHit::Initialize()
+{
+  log_trace("CChillAfterHit::Initialize()");
+
+  m_unk_field_0 = 0;
+  m_unk_field_4 = 0;
+  m_unk_field_8 = 0;
+  memset(&m_unk_field_20, 0, sizeof(m_unk_field_20));
+  m_unk_field_10 = glm::vec4(0);
+}
 
 // 001D4C40
 void CMiniMapSymbol::DrawSymbol(glm::vec4& pos, EMiniMapSymbol::EMiniMapSymbol symbol_type)
