@@ -222,7 +222,7 @@ void mgCTextureManager::SetTableBuffer(int n_textures, int n_blocks, mgCMemory* 
     )
   );
 
-  m_blocks = block_buf;
+  m_vram_blocks = block_buf;
   if (block_buf != nullptr)
   {
     for (int i = 0; i < n_blocks; ++i)
@@ -293,6 +293,57 @@ void mgCTextureManager::SetTableBuffer(int n_textures, int n_blocks, mgCMemory* 
   for (int i = 0; i < m_n_textures; ++i)
   {
     m_unk_field_1CC[i] = &m_unk_field_1C8[i];
+  }
+
+  m_unk_field_1D4 = 0;
+}
+
+// 0012CAD0
+void mgCTextureManager::Initialize(void* vram_top, void* vram_bottom)
+{
+  log_trace("mgCTextureManager::Initialize({}, {})", fmt::ptr(vram_top), fmt::ptr(vram_bottom));
+
+  m_vram_top = vram_top;
+  m_vram_bottom = vram_bottom;
+
+  if (reinterpret_cast<int>(m_vram_bottom) < 0)
+  {
+    m_vram_bottom = reinterpret_cast<void*>(0x3FE0);
+  }
+
+  if (m_vram_blocks == nullptr)
+  {
+    return;
+  }
+
+  for (int i = 0; i < m_n_blocks; ++i)
+  {
+    m_vram_blocks[i].Initialize();
+  }
+  m_unk_field_14.Initialize();
+
+  for (int i = 0; i < m_n_textures; ++i)
+  {
+    m_textures[i].Initialize();
+  }
+
+  for (int i = 0; i < m_n_blocks; ++i)
+  {
+    // 12CBA0
+    todo;
+  }
+
+  m_unk_field_8 = -1;
+  m_unk_field_1D8[0] = '\0';
+
+  for (int i = 0; i < m_textures_bucket.size(); ++i)
+  {
+    m_textures_bucket[i] = nullptr;
+  }
+
+  for (int i = 0; i < m_unk_field_1D0; ++i)
+  {
+    m_unk_field_1CC[i] = m_unk_field_1C8;
   }
 
   m_unk_field_1D4 = 0;

@@ -46,6 +46,8 @@ private:
 public:
   // 0012C830
   void SetTableBuffer(int n_textures, int n_blocks, mgCMemory* stack);
+  // 0012CAD0
+  void Initialize(void* vram_top, void* vram_bottom);
   // 0012D050
   mgCTexture* GetTexture(const char* name, ssize i);
   // 0012D140
@@ -59,10 +61,16 @@ public:
   // 0013D8C0
   void LoadCFGFile(const char* file, int size, mgCMemory* text_anime_stack, mgCTextureAnime* tex_anime);
 
+  // 0
+  void* m_vram_top;
+  // 4
+  void* m_vram_bottom;
+  // 8
+  _UNKNOWN m_unk_field_8;
   // C
   usize m_n_blocks{};
   // 10
-  mgCTextureBlock* m_blocks{};
+  mgCTextureBlock* m_vram_blocks{};
   // 14
   mgCTextureBlock m_unk_field_14{};
   // 24
