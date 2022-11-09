@@ -42,6 +42,10 @@ class CRunScript
 private:
   // 00186B20
   void stkoverflow() const;
+  // 00186BD0
+  void divby0error() const;
+  // 00186BE0
+  void modby0error() const;
   // 00186D50
   void check_stack() const;
   // 00186D80
