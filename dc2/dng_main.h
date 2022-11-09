@@ -21,7 +21,6 @@ class CPalletAnime {};
 class CHealingEffectMan {};
 class CSwordLuminous {};
 class CSwordAfterImage {};
-class CAfterWire {};
 class CHitEffectImage {};
 class CFlushEffect {};
 class CPowerLine {};
@@ -48,6 +47,16 @@ class CAutoMapGen;
 
 // 01EA0480
 extern CAutoMapGen AutoMapGen;
+
+class CAfterWire
+{
+public:
+
+  // 0
+  _DWORD m_unk_field_0{ 0 };
+
+  // SIZE 0x120
+};
 
 class CAutoMapGen
 {
