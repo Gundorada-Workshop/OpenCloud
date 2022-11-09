@@ -10,6 +10,7 @@
 #include "inventmn.h"
 #include "mainloop.h"
 #include "menuaqua.h"
+#include "menucls1.h"
 #include "mg_frame.h"
 #include "mg_lib.h"
 #include "mg_tanime.h"
@@ -38,6 +39,7 @@ namespace StaticInitializers
 		inventmn::SInit();
 		MainLoop_SInit::SInit();
 		menuaqua::SInit();
+		menucls1::SInit();
 		mg_frame::SInit();
 		mg_lib::SInit();
 		mg_tanime::SInit();
