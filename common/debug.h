@@ -41,6 +41,13 @@ namespace common::debug
     common::debug::panic_format(__VA_ARGS__); \
   } while (0)
 
+#define assert_panic(cnd)                       \
+  do                                            \
+  {                                             \
+    if ( !(cnd) )                               \
+      common::debug::panic_format("{}", #cnd);  \
+  } while (0)
+
 // mark code unreachable
 #define unreachable_code \
   do                                                     \
