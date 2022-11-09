@@ -51,6 +51,8 @@ private:
   void AddHash(mgCTexture* texture);
   // 0012CE90
   mgCTexture* SearchHash(const char* name, int uuid);
+  // 0012CF40
+  mgCTexture* SearchTextureName(const char* name, int uuid);
 public:
   // 0012C830
   void SetTableBuffer(int n_textures, int n_blocks, mgCMemory* stack);
@@ -100,7 +102,7 @@ public:
   // 1D4
   usize m_n_hashes_length;
   // 1D8
-  std::array<char, 0x18> m_unk_field_1D8;
+  std::array<char, 0x18> m_texture_name_suffix;
 };
 
 class mgCTexture

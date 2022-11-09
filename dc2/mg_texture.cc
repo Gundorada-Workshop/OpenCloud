@@ -334,7 +334,7 @@ void mgCTextureManager::Initialize(void* vram_top, void* vram_bottom)
   }
 
   m_unk_field_8 = -1;
-  m_unk_field_1D8[0] = '\0';
+  m_texture_name_suffix[0] = '\0';
 
   for (int i = 0; i < m_hash_list.size(); ++i)
   {
@@ -433,8 +433,7 @@ mgCTexture* mgCTextureManager::GetTexture(const char* name, ssize i)
 {
   log_trace("mgCTextureManager::{}({}, {})", __func__, name, i);
 
-  todo;
-  return nullptr;
+  return SearchTextureName(name, i);
 }
 
 // 0012D140
@@ -481,9 +480,27 @@ void mgCTextureManager::ReloadTexture(usize texb, sceVif1Packet* vif1_packet)
   todo;
 }
 
+// 0012CF40
+mgCTexture* mgCTextureManager::SearchTextureName(const char* name, int uuid)
+{
+  log_trace("mgCTextureManager::SearchTextureName({}, {})", name, uuid);
+
+  if (m_texture_name_suffix[0] != '\0')
+  {
+    char buf[0x80];
+    strcpy(buf, name);
+    strcat(buf, m_texture_name_suffix.data());
+    name = buf;
+  }
+
+  return SearchHash(name, uuid);
+}
+
 // 0013d8c0
 void mgCTextureManager::LoadCFGFile(const char* file, int size, mgCMemory* tex_anime_stack, mgCTextureAnime* tex_anime)
 {
+  log_trace("mgCTextureManager::ReloadTexture({}, {}, {})", file, size, fmt::ptr(tex_anime_stack));
+
   CScriptInterpreter interpreter{ };
 
   pTexAnime = nullptr;
