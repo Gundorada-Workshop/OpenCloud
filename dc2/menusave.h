@@ -9,6 +9,12 @@ struct GYORACE_DATA {};
 class CGyoRaceData {};
 class CSubGameData {};
 
+struct SV_CONFIG_OPTION
+{
+  // 35
+  s8 m_unk_field_35;
+};
+
 class CSaveDataDungeon
 {
 public:
@@ -24,6 +30,9 @@ public:
 
   // 002f6780
   void InitBitCtrl();
+
+  // 1C574
+  SV_CONFIG_OPTION sv_config_option;
 };
 
 class CMenuSystemData

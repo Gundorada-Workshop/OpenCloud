@@ -130,3 +130,85 @@ sndPortInfo::sndPortInfo()
     unk_var = 0;
   }
 }
+
+// 0018D1E0
+void sndSetMasterVol(float volume, int i)
+{
+  log_trace("{}({}, {})", __func__, volume, i);
+
+  todo;
+}
+
+// 0018D270
+float sndGetMasterVol(int i)
+{
+  log_trace("{}({})", __func__, i);
+
+  todo;
+  return 0.0f;
+}
+
+// 0018D2B0
+void sndMasterVolFadeInOut(int i1, int i2, float f1, float f2)
+{
+  log_trace("{}({}, {}, {}, {})", __func__, i1, i2, f1, f2);
+
+  todo;
+}
+
+// 0018D650
+void sndStep(float f)
+{
+  log_trace("{}({})", __func__, f);
+
+  todo;
+}
+
+// 0018E060
+void sndSePlay(uint u1, int i1, int i2)
+{
+  log_trace("{}({}, {}, {})", __func__, u1, i1, i2);
+
+  todo;
+}
+
+// 0018E410
+void sndPortSqPause(int port_no)
+{
+  log_trace("{}({})", __func__, port_no);
+
+  todo;
+}
+
+// 0018E460
+void sndPortSqReplay(int port_no)
+{
+  log_trace("{}({})", __func__, port_no);
+
+  todo;
+}
+
+// 00190530
+void sndStreamPause()
+{
+  log_trace("{}()", __func__);
+
+  todo;
+}
+
+// 00190560
+void sndStreamRePlay()
+{
+  log_trace("{}()", __func__);
+
+  todo;
+}
+
+// 00190590
+int sndStreamGetState()
+{
+  log_trace("{}()", __func__);
+
+  todo;
+  return 0;
+}

@@ -1,5 +1,7 @@
 #pragma once
+#include <array>
 #include "common/debug.h"
+#include "sce_temp.h"
 
 // ~ 00139F10 - 001411E0
 
@@ -9,8 +11,11 @@ namespace mg_tanime
   void SInit();
 }
 
-// THIS FILE TODO
-class mgCTextureAnime {};
+class mgCTextureAnime
+{
+  // 124
+  std::array<char*, 0x18> m_group_name;
+};
 
 class mgCTexAnimeData 
 {

@@ -6,6 +6,19 @@
 
 set_log_channel("gamepad");
 
+// 003D76E0
+CGamePad GamePad;
+// 003D7B60
+CPadControl PadCtrl;
+
+// 0014a930
+void CGamePad::Update()
+{
+  log_trace("CGamePad::Update()");
+
+  todo;
+}
+
 // 0014aef0
 static sint AxisCalibration(sint axis)
 {
@@ -83,4 +96,21 @@ f32 CGamePad::GetLYf()
   log_trace("GetLYf()");
 
   return static_cast<f32>(GetLY()) / 128.0f;
+}
+
+// 002ED4E0
+bool CPadControl::Btn(int button)
+{
+  log_trace("CPadControl::Btn({})", button);
+
+  todo;
+  return false;
+}
+
+// 002ED550
+void CPadControl::Update(CGamePad* game_pad)
+{
+  log_trace("CPadControl::Update({})", fmt::ptr(game_pad));
+
+  todo;
 }

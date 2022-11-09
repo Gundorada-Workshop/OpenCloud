@@ -13,8 +13,17 @@
 
 set_log_channel("mainloop")
 
+// 00376FB4
+u32 s_system_snd_id;
+
 // 00376FC0
 Language::Language LanguageCode;
+
+// 00376FE4
+static CSaveData ActiveSaveData;
+
+// 00376FEC
+static bool PlayTimeCountFlag;
 
 // 003D8070
 static SDebugInfo DebugInfo;
@@ -180,12 +189,36 @@ CFont* GetDebugFont()
 	return &Font;
 }
 
+// 00190860
+u32 GetSystemSndId(void)
+{
+	return s_system_snd_id;
+}
+
+// 00190880
+CSaveData* GetSaveData()
+{
+	return &ActiveSaveData;
+}
+
 // 001908F0
 mgCMemory* GetMainStack()
 {
 	log_trace("{}()", __func__);
 
 	return &MainBuffer;
+}
+
+// 00190BE0
+void PlayTimeCount(bool flag)
+{
+	PlayTimeCountFlag = flag;
+}
+
+// 00190BF0
+bool GetPlayTimeCountFlag()
+{
+	return PlayTimeCountFlag;
 }
 
 // 00190CB0

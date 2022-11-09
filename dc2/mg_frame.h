@@ -17,7 +17,6 @@ class mgC3DSprite {};
 class mgCSprite {};
 class mgCVisualPrim {};
 
-
 struct mgRENDER_INFO;
 class mgCDrawManager;
 class mgCTextureManager;
@@ -26,6 +25,11 @@ namespace mg_frame
 {
 	void SInit();
 }
+
+// 00376C70
+extern s32 mgScreenWidth;
+// 00376C74
+extern s32 mgScreenHeight;
 
 template<typename T>
 struct mgRect
@@ -571,9 +575,6 @@ public:
 	// 00138850
 	mgCDrawEnv();
 
-	// 00138880
-	mgCDrawEnv(mgCDrawEnv& other);
-
 	// 0
 	u64 m_unk_field_0;
 	// 8
@@ -583,8 +584,8 @@ public:
 	// 18
 	u64 m_unk_field_18;
 	
-	// ?
-
+	// 24
+	u8 m_unk_field_24;
 	// 28
 	u64 m_unk_field_28;
 	// 30
@@ -601,10 +602,10 @@ public:
 	//mgCDrawPrim();
 
 	// 00134410
-	void Initialize(mgCMemory* memory);
+	void Initialize(mgCMemory* memory, sceVif1Packet* vif1_packet);
 
 	// 001344a0
-	void Begin();
+	void Begin(int i);
 
 	// 00134530
 	void BeginDma();
@@ -622,10 +623,10 @@ public:
 	void Begin2();
 
 	// 00134860
-	void BeginPrim2(int);
+	void BeginPrim2(sint);
 
 	// 00134890
-	void BeginPrim2(uint, uint, sint);
+	void BeginPrim2(sint, uint, uint, uint);
 
 	// 00134940
 	void EndPrim2();
@@ -634,13 +635,13 @@ public:
 	void End2();
 
 	// 00134aa0
-	void Data0(vec4);
+	void Data0(glm::vec4);
 
 	// 00134ac0
-	void Data4(vec4);
+	void Data4(glm::vec4);
 
 	// 00134ae0
-	void Data(ivec4);
+	void Data(glm::ivec4);
 
 	// 00134b00
 	void DirectData(sint);
@@ -651,6 +652,9 @@ public:
 
 	// 00134b30
 	void Vertex(f32 x, f32 y, f32 z);
+
+	// 00134B70
+	void Vertex(glm::vec3 v);
 
 	// 00134bb0
 	void Vertex4(sint x, sint y, sint z);
@@ -684,13 +688,13 @@ public:
 	void Texture(mgCTexture* texture);
 
 	// 00134ec0
-	void AlphaBlendEnable(sint);
+	void AlphaBlendEnable(bool);
 
 	// 00134ee0
 	void AlphaBlend(sint);
 
 	// 00134ef0
-	void AlphaTestEnable(sint);
+	void AlphaTestEnable(bool);
 
 	// 00134f10
 	void AlphaTest(sint, sint);
@@ -700,7 +704,7 @@ public:
 	void DAlphaTest(sint, sint);
 
 	// 00134f90
-	void DepthTestEnable(sint);
+	void DepthTestEnable(bool);
 
 	// 00134ff0
 	void DepthTest(sint);
@@ -709,19 +713,19 @@ public:
 	void ZMask(sint);
 
 	// 001350a0
-	void TextureMapEnable(sint);
+	void TextureMapEnable(bool);
 
 	// 001350c0
-	void Bilinear(sint);
+	void Bilinear(bool);
 
 	// 001350d0
-	void Shading(sint);
+	void Shading(bool);
 
 	// 001350f0
-	void AntiAliasing(sint);
+	void AntiAliasing(bool);
 
 	// 00135110
-	void FogEnable(sint);
+	void FogEnable(bool);
 
 	// 00135130
 	void Coord(sint);
