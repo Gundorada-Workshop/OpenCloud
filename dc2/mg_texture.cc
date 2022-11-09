@@ -377,7 +377,7 @@ void mgCTextureManager::AddHash(mgCTexture* texture)
     return;
   }
 
-  TextureHash* new_hash = m_p_hashes[m_n_hashes_length];
+  TextureHash* new_hash = m_p_hashes[m_n_hashes_length++];
 
   new_hash->m_next_hash = nullptr;
   new_hash->m_texture = texture;
