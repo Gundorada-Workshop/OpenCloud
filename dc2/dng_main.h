@@ -12,7 +12,6 @@
 // ~ 001BE6F0 - 001EA760
 
 // TODO THIS FILE
-class CFireAfterHit {};
 class CTornado {};
 class CSparcEffect {};
 class CMiniEffParam {};
@@ -112,6 +111,29 @@ struct MINIMAP_SYMBOL_DATA
   // SIZE 0x10
 };
 
+class CFireAfterHit
+{
+public:
+  // 001D4850
+  CFireAfterHit();
+  // 001BF4F0
+  void Initialize();
+  // 0
+  _DWORD m_unk_field_0;
+  // 4
+  _DWORD m_unk_field_4;
+  // 8
+  _DWORD m_unk_field_8;
+  // C
+  _DWORD m_unk_field_C;
+  // 10
+  _UNKNOWNSTRUCT(0x2A0) m_unk_field_10;
+  // 2B0
+  _UNKNOWNSTRUCT(0x690) m_unk_field_2B0;
+
+  // SIZE 0x940
+};
+
 class CChillAfterHit
 {
 public:
@@ -130,6 +152,8 @@ public:
   glm::vec4 m_unk_field_10;
   // 20
   _UNKNOWNSTRUCT(0x780) m_unk_field_20;
+
+  // SIZE 0x7A0
 };
 
 class CThunder : mgCFrame

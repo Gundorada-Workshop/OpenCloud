@@ -11,6 +11,28 @@ CAutoMapGen AutoMapGen;
 // 01EB3C90
 CCharacter2 LaserGunModel;
 
+// 001D4850
+CFireAfterHit::CFireAfterHit()
+{
+  log_trace("CFireAfterHit::CFireAfterHit()");
+
+  Initialize();
+}
+
+// 001BF4F0
+void CFireAfterHit::Initialize()
+{
+  log_trace("CFireAfterHit::Initialize()");
+
+  m_unk_field_0 = 0;
+  m_unk_field_4 = 0;
+  m_unk_field_8 = 0;
+  m_unk_field_C = 0;
+
+  memset(&m_unk_field_10, 0, sizeof(m_unk_field_10));
+  memset(&m_unk_field_2B0, 0, sizeof(m_unk_field_2B0));
+}
+
 // 001D4880
 CChillAfterHit::CChillAfterHit()
 {
