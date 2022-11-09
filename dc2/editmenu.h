@@ -5,3 +5,9 @@
 // TODO THIS FILE
 class CMenuGeorama {};
 class CRemovalMenu {};
+
+namespace editmenu
+{
+  // 00374200
+  void SInit();
+}

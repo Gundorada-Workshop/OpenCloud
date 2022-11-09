@@ -4,6 +4,7 @@
 #include "dngmenu.h"
 #include "editctrl.h"
 #include "editloop.h"
+#include "editmenu.h"
 #include "fishingobj.h"
 #include "gamedata.h"
 #include "mainloop.h"
@@ -29,6 +30,7 @@ namespace StaticInitializers
 		dngmenu::SInit();
 		editctrl::SInit();
 		editloop::SInit();
+		editmenu::SInit();
 		FishingObj::SInit();
 		gamedata::SInit();
 		MainLoop_SInit::SInit();
