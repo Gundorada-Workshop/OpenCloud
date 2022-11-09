@@ -2,4 +2,5 @@
 .vs
 bin
 build
+packages
 *.vcxproj.user
