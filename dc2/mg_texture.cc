@@ -162,10 +162,10 @@ void mgCTextureBlock::Initialize()
 {
   log_trace("mgCTextureBlock::Initialize()");
 
-  m_unk_field_0 = 0;
-  m_unk_field_4 = 0;
+  m_unk_field_0 = nullptr;
+  m_unk_field_4 = nullptr;
   m_texture = nullptr;
-  m_texture_anime = 0;
+  m_texture_anime = nullptr;
 }
 
 // 0012C720
@@ -209,33 +209,93 @@ void mgCTextureBlock::Delete(mgCTexture* texture)
 }
 
 // 0012C830
-void mgCTextureManager::SetTableBuffer(int i1, int i2, mgCMemory* stack)
+void mgCTextureManager::SetTableBuffer(int n_textures, int n_blocks, mgCMemory* stack)
 {
-  log_trace("mgCTextureBlock::SetTableBuffer({}, {}, {})", i1, i2, fmt::ptr(stack));
+  log_trace("mgCTextureBlock::SetTableBuffer({}, {}, {})", n_textures, n_blocks, fmt::ptr(stack));
 
-  m_unk_field_C = i1;
-  mgCTextureBlock* buf = static_cast<mgCTextureBlock*>(
+  m_n_blocks = n_blocks;
+  mgCTextureBlock* block_buf = static_cast<mgCTextureBlock*>(
     stack->Alloc(
       BYTES_TO_BLOCKS(
-        sizeof(mgCTextureBlock) * i1
+        sizeof(mgCTextureBlock) * n_blocks
       )
     )
   );
 
-  m_unk_field_10 = buf;
-  if (buf != nullptr)
+  m_blocks = block_buf;
+  if (block_buf != nullptr)
   {
-    for (int i = 0; i < i1; ++i)
+    for (int i = 0; i < n_blocks; ++i)
     {
-      new (&buf[i]) mgCTextureBlock;
+      new (&block_buf[i]) mgCTextureBlock;
     }
   }
   else
   {
-    m_unk_field_C = 0;
+    m_n_blocks = 0;
   }
 
-  todo;
+  m_n_textures = n_textures;
+  mgCTexture* texture_buf = static_cast<mgCTexture*>(
+    stack->Alloc(
+      BYTES_TO_BLOCKS(
+        sizeof(mgCTexture) * n_textures
+      )
+    )
+  );
+
+  m_textures = texture_buf;
+  if (texture_buf != nullptr)
+  {
+    for (int i = 0; i < n_textures; ++i)
+    {
+      new (&texture_buf[i]) mgCTexture;
+    }
+  }
+
+  mgCTexture** p_texture_buf = static_cast<mgCTexture**>(
+    stack->Alloc(
+      BYTES_TO_BLOCKS_STRICT(
+        sizeof(mgCTexture*) * n_textures
+      )
+    )
+  );
+
+  // BUG: no null check
+  for (int i = 0; i < m_n_textures; ++i)
+  {
+    m_p_textures[i] = &m_textures[i];
+  }
+
+  m_unk_field_1C4 = 0;
+  m_unk_field_1D0 = m_n_textures;
+
+  _UNKNOWNSTRUCT(0x8)* unk_buf = static_cast<_UNKNOWNSTRUCT(0x8)*>(
+    stack->Alloc(
+      BYTES_TO_BLOCKS(
+        sizeof(_UNKNOWNSTRUCT(0x8)) * m_unk_field_1D0
+      )
+    )
+  );
+
+  m_unk_field_1C8 = unk_buf;
+
+  _UNKNOWNSTRUCT(0x8)** p_unk_buf = static_cast<_UNKNOWNSTRUCT(0x8)**>(
+    stack->Alloc(
+      BYTES_TO_BLOCKS(
+        sizeof(_UNKNOWNSTRUCT(0x8)*) * m_unk_field_1D0
+      )
+    )
+  );
+
+  m_unk_field_1CC = p_unk_buf;
+
+  for (int i = 0; i < m_n_textures; ++i)
+  {
+    m_unk_field_1CC[i] = &m_unk_field_1C8[i];
+  }
+
+  m_unk_field_1D4 = 0;
 }
 
 // 0012CC70

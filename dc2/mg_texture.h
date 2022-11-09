@@ -27,9 +27,9 @@ public:
   void Delete(mgCTexture* texture);
 
   // 0
-  _UNKNOWN m_unk_field_0;
+  mgCTexture* m_unk_field_0;
   // 4
-  _UNKNOWN m_unk_field_4;
+  mgCTextureBlock* m_unk_field_4;
   // 8
   mgCTexture* m_texture;
   // C
@@ -45,7 +45,7 @@ private:
 
 public:
   // 0012C830
-  void SetTableBuffer(int i1, int i2, mgCMemory* stack);
+  void SetTableBuffer(int n_textures, int n_blocks, mgCMemory* stack);
   // 0012D050
   mgCTexture* GetTexture(const char* name, ssize i);
   // 0012D140
@@ -60,20 +60,29 @@ public:
   void LoadCFGFile(const char* file, int size, mgCMemory* text_anime_stack, mgCTextureAnime* tex_anime);
 
   // C
-  usize m_unk_field_C{};
+  usize m_n_blocks{};
   // 10
-  mgCTextureBlock* m_unk_field_10{};
+  mgCTextureBlock* m_blocks{};
   // 14
   mgCTextureBlock m_unk_field_14{};
   // 24
   std::array<mgCTextureBlock*, 101> m_textures_bucket;
-
+  // 1B8
+  mgCTexture* m_textures;
+  // 1BC
+  mgCTexture** m_p_textures;
   // 1C0
-  _DWORD m_unk_field_1C0{};
-  
+  usize m_n_textures{};
+  // 1C4
+  _DWORD m_unk_field_1C4;
+  // 1C8
+  _UNKNOWNSTRUCT(0x8)* m_unk_field_1C8;
+  // 1CC
+  _UNKNOWNSTRUCT(0x8)** m_unk_field_1CC;
   // 1D0
-  _DWORD m_unk_field_1D0{};
-
+  usize m_unk_field_1D0{};
+  // 1D4
+  _DWORD m_unk_field_1D4;
   // 1D8
   std::array<char, 0x18> m_unk_field_1D8;
 };
