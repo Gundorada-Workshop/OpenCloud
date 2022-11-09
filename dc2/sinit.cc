@@ -1,5 +1,6 @@
 #include "sinit.h"
 #include "dng_debug.h"
+#include "dng_main.h"
 #include "editctrl.h"
 #include "editloop.h"
 #include "fishingobj.h"
@@ -23,6 +24,7 @@ namespace StaticInitializers
 	void Init()
 	{
 		dng_debug::SInit();
+		dng_main::SInit();
 		editctrl::SInit();
 		editloop::SInit();
 		FishingObj::SInit();
@@ -31,7 +33,7 @@ namespace StaticInitializers
 		mg_frame::SInit();
 		mg_lib::SInit();
 		mg_tanime::SInit();
-		nowload::SInit();
+		nowload_SInit::SInit();
 		snd_mngr::SInit();
 		sysmes::SInit();
 		PBuggy::SInit();

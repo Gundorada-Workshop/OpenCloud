@@ -788,7 +788,7 @@ mgCObject::mgCObject()
 {
 	log_trace("mgCObject::mgCObject()");
 
-	Initialize();
+	mgCObject::Initialize();
 }
 
 // 00136510
