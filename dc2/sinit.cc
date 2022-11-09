@@ -7,6 +7,7 @@
 #include "editmenu.h"
 #include "fishingobj.h"
 #include "gamedata.h"
+#include "inventmn.h"
 #include "mainloop.h"
 #include "mg_frame.h"
 #include "mg_lib.h"
@@ -33,6 +34,7 @@ namespace StaticInitializers
 		editmenu::SInit();
 		FishingObj::SInit();
 		gamedata::SInit();
+		inventmn::SInit();
 		MainLoop_SInit::SInit();
 		mg_frame::SInit();
 		mg_lib::SInit();

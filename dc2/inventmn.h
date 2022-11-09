@@ -9,6 +9,12 @@ class CDC2AlbumData {};
 class CInventDataManager {};
 class CMenuInvent {};
 
+namespace inventmn
+{
+  // 00374260
+  void SInit();
+}
+
 struct USER_PICTURE_INFO
 {
   u8 m_unk_field_0;
