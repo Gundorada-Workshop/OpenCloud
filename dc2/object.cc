@@ -7,7 +7,9 @@ set_log_channel("object");
 // 00161DA0
 CObject::CObject()
 {
-  Initialize();
+  log_trace("CObject::CObject()");
+
+  CObject::Initialize();
 }
 
 // 001796E0
@@ -250,7 +252,7 @@ CObjectFrame::CObjectFrame()
 {
   log_trace("CObjectFrame::CObjectFrame()");
 
-  Initialize();
+  CObjectFrame::Initialize();
 }
 
 // 00169FD0

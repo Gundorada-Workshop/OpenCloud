@@ -44,7 +44,7 @@ void CCharacter2::Initialize()
 {
   log_trace("CCharacter2::{}()", __func__);
 
-  todo;
+  //todo;
 }
 
 // 00173170
@@ -365,6 +365,14 @@ void CCharacter2::SetMotionPara(char* c, int i1, s32 i2)
   log_trace("CCharacter2::{}({}, {}, {})", __func__, c, i1, i2);
 
   todo;
+}
+
+// 001C58A0
+CCharacter2::CCharacter2()
+{
+  log_trace("CCharacter2::CCharacter2()");
+
+  CCharacter2::Initialize();
 }
 
 

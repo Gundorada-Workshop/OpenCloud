@@ -115,6 +115,8 @@ public:
 	// F4  00177CB0
 	virtual void DrawEffect();
 
+	// 001C58A0
+	CCharacter2();
 	// 00173A40
 	void SetMotionPara(char* c, int i1, s32 i2);
 

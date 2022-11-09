@@ -4,6 +4,7 @@
 #include "common/debug.h"
 #include "common/types.h"
 #include "map.h"
+#include "mg_frame.h"
 #include "mg_memory.h"
 #include "ls_mes.h"
 #include "object.h"
@@ -11,17 +12,13 @@
 // ~ 001BE6F0 - 001EA760
 
 // TODO THIS FILE
-class CChillAfterHit {};
-class CFireAfterHit {};
 class CTornado {};
-class CThunder {};
 class CSparcEffect {};
 class CMiniEffParam {};
 class CPalletAnime {};
 class CHealingEffectMan {};
 class CSwordLuminous {};
 class CSwordAfterImage {};
-class CAfterWire {};
 class CHitEffectImage {};
 class CFlushEffect {};
 class CPowerLine {};
@@ -34,7 +31,7 @@ class CGiftMark {};
 class CEnemyGekirin {};
 class CEnemyLifeGage {};
 class CDamageScore2 {};
-class CWarningGage2 {};
+class CWarningGauge2 {};
 class CHealingPoint {};
 class CActiveMonster {};
 class CMonsterLocateInfo {};
@@ -48,6 +45,80 @@ class CAutoMapGen;
 
 // 01EA0480
 extern CAutoMapGen AutoMapGen;
+
+namespace dng_main
+{
+  // 00373CA0
+  void SInit();
+};
+
+struct SDungeonStatus
+{
+  // 0
+  _DWORD m_unk_field_0;
+  // 4
+  _DWORD m_unk_field_4;
+  // 8
+  _DWORD m_unk_field_8;
+  // C
+  _DWORD m_unk_field_C;
+  // 10
+  _DWORD m_unk_field_10;
+  // 14
+  _DWORD m_unk_field_14;
+  // 18
+  _DWORD m_unk_field_18;
+};
+
+class CAccumulateEffect
+{
+
+};
+
+class CMiniEffPrim
+{
+  // 001C0FF0
+  void Initialize();
+  // 001C0DB0
+  void SetPrim(glm::vec4* v, int i);
+  // 001C0E20
+  void Draw(CPreSprite* pre_sprite);
+  // 001C0F70
+  void Step();
+
+  // 10
+  _DWORD m_unk_field_10;
+};
+
+class CMiniEffPrimMan
+{
+public:
+  // 001C11C0
+  void Initialize();
+  // 001C1000
+  void CreatePrim(glm::vec4* v, int i);
+  // 001C1070
+  void Draw();
+  // 001C1150
+  void Step();
+
+  // 0
+  std::array<CMiniEffPrim, 0x40> m_mini_eff;
+  // 800
+  _DWORD m_unk_field_800;
+  // 810
+  mgCDrawPrim m_unk_field_810;
+};
+
+class CAfterWire
+{
+public:
+
+  // 0
+  _DWORD m_unk_field_0{ 0 };
+
+  // SIZE 0x120
+};
 
 class CAutoMapGen
 {
@@ -102,6 +173,60 @@ struct MINIMAP_SYMBOL_DATA
   // E
   bool m_unk_field_E;
   // SIZE 0x10
+};
+
+class CFireAfterHit
+{
+public:
+  // 001D4850
+  CFireAfterHit();
+  // 001BF4F0
+  void Initialize();
+  // 0
+  _DWORD m_unk_field_0;
+  // 4
+  _DWORD m_unk_field_4;
+  // 8
+  _DWORD m_unk_field_8;
+  // C
+  _DWORD m_unk_field_C;
+  // 10
+  _UNKNOWNSTRUCT(0x2A0) m_unk_field_10;
+  // 2B0
+  _UNKNOWNSTRUCT(0x690) m_unk_field_2B0;
+
+  // SIZE 0x940
+};
+
+class CChillAfterHit
+{
+public:
+  // 001D4880
+  CChillAfterHit();
+  // 001BE6F0
+  void Initialize();
+
+  // 0
+  _DWORD m_unk_field_0;
+  // 4
+  _DWORD m_unk_field_4;
+  // 8
+  _DWORD m_unk_field_8;
+  // 10
+  glm::vec4 m_unk_field_10;
+  // 20
+  _UNKNOWNSTRUCT(0x780) m_unk_field_20;
+
+  // SIZE 0x7A0
+};
+
+class CThunder : mgCFrame
+{
+public:
+  // 110
+  mgCFrameAttr m_unk_field_110{};
+
+  // SIZE 0xDC0
 };
 
 class CMiniMapSymbol
@@ -169,7 +294,7 @@ public:
   s16 m_unk_field_E;
 };
 
-class CLockOnModel : CObjectFrame
+class CLockOnModel : public CObjectFrame
 {
   // VTABLE 00375B00
   // 0  0

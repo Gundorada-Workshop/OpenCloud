@@ -1,10 +1,18 @@
 #include "sinit.h"
 #include "dng_debug.h"
+#include "dng_main.h"
+#include "dngmenu.h"
 #include "editctrl.h"
 #include "editloop.h"
+#include "editmenu.h"
 #include "fishingobj.h"
 #include "gamedata.h"
+#include "inventmn.h"
 #include "mainloop.h"
+#include "menuaqua.h"
+#include "menucls1.h"
+#include "menudraw.h"
+#include "menumain.h"
 #include "mg_frame.h"
 #include "mg_lib.h"
 #include "mg_tanime.h"
@@ -23,15 +31,23 @@ namespace StaticInitializers
 	void Init()
 	{
 		dng_debug::SInit();
+		dng_main::SInit();
+		dngmenu::SInit();
 		editctrl::SInit();
 		editloop::SInit();
+		editmenu::SInit();
 		FishingObj::SInit();
 		gamedata::SInit();
+		inventmn::SInit();
 		MainLoop_SInit::SInit();
+		menuaqua::SInit();
+		menucls1::SInit();
+		menudraw::SInit();
+		menumain::SInit();
 		mg_frame::SInit();
 		mg_lib::SInit();
 		mg_tanime::SInit();
-		nowload::SInit();
+		nowload_SInit::SInit();
 		snd_mngr::SInit();
 		sysmes::SInit();
 		PBuggy::SInit();

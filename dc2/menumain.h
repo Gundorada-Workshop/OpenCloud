@@ -16,3 +16,9 @@ struct MENU_ASKMODE_PARA {};
 struct MENU_SWAPITEM_INFO {};
 class CMenuItemInfo {};
 class CItemSelect {};
+
+namespace menumain
+{
+  // 00374440
+  void SInit();
+}

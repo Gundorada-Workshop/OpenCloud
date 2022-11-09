@@ -11,8 +11,6 @@
 
 set_log_channel("nowload");
 
-u32 GetSystemSndId(void);
-
 // 00378694
 static bool load_skip_img{};
 // 00378698
@@ -41,7 +39,7 @@ static std::array<u8, 0x2800> SkipImage;
 // 01F5DCC0
 static u32 bgm_status{};
 
-namespace nowload
+namespace nowload_SInit
 {
   // 00309B10
   void SInit()

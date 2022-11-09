@@ -7,7 +7,7 @@
 
 class CScene;
 
-namespace nowload
+namespace nowload_SInit
 {
   // 00309B10
   void SInit();
