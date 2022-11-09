@@ -12,6 +12,7 @@
 #include "menuaqua.h"
 #include "menucls1.h"
 #include "menudraw.h"
+#include "menumain.h"
 #include "mg_frame.h"
 #include "mg_lib.h"
 #include "mg_tanime.h"
@@ -42,6 +43,7 @@ namespace StaticInitializers
 		menuaqua::SInit();
 		menucls1::SInit();
 		menudraw::SInit();
+		menumain::SInit();
 		mg_frame::SInit();
 		mg_lib::SInit();
 		mg_tanime::SInit();
