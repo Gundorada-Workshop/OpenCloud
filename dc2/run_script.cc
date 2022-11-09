@@ -3,9 +3,103 @@
 
 set_log_channel("run_script");
 
+// 00186B20
+void CRunScript::stkoverflow() const
+{
+  log_trace("CRunScript::{}()", __func__);
+
+  log_error("stack overflow");
+  throw std::length_error("stack overflow");
+}
+
+// 00186D50
+void CRunScript::check_stack() const
+{
+  log_trace("CRunScript::{}()", __func__);
+
+  if (m_stack_current >= m_stack_top)
+  {
+    stkoverflow();
+  }
+}
+
+// 00186D80
+void CRunScript::push(RS_STACKDATA data)
+{
+  log_trace("CRunScript::{}(...)", __func__/*, data TODO*/);
+
+  check_stack();
+
+  *m_stack_current = data;
+  ++m_stack_current;
+}
+
+// 00186DD0
+void CRunScript::push_int(int data)
+{
+  log_trace("CRunScript::{}({})", __func__, data);
+
+  check_stack();
+
+  stackdata_t stack_data;
+  stack_data.i = data;
+  m_stack_current->m_data_type = EStackDataType::Int;
+  m_stack_current->m_data = stack_data;
+  ++m_stack_current;
+}
+
+// 00186E20
+void CRunScript::push_str(char* data)
+{
+  log_trace("CRunScript::{}({})", __func__, data);
+
+  check_stack();
+
+  stackdata_t stack_data;
+  stack_data.s = data;
+  m_stack_current->m_data_type = EStackDataType::String;
+  m_stack_current->m_data = stack_data;
+  ++m_stack_current;
+}
+
+// 00186E70
+void CRunScript::push_ptr(RS_STACKDATA* data)
+{
+  log_trace("CRunScript::{}({})", __func__, fmt::ptr(data));
+
+  stackdata_t stack_data;
+  stack_data.p = data;
+  m_stack_current->m_data_type = EStackDataType::Pointer;
+  m_stack_current->m_data = stack_data;
+  ++m_stack_current;
+}
+
+// 00186E70
+void CRunScript::push_float(float data)
+{
+  log_trace("CRunScript::{}({})", __func__, data);
+
+  stackdata_t stack_data;
+  stack_data.f = data;
+  m_stack_current->m_data_type = EStackDataType::Float;
+  m_stack_current->m_data = stack_data;
+  ++m_stack_current;
+}
+
+// 00186F10
+RS_STACKDATA CRunScript::pop()
+{
+  log_trace("CRunScript::{}()", __func__);
+
+  --m_stack_current;
+  return *m_stack_current;
+}
+
 // 001873C0
 void CRunScript::exe(vmcode_t* code)
 {
+  log_trace("CRunScript::{}({})", __func__, fmt::ptr(code));
+
   m_vmcode = code;
 
   for (;; m_vmcode += 1)
