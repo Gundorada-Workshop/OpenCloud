@@ -370,6 +370,8 @@ u8 mgCTextureManager::hash(const char* str) const
 // 0012CCC0
 void mgCTextureManager::AddHash(mgCTexture* texture)
 {
+  log_trace("mgCTextureManager::AddHash({})", fmt::ptr(texture));
+
   if (m_n_hashes_length >= m_n_hashes_capacity)
   {
     return;
@@ -392,6 +394,38 @@ void mgCTextureManager::AddHash(mgCTexture* texture)
     for (; curr_hash->m_next_hash != nullptr; curr_hash = curr_hash->m_next_hash) {}
     curr_hash->m_next_hash = new_hash;
   }
+}
+
+// 0012CE90
+mgCTexture* mgCTextureManager::SearchHash(const char* name, int uuid)
+{
+  log_trace("mgCTextureManager::SearchHash({})", name, uuid);
+
+  u8 hash_val = hash(name);
+  TextureHash* curr_hash = m_hash_list[hash_val];
+
+  for (
+    TextureHash* curr_hash = m_hash_list[hash_val];
+    curr_hash != nullptr;
+    curr_hash = curr_hash->m_next_hash
+    )
+  {
+    mgCTexture* texture = curr_hash->m_texture;
+
+    if (strcmp(name, curr_hash->m_texture->m_name.data()) != 0)
+    {
+      continue;
+    }
+
+    if (uuid >= 0 && texture->m_hash_uuid != uuid)
+    {
+      continue;
+    }
+
+    return texture;
+  }
+
+  return nullptr;
 }
 
 // 0012D050
