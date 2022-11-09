@@ -14,6 +14,12 @@ class mgCEnterIMGInfo {};
 // Forward declare
 class mgCTexture;
 
+struct TextureHash
+{
+  mgCTexture* m_texture;
+  TextureHash* m_next_hash;
+};
+
 class mgCTextureBlock
 {
 public:
@@ -27,11 +33,11 @@ public:
   void Delete(mgCTexture* texture);
 
   // 0
-  mgCTexture* m_unk_field_0;
+  void* m_vram_offset;
   // 4
   mgCTextureBlock* m_unk_field_4;
   // 8
-  mgCTexture* m_texture;
+  mgCTexture* m_unk_field_8;
   // C
   mgCTextureAnime* m_texture_anime;
 };
@@ -41,6 +47,8 @@ class mgCTextureManager
 private:
   // 0012CC70
   u8 hash(const char* str) const;
+  // 0012CCC0
+  void AddHash(mgCTexture* texture);
   // 0012CE90
 
 public:
@@ -74,7 +82,7 @@ public:
   // 14
   mgCTextureBlock m_unk_field_14{};
   // 24
-  std::array<mgCTextureBlock*, 101> m_textures_bucket;
+  std::array<TextureHash*, 101> m_hash_list;
   // 1B8
   mgCTexture* m_textures;
   // 1BC
@@ -84,13 +92,13 @@ public:
   // 1C4
   _DWORD m_unk_field_1C4;
   // 1C8
-  _UNKNOWNSTRUCT(0x8)* m_unk_field_1C8;
+  TextureHash* m_hashes;
   // 1CC
-  _UNKNOWNSTRUCT(0x8)** m_unk_field_1CC;
+  TextureHash** m_p_hashes;
   // 1D0
-  usize m_unk_field_1D0{};
+  usize m_n_hashes_capacity{};
   // 1D4
-  _DWORD m_unk_field_1D4;
+  usize m_n_hashes_length;
   // 1D8
   std::array<char, 0x18> m_unk_field_1D8;
 };

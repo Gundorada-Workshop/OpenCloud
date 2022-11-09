@@ -162,9 +162,9 @@ void mgCTextureBlock::Initialize()
 {
   log_trace("mgCTextureBlock::Initialize()");
 
-  m_unk_field_0 = nullptr;
+  m_vram_offset = nullptr;
   m_unk_field_4 = nullptr;
-  m_texture = nullptr;
+  m_unk_field_8 = nullptr;
   m_texture_anime = nullptr;
 }
 
@@ -174,13 +174,13 @@ void mgCTextureBlock::Add(mgCTexture* texture)
   log_trace("mgCTextureBlock::Add({})", fmt::ptr(texture));
 
   texture->m_next = nullptr;
-  if (m_texture == nullptr)
+  if (m_unk_field_8 == nullptr)
   {
-    m_texture = texture;
+    m_unk_field_8 = texture;
     return;
   }
 
-  mgCTexture* tex = m_texture;
+  mgCTexture* tex = m_unk_field_8;
   for (; tex->m_next != nullptr; tex = tex->m_next) {}
   tex->m_next = texture;
 }
@@ -191,13 +191,13 @@ void mgCTextureBlock::Delete(mgCTexture* texture)
   log_trace("mgCTextureBlock::Delete({})", fmt::ptr(texture));
 
   mgCTexture* prev_tex = nullptr;
-  for (mgCTexture* tex = m_texture; tex->m_next != nullptr; tex = tex->m_next)
+  for (mgCTexture* tex = m_unk_field_8; tex->m_next != nullptr; tex = tex->m_next)
   {
     if (texture == tex)
     {
       if (prev_tex == nullptr)
       {
-        m_texture = tex->m_next;
+        m_unk_field_8 = tex->m_next;
       }
       else
       {
@@ -268,34 +268,34 @@ void mgCTextureManager::SetTableBuffer(int n_textures, int n_blocks, mgCMemory* 
   }
 
   m_unk_field_1C4 = 0;
-  m_unk_field_1D0 = m_n_textures;
+  m_n_hashes_capacity = m_n_textures;
 
-  _UNKNOWNSTRUCT(0x8)* unk_buf = static_cast<_UNKNOWNSTRUCT(0x8)*>(
+  TextureHash* hash_buf = static_cast<TextureHash*>(
     stack->Alloc(
       BYTES_TO_BLOCKS(
-        sizeof(_UNKNOWNSTRUCT(0x8)) * m_unk_field_1D0
+        sizeof(TextureHash) * m_n_hashes_capacity
       )
     )
   );
 
-  m_unk_field_1C8 = unk_buf;
+  m_hashes = hash_buf;
 
-  _UNKNOWNSTRUCT(0x8)** p_unk_buf = static_cast<_UNKNOWNSTRUCT(0x8)**>(
+  TextureHash** p_hash_buf = static_cast<TextureHash**>(
     stack->Alloc(
       BYTES_TO_BLOCKS(
-        sizeof(_UNKNOWNSTRUCT(0x8)*) * m_unk_field_1D0
+        sizeof(TextureHash*) * m_n_hashes_capacity
       )
     )
   );
 
-  m_unk_field_1CC = p_unk_buf;
+  m_p_hashes = p_hash_buf;
 
   for (int i = 0; i < m_n_textures; ++i)
   {
-    m_unk_field_1CC[i] = &m_unk_field_1C8[i];
+    m_p_hashes[i] = &m_hashes[i];
   }
 
-  m_unk_field_1D4 = 0;
+  m_n_hashes_length = 0;
 }
 
 // 0012CAD0
@@ -336,17 +336,17 @@ void mgCTextureManager::Initialize(void* vram_top, void* vram_bottom)
   m_unk_field_8 = -1;
   m_unk_field_1D8[0] = '\0';
 
-  for (int i = 0; i < m_textures_bucket.size(); ++i)
+  for (int i = 0; i < m_hash_list.size(); ++i)
   {
-    m_textures_bucket[i] = nullptr;
+    m_hash_list[i] = nullptr;
   }
 
-  for (int i = 0; i < m_unk_field_1D0; ++i)
+  for (int i = 0; i < m_n_hashes_capacity; ++i)
   {
-    m_unk_field_1CC[i] = m_unk_field_1C8;
+    m_p_hashes[i] = &m_hashes[i];
   }
 
-  m_unk_field_1D4 = 0;
+  m_n_hashes_length = 0;
 }
 
 // 0012CC70
@@ -361,12 +361,38 @@ u8 mgCTextureManager::hash(const char* str) const
     hash &= 0xFF;
     hash <<= 8;
     hash += c;
-    hash %= m_textures_bucket.size();
+    hash %= m_hash_list.size();
   }
 
   return hash & 0xFF;
 }
 
+// 0012CCC0
+void mgCTextureManager::AddHash(mgCTexture* texture)
+{
+  if (m_n_hashes_length >= m_n_hashes_capacity)
+  {
+    return;
+  }
+
+  TextureHash* new_hash = m_p_hashes[m_n_hashes_length];
+
+  new_hash->m_next_hash = nullptr;
+  new_hash->m_texture = texture;
+
+  u8 hash_val = hash(texture->m_name.data());
+
+  TextureHash* curr_hash = m_hash_list[hash_val];
+  if (curr_hash == nullptr)
+  {
+    m_hash_list[hash_val] = new_hash;
+  }
+  else
+  {
+    for (; curr_hash->m_next_hash != nullptr; curr_hash = curr_hash->m_next_hash) {}
+    curr_hash->m_next_hash = new_hash;
+  }
+}
 
 // 0012D050
 mgCTexture* mgCTextureManager::GetTexture(const char* name, ssize i)
