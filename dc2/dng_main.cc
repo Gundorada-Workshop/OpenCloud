@@ -1,5 +1,6 @@
 #include <array>
 #include "glm/glm.hpp"
+#include "common/clock.h"
 #include "common/debug.h"
 #include "common/log.h"
 #include "common/debug.h"
@@ -11,8 +12,7 @@
 #include "editloop.h"
 #include "effect.h"
 #include "map.h"
-#include "mg_math.h"
-#include "mg_memory.h"
+#include "mg_lib.h"
 #include "nowload.h"
 #include "pot.h"
 #include "robopart.h"
@@ -317,11 +317,11 @@ void CLockOnModel::Step()
   log_trace("CLockOnModel::Step()");
 
   // NOTE: DEGREES_TO_RADIANS(4.0f) == 0x3D8EFA35
-  m_unk_field_88 += DEGREES_TO_RADIANS(4.0f);
+  m_unk_field_88 += DEGREES_TO_RADIANS(4.0f) * GAME_DT * GAME_FPS;
 
-  if (m_unk_field_88 > M_PI_F)
+  if (m_unk_field_88 > DEGREES_TO_RADIANS(180.0f))
   {
-    m_unk_field_88 -= (M_PI_F * 2);
+    m_unk_field_88 -= DEGREES_TO_RADIANS(360.0f);
   }
 }
 
