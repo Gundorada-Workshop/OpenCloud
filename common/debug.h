@@ -94,7 +94,7 @@ namespace common::debug
   type m_unk_field_##pos{ };
 
 #define _UNKNOWN int
-#define _CHAR s8
+#define _BYTE s8
 #define _WORD s16
 #define _DWORD s32
 #define _OWORD s64
