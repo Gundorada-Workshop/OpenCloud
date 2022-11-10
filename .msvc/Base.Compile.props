@@ -10,7 +10,7 @@
       <!-- Disable the analyzer on external code -->
       <DisableAnalyzeExternal>true</DisableAnalyzeExternal>
       <!-- Decent warning level for our code -->
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <!-- Use the latest C++ standard -->
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <!-- Disable exceptions -->
