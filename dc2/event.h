@@ -2,6 +2,12 @@
 
 // ~ 00254E60 - 00257170
 
+namespace event
+{
+  // 00374580
+  void SInit();
+}
+
 // TODO THIS FILE
 class C3DSpline {};
 class CCameraPas {};

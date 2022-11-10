@@ -5,6 +5,7 @@
 #include "editctrl.h"
 #include "editloop.h"
 #include "editmenu.h"
+#include "event.h"
 #include "fishingobj.h"
 #include "gamedata.h"
 #include "inventmn.h"
@@ -31,12 +32,15 @@ namespace StaticInitializers
 {
 	void Init()
 	{
+		log_info("Starting static initialization.");
+
 		dng_debug::SInit();
 		dng_main::SInit();
 		dngmenu::SInit();
 		editctrl::SInit();
 		editloop::SInit();
 		editmenu::SInit();
+		event::SInit();
 		FishingObj::SInit();
 		gamedata::SInit();
 		inventmn::SInit();
@@ -56,5 +60,7 @@ namespace StaticInitializers
 		Photo::SInit();
 		Title::SInit();
 		userdata::SInit();
+
+		log_info("Finished static initialization.");
 	}
 }
