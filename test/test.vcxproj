@@ -11,6 +11,7 @@
   <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
   <ItemGroup>
     <ClCompile Include="mg_camera_test.cc" />
+    <ClCompile Include="mg_math_test.cc" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

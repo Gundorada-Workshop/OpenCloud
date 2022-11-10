@@ -28,6 +28,7 @@ inline float mgAngleClamp(float x)
   {
     return x + DEGREES_TO_RADIANS(360.0f);
   }
+  return x;
 }
 
 // 00130B60

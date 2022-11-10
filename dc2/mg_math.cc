@@ -77,8 +77,13 @@ float mgAngleLimit(float f)
 {
   log_trace("{}({})", __func__, f);
 
-  // need to test this
-  return mgAngleClamp(fmodf(f, M_2PI_F));
+  if (-M_PI_F <= f && f < M_PI_F)
+  {
+    return f;
+  }
+
+  f -= truncf(f / M_2PI_F) * M_2PI_F;
+  return mgAngleClamp(f);
 }
 
 // 00130EE0
