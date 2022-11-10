@@ -97,7 +97,7 @@ namespace common::debug
 #define _BYTE s8
 #define _WORD s16
 #define _DWORD s32
-#define _OWORD s64
+#define _QWORD s64
 #define _UNKNOWNSTRUCT(size) std::array<u8, size>
 #define _UNKNOWNPOINTER void*
 

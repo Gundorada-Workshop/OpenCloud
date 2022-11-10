@@ -19,7 +19,6 @@ class CPalletAnime {};
 class CHealingEffectMan {};
 class CSwordLuminous {};
 class CSwordAfterImage {};
-class CHitEffectImage {};
 class CFlushEffect {};
 class CPowerLine {};
 class CDeadEffect {};

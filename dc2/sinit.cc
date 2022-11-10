@@ -6,6 +6,7 @@
 #include "editloop.h"
 #include "editmenu.h"
 #include "event.h"
+#include "event_func.h"
 #include "fishingobj.h"
 #include "gamedata.h"
 #include "inventmn.h"
@@ -41,6 +42,7 @@ namespace StaticInitializers
 		editloop::SInit();
 		editmenu::SInit();
 		event::SInit();
+		event_func::SInit();
 		FishingObj::SInit();
 		gamedata::SInit();
 		inventmn::SInit();

@@ -1,4 +1,5 @@
 #include <string.h>
+#include "glm/glm.hpp"
 #include "common/log.h"
 #include "effect.h"
 
@@ -582,7 +583,7 @@ void CFireRaster::Initialize()
 // 00184820
 void CThunderEffect::Initialize()
 {
-  log_trace("CThunderEffect::Initialize");
+  log_trace("CThunderEffect::Initialize()");
 
   m_unk_field_0 = 0;
   m_unk_field_90 = 0;
