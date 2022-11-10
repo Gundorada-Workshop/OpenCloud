@@ -65,7 +65,7 @@ s32 mgAngleCmp(float f12, float f13, float f14)
   {
     return 1;
   }
-  if (n < f14)
+  if (n < -f14)
   {
     return -1;
   }

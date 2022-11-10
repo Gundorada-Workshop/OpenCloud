@@ -1,6 +1,19 @@
 #include "gtest/gtest.h"
 #include "mg_math.h"
 
+TEST(mgMathTest, mgAngleInterpolate)
+{
+  EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.078987, 2.387641, 0.3, false), 0.221013);
+  EXPECT_FLOAT_EQ(mgAngleInterpolate(0.221013, 2.418880, 0.3, false), 0.521013);
+  EXPECT_FLOAT_EQ(mgAngleInterpolate(0, 0, 4, true), 0);
+  EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.76, -0.76, 8, true), -0.76);
+  EXPECT_FLOAT_EQ(mgAngleInterpolate(-2.184873, 4.098312, 2, true), -2.184873);
+}
+
+TEST(mgMathTest, mgAngleCmp)
+{
+  EXPECT_EQ(mgAngleCmp(1.343752, 1.343500, 0.785398), 0);
+}
 
 TEST(mgMathTest, mgAngleLimit)
 {
