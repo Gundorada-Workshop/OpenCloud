@@ -56,7 +56,7 @@ namespace common::debug
   } while (0)
 
 // assert (live)
-#define assert(cnd)                        \
+#define rassert(cnd)                       \
   do                                       \
   {                                        \
     if (!(cnd))                            \
