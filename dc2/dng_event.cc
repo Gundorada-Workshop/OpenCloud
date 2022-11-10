@@ -1,4 +1,5 @@
 #include <cmath>
+#include "common/clock.h"
 #include "common/log.h"
 #include "dng_event.h"
 #include "dng_main.h"
@@ -107,11 +108,11 @@ void CGeoStone::GeoStep()
 
   CCharacter2::Step();
 
-  m_height_offset_sine += DEGREES_TO_RADIANS(3.0f);
+  m_height_offset_sine += DEGREES_TO_RADIANS(3.0f) * GAME_DT * GAME_FPS;
 
-  if (m_height_offset_sine > M_PI_F)
+  if (m_height_offset_sine > DEGREES_TO_RADIANS(180.0f))
   {
     // Mantain a continuous bound from -pi to +pi
-    m_height_offset_sine -= (M_PI_F * 2);
+    m_height_offset_sine -= DEGREES_TO_RADIANS(360.0f);
   }
 }

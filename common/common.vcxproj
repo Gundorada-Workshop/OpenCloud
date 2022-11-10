@@ -11,6 +11,7 @@
   <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
   <ItemGroup>
     <ClInclude Include="alignment.h" />
+    <ClInclude Include="clock.h" />
     <ClInclude Include="console.h" />
     <ClInclude Include="console_logger.h" />
     <ClInclude Include="debug.h" />

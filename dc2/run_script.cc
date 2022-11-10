@@ -12,6 +12,24 @@ void CRunScript::stkoverflow() const
   throw std::length_error("stack overflow");
 }
 
+// 00186BD0
+void CRunScript::divby0error() const
+{
+  log_trace("CRunScript::{}()", __func__);
+
+  log_error("Divide by 0");
+  throw std::length_error("Divide by 0");
+}
+
+// 00186BE0
+void CRunScript::modby0error() const
+{
+  log_trace("CRunScript::{}()", __func__);
+
+  log_error("Modulo by 0");
+  throw std::length_error("Modulo by 0");
+}
+
 // 00186D50
 void CRunScript::check_stack() const
 {
@@ -104,6 +122,8 @@ void CRunScript::exe(vmcode_t* code)
 
   for (;; m_vmcode += 1)
   {
+    using Type = EStackDataType::EStackDataType;
+
     switch (m_vmcode->instruction)
     {
       case 1:
@@ -127,21 +147,126 @@ void CRunScript::exe(vmcode_t* code)
         todo;
         break;
       case 6:
+      {
         // 00187D00
-        todo;
+        // _ADD
+        auto rhs = pop();
+        auto lhs = pop();
+
+        if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Int)
+        {
+          push_int(lhs.m_data.i + rhs.m_data.i);
+        }
+        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Float)
+        {
+          push_float(lhs.m_data.f + rhs.m_data.f);
+        }
+        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Int)
+        {
+          push_float(lhs.m_data.f + rhs.m_data.i);
+        }
+        else if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Float)
+        {
+          push_float(lhs.m_data.i + rhs.m_data.f);
+        }
+        else
+        {
+          throw std::logic_error("_ADD screwed up at some function; we don't have that data yet! But one or both of the operands aren't numbers! :(");
+        }
+
         break;
+      }
       case 7:
+      {
         // 00187E30
-        todo;
+        // _SUB
+        auto rhs = pop();
+        auto lhs = pop();
+
+        if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Int)
+        {
+          push_int(lhs.m_data.i - rhs.m_data.i);
+        }
+        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Float)
+        {
+          push_float(lhs.m_data.f - rhs.m_data.f);
+        }
+        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Int)
+        {
+          push_float(lhs.m_data.f - rhs.m_data.i);
+        }
+        else if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Float)
+        {
+          push_float(lhs.m_data.i - rhs.m_data.f);
+        }
+        else
+        {
+          throw std::logic_error("_SUB screwed up at some function; we don't have that data yet! But one or both of the operands aren't numbers! :(");
+        }
+
         break;
+      }
       case 8:
+      {
         // 00187F60
-        todo;
+        // _MUL
+        auto rhs = pop();
+        auto lhs = pop();
+
+        if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Int)
+        {
+          push_int(lhs.m_data.i * rhs.m_data.i);
+        }
+        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Float)
+        {
+          push_float(lhs.m_data.f * rhs.m_data.f);
+        }
+        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Int)
+        {
+          push_float(lhs.m_data.f * rhs.m_data.i);
+        }
+        else if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Float)
+        {
+          push_float(lhs.m_data.i * rhs.m_data.f);
+        }
+        else
+        {
+          throw std::logic_error("_MUL screwed up at some function; we don't have that data yet! But one or both of the operands aren't numbers! :(");
+        }
+
         break;
+      }
       case 9:
+      {
         // 00188090
-        todo;
+        // _DIV
+        auto rhs = pop();
+        if (rhs.m_data.i == 0) divby0error();
+        auto lhs = pop();
+
+        if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Int)
+        {
+          push_int(lhs.m_data.i / rhs.m_data.i);
+        }
+        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Float)
+        {
+          push_float(lhs.m_data.f / rhs.m_data.f);
+        }
+        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Int)
+        {
+          push_float(lhs.m_data.f / rhs.m_data.i);
+        }
+        else if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Float)
+        {
+          push_float(lhs.m_data.i / rhs.m_data.f);
+        }
+        else
+        {
+          throw std::logic_error("_DIV screwed up at some function; we don't have that data yet! But one or both of the operands aren't numbers! :(");
+        }
+
         break;
+      }
       case 10:
         // 00188208
         todo;

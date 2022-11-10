@@ -1,6 +1,7 @@
 #pragma once
 #include "character.h"
 #include "dng_main.h"
+#include "event_func.h"
 
 // ~ 0028AFC0 - 002912F0
 
@@ -10,10 +11,6 @@ struct MessageTaskManager {};
 class CRedMarkModel {};
 class CTreasureBox {};
 class CTreasureBoxManager {};
-class CMarker {};
-class CEventSprite {};
-class CEventSpriteMother {};
-class CEventSprite2 {};
 
 class CGeoStone : public CCharacter2
 {

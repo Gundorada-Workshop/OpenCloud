@@ -3,7 +3,7 @@
 #include "common/debug.h"
 #include "common/types.h"
 #include "script_interpreter.h"
-#include "mg_texture.h"
+#include "mg_lib.h"
 
 // ~ 0017C240 - 00185EF0
 
@@ -13,7 +13,6 @@ class CEffectList {};
 class CEffectCtrl {};
 class CWater {};
 class CWaterFrame {};
-
 
 class CEffect
 {
@@ -96,4 +95,12 @@ public:
   _UNKNOWN m_unk_field_94;
   // 98
   _UNKNOWN m_unk_field_98;
+};
+
+class CHitEffectImage
+{
+public:
+
+  // 50
+  mgRect<int> m_unk_field_50{ 0, 0, 0, 0 };
 };

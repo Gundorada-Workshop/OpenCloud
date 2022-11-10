@@ -1,4 +1,5 @@
 #include <array>
+#include "common/clock.h"
 #include "common/log.h"
 #include "mg_camera.h"
 #include "mg_math.h"
@@ -57,7 +58,8 @@ void mgCCamera::Step(int steps)
 
   for (int i = 0; i < steps; ++i)
   {
-    if (m_position_speed <= 1.0f && m_rotation_speed <= 1.0f)
+    float one_frame = GAME_DT * GAME_FPS;
+    if (m_position_speed <= one_frame && m_rotation_speed <= one_frame)
     {
       // We snap to our new target in one frame, we're done here.
       m_position = m_next_position;
@@ -70,21 +72,22 @@ void mgCCamera::Step(int steps)
       // Adjust our position
       // NOTE: no std::max for pos_speed in original game
       float pos_speed = std::max(m_position_speed, 1.0f);
-      m_position[j] += (m_next_position[j] - m_position[j]) / pos_speed;
+      m_position[j] += (m_next_position[j] - m_position[j]) / pos_speed * one_frame;
 
       // Adjust our direction
       float rot_speed = std::max(m_rotation_speed, 1.0f);
-      m_reference[j] += (m_next_reference[j] - m_reference[j]) / pos_speed;
+      m_reference[j] += (m_next_reference[j] - m_reference[j]) / pos_speed * one_frame;
 
       // Check to see if are close enough to stop adjusting this component
+      float step_epsilon = m_step_epsilon * one_frame;
       // Position
-      if (std::fabsf(m_position[j] - m_next_position[j]) < m_step_epsilon)
+      if (std::fabsf(m_position[j] - m_next_position[j]) < step_epsilon)
       {
         m_position[j] = m_next_position[j];
       }
 
       // Direction
-      if (std::fabsf(m_reference[j] - m_next_reference[j]) < m_step_epsilon)
+      if (std::fabsf(m_reference[j] - m_next_reference[j]) < step_epsilon)
       {
         m_reference[j] = m_next_reference[j];
       }
@@ -209,14 +212,15 @@ void mgCCameraFollow::Step(int steps)
     {
       if (m_following)
       {
+        float position_speed = m_position_speed / (GAME_DT * GAME_FPS);
         m_angle = mgAngleInterpolate(
           m_angle,
           m_angle_soon,
-          std::max(m_position_speed / 2.0f, 1.0f),
+          std::max(position_speed / 2.0f, 1.0f),
           true
         );
 
-        if (m_position_speed < 1.1f)
+        if (position_speed < 1.1f)
         {
           m_angle = m_angle_soon;
         }
