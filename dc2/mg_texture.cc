@@ -34,7 +34,7 @@ static bool texTEX_ANIME(SPI_STACK* stack, int)
   if (s)
   {
     auto len = strlen(s) + 1;
-    auto dest = static_cast<char*>(TexAnimeStack->Alloc((len >> 4) + 1));
+    auto dest = static_cast<char*>(TexAnimeStack->Alloc(BYTES_TO_BLOCKS_STRICT(len)));
 
     strcpy(dest, s);
 
@@ -397,7 +397,7 @@ void mgCTextureManager::AddHash(mgCTexture* texture)
 }
 
 // 0012CE90
-mgCTexture* mgCTextureManager::SearchHash(const char* name, int uuid)
+mgCTexture* mgCTextureManager::SearchHash(const char* name, ssize uuid)
 {
   log_trace("mgCTextureManager::SearchHash({})", name, uuid);
 
@@ -481,16 +481,16 @@ void mgCTextureManager::ReloadTexture(usize texb, sceVif1Packet* vif1_packet)
 }
 
 // 0012CF40
-mgCTexture* mgCTextureManager::SearchTextureName(const char* name, int uuid)
+mgCTexture* mgCTextureManager::SearchTextureName(const char* name, ssize uuid)
 {
   log_trace("mgCTextureManager::SearchTextureName({}, {})", name, uuid);
 
   if (m_texture_name_suffix[0] != '\0')
   {
-    char buf[0x80];
-    strcpy(buf, name);
-    strcat(buf, m_texture_name_suffix.data());
-    name = buf;
+    std::array<char, 0x80> buf;
+    strcpy_s(buf.data(), buf.size(), name);
+    strcat_s(buf.data(), buf.size(), m_texture_name_suffix.data());
+    name = buf.data();
   }
 
   return SearchHash(name, uuid);

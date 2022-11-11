@@ -6,7 +6,7 @@
 #define BYTES_TO_BLOCKS(size) \
 	(size + 0x2F) / 0x10
 #define BYTES_TO_BLOCKS_STRICT(size) \
-	size / 0x10
+	size / 0x10 + 1
 
 
 struct SHeapMemHead

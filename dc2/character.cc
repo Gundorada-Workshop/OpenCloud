@@ -114,6 +114,7 @@ bool CCharacter2::CheckMotionEnd()
 
   // 001738D4
   todo;
+  return false;
 }
 
 // 00168440
@@ -235,6 +236,7 @@ float CCharacter2::GetDefaultStep()
 
   // 0017384C
   todo;
+  return 0.0f;
 }
 
 // 00168480

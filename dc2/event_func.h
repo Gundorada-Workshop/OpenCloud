@@ -481,7 +481,7 @@ public:
   // 90
   glm::vec4 m_unk_field_90{ 0.0f, 0.0f, 0.0f, 1.0f };
   // A0, A4, A8, AC
-  glm::u8vec4 m_color{ 128.0f };
+  glm::u8vec4 m_color{ 128.0f, 128.0f, 128.0f, 128.0f };
 };
 
 class CRain

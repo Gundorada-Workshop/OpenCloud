@@ -3,11 +3,11 @@
 
 TEST(mgMathTest, mgAngleInterpolate)
 {
-  EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.078987, 2.387641, 0.3, false), 0.221013);
-  EXPECT_FLOAT_EQ(mgAngleInterpolate(0.221013, 2.418880, 0.3, false), 0.521013);
-  EXPECT_FLOAT_EQ(mgAngleInterpolate(0, 0, 4, true), 0);
-  EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.76, -0.76, 8, true), -0.76);
-  EXPECT_FLOAT_EQ(mgAngleInterpolate(-2.184873, 4.098312, 2, true), -2.184873);
+  EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.078987f, 2.387641f, 0.3f, false), 0.221013f);
+  EXPECT_FLOAT_EQ(mgAngleInterpolate(0.221013f, 2.418880f, 0.3f, false), 0.521013f);
+  EXPECT_FLOAT_EQ(mgAngleInterpolate(0.f, 0.f, 4.f, true), 0.f);
+  EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.76f, -0.76f, 8.f, true), -0.76f);
+  EXPECT_FLOAT_EQ(mgAngleInterpolate(-2.184873f, 4.098312f, 2.f, true), -2.184873f);
 }
 
 TEST(mgMathTest, mgAngleCmp)

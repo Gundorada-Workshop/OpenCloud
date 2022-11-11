@@ -20,7 +20,7 @@ static s32 CastingLureTime;
 // 00378748
 static s32 AddLineSpeed;
 // 0037874C
-static bool BattleFlag;
+static u32 BattleFlag;
 // 00378750
 static float BattleLineDist;
 // 00378754

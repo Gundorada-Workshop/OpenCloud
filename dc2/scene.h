@@ -604,9 +604,9 @@ public:
 
 
   // 0
-  usize m_n_stacks_capacity;
+  ssize m_n_stacks_capacity;
   // 4
-  usize m_n_stacks_length;
+  ssize m_n_stacks_length;
   // 8
   std::array<mgCMemory*, 12> m_stacks;
   // 38
@@ -614,15 +614,15 @@ public:
   // 3C
   _UNKNOWN m_unk_field_3C;
   // 40
-  usize m_n_characters;
+  ssize m_n_characters;
   // 44
   std::array<CSceneCharacter, 128> m_characters;
   // 2044
-  usize m_n_cameras;
+  ssize m_n_cameras;
   // 2048
   std::array<CSceneCamera, 8> m_cameras;
   // 2208
-  usize m_n_messages;
+  ssize m_n_messages;
   // 220C
   std::array<CSceneMessage, 8> m_messages;
   // 23D0

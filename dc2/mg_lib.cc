@@ -57,6 +57,7 @@ _UNKNOWNPOINTER mgDrawDirect(mgCFrame* frame)
 
   // Likely not applicable to Windows anyways
   todo;
+  return nullptr;
 }
 
 // 001425B0

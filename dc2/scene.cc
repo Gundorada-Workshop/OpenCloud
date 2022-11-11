@@ -311,7 +311,7 @@ void CScene::ClearStack(ssize stack_index)
 {
 	log_trace("CScene::{}({})", __func__, stack_index);
 
-	for (int i = stack_index; i < m_n_stacks_capacity; ++i)
+	for (auto i = stack_index; i < m_n_stacks_capacity; ++i)
 	{
 		if (m_stacks[i] != nullptr)
 		{

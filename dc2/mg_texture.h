@@ -50,9 +50,9 @@ private:
   // 0012CCC0
   void AddHash(mgCTexture* texture);
   // 0012CE90
-  mgCTexture* SearchHash(const char* name, int uuid);
+  mgCTexture* SearchHash(const char* name, ssize uuid);
   // 0012CF40
-  mgCTexture* SearchTextureName(const char* name, int uuid);
+  mgCTexture* SearchTextureName(const char* name, ssize uuid);
 public:
   // 0012C830
   void SetTableBuffer(int n_textures, int n_blocks, mgCMemory* stack);
