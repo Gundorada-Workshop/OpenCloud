@@ -71,26 +71,13 @@ static glm::vec4 stru_1F5EDA0;
 // 01F5EDB0
 static glm::vec4 stru_1F5EDB0;
 // 01F5EDC0
-static CFishObj LureObj;
+static CFishObj LureObj{};
 // 01F5F190
-static CFishObj UkiObj;
+static CFishObj UkiObj{};
 // 01F5F560
-static CFishObj HariObj;
+static CFishObj HariObj{};
 // 01F5F930
 static glm::vec4 ChanceBarPos;
-
-namespace FishingObj
-{
-	// 00374BE0
-	void SInit()
-	{
-		log_trace("SInit()");
-
-		memset(&LureObj, 0, sizeof(LureObj));
-		memset(&UkiObj, 0, sizeof(UkiObj));
-		memset(&HariObj, 0, sizeof(HariObj));
-	}
-}
 
 // 003130B0
 void CFishObj::MovePoint()

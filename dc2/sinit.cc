@@ -7,7 +7,6 @@
 #include "event.h"
 #include "event_edit.h"
 #include "event_func.h"
-#include "fishingobj.h"
 #include "gamedata.h"
 #include "inventmn.h"
 #include "mainloop.h"
@@ -40,7 +39,6 @@ namespace StaticInitializers
 		editmenu::SInit();
 		event::SInit();
 		event_func::SInit();
-		FishingObj::SInit();
 		gamedata::SInit();
 		inventmn::SInit();
 		MainLoop_SInit::SInit();
