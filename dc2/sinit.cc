@@ -61,7 +61,6 @@ namespace StaticInitializers
 		sysmes::SInit();
 		PBuggy::SInit();
 		Photo::SInit();
-		Title::SInit();
 		userdata::SInit();
 
 		log_info("Finished static initialization.");
