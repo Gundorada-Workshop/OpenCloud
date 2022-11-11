@@ -56,9 +56,9 @@ static CEditEvent EditEvent;
 // 01E9EF30
 static EditDebugInfo EdDebugInfo;
 // 01E9EF70
-static mgCVisualMDT TestVisual;
+static mgCVisualMDT TestVisual{};
 // 01E9EFC0
-static mgCFrame TestFrame;
+static mgCFrame TestFrame{};
 // 01E9F0F0
 static std::array<_DWORD, 0x10> beforeAnalyze;
 
@@ -120,11 +120,6 @@ namespace editloop
     EdDebugInfo.m_unk_field_2C = 0;
     EdDebugInfo.m_unk_field_18 = 0;
     EdDebugInfo.m_unk_field_1C = 0;
-
-    TestVisual.mgCVisual::Initialize();
-    TestVisual.Initialize();
-
-    new (&TestFrame) mgCFrame();
   }
 }
 

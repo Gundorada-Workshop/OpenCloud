@@ -130,9 +130,9 @@ _UNKNOWNPOINTER mgCVisual::Draw(_UNKNOWNPOINTER p, glm::mat4& m1, mgCDrawManager
 }
 
 // 00132DC0
-void mgCVisual::Initialize()
+mgCVisual::mgCVisual()
 {
-	log_trace("mgCVisual::Initialize()");
+	log_trace("mgCVisual::mgCVisual()");
 
 	m_unk_field_0 = 0;
 	m_unk_field_4 = 0;
@@ -224,9 +224,9 @@ _UNKNOWNPOINTER mgCVisualMDT::Draw(_UNKNOWNPOINTER p, glm::mat4& m1, mgCDrawMana
 
 
 // 0013EAC0
-void mgCVisualMDT::Initialize()
+mgCVisualMDT::mgCVisualMDT()
 {
-	log_trace("mgCVisualMDT::Initialize()");
+	log_trace("mgCVisualMDT::mgCVisualMDT()");
 
 	m_unk_field_20 = 0;
 	m_unk_field_30 = nullptr;
@@ -237,12 +237,6 @@ void mgCVisualMDT::Initialize()
 	m_material_num = 0;
 	m_p_material = nullptr;
 	m_unk_field_48 = 0;
-
-	m_unk_field_0 = 0;
-	m_unk_field_4 = 0;
-	m_unk_field_8 = 0;
-	m_unk_field_14 = 0;
-	m_unk_field_10 = 0;
 	
 	m_unk_field_10 = 60;
 	m_unk_field_14 = 180;
@@ -290,6 +284,14 @@ bool mgCVisualMDT::DataAssignMT(MDT_HEADER* mdt_header, mgCMemory& stack, mgCTex
 
 	todo;
 	return false;
+}
+
+// 0013BCB0
+mgC3DSprite::mgC3DSprite()
+{
+	log_trace("mgC3DSprite::mgC3DSprite()");
+
+	m_unk_field_20 = 0;
 }
 
 // 00134410

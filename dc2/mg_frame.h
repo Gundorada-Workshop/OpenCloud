@@ -13,7 +13,6 @@ class mgCMDTBuilder {};
 class mgCVisualFixMDT {};
 class mgMaterial {};
 class mgCShadowMDT {};
-class mgC3DSprite {};
 class mgCSprite {};
 class mgCVisualPrim {};
 
@@ -101,6 +100,9 @@ public:
 class mgCVisual
 {
 public:
+	// 00132DC0
+	mgCVisual();
+
 	// VTABLE 00374F10
 	// 0  0
 	// 4  0
@@ -125,7 +127,7 @@ public:
 	// 2C 00134350
 	virtual _UNKNOWNPOINTER Draw(_UNKNOWNPOINTER p, glm::mat4& m1, mgCDrawManager& draw_man);
 	// 30 00132DC0
-	virtual void Initialize();
+	//virtual void Initialize();
 
 	// 0
 	_DWORD m_unk_field_0;
@@ -148,6 +150,9 @@ public:
 class mgCVisualMDT : public mgCVisual
 {
 public:
+	// 0013EAC0
+	mgCVisualMDT();
+
 	// VTABLE 00375190
 	// 0  0
 	// 4  0
@@ -170,7 +175,7 @@ public:
 	// 2C 0013F4E0
 	virtual _UNKNOWNPOINTER Draw(_UNKNOWNPOINTER p, glm::mat4& m1, mgCDrawManager& draw_man);
 	// 30 0013EAC0
-	virtual void Initialize();
+	//virtual void Initialize();
 	// 34 0013F6A0
 	virtual _DWORD CreatePacket(mgCDrawManager& draw_man);
 	// 38 0013FF60
@@ -206,6 +211,15 @@ public:
 	_DWORD m_unk_field_48;
 
 	// SIZE 0x4C
+};
+
+class mgC3DSprite : mgCVisual
+{
+public:
+	// 0013BCB0
+	mgC3DSprite();
+
+	_DWORD m_unk_field_20;
 };
 
 struct mgPOINT_LIGHT
