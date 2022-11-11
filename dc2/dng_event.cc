@@ -3,9 +3,13 @@
 #include "common/log.h"
 #include "dng_event.h"
 #include "dng_main.h"
+#include "mapjump.h"
 #include "mg_lib.h"
 
 set_log_channel("dng_event");
+
+// 01F052C0
+static MapJumpInfo MainMapInfo{};
 
 // 0028BD20
 void CGeoStone::Initialize()
