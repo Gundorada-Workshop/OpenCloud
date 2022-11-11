@@ -14,7 +14,6 @@ namespace StaticInitializers
 
 		dng_main::SInit();
 		MainLoop_SInit::SInit();
-		menucls1::SInit();
 
 		log_info("Finished static initialization.");
 	}
