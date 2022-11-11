@@ -8,54 +8,28 @@
 set_log_channel("gamedata");
 
 // 01E69570
-static CGameData GameItemDataManage;
+static CGameData GameItemDataManage{};
 // 01E695A0
 // FIXME: MAGIC: capacity
-static std::array<CDataItemCom, 54> local_com_itemdata;
+static std::array<CDataItemCom, 54> local_com_itemdata{};
 // 01E6DFE0
 // FIXME: MAGIC: capacity
-static std::array<CDataItem, 162> local_itemdata;
+static std::array<CDataItem, 162> local_itemdata{};
 // 01E6DFE0
 // FIXME: MAGIC: capacity
-static std::array<CDataWeapon, 116> local_weapondata;
+static std::array<CDataWeapon, 116> local_weapondata{};
 // 01E70C70
 // FIXME: MAGIC: capacity
-static std::array<CDataAttach, 38> local_attachdata;
+static std::array<CDataAttach, 38> local_attachdata{};
 // 01E71000
 // FIXME: MAGIC: capacity
-static std::array<CDataRoboPart, 68> local_robodata;
+static std::array<CDataRoboPart, 68> local_robodata{};
 // 01E71990
 // FIXME: MAGIC: capacity
-static std::array<CDataBreedFish, 20> local_fishdata;
+static std::array<CDataBreedFish, 20> local_fishdata{};
 // 01E71B20
 // FIXME: MAGIC: capacity
-static std::array<CDataGuard, 20> local_guarddata;
-
-namespace gamedata
-{
-  // 00373930
-  void SInit()
-  {
-    log_trace("SInit()");
-
-    for (auto& data_item : local_itemdata)
-    {
-      new (&data_item) CDataItem();
-    }
-    for (auto& data_weapon : local_weapondata)
-    {
-      new (&data_weapon) CDataWeapon();
-    }
-    for (auto& data_attach : local_attachdata)
-    {
-      new (&data_attach) CDataAttach();
-    }
-    for (auto& data_fish : local_fishdata)
-    {
-      new (&data_fish) CDataBreedFish();
-    }
-  }
-}
+static std::array<CDataGuard, 20> local_guarddata{};
 
 // 00194750
 static bool _DATACOMINIT(SPI_STACK* stack, int stack_count)
