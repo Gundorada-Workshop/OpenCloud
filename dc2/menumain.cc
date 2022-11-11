@@ -31,27 +31,6 @@ namespace menumain
   }
 }
 
-// 0023A5C0
-void CMENU_USERPARAM::Initialize()
-{
-  log_trace("CMENU_USERPARAM::Initialize()");
-
-  m_unk_field_4 = 0;
-  m_unk_field_0 = 0;
-  m_unk_field_8 = 0;
-  m_unk_field_C = 0;
-  m_unk_field_10 = 0;
-  m_unk_field_14 = 0;
-}
-
-// 0023A670
-void MENU_ASKMODE_PARA::Initialize()
-{
-  log_trace("MENU_ASKMODE_PARA::Initialize()");
-
-  memset(this, 0, sizeof(this));
-}
-
 // 002370B0
 CBaseMenuClass::CBaseMenuClass()
 {
@@ -70,7 +49,7 @@ void CBaseMenuClass::SetAskParam(MENU_ASKMODE_PARA* param)
 
   if (param == nullptr)
   {
-    m_unk_field_58.Initialize();
+    new (&m_unk_field_58) MENU_ASKMODE_PARA();
   }
   else
   {

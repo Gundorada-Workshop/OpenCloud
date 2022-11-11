@@ -43,9 +43,9 @@ namespace menusys
   {
     log_trace("SInit()");
 
-    MenuAskParam.Initialize();
+    new (&MenuAskParam) MENU_ASKMODE_PARA();
     MenuAskParam.m_unk_field_8C = -1;
-    MenuUserParam.Initialize();
+    new (&MenuUserParam) CMENU_USERPARAM();
     MainCharaReadStack.Initialize();
     MenuItemMainMemory.Initialize();
     MenuItemUseTarget = -1;

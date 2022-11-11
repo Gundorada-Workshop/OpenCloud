@@ -242,8 +242,7 @@ bool PauseLoop()
 
   auto sv_config_option = GetSaveData()->sv_config_option;
 
-  mgCDrawPrim draw_prim = mgCDrawPrim();
-  draw_prim.Initialize(nullptr, nullptr);
+  mgCDrawPrim draw_prim = mgCDrawPrim(nullptr, nullptr);
   draw_prim.DepthTestEnable(false);
   draw_prim.AlphaBlendEnable(false);
   draw_prim.Bilinear(false);

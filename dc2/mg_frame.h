@@ -55,23 +55,18 @@ public:
 class mgCVisualAttr
 {
 public:
-	// 0013E7B0
-	void Initialize();
-	// 0013E7F0
-	mgCVisualAttr();
-
 	// 0
-	s32 m_unk_field_0;
+	s32 m_unk_field_0{ -1 };
 
 	// ?
 
 	// 8
-	s32 m_unk_field_8;
+	s32 m_unk_field_8{ 1 };
 
 	// ?
 
 	// 14
-	s32 m_unk_field_14;
+	s32 m_unk_field_14{ -1 };
 
 	// SIZE 0x18
 };
@@ -233,9 +228,6 @@ struct mgVu0FBOX
 	// 10
 	// Corner 2
 	glm::vec4 m_b;
-
-	// 00139890
-	mgVu0FBOX(mgVu0FBOX& box);
 };
 
 class mgCDrawManager 
@@ -287,7 +279,7 @@ public:
 	// 38 00138830
 	virtual _UNKNOWNPOINTER DrawDirect();
 	// 3C 00136410
-	virtual void Initialize();
+	//virtual void Initialize();
 
 	// 00161DF0
 	mgCObject();
@@ -316,66 +308,60 @@ public:
 class mgCFrameAttr : public mgCVisualAttr
 {
 public:
-	// 00135AD0
-	void Initialize(void);
-
-	// 00135B60
-	mgCFrameAttr();
-
 	// 18
-	s32 m_unk_field_18;
+	s32 m_unk_field_18{ 1 };
 
 	// ?
 
-	float m_unk_field_20;
+	float m_unk_field_20{ 100.0f };
 
 	// ?
 
 	// 30
-	s32 m_unk_field_30;
+	s32 m_unk_field_30{ 1 };
 
 	// ?
 
 	// 3C
-	_DWORD m_unk_field_3C;
+	_DWORD m_unk_field_3C{ 0 };
 
 	// ?
 
 	// 44
-	float m_unk_field_44;
+	float m_unk_field_44{ 1.0f };
 
 	// ?
 
 	// 50
 	// probably a vec4 to be honest
-	_DWORD m_unk_field_50;
+	_DWORD m_unk_field_50{ 0 };
 	// 54
-	float m_unk_field_54;
+	float m_unk_field_54{ 1.0f };
 	// 58
-	_DWORD m_unk_field_58;
+	_DWORD m_unk_field_58{ 0 };
 	// 5C
-	_DWORD m_unk_field_5C;
+	_DWORD m_unk_field_5C{ 0 };
 
 	// ?
 
 	// 70
 	// also probably a vec4
-	float m_unk_field_70;
+	float m_unk_field_70{ 128.0f };
 	// 74
-	float m_unk_field_74;
+	float m_unk_field_74{ 128.0f };
 	// 78
-	float m_unk_field_78;
+	float m_unk_field_78{ 128.0f };
 	// 7C
-	float m_unk_field_7C;
+	float m_unk_field_7C{ 128.0f };
 	// 80
-	s32 m_unk_field_80;
+	s32 m_unk_field_80{ 1 };
 	// 84
-	_DWORD m_unk_field_84;
+	_DWORD m_unk_field_84{ 0 };
 	
 	// ?
 
 	// 8C
-	_DWORD m_unk_field_8C;
+	_DWORD m_unk_field_8C{ 0 };
 
 	// SIZE 0x90
 };
@@ -400,7 +386,7 @@ public:
 	// 34 00138840 (mgCObject::Draw)
 	// 38 00138830 (mgCObject::DrawDirect)
 	// 3C 00136510
-	virtual void Initialize();
+	//virtual void Initialize();
 
 	// SIZE 0x48 (?) (no new members ?)
 };
@@ -426,7 +412,7 @@ public:
 	virtual _UNKNOWNPOINTER Draw();
 	// 38 00138830 (mgCObject::DrawDirect)
 	// 3C 00136520
-	virtual void Initialize();
+	//virtual void Initialize();
 	// 40 00136890
 	virtual void GetWorldBBox(mgVu0FBOX& box);
 	// 44 00137E10
@@ -528,50 +514,47 @@ public:
 	void GetDrawRect(mgVu0FBOX& box, mgCDrawManager* manager);
 
 	// 00136490
-	mgCFrame();
+	mgCFrame() = default;
 
 	// 001386C0
 	mgCFrame(mgCFrame& other);
 
 	// 50
-	char* m_name;
+	char* m_name{ nullptr };
 	// 54
-	_DWORD m_unk_field_54;
+	_DWORD m_unk_field_54{ 0 };
 	// 58
-	_DWORD m_unk_field_58;
+	_DWORD m_unk_field_58{ 0 };
 	// 5C
-	_DWORD m_unk_field_5C;
+	_DWORD m_unk_field_5C{ 0 };
 	// 60
-	_DWORD m_unk_field_60;
+	_DWORD m_unk_field_60{ 0 };
 	// 64
-	_DWORD m_unk_field_64;
+	_DWORD m_unk_field_64{ 0 };
 	// 68
-	_DWORD m_unk_field_68;
+	_DWORD m_unk_field_68{ 0 };
 	// 6C
-	_DWORD m_unk_field_6C;
+	_DWORD m_unk_field_6C{ 0 };
 	// 70
-	glm::mat4 m_unk_field_70;
+	glm::mat4 m_unk_field_70{ 1.0f };
 	// B0
-	glm::mat4 m_unk_field_B0;
+	glm::mat4 m_unk_field_B0{ 1.0f };
 	// F0
-	_DWORD m_unk_field_F0;
+	_DWORD m_unk_field_F0{ 0 };
 	// F4
-	_DWORD m_unk_field_F4;
+	_DWORD m_unk_field_F4{ 0 };
 	// F8
-	_DWORD m_unk_field_F8;
+	_DWORD m_unk_field_F8{ 0 };
 	// FC
-	_DWORD m_unk_field_FC;
+	_DWORD m_unk_field_FC{ 0 };
 	// 100
-	_DWORD m_unk_field_100;
+	_DWORD m_unk_field_100{ 0 };
 
 	// SIZE 0x104 (?)
 };
 
 class mgCDrawEnv {
 public:
-	// 001388B0
-	void Initialize(bool b);
-
 	// 00138970
 	void SetAlpha(u8 alpha_macro_id);
 
@@ -582,6 +565,7 @@ public:
 	void SetZBuf(int i);
 
 	// 00138850
+	mgCDrawEnv(bool b);
 	mgCDrawEnv();
 
 	// 0
@@ -611,7 +595,8 @@ public:
 	//mgCDrawPrim();
 
 	// 00134410
-	void Initialize(mgCMemory* memory, sceVif1Packet* vif1_packet);
+	mgCDrawPrim(mgCMemory* memory, sceVif1Packet* vif1_packet);
+	mgCDrawPrim() = default;
 
 	// 001344a0
 	void Begin(int i);
@@ -774,9 +759,6 @@ public:
 struct mgRENDER_INFO
 {
 public:
-	// 00138AA0
-	void Initialize(void);
-
 	// 00138B00
 	void SetRenderInfo(float f1, int i1, int i2, float f2, float f3, int i3);
 
