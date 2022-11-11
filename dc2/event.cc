@@ -5,18 +5,7 @@
 
 set_log_channel("event");
 
-static CRunScript EventScript;
-
-namespace event
-{
-  // 00374580
-  void SInit()
-  {
-    log_trace("SInit()");
-
-    new (&EventScript) CRunScript();
-  }
-}
+static CRunScript EventScript{};
 
 // 002554C0
 void SkipEventStart()
