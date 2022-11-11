@@ -1,8 +1,12 @@
+#include <array>
 #include <string>
 #include "common/log.h"
 #include "editdata.h"
 
 set_log_channel("editdata")
+
+// 01F06300
+std::array<EditAnalyzeSrc, 5> AnalyzeSrc{};
 
 // 00194550
 CEditData::CEditData()
