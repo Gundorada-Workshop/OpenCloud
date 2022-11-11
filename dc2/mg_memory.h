@@ -1,11 +1,12 @@
 #pragma once
+#include <array>
 #include "common/types.h"
 
 // Is this what DC2 does to convert sizes to memory alloc sizes?
 #define BYTES_TO_BLOCKS(size) \
 	(size + 0x2F) / 0x10
 #define BYTES_TO_BLOCKS_STRICT(size) \
-	size / 0x10
+	size / 0x10 + 1
 
 
 struct SHeapMemHead
@@ -26,9 +27,6 @@ struct SHeapMemHead
 class mgCMemory
 {
 public:
-	// 00139900
-	void Initialize();
-
 	// 00139930
 	void SetHeapMem(void *heap, usize heap_size);
 
@@ -74,19 +72,16 @@ public:
 	// Sets the buffer for this memory.
 	void stSetBuffer(void* stack_start, usize capacity);
 
-	// 00146260
-	mgCMemory();
-
 	// Debug representation of the purpose of this memory.
-	char m_label[0x10];
-	usize m_heap_size;
-	void* m_heap_start;
-	SHeapMemHead* m_heap_mem_head;
+	std::array<char, 0x10> m_label{ 0 };
+	usize m_heap_size{ 0 };
+	void* m_heap_start{ nullptr };
+	SHeapMemHead* m_heap_mem_head{ nullptr };
 	// FIXME: NAME:
-	bool m_unk_field_1C;
-	void* m_stack_start;
-	usize m_stack_current_allocated;
-	usize m_stack_max_allocated;
+	bool m_unk_field_1C{ false };
+	void* m_stack_start{ nullptr };
+	usize m_stack_current_allocated{ 0 };
+	usize m_stack_max_allocated{ 0 };
 	// FIXME: NAME:
-	SHeapMemHead* m_unk_field_2C;
+	SHeapMemHead* m_unk_field_2C{ nullptr };
 };

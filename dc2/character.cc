@@ -30,6 +30,14 @@ _UNKNOWNPOINTER CCharacter2::Draw()
   return nullptr;
 }
 
+CCharacter2::CCharacter2()
+{
+  for (auto& v : m_unk_field_140)
+  {
+    v = glm::ivec4(0, 0, -1, 0);
+  }
+}
+
 // 001731F0
 _UNKNOWNPOINTER CCharacter2::DrawDirect()
 {
@@ -39,12 +47,11 @@ _UNKNOWNPOINTER CCharacter2::DrawDirect()
   return nullptr;
 }
 
-// 00175340
 void CCharacter2::Initialize()
 {
-  log_trace("CCharacter2::{}()", __func__);
-
-  //todo;
+  log_trace("CCharacter2::Initialize()");
+  log_warn("Initialize should not be called (unless the game actually uses this as a virtual method on unknown type)");
+  new (this) CCharacter2();
 }
 
 // 00173170
@@ -114,6 +121,7 @@ bool CCharacter2::CheckMotionEnd()
 
   // 001738D4
   todo;
+  return false;
 }
 
 // 00168440
@@ -235,6 +243,7 @@ float CCharacter2::GetDefaultStep()
 
   // 0017384C
   todo;
+  return 0.0f;
 }
 
 // 00168480
@@ -366,15 +375,6 @@ void CCharacter2::SetMotionPara(char* c, int i1, s32 i2)
 
   todo;
 }
-
-// 001C58A0
-CCharacter2::CCharacter2()
-{
-  log_trace("CCharacter2::CCharacter2()");
-
-  CCharacter2::Initialize();
-}
-
 
 // 00177f20
 static bool _SKIN_IMG(SPI_STACK* stack, int stack_count)

@@ -5,27 +5,13 @@
 set_log_channel("inventmn");
 
 // 01EC96E0
-mgCMemory MenuInventStack;
+mgCMemory MenuInventStack{};
 // 01EC9710
-mgCMemory MenuInventCharaStack;
+mgCMemory MenuInventCharaStack{};
 // 01EC9740
-mgCMemory MenuInventMCStack;
+mgCMemory MenuInventMCStack{};
 // 01ECB7A0
-mgCMemory InventTeigiStack;
-
-namespace inventmn
-{
-  // 00374260
-  void SInit()
-  {
-    log_trace("SInit()");
-
-    MenuInventStack.Initialize();
-    MenuInventCharaStack.Initialize();
-    MenuInventMCStack.Initialize();
-    InventTeigiStack.Initialize();
-  }
-}
+mgCMemory InventTeigiStack{};
 
 // 001FE170
 void Initialize_USER_PICTURE_INFO(USER_PICTURE_INFO* user_picture_info)

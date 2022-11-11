@@ -135,7 +135,7 @@ static s32 reload_cnt$1348;
 static glm::vec4 StarbullPos;
 
 // 01F5F950
-static mgCMemory EffectBuff;
+static mgCMemory EffectBuff{};
 
 // 01F5F980
 static glm::vec4 BuggyVelo;
@@ -144,22 +144,7 @@ static glm::vec4 BuggyVelo;
 static glm::vec4 BombVelo;
 
 // 01F5F9A0
-static STRU_1F5F9A0 PolVoice;
-
-namespace PBuggy
-{
-	void SInit()
-	{
-		log_trace("SInit()");
-
-		EffectBuff.Initialize();
-
-		PolVoice.field_0 = 0;
-		PolVoice.field_8 = false;
-		PolVoice.field_C = 1.0f;
-		PolVoice.field_10 = 1.0f;
-	}
-}
+static STRU_1F5F9A0 PolVoice{};
 
 bool sgInitBuggy(SubGameInfo* info)
 {

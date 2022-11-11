@@ -7,12 +7,6 @@
 
 // ~ 00255B80 - 0027DD00
 
-namespace event_func
-{
-  // 00374590
-  void SInit();
-}
-
 struct SPLINE_KEY
 {
 public:
@@ -396,130 +390,115 @@ public:
 class CRaster
 {
 public:
-  // 0025FF00
-  void Initialize();
-
   // 0
-  _DWORD m_unk_field_0;
+  _DWORD m_unk_field_0{ 0 };
   // 4
-  _DWORD m_unk_field_4;
+  _DWORD m_unk_field_4{ 0 };
   // 8
-  _DWORD m_unk_field_8;
+  _DWORD m_unk_field_8{ 0 };
   // C
-  _DWORD m_unk_field_C;
+  _DWORD m_unk_field_C{ 0 };
   // 10
-  _DWORD m_unk_field_10;
+  _DWORD m_unk_field_10{ 0 };
   // 14
-  _DWORD m_unk_field_14;
+  _DWORD m_unk_field_14{ 0 };
   // 18
-  _DWORD m_unk_field_18;
+  _DWORD m_unk_field_18{ 0 };
   // 1C
-  _DWORD m_unk_field_1C;
+  _DWORD m_unk_field_1C{ 0 };
   // 20
-  _DWORD m_unk_field_20;
+  _DWORD m_unk_field_20{ 0 };
   // 24
-  s32 m_unk_field_24;
+  s32 m_unk_field_24{ -1 };
   // 28
-  _DWORD m_unk_field_28;
+  _DWORD m_unk_field_28{ 0 };
 };
 
 class CScreenEffect : CRaster
 {
 public:
-  // 002605E0
-  void Initialize();
-
   // 2C
-  _DWORD m_unk_field_2C;
+  _DWORD m_unk_field_2C{ 0 };
   // 30
-  _DWORD m_unk_field_30;
+  _DWORD m_unk_field_30{ 0 };
   // 34
-  _DWORD m_unk_field_34;
+  _DWORD m_unk_field_34{ 0 };
   // 38
-  _DWORD m_unk_field_38;
+  _DWORD m_unk_field_38{ 0 };
   // 3C
-  _DWORD m_unk_field_3C;
+  _DWORD m_unk_field_3C{ 0 };
   // 40
-  _DWORD m_unk_field_40;
+  _DWORD m_unk_field_40{ 0 };
   // 44
-  _DWORD m_unk_field_44;
+  _DWORD m_unk_field_44{ 0 };
   // 48
-  _DWORD m_unk_field_48;
+  _DWORD m_unk_field_48{ 0 };
 };
 
 
 class CRipple
 {
 public:
-  // 002819A0
-  void Initialize();
-
   // 0
-  _DWORD m_unk_field_0;
+  _DWORD m_unk_field_0{ 0 };
   // 10
-  glm::vec4 m_unk_field_10;
+  glm::vec4 m_unk_field_10{ 0.0f, 0.0f, 0.0f, 1.0f };
   // 20
-  _DWORD m_unk_field_20;
+  _DWORD m_unk_field_20{ 0 };
   // 24
-  _DWORD m_unk_field_24;
+  _DWORD m_unk_field_24{ 0 };
   // 28
-  _DWORD m_unk_field_28;
+  _DWORD m_unk_field_28{ 0 };
 };
 
 class CParticle
 {
 public:
-  // 00281CE0
-  void Initialize();
-
   // 0
-  _DWORD m_unk_field_0;
+  _DWORD m_unk_field_0{ 0 };
   // 10
-  glm::vec4 m_unk_field_10;
+  glm::vec4 m_unk_field_10{ 0.0f, 0.0f, 0.0f, 1.0f };
   // 20
-  glm::vec4 m_unk_field_20;
+  glm::vec4 m_unk_field_20{ 0.0f, 0.0f, 0.0f, 1.0f };
   // 30
-  glm::vec4 m_unk_field_30;
+  glm::vec4 m_unk_field_30{ 0.0f, 0.0f, 0.0f, 1.0f };
   // 40
-  _DWORD m_unk_field_40;
+  _DWORD m_unk_field_40{ 0 };
 };
 
 class CRainDrop
 {
 public:
   // 00282100
-  void Initialize();
+  CRainDrop();
 
   // 0
-  _DWORD m_unk_field_0;
+  _DWORD m_unk_field_0{ 0 };
   // 4
-  _DWORD m_unk_field_4;
+  _DWORD m_unk_field_4{ 0 };
   // 10
-  std::array<glm::vec4, 8> m_unk_field_10;
+  std::array<glm::vec4, 8> m_unk_field_10{};
   // 90
-  glm::vec4 m_unk_field_90;
+  glm::vec4 m_unk_field_90{ 0.0f, 0.0f, 0.0f, 1.0f };
   // A0, A4, A8, AC
-  glm::u8vec4 m_color;
+  glm::u8vec4 m_color{ 128.0f, 128.0f, 128.0f, 128.0f };
 };
 
 class CRain
 {
 public:
-  // 002826F0
-  void Initialize();
-
   // 0
-  _DWORD m_unk_field_0;
+  _DWORD m_unk_field_0{ 0 };
   // 4
-  _DWORD m_unk_field_4;
+  _DWORD m_unk_field_4{ 0 };
   // 10
-  std::array<CRainDrop, 100> m_unk_field_10;
+  std::array<CRainDrop, 100> m_unk_field_10{};
   // 44D0
-  std::array<CRainDrop, 50> m_unk_field_44D0;
+  std::array<CRainDrop, 50> m_unk_field_44D0{};
   // 6730
-  std::array<CParticle, 100> m_particles;
+  std::array<CParticle, 100> m_particles{};
   // 8670
-  std::array<CRipple, 200> m_ripples;
+  std::array<CRipple, 200> m_ripples{};
 };
 
 class CMarker
@@ -530,35 +509,29 @@ private:
   void Set(int i);
 
   // 0
-  s32 m_cnt;
+  s32 m_cnt{ 0 };
 public:
   // 00290210
   void Draw();
-
-  // 00290220
-  void Initialize();
 };
 
 class CEventSprite
 {
 public:
-  // 002905F0
-  void Initialize();
-
   // 0
-  _DWORD m_unk_field_0;
+  _DWORD m_unk_field_0{ 0 };
   // 4
-  _DWORD m_unk_field_4;
+  _DWORD m_unk_field_4{ 0 };
   // 8
-  std::array<char, 0x40> m_name;
+  std::array<char, 0x40> m_name{ 0 };
   // 48
-  _UNKNOWNSTRUCT(0x10) m_unk_field_48;
+  _UNKNOWNSTRUCT(0x10) m_unk_field_48{ 0 };
   // 58
-  _UNKNOWNSTRUCT(0x10) m_unk_field_58;
+  _UNKNOWNSTRUCT(0x10) m_unk_field_58{ 0 };
   // 68
-  _UNKNOWNSTRUCT(0x10) m_unk_field_68;
+  _UNKNOWNSTRUCT(0x10) m_unk_field_68{ 0 };
   // 78
-  _UNKNOWNSTRUCT(0x10) m_unk_field_78;
+  _UNKNOWNSTRUCT(0x10) m_unk_field_78{ 0 };
 
   // SIZE 0x88
 };
@@ -570,7 +543,7 @@ public:
   void Initialize();
 
   // 0
-  std::array<CEventSprite, 8> m_sprites;
+  std::array<CEventSprite, 8> m_sprites{ 0 };
 };
 
 class CEventSprite2
@@ -582,48 +555,48 @@ public:
   void Initialize();
 
   // 0
-  _DWORD m_unk_field_0;
+  _DWORD m_unk_field_0{ 0 };
   // 4
-  s32 m_unk_field_4;
+  s32 m_unk_field_4{ -1 };
   // 8
-  s32 m_unk_field_8;
+  s32 m_unk_field_8{ -1 };
   // C
-  _UNKNOWNSTRUCT(0x20) m_unk_field_C;
+  _UNKNOWNSTRUCT(0x20) m_unk_field_C { 0 };
   // 2C
-  bool m_unk_field_2C;
+  bool m_unk_field_2C{ true };
   // 30
-  glm::vec4 m_unk_field_30;
+  glm::vec4 m_unk_field_30{ 0.0f };
   // 40
-  glm::vec4 m_unk_field_40;
+  glm::vec4 m_unk_field_40{ 128.0f };
   // 50
-  _DWORD m_unk_field_50;
+  _DWORD m_unk_field_50{ 0 };
   // 54
-  _DWORD m_unk_field_54;
+  _DWORD m_unk_field_54{ 0 };
   // 58
-  _DWORD m_unk_field_58;
+  _DWORD m_unk_field_58{ 0 };
   // 5C
-  _DWORD m_unk_field_5C;
+  _DWORD m_unk_field_5C{ 0 };
   // 60
-  _DWORD m_unk_field_60;
+  _DWORD m_unk_field_60{ 0 };
   // 64
-  _DWORD m_unk_field_64;
+  _DWORD m_unk_field_64{ 0 };
   // 68
-  _DWORD m_unk_field_68;
+  _DWORD m_unk_field_68{ 0 };
   // 6C
-  f32 m_unk_field_6C;
+  f32 m_unk_field_6C{ 1.0f };
   // 70
-  f32 m_unk_field_70;
+  f32 m_unk_field_70{ 1.0f };
 };
 
 class CEventScriptArg
 {
 public:
   // 0
-  _DWORD m_unk_field_0;
+  _DWORD m_unk_field_0{ 0 };
   // 4
-  _DWORD m_unk_field_4;
+  _DWORD m_unk_field_4{ 0 };
   // 8
-  _DWORD m_unk_field_8;
+  _DWORD m_unk_field_8{ 0 };
   // C
-  _DWORD m_unk_field_C;
+  _DWORD m_unk_field_C{ 0 };
 };

@@ -1,6 +1,5 @@
 #pragma once
-#include "mg_frame.h"
-#include "mg_memory.h"
+#include "mg_lib.h"
 #include "object.h"
 
 // ~ 0016A140 - 0017C240
@@ -9,49 +8,32 @@
 class CDACollision {};
 
 class CDynamicAnime;
+class CSwordAfterEffect;
+
+struct SEntryEffect
+{
+	_DWORD m_unk_field_0;
+	_DWORD m_unk_field_4;
+	_DWORD m_unk_field_8;
+};
 
 class CCharacter2 : public CObjectFrame
 {
 public:
-	// VTABLE 00375810
-	// 0   0
-	// 4   0
-	// 8   00138810 (mgCObject::ChangeParam)
-	// C   00138820 (mgCObject::UseParam)
 	// 10  00172DE0
 	virtual void SetPosition(glm::vec4& v);
 	// 14  00172DE0
 	virtual void SetPosition(float x, float y, float z);
-	// 18  00136260 (mgCObject::GetPosition)
-	// 1C  00136270 (mgCObject::SetRotation)
-	// 20  001362F0 (mgCObject::SetRotation)
-	// 24  00136330 (mgCObject::GetRotation)
-	// 28  00136340 (mgCObject::SetScale)
-	// 2C  001363C0 (mgCObject::SetScale)
-	// 30  00136400 (mgCObject::GetScale)
 	// 34  00172F60
 	virtual _UNKNOWNPOINTER Draw();
 	// 38  001731F0
 	virtual _UNKNOWNPOINTER DrawDirect();
 	// 3C  00175340
 	virtual void Initialize();
-	// 40  00169F30 (CObjectFrame::PreDraw)
 	// 44  00173170
 	virtual float GetCameraDist();
-	// 48  00169AC0 (CObject::FarClip)
 	// 4C  00173120
 	virtual bool DrawStep();
-	// 50  00169D60 (CObject::GetAlpha)
-	// 54  00160B70 (CObject::Show)
-	// 58  0015F110 (CObject::GetShow)
-	// 5C  00160B80 (CObject::SetFarDist)
-	// 60  00160B90 (CObject::GetFarDist)
-	// 64  00160BA0 (CObject::SetNearDist)
-	// 68  00160BB0 (CObject::GetNearDist)
-	// 6C  00169C20 (CObject::CheckDraw)
-	// 70  00160BC0 (CObject::Copy)
-	// 74  00169E80 (CObjectFrame::UpdatePosition)
-	// 78  0016A050 (CObjectFrame::Copy)
 	// 7C  001751D0
 	virtual void LoadPack(void* file_buf, char* file_name, mgCMemory* mem1, mgCMemory* mem2, mgCMemory* mem3, _DWORD i, CCharacter2* character2);
 	// 80  00175200
@@ -115,59 +97,277 @@ public:
 	// F4  00177CB0
 	virtual void DrawEffect();
 
-	// 001C58A0
-	CCharacter2();
 	// 00173A40
 	void SetMotionPara(char* c, int i1, s32 i2);
 
-	// 74 BEGIN
+	CCharacter2();
 
+	// 80
+	f32 m_unk_field_80{ 0.0f };
+	// 84
+	f32 m_unk_field_84{ 0.0f };
+	// 88
+	f32 m_unk_field_88{ 0.0f };
+	// 8C
+	f32 m_unk_field_8C{ 0.0f };
+	// 90
+	f32 m_unk_field_90{ 0.0f };
+	// 94
+	f32 m_unk_field_94{ 0.0f };
+	// 98
+	f32 m_unk_field_98{ 0.0f };
+	// 9C
+	f32 m_unk_field_9C{ 0.0f };
+	// A0
+	f32 m_unk_field_A0{ 0.0f };
+	// B0
+	glm::mat4 m_unk_field_B0{ 1.0f };
+	// F0
+	std::array<char, 0x10> m_unk_field_F0{ 0 };
+	// 100
+	f32 m_unk_field_100{ 1.0f };
+	// 104
+	_DWORD m_unk_field_104{ 0 };
+	// 108
+	_DWORD m_unk_field_108{ 0 };
+	// 10C
+	f32 m_unk_field_10C{ 0.0f };
+	// 110
+	f32 m_unk_field_110{ 0.0f };
+	// 114
+	f32 m_unk_field_114{ 0.0f };
 	// 118
-	s32 m_unk_field_118;
+	s32 m_unk_field_118{ 0 };
 	// 11C
-	s32 m_unk_field_11C;
-
-	// ?
-
+	s32 m_unk_field_11C{ 0 };
+	// 120
+	s16 m_unk_field_120{ 0 };
+	// 124
+	_UNKNOWNPOINTER m_unk_field_124{ nullptr };
+	// 128
+	s32 m_unk_field_128{ 0 };
 	// 12C
-	usize m_n_unk_field_130;
+	usize m_n_unk_field_130{ 0 };
 	// 130
-	CDynamicAnime* m_unk_field_130;
-
+	CDynamicAnime* m_unk_field_130{ nullptr };
+	// 134
+	_DWORD m_unk_field_134{ 0 };
+	// 138
+	bool m_unk_field_138{ false };
+	// 13C
+	_DWORD m_unk_field_13C{ 0 };
+	// 140
+	std::array<glm::ivec4, 0x18> m_unk_field_140{};
 	// 2C0
-	mgCFrame* m_unk_field_2C0;
-
+	mgCFrame* m_unk_field_2C0{ nullptr };
+	// 2C4
+	_DWORD m_unk_field_2C4{ 0 };
+	// 2C8
+	_DWORD m_unk_field_2C8{ 0 };
+	// 2CC
+	_DWORD m_unk_field_2CC{ 0 };
+	// 2D0
+	_DWORD m_unk_field_2D0{ 0 };
+	// 2D4
+	_DWORD m_unk_field_2D4{ 0 };
+	// 2D8
+	_DWORD m_unk_field_2D8{ 0 };
+	// 2DC
+	_DWORD m_unk_field_2DC{ 0 };
+	// 2E0
+	_DWORD m_unk_field_2E0{ 0 };
+	// 2E4
+	_DWORD m_unk_field_2E4{ 0 };
+	// 2E8
+	std::array<_DWORD, 0x18> m_unk_field_2E8{ 0 };
+	// 348
+	_DWORD m_unk_field_348{ 0 };
+	// 34C
+	_DWORD m_unk_field_34C{ 0 };
+	// 350
+	_DWORD m_unk_field_350{ 0 };
+	// 354
+	s32 m_unk_field_354{ -1 };
+	// 358
+	bool m_unk_field_358{ true };
+	// 35C
+	_DWORD m_unk_field_35C{ 0 };
+	// 360
+	_DWORD m_unk_field_360{ 0 };
+	// 364
+	_DWORD m_unk_field_364{ 0 };
 	// 368
-	_DWORD m_unk_field_368;
-
-	// ?
-
+	_DWORD m_unk_field_368{ 0 };
+	// 36C
+	u32 m_unk_field_36C{ 0 };
+	// 370
+	usize m_unk_field_370{ 0 };
 	// 374
-	_UNKNOWNPOINTER m_now_motion_name;
-
+	_UNKNOWNPOINTER m_now_motion_name{ nullptr };
+	// 378
+	bool m_unk_field_378{ false };
+	// 37C
+	u32 m_unk_field_37C{ 0 };
 	// 380
-	usize m_unk_field_380;
+	usize m_unk_field_380{ 0 };
 	// 384
 	// FIXME: this is an int, but would an enum type be better?
-	int m_motion_status;
+	int m_motion_status{ 0 };
 	// 388
-	float m_now_frame;
+	f32 m_now_frame{ 0.0f };
 	// 38C
-	float m_now_frame_wait;
+	f32 m_now_frame_wait{ 0.0f };
 	// 390
-	float m_frame_step;
-
-	// ?
-
+	f32 m_frame_step{ 0.0f };
+	// 394
+	_UNKNOWNPOINTER m_unk_field_394;
+	// 398
+	u32 m_unk_field_398{ 0 };
+	// 39C
+	usize m_unk_field_39C{ 0 };
+	// 3A0
+	f32 m_unk_field_3A0{ 0.0f };
 	// 3A4
-	_DWORD m_unk_field_3A4;
+	_DWORD m_unk_field_3A4{ 0 };
 	// 3A8
-	_DWORD m_unk_field_3A8;
+	_DWORD m_unk_field_3A8{ 0 };
+	// 3AC
+	_UNKNOWNPOINTER m_unk_field_3AC{ nullptr };
+	// 3B0
+	u32 m_unk_field_3B0{ 0 };
+	// 3B4
+	s32 m_unk_field_3B4{ 0 };
+	// 3B8
+	s32 m_unk_field_3B8{ 0 };
+	// 3BC
+	bool m_unk_field_3BC{ false };
+	// 3C0
+	std::array<_DWORD, 20> m_unk_field_3C0{ 0 };
 
 	// ?
 
+	// 460
+	_UNKNOWNSTRUCT(0xA0) m_unk_field_460 { 0 };
+	// 500
+	_DWORD m_unk_field_500{ 0 };
+	// 504
+	_DWORD m_unk_field_504{ 0 };
 	// 508
-	float m_chg_step_wait;
+	f32 m_chg_step_wait{ 0.0f };
+	// 50C
+	f32 m_unk_field_50C{ 0.0f };
+	// 510
+	_DWORD m_unk_field_510{ 0 };
+	// 514
+	_DWORD m_unk_field_514{ 0 };
+	// 518
+	_DWORD m_unk_field_518{ 0 };
+	// 51C
+	_DWORD m_unk_field_51C{ 0 };
+	// 520
+	_DWORD m_unk_field_520{ 0 };
+	// 524
+	_DWORD m_unk_field_524{ 0 };
+	// 528
+	_DWORD m_unk_field_528{ 0 };
+	// 52C
+	_DWORD m_unk_field_52C{ 0 };
+	// 530
+	_DWORD m_unk_field_530{ 0 };
+	// 534
+	_DWORD m_unk_field_534{ 0 };
+	// 538
+	_DWORD m_unk_field_538{ 0 };
+	// 53C
+	_DWORD m_unk_field_53C{ 0 };
+	// 540
+	_DWORD m_unk_field_540{ 0 };
+	// 544
+	_DWORD m_unk_field_544{ 0 };
+	// 548
+	_DWORD m_unk_field_548{ 0 };
+	// 54C
+	_DWORD m_unk_field_54C{ 0 };
+	// 550
+	_DWORD m_unk_field_550{ 0 };
+	// 554
+	_DWORD m_unk_field_554{ 0 };
+	// 558
+	_DWORD m_unk_field_558{ 0 };
+	// 55C
+	_DWORD m_unk_field_55C{ 0 };
+	// 560
+	_DWORD m_unk_field_560{ 0 };
+	// 564
+	_DWORD m_unk_field_564{ 0 };
+	// 568
+	_DWORD m_unk_field_568{ 0 };
+	// 56C
+	_DWORD m_unk_field_56C{ 0 };
+	// 570
+	std::array<CSwordAfterEffect*, 3> m_sword_after_effects;
+	// 57C
+	_DWORD m_unk_field_57C{ 0 };
+	// 580
+	_DWORD m_unk_field_580{ 0 };
+	// 584
+	_DWORD m_unk_field_584{ 0 };
+	// 588
+	_DWORD m_unk_field_588{ 0 };
+	// 58C
+	_DWORD m_unk_field_58C{ 0 };
+	// 590
+	_DWORD m_unk_field_590{ 0 };
+	// 594
+	_DWORD m_unk_field_594{ 0 };
+	// 598
+	_DWORD m_unk_field_598{ 0 };
+	// 59C
+	_DWORD m_unk_field_59C{ 0 };
+	// 5A0
+	_DWORD m_unk_field_5A0{ 0 };
+	// 5A4
+	_DWORD m_unk_field_5A4{ 0 };
+	// 5A8
+	_DWORD m_unk_field_5A8{ 0 };
+	// 5AC
+	_DWORD m_unk_field_5AC{ 0 };
+	// 5B0
+	_DWORD m_unk_field_5B0{ 0 };
+	// 5B4
+	_DWORD m_unk_field_5B4{ 0 };
+	// 5B8
+	_DWORD m_unk_field_5B8{ 0 };
+	// 5BC
+	_DWORD m_unk_field_5BC{ 0 };
+	// 5C0
+	_DWORD m_unk_field_5C0{ 0 };
+	// 5C4
+	_DWORD m_unk_field_5C4{ 0 };
+	// 5C8
+	_DWORD m_unk_field_5C8{ 0 };
+	// 5CC
+	_DWORD m_unk_field_5CC{ 0 };
+	// 5D0
+	_DWORD m_unk_field_5D0{ 0 };
+	// 5D4
+	_DWORD m_unk_field_5D4{ 0 };
+	// 5D8
+	_DWORD m_unk_field_5D8{ 0 };
+	// 5DC
+	_DWORD m_unk_field_5DC{ 0 };
+	// 5E0
+	_DWORD m_unk_field_5E0{ 0 };
+	// 5E4
+	_DWORD m_unk_field_5E4{ 0 };
+	// 5E8
+	_DWORD m_unk_field_5E8{ 0 };
+	// 5EC
+	std::array<SEntryEffect, 8> m_entry_effects{};
+	// 64C
+	_DWORD m_unk_field_64C{ 0 };
+	// 650
+	_DWORD m_unk_field_650{ 0 };
 };
 
 class CDynamicAnime

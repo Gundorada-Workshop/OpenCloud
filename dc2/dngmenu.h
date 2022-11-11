@@ -5,12 +5,6 @@
 
 // ~001EA760 - 001F2510
 
-namespace dngmenu
-{
-  // 00374170
-  void SInit();
-}
-
 // TODO THIS FILE
 class CMenuTreeMap;
 
@@ -21,7 +15,7 @@ private:
   void InitializeTexture();
 public:
   // 001EA760
-  void Initialize();
+  CDngFreeMap();
 
   // 0
   _DWORD m_unk_field_0;

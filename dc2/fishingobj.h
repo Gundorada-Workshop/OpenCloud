@@ -9,18 +9,16 @@
 
 // ~ 0030F9B0 - 00313770
 
-namespace FishingObj
-{
-	// 00374BE0
-	void SInit();
-}
-
 struct SUnk1
 {
-	unimplemented_member(glm::vec4*, 0);
-	unimplemented_member(glm::vec4*, 4);
-	unimplemented_member(float, 8);
-	unimplemented_member(float, C);
+	// 0
+	glm::vec4* m_unk_field_0{ nullptr };
+	// 4
+	glm::vec4* m_unk_field_4{ nullptr };
+	// 8
+	float m_unk_field_8{ 0.0f };
+	// C
+	float m_unk_field_C{ 0.0f };
 };
 
 class CFishObj
@@ -35,10 +33,14 @@ public:
 	// 00313380
 	void Correct(CCPoly& poly, int i, float f);
 
-	unimplemented_member(usize, 0);
-	std::array<std::array<glm::vec4, 3>, 8> m_unk_field_10;
-	unimplemented_member(usize, 190);
-	std::array<SUnk1, 6> m_unk_field_194;
+	// 0
+	usize m_unk_field_0{ 0 };
+	// 10
+	std::array<std::array<glm::vec4, 3>, 8> m_unk_field_10{};
+	// 190
+	usize m_unk_field_190{ 0 };
+	// 194
+	std::array<SUnk1, 6> m_unk_field_194{};
 	// TODO more members
 };
 

@@ -23,10 +23,6 @@ ClsMes::ClsMes()
 {
   log_trace("ClsMes::ClsMes()");
 
-  // Done twice (?)
-  CFont::Initialize();
-  CFont::Initialize();
-
   m_unk_field_B4 = 0;
   m_unk_field_B8 = 100;
   m_unk_field_BC = 50;

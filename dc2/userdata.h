@@ -6,12 +6,6 @@
 
 // ~ 00196C20 - 001A2080
 
-namespace userdata
-{
-  // 0019EF70
-  void SInit();
-}
-
 // TODO THIS FILE
 struct MOS_CHANGE_PARAM {};
 
@@ -161,34 +155,32 @@ public:
 class CBattleCharaInfo
 {
 public:
-  // 0019EF70
-  void Initialize();
 
   // 0
-  s16 m_unk_field_0;
+  s16 m_unk_field_0{ 0 };
 
   // ?
 
   // 6
-  s16 m_unk_field_6;
+  s16 m_unk_field_6{ -1 };
   // 8
-  _UNKNOWN m_unk_field_8;
+  _UNKNOWN m_unk_field_8{ 0 };
 
   // ?
 
   // 30
-  _UNKNOWN m_unk_field_30;
+  _UNKNOWN m_unk_field_30{ 0 };
   // 74
-  _UNKNOWN m_unk_field_74;
+  _UNKNOWN m_unk_field_74{ 0 };
 
   // ?
 
   // 7C
-  _UNKNOWN m_unk_field_7C;
+  _UNKNOWN m_unk_field_7C{ 0 };
   // 80
-  float m_unk_field_80;
+  float m_unk_field_80{ -1.0f };
   // 84
-  float m_unk_field_84;
+  float m_unk_field_84{ -1.0f };
 
   // ?
 

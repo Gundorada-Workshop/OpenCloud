@@ -9,7 +9,7 @@ class CFragment
 {
 public:
   // 002CC230
-  void Initialize();
+  CFragment();
 
   // 0
   _DWORD m_unk_field_0;
@@ -33,7 +33,7 @@ class CBPot
 {
 public:
   // 002CC7A0
-  void Initialize();
+  CBPot();
 
   // 0
   _DWORD m_unk_field_0;
@@ -59,7 +59,8 @@ class CPot
 {
 public:
   // 002CD050
-  void Initialize(bool b);
+  CPot(bool b);
+  CPot();
 
   // 0
   _DWORD m_unk_field_0;

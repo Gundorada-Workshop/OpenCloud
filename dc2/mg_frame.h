@@ -13,18 +13,12 @@ class mgCMDTBuilder {};
 class mgCVisualFixMDT {};
 class mgMaterial {};
 class mgCShadowMDT {};
-class mgC3DSprite {};
 class mgCSprite {};
 class mgCVisualPrim {};
 
 struct mgRENDER_INFO;
 class mgCDrawManager;
 class mgCTextureManager;
-
-namespace mg_frame
-{
-	void SInit();
-}
 
 // 00376C70
 extern s32 mgScreenWidth;
@@ -61,23 +55,18 @@ public:
 class mgCVisualAttr
 {
 public:
-	// 0013E7B0
-	void Initialize();
-	// 0013E7F0
-	mgCVisualAttr();
-
 	// 0
-	s32 m_unk_field_0;
+	s32 m_unk_field_0{ -1 };
 
 	// ?
 
 	// 8
-	s32 m_unk_field_8;
+	s32 m_unk_field_8{ 1 };
 
 	// ?
 
 	// 14
-	s32 m_unk_field_14;
+	s32 m_unk_field_14{ -1 };
 
 	// SIZE 0x18
 };
@@ -101,6 +90,9 @@ public:
 class mgCVisual
 {
 public:
+	// 00132DC0
+	mgCVisual();
+
 	// VTABLE 00374F10
 	// 0  0
 	// 4  0
@@ -125,7 +117,7 @@ public:
 	// 2C 00134350
 	virtual _UNKNOWNPOINTER Draw(_UNKNOWNPOINTER p, glm::mat4& m1, mgCDrawManager& draw_man);
 	// 30 00132DC0
-	virtual void Initialize();
+	//virtual void Initialize();
 
 	// 0
 	_DWORD m_unk_field_0;
@@ -148,6 +140,9 @@ public:
 class mgCVisualMDT : public mgCVisual
 {
 public:
+	// 0013EAC0
+	mgCVisualMDT();
+
 	// VTABLE 00375190
 	// 0  0
 	// 4  0
@@ -170,7 +165,7 @@ public:
 	// 2C 0013F4E0
 	virtual _UNKNOWNPOINTER Draw(_UNKNOWNPOINTER p, glm::mat4& m1, mgCDrawManager& draw_man);
 	// 30 0013EAC0
-	virtual void Initialize();
+	//virtual void Initialize();
 	// 34 0013F6A0
 	virtual _DWORD CreatePacket(mgCDrawManager& draw_man);
 	// 38 0013FF60
@@ -208,6 +203,15 @@ public:
 	// SIZE 0x4C
 };
 
+class mgC3DSprite : mgCVisual
+{
+public:
+	// 0013BCB0
+	mgC3DSprite();
+
+	_DWORD m_unk_field_20;
+};
+
 struct mgPOINT_LIGHT
 {
 	glm::vec4 field_0;
@@ -224,9 +228,6 @@ struct mgVu0FBOX
 	// 10
 	// Corner 2
 	glm::vec4 m_b;
-
-	// 00139890
-	mgVu0FBOX(mgVu0FBOX& box);
 };
 
 class mgCDrawManager 
@@ -248,9 +249,6 @@ public:
 class mgCObject
 {
 public:
-	// VTABLE 00374FE0
-	// 0  0
-	// 4  0
 	// 8  00138810
 	virtual void ChangeParam();
 	// C  00138820
@@ -260,19 +258,19 @@ public:
 	// 14 00136220
 	virtual void SetPosition(float x, float y, float z);
 	// 18 00136260
-	virtual void GetPosition(glm::vec4&);
+	virtual glm::vec4 GetPosition();
 	// 1C 00136270
 	virtual void SetRotation(const glm::vec4&);
 	// 20 001362F0
 	virtual void SetRotation(float x, float y, float z);
 	// 24 00136330
-	virtual void GetRotation(glm::vec4&);
+	virtual glm::vec4 GetRotation();
 	// 28 00136340
 	virtual void SetScale(const glm::vec4&);
 	// 2C 001363C0
 	virtual void SetScale(float x, float y, float z);
 	// 30 00136400
-	virtual void GetScale(glm::vec4&);
+	virtual glm::vec4 GetScale();
 	// 34 00138840
 	virtual _UNKNOWNPOINTER Draw();
 	// 38 00138830
@@ -307,66 +305,60 @@ public:
 class mgCFrameAttr : public mgCVisualAttr
 {
 public:
-	// 00135AD0
-	void Initialize(void);
-
-	// 00135B60
-	mgCFrameAttr();
-
 	// 18
-	s32 m_unk_field_18;
+	s32 m_unk_field_18{ 1 };
 
 	// ?
 
-	float m_unk_field_20;
+	float m_unk_field_20{ 100.0f };
 
 	// ?
 
 	// 30
-	s32 m_unk_field_30;
+	s32 m_unk_field_30{ 1 };
 
 	// ?
 
 	// 3C
-	_DWORD m_unk_field_3C;
+	_DWORD m_unk_field_3C{ 0 };
 
 	// ?
 
 	// 44
-	float m_unk_field_44;
+	float m_unk_field_44{ 1.0f };
 
 	// ?
 
 	// 50
 	// probably a vec4 to be honest
-	_DWORD m_unk_field_50;
+	_DWORD m_unk_field_50{ 0 };
 	// 54
-	float m_unk_field_54;
+	float m_unk_field_54{ 1.0f };
 	// 58
-	_DWORD m_unk_field_58;
+	_DWORD m_unk_field_58{ 0 };
 	// 5C
-	_DWORD m_unk_field_5C;
+	_DWORD m_unk_field_5C{ 0 };
 
 	// ?
 
 	// 70
 	// also probably a vec4
-	float m_unk_field_70;
+	float m_unk_field_70{ 128.0f };
 	// 74
-	float m_unk_field_74;
+	float m_unk_field_74{ 128.0f };
 	// 78
-	float m_unk_field_78;
+	float m_unk_field_78{ 128.0f };
 	// 7C
-	float m_unk_field_7C;
+	float m_unk_field_7C{ 128.0f };
 	// 80
-	s32 m_unk_field_80;
+	s32 m_unk_field_80{ 1 };
 	// 84
-	_DWORD m_unk_field_84;
+	_DWORD m_unk_field_84{ 0 };
 	
 	// ?
 
 	// 8C
-	_DWORD m_unk_field_8C;
+	_DWORD m_unk_field_8C{ 0 };
 
 	// SIZE 0x90
 };
@@ -374,23 +366,6 @@ public:
 class mgCFrameBase : public mgCObject
 {
 public:
-	// VTABLE 00374FA0
-	// 0  0
-	// 4  0
-	// 8  00138810 (mgCObject::ChangeParam)
-	// C  00138820 (mgCObject::UseParam)
-	// 10 00136190 (mgCObject::SetPosition)
-	// 14 00136220 (mgCObject::SetPosition)
-	// 18 00136260 (mgCObject::GetPosition)
-	// 1C 00136270 (mgCObject::SetRotation)
-	// 20 001362F0 (mgCObject::SetRotation)
-	// 24 00136330 (mgCObject::GetRotation)
-	// 28 00136340 (mgCObject::SetScale)
-	// 2C 001363C0 (mgCObject::SetScale)
-	// 30 00136400 (mgCObject::GetScale)
-	// 34 00138840 (mgCObject::Draw)
-	// 38 00138830 (mgCObject::DrawDirect)
-	// 3C 00136510
 	virtual void Initialize();
 
 	// SIZE 0x48 (?) (no new members ?)
@@ -399,27 +374,12 @@ public:
 class mgCFrame : public mgCFrameBase
 {
 public:
-	// VTABLE 00374FA0
-	// 0  0
-	// 4  0
-	// 8  00138810 (mgCObject::ChangeParam)
-	// C  00138820 (mgCObject::UseParam)
-	// 10 00136190 (mgCObject::SetPosition)
-	// 14 00136220 (mgCObject::SetPosition)
-	// 18 00136260 (mgCObject::GetPosition)
-	// 1C 00136270 (mgCObject::SetRotation)
-	// 20 001362F0 (mgCObject::SetRotation)
-	// 24 00136330 (mgCObject::GetRotation)
-	// 28 00136340 (mgCObject::SetScale)
-	// 2C 001363C0 (mgCObject::SetScale)
-	// 30 00136400 (mgCObject::GetScale)
 	// 34 001387F0
 	virtual _UNKNOWNPOINTER Draw();
-	// 38 00138830 (mgCObject::DrawDirect)
 	// 3C 00136520
 	virtual void Initialize();
 	// 40 00136890
-	virtual void GetWorldBBox(mgVu0FBOX& box);
+	virtual mgVu0FBOX GetWorldBBox();
 	// 44 00137E10
 	virtual void Draw(_UNKNOWNPOINTER p);
 	// 48 00132D90
@@ -471,22 +431,22 @@ public:
 	void ClearChildFlag(void);
 
 	// 00136CE0
-	void GetLocalMatrix(glm::mat4& m1);
+	glm::mat4 GetLocalMatrix();
 
 	// 00136E40
-	void GetBBoardMatrix(int i1, glm::mat4& m1, mgRENDER_INFO& render_info);
+	glm::mat4 GetBBoardMatrix(int i1, mgRENDER_INFO& render_info);
 
 	// 00137030
-	void GetLWMatrix(glm::mat4& m1);
+	glm::mat4 GetLWMatrix();
 
 	// 001371B0
-	void GetLWMatrixTopBottom(glm::mat4& m1);
+	glm::mat4 GetLWMatrixTopBottom();
 
 	// 00137320
-	void GetInverseMatrix(glm::mat4& m1);
+	glm::mat4 GetInverseMatrix();
 
 	// 00137590
-	void SetTransMatrix(glm::mat4& m1);
+	glm::mat4 SetTransMatrix();
 
 	// 001376D0
 	void SearchFrame(char* s);
@@ -495,13 +455,13 @@ public:
 	void SearchFrameID(char* s);
 
 	// 001377E0
-	void GetWorldPosition(glm::vec4& v1, glm::vec4& v2);
+	glm::vec4 GetWorldPosition(glm::vec4& v2);
 
 	// 00137830
-	void GetWorldPosition0(glm::vec4& v1);
+	glm::vec4 GetWorldPosition0();
 
 	// 00137870
-	void GetWorldDir(glm::vec4& v1, glm::vec4& v2);
+	glm::vec4 GetWorldDir(glm::vec4& v1);
 
 	// 00137930
 	void SetRotType(int i1);
@@ -516,53 +476,50 @@ public:
 	void SetAttrParamDraw(int i1, int i2);
 
 	// 001381C0
-	void GetDrawRect(mgVu0FBOX& box, mgCDrawManager* manager);
+	mgVu0FBOX GetDrawRect(mgCDrawManager* manager);
 
 	// 00136490
-	mgCFrame();
+	mgCFrame() = default;
 
 	// 001386C0
 	mgCFrame(mgCFrame& other);
 
 	// 50
-	char* m_name;
+	char* m_name{ nullptr };
 	// 54
-	_DWORD m_unk_field_54;
+	_DWORD m_unk_field_54{ 0 };
 	// 58
-	_DWORD m_unk_field_58;
+	_DWORD m_unk_field_58{ 0 };
 	// 5C
-	_DWORD m_unk_field_5C;
+	_DWORD m_unk_field_5C{ 0 };
 	// 60
-	_DWORD m_unk_field_60;
+	_DWORD m_unk_field_60{ 0 };
 	// 64
-	_DWORD m_unk_field_64;
+	_DWORD m_unk_field_64{ 0 };
 	// 68
-	_DWORD m_unk_field_68;
+	_DWORD m_unk_field_68{ 0 };
 	// 6C
-	_DWORD m_unk_field_6C;
+	_DWORD m_unk_field_6C{ 0 };
 	// 70
-	glm::mat4 m_unk_field_70;
+	glm::mat4 m_unk_field_70{ 1.0f };
 	// B0
-	glm::mat4 m_unk_field_B0;
+	glm::mat4 m_unk_field_B0{ 1.0f };
 	// F0
-	_DWORD m_unk_field_F0;
+	_DWORD m_unk_field_F0{ 0 };
 	// F4
-	_DWORD m_unk_field_F4;
+	_DWORD m_unk_field_F4{ 0 };
 	// F8
-	_DWORD m_unk_field_F8;
+	_DWORD m_unk_field_F8{ 0 };
 	// FC
-	_DWORD m_unk_field_FC;
+	_DWORD m_unk_field_FC{ 0 };
 	// 100
-	_DWORD m_unk_field_100;
+	_DWORD m_unk_field_100{ 0 };
 
 	// SIZE 0x104 (?)
 };
 
 class mgCDrawEnv {
 public:
-	// 001388B0
-	void Initialize(bool b);
-
 	// 00138970
 	void SetAlpha(u8 alpha_macro_id);
 
@@ -573,6 +530,7 @@ public:
 	void SetZBuf(int i);
 
 	// 00138850
+	mgCDrawEnv(bool b);
 	mgCDrawEnv();
 
 	// 0
@@ -602,7 +560,8 @@ public:
 	//mgCDrawPrim();
 
 	// 00134410
-	void Initialize(mgCMemory* memory, sceVif1Packet* vif1_packet);
+	mgCDrawPrim(mgCMemory* memory, sceVif1Packet* vif1_packet);
+	mgCDrawPrim() = default;
 
 	// 001344a0
 	void Begin(int i);
@@ -765,9 +724,6 @@ public:
 struct mgRENDER_INFO
 {
 public:
-	// 00138AA0
-	void Initialize(void);
-
 	// 00138B00
 	void SetRenderInfo(float f1, int i1, int i2, float f2, float f3, int i3);
 
@@ -830,10 +786,10 @@ public:
 	void SetFogParam(float f1, float f2, u8 i1, u8 i2, u8 i3, float f3, float f4);
 
 	// 3A0
-	glm::vec4 camera_pos;
+	glm::vec4 camera_pos{0};
 
 	// F20
-	std::array<mgCDrawEnv, 2> m_unk_field_F20;
+	std::array<mgCDrawEnv, 2> m_unk_field_F20{};
 };
 
 // 00135B90

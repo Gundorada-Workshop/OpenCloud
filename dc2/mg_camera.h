@@ -37,7 +37,7 @@ protected:
 public:
   // 00131630
   // speed is how long it takes the camera to reach its target, in frames (30fps).
-  mgCCamera(float speed);
+  mgCCamera(float speed = 8.0f);
   // 001CE150
   // should be handled by compiler
   //mgCCamera(mgCCamera& other);
@@ -99,7 +99,7 @@ public:
   // 00131480
   inline void SetNextRef(const glm::vec3& next_ref)
   {
-    m_reference = next_ref;
+    m_next_reference = next_ref;
   }
 
   // 00131490

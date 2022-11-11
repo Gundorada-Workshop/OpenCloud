@@ -4,51 +4,12 @@
 
 set_log_channel("mg_frame");
 
-// 00380DA0
-static mgCFrameAttr dmy_attr;
-
-namespace mg_frame
-{
-	void SInit()
-	{
-		log_trace("SInit()");
-
-		new (&dmy_attr) mgCFrameAttr();
-	}
-}
-
 // 00376C70
-s32 mgScreenWidth{};
+s32 mgScreenWidth{0};
 // 00376C74
-s32 mgScreenHeight{};
-
-mgVu0FBOX::mgVu0FBOX(mgVu0FBOX& other)
-{
-	log_trace("mgVu0FBOX::mgVu0FBOX({})", fmt::ptr(&other));
-
-	m_a = other.m_a;
-	m_b = other.m_b;
-}
-
-// 0013E7B0
-void mgCVisualAttr::Initialize()
-{
-	log_trace("mgCVisualAttr::Initialize()");
-
-	memset(this, 0, sizeof(this));
-
-	m_unk_field_0 = -1;
-	m_unk_field_8 = 1;
-	m_unk_field_14 = -1;
-}
-
-// 0013E7F0
-mgCVisualAttr::mgCVisualAttr()
-{
-	log_trace("mgCVisualAttr::mgCVisualAttr()");
-
-	Initialize();
-}
+s32 mgScreenHeight{0};
+// 00380DA0
+static mgCFrameAttr dmy_attr{};
 
 // 00133740
 int mgCVisual::Iam()
@@ -130,9 +91,9 @@ _UNKNOWNPOINTER mgCVisual::Draw(_UNKNOWNPOINTER p, glm::mat4& m1, mgCDrawManager
 }
 
 // 00132DC0
-void mgCVisual::Initialize()
+mgCVisual::mgCVisual()
 {
-	log_trace("mgCVisual::Initialize()");
+	log_trace("mgCVisual::mgCVisual()");
 
 	m_unk_field_0 = 0;
 	m_unk_field_4 = 0;
@@ -224,9 +185,9 @@ _UNKNOWNPOINTER mgCVisualMDT::Draw(_UNKNOWNPOINTER p, glm::mat4& m1, mgCDrawMana
 
 
 // 0013EAC0
-void mgCVisualMDT::Initialize()
+mgCVisualMDT::mgCVisualMDT()
 {
-	log_trace("mgCVisualMDT::Initialize()");
+	log_trace("mgCVisualMDT::mgCVisualMDT()");
 
 	m_unk_field_20 = 0;
 	m_unk_field_30 = nullptr;
@@ -237,12 +198,6 @@ void mgCVisualMDT::Initialize()
 	m_material_num = 0;
 	m_p_material = nullptr;
 	m_unk_field_48 = 0;
-
-	m_unk_field_0 = 0;
-	m_unk_field_4 = 0;
-	m_unk_field_8 = 0;
-	m_unk_field_14 = 0;
-	m_unk_field_10 = 0;
 	
 	m_unk_field_10 = 60;
 	m_unk_field_14 = 180;
@@ -292,10 +247,18 @@ bool mgCVisualMDT::DataAssignMT(MDT_HEADER* mdt_header, mgCMemory& stack, mgCTex
 	return false;
 }
 
-// 00134410
-void mgCDrawPrim::Initialize(mgCMemory* memory, sceVif1Packet* vif1_packet)
+// 0013BCB0
+mgC3DSprite::mgC3DSprite()
 {
-	log_trace("mgCDrawPrim::Initialize({}, {})", fmt::ptr(memory), fmt::ptr(vif1_packet));
+	log_trace("mgC3DSprite::mgC3DSprite()");
+
+	m_unk_field_20 = 0;
+}
+
+// 00134410
+mgCDrawPrim::mgCDrawPrim(mgCMemory* memory, sceVif1Packet* vif1_packet)
+{
+	log_trace("mgCDrawPrim::mgCDrawPrim({}, {})", fmt::ptr(memory), fmt::ptr(vif1_packet));
 
 	todo;
 }
@@ -682,11 +645,11 @@ void mgCObject::SetPosition(float x, float y, float z)
 }
 
 // 00136260
-void mgCObject::GetPosition(glm::vec4& v)
+glm::vec4 mgCObject::GetPosition()
 {
-	log_trace("mgCObject::GetPosition({})", fmt::ptr(&v));
+	log_trace("mgCObject::GetPosition()");
 
-	v = m_position;
+	return m_position;
 }
 
 // 00136270
@@ -715,11 +678,11 @@ void mgCObject::SetRotation(float x, float y, float z)
 }
 
 // 00136330
-void mgCObject::GetRotation(glm::vec4& v)
+glm::vec4 mgCObject::GetRotation()
 {
-	log_trace("mgCObject::GetRotation({})", fmt::ptr(&v));
+	log_trace("mgCObject::GetRotation()");
 
-	v = m_rotation;
+	return m_rotation;
 }
 
 // 00136340
@@ -748,11 +711,11 @@ void mgCObject::SetScale(float x, float y, float z)
 }
 
 // 00136400
-void mgCObject::GetScale(glm::vec4& v)
+glm::vec4 mgCObject::GetScale()
 {
-	log_trace("mgCObject::GetScale({})", fmt::ptr(&v));
+	log_trace("mgCObject::GetScale()");
 
-	v = m_scale;
+	return m_scale;
 }
 
 // 00138840
@@ -772,9 +735,9 @@ _UNKNOWNPOINTER mgCObject::DrawDirect()
 }
 
 // 00136410
-void mgCObject::Initialize()
+mgCObject::mgCObject()
 {
-	log_trace("mgCObject::Initialize()");
+	log_trace("mgCObject::mgCObject()");
 
 	SetPosition(0.0f, 0.0f, 0.0f);
 	SetRotation(0.0f, 0.0f, 0.0f);
@@ -783,61 +746,25 @@ void mgCObject::Initialize()
 	m_unk_field_44 = false;
 }
 
-// 00161DF0
-mgCObject::mgCObject()
+void mgCObject::Initialize()
 {
-	log_trace("mgCObject::mgCObject()");
-
-	mgCObject::Initialize();
+	log_trace("mgCObject::Initialize()");
+	log_warn("Initialize should not be called (unless the game actually uses this as a virtual method on unknown type)");
+	new (this) mgCObject();
 }
 
-// 00136510
 void mgCFrameBase::Initialize()
 {
 	log_trace("mgCFrameBase::Initialize()");
-
-	mgCObject::Initialize();
+	log_warn("Initialize should not be called (unless the game actually uses this as a virtual method on unknown type)");
+	new (this) mgCFrameBase();
 }
 
-// 00135AD0
-void mgCFrameAttr::Initialize()
+void mgCFrame::Initialize()
 {
-	log_trace("mgCFrameAttr::Initialize()");
-
-	memset(this, 0, sizeof(mgCFrameAttr));
-
-	mgCVisualAttr::Initialize();
-	
-	m_unk_field_7C = 128.0f;
-	m_unk_field_78 = 128.0f;
-	m_unk_field_74 = 128.0f;
-	m_unk_field_70 = 128.0f;
-
-	m_unk_field_0 = -1;
-	m_unk_field_18 = 1;
-	m_unk_field_8 = 1;
-	m_unk_field_3C = 0;
-	
-	m_unk_field_20 = 100.0f;
-	m_unk_field_30 = 1;
-	m_unk_field_44 = 1.0f;
-	m_unk_field_80 = 1;
-
-	m_unk_field_5C = 0;
-	m_unk_field_58 = 0;
-	m_unk_field_50 = 0;
-	m_unk_field_54 = 1.0f;
-
-	m_unk_field_8C = 0;
-	m_unk_field_84 = 0;
-}
-
-// 00135B60
-mgCFrameAttr::mgCFrameAttr()
-{
-	log_trace("mgCFrameAttr::mgCFrameAttr()");
-
-	Initialize();
+	log_trace("mgCFrame::Initialize()");
+	log_warn("Initialize should not be called (unless the game actually uses this as a virtual method on unknown type)");
+	new (this) mgCFrame();
 }
 
 // 001387F0
@@ -849,36 +776,13 @@ _UNKNOWNPOINTER mgCFrame::Draw()
 	return nullptr;
 }
 
-// 00136520
-void mgCFrame::Initialize()
-{
-	log_trace("mgCFrame::Initialize()");
-
-	m_unk_field_60 = 0;
-	m_unk_field_5C = 0;
-	m_unk_field_58 = 0;
-	m_unk_field_54 = 0;
-	m_unk_field_70 = glm::mat4(1.0f);
-	m_unk_field_B0 = glm::mat4(1.0f);
-	m_name = nullptr;
-	m_unk_field_100 = 0;
-	m_unk_field_FC = 0;
-	m_unk_field_F8 = 0;
-	m_unk_field_F4 = 0;
-	m_unk_field_64 = 0;
-	m_unk_field_68 = 0;
-	m_unk_field_6C = 0;
-	m_unk_field_F0 = 0;
-
-	mgCObject::Initialize();
-}
-
 // 00136890
-void mgCFrame::GetWorldBBox(mgVu0FBOX& box)
+mgVu0FBOX mgCFrame::GetWorldBBox()
 {
 	log_trace("mgCFrame::GetWorldBBox({})", fmt::ptr(&box));
 
 	todo;
+	return mgVu0FBOX{};
 }
 
 // 00137E10
@@ -897,18 +801,12 @@ void mgCFrame::SetVisual(mgCVisual* visual)
 	todo;
 }
 
-// 00136490
-mgCFrame::mgCFrame()
-{
-	log_trace("mgCFrame::mgCFrame()");
-
-	Initialize();
-}
+mgCDrawEnv::mgCDrawEnv() : mgCDrawEnv(false) {}
 
 // 001388B0
-void mgCDrawEnv::Initialize(bool b)
+mgCDrawEnv::mgCDrawEnv(bool b)
 {
-	log_trace("mgCDrawEnv::Initialize({})", b);
+	log_trace("mgCDrawEnv::mgCDrawEnv({})", b);
 
 	// Pulled these from runtime
 	// Metrowerks can go chew on a bag of rocks
@@ -929,14 +827,6 @@ void mgCDrawEnv::Initialize(bool b)
 		m_unk_field_28 = 0x4E;
 		m_unk_field_38 = 0x42;
 	}
-}
-
-// 00138850
-mgCDrawEnv::mgCDrawEnv()
-{
-	log_trace("mgCDrawEnv::mgCDrawEnv()");
-
-	Initialize(false);
 }
 
 void mgCDrawEnv::SetAlpha(u8 alpha_mode)

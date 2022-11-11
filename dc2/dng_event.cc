@@ -3,17 +3,19 @@
 #include "common/log.h"
 #include "dng_event.h"
 #include "dng_main.h"
+#include "mapjump.h"
 #include "mg_lib.h"
 
 set_log_channel("dng_event");
 
-// 0028BD20
+// 01F052C0
+static MapJumpInfo MainMapInfo{};
+
 void CGeoStone::Initialize()
 {
   log_trace("CGeoStone::Initialize()");
-
-  CCharacter2::Initialize();
-  m_flag = false;
+  log_warn("Initialize should not be called (unless the game actually uses this as a virtual method on unknown type)");
+  new (this) CGeoStone();
 }
 
 // 0028BCA0
@@ -26,9 +28,7 @@ bool CGeoStone::CheckEvent(glm::vec4& position)
     return false;
   }
 
-  glm::vec4 stone_position;
-  GetPosition(stone_position);
-
+  glm::vec4 stone_position = GetPosition();
   return glm::distance(stone_position, position) <= 30.0f;
 }
 
@@ -42,8 +42,7 @@ void CGeoStone::GeoDraw(glm::vec4& position)
     return;
   }
 
-  glm::vec4 orig_pos;
-  GetPosition(orig_pos);
+  glm::vec4 orig_pos = GetPosition();
   glm::vec4 draw_pos{ orig_pos };
 
   if (glm::distance(draw_pos, position) < 1000.0f || !m_unk_field_668)
@@ -70,9 +69,7 @@ void CGeoStone::DrawMiniMapSymbol(CMiniMapSymbol* mini_map_symbol)
 
   if (!m_flag)
   {
-    glm::vec4 stone_position;
-    GetPosition(stone_position);
-
+    glm::vec4 stone_position = GetPosition();
     mini_map_symbol->DrawSymbol(stone_position, EMiniMapSymbol::GeoStone);
   }
 }

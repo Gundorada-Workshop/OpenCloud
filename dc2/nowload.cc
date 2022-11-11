@@ -12,56 +12,32 @@
 set_log_channel("nowload");
 
 // 00378694
-static bool load_skip_img{};
+static bool load_skip_img{ false };
 // 00378698
-static bool PauseFlag{};
+static bool PauseFlag{ false };
 // 0037869C
-static bool PauseEnableFlag{};
+static bool PauseEnableFlag{ 0 };
 // 003786A0
-static s32 PauseCancelCnt{};
+static s32 PauseCancelCnt{ 0 };
 // 003786A4
-static usize PauseTexb{};
+static usize PauseTexb{ 0 };
 // 003786A8
-static PAUSE_INFO PauseInfo;
+static PAUSE_INFO PauseInfo{};
 // 003786B0
-static s32 InitFlag{};
+static s32 InitFlag{ 0 };
 // 003786B4
-static float SeCoreVol{};
+static float SeCoreVol{ 0.0f };
 // 003786B8
-static bool play_time_count{};
+static bool play_time_count{ false };
 // 003786BC
 // NOTE: never written to :(
-static bool wave_status{};
+static int wave_status{ 0 };
 // 01F5B480
-static NowLoadingInfo LoadInfo;
+static NowLoadingInfo LoadInfo{};
 // 01F5B4C0
 static std::array<u8, 0x2800> SkipImage;
 // 01F5DCC0
-static u32 bgm_status{};
-
-namespace nowload_SInit
-{
-  // 00309B10
-  void SInit()
-  {
-    log_trace("SInit()");
-
-    new (&LoadInfo) NowLoadingInfo;
-    PauseInfo.scene = nullptr;
-    PauseInfo.skip_flag = false;
-  }
-}
-
-// 00309B10
-NowLoadingInfo::NowLoadingInfo()
-{
-  log_trace("NowLoadingInfo::NowLoadingInfo()");
-
-  m_unk_field_8.Initialize();
-  m_unk_field_0 = -1;
-  m_unk_field_4 = 0;
-  m_unk_field_38 = 0;
-}
+static u32 bgm_status{ 0 };
 
 // 00309B50
 bool InitPauseData()
@@ -253,10 +229,9 @@ bool PauseLoop()
 
   InitFlag = std::min(InitFlag + 1, 1000);
 
-  auto sv_config_option = GetSaveData()->sv_config_option;
+  auto sv_config_option = GetSaveData()->m_sv_config_option;
 
-  mgCDrawPrim draw_prim = mgCDrawPrim();
-  draw_prim.Initialize(nullptr, nullptr);
+  mgCDrawPrim draw_prim = mgCDrawPrim(nullptr, nullptr);
   draw_prim.DepthTestEnable(false);
   draw_prim.AlphaBlendEnable(false);
   draw_prim.Bilinear(false);

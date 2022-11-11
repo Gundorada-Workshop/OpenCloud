@@ -20,26 +20,30 @@ extern Language::Language LanguageCode;
 
 struct SDebugInfo
 {
-	bool m_unk_field_0;
-	s32 m_unk_field_4;
-	bool m_unk_field_8;
-	bool m_unk_field_C;
-	s32 m_unk_field_10;
+	// 0
+	bool m_unk_field_0{ false };
+	// 4
+	s32 m_unk_field_4{ -1 };
+	// 8
+	bool m_unk_field_8{ false };
+	// C
+	bool m_unk_field_C{ false };
+	// 10
+	s32 m_unk_field_10{ -1 };
 };
 
 struct SInitArg
 {
 	// 0
-	_UNKNOWN m_unk_field_0;
+	_UNKNOWN m_unk_field_0{ 0 };
 	// 4
-	// FIXME unknown type (buffer size 0x40)
-	char m_unk_field_4[0x40];
+	_UNKNOWNSTRUCT(0x40) m_unk_field_4{ 0 };
 	// 44
-	_UNKNOWN m_unk_field_44;
+	_UNKNOWN m_unk_field_44{ 0 };
 	// 48
-	_UNKNOWN m_unk_field_48;
+	_UNKNOWN m_unk_field_48{ 0 };
 	// 4C
-	_UNKNOWN m_unk_field_4C;
+	_UNKNOWN m_unk_field_4C{ 0 };
 };
 
 namespace MainLoop_SInit

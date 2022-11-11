@@ -67,19 +67,9 @@ static int ShowTitleCnt;
 static int ShowLevelUpCnt;
 
 // 01F5DDF0
-static CFont Font;
+static CFont Font{};
 // 01F5DEA0
 static char PhotoTitle[0x80];
-
-namespace Photo
-{
-	void SInit()
-	{
-		log_trace("SInit()");
-
-		Font.Initialize();
-	}
-}
 
 const char* GetMesTxt(ssize index)
 {

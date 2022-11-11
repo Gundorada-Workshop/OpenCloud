@@ -15,12 +15,6 @@ extern mgCTextureManager mgTexManager;
 // 003820E0
 extern mgCDrawManager mgDrawManager;
 
-namespace mg_lib
-{
-  // 00373440
-  void SInit();
-}
-
 // TEMP
 using sceGsTex0 = mgCTexture;
 

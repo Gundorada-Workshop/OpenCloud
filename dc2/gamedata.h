@@ -11,12 +11,6 @@ class CDataBreedFish {};
 class CDataItemCom {};
 class CDataGuard {};
 
-namespace gamedata
-{
-  // 00373930
-  void SInit();
-}
-
 class CGameData
 {
 public:

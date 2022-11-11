@@ -16,40 +16,28 @@ struct MENU_INIT_ARG {};
 struct MENU_SWAPITEM_INFO;
 class CItemSelect {};
 
-namespace menumain
-{
-  // 00374440
-  void SInit();
-}
-
 struct CMENU_USERPARAM
 {
 public:
-  // 0023A5C0
-  void Initialize();
-
   // 0
-  _DWORD m_unk_field_0;
+  _DWORD m_unk_field_0{ 0 };
   // 4
-  _DWORD m_unk_field_4;
+  _DWORD m_unk_field_4{ 0 };
   // 8
-  _DWORD m_unk_field_8;
+  _DWORD m_unk_field_8{ 0 };
   // C
-  _DWORD m_unk_field_C;
+  _DWORD m_unk_field_C{ 0 };
   // 10
-  _DWORD m_unk_field_10;
+  _DWORD m_unk_field_10{ 0 };
   // 14
-  _DWORD m_unk_field_14;
+  _DWORD m_unk_field_14{ 0 };
 };
 
 struct MENU_ASKMODE_PARA
 {
 public:
-  // 0023A670
-  void Initialize();
-
   // 8C
-  s32 m_unk_field_8C = -1;
+  s32 m_unk_field_8C{ 0 };
   // SIZE 0x94
 };
 

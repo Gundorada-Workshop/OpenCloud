@@ -6,11 +6,5 @@
 
 // ~ 00254E60 - 00255B80
 
-namespace event
-{
-  // 00374580
-  void SInit();
-}
-
 // 002554C0
 void SkipEventStart();

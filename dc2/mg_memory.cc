@@ -4,20 +4,6 @@
 
 set_log_channel("mg_memory");
 
-void mgCMemory::Initialize()
-{
-	log_trace("mgCMemory::Initialize()");
-
-	m_heap_size = 0;
-	m_heap_start = nullptr;
-	m_heap_mem_head = nullptr;
-	m_label[0] = '\0';
-	m_stack_start = nullptr;
-	m_stack_current_allocated = 0;
-	m_stack_max_allocated = 0;
-	m_unk_field_1C = false;
-}
-
 // 00139930
 void mgCMemory::SetHeapMem(void* heap, usize heap_size)
 {
@@ -28,7 +14,7 @@ void mgCMemory::SetHeapMem(void* heap, usize heap_size)
 
 	if (heap == nullptr || heap_size < 0x10)
 	{
-		Initialize();
+		new (this) mgCMemory();
 		return;
 	}
 
@@ -50,7 +36,7 @@ void mgCMemory::ClearHeapMem()
 
 	void* heap_start = m_heap_start;
 	usize heap_size = m_heap_size;
-	Initialize();
+	new (this) mgCMemory();
 
 	SetHeapMem(heap_start, heap_size);
 }
@@ -244,12 +230,4 @@ void mgCMemory::stSetBuffer(void* stack_start, usize capacity)
 	m_stack_start = stack_start;
 	m_stack_current_allocated = 0;
 	m_stack_max_allocated = capacity;
-}
-
-// 00146260
-mgCMemory::mgCMemory()
-{
-	log_trace("mgCMemory::mgCMemory()");
-
-	Initialize();
 }

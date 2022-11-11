@@ -7,34 +7,25 @@
 
 class CScene;
 
-namespace nowload_SInit
-{
-  // 00309B10
-  void SInit();
-}
-
 struct NowLoadingInfo
 {
-  // 00309B10
-  NowLoadingInfo();
-
   // 0
-  s32 m_unk_field_0;
+  s32 m_unk_field_0{ -1 };
   // 4
-  _DWORD m_unk_field_4;
+  _DWORD m_unk_field_4{ 0 };
   // 8
-  mgCMemory m_unk_field_8;
+  mgCMemory m_unk_field_8{};
   // 38
-  _DWORD m_unk_field_38;
+  _DWORD m_unk_field_38{ 0 };
 };
 
 struct PAUSE_INFO
 {
 public:
   // 0
-  bool skip_flag;
+  bool skip_flag{ false };
   // 4
-  CScene* scene;
+  CScene* scene{ nullptr };
 };
 
 // 00309B50
