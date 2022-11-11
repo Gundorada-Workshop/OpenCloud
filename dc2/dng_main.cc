@@ -20,35 +20,35 @@
 set_log_channel("dng_main");
 
 // 01E9F230
-std::array<mgCMemory, 2> BuffPacketList;
+std::array<mgCMemory, 2> BuffPacketList{};
 // 01E9F290
-std::array<mgCMemory, 2> BuffPacketData;
+std::array<mgCMemory, 2> BuffPacketData{};
 // 01E9F2F0
-mgCMemory BuffStageMain;
+mgCMemory BuffStageMain{};
 // 01E9F320
-mgCMemory BuffStageChara;
+mgCMemory BuffStageChara{};
 // 01E9F350
-mgCMemory BuffStageSubData;
+mgCMemory BuffStageSubData{};
 // 01E9F3B0
-mgCMemory BuffStageSubChara;
+mgCMemory BuffStageSubChara{};
 // 01E9F3E0
-mgCMemory BuffWorkData;
+mgCMemory BuffWorkData{};
 // 01E9F3E0
-mgCMemory BuffCharacter;
+mgCMemory BuffCharacter{};
 // 01E9F410
-std::array<mgCMemory, 6> BaseCharacter;
+std::array<mgCMemory, 6> BaseCharacter{};
 // 01E9F530
-mgCMemory BuffTempData;
+mgCMemory BuffTempData{};
 // 01E9F560
-mgCMemory BuffScriptData;
+mgCMemory BuffScriptData{};
 // 01E9F590
-mgCMemory BuffEffectScriptData;
+mgCMemory BuffEffectScriptData{};
 // 01E9F5C0
-std::array<mgCMemory, 4> BuffEventData;
+std::array<mgCMemory, 4> BuffEventData{};
 // 01E9F680
-mgCMemory BuffMDTBuild;
+mgCMemory BuffMDTBuild{};
 // 01E9F6B0
-mgCMemory BuffMDTBuild2;
+mgCMemory BuffMDTBuild2{};
 // 01E9F6E0
 SDungeonStatus DngStatus;
 // 01E9F700
@@ -110,7 +110,7 @@ CCharacter2 LaserGunModel;
 // 01EB42F0
 std::array<CPullItem, 72> PullItem;
 // 01EB66F0
-NowLoadingInfo nowload;
+NowLoadingInfo nowload{};
 // 01EB6740
 CWaveTable WaveTable;
 // 01EB7948
@@ -136,40 +136,6 @@ namespace dng_main
   void SInit()
   {
     log_trace("SInit()");
-
-    for (auto& memory : BuffPacketList)
-    {
-      new (&memory) mgCMemory();
-    }
-
-    for (auto& memory : BuffPacketData)
-    {
-      new (&memory) mgCMemory();
-    }
-
-    BuffStageMain.Initialize();
-    BuffStageChara.Initialize();
-    BuffStageSubData.Initialize();
-    BuffStageSubChara.Initialize();
-    BuffWorkData.Initialize();
-    BuffCharacter.Initialize();
-    
-    for (auto& memory : BaseCharacter)
-    {
-      new (&memory) mgCMemory();
-    }
-
-    BuffTempData.Initialize();
-    BuffScriptData.Initialize();
-    BuffEffectScriptData.Initialize();
-
-    for (auto& memory : BuffEventData)
-    {
-      new (&memory) mgCMemory();
-    }
-
-    BuffMDTBuild.Initialize();
-    BuffMDTBuild2.Initialize();
 
     memset(&DamageScore.m_rgb, 0x80, sizeof(DamageScore.m_rgb));
 
@@ -206,7 +172,6 @@ namespace dng_main
     BTpot2.Initialize();
 
     new (&LaserGunModel) CCharacter2();
-    new (&nowload) NowLoadingInfo();
     new (&WaveTable) CWaveTable();
     
     for (auto& thunder_instance : thunder)

@@ -16,12 +16,6 @@ struct MENU_INIT_ARG {};
 struct MENU_SWAPITEM_INFO;
 class CItemSelect {};
 
-namespace menumain
-{
-  // 00374440
-  void SInit();
-}
-
 struct CMENU_USERPARAM
 {
 public:

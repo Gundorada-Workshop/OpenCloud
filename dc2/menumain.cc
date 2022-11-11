@@ -6,30 +6,15 @@
 set_log_channel("menumain");
 
 // 01ECD4F0
-mgCMemory MainMenuStack;
+mgCMemory MainMenuStack{};
 // 01ECD520
-mgCMemory MainMenuStack_Next;
+mgCMemory MainMenuStack_Next{};
 // 01ECD590
-mgCMemory MenuMainTextureReadBuf;
+mgCMemory MenuMainTextureReadBuf{};
 // 01ECD5C0
-mgCMemory MenuSoundBuffer;
+mgCMemory MenuSoundBuffer{};
 // 01ECD730
-CFont TopicFont;
-
-namespace menumain
-{
-  // 00374440
-  void SInit()
-  {
-    log_trace("SInit()");
-
-    MainMenuStack.Initialize();
-    MainMenuStack_Next.Initialize();
-    MenuMainTextureReadBuf.Initialize();
-    MenuSoundBuffer.Initialize();
-    new (&TopicFont) CFont();
-  }
-}
+CFont TopicFont{};
 
 // 002370B0
 CBaseMenuClass::CBaseMenuClass()

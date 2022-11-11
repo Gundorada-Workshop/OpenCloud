@@ -225,30 +225,30 @@ public:
     void Initialize();
 
     // 0
-    _UNKNOWN m_unk_field_0;
+    _UNKNOWN m_unk_field_0{ 0 };
     // 4
-    s32 m_unk_field_4;
+    s32 m_unk_field_4{ 0 };
     // 8
-    s32 m_unk_field_8;
+    s32 m_unk_field_8{ 0 };
     // C
-    float m_unk_field_C;
+    float m_unk_field_C{ 0 };
     // 10
-    s32 m_volume;
+    s32 m_volume{ 0 };
     // 14
-    _UNKNOWN m_unk_field_14;
+    _UNKNOWN m_unk_field_14{ 0 };
     // 18
-    float m_unk_field_18;
+    float m_unk_field_18{ 0 };
     // 1C
-    _UNKNOWN m_unk_field_1C;
+    _UNKNOWN m_unk_field_1C{ 0 };
     // 20
-    _UNKNOWN m_unk_field_20;
+    _UNKNOWN m_unk_field_20{ 0 };
     // 24
-    _UNKNOWN m_unk_field_24;
+    _UNKNOWN m_unk_field_24{ 0 };
 
     // ?
 
     // 430
-    mgCMemory m_stack;
+    mgCMemory m_stack{};
   };
 
   struct BGM_STATUS
@@ -775,27 +775,27 @@ public:
   // ?
 
   // 9DD0
-  mgCMemory m_unk_field_9DD0;
+  mgCMemory m_unk_field_9DD0{};
 
   // ?
 
   // A450
-  mgCMemory m_unk_field_A450;
+  mgCMemory m_unk_field_A450{};
 
   // ?
 
   // C4A0
-  mgCMemory m_unk_field_C4A0;
+  mgCMemory m_unk_field_C4A0{};
 
   // ?
 
   // E4E0
-  mgCMemory m_unk_field_E4E0;
+  mgCMemory m_unk_field_E4E0{};
 
   // ?
 
   // 10510
-  mgCMemory m_unk_field_10510;
+  mgCMemory m_unk_field_10510{};
   // 10540
   CLoopSeMngr m_loop_se_manager;
   // NOTE: size 0x1054C (vtable @ 0x10548)

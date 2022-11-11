@@ -1,21 +1,15 @@
 #include "common/log.h"
 #include "sinit.h"
 #include "dng_main.h"
-#include "dngmenu.h"
 #include "editctrl.h"
 #include "editloop.h"
-#include "editmenu.h"
 #include "event.h"
 #include "event_edit.h"
 #include "event_func.h"
 #include "gamedata.h"
-#include "inventmn.h"
 #include "mainloop.h"
-#include "menuaqua.h"
 #include "menucls1.h"
 #include "menudraw.h"
-#include "menumain.h"
-#include "menusys.h"
 
 set_log_channel("sinit");
 
@@ -26,20 +20,13 @@ namespace StaticInitializers
 		log_info("Starting static initialization.");
 
 		dng_main::SInit();
-		dngmenu::SInit();
 		editctrl::SInit();
-		editloop::SInit();
-		editmenu::SInit();
 		event::SInit();
 		event_func::SInit();
 		gamedata::SInit();
-		inventmn::SInit();
 		MainLoop_SInit::SInit();
-		menuaqua::SInit();
 		menucls1::SInit();
 		menudraw::SInit();
-		menumain::SInit();
-		menusys::SInit();
 
 		log_info("Finished static initialization.");
 	}

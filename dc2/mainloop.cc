@@ -14,43 +14,43 @@
 set_log_channel("mainloop")
 
 // 00376FB4
-u32 s_system_snd_id;
+u32 s_system_snd_id{ 0 };
 
 // 00376FC0
-Language::Language LanguageCode;
+Language::Language LanguageCode{ Language::English };
 
 // 00376FE4
-static CSaveData ActiveSaveData;
+static CSaveData ActiveSaveData{};
 
 // 00376FEC
-static bool PlayTimeCountFlag;
+static bool PlayTimeCountFlag{ false };
 
 // 003D8070
-static SDebugInfo DebugInfo;
+static SDebugInfo DebugInfo{};
 // 003D8090
 static CFont Font{};
 // 003D8140
-static SInitArg InitArg;
+static SInitArg InitArg{};
 // 003D8190
-static SInitArg NextInitArg;
+static SInitArg NextInitArg{};
 // 003D81E0
-static SInitArg PrevInitArg;
+static SInitArg PrevInitArg{};
 // 003D8230
 // FIXME: 0x1A000000 bytes (26MB) in PS2. Might need to adjust slightly for windows.
 // Bumped up to 40MB (0x28000000) on Windows (to adjust for slightly bigger datatypes)
-static alignas(16) char main_buffer[0x28000000];
+static alignas(16) std::array<char, 0x28000000> main_buffer{};
 // 01DD8230
-static mgCMemory MainBuffer;
+static mgCMemory MainBuffer{};
 // 01DD8260
-static CScene MainScene;
+static CScene MainScene{};
 // 01DE87B0
-static char SystemSeBuff[0x1900];
+static std::array<char, 0x1900> SystemSeBuff{};
 // 01DEA0B0
-static mgCMemory SystemSeStack;
+static mgCMemory SystemSeStack{};
 // 01E017E0
-static mgCMemory InfoStack;
+static mgCMemory InfoStack{};
 // 01E01810
-static CSaveData SaveData;
+static CSaveData SaveData{};
 
 // FIXME: The following are part of CSaveData (01E01810) and need to be folded in
 // 01E03434
@@ -63,11 +63,11 @@ static CQuestData stru_1E64250;
 static CMenuSystemData stru_1E658D0;
 
 // 01E67180
-static mgCMemory MenuBuffer;
+static mgCMemory MenuBuffer{};
 // 01E672B0
-static std::array<mgCTexture, 2> FontTex;
+static std::array<mgCTexture, 2> FontTex{};
 // 01E67390
-static ClsMes PauseMes;
+static ClsMes PauseMes{};
 
 namespace MainLoop_SInit
 {
@@ -81,8 +81,6 @@ namespace MainLoop_SInit
 		memset(&InitArg, 0, sizeof(InitArg));
 		memset(&NextInitArg, 0, sizeof(NextInitArg));
 		memset(&PrevInitArg, 0, sizeof(PrevInitArg));
-
-		MainBuffer.Initialize();
 
 		for (auto& character : MainScene.m_characters)
 		{
@@ -143,23 +141,9 @@ namespace MainLoop_SInit
 
 		MainScene.m_villager_manager.Initialize();
 
-		for (auto& bgm_info : MainScene.m_bgm_info)
-		{
-			bgm_info.m_stack.Initialize();
-		}
-
-		MainScene.m_unk_field_9DD0.Initialize();
-		MainScene.m_unk_field_A450.Initialize();
-		MainScene.m_unk_field_C4A0.Initialize();
-		MainScene.m_unk_field_E4E0.Initialize();
-		MainScene.m_unk_field_10510.Initialize();
-
 		MainScene.m_loop_se_manager.Initialize();
 
 		MainScene.InitAllData();
-
-		SystemSeStack.Initialize();
-		InfoStack.Initialize();
 
 		for (auto& edit_data : stru_1E03434)
 		{

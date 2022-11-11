@@ -39,17 +39,6 @@ static std::array<u8, 0x2800> SkipImage;
 // 01F5DCC0
 static u32 bgm_status{};
 
-// 00309B10
-NowLoadingInfo::NowLoadingInfo()
-{
-  log_trace("NowLoadingInfo::NowLoadingInfo()");
-
-  m_unk_field_8.Initialize();
-  m_unk_field_0 = -1;
-  m_unk_field_4 = 0;
-  m_unk_field_38 = 0;
-}
-
 // 00309B50
 bool InitPauseData()
 {

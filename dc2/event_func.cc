@@ -9,51 +9,51 @@
 set_log_channel("event_func");
 
 // 00377CD4
-static CMarker EventMarker;
+static CMarker EventMarker{};
 // 01ECE880
-static CEohMother EventObjHandleMother;
+static CEohMother EventObjHandleMother{};
 // 01ECEA80
-static CEventSpriteMother esMother;
+static CEventSpriteMother esMother{};
 // 01ECEEC0
-static std::array<u32, 0x40> EventLocalFlag;
+static std::array<u32, 0x40> EventLocalFlag{};
 // 01ECEFC0
-static std::array<u32, 0x40> EventLocalCnt;
+static std::array<u32, 0x40> EventLocalCnt{};
 // 01ECF0C0
-static CRain EventRain;
+static CRain EventRain{};
 // 01EE00B0
-static std::array<CHitEffectImage, 5> HitEffect;
+static std::array<CHitEffectImage, 5> HitEffect{};
 // 01EE0290
-static std::array<char, 0x40> PakuAnimName;
+static std::array<char, 0x40> PakuAnimName{};
 // 01EE02D0
-static std::array<char, 0x40> PakuAnimName2;
+static std::array<char, 0x40> PakuAnimName2{};
 // 01EE0310
-static std::array<char, 0x40> PakuMotionName;
+static std::array<char, 0x40> PakuMotionName{};
 // 01EE0350
-static std::array<char, 0x40> PakuMotionName2;
+static std::array<char, 0x40> PakuMotionName2{};
 // 01EE0390
-static std::array<char, 0x8010> alignas(16) event_snd_buff;
+static std::array<char, 0x8010> alignas(16) event_snd_buff {};
 // 01EE83A0
-static mgCMemory BuffEventSnd;
+static mgCMemory BuffEventSnd{};
 // 01EE83D0
-static std::array<char, 0x1410> alignas(16) event_snd2_buff;
+static std::array<char, 0x1410> alignas(16) event_snd2_buff {};
 // 01EE97E0
-static mgCMemory BuffEventSnd2;
+static mgCMemory BuffEventSnd2{};
 // 01EE9810
-static CDngFreeMap EventDngMap;
+static CDngFreeMap EventDngMap{};
 // 01EE9920
-static std::array<_SEN_CMR_SEQ, 0x100> cmr_seq_tbl;
+static std::array<_SEN_CMR_SEQ, 0x100> cmr_seq_tbl{};
 // 01EEF920
-static CSceneCmrSeq CameraSeq;
+static CSceneCmrSeq CameraSeq{};
 // 01EF0430
-static std::array<_SEN_OBJ_SEQ, 0x100> obj_seq_tbl;
+static std::array<_SEN_OBJ_SEQ, 0x100> obj_seq_tbl{};
 // 01EF5430
-static std::array<CSceneObjSeq, 0x20> ObjectSeq;
+static std::array<CSceneObjSeq, 0x20> ObjectSeq{};
 // 01F01230
-static std::array<CEventSprite2, 0x30> EventSprite2;
+static std::array<CEventSprite2, 0x30> EventSprite2{};
 // 01F02A30
-static CEventScriptArg EventScriptArg;
+static CEventScriptArg EventScriptArg{};
 // 01F02A40
-static CScreenEffect EventScreenEffect;
+static CScreenEffect EventScreenEffect{};
 
 
 namespace event_func
@@ -94,9 +94,6 @@ namespace event_func
     {
       new (&hit_effect) CHitEffectImage();
     }
-
-    BuffEventSnd.Initialize();
-    BuffEventSnd2.Initialize();
 
     EventDngMap.m_unk_field_20.Set(0, 0, 0, 0);
     for (auto& rect : EventDngMap.m_unk_field_40)

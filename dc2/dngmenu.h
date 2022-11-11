@@ -5,12 +5,6 @@
 
 // ~001EA760 - 001F2510
 
-namespace dngmenu
-{
-  // 00374170
-  void SInit();
-}
-
 // TODO THIS FILE
 class CMenuTreeMap;
 

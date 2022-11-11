@@ -8,9 +8,3 @@ class CAquaFish {};
 class CFishFood {};
 class CAquaMes {};
 class CAquarium {};
-
-namespace menuaqua
-{
-  // 003742B0
-  void SInit();
-}
