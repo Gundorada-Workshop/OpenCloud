@@ -2,12 +2,6 @@
 
 // ~ 001A2080 - 001A76C0
 
-namespace editctrl
-{
-  // 00373A30
-  void SInit();
-}
-
 // TODO THIS FILE
 class CEditCollision {};
 
