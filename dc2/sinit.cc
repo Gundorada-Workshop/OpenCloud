@@ -20,7 +20,6 @@
 #include "mg_lib.h"
 #include "mg_tanime.h"
 #include "snd_mngr.h"
-#include "sysmes.h"
 
 set_log_channel("sinit");
 
@@ -49,7 +48,6 @@ namespace StaticInitializers
 		mg_lib::SInit();
 		mg_tanime::SInit();
 		snd_mngr::SInit();
-		sysmes::SInit();
 
 		log_info("Finished static initialization.");
 	}
