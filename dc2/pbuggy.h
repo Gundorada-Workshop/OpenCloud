@@ -1,4 +1,5 @@
 #pragma once
+#include "common/debug.h"
 #include "common/types.h"
 #include "gamepad.h"
 #include "scene.h"
@@ -6,18 +7,18 @@
 
 // ~ 00313770 - 003169B0
 
-namespace PBuggy
-{
-	void SInit();
-}
-
 struct STRU_1F5F9A0
 {
-	s32 field_0;
-	u32 field_4;
-	bool field_8;
-	float field_C;
-	float field_10;
+	// 0
+	s32 field_0{ 0 };
+	// 4
+	_DWORD field_4{ 0 };
+	// 8
+	bool field_8{ false };
+	// C
+	float field_C{ 0.0f };
+	// 10
+	float field_10{ 0.0f };
 };
 
 // 00313770

@@ -1,3 +1,4 @@
+#include "common/log.h"
 #include "sinit.h"
 #include "dng_main.h"
 #include "dngmenu.h"
@@ -20,11 +21,10 @@
 #include "mg_tanime.h"
 #include "snd_mngr.h"
 #include "sysmes.h"
-#include "pbuggy.h"
 #include "title.h"
 #include "userdata.h"
 
-set_log_channel("sinit")
+set_log_channel("sinit");
 
 namespace StaticInitializers
 {
@@ -52,7 +52,6 @@ namespace StaticInitializers
 		mg_tanime::SInit();
 		snd_mngr::SInit();
 		sysmes::SInit();
-		PBuggy::SInit();
 		userdata::SInit();
 
 		log_info("Finished static initialization.");
