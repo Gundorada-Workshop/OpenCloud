@@ -43,7 +43,6 @@ namespace StaticInitializers
 		editloop::SInit();
 		editmenu::SInit();
 		event::SInit();
-		event_edit::SInit();
 		event_func::SInit();
 		FishingObj::SInit();
 		gamedata::SInit();

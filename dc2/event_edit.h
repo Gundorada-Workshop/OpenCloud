@@ -10,9 +10,3 @@ extern CCameraPas g_cmr_pas;
 extern CCharaPas g_chara_pas;
 // 01F05000
 extern _UNKNOWN g_info;
-
-namespace event_edit
-{
-  // 003747C0
-  void SInit();
-}
