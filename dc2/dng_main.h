@@ -45,12 +45,6 @@ class CAutoMapGen;
 // 01EA0480
 extern CAutoMapGen AutoMapGen;
 
-namespace dng_main
-{
-  // 00373CA0
-  void SInit();
-};
-
 struct SDungeonStatus
 {
   // 0
@@ -102,11 +96,11 @@ public:
   void Step();
 
   // 0
-  std::array<CMiniEffPrim, 0x40> m_mini_eff;
+  std::array<CMiniEffPrim, 0x40> m_mini_eff{};
   // 800
-  _DWORD m_unk_field_800;
+  _DWORD m_unk_field_800{ 0 };
   // 810
-  mgCDrawPrim m_unk_field_810;
+  mgCDrawPrim m_unk_field_810{};
 };
 
 class CAfterWire
@@ -136,7 +130,7 @@ class CDamageScore
 {
 public:
   // 48
-  glm::u16vec3 m_rgb{ 0x80,0x80,0x80 };
+  std::array<u8, 6> m_unk_field_6{ 0x80,0x80,0x80,0x80,0x80,0x80 };
 };
 
 namespace EMiniMapSymbol

@@ -1,8 +1,6 @@
 #include "common/log.h"
 #include "sinit.h"
-#include "dng_main.h"
 #include "mainloop.h"
-#include "menucls1.h"
 
 set_log_channel("sinit");
 
@@ -12,7 +10,6 @@ namespace StaticInitializers
 	{
 		log_info("Starting static initialization.");
 
-		dng_main::SInit();
 		MainLoop_SInit::SInit();
 
 		log_info("Finished static initialization.");
