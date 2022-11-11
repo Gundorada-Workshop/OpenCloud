@@ -21,7 +21,6 @@
 #include "mg_tanime.h"
 #include "snd_mngr.h"
 #include "sysmes.h"
-#include "title.h"
 #include "userdata.h"
 
 set_log_channel("sinit");
