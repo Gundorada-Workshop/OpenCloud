@@ -7,12 +7,6 @@
 
 class CScene;
 
-namespace nowload_SInit
-{
-  // 00309B10
-  void SInit();
-}
-
 struct NowLoadingInfo
 {
   // 00309B10
@@ -32,9 +26,9 @@ struct PAUSE_INFO
 {
 public:
   // 0
-  bool skip_flag;
+  bool skip_flag{ false };
   // 4
-  CScene* scene;
+  CScene* scene{ nullptr };
 };
 
 // 00309B50

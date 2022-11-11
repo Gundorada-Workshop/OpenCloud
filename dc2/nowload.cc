@@ -22,7 +22,7 @@ static s32 PauseCancelCnt{};
 // 003786A4
 static usize PauseTexb{};
 // 003786A8
-static PAUSE_INFO PauseInfo;
+static PAUSE_INFO PauseInfo{};
 // 003786B0
 static s32 InitFlag{};
 // 003786B4
@@ -33,24 +33,11 @@ static bool play_time_count{};
 // NOTE: never written to :(
 static bool wave_status{};
 // 01F5B480
-static NowLoadingInfo LoadInfo;
+static NowLoadingInfo LoadInfo{};
 // 01F5B4C0
 static std::array<u8, 0x2800> SkipImage;
 // 01F5DCC0
 static u32 bgm_status{};
-
-namespace nowload_SInit
-{
-  // 00309B10
-  void SInit()
-  {
-    log_trace("SInit()");
-
-    new (&LoadInfo) NowLoadingInfo;
-    PauseInfo.scene = nullptr;
-    PauseInfo.skip_flag = false;
-  }
-}
 
 // 00309B10
 NowLoadingInfo::NowLoadingInfo()
