@@ -109,21 +109,19 @@ public:
 class CSceneData
 {
 public:
-  void Initialize(void);
-
   // 0
-  ESceneDataStatus m_status;
+  ESceneDataStatus m_status { ESceneDataStatus::Initial };
   // 4
   // NOTE: Retrieved in CScene::GetType; some enumeration, maybe?
-  _UNKNOWN m_unk_field_4;
+  _UNKNOWN m_unk_field_4{ 0 };
   // 8
-  char m_name[32];
+  std::array<char, 0x20> m_name{ 0 };
   // 28
-  s32 m_unk_field_28;
+  s32 m_unk_field_28{ -1 };
   // 2C
-  _UNKNOWN m_unk_field_2C;
+  _UNKNOWN m_unk_field_2C{ 0 };
   // 30
-  _UNKNOWN m_unk_field_30;
+  _UNKNOWN m_unk_field_30{ 0 };
 };
 
 class CSceneCharacter : public CSceneData
@@ -131,39 +129,33 @@ class CSceneCharacter : public CSceneData
 public:
   // 00282AE0
   bool AssignData(CCharacter2* chara, const char* name);
-  // 00282B40
-  void Initialize(void);
 
   // 34
-  CCharacter2* m_character;
+  CCharacter2* m_character{ nullptr };
   // 38
-  s32 m_texb;
+  s32 m_texb{ -1 };
   // 3C
-  s32 m_chara_no;
+  s32 m_chara_no{ -1 };
 };
 
 class CSceneMap : public CSceneData
 {
 public:
-  // 00282B60
-  void Initialize(void);
   // 00282B70
   bool AssignData(CMap* map, const char* name);
 
   // 34
-  CMap* m_map;
+  CMap* m_map{ nullptr };
 };
 
 class CSceneMessage : public CSceneData
 {
 public:
-  // 00282BF0
-  void Initialize(void);
   // 00282C00
   bool AssignData(ClsMes* message, const char* name);
 
   // 34
-  ClsMes* m_message;
+  ClsMes* m_message{ nullptr };
 };
 
 class CSceneCamera : public CSceneData
@@ -171,11 +163,9 @@ class CSceneCamera : public CSceneData
 public:
   // 00282C80
   bool AssignData(mgCCamera* camera, const char* name);
-  // 00282D00
-  void Initialize(void);
 
   // 34
-  mgCCamera* m_camera;
+  mgCCamera* m_camera{ nullptr };
 };
 
 class CSceneSky : public CSceneData
@@ -183,30 +173,25 @@ class CSceneSky : public CSceneData
 public:
   // 00282D10
   bool AssignData(CMapSky* sky, const char* name);
-  // 00282D90
-  void Initialize(void);
 
   // 34
-  CMapSky* m_sky;
+  CMapSky* m_sky{ nullptr };
 };
 
 class CSceneGameObj : public CSceneCharacter
 {
 public:
-  // 00282DA0
-  void Initialize(void);
+
 };
 
 class CSceneEffect : public CSceneData
 {
 public:
-  // 00282DB0
-  void Initialize(void);
   // 00282DC0
   bool AssignData(CEffectScriptMan* script_manager, const char* name);
 
   // 34
-  CEffectScriptMan* m_effect_script_manager;
+  CEffectScriptMan* m_effect_script_manager{ nullptr };
 };
 
 class CSceneEventData
@@ -221,9 +206,6 @@ public:
   struct BGM_INFO
   {
   public:
-    // 002A5B00
-    void Initialize();
-
     // 0
     _UNKNOWN m_unk_field_0{ 0 };
     // 4
@@ -264,10 +246,7 @@ public:
   };
 
   // 00282E40
-  void InitAllData();
-  // 00282EA0
-  // BUG: ? No reason for this method to be virtual
-  virtual void Initialize();
+  CScene();
   // 00283150
   void SetStack(ssize stack_index, mgCMemory& stack);
   // 00283150

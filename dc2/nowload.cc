@@ -229,7 +229,7 @@ bool PauseLoop()
 
   InitFlag = std::min(InitFlag + 1, 1000);
 
-  auto sv_config_option = GetSaveData()->sv_config_option;
+  auto sv_config_option = GetSaveData()->m_sv_config_option;
 
   mgCDrawPrim draw_prim = mgCDrawPrim(nullptr, nullptr);
   draw_prim.DepthTestEnable(false);

@@ -6,7 +6,6 @@
 #include "common/console_logger.h"
 
 #include "mainloop.h"
-#include "sinit.h"
 
 set_log_channel("WINMAIN");
 
@@ -24,10 +23,6 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
   common::log::console_logger::initialize();
 
   log_info("Starting");
-
-  // metrowerks has some weird static initialization thing
-  // we don't, so we do that here
-  StaticInitializers::Init();
 
   // the main loop
   MainLoop();

@@ -80,7 +80,6 @@
     <ClInclude Include="nowload.h" />
     <ClInclude Include="pbuggy.h" />
     <ClInclude Include="photo.h" />
-    <ClInclude Include="sinit.h" />
     <ClInclude Include="snd_mngr.h" />
     <ClInclude Include="subgame.h" />
     <ClInclude Include="sysmes.h" />
@@ -157,7 +156,6 @@
     <ClCompile Include="nowload.cc" />
     <ClCompile Include="pbuggy.cc" />
     <ClCompile Include="photo.cc" />
-    <ClCompile Include="sinit.cc" />
     <ClCompile Include="snd_mngr.cc" />
     <ClCompile Include="subgame.cc" />
     <ClCompile Include="sysmes.cc" />

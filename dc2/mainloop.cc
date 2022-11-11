@@ -51,117 +51,12 @@ static mgCMemory SystemSeStack{};
 static mgCMemory InfoStack{};
 // 01E01810
 static CSaveData SaveData{};
-
-// FIXME: The following are part of CSaveData (01E01810) and need to be folded in
-// 01E03434
-static std::array<CEditData, 5> stru_1E03434;
-// 01E1EAB0
-static CUserDataManager stru_1E1EAB0;
-// 01E64250
-static CQuestData stru_1E64250;
-// 01E658D0
-static CMenuSystemData stru_1E658D0;
-
 // 01E67180
 static mgCMemory MenuBuffer{};
 // 01E672B0
 static std::array<mgCTexture, 2> FontTex{};
 // 01E67390
 static ClsMes PauseMes{};
-
-namespace MainLoop_SInit
-{
-	// 00373580
-	void SInit()
-	{
-		log_trace("SInit()");
-
-		memset(&DebugInfo, 0, sizeof(DebugInfo));
-
-		memset(&InitArg, 0, sizeof(InitArg));
-		memset(&NextInitArg, 0, sizeof(NextInitArg));
-		memset(&PrevInitArg, 0, sizeof(PrevInitArg));
-
-		for (auto& character : MainScene.m_characters)
-		{
-			character.CSceneData::Initialize();
-			character.Initialize();
-		}
-
-		for (auto& camera : MainScene.m_cameras)
-		{
-			camera.CSceneData::Initialize();
-			camera.Initialize();
-		}
-
-		for (auto& message : MainScene.m_messages)
-		{
-			message.CSceneData::Initialize();
-			message.Initialize();
-		}
-
-		MainScene.m_mds_list_set.Initialize();
-
-		new (&MainScene.m_fire_raster) mgCTexture;
-
-		for (auto& unk_var : MainScene.m_fire_raster.m_unk_field_70)
-		{
-			memset(&unk_var, 0, sizeof(unk_var));
-		}
-
-		MainScene.m_fire_raster.Initialize();
-
-		for (auto& sky : MainScene.m_skies)
-		{
-			sky.CSceneData::Initialize();
-			sky.Initialize();
-		}
-
-		for (auto& gameobj : MainScene.m_gameobjs)
-		{
-			gameobj.CSceneData::Initialize();
-			gameobj.CSceneCharacter::Initialize();
-			gameobj.Initialize();
-		}
-
-		for (auto& effect : MainScene.m_effects)
-		{
-			effect.CSceneData::Initialize();
-			effect.Initialize();
-		}
-
-		MainScene.m_fade_in_out.Initialize();
-		MainScene.m_scn_loadmap_info.Initialize();
-		memset(&MainScene.m_scene_event_data, 0, sizeof(MainScene.m_scene_event_data));
-
-		for (auto& villager_data : MainScene.m_villager_manager.m_villager_data)
-		{
-			villager_data.Initialize();
-		}
-
-		MainScene.m_villager_manager.Initialize();
-
-		MainScene.m_loop_se_manager.Initialize();
-
-		MainScene.InitAllData();
-
-		for (auto& edit_data : stru_1E03434)
-		{
-			new (&edit_data) CEditData;
-		}
-
-		new (&stru_1E1EAB0) CUserDataManager;
-		stru_1E64250.Initialize();
-		new (&stru_1E658D0) CMenuSystemData;
-
-		for (auto& texture : FontTex)
-		{
-			new (&texture) mgCTexture;
-		}
-
-		new (&PauseMes) ClsMes;
-	}
-}
 
 // 00190840
 CFont* GetDebugFont()

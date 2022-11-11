@@ -10,19 +10,6 @@ void SCN_LOADMAP_INFO2::Initialize()
 	memset(this, 0, sizeof(this));
 }
 
-// 00282AC0
-void CSceneData::Initialize()
-{
-	log_trace("CSceneData::Initialize()");
-
-	m_status = ESceneDataStatus::Initial;
-	m_unk_field_4 = 0;
-	m_name[0] = '\0';
-	m_unk_field_28 = -1;
-	m_unk_field_2C = 0;
-	m_unk_field_30 = 0;
-}
-
 // 00282AE0
 bool CSceneCharacter::AssignData(CCharacter2* chara, const char* name)
 {
@@ -35,31 +22,11 @@ bool CSceneCharacter::AssignData(CCharacter2* chara, const char* name)
 
 	m_status = ESceneDataStatus::Initial;
 	m_character = chara;
-	strcpy(m_name, name);
+	strcpy_s(m_name.data(), m_name.size(), name);
 
 	m_status |= ESceneDataStatus::Assigned;
 	
 	return true;
-}
-
-// 00282B40
-void CSceneCharacter::Initialize()
-{
-	log_trace("CSceneCharacter::Initialize()");
-
-	m_character = nullptr;
-	m_texb = -1;
-	m_chara_no = -1;
-	CSceneData::Initialize();
-}
-
-// 00282B60
-void CSceneMap::Initialize()
-{
-	log_trace("CSceneMap:Initialize()");
-
-	m_map = nullptr;
-	CSceneData::Initialize();
 }
 
 // 00282B70
@@ -72,24 +39,15 @@ bool CSceneMap::AssignData(CMap* map, const char* name)
 		return false;
 	}
 
-	Initialize();
+	new (this) CSceneMap();
 
 	m_status = ESceneDataStatus::Initial;
 	m_map = map;
-	strcpy(m_name, name);
+	strcpy_s(m_name.data(), m_name.size(), name);
 
 	m_status |= ESceneDataStatus::Assigned;
 
 	return true;
-}
-
-// 00282BF0
-void CSceneMessage::Initialize()
-{
-	log_trace("CSceneMessage::Initialize()");
-
-	m_message = nullptr;
-	CSceneData::Initialize();
 }
 
 // 00282C00
@@ -102,14 +60,14 @@ bool CSceneMessage::AssignData(ClsMes* message, const char* name)
 		return false;
 	}
 
-	Initialize();
+	new (this) CSceneMessage();
 
 	m_status = ESceneDataStatus::Initial;
 	m_message = message;
 
 	if (name != nullptr)
 	{
-		strcpy(m_name, name);
+		strcpy_s(m_name.data(), m_name.size(), name);
 	}
 	else
 	{
@@ -131,14 +89,14 @@ bool CSceneCamera::AssignData(mgCCamera* camera, const char* name)
 		return false;
 	}
 
-	Initialize();
+	new (this) CSceneCamera();
 
 	m_status = ESceneDataStatus::Initial;
 	m_camera = camera;
 
 	if (name != nullptr)
 	{
-		strcpy(m_name, name);
+		strcpy_s(m_name.data(), m_name.size(), name);
 	}
 	else
 	{
@@ -148,15 +106,6 @@ bool CSceneCamera::AssignData(mgCCamera* camera, const char* name)
 	m_status |= ESceneDataStatus::Assigned;
 
 	return true;
-}
-
-// 00282D00
-void CSceneCamera::Initialize()
-{
-	log_trace("CSceneCamera::Initialize()");
-
-	m_camera = nullptr;
-	CSceneData::Initialize();
 }
 
 // 00282D10
@@ -169,14 +118,14 @@ bool CSceneSky::AssignData(CMapSky* sky, const char* name)
 		return false;
 	}
 
-	Initialize();
+	new (this) CSceneSky();
 
 	m_status = ESceneDataStatus::Initial;
 	m_sky = sky;
 
 	if (name != nullptr)
 	{
-		strcpy(m_name, name);
+		strcpy_s(m_name.data(), m_name.size(), name);
 	}
 	else
 	{
@@ -186,32 +135,6 @@ bool CSceneSky::AssignData(CMapSky* sky, const char* name)
 	m_status |= ESceneDataStatus::Assigned;
 
 	return true;
-}
-
-// 00282D90
-void CSceneSky::Initialize()
-{
-	log_trace("CSceneSky::Initialize()");
-
-	m_sky = nullptr;
-	CSceneData::Initialize();
-}
-
-// 00282DA0
-void CSceneGameObj::Initialize()
-{
-	log_trace("CSceneGameObj::Initialize()");
-
-	CSceneCharacter::Initialize();
-}
-
-// 00282DB0
-void CSceneEffect::Initialize()
-{
-	log_trace("CSceneEffect::Initialize()");
-
-	m_effect_script_manager = nullptr;
-	CSceneData::Initialize();
 }
 
 // 00282DC0
@@ -224,14 +147,14 @@ bool CSceneEffect::AssignData(CEffectScriptMan* script_manager, const char* name
 		return false;
 	}
 
-	Initialize();
+	new (this) CSceneEffect();
 
 	m_status = ESceneDataStatus::Initial;
 	m_effect_script_manager = script_manager;
 
 	if (name != nullptr)
 	{
-		strcpy(m_name, name);
+		strcpy_s(m_name.data(), m_name.size(), name);
 	}
 	else
 	{
@@ -244,25 +167,7 @@ bool CSceneEffect::AssignData(CEffectScriptMan* script_manager, const char* name
 }
 
 // 00282E40
-void CScene::InitAllData()
-{
-	log_trace("CScene::{}()", __func__);
-
-	Initialize();
-
-	m_unk_field_2F6C = 0;
-	m_unk_field_2F68 = 0;
-	m_unk_field_3040 = 0;
-	m_now_map_no = -1;
-	m_now_sub_map_no = -1;
-	m_last_map_no = -1;
-	m_last_sub_map_no = -1;
-	m_unk_field_3038 = 0;
-	m_unk_field_303C = 0;
-}
-
-// 00282EA0
-void CScene::Initialize()
+CScene::CScene()
 {
 	log_trace("CScene::{}()", __func__);
 
@@ -276,50 +181,61 @@ void CScene::Initialize()
 	m_unk_field_3C = 0;
 
 	m_n_characters = m_characters.size();
-	for (int i = 0; i < m_n_characters; ++i)
+
+	for (auto& character : m_characters)
 	{
-		m_characters[i].Initialize();
+		new (&character) CSceneCharacter();
 	}
 
 	m_n_cameras = m_cameras.size();
-	for (int i = 0; i < m_n_cameras; ++i)
+	for (auto& camera : m_cameras)
 	{
-		m_cameras[i].Initialize();
+		new (&camera) CSceneCamera();
 	}
 
 	m_n_messages = m_messages.size();
-	for (int i = 0; i < m_n_messages; ++i)
+	for (auto& message : m_messages)
 	{
-		m_messages[i].Initialize();
+		new (&message) CSceneMessage();
 	}
 
 	m_n_maps = m_maps.size();
-	for (int i = 0; i < m_n_maps; ++i)
+	for (auto& map : m_maps)
 	{
-		m_maps[i].Initialize();
+		new (&map) CSceneMap();
 	}
 
 	m_n_skies = m_skies.size();
-	for (int i = 0; i < m_n_skies; ++i)
+	for (auto& sky : m_skies)
 	{
-		m_skies[i].Initialize();
+		new (&sky) CSceneSky();
 	}
 
 	m_n_gameobjs = m_gameobjs.size();
-	// BUG: this loop uses m_n_skies, not m_n_gameobjs (they're the same value)
-	for (int i = 0; i < m_n_skies; ++i)
+	for (auto& gameobj : m_gameobjs)
 	{
-		m_gameobjs[i].Initialize();
+		new (&gameobj) CSceneGameObj();
 	}
 
 	m_n_effects = m_effects.size();
-	for (int i = 0; i < m_n_effects; ++i)
+	for (auto& effect : m_effects)
 	{
-		m_effects[i].Initialize();
+		new (&effect) CSceneEffect();
 	}
 
 	m_mds_list_set.Initialize();
 	m_fade_in_out.Initialize();
+	m_scn_loadmap_info.Initialize();
+	new (&m_scene_event_data) CSceneEventData();
+
+	for (auto& villager_data : m_villager_manager.m_villager_data)
+	{
+		villager_data.Initialize();
+	}
+
+	m_villager_manager.Initialize();
+
+	m_loop_se_manager.Initialize();
 
 	m_unk_field_2E50 = -1;
 	m_unk_field_2E54 = -1;
@@ -352,6 +268,16 @@ void CScene::Initialize()
 
 	m_unk_field_3E60 = -1;
 	m_unk_field_3E64 = -1;
+
+	m_unk_field_2F6C = 0;
+	m_unk_field_2F68 = 0;
+	m_unk_field_3040 = 0;
+	m_now_map_no = -1;
+	m_now_sub_map_no = -1;
+	m_last_map_no = -1;
+	m_last_sub_map_no = -1;
+	m_unk_field_3038 = 0;
+	m_unk_field_303C = 0;
 }
 
 // 00283150
@@ -621,7 +547,7 @@ ssize CScene::GetCameraID(const char* name)
 		{
 			continue;
 		}
-		if (strcmp(name, camera->m_name) == 0)
+		if (strcmp(name, camera->m_name.data()) == 0)
 		{
 			return i;
 		}
@@ -822,7 +748,7 @@ const char* CScene::GetMapName(ssize map_index)
 	CSceneMap* scene_map = GetSceneMap(map_index);
 	if (scene_map != nullptr)
 	{
-		return scene_map->m_name;
+		return scene_map->m_name.data();
 	}
 	return nullptr;
 }
@@ -848,7 +774,7 @@ ssize CScene::GetMapID(const char* name)
 		{
 			continue;
 		}
-		if (strcmp(name, scene_map->m_name) == 0)
+		if (strcmp(name, scene_map->m_name.data()) == 0)
 		{
 			return i;
 		}
@@ -976,7 +902,7 @@ bool CScene::DeleteSky(ssize sky_index)
 		return false;
 	}
 
-	scene_sky->Initialize();
+	new (&scene_sky) CSceneSky();
 	return true;
 }
 
@@ -1013,7 +939,7 @@ void CScene::DeleteEffect(ssize effect_index)
 	CSceneEffect* scene_effect = GetSceneEffect(effect_index);
 	if (scene_effect != nullptr)
 	{
-		scene_effect->Initialize();
+		new (&scene_effect) CSceneEffect();
 	}
 }
 
@@ -1318,7 +1244,7 @@ void CScene::DeleteChara(ssize character_index)
 	CSceneCharacter* scene_character = GetSceneCharacter(character_index);
 	if (scene_character != nullptr)
 	{
-		scene_character->Initialize();
+		new (&scene_character) CSceneCharacter();
 	}
 }
 
