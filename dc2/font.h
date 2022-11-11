@@ -8,7 +8,7 @@ public:
 	// 002D4570
 	void SetFuchi(s32 fuchi);
 	// 002D5D40
-	void Initialize();
+	CFont();
 
 	// 0
 	char m_str[0x80];

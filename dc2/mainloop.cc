@@ -28,7 +28,7 @@ static bool PlayTimeCountFlag;
 // 003D8070
 static SDebugInfo DebugInfo;
 // 003D8090
-static CFont Font;
+static CFont Font{};
 // 003D8140
 static SInitArg InitArg;
 // 003D8190
@@ -77,8 +77,6 @@ namespace MainLoop_SInit
 		log_trace("SInit()");
 
 		memset(&DebugInfo, 0, sizeof(DebugInfo));
-
-		Font.Initialize();
 
 		memset(&InitArg, 0, sizeof(InitArg));
 		memset(&NextInitArg, 0, sizeof(NextInitArg));

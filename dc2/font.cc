@@ -7,14 +7,14 @@ set_log_channel("font");
 
 void CFont::SetFuchi(s32 fuchi)
 {
-	log_trace("SetFuchi({})", fuchi);
+	log_trace("CFont::SetFuchi({})", fuchi);
 
 	m_fuchi = fuchi;
 }
 
-void CFont::Initialize()
+CFont::CFont()
 {
-	log_trace("Initialize()");
+	log_trace("CFont::CFont()");
 
 	memset(&m_str, 0, sizeof(m_str));
 	SetFuchi(3);

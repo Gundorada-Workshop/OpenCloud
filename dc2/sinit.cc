@@ -1,5 +1,4 @@
 #include "sinit.h"
-#include "dng_debug.h"
 #include "dng_main.h"
 #include "dngmenu.h"
 #include "editctrl.h"
@@ -24,7 +23,6 @@
 #include "snd_mngr.h"
 #include "sysmes.h"
 #include "pbuggy.h"
-#include "photo.h"
 #include "title.h"
 #include "userdata.h"
 
@@ -36,7 +34,6 @@ namespace StaticInitializers
 	{
 		log_info("Starting static initialization.");
 
-		dng_debug::SInit();
 		dng_main::SInit();
 		dngmenu::SInit();
 		editctrl::SInit();
@@ -60,7 +57,6 @@ namespace StaticInitializers
 		snd_mngr::SInit();
 		sysmes::SInit();
 		PBuggy::SInit();
-		Photo::SInit();
 		userdata::SInit();
 
 		log_info("Finished static initialization.");

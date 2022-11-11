@@ -8,11 +8,6 @@
 
 // ~ 0030E4C0 - 0030F9B0
 
-namespace Photo
-{
-	void SInit();
-}
-
 // 0030E4C0
 const char* GetMesTxt(ssize index);
 
