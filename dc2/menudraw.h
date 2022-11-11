@@ -8,9 +8,3 @@ struct MENUFORMPARTS_TYPE {};
 class CMenuPosDataForm {};
 struct MENU_PARTS_EFFECT_STRUCT1 {};
 class CMenuPosDataManage {};
-
-namespace menudraw
-{
-  // 00374310
-  void SInit();
-}

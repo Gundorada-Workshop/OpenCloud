@@ -5,7 +5,6 @@
 #include "event_func.h"
 #include "mainloop.h"
 #include "menucls1.h"
-#include "menudraw.h"
 
 set_log_channel("sinit");
 
@@ -20,7 +19,6 @@ namespace StaticInitializers
 		event_func::SInit();
 		MainLoop_SInit::SInit();
 		menucls1::SInit();
-		menudraw::SInit();
 
 		log_info("Finished static initialization.");
 	}
