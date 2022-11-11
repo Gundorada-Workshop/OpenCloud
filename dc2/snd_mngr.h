@@ -6,12 +6,6 @@
 
 // ~ 00188880 - 00190840
 
-namespace snd_mngr
-{
-  // 00373520
-  void SInit();
-}
-
 // TODO THIS FILE
 class CSound {};
 struct SND_LOOP_SE_SEQ {};

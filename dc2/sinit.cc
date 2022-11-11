@@ -18,8 +18,6 @@
 #include "menusys.h"
 #include "mg_frame.h"
 #include "mg_lib.h"
-#include "mg_tanime.h"
-#include "snd_mngr.h"
 
 set_log_channel("sinit");
 
@@ -46,8 +44,6 @@ namespace StaticInitializers
 		menusys::SInit();
 		mg_frame::SInit();
 		mg_lib::SInit();
-		mg_tanime::SInit();
-		snd_mngr::SInit();
 
 		log_info("Finished static initialization.");
 	}

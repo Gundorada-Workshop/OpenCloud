@@ -5,28 +5,9 @@
 set_log_channel("snd_mngr")
 
 // 003D3680
-static std::array<sndPortInfo, 0x10> PortInfo;
+static std::array<sndPortInfo, 0x10> PortInfo{};
 // 003D6040
-static std::array<sndCSeSeq, 0x20> SeSequencer;
-
-namespace snd_mngr
-{
-  // 00373520
-  void SInit()
-  {
-    log_trace("SInit()");
-
-    for (auto& port_info : PortInfo)
-    {
-      new (&port_info) sndPortInfo;
-    }
-
-    for (auto& sequencer : SeSequencer)
-    {
-      new (&sequencer) sndCSeSeq;
-    }
-  }
-}
+static std::array<sndCSeSeq, 0x20> SeSequencer{};
 
 // 0018B4B0
 void sndTrack::Initialize()
