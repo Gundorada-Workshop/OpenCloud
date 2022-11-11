@@ -11,13 +11,11 @@ set_log_channel("dng_event");
 // 01F052C0
 static MapJumpInfo MainMapInfo{};
 
-// 0028BD20
 void CGeoStone::Initialize()
 {
   log_trace("CGeoStone::Initialize()");
-
-  CCharacter2::Initialize();
-  m_flag = false;
+  log_warn("Initialize should not be called (unless the game actually uses this as a virtual method on unknown type)");
+  new (this) CGeoStone();
 }
 
 // 0028BCA0

@@ -746,6 +746,27 @@ mgCObject::mgCObject()
 	m_unk_field_44 = false;
 }
 
+void mgCObject::Initialize()
+{
+	log_trace("mgCObject::Initialize()");
+	log_warn("Initialize should not be called (unless the game actually uses this as a virtual method on unknown type)");
+	new (this) mgCObject();
+}
+
+void mgCFrameBase::Initialize()
+{
+	log_trace("mgCFrameBase::Initialize()");
+	log_warn("Initialize should not be called (unless the game actually uses this as a virtual method on unknown type)");
+	new (this) mgCFrameBase();
+}
+
+void mgCFrame::Initialize()
+{
+	log_trace("mgCFrame::Initialize()");
+	log_warn("Initialize should not be called (unless the game actually uses this as a virtual method on unknown type)");
+	new (this) mgCFrame();
+}
+
 // 001387F0
 _UNKNOWNPOINTER mgCFrame::Draw()
 {

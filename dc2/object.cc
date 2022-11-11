@@ -4,22 +4,6 @@
 
 set_log_channel("object");
 
-// 00161DA0
-CObject::CObject()
-{
-  log_trace("CObject::CObject()");
-
-  CObject::Initialize();
-}
-
-// 001796E0
-CObject::CObject(CObject& other)
-{
-  log_trace("CObject::CObject({})", fmt::ptr(&other));
-
-  todo;
-}
-
 // 00160B50
 _UNKNOWNPOINTER CObject::Draw()
 {
@@ -36,22 +20,11 @@ _UNKNOWNPOINTER CObject::DrawDirect()
   return nullptr;
 }
 
-// 00169DE0
 void CObject::Initialize()
 {
-  log_trace("CObject::{}()", __func__);
-
-  SetPosition(0.0f, 0.0f, 0.0f);
-  SetRotation(0.0f, 0.0f, 0.0f);
-  SetScale(1.0f, 1.0f, 1.0f);
-
-  m_far_dist = -1.0f;
-  m_fade_flag = false;
-  m_alpha = -1.0f;
-  m_fade_delta = 0.2f;
-  m_near_dist = -1.0f;
-  m_visible = true;
-  m_unk_field_68 = false;
+  log_trace("CObject::Initialize()");
+  log_warn("Initialize should not be called (unless the game actually uses this as a virtual method on unknown type)");
+  new (this) CObject();
 }
 
 // 00169DB0
@@ -247,12 +220,11 @@ void CObject::Copy(CObject& other, mgCMemory* mem)
   todo;
 }
 
-// 00162420
-CObjectFrame::CObjectFrame()
+void CObjectFrame::Initialize()
 {
-  log_trace("CObjectFrame::CObjectFrame()");
-
-  CObjectFrame::Initialize();
+  log_trace("CObjectFrame::Initialize()");
+  log_warn("Initialize should not be called (unless the game actually uses this as a virtual method on unknown type)");
+  new (this) CObjectFrame();
 }
 
 // 00169FD0
@@ -279,15 +251,6 @@ _UNKNOWNPOINTER CObjectFrame::DrawDirect()
   }
 
   return nullptr;
-}
-
-// 0016A130
-void CObjectFrame::Initialize()
-{
-  log_trace("CObjectFrame::Initialize()");
-
-  this->CObject::Initialize();
-  m_unk_field_70 = nullptr;
 }
 
 // 00169F30

@@ -208,11 +208,11 @@ void CDngFloorManager::Initialize()
 }
 
 // 001CB3E0
-void CLockOnModel::Draw_()
+void* CLockOnModel::Draw()
 {
-  log_trace("CLockOnModel::Draw_()");
+  log_trace("CLockOnModel::Draw()");
 
-  todo;
+  return nullptr;
 }
 
 // 001CB860

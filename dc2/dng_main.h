@@ -213,9 +213,11 @@ public:
   // SIZE 0x7A0
 };
 
-class CThunder : mgCFrame
+class CThunder
 {
 public:
+  // 0
+  mgCFrame m_unk_field_0{};
   // 110
   mgCFrameAttr m_unk_field_110{};
 
@@ -287,7 +289,7 @@ public:
   s16 m_unk_field_E;
 };
 
-class CLockOnModel : public CObjectFrame
+class CLockOnModel : CObjectFrame
 {
   // VTABLE 00375B00
   // 0  0
@@ -322,10 +324,7 @@ class CLockOnModel : public CObjectFrame
   // 74 00169E80 (CObjectFrame::UpdatePosition)
   // 78 0016A050 (CObjectFrame::Copy)
   // 7C 001CB3E0
-  // NOTE: Yes, this is a separate function than 0x34 (which still exists at that address in this class's vtable)
-  // and yes, they're both named Draw and both accept no arguments, with only return type differing. No clue how they managed that one.
-  // I've managled the name here slightly to squeeze it in.
-  virtual void Draw_();
+  virtual void* Draw();
   // 80 001CB860
   virtual void Step();
   // 84 001CBD20
@@ -335,18 +334,18 @@ class CLockOnModel : public CObjectFrame
   void DrawMes(int i);
 
   // 80
-  CScene* m_scene;
+  CScene* m_scene{ nullptr };
   // 84
-  ClsMes* m_mes;
+  ClsMes* m_mes{ nullptr };
   // 88
-  float m_unk_field_88;
+  float m_unk_field_88{ 0.0f };
   // 8C
-  int m_unk_field_8C;
+  int m_unk_field_8C{ 0 };
 
   // ?
   
   // A0
-  glm::vec4 m_unk_field_A0;
+  glm::vec4 m_unk_field_A0{ 0.0f };
 
   // SIZE 0xB0
 };

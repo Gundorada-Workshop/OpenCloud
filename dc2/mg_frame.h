@@ -249,9 +249,6 @@ public:
 class mgCObject
 {
 public:
-	// VTABLE 00374FE0
-	// 0  0
-	// 4  0
 	// 8  00138810
 	virtual void ChangeParam();
 	// C  00138820
@@ -279,7 +276,7 @@ public:
 	// 38 00138830
 	virtual _UNKNOWNPOINTER DrawDirect();
 	// 3C 00136410
-	//virtual void Initialize();
+	virtual void Initialize();
 
 	// 00161DF0
 	mgCObject();
@@ -369,24 +366,7 @@ public:
 class mgCFrameBase : public mgCObject
 {
 public:
-	// VTABLE 00374FA0
-	// 0  0
-	// 4  0
-	// 8  00138810 (mgCObject::ChangeParam)
-	// C  00138820 (mgCObject::UseParam)
-	// 10 00136190 (mgCObject::SetPosition)
-	// 14 00136220 (mgCObject::SetPosition)
-	// 18 00136260 (mgCObject::GetPosition)
-	// 1C 00136270 (mgCObject::SetRotation)
-	// 20 001362F0 (mgCObject::SetRotation)
-	// 24 00136330 (mgCObject::GetRotation)
-	// 28 00136340 (mgCObject::SetScale)
-	// 2C 001363C0 (mgCObject::SetScale)
-	// 30 00136400 (mgCObject::GetScale)
-	// 34 00138840 (mgCObject::Draw)
-	// 38 00138830 (mgCObject::DrawDirect)
-	// 3C 00136510
-	//virtual void Initialize();
+	virtual void Initialize();
 
 	// SIZE 0x48 (?) (no new members ?)
 };
@@ -394,25 +374,10 @@ public:
 class mgCFrame : public mgCFrameBase
 {
 public:
-	// VTABLE 00374FA0
-	// 0  0
-	// 4  0
-	// 8  00138810 (mgCObject::ChangeParam)
-	// C  00138820 (mgCObject::UseParam)
-	// 10 00136190 (mgCObject::SetPosition)
-	// 14 00136220 (mgCObject::SetPosition)
-	// 18 00136260 (mgCObject::GetPosition)
-	// 1C 00136270 (mgCObject::SetRotation)
-	// 20 001362F0 (mgCObject::SetRotation)
-	// 24 00136330 (mgCObject::GetRotation)
-	// 28 00136340 (mgCObject::SetScale)
-	// 2C 001363C0 (mgCObject::SetScale)
-	// 30 00136400 (mgCObject::GetScale)
 	// 34 001387F0
 	virtual _UNKNOWNPOINTER Draw();
-	// 38 00138830 (mgCObject::DrawDirect)
 	// 3C 00136520
-	//virtual void Initialize();
+	virtual void Initialize();
 	// 40 00136890
 	virtual void GetWorldBBox(mgVu0FBOX& box);
 	// 44 00137E10
