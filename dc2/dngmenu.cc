@@ -16,9 +16,9 @@ static mgRect<int> Floor_Info{ 0, 238, 256, 18 };
 static mgCMemory MenuTreeMapStack{};
 
 // 001EA760
-void CDngFreeMap::Initialize()
+CDngFreeMap::CDngFreeMap()
 {
-  log_trace("CDngFreeMap::Initialize()");
+  log_trace("CDngFreeMap::CDngFreeMap()");
 
   m_unk_field_8 = true;
   m_unk_field_9 = 0;
@@ -28,6 +28,11 @@ void CDngFreeMap::Initialize()
   m_unk_field_C = 0;
 
   m_unk_field_20.Set(120, 138, 420, 286);
+
+  for (auto& rect : m_unk_field_40)
+  {
+    rect.Set(0, 0, 0, 0);
+  }
 
   m_unk_field_30 = 0;
   m_unk_field_C2 = -1;

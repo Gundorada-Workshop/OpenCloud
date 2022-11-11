@@ -55,74 +55,6 @@ static CEventScriptArg EventScriptArg{};
 // 01F02A40
 static CScreenEffect EventScreenEffect{};
 
-
-namespace event_func
-{
-  // 00374590
-  void SInit()
-  {
-    log_trace("SInit()");
-
-    new (&EventObjHandleMother) CEohMother();
-
-    for (auto& sprite : esMother.m_sprites)
-    {
-      sprite.Initialize();
-    }
-
-    for (auto& rain_drop : EventRain.m_unk_field_10)
-    {
-      rain_drop.Initialize();
-    }
-    for (auto& rain_drop : EventRain.m_unk_field_44D0)
-    {
-      rain_drop.Initialize();
-    }
-    for (auto& particle : EventRain.m_particles)
-    {
-      particle.Initialize();
-    }
-    for (auto& ripple : EventRain.m_ripples)
-    {
-      ripple.Initialize();
-    }
-    EventRain.Initialize();
-
-    EventMarker.Initialize();
-
-    for (auto& hit_effect : HitEffect)
-    {
-      new (&hit_effect) CHitEffectImage();
-    }
-
-    EventDngMap.m_unk_field_20.Set(0, 0, 0, 0);
-    for (auto& rect : EventDngMap.m_unk_field_40)
-    {
-      rect.Set(0, 0, 0, 0);
-    }
-
-    EventDngMap.Initialize();
-
-    new (&CameraSeq) CSceneCmrSeq();
-    for (auto& obj_seq : ObjectSeq)
-    {
-      new (&ObjectSeq) CSceneObjSeq();
-    }
-
-    for (auto& event_sprite2 : EventSprite2)
-    {
-      new (&event_sprite2) CEventSprite2();
-    }
-
-    EventScriptArg.m_unk_field_0 = 0;
-    EventScriptArg.m_unk_field_4 = 0;
-    EventScriptArg.m_unk_field_8 = 0;
-    EventScriptArg.m_unk_field_C = 0;
-
-    EventScreenEffect.Initialize();
-  }
-}
-
 // 00255B80
 void SPLINE_KEY::Initialize()
 {
@@ -421,69 +353,10 @@ void CSceneObjSeq::Clear()
   m_unk_field_58 = 0;
 }
 
-// 0025FF00
-void CRaster::Initialize()
-{
-  log_trace("CRaster::Initialize()");
-
-  m_unk_field_0 = 0;
-  m_unk_field_4 = 0;
-  m_unk_field_8 = 0;
-  m_unk_field_C = 0;
-  m_unk_field_10 = 0;
-  m_unk_field_14 = 0;
-  m_unk_field_18 = 0;
-  m_unk_field_1C = 0;
-  m_unk_field_20 = 0;
-  m_unk_field_24 = -1;
-  m_unk_field_28 = 0;
-}
-
-// 002605E0
-void CScreenEffect::Initialize()
-{
-  log_trace("CScreenEffect::Initialize()");
-
-  CRaster::Initialize();
-
-  m_unk_field_2C = 0;
-  m_unk_field_30 = 0;
-  m_unk_field_34 = 0;
-  m_unk_field_38 = 0;
-  m_unk_field_3C = 0;
-  m_unk_field_40 = 0;
-  m_unk_field_44 = 0;
-  m_unk_field_48 = 0;
-}
-
-// 002819A0
-void CRipple::Initialize()
-{
-  log_trace("CRipple::Initialize()");
-
-  m_unk_field_0 = 0;
-  m_unk_field_10 = glm::vec4(0, 0, 0, 1);
-  m_unk_field_20 = 0;
-  m_unk_field_24 = 0;
-  m_unk_field_28 = 0;
-}
-
-// 00281CE0
-void CParticle::Initialize()
-{
-  log_trace("CParticle::Initialize()");
-
-  m_unk_field_0 = 0;
-  m_unk_field_10 = glm::vec4(0, 0, 0, 1);
-  m_unk_field_20 = glm::vec4(0, 0, 0, 1);
-  m_unk_field_30 = glm::vec4(0, 0, 0, 1);
-  m_unk_field_40 = 0;
-}
-
 // 00282100
-void CRainDrop::Initialize()
+CRainDrop::CRainDrop()
 {
-  log_trace("CRainDrop::Initialize()");
+  log_trace("CRainDrop::CRainDrop()");
 
   m_unk_field_0 = 0;
   m_unk_field_4 = 0;
@@ -495,35 +368,6 @@ void CRainDrop::Initialize()
 
   m_unk_field_90 = glm::vec4(0, 0, 0, 1);
   m_color = glm::u8vec4(128, 128, 128, 128);
-}
-
-// 002826F0
-void CRain::Initialize()
-{
-  log_trace("CRain::Initialize()");
-
-  m_unk_field_0 = 0;
-  m_unk_field_4 = 0;
-
-  for (auto& rain_drop : m_unk_field_10)
-  {
-    rain_drop.Initialize();
-  }
-
-  for (auto& rain_drop : m_unk_field_44D0)
-  {
-    rain_drop.Initialize();
-  }
-
-  for (auto& particle : m_particles)
-  {
-    particle.Initialize();
-  }
-
-  for (auto& ripple : m_ripples)
-  {
-    ripple.Initialize();
-  }
 }
 
 // 002901F0
@@ -540,68 +384,4 @@ void CMarker::Set(int i)
   log_trace("CMarker::{}({})", __func__, i);
 
   m_cnt = i;
-}
-
-// 00290220
-void CMarker::Initialize()
-{
-  log_trace("CMarker::{}()", __func__);
-
-  Set(0);
-}
-
-// 002905F0
-void CEventSprite::Initialize()
-{
-  log_trace("CEventSprite::Initialize()");
-
-  m_unk_field_0 = 0;
-  m_unk_field_4 = 0;
-  memset(&m_name, 0, sizeof(m_name));
-  memset(&m_unk_field_48, 0, sizeof(m_unk_field_48));
-  memset(&m_unk_field_58, 0, sizeof(m_unk_field_58));
-  memset(&m_unk_field_68, 0, sizeof(m_unk_field_68));
-  memset(&m_unk_field_78, -1, sizeof(m_unk_field_78));
-}
-
-// 00290A00
-void CEventSpriteMother::Initialize()
-{
-  log_trace("CEventSpriteMother::Initialize()");
-
-  for (auto& event_sprite : m_sprites)
-  {
-    event_sprite.Initialize();
-  }
-}
-
-// 00290A60
-CEventSprite2::CEventSprite2()
-{
-  log_trace("CEventSprite2::CEventSprite2()");
-
-  Initialize();
-}
-
-// 00290A90
-void CEventSprite2::Initialize()
-{
-  log_trace("CEventSprite2::Initialize()");
-
-  m_unk_field_0 = 0;
-  m_unk_field_4 = -1;
-  m_unk_field_8 = -1;
-  memset(&m_unk_field_C, 0, sizeof(m_unk_field_C));
-  m_unk_field_2C = true;
-  m_unk_field_30 = glm::vec4(0.0f);
-  m_unk_field_40 = glm::vec4(128.0f);
-  m_unk_field_58 = 0;
-  m_unk_field_54 = 0;
-  m_unk_field_60 = 0;
-  m_unk_field_5C = 0;
-  m_unk_field_68 = 0;
-  m_unk_field_64 = 0;
-  m_unk_field_70 = 1.0f;
-  m_unk_field_6C = 1.0f;
-  m_unk_field_50 = 0;
 }

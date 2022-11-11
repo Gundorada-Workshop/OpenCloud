@@ -2,7 +2,6 @@
 #include "sinit.h"
 #include "dng_main.h"
 #include "event.h"
-#include "event_func.h"
 #include "mainloop.h"
 #include "menucls1.h"
 
@@ -16,7 +15,6 @@ namespace StaticInitializers
 
 		dng_main::SInit();
 		event::SInit();
-		event_func::SInit();
 		MainLoop_SInit::SInit();
 		menucls1::SInit();
 

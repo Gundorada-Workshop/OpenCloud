@@ -15,7 +15,7 @@ private:
   void InitializeTexture();
 public:
   // 001EA760
-  void Initialize();
+  CDngFreeMap();
 
   // 0
   _DWORD m_unk_field_0;
