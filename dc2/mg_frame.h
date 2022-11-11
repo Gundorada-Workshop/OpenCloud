@@ -20,11 +20,6 @@ struct mgRENDER_INFO;
 class mgCDrawManager;
 class mgCTextureManager;
 
-namespace mg_frame
-{
-	void SInit();
-}
-
 // 00376C70
 extern s32 mgScreenWidth;
 // 00376C74
@@ -844,10 +839,10 @@ public:
 	void SetFogParam(float f1, float f2, u8 i1, u8 i2, u8 i3, float f3, float f4);
 
 	// 3A0
-	glm::vec4 camera_pos;
+	glm::vec4 camera_pos{0};
 
 	// F20
-	std::array<mgCDrawEnv, 2> m_unk_field_F20;
+	std::array<mgCDrawEnv, 2> m_unk_field_F20{};
 };
 
 // 00135B90

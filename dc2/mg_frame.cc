@@ -4,23 +4,12 @@
 
 set_log_channel("mg_frame");
 
-// 00380DA0
-static mgCFrameAttr dmy_attr;
-
-namespace mg_frame
-{
-	void SInit()
-	{
-		log_trace("SInit()");
-
-		new (&dmy_attr) mgCFrameAttr();
-	}
-}
-
 // 00376C70
-s32 mgScreenWidth{};
+s32 mgScreenWidth{0};
 // 00376C74
-s32 mgScreenHeight{};
+s32 mgScreenHeight{0};
+// 00380DA0
+static mgCFrameAttr dmy_attr{};
 
 mgVu0FBOX::mgVu0FBOX(mgVu0FBOX& other)
 {
