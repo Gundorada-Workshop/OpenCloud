@@ -7,12 +7,7 @@
 class mgCCameraTest : public ::testing::Test {
 protected:
   void SetUp() override {
-    camera.SetPos(glm::vec3(0.0f));
-    camera.SetNextPos(glm::vec3(0.0f));
-    camera.SetRef(glm::vec3(0.0f));
-    camera.SetNextRef(glm::vec3(0.0f));
-    camera.SetRoll(0.0f);
-    camera.Resume();
+    new (&camera) mgCCamera();
     camera.StopCamera = false;
   }
 

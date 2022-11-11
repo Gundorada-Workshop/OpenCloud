@@ -27,6 +27,14 @@ mgCCamera::mgCCamera(float speed)
   // to snap to the final position.
   m_step_epsilon = 0.1f;
   m_stopped = false;
+
+  // additional members
+  SetPos(0, 0, 0);
+  SetNextPos(0, 0, 0);
+  SetRef(0, 0, 0);
+  SetNextRef(0, 0, 0);
+  m_angleH = 0.0f;
+  m_angleV = 0.0f;
 }
 
 // 00131110
