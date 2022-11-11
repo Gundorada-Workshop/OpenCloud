@@ -645,11 +645,11 @@ void mgCObject::SetPosition(float x, float y, float z)
 }
 
 // 00136260
-void mgCObject::GetPosition(glm::vec4& v)
+glm::vec4 mgCObject::GetPosition()
 {
-	log_trace("mgCObject::GetPosition({})", fmt::ptr(&v));
+	log_trace("mgCObject::GetPosition()");
 
-	v = m_position;
+	return m_position;
 }
 
 // 00136270
@@ -678,11 +678,11 @@ void mgCObject::SetRotation(float x, float y, float z)
 }
 
 // 00136330
-void mgCObject::GetRotation(glm::vec4& v)
+glm::vec4 mgCObject::GetRotation()
 {
-	log_trace("mgCObject::GetRotation({})", fmt::ptr(&v));
+	log_trace("mgCObject::GetRotation()");
 
-	v = m_rotation;
+	return m_rotation;
 }
 
 // 00136340
@@ -711,11 +711,11 @@ void mgCObject::SetScale(float x, float y, float z)
 }
 
 // 00136400
-void mgCObject::GetScale(glm::vec4& v)
+glm::vec4 mgCObject::GetScale()
 {
-	log_trace("mgCObject::GetScale({})", fmt::ptr(&v));
+	log_trace("mgCObject::GetScale()");
 
-	v = m_scale;
+	return m_scale;
 }
 
 // 00138840
@@ -777,11 +777,12 @@ _UNKNOWNPOINTER mgCFrame::Draw()
 }
 
 // 00136890
-void mgCFrame::GetWorldBBox(mgVu0FBOX& box)
+mgVu0FBOX mgCFrame::GetWorldBBox()
 {
 	log_trace("mgCFrame::GetWorldBBox({})", fmt::ptr(&box));
 
 	todo;
+	return mgVu0FBOX{};
 }
 
 // 00137E10

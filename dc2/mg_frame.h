@@ -258,19 +258,19 @@ public:
 	// 14 00136220
 	virtual void SetPosition(float x, float y, float z);
 	// 18 00136260
-	virtual void GetPosition(glm::vec4&);
+	virtual glm::vec4 GetPosition();
 	// 1C 00136270
 	virtual void SetRotation(const glm::vec4&);
 	// 20 001362F0
 	virtual void SetRotation(float x, float y, float z);
 	// 24 00136330
-	virtual void GetRotation(glm::vec4&);
+	virtual glm::vec4 GetRotation();
 	// 28 00136340
 	virtual void SetScale(const glm::vec4&);
 	// 2C 001363C0
 	virtual void SetScale(float x, float y, float z);
 	// 30 00136400
-	virtual void GetScale(glm::vec4&);
+	virtual glm::vec4 GetScale();
 	// 34 00138840
 	virtual _UNKNOWNPOINTER Draw();
 	// 38 00138830
@@ -379,7 +379,7 @@ public:
 	// 3C 00136520
 	virtual void Initialize();
 	// 40 00136890
-	virtual void GetWorldBBox(mgVu0FBOX& box);
+	virtual mgVu0FBOX GetWorldBBox();
 	// 44 00137E10
 	virtual void Draw(_UNKNOWNPOINTER p);
 	// 48 00132D90
@@ -431,22 +431,22 @@ public:
 	void ClearChildFlag(void);
 
 	// 00136CE0
-	void GetLocalMatrix(glm::mat4& m1);
+	glm::mat4 GetLocalMatrix();
 
 	// 00136E40
-	void GetBBoardMatrix(int i1, glm::mat4& m1, mgRENDER_INFO& render_info);
+	glm::mat4 GetBBoardMatrix(int i1, mgRENDER_INFO& render_info);
 
 	// 00137030
-	void GetLWMatrix(glm::mat4& m1);
+	glm::mat4 GetLWMatrix();
 
 	// 001371B0
-	void GetLWMatrixTopBottom(glm::mat4& m1);
+	glm::mat4 GetLWMatrixTopBottom();
 
 	// 00137320
-	void GetInverseMatrix(glm::mat4& m1);
+	glm::mat4 GetInverseMatrix();
 
 	// 00137590
-	void SetTransMatrix(glm::mat4& m1);
+	glm::mat4 SetTransMatrix();
 
 	// 001376D0
 	void SearchFrame(char* s);
@@ -455,13 +455,13 @@ public:
 	void SearchFrameID(char* s);
 
 	// 001377E0
-	void GetWorldPosition(glm::vec4& v1, glm::vec4& v2);
+	glm::vec4 GetWorldPosition(glm::vec4& v2);
 
 	// 00137830
-	void GetWorldPosition0(glm::vec4& v1);
+	glm::vec4 GetWorldPosition0();
 
 	// 00137870
-	void GetWorldDir(glm::vec4& v1, glm::vec4& v2);
+	glm::vec4 GetWorldDir(glm::vec4& v1);
 
 	// 00137930
 	void SetRotType(int i1);
@@ -476,7 +476,7 @@ public:
 	void SetAttrParamDraw(int i1, int i2);
 
 	// 001381C0
-	void GetDrawRect(mgVu0FBOX& box, mgCDrawManager* manager);
+	mgVu0FBOX GetDrawRect(mgCDrawManager* manager);
 
 	// 00136490
 	mgCFrame() = default;
