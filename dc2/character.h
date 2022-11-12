@@ -17,6 +17,17 @@ struct SEntryEffect
 	_DWORD m_unk_field_8;
 };
 
+// probably belongs here; only used by CActionChara
+class CCharacter2;
+
+struct RUN_SCRIPT_ENV
+{
+	// 0
+	CCharacter2* m_unk_field_0;
+	// 4
+	s32 m_unk_field_4;
+};
+
 class CCharacter2 : public CObjectFrame
 {
 public:

@@ -93,6 +93,12 @@ namespace common::debug
 #define unimplemented_member(type, pos) \
   type m_unk_field_##pos{ };
 
+#define UNUSED_ATTR(attr) \
+  // #attr
+
+#define UNUSED_VAR(var) \
+  (void)var
+
 #define _UNKNOWN int
 #define _BYTE s8
 #define _WORD s16

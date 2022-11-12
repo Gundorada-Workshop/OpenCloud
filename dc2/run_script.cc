@@ -3,31 +3,14 @@
 
 set_log_channel("run_script");
 
-// 00186B20
-void CRunScript::stkoverflow() const
+// 00186D40
+void CRunScript::DeleteProgram()
 {
   log_trace("CRunScript::{}()", __func__);
 
-  log_error("stack overflow");
-  throw std::length_error("stack overflow");
-}
-
-// 00186BD0
-void CRunScript::divby0error() const
-{
-  log_trace("CRunScript::{}()", __func__);
-
-  log_error("Divide by 0");
-  throw std::length_error("Divide by 0");
-}
-
-// 00186BE0
-void CRunScript::modby0error() const
-{
-  log_trace("CRunScript::{}()", __func__);
-
-  log_error("Modulo by 0");
-  throw std::length_error("Modulo by 0");
+  m_unk_field_3C = false;
+  m_unk_field_40 = false;
+  m_unk_field_44 = nullptr;
 }
 
 // 00186D50
@@ -44,7 +27,7 @@ void CRunScript::check_stack() const
 // 00186D80
 void CRunScript::push(RS_STACKDATA data)
 {
-  log_trace("CRunScript::{}(...)", __func__/*, data TODO*/);
+  log_trace("CRunScript::{}({})", __func__, data);
 
   check_stack();
 
@@ -110,7 +93,39 @@ RS_STACKDATA CRunScript::pop()
   log_trace("CRunScript::{}()", __func__);
 
   --m_stack_current;
-  return *m_stack_current;
+
+  check_stack();
+
+  return *(m_stack_current + 1);
+}
+
+// 001871D0
+void CRunScript::ext_func(ext_func_t** ext_func, usize length)
+{
+  log_trace("CRunScript::{}({}, {})", __func__, fmt::ptr(ext_func), length);
+
+  m_ext_func = ext_func;
+  m_n_ext_func = length;
+}
+
+// 001871E0
+void CRunScript::resume()
+{
+  log_trace("CRunScript::{}()", __func__);
+
+  if (m_vmcode != nullptr)
+  {
+    exe(m_vmcode);
+  }
+}
+
+// 001873B0
+void CRunScript::skip()
+{
+  log_trace("CRunScript::{}()", __func__);
+
+  m_unk_field_40 = true;
+  resume();
 }
 
 // 001873C0
@@ -171,7 +186,7 @@ void CRunScript::exe(vmcode_t* code)
         }
         else
         {
-          throw std::logic_error("_ADD screwed up at some function; we don't have that data yet! But one or both of the operands aren't numbers! :(");
+          panicf("RUNTIME ERROR at _ADD: {}: operand is not number", m_current_funcdata->m_function_name);
         }
 
         break;
@@ -201,7 +216,7 @@ void CRunScript::exe(vmcode_t* code)
         }
         else
         {
-          throw std::logic_error("_SUB screwed up at some function; we don't have that data yet! But one or both of the operands aren't numbers! :(");
+          panicf("RUNTIME ERROR at _SUB: {}: operand is not number", m_current_funcdata->m_function_name);
         }
 
         break;
@@ -231,7 +246,7 @@ void CRunScript::exe(vmcode_t* code)
         }
         else
         {
-          throw std::logic_error("_MUL screwed up at some function; we don't have that data yet! But one or both of the operands aren't numbers! :(");
+          panicf("RUNTIME ERROR at _MUL: {}: operand is not number", m_current_funcdata->m_function_name);
         }
 
         break;
@@ -262,7 +277,7 @@ void CRunScript::exe(vmcode_t* code)
         }
         else
         {
-          throw std::logic_error("_DIV screwed up at some function; we don't have that data yet! But one or both of the operands aren't numbers! :(");
+          panicf("RUNTIME ERROR at _DIV: {}: operand is not number", m_current_funcdata->m_function_name);
         }
 
         break;
@@ -354,5 +369,93 @@ void CRunScript::exe(vmcode_t* code)
         // nop
         break;
     }
+  }
+}
+
+// 00186AE0
+void runerror(const char* msg)
+{
+  log_trace("{}()", __func__);
+
+  panicf("RUNTIME ERROR: {}\n", msg);
+}
+
+// 00186B20
+void stkoverflow()
+{
+  log_trace("{}()", __func__);
+
+  runerror("stack overflow");
+}
+
+void stkunderflow()
+{
+  log_trace("{}()", __func__);
+
+  runerror("stack underflow");
+}
+
+// 00186B30
+s32 chk_int(RS_STACKDATA stack_data, funcdata* func_data)
+{
+  if (stack_data.m_data_type != EStackDataType::Int)
+  {
+    panicf("RUNTIME ERROR: {}: operand is not integer\n", func_data->m_function_name);
+  }
+  return stack_data.m_data.i;
+}
+
+// 00186B90
+bool is_true(RS_STACKDATA stack_data)
+{
+  if (stack_data.m_data_type != EStackDataType::Int)
+  {
+    return false;
+  }
+  return true;
+}
+
+// 00186BD0
+void divby0error()
+{
+  log_trace("{}()", __func__);
+
+  runerror("Divide by 0");
+}
+
+// 00186BE0
+void modby0error()
+{
+  log_trace("{}()", __func__);
+
+  runerror("Modulo by 0");
+}
+
+// 00186BF0
+void print(RS_STACKDATA* stack_data, usize amount)
+{
+  for (; amount > 0; --amount)
+  {
+    log_info("print_stack_value: {}", stack_data);
+    ++stack_data;
+  }
+}
+
+// 00188820
+s32 rsGetStackInt(RS_STACKDATA* stack_data)
+{
+  if (stack_data->m_data_type == EStackDataType::Float)
+  {
+    return static_cast<int>(stack_data->m_data.f);
+  }
+  return stack_data->m_data.i;
+}
+
+// 00188860
+void rsSetStack(RS_STACKDATA* stack_data, s32 value)
+{
+  if (stack_data->m_data_type == EStackDataType::Pointer)
+  {
+    stack_data->m_data.p->m_data.i = value;
   }
 }
