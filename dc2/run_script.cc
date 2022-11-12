@@ -139,7 +139,7 @@ void CRunScript::exe(vmcode_t* code)
   {
     using Type = EStackDataType::EStackDataType;
 
-    switch (m_vmcode->instruction)
+    switch (m_vmcode->m_instruction)
     {
       case 1:
         // 00187414
@@ -323,9 +323,14 @@ void CRunScript::exe(vmcode_t* code)
         todo;
         break;
       case 20:
+      {
         // 00188670
-        todo;
+        // _PRINT
+        usize amount = code->m_op1;
+        m_stack_current -= amount;
+        print(m_stack_current, amount);
         break;
+      }
       case 21:
         // 0018869C
         todo;

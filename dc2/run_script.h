@@ -6,9 +6,9 @@
 
 struct vmcode_t
 {
-  u32 instruction;
-  u32 op1;
-  u32 op2;
+  u32 m_instruction;
+  u32 m_op1;
+  u32 m_op2;
 };
 
 struct RS_CALLDATA {};
