@@ -151,7 +151,20 @@ void CRunScript::exe(vmcode_t* code)
         break;
       case 3:
         // 001878E8
-        todo;
+        // _PUSH
+        switch (code->m_op1)
+        {
+          case 1:
+            push_int(code->m_op2);
+            break;
+          case 2:
+            push_float(std::bit_cast<float>(code->m_op2));
+          case 3:
+            push_str(static_cast<char*>(m_unk_field_48) + static_cast<uptr>(code->m_op2));
+            break;
+          default:
+            break;
+        }
         break;
       case 4:
         // 00187958
@@ -441,7 +454,7 @@ void print(RS_STACKDATA* stack_data, usize amount)
 {
   for (; amount > 0; --amount)
   {
-    log_info("print_stack_value: {}", stack_data);
+    log_info("print_stack_value: {}", *stack_data);
     ++stack_data;
   }
 }

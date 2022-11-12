@@ -125,8 +125,8 @@ private:
   bool m_unk_field_40{ false };
   // 44
   char* m_unk_field_44{ nullptr };
-  // 48 - vmcode jump offset?
-  s32 m_unk_field_48{};
+  // 48
+  _UNKNOWNPOINTER m_unk_field_48{ nullptr };
   // 4C
   _DWORD m_unk_field_4C{};
   // 50
