@@ -779,7 +779,7 @@ _UNKNOWNPOINTER mgCFrame::Draw()
 // 00136890
 mgVu0FBOX mgCFrame::GetWorldBBox()
 {
-	log_trace("mgCFrame::GetWorldBBox({})", fmt::ptr(&box));
+	log_trace("mgCFrame::GetWorldBBox()");
 
 	todo;
 	return mgVu0FBOX{};
