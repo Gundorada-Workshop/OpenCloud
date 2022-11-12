@@ -168,7 +168,8 @@ void CRunScript::exe(vmcode_t* code)
         break;
       case 4:
         // 00187958
-        todo;
+        // _POP
+        pop();
         break;
       case 5:
         // 00187890
