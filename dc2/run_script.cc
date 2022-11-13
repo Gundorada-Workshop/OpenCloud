@@ -325,9 +325,24 @@ void CRunScript::exe(vmcode_t* code)
         break;
       }
       case 11:
+      {
         // 00188300
-        todo;
+        // _NEGATE
+        auto lhs = pop();
+        if (lhs.m_data_type == EStackDataType::Int)
+        {
+          push_int(-lhs.m_data.i);
+        }
+        else if (lhs.m_data_type == EStackDataType::Float)
+        {
+          push_float(-lhs.m_data.f);
+        }
+        else
+        {
+          panicf("RUNTIME ERROR at _NEGATE: {}: operand is not a number", m_current_funcdata->m_function_name);
+        }
         break;
+      }
       case 12:
         // 00188550
         todo;
