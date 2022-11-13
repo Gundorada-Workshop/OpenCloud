@@ -111,7 +111,7 @@ namespace common::debug
   }
 #endif
 
-  static void print_trace(uint depth)
+  void print_trace(uint depth)
   {
     const auto bt = backtrace(depth);
 
