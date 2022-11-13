@@ -159,6 +159,7 @@ void CRunScript::exe(vmcode_t* code)
             break;
           case 2:
             push_float(std::bit_cast<float>(code->m_op2));
+            break;
           case 3:
             push_str(static_cast<char*>(m_unk_field_48) + static_cast<uptr>(code->m_op2));
             break;
