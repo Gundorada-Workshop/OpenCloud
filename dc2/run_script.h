@@ -101,6 +101,10 @@ private:
   void push_float(float data);
   // 00186F10
   RS_STACKDATA pop();
+  // 00187020
+  vmcode_t* ret_func();
+  // 00187050
+  void ext(RS_STACKDATA* stack_data, s32 i);
   // 001873C0
   void exe(vmcode_t* code);
 
@@ -129,9 +133,9 @@ private:
   // 2C
   _UNKNOWNPOINTER m_unk_field_2C{};
   // 30
-  _UNKNOWNPOINTER m_unk_field_30{};
+  RS_STACKDATA* m_unk_field_30{ nullptr };
   // 34
-  funcdata* m_current_funcdata{};
+  funcdata* m_current_funcdata{ nullptr };
   // 38
   vmcode_t* m_vmcode{ nullptr };
   // 40
@@ -141,7 +145,7 @@ private:
   // 48
   _UNKNOWNPOINTER m_unk_field_48{ nullptr };
   // 4C
-  _DWORD m_unk_field_4C{};
+  stackdata_t m_unk_field_4C{};
   // 50
   s32 m_unk_field_50{};
 public:

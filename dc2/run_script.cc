@@ -99,6 +99,44 @@ RS_STACKDATA CRunScript::pop()
   return *(m_stack_current + 1);
 }
 
+// 00187020
+vmcode_t* CRunScript::ret_func()
+{
+  log_trace("CRunScript::{}()", __func__);
+
+  todo;
+  return nullptr;
+}
+
+// 00187050
+void CRunScript::ext(RS_STACKDATA* stack_data, s32 i)
+{
+  log_trace("CRunScript::{}({}, {})", __func__, *stack_data, i);
+
+  s32 call_index = stack_data->m_data.i;
+
+  if (i < 0 || m_n_ext_func <= i)
+  {
+    log_warn("Not found ext {}", call_index);
+    return;
+  }
+
+  ext_func_t* fn = m_ext_func[call_index];
+
+  if (fn == nullptr)
+  {
+    log_warn("Not found ext {}", call_index);
+    return;
+  }
+
+  if (!fn(stack_data + 1, i + 1))
+  {
+    log_warn("Illegal function call ext {}", call_index);
+    return;
+  }
+  return;
+}
+
 // 001871D0
 void CRunScript::ext_func(ext_func_t** ext_func, usize length)
 {
@@ -470,9 +508,25 @@ void CRunScript::exe(vmcode_t* code)
         break;
       }
       case 15:
+      {
         // 0018871C
-        todo;
+        auto var_130 = pop();
+
+        if (m_unk_field_28 == m_unk_field_24)
+        {
+          m_unk_field_4C = var_130.m_data;
+          push(var_130);
+          m_unk_field_3C = true;
+        }
+        else
+        {
+          m_stack_current = m_unk_field_30;
+          m_vmcode = ret_func();
+          push(var_130);
+        }
+
         break;
+      }
       case 16:
         // 00187968
         todo;
@@ -500,7 +554,14 @@ void CRunScript::exe(vmcode_t* code)
       }
       case 21:
         // 0018869C
-        todo;
+        // _EXT
+        m_stack_current -= code->m_op1;
+
+        if (!m_unk_field_40)
+        {
+          ext(m_stack_current, code->m_op1);
+        }
+
         break;
       case 23:
         // 001887A8
