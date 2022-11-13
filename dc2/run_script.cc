@@ -172,9 +172,17 @@ void CRunScript::exe(vmcode_t* code)
         pop();
         break;
       case 5:
+      {
         // 00187890
-        todo;
+        // _DEREF_WRITE
+        // NOTE: an intermediate variable, var_130, is used here, but I don't think it's necessary
+        auto val = pop();
+        auto ptr = pop();
+        ptr.m_data.p->m_data_type = val.m_data_type;
+        ptr.m_data.p->m_data = val.m_data;
+        push(val);
         break;
+      }
       case 6:
       {
         // 00187D00
@@ -297,9 +305,25 @@ void CRunScript::exe(vmcode_t* code)
         break;
       }
       case 10:
+      {
         // 00188208
-        todo;
+        // _MOD
+        auto rhs = pop();
+        
+        // error handling (not int / div by 0)
+        chk_int(rhs, m_current_funcdata);
+        if (rhs.m_data.i == 0)
+        {
+          modby0error();
+        }
+
+        auto lhs = pop();
+        chk_int(lhs, m_current_funcdata);
+        
+        push_int(lhs.m_data.i % rhs.m_data.i);
+
         break;
+      }
       case 11:
         // 00188300
         todo;
