@@ -344,9 +344,24 @@ void CRunScript::exe(vmcode_t* code)
         break;
       }
       case 12:
+      {
         // 00188550
-        todo;
+        // _ITOF
+        auto lhs = pop();
+        if (lhs.m_data_type == EStackDataType::Int)
+        {
+          push_float(static_cast<float>(lhs.m_data.i));
+        }
+        else if (lhs.m_data_type == EStackDataType::Float)
+        {
+          push_float(lhs.m_data.f);
+        }
+        else
+        {
+          panicf("RUNTIME ERROR at _ITOF: {}: operand is not a number", m_current_funcdata->m_function_name);
+        }
         break;
+      }
       case 13:
         // 001885E0
         todo;
