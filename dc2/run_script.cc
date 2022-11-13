@@ -598,13 +598,27 @@ void CRunScript::exe(vmcode_t* code)
 
         break;
       case 23:
+      {
         // 001887A8
-        todo;
+        // _RET
+        if (!m_unk_field_40)
+        {
+          m_vmcode += 1;
+          return;
+        }
         break;
+      }
       case 24:
+      {
         // 00188270
-        todo;
+        // _AND
+        auto rhs = pop();
+        auto rVal = chk_int(rhs, m_current_funcdata);
+        auto lhs = pop();
+        auto lVal = chk_int(lhs, m_current_funcdata);
+        push_int(lVal & rVal);
         break;
+      }
       case 25:
         // 001882B8
         todo;
