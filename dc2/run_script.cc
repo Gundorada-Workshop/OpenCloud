@@ -3,6 +3,22 @@
 
 set_log_channel("run_script");
 
+// 00186AE0
+void runerror(const char* msg);
+// 00186B20
+void stkoverflow();
+void stkunderflow();
+// 00186B30
+s32 chk_int(RS_STACKDATA stack_data, funcdata* func_data);
+// 00186BD0
+void divby0error();
+// 00186BE0
+void modby0error();
+// 00186BF0
+void print(RS_STACKDATA* stack_data, usize amount);
+// 00186B90
+bool is_true(RS_STACKDATA stack_data);
+
 // 00186D40
 void CRunScript::DeleteProgram()
 {
