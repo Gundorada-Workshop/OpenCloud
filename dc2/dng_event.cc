@@ -113,3 +113,146 @@ void CGeoStone::GeoStep()
     m_height_offset_sine -= DEGREES_TO_RADIANS(360.0f);
   }
 }
+
+// 0028BD50
+void CRandomCircle::Draw(glm::vec4* v)
+{
+  log_trace("CRandomCircle::{}()", __func__);
+
+  for (int i = 0; i < m_unk_field_0.size(); ++i)
+  {
+    if (!m_unk_field_30[i])
+    {
+      continue;
+    }
+
+    if (glm::distance(*v, m_unk_field_0[i]) >= 1000.0f)
+    {
+      continue;
+    }
+
+    m_character.SetPosition(m_unk_field_0[i]);
+    m_character.SetRotation(0.0f, 0.0f, 0.0f);
+    m_character.DrawDirect();
+  }
+}
+
+// 0028BE40
+void CRandomCircle::Step()
+{
+  log_trace("CRandomCircle::{}()", __func__);
+
+  m_character.Step();
+}
+
+// 0028BE60
+void CRandomCircle::DrawSymbol(CMiniMapSymbol* mini_map_symbol)
+{
+  log_trace("CRandomCircle::{}({})", __func__, fmt::ptr(mini_map_symbol));
+
+  for (int i = 0; i < m_unk_field_0.size(); ++i)
+  {
+    if (m_unk_field_30[i])
+    {
+      mini_map_symbol->DrawSymbol(m_unk_field_0[i], EMiniMapSymbol::RandomCircle);
+    }
+  }
+}
+
+// 0028BEF0
+bool CRandomCircle::CheckArea(glm::vec4* v, float f)
+{
+  log_trace("CRandomCircle::{}({}, {})", __func__, fmt::ptr(v), f);
+
+  for (int i = 0; i < m_unk_field_0.size(); ++i)
+  {
+    if (!m_unk_field_30[i])
+    {
+      continue;
+    }
+
+    if (glm::distance(m_unk_field_0[i], *v) < f)
+    {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+// 0028BFA0
+bool CRandomCircle::GetPosition(glm::vec4* dest, ssize i)
+{
+  log_trace("CRandomCircle::{}({}, {})", __func__, fmt::ptr(dest), i);
+
+  if (i == -1)
+  {
+    if (m_unk_field_3C == -1)
+    {
+      return false;
+    }
+    *dest = m_unk_field_0[m_unk_field_3C];
+    return true;
+  }
+  else
+  {
+    if (i < 0 || m_unk_field_0.size() <= i)
+    {
+      return false;
+    }
+    *dest = m_unk_field_0[i];
+    return true;
+  }
+}
+
+// 0028C020
+ssize CRandomCircle::CheckEvent(glm::vec4* v)
+{
+  log_trace("CRandomCircle::{}(({}, {}, {}))", __func__, v->x, v->y, v->z);
+
+  for (int i = 0; i < m_unk_field_30.size(); ++i)
+  {
+    if (!m_unk_field_30[i])
+    {
+      continue;
+    }
+
+    if (glm::distance(m_unk_field_0[i], *v) <= 20.0f)
+    {
+      m_unk_field_3C = i;
+      return i;
+    }
+  }
+
+  m_unk_field_3C = -1;
+  return -1;
+}
+
+// 0028C0D0
+ssize CRandomCircle::SetCircle(glm::vec4* v)
+{
+  log_trace("CRandomCircle::{}(({}, {}, {}))", __func__, v->x, v->y, v->z);
+
+  for (int i = 0; i < m_unk_field_30.size(); ++i)
+  {
+    if (!m_unk_field_30[i])
+    {
+      m_unk_field_0[i] = *v;
+      m_unk_field_30[i] = true;
+      return i;
+    }
+  }
+  return -1;
+}
+
+// 0028C160
+void CRandomCircle::Clear()
+{
+  log_trace("CRandomCircle::{}()", __func__);
+
+  for (bool& b : m_unk_field_30)
+  {
+    b = false;
+  }
+  m_unk_field_3C = -1;
+}

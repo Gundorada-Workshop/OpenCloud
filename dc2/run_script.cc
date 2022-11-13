@@ -3,31 +3,30 @@
 
 set_log_channel("run_script");
 
+// 00186AE0
+void runerror(const char* msg);
 // 00186B20
-void CRunScript::stkoverflow() const
-{
-  log_trace("CRunScript::{}()", __func__);
-
-  log_error("stack overflow");
-  throw std::length_error("stack overflow");
-}
-
+void stkoverflow();
+void stkunderflow();
+// 00186B30
+s32 chk_int(RS_STACKDATA stack_data, funcdata* func_data);
 // 00186BD0
-void CRunScript::divby0error() const
-{
-  log_trace("CRunScript::{}()", __func__);
-
-  log_error("Divide by 0");
-  throw std::length_error("Divide by 0");
-}
-
+void divby0error();
 // 00186BE0
-void CRunScript::modby0error() const
+void modby0error();
+// 00186BF0
+void print(RS_STACKDATA* stack_data, usize amount);
+// 00186B90
+bool is_true(RS_STACKDATA stack_data);
+
+// 00186D40
+void CRunScript::DeleteProgram()
 {
   log_trace("CRunScript::{}()", __func__);
 
-  log_error("Modulo by 0");
-  throw std::length_error("Modulo by 0");
+  m_unk_field_3C = false;
+  m_unk_field_40 = false;
+  m_unk_field_44 = nullptr;
 }
 
 // 00186D50
@@ -44,7 +43,7 @@ void CRunScript::check_stack() const
 // 00186D80
 void CRunScript::push(RS_STACKDATA data)
 {
-  log_trace("CRunScript::{}(...)", __func__/*, data TODO*/);
+  log_trace("CRunScript::{}({})", __func__, data);
 
   check_stack();
 
@@ -110,7 +109,77 @@ RS_STACKDATA CRunScript::pop()
   log_trace("CRunScript::{}()", __func__);
 
   --m_stack_current;
-  return *m_stack_current;
+
+  check_stack();
+
+  return *(m_stack_current + 1);
+}
+
+// 00187020
+vmcode_t* CRunScript::ret_func()
+{
+  log_trace("CRunScript::{}()", __func__);
+
+  todo;
+  return nullptr;
+}
+
+// 00187050
+void CRunScript::ext(RS_STACKDATA* stack_data, s32 i)
+{
+  log_trace("CRunScript::{}({}, {})", __func__, *stack_data, i);
+
+  s32 call_index = stack_data->m_data.i;
+
+  if (i < 0 || m_n_ext_func <= i)
+  {
+    log_warn("Not found ext {}", call_index);
+    return;
+  }
+
+  ext_func_t* fn = m_ext_func[call_index];
+
+  if (fn == nullptr)
+  {
+    log_warn("Not found ext {}", call_index);
+    return;
+  }
+
+  if (!fn(stack_data + 1, i + 1))
+  {
+    log_warn("Illegal function call ext {}", call_index);
+    return;
+  }
+  return;
+}
+
+// 001871D0
+void CRunScript::ext_func(ext_func_t** ext_func, usize length)
+{
+  log_trace("CRunScript::{}({}, {})", __func__, fmt::ptr(ext_func), length);
+
+  m_ext_func = ext_func;
+  m_n_ext_func = length;
+}
+
+// 001871E0
+void CRunScript::resume()
+{
+  log_trace("CRunScript::{}()", __func__);
+
+  if (m_vmcode != nullptr)
+  {
+    exe(m_vmcode);
+  }
+}
+
+// 001873B0
+void CRunScript::skip()
+{
+  log_trace("CRunScript::{}()", __func__);
+
+  m_unk_field_40 = true;
+  resume();
 }
 
 // 001873C0
@@ -120,11 +189,11 @@ void CRunScript::exe(vmcode_t* code)
 
   m_vmcode = code;
 
-  for (;; m_vmcode += 1)
+  while (true)
   {
     using Type = EStackDataType::EStackDataType;
 
-    switch (m_vmcode->instruction)
+    switch (m_vmcode->m_instruction)
     {
       case 1:
         // 00187414
@@ -136,16 +205,39 @@ void CRunScript::exe(vmcode_t* code)
         break;
       case 3:
         // 001878E8
-        todo;
+        // _PUSH
+        switch (code->m_op1)
+        {
+          case 1:
+            push_int(code->m_op2);
+            break;
+          case 2:
+            push_float(std::bit_cast<float>(code->m_op2));
+            break;
+          case 3:
+            push_str(static_cast<char*>(m_unk_field_48) + static_cast<uptr>(code->m_op2));
+            break;
+          default:
+            break;
+        }
         break;
       case 4:
         // 00187958
-        todo;
+        // _POP
+        pop();
         break;
       case 5:
+      {
         // 00187890
-        todo;
+        // _DEREF_WRITE
+        // NOTE: an intermediate variable, var_130, is used here, but I don't think it's necessary
+        auto val = pop();
+        auto ptr = pop();
+        ptr.m_data.p->m_data_type = val.m_data_type;
+        ptr.m_data.p->m_data = val.m_data;
+        push(val);
         break;
+      }
       case 6:
       {
         // 00187D00
@@ -171,7 +263,7 @@ void CRunScript::exe(vmcode_t* code)
         }
         else
         {
-          throw std::logic_error("_ADD screwed up at some function; we don't have that data yet! But one or both of the operands aren't numbers! :(");
+          panicf("RUNTIME ERROR at _ADD: {}: operand is not number", m_current_funcdata->m_function_name);
         }
 
         break;
@@ -201,7 +293,7 @@ void CRunScript::exe(vmcode_t* code)
         }
         else
         {
-          throw std::logic_error("_SUB screwed up at some function; we don't have that data yet! But one or both of the operands aren't numbers! :(");
+          panicf("RUNTIME ERROR at _SUB: {}: operand is not number", m_current_funcdata->m_function_name);
         }
 
         break;
@@ -231,7 +323,7 @@ void CRunScript::exe(vmcode_t* code)
         }
         else
         {
-          throw std::logic_error("_MUL screwed up at some function; we don't have that data yet! But one or both of the operands aren't numbers! :(");
+          panicf("RUNTIME ERROR at _MUL: {}: operand is not number", m_current_funcdata->m_function_name);
         }
 
         break;
@@ -262,91 +354,355 @@ void CRunScript::exe(vmcode_t* code)
         }
         else
         {
-          throw std::logic_error("_DIV screwed up at some function; we don't have that data yet! But one or both of the operands aren't numbers! :(");
+          panicf("RUNTIME ERROR at _DIV: {}: operand is not number", m_current_funcdata->m_function_name);
         }
 
         break;
       }
       case 10:
+      {
         // 00188208
-        todo;
+        // _MOD
+        auto rhs = pop();
+        
+        // error handling (not int / div by 0)
+        chk_int(rhs, m_current_funcdata);
+        if (rhs.m_data.i == 0)
+        {
+          modby0error();
+        }
+
+        auto lhs = pop();
+        chk_int(lhs, m_current_funcdata);
+        
+        push_int(lhs.m_data.i % rhs.m_data.i);
+
         break;
+      }
       case 11:
+      {
         // 00188300
-        todo;
+        // _NEGATE
+        auto lhs = pop();
+        if (lhs.m_data_type == EStackDataType::Int)
+        {
+          push_int(-lhs.m_data.i);
+        }
+        else if (lhs.m_data_type == EStackDataType::Float)
+        {
+          push_float(-lhs.m_data.f);
+        }
+        else
+        {
+          panicf("RUNTIME ERROR at _NEGATE: {}: operand is not a number", m_current_funcdata->m_function_name);
+        }
         break;
+      }
       case 12:
+      {
         // 00188550
-        todo;
+        // _ITOF
+        auto lhs = pop();
+        if (lhs.m_data_type == EStackDataType::Int)
+        {
+          push_float(static_cast<float>(lhs.m_data.i));
+        }
+        else if (lhs.m_data_type == EStackDataType::Float)
+        {
+          push_float(lhs.m_data.f);
+        }
+        else
+        {
+          panicf("RUNTIME ERROR at _ITOF: {}: operand is not a number", m_current_funcdata->m_function_name);
+        }
         break;
+      }
       case 13:
+      {
         // 001885E0
-        todo;
+        // _FTOI
+        auto lhs = pop();
+        if (lhs.m_data_type == EStackDataType::Int)
+        {
+          push_int(lhs.m_data.i);
+        }
+        else if (lhs.m_data_type == EStackDataType::Float)
+        {
+          push_int(static_cast<s32>(lhs.m_data.f));
+        }
+        else
+        {
+          panicf("RUNTIME ERROR at _FTOI: {}: operand is not a number", m_current_funcdata->m_function_name);
+        }
         break;
+      }
       case 14:
+      {
         // 00187A38
-        todo;
+        // _CMP
+        auto rhs = pop();
+        auto lhs = pop();
+
+        if (lhs.m_data_type == EStackDataType::Int && rhs.m_data_type == EStackDataType::Int)
+        {
+          s32 lVal = lhs.m_data.i;
+          s32 rVal = rhs.m_data.i;
+
+          switch (code->m_op1)
+          {
+            case ECompare::EQ:
+              push_int(lVal == rVal);
+              break;
+            case ECompare::NE:
+              push_int(lVal != rVal);
+              break;
+            case ECompare::LT:
+              push_int(lVal < rVal);
+              break;
+            case ECompare::LTE:
+              push_int(lVal <= rVal);
+              break;
+            case ECompare::GT:
+              push_int(lVal > rVal);
+              break;
+            case ECompare::GTE:
+              push_int(lVal >= rVal);
+              break;
+            default:
+              break;
+          }
+        }
+        else
+        {
+          f32 lVal;
+          f32 rVal;
+
+          if (lhs.m_data_type == EStackDataType::Float && rhs.m_data_type == EStackDataType::Float)
+          {
+            lVal = lhs.m_data.f;
+            rVal = rhs.m_data.f;
+          }
+          else if (lhs.m_data_type == EStackDataType::Int && rhs.m_data_type == EStackDataType::Float)
+          {
+            lVal = static_cast<f32>(lhs.m_data.i);
+            rVal = rhs.m_data.f;
+          }
+          else if (lhs.m_data_type == EStackDataType::Float && rhs.m_data_type == EStackDataType::Int)
+          {
+            lVal = lhs.m_data.f;
+            rVal = static_cast<f32>(rhs.m_data.i);
+          }
+          else
+          {
+            panicf("RUNTIME ERROR at _CMP: {}: operand is not number\n", m_current_funcdata->m_function_name);
+          }
+
+          switch (code->m_op1)
+          {
+            case ECompare::EQ:
+              push_int(lVal == rVal);
+              break;
+            case ECompare::NE:
+              push_int(lVal != rVal);
+              break;
+            case ECompare::LT:
+              push_int(lVal < rVal);
+              break;
+            case ECompare::LTE:
+              push_int(lVal <= rVal);
+              break;
+            case ECompare::GT:
+              push_int(lVal > rVal);
+              break;
+            case ECompare::GTE:
+              push_int(lVal >= rVal);
+              break;
+            default:
+              break;
+          }
+        }
         break;
+      }
       case 15:
+      {
         // 0018871C
-        todo;
+        auto var_130 = pop();
+
+        if (m_unk_field_28 == m_unk_field_24)
+        {
+          m_unk_field_4C = var_130.m_data;
+          push(var_130);
+          m_unk_field_3C = true;
+        }
+        else
+        {
+          m_stack_current = m_unk_field_30;
+          m_vmcode = ret_func();
+          push(var_130);
+        }
+
         break;
+      }
       case 16:
+      {
         // 00187968
-        todo;
+        // _JMP
+        if (!m_unk_field_40)
+        {
+          m_vmcode = reinterpret_cast<vmcode_t*>(
+            reinterpret_cast<uptr>(m_unk_field_48) + code->m_op1
+          );
+          continue;
+        }
         break;
+      }
       case 17:
+      {
         // 001879E0
-        todo;
+        if (!m_unk_field_40 || !is_true(pop()))
+        {
+          if (code->m_op2)
+          {
+            push_int(false);
+          }
+          m_vmcode = reinterpret_cast<vmcode_t*>(
+            reinterpret_cast<uptr>(m_unk_field_48) + code->m_op1
+          );
+          continue;
+        }
         break;
+      }
       case 18:
+      {
         // 00187988
-        todo;
+        if (!m_unk_field_40 || is_true(pop()))
+        {
+          if (code->m_op2)
+          {
+            push_int(true);
+          }
+          m_vmcode = reinterpret_cast<vmcode_t*>(
+            reinterpret_cast<uptr>(m_unk_field_48) + code->m_op1
+            );
+          continue;
+        }
         break;
+        break;
+      }
       case 19:
         // 001886F0
         todo;
         break;
       case 20:
+      {
         // 00188670
-        todo;
+        // _PRINT
+        usize amount = code->m_op1;
+        m_stack_current -= amount;
+        print(m_stack_current, amount);
         break;
+      }
       case 21:
         // 0018869C
-        todo;
+        // _EXT
+        m_stack_current -= code->m_op1;
+
+        if (!m_unk_field_40)
+        {
+          ext(m_stack_current, code->m_op1);
+        }
+
         break;
       case 23:
+      {
         // 001887A8
-        todo;
+        // _RET
+        if (!m_unk_field_40)
+        {
+          m_vmcode += 1;
+          return;
+        }
         break;
+      }
       case 24:
+      {
         // 00188270
-        todo;
+        // _AND
+        auto rhs = pop();
+        auto rVal = chk_int(rhs, m_current_funcdata);
+        auto lhs = pop();
+        auto lVal = chk_int(lhs, m_current_funcdata);
+        push_int(lVal & rVal);
         break;
+      }
       case 25:
+      {
         // 001882B8
-        todo;
+        // _OR
+        auto rhs = pop();
+        auto rVal = chk_int(rhs, m_current_funcdata);
+        auto lhs = pop();
+        auto lVal = chk_int(lhs, m_current_funcdata);
+        push_int(lVal | rVal);
         break;
+      }
       case 26:
         // 001884D8
         todo;
         break;
       case 27:
         // 001886DC
-        todo;
-        break;
+        m_unk_field_3C = true;
+        m_vmcode = nullptr;
+        return;
       case 28:
         // 001887BC
-        todo;
-        break;
+        ++m_unk_field_50;
+        if (!m_unk_field_40)
+        {
+          break;
+        }
+        m_unk_field_40 = false;
+        m_vmcode += 1;
+        return;
       case 29:
+      {
         // 00188398
-        todo;
+        // _SIN
+        auto lhs = pop();
+        if (lhs.m_data_type == Type::Int)
+        {
+          push_float(sinf(static_cast<f32>(lhs.m_data.i)));
+        }
+        else if (lhs.m_data_type == Type::Float)
+        {
+          push_float(sinf(lhs.m_data.f));
+        }
+        else
+        {
+          panicf("RUNTIME ERROR at _SIN: {}: operand is not a number", m_current_funcdata->m_function_name);
+        }
         break;
+      }
       case 30:
+      {
         // 00188438
-        todo;
+        // _COS
+        auto lhs = pop();
+        if (lhs.m_data_type == Type::Int)
+        {
+          push_float(cosf(static_cast<f32>(lhs.m_data.i)));
+        }
+        else if (lhs.m_data_type == Type::Float)
+        {
+          push_float(cosf(lhs.m_data.f));
+        }
+        else
+        {
+          panicf("RUNTIME ERROR at _COS: {}: operand is not a number", m_current_funcdata->m_function_name);
+        }
         break;
+      }
       case 0:
       case 22:
       default:
@@ -354,5 +710,95 @@ void CRunScript::exe(vmcode_t* code)
         // nop
         break;
     }
+
+    m_vmcode += 1;
+  }
+}
+
+// 00186AE0
+void runerror(const char* msg)
+{
+  log_trace("{}()", __func__);
+
+  panicf("RUNTIME ERROR: {}\n", msg);
+}
+
+// 00186B20
+void stkoverflow()
+{
+  log_trace("{}()", __func__);
+
+  runerror("stack overflow");
+}
+
+void stkunderflow()
+{
+  log_trace("{}()", __func__);
+
+  runerror("stack underflow");
+}
+
+// 00186B30
+s32 chk_int(RS_STACKDATA stack_data, funcdata* func_data)
+{
+  if (stack_data.m_data_type != EStackDataType::Int)
+  {
+    panicf("RUNTIME ERROR: {}: operand is not integer\n", func_data->m_function_name);
+  }
+  return stack_data.m_data.i;
+}
+
+// 00186B90
+bool is_true(RS_STACKDATA stack_data)
+{
+  if (stack_data.m_data_type != EStackDataType::Int)
+  {
+    return false;
+  }
+  return true;
+}
+
+// 00186BD0
+void divby0error()
+{
+  log_trace("{}()", __func__);
+
+  runerror("Divide by 0");
+}
+
+// 00186BE0
+void modby0error()
+{
+  log_trace("{}()", __func__);
+
+  runerror("Modulo by 0");
+}
+
+// 00186BF0
+void print(RS_STACKDATA* stack_data, usize amount)
+{
+  for (; amount > 0; --amount)
+  {
+    log_info("print_stack_value: {}", *stack_data);
+    ++stack_data;
+  }
+}
+
+// 00188820
+s32 rsGetStackInt(RS_STACKDATA* stack_data)
+{
+  if (stack_data->m_data_type == EStackDataType::Float)
+  {
+    return static_cast<int>(stack_data->m_data.f);
+  }
+  return stack_data->m_data.i;
+}
+
+// 00188860
+void rsSetStack(RS_STACKDATA* stack_data, s32 value)
+{
+  if (stack_data->m_data_type == EStackDataType::Pointer)
+  {
+    stack_data->m_data.p->m_data.i = value;
   }
 }

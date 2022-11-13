@@ -1,4 +1,6 @@
 #pragma once
+#include <array>
+#include "glm/glm.hpp"
 #include "character.h"
 #include "dng_main.h"
 #include "event_func.h"
@@ -43,8 +45,30 @@ public:
 class CRandomCircle
 {
 public:
+	// 0028BD50
+	void Draw(glm::vec4* v);
+	// 0028BE40
+	void Step();
+	// 0028BE60
+	void DrawSymbol(CMiniMapSymbol* mini_map_symbol);
+	// 0028BEF0
+	bool CheckArea(glm::vec4* v, float f);
+	// 0028BFA0
+	bool GetPosition(glm::vec4* dest, ssize i);
+	// 0028C020
+	ssize CheckEvent(glm::vec4* v);
+	// 0028C0D0
+	ssize SetCircle(glm::vec4* v);
+	// 0028C160
+	void Clear();
 
+	// 0
+	std::array<glm::vec4, 3> m_unk_field_0{};
+	// 30
+	std::array<bool, 3> m_unk_field_30{ false };
+	// 3C
+	ssize m_unk_field_3C{ -1 };
   // 40
-  CCharacter2 m_unk_field_40;
+	CCharacter2 m_character{};
   // SIZE 0x6A0
 };
