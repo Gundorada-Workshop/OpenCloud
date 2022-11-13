@@ -136,6 +136,8 @@ namespace hd
       const auto label_logical_block_byte_offset = desc.hd2.name_location % logical_block_byte_count;
       const auto label_logical_block_start       = current_descriptor_file_logical_block_address + label_logical_block_offset;
 
+      unused_v(label_logical_block_start);
+
       const auto data_logical_block_address = data_file_logical_block_start + desc.hd2.logical_block_address;
       const auto data_logical_block_count   = desc.hd2.size / logical_block_byte_count;
       const auto data_remaining_bytes_count = desc.hd2.size % logical_block_byte_count;
@@ -183,6 +185,9 @@ namespace hd
       const auto data_logical_block_address = data_file_logical_block_start + desc.hd3.logical_block_address;
       const auto data_logical_block_count   = desc.hd3.size / logical_block_byte_count;
       const auto data_remaining_bytes_count = desc.hd3.size % logical_block_byte_count;
+
+      unused_v(data_logical_block_count);
+      unused_v(label_logical_block_start);
 
       std::string label = read_entry_label(label_logical_block_offset, label_logical_block_byte_offset);
 
@@ -248,6 +253,8 @@ namespace hd
   void file::find_end_of_descriptor_table()
   {
     const auto iso_logical_block_byte_count = g_iso_file->get_logical_block_size();
+
+    unused_v(iso_logical_block_byte_count);
 
     const auto descriptor_file_logical_block_start        = m_descriptor_file_entry.logical_block_address;
     const auto descriptor_file_logical_block_count        = m_descriptor_file_entry.logical_block_count;

@@ -100,10 +100,10 @@ namespace common::debug
 #define unimplemented_member(type, pos) \
   type m_unk_field_##pos{ };
 
-#define UNUSED_ATTR(attr) \
+#define unused_p(attr) \
   // #attr
 
-#define UNUSED_VAR(var) \
+#define unused_v(var) \
   (void)var
 
 #define _UNKNOWN int

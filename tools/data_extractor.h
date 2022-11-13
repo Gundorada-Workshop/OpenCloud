@@ -25,7 +25,7 @@ public:
 
 public:
   // get a handle to an iso file
-  static ptr_type open(std::string_view file);
+  static ptr_type open();
 
 public:
   bool extract_file(std::string_view iso_file_path);

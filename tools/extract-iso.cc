@@ -141,7 +141,7 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
     return EXIT_FAILURE;
   }
 
-  auto extractor = extractor::open(*iso_path);
+  auto extractor = extractor::open();
 
   if (!extractor)
   {
