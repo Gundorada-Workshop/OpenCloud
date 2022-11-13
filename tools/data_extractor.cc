@@ -20,7 +20,7 @@ extractor::extractor()
 
 extractor::~extractor() = default;
 
-extractor::ptr_type extractor::open(std::string_view file)
+extractor::ptr_type extractor::open()
 {
   auto out = std::make_unique<extractor>();
 
