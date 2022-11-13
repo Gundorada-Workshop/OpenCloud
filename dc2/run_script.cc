@@ -669,9 +669,24 @@ void CRunScript::exe(vmcode_t* code)
         break;
       }
       case 30:
+      {
         // 00188438
-        todo;
+        // _COS
+        auto lhs = pop();
+        if (lhs.m_data_type == Type::Int)
+        {
+          push_float(cosf(static_cast<f32>(lhs.m_data.i)));
+        }
+        else if (lhs.m_data_type == Type::Float)
+        {
+          push_float(cosf(lhs.m_data.f));
+        }
+        else
+        {
+          panicf("RUNTIME ERROR at _COS: {}: operand is not a number", m_current_funcdata->m_function_name);
+        }
         break;
+      }
       case 0:
       case 22:
       default:
