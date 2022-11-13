@@ -641,8 +641,14 @@ void CRunScript::exe(vmcode_t* code)
         return;
       case 28:
         // 001887BC
-        todo;
-        break;
+        ++m_unk_field_50;
+        if (!m_unk_field_40)
+        {
+          break;
+        }
+        m_unk_field_40 = false;
+        m_vmcode += 1;
+        return;
       case 29:
         // 00188398
         todo;
