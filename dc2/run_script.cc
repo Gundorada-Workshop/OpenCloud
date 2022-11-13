@@ -543,11 +543,11 @@ void CRunScript::exe(vmcode_t* code)
       case 17:
       {
         // 001879E0
-        if (!m_unk_field_40 && !is_true(pop()))
+        if (!m_unk_field_40 || !is_true(pop()))
         {
           if (code->m_op2)
           {
-            push_int(0);
+            push_int(false);
           }
           m_vmcode = reinterpret_cast<vmcode_t*>(
             reinterpret_cast<uptr>(m_unk_field_48) + code->m_op1
@@ -557,9 +557,22 @@ void CRunScript::exe(vmcode_t* code)
         break;
       }
       case 18:
+      {
         // 00187988
-        todo;
+        if (!m_unk_field_40 || is_true(pop()))
+        {
+          if (code->m_op2)
+          {
+            push_int(true);
+          }
+          m_vmcode = reinterpret_cast<vmcode_t*>(
+            reinterpret_cast<uptr>(m_unk_field_48) + code->m_op1
+            );
+          continue;
+        }
         break;
+        break;
+      }
       case 19:
         // 001886F0
         todo;
