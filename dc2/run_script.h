@@ -31,6 +31,19 @@ namespace EStackDataType
   };
 }
 
+namespace ECompare
+{
+  enum ECompare : u8
+  {
+    EQ = 0,
+    NE = 1,
+    LT = 2,
+    LTE = 3,
+    GT = 4,
+    GTE = 5
+  };
+}
+
 struct RS_STACKDATA;
 
 union stackdata_t

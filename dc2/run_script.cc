@@ -364,13 +364,111 @@ void CRunScript::exe(vmcode_t* code)
         break;
       }
       case 13:
+      {
         // 001885E0
-        todo;
+        // _FTOI
+        auto lhs = pop();
+        if (lhs.m_data_type == EStackDataType::Int)
+        {
+          push_int(lhs.m_data.i);
+        }
+        else if (lhs.m_data_type == EStackDataType::Float)
+        {
+          push_int(static_cast<s32>(lhs.m_data.f));
+        }
+        else
+        {
+          panicf("RUNTIME ERROR at _FTOI: {}: operand is not a number", m_current_funcdata->m_function_name);
+        }
         break;
+      }
       case 14:
+      {
         // 00187A38
-        todo;
+        // _CMP
+        auto rhs = pop();
+        auto lhs = pop();
+
+        if (lhs.m_data_type == EStackDataType::Int && rhs.m_data_type == EStackDataType::Int)
+        {
+          s32 lVal = lhs.m_data.i;
+          s32 rVal = rhs.m_data.i;
+
+          switch (code->m_op1)
+          {
+            case ECompare::EQ:
+              push_int(lVal == rVal);
+              break;
+            case ECompare::NE:
+              push_int(lVal != rVal);
+              break;
+            case ECompare::LT:
+              push_int(lVal < rVal);
+              break;
+            case ECompare::LTE:
+              push_int(lVal <= rVal);
+              break;
+            case ECompare::GT:
+              push_int(lVal > rVal);
+              break;
+            case ECompare::GTE:
+              push_int(lVal >= rVal);
+              break;
+            default:
+              break;
+          }
+        }
+        else
+        {
+          f32 lVal;
+          f32 rVal;
+
+          if (lhs.m_data_type == EStackDataType::Float && rhs.m_data_type == EStackDataType::Float)
+          {
+            lVal = lhs.m_data.f;
+            rVal = rhs.m_data.f;
+          }
+          else if (lhs.m_data_type == EStackDataType::Int && rhs.m_data_type == EStackDataType::Float)
+          {
+            lVal = static_cast<f32>(lhs.m_data.i);
+            rVal = rhs.m_data.f;
+          }
+          else if (lhs.m_data_type == EStackDataType::Float && rhs.m_data_type == EStackDataType::Int)
+          {
+            lVal = lhs.m_data.f;
+            rVal = static_cast<f32>(rhs.m_data.i);
+          }
+          else
+          {
+            panicf("RUNTIME ERROR at _CMP: {}: operand is not number\n", m_current_funcdata->m_function_name);
+          }
+
+          switch (code->m_op1)
+          {
+            case ECompare::EQ:
+              push_int(lVal == rVal);
+              break;
+            case ECompare::NE:
+              push_int(lVal != rVal);
+              break;
+            case ECompare::LT:
+              push_int(lVal < rVal);
+              break;
+            case ECompare::LTE:
+              push_int(lVal <= rVal);
+              break;
+            case ECompare::GT:
+              push_int(lVal > rVal);
+              break;
+            case ECompare::GTE:
+              push_int(lVal >= rVal);
+              break;
+            default:
+              break;
+          }
+        }
         break;
+      }
       case 15:
         // 0018871C
         todo;
