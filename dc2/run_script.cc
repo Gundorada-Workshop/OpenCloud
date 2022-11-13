@@ -620,9 +620,16 @@ void CRunScript::exe(vmcode_t* code)
         break;
       }
       case 25:
+      {
         // 001882B8
-        todo;
+        // _OR
+        auto rhs = pop();
+        auto rVal = chk_int(rhs, m_current_funcdata);
+        auto lhs = pop();
+        auto lVal = chk_int(lhs, m_current_funcdata);
+        push_int(lVal | rVal);
         break;
+      }
       case 26:
         // 001884D8
         todo;
