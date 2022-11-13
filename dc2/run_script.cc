@@ -173,7 +173,7 @@ void CRunScript::exe(vmcode_t* code)
 
   m_vmcode = code;
 
-  for (;; m_vmcode += 1)
+  while (true)
   {
     using Type = EStackDataType::EStackDataType;
 
@@ -528,9 +528,18 @@ void CRunScript::exe(vmcode_t* code)
         break;
       }
       case 16:
+      {
         // 00187968
-        todo;
+        // _JMP
+        if (!m_unk_field_40)
+        {
+          m_vmcode = reinterpret_cast<vmcode_t*>(
+            reinterpret_cast<uptr>(m_unk_field_48) + code->m_op1
+          );
+          continue;
+        }
         break;
+      }
       case 17:
         // 001879E0
         todo;
@@ -602,6 +611,8 @@ void CRunScript::exe(vmcode_t* code)
         // nop
         break;
     }
+
+    m_vmcode += 1;
   }
 }
 

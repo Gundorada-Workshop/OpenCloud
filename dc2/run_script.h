@@ -11,6 +11,8 @@ struct vmcode_t
   u32 m_op2;
 };
 
+static_assert(sizeof(vmcode_t) == 0xC, "needs to be 0xC for interpreter to function correctly");
+
 struct RS_CALLDATA {};
 struct RS_PROG_HEADER {};
 
@@ -143,7 +145,7 @@ private:
   // 44
   char* m_unk_field_44{ nullptr };
   // 48
-  _UNKNOWNPOINTER m_unk_field_48{ nullptr };
+  void* m_unk_field_48{ nullptr };
   // 4C
   stackdata_t m_unk_field_4C{};
   // 50
