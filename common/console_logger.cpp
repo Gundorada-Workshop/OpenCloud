@@ -7,7 +7,7 @@ namespace common::log::console_logger
 {
   static std::optional<output_callback::cb_handle> s_callback_handle{ };
 
-  static void console_log_callback(std::string_view chan, level lvl, std::string_view file, std::string_view fn, std::string_view msg)
+  static void console_log_callback(std::string_view chan, level lvl, std::string_view unused_p(file), std::string_view unused_p(fn), std::string_view msg)
   {
     const auto now = std::chrono::system_clock::now();
 
