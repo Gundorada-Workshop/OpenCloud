@@ -298,9 +298,22 @@ static const std::array<SPI_TAG_PARAM, 25> gamedata_tag =
   NULL, nullptr
 };
 
+// 001946D0
 CGameData::CGameData()
 {
   log_trace("CGameData()");
 
-  todo;
+  m_com_itemdata = local_com_itemdata.data();
+  m_itemdata = local_itemdata.data();
+  m_weapondata = local_weapondata.data();
+  m_guarddata = local_guarddata.data();
+  m_attachdata = local_attachdata.data();
+  m_robodata = local_robodata.data();
+  m_fishdata = local_fishdata.data();
+
+  // 00195720
+  for (int i = 0; i < local_com_itemdata.size(); ++i)
+  {
+    new (&local_com_itemdata[i]) CDataItemCom();
+  }
 }
