@@ -1,4 +1,5 @@
 #include <array>
+#include <unordered_map>
 #include "common/debug.h"
 #include "common/log.h"
 #include "common/types.h"
@@ -7,6 +8,9 @@
 #include "script_interpreter.h"
 
 set_log_channel("gamedata");
+
+using ComType = ECommonItemDataType::ECommonItemDataType;
+using UsedType = EUsedItemType::EUsedItemType;
 
 // 0037704C
 static SDataItemCommon* comdatapt{ nullptr };
@@ -387,3 +391,61 @@ bool LoadGameDataAnalyze(const char* config_file_name)
   return false;
 }
 
+// 00195F10
+UsedType ConvertUsedItemType(ComType type)
+{
+  // Did runtime analysis to determine these
+  static std::unordered_map<ComType, UsedType> convert_table = {
+    {ComType::Invalid, UsedType::Invalid},
+    {ComType::_1, UsedType::_3},
+    {ComType::_2, UsedType::_3},
+    {ComType::_3, UsedType::_3},
+    {ComType::_4, UsedType::_3},
+    {ComType::_5, UsedType::_4},
+    {ComType::_6, UsedType::_4},
+    {ComType::_7, UsedType::_4},
+    {ComType::_8, UsedType::_4},
+    {ComType::_9, UsedType::_4},
+    {ComType::_10, UsedType::_4},
+    {ComType::_11, UsedType::_1},
+    {ComType::_12, UsedType::_5},
+    {ComType::_13, UsedType::_5},
+    {ComType::_14, UsedType::_5},
+    {ComType::_15, UsedType::_5},
+    {ComType::_16, UsedType::_2},
+    {ComType::_17, UsedType::_2},
+    {ComType::_18, UsedType::_2},
+    {ComType::_19, UsedType::_2},
+    {ComType::_20, UsedType::_1},
+    {ComType::_21, UsedType::_1},
+    {ComType::_22, UsedType::_1},
+    {ComType::_23, UsedType::_1},
+    {ComType::_24, UsedType::_1},
+    {ComType::_25, UsedType::_1},
+    {ComType::_26, UsedType::_1},
+    {ComType::_27, UsedType::_1},
+    {ComType::_28, UsedType::_7},
+    {ComType::_29, UsedType::_1},
+    {ComType::_30, UsedType::_6},
+    {ComType::_31, UsedType::_1},
+    {ComType::_32, UsedType::_1},
+    {ComType::_33, UsedType::_1},
+    {ComType::_34, UsedType::_2},
+    {ComType::_35, UsedType::_8},
+  };
+
+  auto result = convert_table.find(type);
+  if (result == convert_table.end())
+  {
+    if (type < 0)
+    {
+      return UsedType::Invalid;
+    }
+    else
+    {
+      // ?
+      return UsedType::_1;
+    }
+  };
+  return result->second;
+}
