@@ -109,8 +109,6 @@ namespace hd
       label += temp;
     }
 
-    log_info("{} {} ----> {}", m_data_file_entry.path, m_descriptor_file_entry.path, label);
-
     return label;
   }
 

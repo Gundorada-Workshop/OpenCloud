@@ -166,7 +166,13 @@ bool extractor::extract_hdx(hd::file& hdx_file)
 
     for (auto& entry : block_entry_list)
     {
-      const std::string output_file_path = file_helpers::append(m_output_directory_path, entry.label);
+      const auto label = strings::from_sjis(entry.label);
+      if (!label)
+        panicf("Failed to convert label to utf8");
+
+      log_info("--> {}", *label);
+
+      const std::string output_file_path = file_helpers::append(m_output_directory_path, *label);
       const std::string_view output_file_parent_path = file_helpers::parent_directory(output_file_path);
 
       const auto entry_logical_block_count = entry.data_file_logical_block_count;
@@ -226,8 +232,11 @@ bool extractor::extract_direct(const iso9660::file::file_entry& file)
 {
   std::FILE* output_file{ nullptr };
 
-  const std::string_view file_path = file.path;
-  const auto output_file_path = file_helpers::append(m_output_directory_path, file_path);
+  const auto file_path = strings::from_sjis(file.path);
+  if (!file_path)
+    panicf("Failed to convert file path to utf8");
+
+  const auto output_file_path = file_helpers::append(m_output_directory_path, *file_path);
 
   if (!file_helpers::open_native(&output_file, output_file_path, "wb"))
   {
