@@ -9,14 +9,14 @@
 set_log_channel("gamedata");
 
 // 0037704C
-static CDataItemCom* comdatapt{ nullptr };
+static SDataItemCommon* comdatapt{ nullptr };
 // 00377050
 static s32 comdatapt_num{ 0 };
 // 01E69570
 static CGameData GameItemDataManage{};
 // 01E695A0
 // FIXME: MAGIC: capacity
-static std::array<CDataItemCom, 54> local_com_itemdata{};
+static std::array<SDataItemCommon, 0x1B0> local_com_itemdata{};
 // 01E6DFE0
 // FIXME: MAGIC: capacity
 static std::array<CDataItem, 162> local_itemdata{};
@@ -321,7 +321,7 @@ CGameData::CGameData()
   // 00195720
   for (int i = 0; i < local_com_itemdata.size(); ++i)
   {
-    new (&local_com_itemdata[i]) CDataItemCom();
+    new (&local_com_itemdata[i]) SDataItemCommon();
   }
 }
 
@@ -361,6 +361,23 @@ s32 CGameData::LoadData()
   return m_unk_field_0;
 }
 
+// 00195770
+SDataItemCommon* CGameData::GetCommonData(ssize index)
+{
+  if (index < 0 || local_itemdatano_converttable.size() <= index)
+  {
+    return nullptr;
+  }
+
+  auto convert_index = local_itemdatano_converttable[index];
+  if (convert_index < 0)
+  {
+    return nullptr;
+  }
+
+  return &m_com_itemdata[convert_index];
+}
+
 // 00195470
 bool LoadGameDataAnalyze(const char* config_file_name)
 {
@@ -369,3 +386,4 @@ bool LoadGameDataAnalyze(const char* config_file_name)
   todo;
   return false;
 }
+
