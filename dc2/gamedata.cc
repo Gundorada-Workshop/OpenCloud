@@ -1,12 +1,17 @@
 #include <array>
 #include "common/debug.h"
 #include "common/log.h"
+#include "common/types.h"
 
 #include "gamedata.h"
 #include "script_interpreter.h"
 
 set_log_channel("gamedata");
 
+// 0037704C
+static CDataItemCom* comdatapt{ nullptr };
+// 00377050
+static s32 comdatapt_num{ 0 };
 // 01E69570
 static CGameData GameItemDataManage{};
 // 01E695A0
@@ -30,6 +35,8 @@ static std::array<CDataBreedFish, 20> local_fishdata{};
 // 01E71B20
 // FIXME: MAGIC: capacity
 static std::array<CDataGuard, 20> local_guarddata{};
+// 01E71B70
+static std::array<s16, 0x200> local_itemdatano_converttable{ -1 };
 
 // 00194750
 static bool _DATACOMINIT(SPI_STACK* stack, int stack_count)
@@ -316,4 +323,49 @@ CGameData::CGameData()
   {
     new (&local_com_itemdata[i]) CDataItemCom();
   }
+}
+
+// 00195540
+s32 CGameData::LoadData()
+{
+  log_trace("CGameData::{}()", __func__);
+
+  new (this) CGameData();
+
+  comdatapt_num = 0;
+  comdatapt = m_com_itemdata;
+  for (int i = 0; i < local_itemdatano_converttable.size(); ++i)
+  {
+    local_itemdatano_converttable[i] = -1;
+  }
+
+  LoadGameDataAnalyze("comdat.cfg");
+  LoadGameDataAnalyze("wepdat.cfg");
+  LoadGameDataAnalyze("itemdat.cfg");
+  LoadGameDataAnalyze("atdat.cfg");
+  LoadGameDataAnalyze("robodat.cfg");
+  LoadGameDataAnalyze("fishdat.cfg");
+  LoadGameDataAnalyze("grddat.cfg");
+
+  m_unk_field_22 = comdatapt_num;
+  m_unk_field_20 = 0;
+
+  for (int i = 0; i < local_itemdatano_converttable.size(); ++i)
+  {
+    if (local_itemdatano_converttable[i] >= 0)
+    {
+      m_unk_field_20 = local_itemdatano_converttable[i];
+    }
+  }
+
+  return m_unk_field_0;
+}
+
+// 00195470
+bool LoadGameDataAnalyze(const char* config_file_name)
+{
+  log_trace("LoadGameDataAnalyze({})", config_file_name);
+
+  todo;
+  return false;
 }

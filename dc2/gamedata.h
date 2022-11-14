@@ -83,6 +83,9 @@ public:
   CGameData(CGameData& other) = delete;
   void operator=(const CGameData&) = delete;
 
+  // 00195540
+  s32 LoadData();
+
   // 0
   _DWORD m_unk_field_0{ 0 };
   // 4
@@ -116,3 +119,6 @@ public:
   // 2E
   _WORD m_unk_field_2E{ 0 };
 };
+
+// 00195470
+bool LoadGameDataAnalyze(const char* config_file_name);
