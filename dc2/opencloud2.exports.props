@@ -5,6 +5,5 @@
       <Project>{DC4A4239-8C6B-42DD-9612-999041EE0B5C}</Project>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(SolutionDir)external\fmt.exports.props" />
-  <Import Project="$(SolutionDir)external\glm.exports.props"/>
+  <Import Project="$(SolutionDir)common\common.exports.props" />
 </Project>
