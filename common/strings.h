@@ -13,6 +13,7 @@ namespace common::strings
 #if defined(_WIN32)
   std::optional<std::string>  to_utf8(std::wstring_view wide);
   std::optional<std::wstring> to_wstring(std::string_view utf8);
+  std::optional<std::string> from_sjis(std::string_view sjis);
 #endif // _WIN32
 
   // format a string
