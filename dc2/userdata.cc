@@ -54,6 +54,22 @@ void CGameDataUsed::Initialize()
   memset(this, 0, sizeof(this));
 }
 
+// 001971D0
+s16 CGameDataUsed::GetLevel()
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  switch (m_type)
+  {
+    case EUsedItemType::Weapon:
+      return m_sub_data.m_weapon.m_level;
+    case EUsedItemType::Attach:
+      return m_sub_data.m_attach.m_level;
+    default:
+      return 0;
+  }
+}
+
 // 00197480
 s16 CGameDataUsed::AddFishHp(s16 delta)
 {
@@ -102,7 +118,16 @@ void CGameDataUsed::SetName(const char* name)
   }
 
   strcpy_s(name_buf->data(), name_buf->size(), name);
-  m_unk_field_5 = strcmp(GetItemMessage(m_unk_field_2), name_buf->data()) != 0;
+  m_unk_field_5 = strcmp(GetItemMessage(m_common_index), name_buf->data()) != 0;
+}
+
+// 001992B0
+bool CGameDataUsed::IsFishingRod()
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  return m_common_index == ECommonItemData::FishingRod0 || \
+    m_common_index == ECommonItemData::FishingRod1;
 }
 
 // 0019AE10

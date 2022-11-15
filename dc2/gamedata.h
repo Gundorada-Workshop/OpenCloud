@@ -48,6 +48,15 @@ namespace ECommonItemDataType
   };
 }
 
+namespace ECommonItemData
+{
+  enum ECommonItemData : s16
+  {
+    FishingRod0 = 302,
+    FishingRod1 = 303,
+  };
+}
+
 namespace EUsedItemType
 {
   enum EUsedItemType

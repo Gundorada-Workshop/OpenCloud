@@ -26,14 +26,23 @@ namespace EUsedItemType
   enum EUsedItemType;
 }
 
+namespace ECommonItemData
+{
+  enum ECommonItemData : s16;
+}
+
 struct SGameDataUsedAttachSub
 {
+  // 18
+  s16 m_level{ 0 };
   // 20
   std::array<char, 0x20> m_name{ 0 };
 };
 
 struct SGameDataUsedWeaponSub
 {
+  // 10
+  s16 m_level{ 0 };
   // 33
   std::array<char, 0x20> m_name{ 0 };
 };
@@ -68,15 +77,19 @@ public:
   CGameDataUsed();
   // 001970c0
   void Initialize();
+  // 001971D0
+  s16 GetLevel();
   // 00197480
   s16 AddFishHp(s16 delta);
   // 00197630
   void SetName(const char* name);
+  // 001992B0
+  bool IsFishingRod();
 
   // 0
   EUsedItemType::EUsedItemType m_type{ static_cast<EUsedItemType::EUsedItemType>(0) };
   // 2
-  s16 m_unk_field_2;
+  ECommonItemData::ECommonItemData m_common_index;
   // 4
   s8 m_unk_field_4;
   // 5
