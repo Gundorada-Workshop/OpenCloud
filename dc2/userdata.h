@@ -9,6 +9,18 @@
 // TODO THIS FILE
 struct MOS_CHANGE_PARAM {};
 
+struct MOS_HENGE_PARAM
+{
+  // 0
+  s16 m_id;
+  // 2
+  s16 m_unk_field_2;
+  // 4
+  s16 m_unk_field_4;
+  // 8
+  std::array<const char*, 5> m_unk_field_8;
+};
+
 class CGameDataUsed
 {
 public:
@@ -186,3 +198,6 @@ public:
 
   // Size 0x90
 };
+
+// 0019A890
+MOS_HENGE_PARAM* GetMonsterHengeParam(ssize index);
