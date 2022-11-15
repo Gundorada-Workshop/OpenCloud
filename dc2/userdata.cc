@@ -1,5 +1,8 @@
 ﻿#include <string>
+#include "common/debug.h"
 #include "common/log.h"
+#include "common/types.h"
+#include "gamedata.h"
 #include "userdata.h"
 
 set_log_channel("userdata");
@@ -49,6 +52,20 @@ void CGameDataUsed::Initialize()
   log_trace("CGameDataUsed::Initialize()");
 
   memset(this, 0, sizeof(this));
+}
+
+// 00197480
+s16 CGameDataUsed::AddFishHp(s16 delta)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, delta);
+
+  if (m_type != EUsedItemType::Fish)
+  {
+    return 0;
+  }
+
+  m_fish_hp = std::clamp(m_fish_hp + delta, 0, 100);
+  return m_fish_hp;
 }
 
 // 0019AE10

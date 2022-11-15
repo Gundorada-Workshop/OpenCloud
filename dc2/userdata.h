@@ -21,6 +21,11 @@ struct MOS_HENGE_PARAM
   std::array<const char*, 5> m_unk_field_8;
 };
 
+namespace EUsedItemType
+{
+  enum EUsedItemType;
+}
+
 class CGameDataUsed
 {
 public:
@@ -28,6 +33,16 @@ public:
   CGameDataUsed();
   // 001970c0
   void Initialize();
+  // 00197480
+  s16 AddFishHp(s16 delta);
+
+  // 0
+  EUsedItemType::EUsedItemType m_type{ static_cast<EUsedItemType::EUsedItemType>(0) };
+
+  // 30
+  s32 m_fish_hp{ 0 };
+
+  // SIZE 0x6C, all initialized to 0
 };
 
 class CFishAquarium
