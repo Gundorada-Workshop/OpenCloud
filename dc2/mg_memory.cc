@@ -158,7 +158,7 @@ void* mgCMemory::stAllocTest(ssize n_blocks)
 	usize new_allocated = current_allocated + n_blocks;
 
 	if (new_allocated >= max_allocated)
-		log_error("stack over %Iu/%Iu at %s\n", new_allocated, max_allocated, m_label);
+		log_error("stack over {}/{} at {}\n", new_allocated, max_allocated, std::string{ m_label.data() });
 
 	return static_cast<char*>(m_stack_start) + (current_allocated * 0x10);
 }
@@ -179,7 +179,7 @@ void* mgCMemory::stAlloc(ssize n_blocks)
 	usize new_allocated = current_allocated + n_blocks;
 
 	if (new_allocated >= max_allocated)
-		log_error("stack over %Iu/%Iu at %s\n", new_allocated, max_allocated, m_label);
+		log_error("stack over {}/{} at {}\n", new_allocated, max_allocated, std::string{ m_label.data() });
 
 	void *result = static_cast<char*>(m_stack_start) + (current_allocated * 0x10);
 	m_stack_current_allocated = new_allocated;

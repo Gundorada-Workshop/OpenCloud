@@ -190,7 +190,7 @@ void CMiniMapSymbol::DrawSymbol(glm::vec4& pos, EMiniMapSymbol::EMiniMapSymbol s
     EMiniMapSymbol::TERMINATOR,      {0,   0,   0},   0,  0,  false, false,
   };
 
-  log_trace("CMiniMapSymbol::DrawSymbol({}, {})", fmt::ptr(&pos), symbol_type);
+  log_trace("CMiniMapSymbol::DrawSymbol({}, {})", fmt::ptr(&pos), std::to_underlying(symbol_type));
 
   todo;
 }
