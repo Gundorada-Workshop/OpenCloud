@@ -412,6 +412,35 @@ CDataWeapon* CGameData::GetWeaponData(ssize index)
   return nullptr;
 }
 
+// 00195890
+CDataItem* CGameData::GetItemData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  auto common_data = GetCommonData(index);
+  if (common_data == nullptr)
+  {
+    return nullptr;
+  }
+
+  if (m_unk_field_24 <= common_data->m_unk_field_4)
+  {
+    return nullptr;
+  }
+
+  if (m_itemdata == nullptr)
+  {
+    return nullptr;
+  }
+
+  auto type = ConvertUsedItemType(common_data->m_type);
+  if (type == UsedType::Item_7 || type == UsedType::Item_8 || type == UsedType::Item_1)
+  {
+    return &m_itemdata[common_data->m_unk_field_4];
+  }
+  return nullptr;
+}
+
 // 00195470
 bool LoadGameDataAnalyze(const char* config_file_name)
 {
@@ -439,7 +468,7 @@ UsedType ConvertUsedItemType(ComType type)
     {ComType::_8, UsedType::_4},
     {ComType::_9, UsedType::_4},
     {ComType::_10, UsedType::_4},
-    {ComType::_11, UsedType::_1},
+    {ComType::_11, UsedType::Item_1},
     {ComType::_12, UsedType::_5},
     {ComType::_13, UsedType::_5},
     {ComType::_14, UsedType::_5},
@@ -448,22 +477,22 @@ UsedType ConvertUsedItemType(ComType type)
     {ComType::_17, UsedType::_2},
     {ComType::_18, UsedType::_2},
     {ComType::_19, UsedType::_2},
-    {ComType::_20, UsedType::_1},
-    {ComType::_21, UsedType::_1},
-    {ComType::_22, UsedType::_1},
-    {ComType::_23, UsedType::_1},
-    {ComType::_24, UsedType::_1},
-    {ComType::_25, UsedType::_1},
-    {ComType::_26, UsedType::_1},
-    {ComType::_27, UsedType::_1},
-    {ComType::_28, UsedType::_7},
-    {ComType::_29, UsedType::_1},
+    {ComType::_20, UsedType::Item_1},
+    {ComType::_21, UsedType::Item_1},
+    {ComType::_22, UsedType::Item_1},
+    {ComType::_23, UsedType::Item_1},
+    {ComType::_24, UsedType::Item_1},
+    {ComType::_25, UsedType::Item_1},
+    {ComType::_26, UsedType::Item_1},
+    {ComType::_27, UsedType::Item_1},
+    {ComType::_28, UsedType::Item_7},
+    {ComType::_29, UsedType::Item_1},
     {ComType::_30, UsedType::_6},
-    {ComType::_31, UsedType::_1},
-    {ComType::_32, UsedType::_1},
-    {ComType::_33, UsedType::_1},
+    {ComType::_31, UsedType::Item_1},
+    {ComType::_32, UsedType::Item_1},
+    {ComType::_33, UsedType::Item_1},
     {ComType::_34, UsedType::_2},
-    {ComType::_35, UsedType::_8},
+    {ComType::_35, UsedType::Item_8},
   };
 
   auto result = convert_table.find(type);
@@ -476,7 +505,7 @@ UsedType ConvertUsedItemType(ComType type)
     else
     {
       // ?
-      return UsedType::_1;
+      return UsedType::Item_1;
     }
   };
   return result->second;

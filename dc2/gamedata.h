@@ -53,14 +53,14 @@ namespace EUsedItemType
   enum EUsedItemType
   {
     Invalid = 0,
-    _1 = 1,
+    Item_1 = 1,
     _2 = 2,
     Weapon = 3,
     _4 = 4,
     _5 = 5,
     _6 = 6,
-    _7 = 7,
-    _8 = 8,
+    Item_7 = 7,
+    Item_8 = 8,
   };
 }
 
@@ -138,6 +138,8 @@ public:
   SDataItemCommon* GetCommonData(ssize index);
   // 001957E0
   CDataWeapon* GetWeaponData(ssize index);
+  // 00195890
+  CDataItem* GetItemData(ssize index);
 
   // 0
   _DWORD m_unk_field_0{ 0 };
