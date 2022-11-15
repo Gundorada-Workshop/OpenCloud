@@ -10,6 +10,63 @@ set_log_channel("userdata");
 // 01E9B130
 static CBattleCharaInfo BattleParameter{};
 
+// 00196C90
+bool COMMON_GAGE::CheckFill()
+{
+  log_trace("COMMON_GAGE::{}()", __func__);
+
+  return m_max == m_current;
+}
+
+// 00196CC0
+f32 COMMON_GAGE::GetRate()
+{
+  log_trace("COMMON_GAGE::{}()", __func__);
+
+  if (m_max == 0.0f)
+  {
+    return 0.0f;
+  }
+
+  return m_current / m_max;
+}
+
+// 00196D00
+void COMMON_GAGE::SetFillRate(f32 rate)
+{
+  log_trace("COMMON_GAGE::{}({})", __func__, rate);
+
+  m_current = m_max * rate;
+}
+
+// 00196D10
+void COMMON_GAGE::AddPoint(f32 delta)
+{
+  log_trace("COMMON_GAGE::{}({})", __func__, delta);
+
+  m_current = std::clamp(m_current + delta, 0.0f, m_max);
+}
+
+// 00196D60
+void COMMON_GAGE::AddRate(f32 delta)
+{
+  log_trace("COMMON_GAGE::{}({})", __func__, delta);
+
+  m_current = std::clamp(m_current + (m_max * delta), 0.0f, m_max);
+}
+
+// 00196DB0
+f32 GetCommonGageRate(COMMON_GAGE* gage)
+{
+  log_trace("{}({})", __func__, fmt::ptr(gage));
+
+  if (gage == nullptr)
+  {
+    return 0.0f;
+  }
+  return gage->GetRate();
+}
+
 // 0019a160
 void CFishAquarium::Initialize()
 {

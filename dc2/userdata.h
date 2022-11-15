@@ -21,6 +21,28 @@ struct MOS_HENGE_PARAM
   std::array<const char*, 5> m_unk_field_8;
 };
 
+struct COMMON_GAGE
+{
+  // 0
+  f32 m_max;
+  // 4
+  f32 m_current;
+
+  // 00196C90
+  bool CheckFill();
+  // 00196CC0
+  f32 GetRate();
+  // 00196D00
+  void SetFillRate(f32 rate);
+  // 00196D10
+  void AddPoint(f32 delta);
+  // 00196D60
+  void AddRate(f32 delta);
+};
+
+// 00196DB0
+f32 GetCommonGageRate(COMMON_GAGE* gage);
+
 namespace EUsedItemType
 {
   enum EUsedItemType;
