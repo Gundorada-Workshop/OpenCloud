@@ -54,7 +54,7 @@ namespace EUsedItemType
   {
     Invalid = 0,
     Item_1 = 1,
-    _2 = 2,
+    Attach = 2,
     Weapon = 3,
     _4 = 4,
     _5 = 5,
@@ -140,6 +140,8 @@ public:
   CDataWeapon* GetWeaponData(ssize index);
   // 00195890
   CDataItem* GetItemData(ssize index);
+  // 00195940
+  CDataAttach* GetAttachData(ssize index);
 
   // 0
   _DWORD m_unk_field_0{ 0 };

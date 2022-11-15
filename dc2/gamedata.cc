@@ -441,6 +441,35 @@ CDataItem* CGameData::GetItemData(ssize index)
   return nullptr;
 }
 
+// 00195940
+CDataAttach* CGameData::GetAttachData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  auto common_data = GetCommonData(index);
+  if (common_data == nullptr)
+  {
+    return nullptr;
+  }
+
+  if (m_unk_field_2A <= common_data->m_unk_field_4)
+  {
+    return nullptr;
+  }
+
+  if (m_attachdata == nullptr)
+  {
+    return nullptr;
+  }
+
+  auto type = ConvertUsedItemType(common_data->m_type);
+  if (type == UsedType::Attach)
+  {
+    return &m_attachdata[common_data->m_unk_field_4];
+  }
+  return nullptr;
+}
+
 // 00195470
 bool LoadGameDataAnalyze(const char* config_file_name)
 {
@@ -473,10 +502,10 @@ UsedType ConvertUsedItemType(ComType type)
     {ComType::_13, UsedType::_5},
     {ComType::_14, UsedType::_5},
     {ComType::_15, UsedType::_5},
-    {ComType::_16, UsedType::_2},
-    {ComType::_17, UsedType::_2},
-    {ComType::_18, UsedType::_2},
-    {ComType::_19, UsedType::_2},
+    {ComType::_16, UsedType::Attach},
+    {ComType::_17, UsedType::Attach},
+    {ComType::_18, UsedType::Attach},
+    {ComType::_19, UsedType::Attach},
     {ComType::_20, UsedType::Item_1},
     {ComType::_21, UsedType::Item_1},
     {ComType::_22, UsedType::Item_1},
@@ -491,7 +520,7 @@ UsedType ConvertUsedItemType(ComType type)
     {ComType::_31, UsedType::Item_1},
     {ComType::_32, UsedType::Item_1},
     {ComType::_33, UsedType::Item_1},
-    {ComType::_34, UsedType::_2},
+    {ComType::_34, UsedType::Attach},
     {ComType::_35, UsedType::Item_8},
   };
 
