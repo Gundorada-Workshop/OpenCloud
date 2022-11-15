@@ -68,6 +68,8 @@ struct SDataItemCommon
 {
   // 0
   ECommonItemDataType::ECommonItemDataType m_type{ ECommonItemDataType::Invalid };
+  // 2
+  s16 m_unk_field_2{ 0 };
   // 4
   s16 m_unk_field_4{ 0 };
 
@@ -150,6 +152,8 @@ public:
   CDataGuard* GetGuardData(ssize index);
   // 00195B80
   ECommonItemDataType::ECommonItemDataType GetDataType(ssize index);
+  // 00195BB0
+  s16 GetDataStartListNo(ECommonItemDataType::ECommonItemDataType type);
 
   // 0
   _DWORD m_unk_field_0{ 0 };

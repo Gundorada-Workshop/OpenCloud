@@ -560,6 +560,21 @@ ComType CGameData::GetDataType(ssize index)
   return common_data->m_type;
 }
 
+// 00195BB0
+s16 CGameData::GetDataStartListNo(ComType type)
+{
+  auto common_data = GetCommonData(1);
+
+  for (int i = 0; i < m_unk_field_22; ++i)
+  {
+    if (common_data[i].m_type == type)
+    {
+      return common_data[i].m_unk_field_2;
+    }
+  }
+  return ComType::Invalid;
+}
+
 // 00195470
 bool LoadGameDataAnalyze(const char* config_file_name)
 {
