@@ -523,6 +523,30 @@ CDataBreedFish* CGameData::GetFishData(ssize index)
   return nullptr;
 }
 
+// 00195B10
+CDataGuard* CGameData::GetGuardData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  auto common_data = GetCommonData(index);
+  if (common_data == nullptr)
+  {
+    return nullptr;
+  }
+
+  if (m_unk_field_28 <= common_data->m_unk_field_4)
+  {
+    return nullptr;
+  }
+
+  if (m_guarddata == nullptr)
+  {
+    return nullptr;
+  }
+
+  return &m_guarddata[common_data->m_unk_field_4];
+}
+
 // 00195470
 bool LoadGameDataAnalyze(const char* config_file_name)
 {

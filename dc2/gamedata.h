@@ -146,6 +146,8 @@ public:
   CDataRoboPart* GetRoboData(ssize index);
   // 00195A60
   CDataBreedFish* GetFishData(ssize index);
+  // 00195B10
+  CDataGuard* GetGuardData(ssize index);
 
   // 0
   _DWORD m_unk_field_0{ 0 };
