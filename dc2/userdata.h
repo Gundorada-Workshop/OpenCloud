@@ -9,6 +9,67 @@
 // TODO THIS FILE
 struct MOS_CHANGE_PARAM {};
 
+struct MOS_HENGE_PARAM
+{
+  // 0
+  s16 m_id;
+  // 2
+  s16 m_unk_field_2;
+  // 4
+  s16 m_unk_field_4;
+  // 8
+  std::array<const char*, 5> m_unk_field_8;
+};
+
+namespace EUsedItemType
+{
+  enum EUsedItemType;
+}
+
+namespace ECommonItemData
+{
+  enum ECommonItemData : s16;
+}
+
+struct SGameDataUsedAttachSub
+{
+  // 18
+  s16 m_level{ 0 };
+  // 20
+  std::array<char, 0x20> m_name{ 0 };
+};
+
+struct SGameDataUsedWeaponSub
+{
+  // 10
+  s16 m_level{ 0 };
+  // 33
+  std::array<char, 0x20> m_name{ 0 };
+};
+
+struct SGameDataUsed_5Sub
+{
+  // 2C
+  std::array<char, 0x20> m_name{ 0 };
+};
+
+struct SGameDataUsedFishSub
+{
+  // 0
+  // BUG: Seems to be 20 decimal (14h) chars instead of 20h chars in original game
+  std::array<char, 0x20> m_name{ 0 };
+  // 20
+  s32 m_hp{ 0 };
+};
+
+union UGameDataUsedSub
+{
+  SGameDataUsedAttachSub m_attach;
+  SGameDataUsedWeaponSub m_weapon;
+  SGameDataUsed_5Sub m_5;
+  SGameDataUsedFishSub m_fish;
+};
+
 class CGameDataUsed
 {
 public:
@@ -16,6 +77,28 @@ public:
   CGameDataUsed();
   // 001970c0
   void Initialize();
+  // 001971D0
+  s16 GetLevel();
+  // 00197480
+  s16 AddFishHp(s16 delta);
+  // 00197630
+  void SetName(const char* name);
+  // 001992B0
+  bool IsFishingRod();
+
+  // 0
+  EUsedItemType::EUsedItemType m_type{ static_cast<EUsedItemType::EUsedItemType>(0) };
+  // 2
+  ECommonItemData::ECommonItemData m_common_index;
+  // 4
+  s8 m_unk_field_4;
+  // 5
+  bool m_unk_field_5;
+
+  // 10
+  UGameDataUsedSub m_sub_data = {};
+
+  // SIZE 0x6C, all initialized to 0
 };
 
 class CFishAquarium
@@ -186,3 +269,6 @@ public:
 
   // Size 0x90
 };
+
+// 0019A890
+MOS_HENGE_PARAM* GetMonsterHengeParam(ssize index);

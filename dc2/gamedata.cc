@@ -1,17 +1,26 @@
 #include <array>
+#include <unordered_map>
 #include "common/debug.h"
 #include "common/log.h"
+#include "common/types.h"
 
 #include "gamedata.h"
 #include "script_interpreter.h"
 
 set_log_channel("gamedata");
 
+using ComType = ECommonItemDataType::ECommonItemDataType;
+using UsedType = EUsedItemType::EUsedItemType;
+
+// 0037704C
+static SDataItemCommon* comdatapt{ nullptr };
+// 00377050
+static s32 comdatapt_num{ 0 };
 // 01E69570
 static CGameData GameItemDataManage{};
 // 01E695A0
 // FIXME: MAGIC: capacity
-static std::array<CDataItemCom, 54> local_com_itemdata{};
+static std::array<SDataItemCommon, 0x1B0> local_com_itemdata{};
 // 01E6DFE0
 // FIXME: MAGIC: capacity
 static std::array<CDataItem, 162> local_itemdata{};
@@ -30,6 +39,8 @@ static std::array<CDataBreedFish, 20> local_fishdata{};
 // 01E71B20
 // FIXME: MAGIC: capacity
 static std::array<CDataGuard, 20> local_guarddata{};
+// 01E71B70
+static std::array<s16, 0x200> local_itemdatano_converttable{ -1 };
 
 // 00194750
 static bool _DATACOMINIT(SPI_STACK* stack, int stack_count)
@@ -298,9 +309,396 @@ static const std::array<SPI_TAG_PARAM, 25> gamedata_tag =
   NULL, nullptr
 };
 
+// 001946D0
 CGameData::CGameData()
 {
   log_trace("CGameData()");
 
+  m_com_itemdata = local_com_itemdata.data();
+  m_itemdata = local_itemdata.data();
+  m_weapondata = local_weapondata.data();
+  m_guarddata = local_guarddata.data();
+  m_attachdata = local_attachdata.data();
+  m_robodata = local_robodata.data();
+  m_fishdata = local_fishdata.data();
+
+  // 00195720
+  for (int i = 0; i < local_com_itemdata.size(); ++i)
+  {
+    new (&local_com_itemdata[i]) SDataItemCommon();
+  }
+}
+
+// 00195540
+s32 CGameData::LoadData()
+{
+  log_trace("CGameData::{}()", __func__);
+
+  new (this) CGameData();
+
+  comdatapt_num = 0;
+  comdatapt = m_com_itemdata;
+  for (int i = 0; i < local_itemdatano_converttable.size(); ++i)
+  {
+    local_itemdatano_converttable[i] = -1;
+  }
+
+  LoadGameDataAnalyze("comdat.cfg");
+  LoadGameDataAnalyze("wepdat.cfg");
+  LoadGameDataAnalyze("itemdat.cfg");
+  LoadGameDataAnalyze("atdat.cfg");
+  LoadGameDataAnalyze("robodat.cfg");
+  LoadGameDataAnalyze("fishdat.cfg");
+  LoadGameDataAnalyze("grddat.cfg");
+
+  m_unk_field_22 = comdatapt_num;
+  m_unk_field_20 = 0;
+
+  for (int i = 0; i < local_itemdatano_converttable.size(); ++i)
+  {
+    if (local_itemdatano_converttable[i] >= 0)
+    {
+      m_unk_field_20 = local_itemdatano_converttable[i];
+    }
+  }
+
+  return m_unk_field_0;
+}
+
+// 00195770
+SDataItemCommon* CGameData::GetCommonData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  if (index < 0 || local_itemdatano_converttable.size() <= index)
+  {
+    return nullptr;
+  }
+
+  auto convert_index = local_itemdatano_converttable[index];
+  if (convert_index < 0)
+  {
+    return nullptr;
+  }
+
+  return &m_com_itemdata[convert_index];
+}
+
+// 001957E0
+CDataWeapon* CGameData::GetWeaponData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  auto common_data = GetCommonData(index);
+  if (common_data == nullptr)
+  {
+    return nullptr;
+  }
+
+  if (m_unk_field_26 <= common_data->m_unk_field_4)
+  {
+    return nullptr;
+  }
+
+  if (m_weapondata == nullptr)
+  {
+    return nullptr;
+  }
+
+  if (ConvertUsedItemType(common_data->m_type) == UsedType::Weapon)
+  {
+    return &m_weapondata[common_data->m_unk_field_4];
+  }
+  return nullptr;
+}
+
+// 00195890
+CDataItem* CGameData::GetItemData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  auto common_data = GetCommonData(index);
+  if (common_data == nullptr)
+  {
+    return nullptr;
+  }
+
+  if (m_unk_field_24 <= common_data->m_unk_field_4)
+  {
+    return nullptr;
+  }
+
+  if (m_itemdata == nullptr)
+  {
+    return nullptr;
+  }
+
+  auto type = ConvertUsedItemType(common_data->m_type);
+  if (type == UsedType::Item_7 || type == UsedType::Item_8 || type == UsedType::Item_1)
+  {
+    return &m_itemdata[common_data->m_unk_field_4];
+  }
+  return nullptr;
+}
+
+// 00195940
+CDataAttach* CGameData::GetAttachData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  auto common_data = GetCommonData(index);
+  if (common_data == nullptr)
+  {
+    return nullptr;
+  }
+
+  if (m_unk_field_2A <= common_data->m_unk_field_4)
+  {
+    return nullptr;
+  }
+
+  if (m_attachdata == nullptr)
+  {
+    return nullptr;
+  }
+
+  auto type = ConvertUsedItemType(common_data->m_type);
+  if (type == UsedType::Attach)
+  {
+    return &m_attachdata[common_data->m_unk_field_4];
+  }
+  return nullptr;
+}
+
+// 001959F0
+CDataRoboPart* CGameData::GetRoboData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  auto common_data = GetCommonData(index);
+  if (common_data == nullptr)
+  {
+    return nullptr;
+  }
+
+  if (m_unk_field_2C <= common_data->m_unk_field_4)
+  {
+    return nullptr;
+  }
+
+  if (m_robodata == nullptr)
+  {
+    return nullptr;
+  }
+
+  return &m_robodata[common_data->m_unk_field_4];
+}
+
+// 00195A60
+CDataBreedFish* CGameData::GetFishData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  auto common_data = GetCommonData(index);
+  if (common_data == nullptr)
+  {
+    return nullptr;
+  }
+
+  if (m_unk_field_2E <= common_data->m_unk_field_4)
+  {
+    return nullptr;
+  }
+
+  if (m_fishdata == nullptr)
+  {
+    return nullptr;
+  }
+
+  auto type = ConvertUsedItemType(common_data->m_type);
+  if (type == UsedType::Fish)
+  {
+    return &m_fishdata[common_data->m_unk_field_4];
+  }
+  return nullptr;
+}
+
+// 00195B10
+CDataGuard* CGameData::GetGuardData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  auto common_data = GetCommonData(index);
+  if (common_data == nullptr)
+  {
+    return nullptr;
+  }
+
+  if (m_unk_field_28 <= common_data->m_unk_field_4)
+  {
+    return nullptr;
+  }
+
+  if (m_guarddata == nullptr)
+  {
+    return nullptr;
+  }
+
+  return &m_guarddata[common_data->m_unk_field_4];
+}
+
+// 00195B80
+ComType CGameData::GetDataType(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  auto common_data = GetCommonData(index);
+  if (common_data == nullptr)
+  {
+    return ComType::Invalid;
+  }
+  return common_data->m_type;
+}
+
+// 00195BB0
+s16 CGameData::GetDataStartListNo(ComType type)
+{
+  log_trace("CGameData::{}({})", __func__, static_cast<int>(type));
+
+  auto common_data = GetCommonData(1);
+
+  for (int i = 0; i < m_unk_field_22; ++i)
+  {
+    if (common_data[i].m_type == type)
+    {
+      return common_data[i].m_unk_field_2;
+    }
+  }
+  return ComType::Invalid;
+}
+
+// 00195470
+bool LoadGameDataAnalyze(const char* config_file_name)
+{
+  log_trace("LoadGameDataAnalyze({})", config_file_name);
+
   todo;
+  return false;
+}
+
+// 00195F10
+UsedType ConvertUsedItemType(ComType type)
+{
+  log_trace("CGameData::{}({})", __func__, static_cast<int>(type));
+
+  // Did runtime analysis to determine these
+  static std::unordered_map<ComType, UsedType> convert_table = {
+    {ComType::Invalid, UsedType::Invalid},
+    {ComType::_1, UsedType::Weapon},
+    {ComType::_2, UsedType::Weapon},
+    {ComType::_3, UsedType::Weapon},
+    {ComType::_4, UsedType::Weapon},
+    {ComType::_5, UsedType::_4},
+    {ComType::_6, UsedType::_4},
+    {ComType::_7, UsedType::_4},
+    {ComType::_8, UsedType::_4},
+    {ComType::_9, UsedType::_4},
+    {ComType::_10, UsedType::_4},
+    {ComType::_11, UsedType::Item_1},
+    {ComType::_12, UsedType::_5},
+    {ComType::_13, UsedType::_5},
+    {ComType::_14, UsedType::_5},
+    {ComType::_15, UsedType::_5},
+    {ComType::_16, UsedType::Attach},
+    {ComType::_17, UsedType::Attach},
+    {ComType::_18, UsedType::Attach},
+    {ComType::_19, UsedType::Attach},
+    {ComType::_20, UsedType::Item_1},
+    {ComType::_21, UsedType::Item_1},
+    {ComType::_22, UsedType::Item_1},
+    {ComType::_23, UsedType::Item_1},
+    {ComType::_24, UsedType::Item_1},
+    {ComType::_25, UsedType::Item_1},
+    {ComType::_26, UsedType::Item_1},
+    {ComType::_27, UsedType::Item_1},
+    {ComType::_28, UsedType::Item_7},
+    {ComType::_29, UsedType::Item_1},
+    {ComType::_30, UsedType::Fish},
+    {ComType::_31, UsedType::Item_1},
+    {ComType::_32, UsedType::Item_1},
+    {ComType::_33, UsedType::Item_1},
+    {ComType::_34, UsedType::Attach},
+    {ComType::_35, UsedType::Item_8},
+  };
+
+  auto result = convert_table.find(type);
+  if (result == convert_table.end())
+  {
+    if (type < 0)
+    {
+      return UsedType::Invalid;
+    }
+    else
+    {
+      // ?
+      return UsedType::Item_1;
+    }
+  };
+  return result->second;
+}
+
+// 00195C20
+SDataItemCommon* GetCommonItemData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  return GameItemDataManage.GetCommonData(index);
+}
+
+// 00195C30
+CDataItem* GetItemInfoData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  return GameItemDataManage.GetItemData(index);
+}
+
+// 00195C40
+CDataWeapon* GetWeaponInfoData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  return GameItemDataManage.GetWeaponData(index);
+}
+
+// 00195C50
+CDataRoboPart* GetRoboPartInfoData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  return GameItemDataManage.GetRoboData(index);
+}
+
+// 00195C60
+CDataBreedFish* GetBreedFishInfoData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  return GameItemDataManage.GetFishData(index);
+}
+
+
+// 00196040
+char* GetItemMessage(ssize index)
+{
+  log_trace("{}({})", __func__, index);
+
+  auto common_data = GameItemDataManage.GetCommonData(index);
+  
+  if (common_data == nullptr)
+  {
+    return nullptr;
+  }
+
+  return common_data->m_unk_field_28;
 }
