@@ -55,7 +55,7 @@ namespace EUsedItemType
     Invalid = 0,
     _1 = 1,
     _2 = 2,
-    _3 = 3,
+    Weapon = 3,
     _4 = 4,
     _5 = 5,
     _6 = 6,
@@ -66,7 +66,10 @@ namespace EUsedItemType
 
 struct SDataItemCommon
 {
+  // 0
   ECommonItemDataType::ECommonItemDataType m_type{ ECommonItemDataType::Invalid };
+  // 4
+  s16 m_unk_field_4{ 0 };
 
   _DWORD m_unk_field_28{ 0 };
   // SIZE 0x2C
@@ -133,6 +136,8 @@ public:
   s32 LoadData();
   // 00195770
   SDataItemCommon* GetCommonData(ssize index);
+  // 001957E0
+  CDataWeapon* GetWeaponData(ssize index);
 
   // 0
   _DWORD m_unk_field_0{ 0 };
@@ -170,3 +175,6 @@ public:
 
 // 00195470
 bool LoadGameDataAnalyze(const char* config_file_name);
+
+// 00195F10
+EUsedItemType::EUsedItemType ConvertUsedItemType(ECommonItemDataType::ECommonItemDataType type);

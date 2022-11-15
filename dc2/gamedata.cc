@@ -368,6 +368,8 @@ s32 CGameData::LoadData()
 // 00195770
 SDataItemCommon* CGameData::GetCommonData(ssize index)
 {
+  log_trace("CGameData::{}({})", __func__, index);
+
   if (index < 0 || local_itemdatano_converttable.size() <= index)
   {
     return nullptr;
@@ -382,6 +384,34 @@ SDataItemCommon* CGameData::GetCommonData(ssize index)
   return &m_com_itemdata[convert_index];
 }
 
+// 001957E0
+CDataWeapon* CGameData::GetWeaponData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  auto common_data = GetCommonData(index);
+  if (common_data == nullptr)
+  {
+    return nullptr;
+  }
+
+  if (m_unk_field_26 <= common_data->m_unk_field_4)
+  {
+    return nullptr;
+  }
+
+  if (m_weapondata == nullptr)
+  {
+    return nullptr;
+  }
+
+  if (ConvertUsedItemType(common_data->m_type) == UsedType::Weapon)
+  {
+    return &m_weapondata[common_data->m_unk_field_4];
+  }
+  return nullptr;
+}
+
 // 00195470
 bool LoadGameDataAnalyze(const char* config_file_name)
 {
@@ -394,13 +424,15 @@ bool LoadGameDataAnalyze(const char* config_file_name)
 // 00195F10
 UsedType ConvertUsedItemType(ComType type)
 {
+  log_trace("CGameData::{}({})", __func__, static_cast<int>(type));
+
   // Did runtime analysis to determine these
   static std::unordered_map<ComType, UsedType> convert_table = {
     {ComType::Invalid, UsedType::Invalid},
-    {ComType::_1, UsedType::_3},
-    {ComType::_2, UsedType::_3},
-    {ComType::_3, UsedType::_3},
-    {ComType::_4, UsedType::_3},
+    {ComType::_1, UsedType::Weapon},
+    {ComType::_2, UsedType::Weapon},
+    {ComType::_3, UsedType::Weapon},
+    {ComType::_4, UsedType::Weapon},
     {ComType::_5, UsedType::_4},
     {ComType::_6, UsedType::_4},
     {ComType::_7, UsedType::_4},
