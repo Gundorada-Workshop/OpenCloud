@@ -1,6 +1,7 @@
 #pragma once
 #include <array>
 #include "common/debug.h"
+#include "common/types.h"
 #include "userdata.h"
 
 // ~ 0022D3B0 - 002518A0 (?)
@@ -93,3 +94,13 @@ public:
 
   // SIZE 0x370
 };
+
+// 002516C0
+// Returns number of digits in a number
+u32 GetNumberKeta(s32 n);
+
+// 00251720
+s32 GetDispVolumeForFloat(f32 f);
+
+// 00251780
+f32 GetFloatCommaValue(f32 f);
