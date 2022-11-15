@@ -563,6 +563,8 @@ ComType CGameData::GetDataType(ssize index)
 // 00195BB0
 s16 CGameData::GetDataStartListNo(ComType type)
 {
+  log_trace("CGameData::{}({})", __func__, static_cast<int>(type));
+
   auto common_data = GetCommonData(1);
 
   for (int i = 0; i < m_unk_field_22; ++i)
@@ -643,4 +645,44 @@ UsedType ConvertUsedItemType(ComType type)
     }
   };
   return result->second;
+}
+
+// 00195C20
+SDataItemCommon* GetCommonItemData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  return GameItemDataManage.GetCommonData(index);
+}
+
+// 00195C30
+CDataItem* GetItemInfoData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  return GameItemDataManage.GetItemData(index);
+}
+
+// 00195C40
+CDataWeapon* GetWeaponInfoData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  return GameItemDataManage.GetWeaponData(index);
+}
+
+// 00195C50
+CDataRoboPart* GetRoboPartInfoData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  return GameItemDataManage.GetRoboData(index);
+}
+
+// 00195C60
+CDataBreedFish* GetBreedFishInfoData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  return GameItemDataManage.GetFishData(index);
 }

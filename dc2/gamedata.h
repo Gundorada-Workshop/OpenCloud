@@ -64,6 +64,11 @@ namespace EUsedItemType
   };
 }
 
+struct ATTACH_USED
+{
+  
+};
+
 struct SDataItemCommon
 {
   // 0
@@ -194,3 +199,18 @@ bool LoadGameDataAnalyze(const char* config_file_name);
 
 // 00195F10
 EUsedItemType::EUsedItemType ConvertUsedItemType(ECommonItemDataType::ECommonItemDataType type);
+
+// 00195C20
+SDataItemCommon* GetCommonItemData(ssize index);
+
+// 00195C30
+CDataItem* GetItemInfoData(ssize index);
+
+// 00195C40
+CDataWeapon* GetWeaponInfoData(ssize index);
+
+// 00195C50
+CDataRoboPart* GetRoboPartInfoData(ssize index);
+
+// 00195C60
+CDataBreedFish* GetBreedFishInfoData(ssize index);
