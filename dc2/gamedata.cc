@@ -494,6 +494,35 @@ CDataRoboPart* CGameData::GetRoboData(ssize index)
   return &m_robodata[common_data->m_unk_field_4];
 }
 
+// 00195A60
+CDataBreedFish* CGameData::GetFishData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  auto common_data = GetCommonData(index);
+  if (common_data == nullptr)
+  {
+    return nullptr;
+  }
+
+  if (m_unk_field_2E <= common_data->m_unk_field_4)
+  {
+    return nullptr;
+  }
+
+  if (m_fishdata == nullptr)
+  {
+    return nullptr;
+  }
+
+  auto type = ConvertUsedItemType(common_data->m_type);
+  if (type == UsedType::Fish)
+  {
+    return &m_fishdata[common_data->m_unk_field_4];
+  }
+  return nullptr;
+}
+
 // 00195470
 bool LoadGameDataAnalyze(const char* config_file_name)
 {
@@ -540,7 +569,7 @@ UsedType ConvertUsedItemType(ComType type)
     {ComType::_27, UsedType::Item_1},
     {ComType::_28, UsedType::Item_7},
     {ComType::_29, UsedType::Item_1},
-    {ComType::_30, UsedType::_6},
+    {ComType::_30, UsedType::Fish},
     {ComType::_31, UsedType::Item_1},
     {ComType::_32, UsedType::Item_1},
     {ComType::_33, UsedType::Item_1},

@@ -58,7 +58,7 @@ namespace EUsedItemType
     Weapon = 3,
     _4 = 4,
     _5 = 5,
-    _6 = 6,
+    Fish = 6,
     Item_7 = 7,
     Item_8 = 8,
   };
@@ -143,7 +143,9 @@ public:
   // 00195940
   CDataAttach* GetAttachData(ssize index);
   // 001959F0
-  CDataRoboPart* CGameData::GetRoboData(ssize index);
+  CDataRoboPart* GetRoboData(ssize index);
+  // 00195A60
+  CDataBreedFish* GetFishData(ssize index);
 
   // 0
   _DWORD m_unk_field_0{ 0 };
