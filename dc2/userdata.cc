@@ -64,8 +64,45 @@ s16 CGameDataUsed::AddFishHp(s16 delta)
     return 0;
   }
 
-  m_fish_hp = std::clamp(m_fish_hp + delta, 0, 100);
-  return m_fish_hp;
+  m_sub_data.m_fish.m_hp = std::clamp(m_sub_data.m_fish.m_hp + delta, 0, 100);
+  return m_sub_data.m_fish.m_hp;
+}
+
+// 00197630
+void CGameDataUsed::SetName(const char* name)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, name);
+
+  std::array<char, 0x20>* name_buf = nullptr;
+
+  switch (m_type)
+  {
+    case EUsedItemType::Attach:
+      name_buf = &m_sub_data.m_fish.m_name;
+      break;
+    case EUsedItemType::Weapon:
+      name_buf = &m_sub_data.m_weapon.m_name;
+      break;
+    case EUsedItemType::_5:
+      name_buf = &m_sub_data.m_5.m_name;
+      break;
+    case EUsedItemType::Fish:
+      name_buf = &m_sub_data.m_fish.m_name;
+      break;
+  }
+
+  if (name_buf == nullptr)
+  {
+    return;
+  }
+
+  if (strlen(name) >= 0x20)
+  {
+    return;
+  }
+
+  strcpy_s(name_buf->data(), name_buf->size(), name);
+  m_unk_field_5 = strcmp(GetItemMessage(m_unk_field_2), name_buf->data()) != 0;
 }
 
 // 0019AE10

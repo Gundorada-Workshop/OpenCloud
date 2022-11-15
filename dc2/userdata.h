@@ -26,6 +26,41 @@ namespace EUsedItemType
   enum EUsedItemType;
 }
 
+struct SGameDataUsedAttachSub
+{
+  // 20
+  std::array<char, 0x20> m_name{ 0 };
+};
+
+struct SGameDataUsedWeaponSub
+{
+  // 33
+  std::array<char, 0x20> m_name{ 0 };
+};
+
+struct SGameDataUsed_5Sub
+{
+  // 2C
+  std::array<char, 0x20> m_name{ 0 };
+};
+
+struct SGameDataUsedFishSub
+{
+  // 0
+  // BUG: Seems to be 20 decimal (14h) chars instead of 20h chars in original game
+  std::array<char, 0x20> m_name{ 0 };
+  // 20
+  s32 m_hp{ 0 };
+};
+
+union UGameDataUsedSub
+{
+  SGameDataUsedAttachSub m_attach;
+  SGameDataUsedWeaponSub m_weapon;
+  SGameDataUsed_5Sub m_5;
+  SGameDataUsedFishSub m_fish;
+};
+
 class CGameDataUsed
 {
 public:
@@ -35,12 +70,20 @@ public:
   void Initialize();
   // 00197480
   s16 AddFishHp(s16 delta);
+  // 00197630
+  void SetName(const char* name);
 
   // 0
   EUsedItemType::EUsedItemType m_type{ static_cast<EUsedItemType::EUsedItemType>(0) };
+  // 2
+  s16 m_unk_field_2;
+  // 4
+  s8 m_unk_field_4;
+  // 5
+  bool m_unk_field_5;
 
-  // 30
-  s32 m_fish_hp{ 0 };
+  // 10
+  UGameDataUsedSub m_sub_data = {};
 
   // SIZE 0x6C, all initialized to 0
 };

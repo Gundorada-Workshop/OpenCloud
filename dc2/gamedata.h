@@ -78,7 +78,7 @@ struct SDataItemCommon
   // 4
   s16 m_unk_field_4{ 0 };
 
-  _DWORD m_unk_field_28{ 0 };
+  char* m_unk_field_28{ nullptr };
   // SIZE 0x2C
 };
 
@@ -214,3 +214,6 @@ CDataRoboPart* GetRoboPartInfoData(ssize index);
 
 // 00195C60
 CDataBreedFish* GetBreedFishInfoData(ssize index);
+
+// 00196040
+char* GetItemMessage(ssize index);

@@ -686,3 +686,19 @@ CDataBreedFish* GetBreedFishInfoData(ssize index)
 
   return GameItemDataManage.GetFishData(index);
 }
+
+
+// 00196040
+char* GetItemMessage(ssize index)
+{
+  log_trace("{}({})", __func__, index);
+
+  auto common_data = GameItemDataManage.GetCommonData(index);
+  
+  if (common_data == nullptr)
+  {
+    return nullptr;
+  }
+
+  return common_data->m_unk_field_28;
+}
