@@ -547,6 +547,19 @@ CDataGuard* CGameData::GetGuardData(ssize index)
   return &m_guarddata[common_data->m_unk_field_4];
 }
 
+// 00195B80
+ComType CGameData::GetDataType(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  auto common_data = GetCommonData(index);
+  if (common_data == nullptr)
+  {
+    return ComType::Invalid;
+  }
+  return common_data->m_type;
+}
+
 // 00195470
 bool LoadGameDataAnalyze(const char* config_file_name)
 {
