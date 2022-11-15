@@ -142,6 +142,8 @@ public:
   CDataItem* GetItemData(ssize index);
   // 00195940
   CDataAttach* GetAttachData(ssize index);
+  // 001959F0
+  CDataRoboPart* CGameData::GetRoboData(ssize index);
 
   // 0
   _DWORD m_unk_field_0{ 0 };

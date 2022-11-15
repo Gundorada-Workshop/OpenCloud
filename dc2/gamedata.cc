@@ -470,6 +470,30 @@ CDataAttach* CGameData::GetAttachData(ssize index)
   return nullptr;
 }
 
+// 001959F0
+CDataRoboPart* CGameData::GetRoboData(ssize index)
+{
+  log_trace("CGameData::{}({})", __func__, index);
+
+  auto common_data = GetCommonData(index);
+  if (common_data == nullptr)
+  {
+    return nullptr;
+  }
+
+  if (m_unk_field_2C <= common_data->m_unk_field_4)
+  {
+    return nullptr;
+  }
+
+  if (m_robodata == nullptr)
+  {
+    return nullptr;
+  }
+
+  return &m_robodata[common_data->m_unk_field_4];
+}
+
 // 00195470
 bool LoadGameDataAnalyze(const char* config_file_name)
 {
