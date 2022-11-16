@@ -256,14 +256,65 @@ CUserDataManager::CUserDataManager()
   new (&m_fishing_record) CFishingRecord;
 }
 // 0019B620
-COMMON_GAGE* CUserDataManager::GetWHpGage(EUsedItemType::EUsedItemType item_type, ssize i)
+COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_index)
 {
-  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(item_type), i);
+  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), gage_index);
 
-  if (item_type == EUsedItemType::Attach)
+  if (chara_id == ECharacterID::Steve)
   {
-    return &m_unk_field_4690[0].m_sub_data.m_attach.m_unk_field_8;
+    todo;
   }
+
+  return nullptr;
+}
+
+// 0019B6F0
+COMMON_GAGE* CUserDataManager::GetAbsGage(ECharacterID chara_id, ssize gage_index)
+{
+  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), gage_index);
+
+  todo;
+  return nullptr;
+}
+
+// 0019B880
+s32 CUserDataManager::AddAbs(ECharacterID chara_id, ssize gage_index, s32 delta)
+{
+  log_trace("CUserDataManager::{}({}, {}, {})", __func__, std::to_underlying(chara_id), gage_index, delta);
+
+  if (chara_id == ECharacterID::Steve)
+  {
+    // Ridepod
+    AddRoboAbs(static_cast<f32>(delta));
+    return static_cast<s32>(GetRoboAbs());
+  }
+
+  // Human characters
+  COMMON_GAGE* gage = GetAbsGage(chara_id, gage_index);
+  if (gage == nullptr)
+  {
+    return 0;
+  }
+
+  gage->AddPoint(delta);
+  return static_cast<s32>(gage->m_current);
+}
+
+// 0019C500
+float CUserDataManager::AddRoboAbs(f32 delta)
+{
+  log_trace("CUserDataManager::{}({})", __func__, delta);
+
+  m_robo_abs = std::clamp(m_robo_abs + delta, 0.0f, 99999.0f);
+  return m_robo_abs;
+}
+
+// 0019C560
+float CUserDataManager::GetRoboAbs()
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  return m_robo_abs;
 }
 
 // 0019B160

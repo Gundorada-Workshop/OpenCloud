@@ -9,6 +9,13 @@
 // TODO THIS FILE
 struct MOS_CHANGE_PARAM {};
 
+enum class ECharacterID
+{
+  Max = 0,
+  Monica = 1,
+  Steve = 2,
+};
+
 struct MOS_HENGE_PARAM
 {
   // 0
@@ -188,7 +195,13 @@ public:
   void Initialize();
 
   // 0019B620
-  COMMON_GAGE* GetWHpGage(EUsedItemType::EUsedItemType item_type, ssize i);
+  COMMON_GAGE* GetWHpGage(ECharacterID chara_id, ssize gage_index);
+
+  // 0019B6F0
+  COMMON_GAGE* GetAbsGage(ECharacterID chara_id, ssize gage_index);
+
+  // 0019B880
+  s32 AddAbs(ECharacterID chara_id, ssize gage_index, s32 delta);
 
   // 0019b9a0
   void JoinPartyMember(s32 chara);
@@ -202,6 +215,12 @@ public:
   // 0019c450
   const char* GetRoboNameDefault();
 
+  // 0019C500
+  float AddRoboAbs(f32 delta);
+
+  // 0019C560
+  float GetRoboAbs();
+
   // 0
   std::array<CGameDataUsed, 150> m_unk_field_0;
   // 3F48
@@ -209,6 +228,8 @@ public:
 
   // ?
 
+  // 468C
+  f32 m_robo_abs{};
   // 4690
   std::array<CGameDataUsed, 4> m_unk_field_4690;
 
