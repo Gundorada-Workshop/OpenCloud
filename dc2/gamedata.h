@@ -66,7 +66,7 @@ namespace EUsedItemType
     Attach = 2,
     Weapon = 3,
     _4 = 4,
-    _5 = 5,
+    Robopart = 5,
     Fish = 6,
     Item_7 = 7,
     Item_8 = 8,

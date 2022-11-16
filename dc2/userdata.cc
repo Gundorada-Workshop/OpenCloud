@@ -10,6 +10,63 @@ set_log_channel("userdata");
 // 01E9B130
 static CBattleCharaInfo BattleParameter{};
 
+// 00196C90
+bool COMMON_GAGE::CheckFill()
+{
+  log_trace("COMMON_GAGE::{}()", __func__);
+
+  return m_max == m_current;
+}
+
+// 00196CC0
+f32 COMMON_GAGE::GetRate()
+{
+  log_trace("COMMON_GAGE::{}()", __func__);
+
+  if (m_max == 0.0f)
+  {
+    return 0.0f;
+  }
+
+  return m_current / m_max;
+}
+
+// 00196D00
+void COMMON_GAGE::SetFillRate(f32 rate)
+{
+  log_trace("COMMON_GAGE::{}({})", __func__, rate);
+
+  m_current = m_max * rate;
+}
+
+// 00196D10
+void COMMON_GAGE::AddPoint(f32 delta)
+{
+  log_trace("COMMON_GAGE::{}({})", __func__, delta);
+
+  m_current = std::clamp(m_current + delta, 0.0f, m_max);
+}
+
+// 00196D60
+void COMMON_GAGE::AddRate(f32 delta)
+{
+  log_trace("COMMON_GAGE::{}({})", __func__, delta);
+
+  m_current = std::clamp(m_current + (m_max * delta), 0.0f, m_max);
+}
+
+// 00196DB0
+f32 GetCommonGageRate(COMMON_GAGE* gage)
+{
+  log_trace("{}({})", __func__, fmt::ptr(gage));
+
+  if (gage == nullptr)
+  {
+    return 0.0f;
+  }
+  return gage->GetRate();
+}
+
 // 0019a160
 void CFishAquarium::Initialize()
 {
@@ -99,8 +156,8 @@ void CGameDataUsed::SetName(const char* name)
     case EUsedItemType::Weapon:
       name_buf = &m_sub_data.m_weapon.m_name;
       break;
-    case EUsedItemType::_5:
-      name_buf = &m_sub_data.m_5.m_name;
+    case EUsedItemType::Robopart:
+      name_buf = &m_sub_data.m_robopart.m_name;
       break;
     case EUsedItemType::Fish:
       name_buf = &m_sub_data.m_fish.m_name;
@@ -168,7 +225,7 @@ CUserDataManager::CUserDataManager()
     }
   }
 
-  for (auto& game_data_used : m_unk_field_4690)
+  for (auto& game_data_used : m_robopart_data)
   {
     new (&game_data_used) CGameDataUsed;
   }
@@ -197,6 +254,105 @@ CUserDataManager::CUserDataManager()
   m_invent_user_data.Initialize();
   m_fishing_tournament.Initialize();
   new (&m_fishing_record) CFishingRecord;
+}
+// 0019B620
+COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_index)
+{
+  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), gage_index);
+
+  switch (chara_id)
+  {
+    case ECharacterID::Steve:
+      return &m_robopart_data[0].m_sub_data.m_robopart.m_whp_gage;
+    case ECharacterID::MonsterTransform:
+      return &m_monster_box.GetMonsterBadgeData(m_unk_field_44D98)->m_whp_gage;
+    case ECharacterID::Max:
+    case ECharacterID::Monica:
+      return &m_unk_field_3F48[std::to_underlying(chara_id)].m_unk_field_170[gage_index].m_sub_data.m_weapon.m_whp_gage;
+    default:
+      return nullptr;
+  }
+}
+
+// 0019B6F0
+COMMON_GAGE* CUserDataManager::GetAbsGage(ECharacterID chara_id, ssize gage_index)
+{
+  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), gage_index);
+
+  todo;
+  return nullptr;
+}
+
+// 0019B7C0
+s32 CUserDataManager::AddWhp(ECharacterID chara_id, ssize gage_index, s32 delta)
+{
+  log_trace("CUserDataManager::{}({}, {}, {})", __func__, std::to_underlying(chara_id), gage_index, delta);
+
+  auto gage = GetWHpGage(chara_id, gage_index);
+  if (gage == nullptr)
+  {
+    return 0;
+  }
+
+  gage->AddPoint(static_cast<f32>(delta));
+  return static_cast<s32>(gage->m_current);
+}
+
+// 0019B820
+s32 CUserDataManager::GetWhp(ECharacterID chara_id, ssize gage_index, s32* max_dest)
+{
+  log_trace("CUserDataManager::{}({}, {}, {})", __func__, std::to_underlying(chara_id), gage_index, fmt::ptr(max_dest));
+
+  auto gage = GetWHpGage(chara_id, gage_index);
+  if (gage == nullptr)
+  {
+    // BUG: Original game doesn't write to the max value in this case
+    *max_dest = 0;
+    return 0;
+  }
+
+  *max_dest = static_cast<s32>(gage->m_max);
+  return static_cast<s32>(gage->m_current);
+}
+
+// 0019B880
+s32 CUserDataManager::AddAbs(ECharacterID chara_id, ssize gage_index, s32 delta)
+{
+  log_trace("CUserDataManager::{}({}, {}, {})", __func__, std::to_underlying(chara_id), gage_index, delta);
+
+  if (chara_id == ECharacterID::Steve)
+  {
+    // Ridepod
+    AddRoboAbs(static_cast<f32>(delta));
+    return static_cast<s32>(GetRoboAbs());
+  }
+
+  // Human characters
+  COMMON_GAGE* gage = GetAbsGage(chara_id, gage_index);
+  if (gage == nullptr)
+  {
+    return 0;
+  }
+
+  gage->AddPoint(delta);
+  return static_cast<s32>(gage->m_current);
+}
+
+// 0019C500
+float CUserDataManager::AddRoboAbs(f32 delta)
+{
+  log_trace("CUserDataManager::{}({})", __func__, delta);
+
+  m_robo_abs = std::clamp(m_robo_abs + delta, 0.0f, 99999.0f);
+  return m_robo_abs;
+}
+
+// 0019C560
+float CUserDataManager::GetRoboAbs()
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  return m_robo_abs;
 }
 
 // 0019B160
@@ -282,4 +438,24 @@ MOS_HENGE_PARAM* GetMonsterHengeParam(ssize index)
     }
   }
   return nullptr;
+}
+
+SMonsterBadgeData* CMonsterBox::GetMonsterBajjiData(ssize index)
+{
+  log_warn("Please use CMonsterBox::GetMonsterBadgeData instead of CMonsterBox::GetMonsterBajjiData");
+  return GetMonsterBadgeData(index);
+}
+
+// 0019AC40
+SMonsterBadgeData* CMonsterBox::GetMonsterBadgeData(ssize index)
+{
+  log_trace("CMonsterBox::{}({})", __func__, index);
+
+  // BUG: last item of array is not accessible 
+  if (index <= 0 || index >= m_monster_badge_data.size())
+  {
+    return nullptr;
+  }
+
+  return &m_monster_badge_data[index - 1];
 }

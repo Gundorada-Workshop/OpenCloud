@@ -41,3 +41,40 @@ void CBaseMenuClass::SetAskParam(MENU_ASKMODE_PARA* param)
     m_unk_field_58 = *param;
   }
 }
+
+// 002516C0
+// Returns number of digits in a number
+u32 GetNumberKeta(s32 n)
+{
+  log_trace("{}({})", __func__, n);
+
+  n = std::abs(n);
+  u32 digits = 1;
+  
+  for (; n < 10; ++digits)
+  {
+    n /= 10;
+  }
+
+  return digits;
+}
+
+// 00251720
+s32 GetDispVolumeForFloat(f32 f)
+{
+  s32 result = static_cast<s32>(f);
+
+  if (f - result < 0.00005f)
+  {
+    return result;
+  }
+  return result + 1;
+}
+
+// 00251780
+f32 GetFloatCommaValue(f32 f)
+{
+  log_trace("{}({})", __func__, f);
+
+  return f - truncf(f);
+}

@@ -9,17 +9,47 @@
 // TODO THIS FILE
 struct MOS_CHANGE_PARAM {};
 
+enum class ECharacterID
+{
+  Max = 0,
+  Monica = 1,
+  Steve = 2,
+  MonsterTransform = 3,
+};
+
 struct MOS_HENGE_PARAM
 {
   // 0
-  s16 m_id;
+  s16 m_id{};
   // 2
-  s16 m_unk_field_2;
+  s16 m_unk_field_2{};
   // 4
-  s16 m_unk_field_4;
+  s16 m_unk_field_4{};
   // 8
-  std::array<const char*, 5> m_unk_field_8;
+  std::array<const char*, 5> m_unk_field_8{};
 };
+
+struct COMMON_GAGE
+{
+  // 0
+  f32 m_max{};
+  // 4
+  f32 m_current{};
+
+  // 00196C90
+  bool CheckFill();
+  // 00196CC0
+  f32 GetRate();
+  // 00196D00
+  void SetFillRate(f32 rate);
+  // 00196D10
+  void AddPoint(f32 delta);
+  // 00196D60
+  void AddRate(f32 delta);
+};
+
+// 00196DB0
+f32 GetCommonGageRate(COMMON_GAGE* gage);
 
 namespace EUsedItemType
 {
@@ -33,6 +63,8 @@ namespace ECommonItemData
 
 struct SGameDataUsedAttachSub
 {
+  // 8
+  COMMON_GAGE m_unk_field_8;
   // 18
   s16 m_level{ 0 };
   // 20
@@ -41,14 +73,18 @@ struct SGameDataUsedAttachSub
 
 struct SGameDataUsedWeaponSub
 {
+  // 0
+  COMMON_GAGE m_whp_gage{};
   // 10
   s16 m_level{ 0 };
   // 33
   std::array<char, 0x20> m_name{ 0 };
 };
 
-struct SGameDataUsed_5Sub
+struct SGameDataUsedRobopartSub
 {
+  // 8
+  COMMON_GAGE m_whp_gage{};
   // 2C
   std::array<char, 0x20> m_name{ 0 };
 };
@@ -66,7 +102,7 @@ union UGameDataUsedSub
 {
   SGameDataUsedAttachSub m_attach;
   SGameDataUsedWeaponSub m_weapon;
-  SGameDataUsed_5Sub m_5;
+  SGameDataUsedRobopartSub m_robopart;
   SGameDataUsedFishSub m_fish;
 };
 
@@ -143,6 +179,27 @@ public:
   void Initialize();
 };
 
+struct SMonsterBadgeData
+{
+  COMMON_GAGE m_whp_gage;
+
+  // SIZE 0xBC
+};
+
+class CMonsterBox
+{
+public:
+  // 0019ab50
+  void Initialize();
+
+  // 0019AC40
+  SMonsterBadgeData* GetMonsterBadgeData(ssize index);
+  SMonsterBadgeData* GetMonsterBajjiData(ssize index);
+
+  // 0
+  std::array<SMonsterBadgeData, 0x40> m_monster_badge_data;
+};
+
 struct SUserDataManagerUnkStruct1
 {
   // ?
@@ -163,6 +220,21 @@ public:
   // 0019b160
   void Initialize();
 
+  // 0019B620
+  COMMON_GAGE* GetWHpGage(ECharacterID chara_id, ssize gage_index);
+
+  // 0019B6F0
+  COMMON_GAGE* GetAbsGage(ECharacterID chara_id, ssize gage_index);
+
+  // 0019B7C0
+  s32 AddWhp(ECharacterID chara_id, ssize gage_index, s32 delta);
+
+  // 0019B820
+  s32 GetWhp(ECharacterID chara_id, ssize gage_index, s32* max_dest);
+
+  // 0019B880
+  s32 AddAbs(ECharacterID chara_id, ssize gage_index, s32 delta);
+
   // 0019b9a0
   void JoinPartyMember(s32 chara);
 
@@ -175,6 +247,12 @@ public:
   // 0019c450
   const char* GetRoboNameDefault();
 
+  // 0019C500
+  float AddRoboAbs(f32 delta);
+
+  // 0019C560
+  float GetRoboAbs();
+
   // 0
   std::array<CGameDataUsed, 150> m_unk_field_0;
   // 3F48
@@ -182,8 +260,10 @@ public:
 
   // ?
 
+  // 468C
+  f32 m_robo_abs{};
   // 4690
-  std::array<CGameDataUsed, 4> m_unk_field_4690;
+  std::array<CGameDataUsed, 4> m_robopart_data;
 
   // ?
   
@@ -191,6 +271,11 @@ public:
   std::array<CGameDataUsed, 2> m_unk_field_4880;
   // 4958
   CFishAquarium m_fish_aquarium;
+
+  // ?
+
+  // 4EB0
+  CMonsterBox m_monster_box;
 
   // ??
 
@@ -226,13 +311,6 @@ public:
   CFishingRecord m_fishing_record;
 
   // SIZE 0x457A0
-};
-
-class CMonsterBox
-{
-public:
-  // 0019ab50
-  void Initialize();
 };
 
 class CBattleCharaInfo
