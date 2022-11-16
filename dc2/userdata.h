@@ -200,6 +200,12 @@ public:
   // 0019B6F0
   COMMON_GAGE* GetAbsGage(ECharacterID chara_id, ssize gage_index);
 
+  // 0019B7C0
+  s32 AddWhp(ECharacterID chara_id, ssize gage_index, s32 delta);
+
+  // 0019B820
+  s32 GetWhp(ECharacterID chara_id, ssize gage_index, s32* max_dest);
+
   // 0019B880
   s32 AddAbs(ECharacterID chara_id, ssize gage_index, s32 delta);
 

@@ -277,6 +277,38 @@ COMMON_GAGE* CUserDataManager::GetAbsGage(ECharacterID chara_id, ssize gage_inde
   return nullptr;
 }
 
+// 0019B7C0
+s32 CUserDataManager::AddWhp(ECharacterID chara_id, ssize gage_index, s32 delta)
+{
+  log_trace("CUserDataManager::{}({}, {}, {})", __func__, std::to_underlying(chara_id), gage_index, delta);
+
+  auto gage = GetWHpGage(chara_id, gage_index);
+  if (gage == nullptr)
+  {
+    return 0;
+  }
+
+  gage->AddPoint(static_cast<f32>(delta));
+  return static_cast<s32>(gage->m_current);
+}
+
+// 0019B820
+s32 CUserDataManager::GetWhp(ECharacterID chara_id, ssize gage_index, s32* max_dest)
+{
+  log_trace("CUserDataManager::{}({}, {}, {})", __func__, std::to_underlying(chara_id), gage_index, fmt::ptr(max_dest));
+
+  auto gage = GetWHpGage(chara_id, gage_index);
+  if (gage == nullptr)
+  {
+    // BUG: Original game doesn't write to the max value in this case
+    *max_dest = 0;
+    return 0;
+  }
+
+  *max_dest = static_cast<s32>(gage->m_max);
+  return static_cast<s32>(gage->m_current);
+}
+
 // 0019B880
 s32 CUserDataManager::AddAbs(ECharacterID chara_id, ssize gage_index, s32 delta)
 {
