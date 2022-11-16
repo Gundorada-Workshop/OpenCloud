@@ -55,6 +55,8 @@ namespace ECommonItemData
 
 struct SGameDataUsedAttachSub
 {
+  // 8
+  COMMON_GAGE m_unk_field_8;
   // 18
   s16 m_level{ 0 };
   // 20
@@ -185,6 +187,9 @@ public:
   // 0019b160
   void Initialize();
 
+  // 0019B620
+  COMMON_GAGE* GetWHpGage(EUsedItemType::EUsedItemType item_type, ssize i);
+
   // 0019b9a0
   void JoinPartyMember(s32 chara);
 
@@ -250,11 +255,25 @@ public:
   // SIZE 0x457A0
 };
 
+struct SMonsterBadgeData
+{
+  COMMON_GAGE m_gage;
+
+  // SIZE 0xBC
+};
+
 class CMonsterBox
 {
 public:
   // 0019ab50
   void Initialize();
+
+  // 0019AC40
+  SMonsterBadgeData* GetMonsterBadgeData(ssize index);
+  SMonsterBadgeData* GetMonsterBajjiData(ssize index);
+
+  // 0
+  std::array<SMonsterBadgeData, 0x40> m_monster_badge_data;
 };
 
 class CBattleCharaInfo

@@ -255,6 +255,16 @@ CUserDataManager::CUserDataManager()
   m_fishing_tournament.Initialize();
   new (&m_fishing_record) CFishingRecord;
 }
+// 0019B620
+COMMON_GAGE* CUserDataManager::GetWHpGage(EUsedItemType::EUsedItemType item_type, ssize i)
+{
+  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(item_type), i);
+
+  if (item_type == EUsedItemType::Attach)
+  {
+    return &m_unk_field_4690[0].m_sub_data.m_attach.m_unk_field_8;
+  }
+}
 
 // 0019B160
 void CUserDataManager::Initialize()
@@ -339,4 +349,24 @@ MOS_HENGE_PARAM* GetMonsterHengeParam(ssize index)
     }
   }
   return nullptr;
+}
+
+SMonsterBadgeData* CMonsterBox::GetMonsterBajjiData(ssize index)
+{
+  log_warn("Please use CMonsterBox::GetMonsterBadgeData instead of CMonsterBox::GetMonsterBajjiData");
+  return GetMonsterBadgeData(index);
+}
+
+// 0019AC40
+SMonsterBadgeData* CMonsterBox::GetMonsterBadgeData(ssize index)
+{
+  log_trace("CMonsterBox::{}({})", __func__, index);
+
+  // BUG: last item of array is not accessible 
+  if (index <= 0 || index >= m_monster_badge_data.size())
+  {
+    return nullptr;
+  }
+
+  return &m_monster_badge_data[index - 1];
 }
