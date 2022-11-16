@@ -215,11 +215,11 @@ CUserDataManager::CUserDataManager()
 
   for (auto& unk_struct : m_unk_field_3F48)
   {
-    for (auto& game_data_used : unk_struct.m_unk_field_2C)
+    for (auto& game_data_used : unk_struct.m_active_item_info)
     {
       new (&game_data_used) CGameDataUsed;
     }
-    for (auto& game_data_used : unk_struct.m_unk_field_170)
+    for (auto& game_data_used : unk_struct.m_equip_table)
     {
       new (&game_data_used) CGameDataUsed;
     }
@@ -268,7 +268,7 @@ COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_inde
       return &m_monster_box.GetMonsterBadgeData(m_unk_field_44D98)->m_whp_gage;
     case ECharacterID::Max:
     case ECharacterID::Monica:
-      return &m_unk_field_3F48[std::to_underlying(chara_id)].m_unk_field_170[gage_index].m_sub_data.m_weapon.m_whp_gage;
+      return &m_unk_field_3F48[std::to_underlying(chara_id)].m_equip_table[gage_index].m_sub_data.m_weapon.m_whp_gage;
     default:
       return nullptr;
   }
@@ -458,4 +458,32 @@ SMonsterBadgeData* CMonsterBox::GetMonsterBadgeData(ssize index)
   }
 
   return &m_monster_badge_data[index - 1];
+}
+
+// 0019EFD0
+CGameDataUsed* CBattleCharaInfo::GetEquipTablePtr(usize index)
+{
+  log_trace("CBattleCharaInfo::{}({})", __func__, index);
+
+  // BUG ? : game checks less than 4 here;
+  // pointer should point at an array of 5
+  if (index < 0 || index >= 4)
+  {
+    return nullptr;
+  }
+
+  return &m_equip_table[index];
+}
+
+// 0019F380
+CGameDataUsed* CBattleCharaInfo::GetActiveItemInfo(usize index)
+{
+  log_trace("CBattleCharaInfo::{}({})", __func__, index);
+
+  if (m_active_item_info == nullptr)
+  {
+    return nullptr;
+  }
+
+  return &m_active_item_info[index];
 }

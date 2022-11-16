@@ -202,12 +202,15 @@ public:
 
 struct SUserDataManagerUnkStruct1
 {
+  // Contains information about Max's/Monica's equipped items
+  // need to come up with a name for this
+
   // ?
 
   // 2C
-  std::array<CGameDataUsed, 3> m_unk_field_2C;
+  std::array<CGameDataUsed, 3> m_active_item_info;
   // 170
-  std::array<CGameDataUsed, 5> m_unk_field_170;
+  std::array<CGameDataUsed, 5> m_equip_table;
   // SIZE 0x38C
 };
 
@@ -316,6 +319,10 @@ public:
 class CBattleCharaInfo
 {
 public:
+  // 0019EFD0
+  CGameDataUsed* GetEquipTablePtr(usize index);
+  // 0019F380
+  CGameDataUsed* GetActiveItemInfo(usize index);
 
   // 0
   s16 m_unk_field_0{ 0 };
@@ -329,8 +336,10 @@ public:
 
   // ?
 
+  // 2C
+  CGameDataUsed* m_active_item_info{ nullptr };
   // 30
-  _UNKNOWN m_unk_field_30{ 0 };
+  CGameDataUsed* m_equip_table{ nullptr };
   // 74
   _UNKNOWN m_unk_field_74{ 0 };
 
