@@ -156,8 +156,8 @@ void CGameDataUsed::SetName(const char* name)
     case EUsedItemType::Weapon:
       name_buf = &m_sub_data.m_weapon.m_name;
       break;
-    case EUsedItemType::_5:
-      name_buf = &m_sub_data.m_5.m_name;
+    case EUsedItemType::Robopart:
+      name_buf = &m_sub_data.m_robopart.m_name;
       break;
     case EUsedItemType::Fish:
       name_buf = &m_sub_data.m_fish.m_name;
@@ -225,7 +225,7 @@ CUserDataManager::CUserDataManager()
     }
   }
 
-  for (auto& game_data_used : m_unk_field_4690)
+  for (auto& game_data_used : m_robopart_data)
   {
     new (&game_data_used) CGameDataUsed;
   }
@@ -260,12 +260,18 @@ COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_inde
 {
   log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), gage_index);
 
-  if (chara_id == ECharacterID::Steve)
+  switch (chara_id)
   {
-    todo;
+    case ECharacterID::Steve:
+      return &m_robopart_data[0].m_sub_data.m_robopart.m_whp_gage;
+    case ECharacterID::MonsterTransform:
+      return &m_monster_box.GetMonsterBadgeData(m_unk_field_44D98)->m_whp_gage;
+    case ECharacterID::Max:
+    case ECharacterID::Monica:
+      return &m_unk_field_3F48[std::to_underlying(chara_id)].m_unk_field_170[gage_index].m_sub_data.m_weapon.m_whp_gage;
+    default:
+      return nullptr;
   }
-
-  return nullptr;
 }
 
 // 0019B6F0

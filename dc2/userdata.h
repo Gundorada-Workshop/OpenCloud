@@ -14,26 +14,27 @@ enum class ECharacterID
   Max = 0,
   Monica = 1,
   Steve = 2,
+  MonsterTransform = 3,
 };
 
 struct MOS_HENGE_PARAM
 {
   // 0
-  s16 m_id;
+  s16 m_id{};
   // 2
-  s16 m_unk_field_2;
+  s16 m_unk_field_2{};
   // 4
-  s16 m_unk_field_4;
+  s16 m_unk_field_4{};
   // 8
-  std::array<const char*, 5> m_unk_field_8;
+  std::array<const char*, 5> m_unk_field_8{};
 };
 
 struct COMMON_GAGE
 {
   // 0
-  f32 m_max;
+  f32 m_max{};
   // 4
-  f32 m_current;
+  f32 m_current{};
 
   // 00196C90
   bool CheckFill();
@@ -72,14 +73,18 @@ struct SGameDataUsedAttachSub
 
 struct SGameDataUsedWeaponSub
 {
+  // 0
+  COMMON_GAGE m_whp_gage{};
   // 10
   s16 m_level{ 0 };
   // 33
   std::array<char, 0x20> m_name{ 0 };
 };
 
-struct SGameDataUsed_5Sub
+struct SGameDataUsedRobopartSub
 {
+  // 8
+  COMMON_GAGE m_whp_gage{};
   // 2C
   std::array<char, 0x20> m_name{ 0 };
 };
@@ -97,7 +102,7 @@ union UGameDataUsedSub
 {
   SGameDataUsedAttachSub m_attach;
   SGameDataUsedWeaponSub m_weapon;
-  SGameDataUsed_5Sub m_5;
+  SGameDataUsedRobopartSub m_robopart;
   SGameDataUsedFishSub m_fish;
 };
 
@@ -174,6 +179,27 @@ public:
   void Initialize();
 };
 
+struct SMonsterBadgeData
+{
+  COMMON_GAGE m_whp_gage;
+
+  // SIZE 0xBC
+};
+
+class CMonsterBox
+{
+public:
+  // 0019ab50
+  void Initialize();
+
+  // 0019AC40
+  SMonsterBadgeData* GetMonsterBadgeData(ssize index);
+  SMonsterBadgeData* GetMonsterBajjiData(ssize index);
+
+  // 0
+  std::array<SMonsterBadgeData, 0x40> m_monster_badge_data;
+};
+
 struct SUserDataManagerUnkStruct1
 {
   // ?
@@ -237,7 +263,7 @@ public:
   // 468C
   f32 m_robo_abs{};
   // 4690
-  std::array<CGameDataUsed, 4> m_unk_field_4690;
+  std::array<CGameDataUsed, 4> m_robopart_data;
 
   // ?
   
@@ -245,6 +271,11 @@ public:
   std::array<CGameDataUsed, 2> m_unk_field_4880;
   // 4958
   CFishAquarium m_fish_aquarium;
+
+  // ?
+
+  // 4EB0
+  CMonsterBox m_monster_box;
 
   // ??
 
@@ -280,27 +311,6 @@ public:
   CFishingRecord m_fishing_record;
 
   // SIZE 0x457A0
-};
-
-struct SMonsterBadgeData
-{
-  COMMON_GAGE m_gage;
-
-  // SIZE 0xBC
-};
-
-class CMonsterBox
-{
-public:
-  // 0019ab50
-  void Initialize();
-
-  // 0019AC40
-  SMonsterBadgeData* GetMonsterBadgeData(ssize index);
-  SMonsterBadgeData* GetMonsterBajjiData(ssize index);
-
-  // 0
-  std::array<SMonsterBadgeData, 0x40> m_monster_badge_data;
 };
 
 class CBattleCharaInfo
