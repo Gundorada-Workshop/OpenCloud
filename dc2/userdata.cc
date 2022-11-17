@@ -822,8 +822,7 @@ s32 CBattleCharaInfo::GetDefenceVol()
 {
   log_trace("CBattleCharaInfo::{}()", __func__);
 
-  todo;
-  return 0;
+  return m_param.m_defence_vol;
 }
 
 // 001A00B0
