@@ -681,6 +681,14 @@ s32 CBattleCharaInfo::GetWhpNowVol(usize weapon_index)
   return GetDispVolumeForFloat(whp_gage->m_current);
 }
 
+// 0019FAA0
+void SetMagicSwordPow(EMagicSwordElement element, s16 i1)
+{
+  log_trace("CBattleCharaInfo::{}({}, {})", __func__, element, i1);
+  
+  todo;
+}
+
 // 0019FB60
 EMagicSwordElement CBattleCharaInfo::GetMagicSwordElem()
 {
@@ -708,8 +716,7 @@ s16 CBattleCharaInfo::GetMagicSwordCounterNow()
 {
   log_trace("CBattleCharaInfo::{}()", __func__);
 
-  todo;
-  return 0;
+  return m_magic_sword_counter_now;
 }
 
 // 0019FC80

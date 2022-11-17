@@ -471,6 +471,8 @@ public:
   bool GetNowWhp(usize weapon_index, std::array<s32, 2>& values_dest) const;
   // 0019FA60
   s32 GetWhpNowVol(usize weapon_index);
+  // 0019FAA0
+  void SetMagicSwordPow(EMagicSwordElement element, s16 i1);
   // 0019FB60
   EMagicSwordElement GetMagicSwordElem();
   // 0019FB80
