@@ -86,15 +86,9 @@ struct COMMON_GAGE
 // 00196DB0
 f32 GetCommonGageRate(COMMON_GAGE* gage);
 
-namespace EUsedItemType
-{
-  enum EUsedItemType;
-}
+enum class EUsedItemType;
 
-namespace ECommonItemData
-{
-  enum ECommonItemData : s16;
-}
+enum class ECommonItemData;
 
 struct SGameDataUsedAttachSub
 {
@@ -171,9 +165,9 @@ public:
   void TimeCheck(s32 delta);
 
   // 0
-  EUsedItemType::EUsedItemType m_type{ static_cast<EUsedItemType::EUsedItemType>(0) };
+  EUsedItemType m_type{ static_cast<EUsedItemType>(0) };
   // 2
-  ECommonItemData::ECommonItemData m_common_index{};
+  ECommonItemData m_common_index{};
   // 4
   s8 m_unk_field_4{};
   // 5

@@ -176,7 +176,7 @@ void CGameDataUsed::SetName(const char* name)
   }
 
   strcpy_s(name_buf->data(), name_buf->size(), name);
-  m_unk_field_5 = strcmp(GetItemMessage(m_common_index), name_buf->data()) != 0;
+  m_unk_field_5 = strcmp(GetItemMessage(m_common_index).data(), name_buf->data()) != 0;
 }
 
 // 001985A0
@@ -201,8 +201,8 @@ bool CGameDataUsed::IsFishingRod()
 {
   log_trace("CGameDataUsed::{}()", __func__);
 
-  return m_common_index == ECommonItemData::FishingRod0 || \
-    m_common_index == ECommonItemData::FishingRod1;
+  return m_common_index == ECommonItemData::Fishing_Rod || \
+    m_common_index == ECommonItemData::Lure_Rod;
 }
 
 // 00199830

@@ -90,12 +90,14 @@ const char* GetMesTxt(ssize index)
 
 	log_trace("GetMesTxt({})", index);
 
-	if (index < 0 || mes_txt[0].size() <= index || LanguageCode < 0 || mes_txt.size() <= LanguageCode)
+	auto language_index = std::to_underlying(LanguageCode);
+	if (index < 0 || mes_txt[0].size() <= index || \
+		language_index < 0 || language_index >= mes_txt.size())
 	{
 		return "";
 	}
 
-	return mes_txt[LanguageCode][index];
+	return mes_txt[language_index][index];
 }
 
 float PhotoAddProjection()
