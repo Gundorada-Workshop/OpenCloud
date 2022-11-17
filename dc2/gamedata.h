@@ -609,6 +609,31 @@ public:
 
 class CDataRoboPart
 {
+public:
+  // 0
+  s16 m_unk_field_0{ 0 };
+  // 2
+  s16 m_unk_field_2{ 0 };
+  // 4
+  s16 m_unk_field_4{ 0 };
+  // 6
+  s16 m_unk_field_6{ 0 };
+  // 8
+  s16 m_unk_field_8{ 0 };
+  // A
+  s16 m_unk_field_A{ 0 };
+  // C
+  std::array<s16, 8> m_unk_field_C{ 0 };
+  // 1C
+  s16 m_unk_field_1C{ 0 };
+  // 1E
+  s16 m_unk_field_1E{ 0 };
+  // 20
+  s16 m_unk_field_20{ 0 };
+  // 22
+  s8 m_unk_field_22{ 0 };
+  // 23
+  s8 m_unk_field_23{ 0 };
   // SIZE 0x24
 };
 

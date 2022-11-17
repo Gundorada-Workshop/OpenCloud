@@ -400,10 +400,50 @@ static bool _DATAROBOINIT(SPI_STACK* stack, int stack_count)
 // 001950b0
 static bool _DATAROBO_ANALYZE(SPI_STACK* stack, int stack_count)
 {
+  // "RB_PARTS"
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto index = static_cast<ECommonItemData>(spiGetStackInt(stack++));
+  SpiRoboPart = GameItemDataManage.GetRoboData(index);
 
+  if (SpiRoboPart == nullptr)
+  {
+    log_warn("{}: SpiRoboPart is nullptr!", __func__);
+    return false;
+  }
+
+  int mode = spiGetStackInt(stack++);
+  SpiRoboPart->m_unk_field_0 = spiGetStackInt(stack++);
+  SpiRoboPart->m_unk_field_22 = spiGetStackInt(stack++);
+
+  switch (mode)
+  {
+    case 0:
+      SpiRoboPart->m_unk_field_1C = spiGetStackInt(stack++);
+      break;
+    case 1:
+      SpiRoboPart->m_unk_field_6 = spiGetStackInt(stack++);
+      SpiRoboPart->m_unk_field_8 = spiGetStackInt(stack++);
+      SpiRoboPart->m_unk_field_A = spiGetStackInt(stack++);
+
+      for (int i = 0; i < 8; ++i)
+      {
+        SpiRoboPart->m_unk_field_C[i] = spiGetStackInt(stack++);
+      }
+      SpiRoboPart->m_unk_field_1E = spiGetStackInt(stack++);
+      break;
+    case 2:
+      SpiRoboPart->m_unk_field_4 = spiGetStackInt(stack++);
+      SpiRoboPart->m_unk_field_20 = spiGetStackInt(stack++);
+      break;
+    case 3:
+      SpiRoboPart->m_unk_field_2 = spiGetStackInt(stack++);
+      break;
+    default:
+      break;
+  }
+
+  ++SpiRoboPart;
   return true;
 }
 
