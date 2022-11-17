@@ -55,9 +55,41 @@ static bool _DATACOMINIT(SPI_STACK* stack, int stack_count)
 // 001947a0
 static bool _DATACOM(SPI_STACK* stack, int stack_count)
 {
+  // "COM"
   trace_script_call(stack, stack_count);
 
-  todo;
+  comdatapt->m_common_id = static_cast<ECommonItemData>(spiGetStackInt(stack++));
+  comdatapt->m_type = static_cast<ECommonItemDataType>(spiGetStackInt(stack++));
+  comdatapt->m_unk_field_4 = spiGetStackInt(stack++);
+  comdatapt->m_unk_field_1C = spiGetStackInt(stack++);
+  comdatapt->m_unk_field_1E = spiGetStackInt(stack++);
+  comdatapt->m_unk_field_A = spiGetStackInt(stack++);
+
+  if (ConvertUsedItemType(comdatapt->m_type) == EUsedItemType::Weapon)
+  {
+    // FIXME: MAGIC?
+    if (comdatapt->m_unk_field_A > 100)
+    {
+      comdatapt->m_unk_field_A = 144;
+    }
+  }
+
+  comdatapt->m_unk_field_20 = spiGetStackInt(stack++);
+  comdatapt->m_unk_field_6 = spiGetStackInt(stack++);
+  comdatapt->m_unk_field_8 = spiGetStackInt(stack++);
+
+  if (auto sprite_name = spiGetStackString(stack++); sprite_name != nullptr)
+  {
+    strcpy_s(comdatapt->m_sprite_name.data(), comdatapt->m_sprite_name.size(), sprite_name);
+  }
+
+  comdatapt->m_unk_field_24 = spiGetStackInt(stack++);
+  comdatapt->m_unk_field_28 = nullptr;
+
+  local_itemdatano_converttable[std::to_underlying(comdatapt->m_common_id)] = comdatapt_num;
+
+  ++comdatapt_num;
+  ++comdatapt;
 
   return true;
 }

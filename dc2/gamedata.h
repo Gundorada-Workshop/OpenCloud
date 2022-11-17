@@ -501,7 +501,23 @@ struct SDataItemCommon
   ECommonItemData m_common_id{ ECommonItemData::Invalid };
   // 4
   s16 m_unk_field_4{ 0 };
-
+  // 6
+  s16 m_unk_field_6{ 0 };
+  // 8
+  s16 m_unk_field_8{ 0 };
+  // A
+  s16 m_unk_field_A{ 0 };
+  // C
+  std::array<char, 0x10> m_sprite_name{};
+  // 1C
+  s8 m_unk_field_1C{ 0 };
+  // 1E
+  s16 m_unk_field_1E{ 0 };
+  // 20
+  s8 m_unk_field_20{ 0 };
+  // 24
+  s32 m_unk_field_24{ 0 };
+  // 28
   char* m_unk_field_28{ nullptr };
   // SIZE 0x2C
 };
