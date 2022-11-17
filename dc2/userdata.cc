@@ -113,7 +113,7 @@ void CGameDataUsed::Initialize()
 }
 
 // 001971D0
-s16 CGameDataUsed::GetLevel()
+s16 CGameDataUsed::GetLevel() const
 {
   log_trace("CGameDataUsed::{}()", __func__);
 
@@ -203,6 +203,19 @@ bool CGameDataUsed::IsFishingRod()
 
   return m_common_index == ECommonItemData::FishingRod0 || \
     m_common_index == ECommonItemData::FishingRod1;
+}
+
+// 00199830
+void CGameDataUsed::TimeCheck(s32 delta)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, delta);
+
+  if (m_type != EUsedItemType::Fish)
+  {
+    return;
+  }
+
+  m_sub_data.m_fish.m_unk_field_30 = std::max(m_sub_data.m_fish.m_unk_field_30 - delta, 0);
 }
 
 // 0019AE10

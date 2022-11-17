@@ -133,6 +133,11 @@ struct SGameDataUsedFishSub
   std::array<char, 0x20> m_name{ 0 };
   // 20
   s32 m_hp{ 0 };
+
+  // ?
+
+  // 30
+  s32 m_unk_field_30{ 0 };
 };
 
 union UGameDataUsedSub
@@ -151,7 +156,7 @@ public:
   // 001970c0
   void Initialize();
   // 001971D0
-  s16 GetLevel();
+  s16 GetLevel() const;
   // 00197480
   s16 AddFishHp(s16 delta);
   // 00197630
@@ -162,15 +167,17 @@ public:
   void LevelUp();
   // 001992B0
   bool IsFishingRod();
+  // 00199830
+  void TimeCheck(s32 delta);
 
   // 0
   EUsedItemType::EUsedItemType m_type{ static_cast<EUsedItemType::EUsedItemType>(0) };
   // 2
-  ECommonItemData::ECommonItemData m_common_index;
+  ECommonItemData::ECommonItemData m_common_index{};
   // 4
-  s8 m_unk_field_4;
+  s8 m_unk_field_4{};
   // 5
-  bool m_unk_field_5;
+  bool m_unk_field_5{};
 
   // 10
   UGameDataUsedSub m_sub_data = {};
