@@ -564,6 +564,30 @@ public:
   std::array<s16, 8> m_unk_field_C{ 0 };
   // 1C
   std::array<s16, 8> m_unk_field_1C{ 0 };
+  
+  // ?
+
+  // 2C
+  s32 m_unk_field_2C;
+
+  // ?
+
+  // 38
+  u8 m_unk_field_38;
+  // 39
+  s8 m_unk_field_39;
+  
+  // ?
+
+  // 46
+  s8 m_unk_field_46;
+  // 47
+  s8 m_unk_field_47;
+  // 48
+  s8 m_unk_field_48;
+  // 49
+  s8 m_unk_field_49;
+
   // SIZE 0x4C
 };
 
