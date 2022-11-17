@@ -481,9 +481,30 @@ static bool _DATAFISHINIT(SPI_STACK* stack, int stack_count)
 // 001952a0
 static bool _DATAFISH(SPI_STACK* stack, int stack_count)
 {
+  // "FISH"
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto index = static_cast<ECommonItemData>(spiGetStackInt(stack++));
+  SpiFish = GameItemDataManage.GetFishData(index);
+
+  if (SpiFish == nullptr)
+  {
+    log_warn("{}: SpiFish is nullptr!", __func__);
+    return false;
+  }
+
+  SpiFish->m_unk_field_0 = spiGetStackFloat(stack++);
+  SpiFish->m_unk_field_4 = spiGetStackInt(stack++);
+  SpiFish->m_unk_field_6 = spiGetStackInt(stack++);
+  SpiFish->m_unk_field_A = spiGetStackInt(stack++);
+  SpiFish->m_unk_field_C = spiGetStackInt(stack++);
+  SpiFish->m_unk_field_E = spiGetStackInt(stack++);
+  SpiFish->m_unk_field_8 = spiGetStackInt(stack++);
+
+  if (stack_count >= 9)
+  {
+    SpiFish->m_unk_field_10 = spiGetStackInt(stack++);
+  }
 
   return true;
 }

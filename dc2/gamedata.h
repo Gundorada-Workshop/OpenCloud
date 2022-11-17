@@ -639,6 +639,23 @@ public:
 
 class CDataBreedFish
 {
+public:
+  // 0
+  f32 m_unk_field_0{ 0 };
+  // 4
+  s16 m_unk_field_4{ 0 };
+  // 6
+  s16 m_unk_field_6{ 0 };
+  // 8
+  s16 m_unk_field_8{ 0 };
+  // A
+  s16 m_unk_field_A{ 0 };
+  // C
+  s16 m_unk_field_C{ 0 };
+  // E
+  s16 m_unk_field_E{ 0 };
+  // 10
+  s16 m_unk_field_10{ 0 };
   // SIZE 0x14
 };
 
