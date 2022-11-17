@@ -293,6 +293,7 @@ static bool _DATAITEM(SPI_STACK* stack, int stack_count)
 
   if (SpiItemPt == nullptr)
   {
+    log_warn("{}: SpiItemPt is nullptr!", __func__);
     return false;
   }
 
@@ -329,9 +330,19 @@ static bool _DATAATTACHINIT(SPI_STACK* stack, int stack_count)
 // 00194f20
 static bool _DATAATTACH_ST(SPI_STACK* stack, int stack_count)
 {
+  // "AT_ST"
   trace_script_call(stack, stack_count);
 
-  todo;
+  if (SpiAttach == nullptr)
+  {
+    log_warn("{}: SpiAttach is nullptr!", __func__);
+    return false;
+  }
+
+  for (int i = 0; i < 2; ++i)
+  {
+    SpiAttach->m_unk_field_0[i] = spiGetStackInt(stack++);
+  }
 
   return true;
 }

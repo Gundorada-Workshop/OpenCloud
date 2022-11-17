@@ -541,7 +541,9 @@ public:
 
 class CDataAttach
 {
-  // memset all to 0
+public:
+  // 0
+  std::array<s16, 2> m_unk_field_0{ 0 };
   // SIZE 0x18
 };
 
