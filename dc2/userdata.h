@@ -204,6 +204,9 @@ struct SCharaData
 {
   // Contains information about Max's/Monica's equipped items
 
+  // 0
+  COMMON_GAGE m_unk_field_0;
+
   // ?
 
   // 2C
@@ -318,8 +321,79 @@ public:
   // SIZE 0x457A0
 };
 
+struct SBattleCharaInfoParamUnk1
+{
+  // 0
+  s16 m_unk_field_0{};
+  // 2
+  // ?
+  // 4
+  s16 m_unk_field_4{};
+
+  // ?
+  // SIZE 0x1C
+};
+
+struct SBattleCharaInfoParam
+{
+public:
+  // 0
+  std::array<SBattleCharaInfoParamUnk1, 2> m_unk_field_0{};
+  // 38
+  s16 m_defence_vol{};
+
+  // SIZE 0x40
+};
+
 class CBattleCharaInfo
 {
+private:
+  // 4
+  s16 m_unk_field_4{};
+  // 6
+  s16 m_unk_field_6{ -1 };
+  // 8
+  SCharaData* m_chara_data{ nullptr };
+  // C
+  f32 m_unk_field_C{};
+  // 10
+  f32 m_unk_field_10{};
+  // 14
+  s16 m_unk_field_14{};
+  // 16
+  s16 m_unk_field_16{};
+  // 18
+  s16 m_unk_field_18{};
+  // 1A
+  s16 m_unk_field_1A{};
+  // 1C
+  s16 m_unk_field_1C{};
+  // 1E
+  s16 m_unk_field_1E{};
+  // 20
+  s16 m_unk_field_20{};
+  // 22
+  s16 m_unk_field_22{};
+  // 24
+  s16 m_unk_field_24{};
+  // 26
+  s16 m_unk_field_26{};
+  // 28
+  s16 m_unk_field_28{};
+  // 74
+  COMMON_GAGE* m_unk_field_74{ nullptr };
+  // 78
+  f32 m_unk_field_78{};
+  // 7C
+  f32 m_unk_field_7C{ 0.0f };
+  // 80
+  f32 m_unk_field_80{ -1.0f };
+  // 84
+  f32 m_unk_field_84{ -1.0f };
+  // 88
+  f32 m_unk_field_88{};
+  // 8C
+  f32 m_unk_field_8C{};
 public:
   // 0019EFD0
   CGameDataUsed* GetEquipTablePtr(usize index);
@@ -327,34 +401,15 @@ public:
   CGameDataUsed* GetActiveItemInfo(usize index);
 
   // 0
-  s16 m_unk_field_0{ 0 };
-
-  // ?
-
-  // 6
-  s16 m_unk_field_6{ -1 };
-  // 8
-  _UNKNOWN m_unk_field_8{ 0 };
-
-  // ?
-
+  ECharacterID m_chara_id{ ECharacterID::Max };
+  // 2
+  s16 m_unk_field_2{};
   // 2C
   CGameDataUsed* m_active_item_info{ nullptr };
   // 30
   CGameDataUsed* m_equip_table{ nullptr };
-  // 74
-  _UNKNOWN m_unk_field_74{ 0 };
-
-  // ?
-
-  // 7C
-  _UNKNOWN m_unk_field_7C{ 0 };
-  // 80
-  float m_unk_field_80{ -1.0f };
-  // 84
-  float m_unk_field_84{ -1.0f };
-
-  // ?
+  // 34
+  SBattleCharaInfoParam m_unk_field_34{};
 
   // Size 0x90
 };
