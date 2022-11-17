@@ -182,9 +182,19 @@ static bool _DATAWEP_ST_L(SPI_STACK* stack, int stack_count)
 // 00194b20
 static bool _DATAWEP2_ST(SPI_STACK* stack, int stack_count)
 {
+  // "WEP_ST2"
   trace_script_call(stack, stack_count);
 
-  todo;
+  if (SpiWeaponPt == nullptr)
+  {
+    log_warn("{}: SpiWeaponPt is nullptr!", __func__);
+    return false;
+  }
+
+  for (int i = 0; i < 8; ++i)
+  {
+    SpiWeaponPt->m_unk_field_C[i] = spiGetStackInt(stack++);
+  }
 
   return true;
 }
