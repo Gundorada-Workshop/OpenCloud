@@ -350,9 +350,19 @@ static bool _DATAATTACH_ST(SPI_STACK* stack, int stack_count)
 // 00194fa0
 static bool _DATAATTACH_ST2(SPI_STACK* stack, int stack_count)
 {
+  // "AT_ST2"
   trace_script_call(stack, stack_count);
 
-  todo;
+  if (SpiAttach == nullptr)
+  {
+    log_warn("{}: SpiAttach is nullptr!", __func__);
+    return false;
+  }
+
+  for (int i = 0; i < 8; ++i)
+  {
+    SpiAttach->m_unk_field_4[i] = spiGetStackInt(stack++);
+  }
 
   return true;
 }
@@ -360,10 +370,18 @@ static bool _DATAATTACH_ST2(SPI_STACK* stack, int stack_count)
 // 00195020
 static bool _DATAATTACH_ST_SP(SPI_STACK* stack, int stack_count)
 {
+  // "AT_ST_SP"
   trace_script_call(stack, stack_count);
 
-  todo;
+  if (SpiAttach == nullptr)
+  {
+    log_warn("{}: SpiAttach is nullptr!", __func__);
+    return false;
+  }
 
+  SpiAttach->m_unk_field_14 = spiGetStackInt(stack++);
+  ++SpiAttach;
+  
   return true;
 }
 

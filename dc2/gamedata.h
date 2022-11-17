@@ -544,6 +544,10 @@ class CDataAttach
 public:
   // 0
   std::array<s16, 2> m_unk_field_0{ 0 };
+  // 4
+  std::array<s16, 8> m_unk_field_4{ 0 };
+  // 14
+  s32 m_unk_field_14{ 0 };
   // SIZE 0x18
 };
 
