@@ -464,7 +464,7 @@ public:
   // 0019F910
   COMMON_GAGE* GetNowAccessAbs(usize weapon_index) const;
   // 0019F990
-  f32 AddWhp(usize weapon_index, f32 delta);
+  f32 AddWhp(usize weapon_index, f32 delta) const;
   // 0019FA10
   // NOTE: originally void return, but I changed this to be reflective
   // so it's known that the values in values_dest are valid if needed

@@ -629,12 +629,23 @@ COMMON_GAGE* CBattleCharaInfo::GetNowAccessAbs(usize weapon_index) const
 }
 
 // 0019F990
-f32 CBattleCharaInfo::AddWhp(usize weapon_index, f32 delta)
+f32 CBattleCharaInfo::AddWhp(usize weapon_index, f32 delta) const
 {
   log_trace("CBattleCharaInfo::{}({}, {})", __func__, weapon_index, delta);
 
-  todo;
-  return 0.0f;
+  auto whp_gage = GetNowAccessWHp(weapon_index);
+  if (whp_gage == nullptr)
+  {
+    return 0.0f;
+  }
+
+  whp_gage->AddPoint(delta);
+  if (whp_gage->m_max == 0.0f)
+  {
+    return 0.0f;
+  }
+
+  return whp_gage->GetRate();
 }
 
 // 0019FA10
