@@ -128,9 +128,17 @@ static bool _DATAWEPNUM(SPI_STACK* stack, int stack_count)
 // 00194a00
 static bool _DATAWEP(SPI_STACK* stack, int stack_count)
 {
+  // "WEP"
   trace_script_call(stack, stack_count);
 
-  todo;
+  if (SpiWeaponPt == nullptr)
+  {
+    log_warn("{}: SpiWeaponPt is nullptr!", __func__);
+    return false;
+  }
+
+  SpiWeaponPt->m_unk_field_0 = spiGetStackInt(stack++);
+  SpiWeaponPt->m_unk_field_2 = spiGetStackInt(stack++);
 
   return true;
 }
@@ -458,7 +466,7 @@ CDataWeapon* CGameData::GetWeaponData(ECommonItemData index)
     return nullptr;
   }
 
-  if (m_unk_field_26 <= common_data->m_unk_field_4)
+  if (m_n_weapondata <= common_data->m_unk_field_4)
   {
     return nullptr;
   }

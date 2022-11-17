@@ -546,6 +546,7 @@ class CDataAttach
 
 class CDataWeapon
 {
+public:
   // memset all to 0 (except field 0 and 2)
   // 0
   s16 m_unk_field_0{ 20 };
