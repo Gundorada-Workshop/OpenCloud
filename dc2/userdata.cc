@@ -179,6 +179,23 @@ void CGameDataUsed::SetName(const char* name)
   m_unk_field_5 = strcmp(GetItemMessage(m_common_index), name_buf->data()) != 0;
 }
 
+// 001985A0
+bool CGameDataUsed::IsLevelUp() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  todo;
+  return false;
+}
+
+// 00198620
+void CGameDataUsed::LevelUp()
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  todo;
+}
+
 // 001992B0
 bool CGameDataUsed::IsFishingRod()
 {
@@ -785,8 +802,19 @@ bool CBattleCharaInfo::LevelUpWeapon(CGameDataUsed* weapon)
 {
   log_trace("CBattleCharaInfo::{}({})", __func__, fmt::ptr(weapon));
 
-  todo;
-  return false;
+  if (m_battle_chara_type != EBattleCharaType::Human)
+  {
+    return false;
+  }
+
+  if (!weapon->IsLevelUp())
+  {
+    return false;
+  }
+
+  weapon->LevelUp();
+  RefreshParameter();
+  return true;
 }
 
 // 001A00A0

@@ -156,6 +156,10 @@ public:
   s16 AddFishHp(s16 delta);
   // 00197630
   void SetName(const char* name);
+  // 001985A0
+  bool IsLevelUp() const;
+  // 00198620
+  void LevelUp();
   // 001992B0
   bool IsFishingRod();
 
