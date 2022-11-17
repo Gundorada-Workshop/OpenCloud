@@ -200,10 +200,9 @@ public:
   std::array<SMonsterBadgeData, 0x40> m_monster_badge_data;
 };
 
-struct SUserDataManagerUnkStruct1
+struct SCharaData
 {
   // Contains information about Max's/Monica's equipped items
-  // need to come up with a name for this
 
   // ?
 
@@ -222,6 +221,9 @@ public:
 
   // 0019b160
   void Initialize();
+
+  // 0019B490
+  SCharaData* GetCharaDataPtr(ECharacterID chara_id);
 
   // 0019B620
   COMMON_GAGE* GetWHpGage(ECharacterID chara_id, ssize gage_index);
@@ -257,61 +259,61 @@ public:
   float GetRoboAbs();
 
   // 0
-  std::array<CGameDataUsed, 150> m_unk_field_0;
+  std::array<CGameDataUsed, 150> m_unk_field_0{};
   // 3F48
-  std::array<SUserDataManagerUnkStruct1, 2> m_unk_field_3F48;
+  std::array<SCharaData, 2> m_chara_data{};
 
   // ?
 
   // 468C
   f32 m_robo_abs{};
   // 4690
-  std::array<CGameDataUsed, 4> m_robopart_data;
+  std::array<CGameDataUsed, 4> m_robopart_data{};
 
   // ?
   
   // 4880
-  std::array<CGameDataUsed, 2> m_unk_field_4880;
+  std::array<CGameDataUsed, 2> m_unk_field_4880{};
   // 4958
-  CFishAquarium m_fish_aquarium;
+  CFishAquarium m_fish_aquarium{};
 
   // ?
 
   // 4EB0
-  CMonsterBox m_monster_box;
+  CMonsterBox m_monster_box{};
 
   // ??
 
   // 7F30
-  CInventUserData m_invent_user_data;
+  CInventUserData m_invent_user_data{};
 
   // ??
 
   // 44D90
-  u16 m_unk_field_44D90;
+  u16 m_unk_field_44D90{};
   // 44D92
-  u16 m_unk_field_44D92;
+  u16 m_unk_field_44D92{};
   // 44D94
-  u16 m_unk_field_44D94;
+  u16 m_unk_field_44D94{};
   // 44D96
-  u16 m_unk_field_44D96;
+  u16 m_unk_field_44D96{};
   // 44D98
-  u16 m_unk_field_44D98;
+  u16 m_unk_field_44D98{};
   // 44D9A
-  u16 m_unk_field_44D9A;
+  u16 m_unk_field_44D9A{};
   // 44D9C
-  u16 m_unk_field_44D9C;
+  u16 m_unk_field_44D9C{};
   // 44D9E
-  u16 m_unk_field_44D9E;
+  u16 m_unk_field_44D9E{};
   // 44DA0
-  u16 m_unk_field_44DA0;
+  u16 m_unk_field_44DA0{};
 
   // ?
 
   // 451E8
-  CFishingTournament m_fishing_tournament;
+  CFishingTournament m_fishing_tournament{};
   // 45258
-  CFishingRecord m_fishing_record;
+  CFishingRecord m_fishing_record{};
 
   // SIZE 0x457A0
 };

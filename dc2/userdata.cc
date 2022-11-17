@@ -213,7 +213,7 @@ CUserDataManager::CUserDataManager()
     new (&game_data_used) CGameDataUsed;
   }
 
-  for (auto& unk_struct : m_unk_field_3F48)
+  for (auto& unk_struct : m_chara_data)
   {
     for (auto& game_data_used : unk_struct.m_active_item_info)
     {
@@ -255,6 +255,22 @@ CUserDataManager::CUserDataManager()
   m_fishing_tournament.Initialize();
   new (&m_fishing_record) CFishingRecord;
 }
+
+// 0019B490
+SCharaData* CUserDataManager::GetCharaDataPtr(ECharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(chara_id));
+
+  switch (chara_id)
+  {
+    case ECharacterID::Max:
+    case ECharacterID::Monica:
+      return &m_chara_data[std::to_underlying(chara_id)];
+    default:
+      return nullptr;
+  }
+}
+
 // 0019B620
 COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_index)
 {
@@ -268,7 +284,7 @@ COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_inde
       return &m_monster_box.GetMonsterBadgeData(m_unk_field_44D98)->m_whp_gage;
     case ECharacterID::Max:
     case ECharacterID::Monica:
-      return &m_unk_field_3F48[std::to_underlying(chara_id)].m_equip_table[gage_index].m_sub_data.m_weapon.m_whp_gage;
+      return &m_chara_data[std::to_underlying(chara_id)].m_equip_table[gage_index].m_sub_data.m_weapon.m_whp_gage;
     default:
       return nullptr;
   }
