@@ -148,7 +148,14 @@ static bool _DATAWEP_ST(SPI_STACK* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  if (SpiWeaponPt == nullptr)
+  {
+    log_warn("{}: SpiWeaponPt is nullptr!", __func__);
+    return false;
+  }
+
+  SpiWeaponPt->m_unk_field_4 = spiGetStackInt(stack++);
+  SpiWeaponPt->m_unk_field_6 = spiGetStackInt(stack++);
 
   return true;
 }
