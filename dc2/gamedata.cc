@@ -461,9 +461,18 @@ static bool _DATAGUARDNUM(SPI_STACK* stack, int stack_count)
 // 001953d0
 static bool _DATAGUARD(SPI_STACK* stack, int stack_count)
 {
+  // "GRD"
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto index = static_cast<ECommonItemData>(spiGetStackInt(stack++));
+  auto guard_data = GameItemDataManage.GetGuardData(index);
+
+  if (guard_data == nullptr)
+  {
+    return false;
+  }
+
+  guard_data->m_unk_field_0 = spiGetStackInt(stack++);
 
   return true;
 }

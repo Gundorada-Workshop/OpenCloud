@@ -661,6 +661,9 @@ public:
 
 class CDataGuard
 {
+public:
+  // 0
+  s16 m_unk_field_0{ 0 };
   // SIZE 0x4
 };
 
