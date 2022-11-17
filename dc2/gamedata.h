@@ -556,6 +556,10 @@ public:
   s16 m_unk_field_4{ 0 };
   // 6
   s16 m_unk_field_6{ 0 };
+  // 8
+  s16 m_unk_field_8{ 0 };
+  // A
+  s16 m_unk_field_A{ 0 };
   // SIZE 0x4C
 };
 
