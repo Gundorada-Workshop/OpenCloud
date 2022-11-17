@@ -317,9 +317,11 @@ static bool _DATAITEM(SPI_STACK* stack, int stack_count)
 // 00194ee0
 static bool _DATAATTACHINIT(SPI_STACK* stack, int stack_count)
 {
+  // "AT_INIT"
   trace_script_call(stack, stack_count);
 
-  todo;
+  GameItemDataManage.m_n_attachdata = spiGetStackInt(stack);
+  SpiAttach = GameItemDataManage.m_attachdata;
 
   return true;
 }
