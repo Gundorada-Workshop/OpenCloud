@@ -539,9 +539,8 @@ static bool _MES_SYS(SPI_STACK* stack, int stack_count)
 
 static bool _MES_SYS_SPECTOL(SPI_STACK* stack, int stack_count)
 {
+  // "MES_SYSSPE"
   trace_script_call(stack, stack_count);
-
-  todo;
 
   return true;
 }
