@@ -498,13 +498,13 @@ public:
   // 001A0030
   bool LevelUpWeapon(CGameDataUsed* weapon);
   // 001A00A0
-  s32 GetDefenceVol();
+  s32 GetDefenceVol() const;
   // 001A00B0
   f32 AddHp_Point(f32 f1, f32 f2);
   // 001A01B0
   f32 AddHp_Rate(f32 f1, s32 i1, f32 f2);
   // 001A0370
-  void SetHpRate(f32 rate);
+  void SetHpRate(f32 rate) const;
   // 001A03A0
   s32 GetMaxHp_i();
   // 001A03E0

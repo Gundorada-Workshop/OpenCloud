@@ -818,7 +818,7 @@ bool CBattleCharaInfo::LevelUpWeapon(CGameDataUsed* weapon)
 }
 
 // 001A00A0
-s32 CBattleCharaInfo::GetDefenceVol()
+s32 CBattleCharaInfo::GetDefenceVol() const
 {
   log_trace("CBattleCharaInfo::{}()", __func__);
 
@@ -844,11 +844,16 @@ f32 CBattleCharaInfo::AddHp_Rate(f32 f1, s32 i1, f32 f2)
 }
 
 // 001A0370
-void CBattleCharaInfo::SetHpRate(f32 rate)
+void CBattleCharaInfo::SetHpRate(f32 rate) const
 {
   log_trace("CBattleCharaInfo::{}({})", __func__, rate);
 
-  todo;
+  if (m_hp_gage == nullptr)
+  {
+    return;
+  }
+
+  m_hp_gage->SetFillRate(rate);
 }
 
 // 001A03A0
