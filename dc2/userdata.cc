@@ -684,7 +684,7 @@ s32 CBattleCharaInfo::GetWhpNowVol(usize weapon_index)
 // 0019FAA0
 void SetMagicSwordPow(EMagicSwordElement element, s16 i1)
 {
-  log_trace("CBattleCharaInfo::{}({}, {})", __func__, element, i1);
+  log_trace("CBattleCharaInfo::{}({}, {})", __func__, std::to_underlying(element), i1);
   
   todo;
 }
@@ -733,7 +733,15 @@ void CBattleCharaInfo::ClearMagicSwordPow()
 {
   log_trace("CBattleCharaInfo::{}()", __func__);
 
-  todo;
+  m_magic_sword_element = EMagicSwordElement::Uninitialized;
+  m_magic_sword_counter_now = 0;
+  m_unk_field_1C = 0;
+  m_unk_field_1E = 0;
+  m_unk_field_20 = 0;
+  m_unk_field_22 = 0;
+  m_unk_field_24 = 0;
+  m_unk_field_26 = 0;
+  m_unk_field_28 = 0;
 }
 
 // 0019FD30
