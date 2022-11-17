@@ -568,25 +568,34 @@ public:
   // ?
 
   // 2C
-  s32 m_unk_field_2C;
+  s32 m_unk_field_2C{ 0 };
 
   // ?
 
   // 38
-  u8 m_unk_field_38;
+  u8 m_unk_field_38{ 0 };
   // 39
-  s8 m_unk_field_39;
-  
-  // ?
-
+  s8 m_unk_field_39{ 0 };
+  // 3A
+  s16 m_unk_field_3A{ 0 };
+  // 3C
+  s16 m_unk_field_3C{ 0 };
+  // 3E
+  s16 m_unk_field_3E{ 0 };
+  // 40
+  s16 m_unk_field_40{ 0 };
+  // 42
+  s16 m_unk_field_42{ 0 };
+  // 44
+  s16 m_unk_field_44{ 0 };
   // 46
-  s8 m_unk_field_46;
+  s8 m_unk_field_46{ 0 };
   // 47
-  s8 m_unk_field_47;
+  s8 m_unk_field_47{ 0 };
   // 48
-  s8 m_unk_field_48;
+  s8 m_unk_field_48{ 0 };
   // 49
-  s8 m_unk_field_49;
+  s8 m_unk_field_49{ 0 };
 
   // SIZE 0x4C
 };

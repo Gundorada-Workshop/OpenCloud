@@ -245,9 +245,27 @@ static bool _DATAWEP_SPE(SPI_STACK* stack, int stack_count)
 // 00194d10
 static bool _DATAWEP_BUILDUP(SPI_STACK* stack, int stack_count)
 {
+  // "WEP_BUILD"
   trace_script_call(stack, stack_count);
 
-  todo;
+  if (SpiWeaponPt == nullptr)
+  {
+    log_warn("{}: SpiWeaponPt is nullptr!", __func__);
+    return false;
+  }
+
+  SpiWeaponPt->m_unk_field_3A = spiGetStackInt(stack++);
+  SpiWeaponPt->m_unk_field_3C = spiGetStackInt(stack++);
+  SpiWeaponPt->m_unk_field_3E = spiGetStackInt(stack++);
+
+  if (stack_count >= 4)
+  {
+    SpiWeaponPt->m_unk_field_40 = spiGetStackInt(stack++);
+    SpiWeaponPt->m_unk_field_42 = spiGetStackInt(stack++);
+    SpiWeaponPt->m_unk_field_44 = spiGetStackInt(stack++);
+  }
+
+  ++SpiWeaponPt;
 
   return true;
 }
