@@ -857,21 +857,29 @@ void CBattleCharaInfo::SetHpRate(f32 rate) const
 }
 
 // 001A03A0
-s32 CBattleCharaInfo::GetMaxHp_i()
+s32 CBattleCharaInfo::GetMaxHp_i() const
 {
   log_trace("CBattleCharaInfo::{}()", __func__);
 
-  todo;
-  return 0;
+  if (m_hp_gage == nullptr)
+  {
+    return 0;
+  }
+
+  return static_cast<s32>(m_hp_gage->m_max);
 }
 
 // 001A03E0
-s32 CBattleCharaInfo::GetNowHp_i()
+s32 CBattleCharaInfo::GetNowHp_i() const
 {
   log_trace("CBattleCharaInfo::{}()", __func__);
 
-  todo;
-  return 0;
+  if (m_hp_gage == nullptr)
+  {
+    return 0;
+  }
+
+  return GetDispVolumeForFloat(m_hp_gage->m_current);
 }
 
 // 001A0420

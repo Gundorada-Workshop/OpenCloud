@@ -506,9 +506,9 @@ public:
   // 001A0370
   void SetHpRate(f32 rate) const;
   // 001A03A0
-  s32 GetMaxHp_i();
+  s32 GetMaxHp_i() const;
   // 001A03E0
-  s32 GetNowHp_i();
+  s32 GetNowHp_i() const;
   // 001A0420
   ECharaStatusAttribute SetAttr(ECharaStatusAttribute attr, bool b);
   // 001A0490
