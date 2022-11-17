@@ -45,9 +45,18 @@ static std::array<s16, 0x200> local_itemdatano_converttable{ -1 };
 // 00194750
 static bool _DATACOMINIT(SPI_STACK* stack, int stack_count)
 {
+  // "COMINIT"
   trace_script_call(stack, stack_count);
 
-  todo;
+  GameItemDataManage.m_unk_field_22 = spiGetStackInt(stack);
+
+  comdatapt_num = 0;
+  comdatapt = GameItemDataManage.m_com_itemdata;
+
+  for (int i = 0; i < local_itemdatano_converttable.size(); ++i)
+  {
+    local_itemdatano_converttable[i] = -1;
+  }
 
   return true;
 }
