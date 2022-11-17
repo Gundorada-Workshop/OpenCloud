@@ -468,7 +468,7 @@ public:
   // 0019FA10
   // NOTE: originally void return, but I changed this to be reflective
   // so it's known that the values in values_dest are valid if needed
-  bool GetNowWhp(usize weapon_index, std::array<s32, 2>* values_dest);
+  bool GetNowWhp(usize weapon_index, std::array<s32, 2>& values_dest) const;
   // 0019FA60
   s32 GetWhpNowVol(usize weapon_index);
   // 0019FB60

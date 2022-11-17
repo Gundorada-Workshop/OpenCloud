@@ -3,6 +3,7 @@
 #include "common/log.h"
 #include "common/types.h"
 #include "gamedata.h"
+#include "menumain.h"
 #include "userdata.h"
 
 set_log_channel("userdata");
@@ -651,12 +652,19 @@ f32 CBattleCharaInfo::AddWhp(usize weapon_index, f32 delta) const
 // 0019FA10
 // NOTE: originally void return, but I changed this to be reflective
 // so it's known that the values in values_dest are valid if needed
-bool CBattleCharaInfo::GetNowWhp(usize weapon_index, std::array<s32, 2>* values_dest)
+bool CBattleCharaInfo::GetNowWhp(usize weapon_index, std::array<s32, 2>& values_dest) const
 {
-  log_trace("CBattleCharaInfo::{}({}, {})", __func__, weapon_index, fmt::ptr(values_dest));
+  log_trace("CBattleCharaInfo::{}({}, {})", __func__, weapon_index, fmt::ptr(&values_dest));
 
-  todo;
-  return false;
+  auto whp_gage = GetNowAccessWHp(weapon_index);
+  if (whp_gage == nullptr)
+  {
+    return false;
+  }
+
+  values_dest[0] = GetDispVolumeForFloat(whp_gage->m_current);
+  values_dest[1] = static_cast<s32>(whp_gage->m_max);
+  return true;
 }
 
 // 0019FA60
@@ -664,8 +672,13 @@ s32 CBattleCharaInfo::GetWhpNowVol(usize weapon_index)
 {
   log_trace("CBattleCharaInfo::{}({})", __func__, weapon_index);
 
-  todo;
-  return 0;
+  auto whp_gage = GetNowAccessWHp(weapon_index);
+  if (whp_gage == nullptr)
+  {
+    return 0;
+  }
+
+  return GetDispVolumeForFloat(whp_gage->m_current);
 }
 
 // 0019FB60
