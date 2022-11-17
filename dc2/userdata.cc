@@ -281,7 +281,7 @@ COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_inde
     case ECharacterID::Steve:
       return &m_robopart_data[0].m_sub_data.m_robopart.m_whp_gage;
     case ECharacterID::MonsterTransform:
-      return &m_monster_box.GetMonsterBadgeData(m_unk_field_44D98)->m_whp_gage;
+      return &m_monster_box.GetMonsterBadgeData(m_monster_id)->m_whp_gage;
     case ECharacterID::Max:
     case ECharacterID::Monica:
       return &m_chara_data[std::to_underlying(chara_id)].m_equip_table[gage_index].m_sub_data.m_weapon.m_whp_gage;
@@ -456,16 +456,18 @@ MOS_HENGE_PARAM* GetMonsterHengeParam(ssize index)
   return nullptr;
 }
 
-SMonsterBadgeData* CMonsterBox::GetMonsterBajjiData(ssize index)
+SMonsterBadgeData* CMonsterBox::GetMonsterBajjiData(EMonsterID index)
 {
   log_warn("Please use CMonsterBox::GetMonsterBadgeData instead of CMonsterBox::GetMonsterBajjiData");
   return GetMonsterBadgeData(index);
 }
 
 // 0019AC40
-SMonsterBadgeData* CMonsterBox::GetMonsterBadgeData(ssize index)
+SMonsterBadgeData* CMonsterBox::GetMonsterBadgeData(EMonsterID monster_id)
 {
-  log_trace("CMonsterBox::{}({})", __func__, index);
+  log_trace("CMonsterBox::{}({})", __func__, std::to_underlying(monster_id));
+
+  auto index = std::to_underlying(monster_id);
 
   // BUG: last item of array is not accessible 
   if (index <= 0 || index >= m_monster_badge_data.size())
@@ -491,6 +493,41 @@ CGameDataUsed* CBattleCharaInfo::GetEquipTablePtr(usize index)
   return &m_equip_table[index];
 }
 
+// 0019F010
+void CBattleCharaInfo::SetChrNo(ECharacterID chara_id)
+{
+  log_trace("CBattleCharaInfo::{}({})", __func__, std::to_underlying(chara_id));
+
+  todo;
+}
+
+// 0019F210
+EMonsterID CBattleCharaInfo::GetMonsterID()
+{
+  log_trace("CBattleCharaInfo::{}()", __func__);
+
+  todo;
+  return static_cast<EMonsterID>(0);
+}
+
+// 0019F250
+ENPCID CBattleCharaInfo::GetNowNPC()
+{
+  log_trace("CBattleCharaInfo::{}()", __func__);
+
+  return m_now_npc;
+}
+
+// 0019F260
+// NOTE: This fn takes an unused argument, so I removed it here.
+bool CBattleCharaInfo::UseNPCPoint()
+{
+  log_trace("CBattleCharaInfo::{}()", __func__);
+
+  todo;
+  return false;
+}
+
 // 0019F380
 CGameDataUsed* CBattleCharaInfo::GetActiveItemInfo(usize index)
 {
@@ -502,4 +539,285 @@ CGameDataUsed* CBattleCharaInfo::GetActiveItemInfo(usize index)
   }
 
   return &m_active_item_info[index];
+}
+
+// 0019F3B0
+bool CBattleCharaInfo::UseActiveItem(CGameDataUsed* active_item)
+{
+  log_trace("CBattleCharaInfo::{}({})", __func__, fmt::ptr(active_item));
+
+  todo;
+  return false;
+}
+
+// 0019F480
+ESpecialStatus CBattleCharaInfo::GetSpecialStatus(usize index)
+{
+  log_trace("CBattleCharaInfo::{}({})", __func__, index);
+
+  todo;
+  return static_cast<ESpecialStatus>(0);
+}
+
+// 0019F4D0
+s16 CBattleCharaInfo::GetPalletNo(usize index)
+{
+  log_trace("CBattleCharaInfo::{}({})", __func__, index);
+
+  todo;
+  return 0;
+}
+
+// 0019F520
+void CBattleCharaInfo::RefreshParameter()
+{
+  log_trace("CBattleCharaInfo::{}()", __func__);
+
+  todo;
+}
+
+// 0019F890
+COMMON_GAGE* CBattleCharaInfo::GetNowAccessWHp(usize weapon_index)
+{
+  log_trace("CBattleCharaInfo::{}({})", __func__, weapon_index);
+
+  todo;
+  return nullptr;
+}
+
+// 0019F910
+COMMON_GAGE* CBattleCharaInfo::GetNowAccessAbs(usize weapon_index)
+{
+  log_trace("CBattleCharaInfo::{}({})", __func__, weapon_index);
+
+  todo;
+  return nullptr;
+}
+
+// 0019F990
+f32 CBattleCharaInfo::AddWhp(usize weapon_index, f32 delta)
+{
+  log_trace("CBattleCharaInfo::{}({}, {})", __func__, weapon_index, delta);
+
+  todo;
+  return 0.0f;
+}
+
+// 0019FA10
+// NOTE: originally void return, but I changed this to be reflective
+// so it's known that the values in values_dest are valid if needed
+bool CBattleCharaInfo::GetNowWhp(usize weapon_index, std::array<s32, 2>* values_dest)
+{
+  log_trace("CBattleCharaInfo::{}({}, {})", __func__, weapon_index, fmt::ptr(values_dest));
+
+  todo;
+  return false;
+}
+
+// 0019FA60
+s32 CBattleCharaInfo::GetWhpNowVol(usize weapon_index)
+{
+  log_trace("CBattleCharaInfo::{}({})", __func__, weapon_index);
+
+  todo;
+  return 0;
+}
+
+// 0019FB60
+EMagicSwordElement CBattleCharaInfo::GetMagicSwordElem()
+{
+  log_trace("CBattleCharaInfo::{}()", __func__);
+
+  if (m_chara_id != ECharacterID::Monica)
+  {
+    return EMagicSwordElement::Invalid;
+  }
+
+  return m_magic_sword_element;
+}
+
+// 0019FB80
+s32 CBattleCharaInfo::GetMagicSwordPow()
+{
+  log_trace("CBattleCharaInfo::{}()", __func__);
+
+  todo;
+  return 0;
+}
+
+// 0019FC50
+s16 CBattleCharaInfo::GetMagicSwordCounterNow()
+{
+  log_trace("CBattleCharaInfo::{}()", __func__);
+
+  todo;
+  return 0;
+}
+
+// 0019FC80
+s16 CBattleCharaInfo::GetMagicSwordCounterMax()
+{
+  log_trace("CBattleCharaInfo::{}()", __func__);
+
+  todo;
+  return 0;
+}
+
+// 0019FD00
+void CBattleCharaInfo::ClearMagicSwordPow()
+{
+  log_trace("CBattleCharaInfo::{}()", __func__);
+
+  todo;
+}
+
+// 0019FD30
+f32 CBattleCharaInfo::AddAbs(usize weapon_index, f32 delta, bool* has_leveled_up)
+{
+  log_trace("CBattleCharaInfo::{}({}, {}, {})", __func__, weapon_index, delta, fmt::ptr(has_leveled_up));
+
+  todo;
+  return 0.0f;
+}
+
+// 0019FEE0
+bool CBattleCharaInfo::AddAbsRate(usize weapon_index, f32 delta, bool* has_leveled_up)
+{
+  log_trace("CBattleCharaInfo::{}({}, {}, {})", __func__, weapon_index, delta, fmt::ptr(has_leveled_up));
+
+  todo;
+  return false;
+}
+
+// 0019FFE0
+// NOTE: originally void return, but I changed this to be reflective
+// so it's known that the values in values_dest are valid if needed
+bool CBattleCharaInfo::GetNowAbs(usize weapon_index, std::array<s32, 2>* values_dest)
+{
+  log_trace("CBattleCharaInfo::{}({}, {})", __func__, weapon_index, fmt::ptr(values_dest));
+
+  todo;
+  return false;
+}
+
+// 001A0030
+bool CBattleCharaInfo::LevelUpWeapon(CGameDataUsed* weapon)
+{
+  log_trace("CBattleCharaInfo::{}({})", __func__, fmt::ptr(weapon));
+
+  todo;
+  return false;
+}
+
+// 001A00A0
+s32 CBattleCharaInfo::GetDefenceVol()
+{
+  log_trace("CBattleCharaInfo::{}()", __func__);
+
+  todo;
+  return 0;
+}
+
+// 001A00B0
+f32 CBattleCharaInfo::AddHp_Point(f32 f1, f32 f2)
+{
+  log_trace("CBattleCharaInfo::{}({}, {})", __func__, f1, f2);
+
+  todo;
+  return 0.0f;
+}
+
+// 001A01B0
+f32 CBattleCharaInfo::AddHp_Rate(f32 f1, s32 i1, f32 f2)
+{
+  log_trace("CBattleCharaInfo::{}({}, {}, {})", __func__, f1, i1, f2);
+
+  todo;
+  return 0.0f;
+}
+
+// 001A0370
+void CBattleCharaInfo::SetHpRate(f32 rate)
+{
+  log_trace("CBattleCharaInfo::{}({})", __func__, rate);
+
+  todo;
+}
+
+// 001A03A0
+s32 CBattleCharaInfo::GetMaxHp_i()
+{
+  log_trace("CBattleCharaInfo::{}()", __func__);
+
+  todo;
+  return 0;
+}
+
+// 001A03E0
+s32 CBattleCharaInfo::GetNowHp_i()
+{
+  log_trace("CBattleCharaInfo::{}()", __func__);
+
+  todo;
+  return 0;
+}
+
+// 001A0420
+ECharaStatusAttribute CBattleCharaInfo::SetAttr(ECharaStatusAttribute attr, bool b)
+{
+  log_trace("CBattleCharaInfo::{}({}, {})", __func__, std::to_underlying(attr), b);
+
+  todo;
+  return static_cast<ECharaStatusAttribute>(0);
+}
+
+// 001A0490
+ECharaStatusAttribute CBattleCharaInfo::SetAttrVol(ECharaStatusAttribute attr, bool b)
+{
+  log_trace("CBattleCharaInfo::{}({}, {})", __func__, std::to_underlying(attr), b);
+
+  todo;
+  return static_cast<ECharaStatusAttribute>(0);
+}
+
+// 001A0500
+ECharaStatusAttribute CBattleCharaInfo::GetAttr()
+{
+  log_trace("CBattleCharaInfo::{}()", __func__);
+
+  todo;
+  return static_cast<ECharaStatusAttribute>(0);
+}
+
+// 001A0550
+void CBattleCharaInfo::ForceSet()
+{
+  log_trace("CBattleCharaInfo::{}()", __func__);
+
+  todo;
+}
+
+// 001A08D0
+ECharaStatusAttribute CBattleCharaInfo::StatusParamStep(s32* p)
+{
+  log_trace("CBattleCharaInfo::{}({})", __func__, fmt::ptr(p));
+
+  todo;
+  return static_cast<ECharaStatusAttribute>(0);
+}
+
+// 001A0C60
+void CBattleCharaInfo::Step()
+{
+  log_trace("CBattleCharaInfo::{}()", __func__);
+
+  todo;
+}
+
+// 001A0EA0
+CBattleCharaInfo* GetBattleCharaInfo()
+{
+  log_trace("{}()", __func__);
+
+  return &BattleParameter;
 }

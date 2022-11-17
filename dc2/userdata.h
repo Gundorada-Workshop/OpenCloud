@@ -17,6 +17,41 @@ enum class ECharacterID
   MonsterTransform = 3,
 };
 
+enum class ENPCID : s16
+{
+  
+};
+
+enum class EMonsterID : s16
+{
+
+};
+
+enum class ESpecialStatus : s32
+{
+
+};
+
+enum class EMagicSwordElement : s16
+{
+  Uninitialized = -1,
+  Invalid = -1,
+  COUNT = 4,
+};
+
+enum class EBattleCharaType : s16
+{
+  Uninitialized = -1,
+  Human = 0,
+  MonsterTransform = 1,
+  Ridepod = 2,
+};
+
+enum class ECharaStatusAttribute : u16
+{
+
+};
+
 struct MOS_HENGE_PARAM
 {
   // 0
@@ -75,6 +110,8 @@ struct SGameDataUsedWeaponSub
 {
   // 0
   COMMON_GAGE m_whp_gage{};
+  // 8
+  COMMON_GAGE m_abs_gage{};
   // 10
   s16 m_level{ 0 };
   // 33
@@ -193,8 +230,8 @@ public:
   void Initialize();
 
   // 0019AC40
-  SMonsterBadgeData* GetMonsterBadgeData(ssize index);
-  SMonsterBadgeData* GetMonsterBajjiData(ssize index);
+  SMonsterBadgeData* GetMonsterBadgeData(EMonsterID index);
+  SMonsterBadgeData* GetMonsterBajjiData(EMonsterID index);
 
   // 0
   std::array<SMonsterBadgeData, 0x40> m_monster_badge_data;
@@ -293,23 +330,23 @@ public:
   // ??
 
   // 44D90
-  u16 m_unk_field_44D90{};
+  s16 m_unk_field_44D90{};
   // 44D92
-  u16 m_unk_field_44D92{};
+  s16 m_unk_field_44D92{};
   // 44D94
-  u16 m_unk_field_44D94{};
+  s16 m_unk_field_44D94{};
   // 44D96
-  u16 m_unk_field_44D96{};
+  s16 m_unk_field_44D96{};
   // 44D98
-  u16 m_unk_field_44D98{};
+  EMonsterID m_monster_id{};
   // 44D9A
-  u16 m_unk_field_44D9A{};
+  s16 m_unk_field_44D9A{};
   // 44D9C
-  u16 m_unk_field_44D9C{};
+  s16 m_unk_field_44D9C{};
   // 44D9E
-  u16 m_unk_field_44D9E{};
+  s16 m_unk_field_44D9E{};
   // 44DA0
-  u16 m_unk_field_44DA0{};
+  s16 m_unk_field_44DA0{};
 
   // ?
 
@@ -331,6 +368,12 @@ struct SBattleCharaInfoParamUnk1
   s16 m_unk_field_4{};
 
   // ?
+  
+
+  // 14
+  ESpecialStatus m_special_status{};
+  // 18
+  s16 m_pallet_no{};
   // SIZE 0x1C
 };
 
@@ -349,9 +392,9 @@ class CBattleCharaInfo
 {
 private:
   // 4
-  s16 m_unk_field_4{};
+  ENPCID m_now_npc{};
   // 6
-  s16 m_unk_field_6{ -1 };
+  EBattleCharaType m_battle_chara_type{ EBattleCharaType::Uninitialized };
   // 8
   SCharaData* m_chara_data{ nullptr };
   // C
@@ -363,9 +406,9 @@ private:
   // 16
   s16 m_unk_field_16{};
   // 18
-  s16 m_unk_field_18{};
+  EMagicSwordElement m_magic_sword_element{ EMagicSwordElement::Uninitialized };
   // 1A
-  s16 m_unk_field_1A{};
+  s16 m_magic_sword_counter_now{};
   // 1C
   s16 m_unk_field_1C{};
   // 1E
@@ -381,7 +424,7 @@ private:
   // 28
   s16 m_unk_field_28{};
   // 74
-  COMMON_GAGE* m_unk_field_74{ nullptr };
+  COMMON_GAGE* m_hp_gage{ nullptr };
   // 78
   f32 m_unk_field_78{};
   // 7C
@@ -397,8 +440,81 @@ private:
 public:
   // 0019EFD0
   CGameDataUsed* GetEquipTablePtr(usize index);
+  // 0019F010
+  void SetChrNo(ECharacterID chara_id);
+  // 0019F210
+  EMonsterID GetMonsterID();
+  // 0019F250
+  ENPCID GetNowNPC();
+  // 0019F260
+  // NOTE: This fn takes an unused argument, so I removed it here.
+  bool UseNPCPoint();
   // 0019F380
   CGameDataUsed* GetActiveItemInfo(usize index);
+  // 0019F3B0
+  bool UseActiveItem(CGameDataUsed* active_item);
+  // 0019F480
+  ESpecialStatus GetSpecialStatus(usize index);
+  // 0019F4D0
+  s16 GetPalletNo(usize index);
+  // 0019F520
+  void RefreshParameter();
+  // 0019F890
+  COMMON_GAGE* GetNowAccessWHp(usize weapon_index);
+  // 0019F910
+  COMMON_GAGE* GetNowAccessAbs(usize weapon_index);
+  // 0019F990
+  f32 AddWhp(usize weapon_index, f32 delta);
+  // 0019FA10
+  // NOTE: originally void return, but I changed this to be reflective
+  // so it's known that the values in values_dest are valid if needed
+  bool GetNowWhp(usize weapon_index, std::array<s32, 2>* values_dest);
+  // 0019FA60
+  s32 GetWhpNowVol(usize weapon_index);
+  // 0019FB60
+  EMagicSwordElement GetMagicSwordElem();
+  // 0019FB80
+  s32 GetMagicSwordPow();
+  // 0019FC50
+  s16 GetMagicSwordCounterNow();
+  // 0019FC80
+  s16 GetMagicSwordCounterMax();
+  // 0019FD00
+  void ClearMagicSwordPow();
+  // 0019FD30
+  f32 AddAbs(usize weapon_index, f32 delta, bool* has_leveled_up);
+  // 0019FEE0
+  bool AddAbsRate(usize weapon_index, f32 delta, bool* has_leveled_up);
+  // 0019FFE0
+  // NOTE: originally void return, but I changed this to be reflective
+  // so it's known that the values in values_dest are valid if needed
+  bool GetNowAbs(usize weapon_index, std::array<s32, 2>* values_dest);
+  // 001A0030
+  bool LevelUpWeapon(CGameDataUsed* weapon);
+  // 001A00A0
+  s32 GetDefenceVol();
+  // 001A00B0
+  f32 AddHp_Point(f32 f1, f32 f2);
+  // 001A01B0
+  f32 AddHp_Rate(f32 f1, s32 i1, f32 f2);
+  // 001A0370
+  void SetHpRate(f32 rate);
+  // 001A03A0
+  s32 GetMaxHp_i();
+  // 001A03E0
+  s32 GetNowHp_i();
+  // 001A0420
+  ECharaStatusAttribute SetAttr(ECharaStatusAttribute attr, bool b);
+  // 001A0490
+  ECharaStatusAttribute SetAttrVol(ECharaStatusAttribute attr, bool b);
+  // 001A0500
+  ECharaStatusAttribute GetAttr();
+  // 001A0550
+  void ForceSet();
+  // 001A08D0
+  ECharaStatusAttribute StatusParamStep(s32* p);
+  // 001A0C60
+  void Step();
 
   // 0
   ECharacterID m_chara_id{ ECharacterID::Max };
@@ -409,10 +525,13 @@ public:
   // 30
   CGameDataUsed* m_equip_table{ nullptr };
   // 34
-  SBattleCharaInfoParam m_unk_field_34{};
+  SBattleCharaInfoParam m_param{};
 
   // Size 0x90
 };
 
 // 0019A890
-MOS_HENGE_PARAM* GetMonsterHengeParam(ssize index);
+MOS_HENGE_PARAM* GetMonsterHengeParam(EMonsterID index);
+
+// 001A0EA0
+CBattleCharaInfo* GetBattleCharaInfo();
