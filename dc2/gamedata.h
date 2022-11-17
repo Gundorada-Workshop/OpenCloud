@@ -518,7 +518,7 @@ struct SDataItemCommon
   // 24
   s32 m_unk_field_24{ 0 };
   // 28
-  char* m_unk_field_28{ nullptr };
+  std::string m_name{};
   // SIZE 0x2C
 };
 
@@ -656,4 +656,4 @@ CDataRoboPart* GetRoboPartInfoData(ECommonItemData index);
 CDataBreedFish* GetBreedFishInfoData(ECommonItemData index);
 
 // 00196040
-char* GetItemMessage(ECommonItemData index);
+std::string GetItemMessage(ECommonItemData index);

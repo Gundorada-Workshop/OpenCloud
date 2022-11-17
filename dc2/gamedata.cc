@@ -16,6 +16,16 @@ using UsedType = EUsedItemType;
 static SDataItemCommon* comdatapt{ nullptr };
 // 00377050
 static s32 comdatapt_num{ 0 };
+// 00377054
+static CDataWeapon* SpiWeaponPt{ nullptr };
+// 00377058
+static CDataItem* SpiItemPt{ nullptr };
+// 0037705C
+static CDataAttach* SpiAttach{ nullptr };
+// 00377060
+static CDataRoboPart* SpiRoboPart{ nullptr };
+// 00377064
+static CDataBreedFish* SpiFish{ nullptr };
 // 01E69570
 static CGameData GameItemDataManage{};
 // 01E695A0
@@ -93,7 +103,7 @@ static bool _DATACOM(SPI_STACK* stack, int stack_count)
   }
 
   comdatapt->m_unk_field_24 = spiGetStackInt(stack++);
-  comdatapt->m_unk_field_28 = nullptr;
+  comdatapt->m_name = "";
 
   local_itemdatano_converttable[std::to_underlying(comdatapt->m_common_id)] = comdatapt_num;
 
@@ -104,7 +114,7 @@ static bool _DATACOM(SPI_STACK* stack, int stack_count)
 }
 
 // 001949c0
-static bool _DATAWEBNUM(SPI_STACK* stack, int stack_count)
+static bool _DATAWEPNUM(SPI_STACK* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -304,9 +314,18 @@ static bool _DATAFISH(SPI_STACK* stack, int stack_count)
 
 static bool _MES_SYS(SPI_STACK* stack, int stack_count)
 {
+  // "MES_SYS"
   trace_script_call(stack, stack_count);
 
-  todo;
+  ECommonItemData index = static_cast<ECommonItemData>(spiGetStackInt(stack++));
+  char* name = spiGetStackString(stack++);
+
+  auto common_data = GameItemDataManage.GetCommonData(index);
+
+  if (common_data != nullptr && name != nullptr)
+  {
+    common_data->m_name = std::string(name);
+  }
 
   return true;
 }
@@ -325,7 +344,7 @@ static const std::array<SPI_TAG_PARAM, 25> gamedata_tag =
 {
   "COMINIT",    _DATACOMINIT,
   "COM",        _DATACOM,
-  "WEPNUM",     _DATAWEBNUM,
+  "WEPNUM",     _DATAWEPNUM,
   "WEP",        _DATAWEP,
   "WEP_ST",     _DATAWEP_ST,
   "WEP_ST_L",   _DATAWEP_ST_L,
@@ -731,7 +750,7 @@ CDataBreedFish* GetBreedFishInfoData(ECommonItemData index)
 
 
 // 00196040
-char* GetItemMessage(ECommonItemData index)
+std::string GetItemMessage(ECommonItemData index)
 {
   log_trace("{}({})", __func__, std::to_underlying(index));
 
@@ -739,8 +758,8 @@ char* GetItemMessage(ECommonItemData index)
   
   if (common_data == nullptr)
   {
-    return nullptr;
+    return "";
   }
 
-  return common_data->m_unk_field_28;
+  return common_data->m_name;
 }

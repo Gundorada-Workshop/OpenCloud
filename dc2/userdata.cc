@@ -176,7 +176,7 @@ void CGameDataUsed::SetName(const char* name)
   }
 
   strcpy_s(name_buf->data(), name_buf->size(), name);
-  m_unk_field_5 = strcmp(GetItemMessage(m_common_index), name_buf->data()) != 0;
+  m_unk_field_5 = strcmp(GetItemMessage(m_common_index).data(), name_buf->data()) != 0;
 }
 
 // 001985A0
