@@ -17,7 +17,7 @@ set_log_channel("mainloop")
 u32 s_system_snd_id{ 0 };
 
 // 00376FC0
-Language::Language LanguageCode{ Language::English };
+Language LanguageCode{ Language::English };
 
 // 00376FE4
 static CSaveData* ActiveSaveData{};

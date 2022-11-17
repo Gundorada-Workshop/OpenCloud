@@ -5,18 +5,15 @@
 #include "menusave.h"
 #include "mg_memory.h"
 
-namespace Language
+enum class Language : s32
 {
-	enum Language : s32
-	{
-		Japanese = 0,
-		English = 1,
-		COUNT = 2
-	};
-}
+	Japanese = 0,
+	English = 1,
+	COUNT = 2
+};
 
 // 00376FC0
-extern Language::Language LanguageCode;
+extern Language LanguageCode;
 
 struct SDebugInfo
 {
