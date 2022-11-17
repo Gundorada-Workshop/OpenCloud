@@ -285,9 +285,31 @@ static bool _DATAITEMINIT(SPI_STACK* stack, int stack_count)
 // 00194e00
 static bool _DATAITEM(SPI_STACK* stack, int stack_count)
 {
+  // "ITEM"
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto index = static_cast<ECommonItemData>(spiGetStackInt(stack++));
+  SpiItemPt = GetItemInfoData(index);
+
+  if (SpiItemPt == nullptr)
+  {
+    return false;
+  }
+
+  // FIXME: MAGIC
+  s32 i = spiGetStackInt(stack++);
+  if ((i & 0x800000) != 0)
+  {
+    i &= ~(0x800000);
+    i |= 0x142A8000;
+  }
+
+  SpiItemPt->m_unk_field_4 = i;
+  SpiItemPt->m_unk_field_0 = spiGetStackInt(stack++);
+  SpiItemPt->m_unk_field_8 = spiGetStackInt(stack++);
+  SpiItemPt->m_unk_field_A = spiGetStackInt(stack++);
+  SpiItemPt->m_unk_field_C = spiGetStackInt(stack++);
+  SpiItemPt->m_unk_field_E = spiGetStackInt(stack++);
 
   return true;
 }

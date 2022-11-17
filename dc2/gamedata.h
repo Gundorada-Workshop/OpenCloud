@@ -524,18 +524,19 @@ struct SDataItemCommon
 
 class CDataItem
 {
+public:
   // 0
-  _DWORD m_unk_field_0{ 0 };
+  s32 m_unk_field_0{ 0 };
   // 4
-  _DWORD m_unk_field_4{ 0 };
+  s32 m_unk_field_4{ 0 };
   // 8
-  // ?
+  s16 m_unk_field_8{ 0 };
   // A
-  _WORD m_unk_field_A{ 0 };
+  s16 m_unk_field_A{ 0 };
   // C
-  _WORD m_unk_field_C{ 0 };
+  s16 m_unk_field_C{ 0 };
   // E
-  _WORD m_unk_field_E{ 0 };
+  s16 m_unk_field_E{ 0 };
 };
 
 class CDataAttach
