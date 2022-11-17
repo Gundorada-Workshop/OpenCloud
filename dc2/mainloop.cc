@@ -20,7 +20,7 @@ u32 s_system_snd_id{ 0 };
 Language::Language LanguageCode{ Language::English };
 
 // 00376FE4
-static CSaveData ActiveSaveData{};
+static CSaveData* ActiveSaveData{};
 
 // 00376FEC
 static bool PlayTimeCountFlag{ false };
@@ -75,7 +75,7 @@ u32 GetSystemSndId(void)
 // 00190880
 CSaveData* GetSaveData()
 {
-	return &ActiveSaveData;
+	return ActiveSaveData;
 }
 
 // 001908F0
