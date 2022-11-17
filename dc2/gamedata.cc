@@ -450,9 +450,10 @@ static bool _DATAROBO_ANALYZE(SPI_STACK* stack, int stack_count)
 // 001953a0
 static bool _DATAGUARDNUM(SPI_STACK* stack, int stack_count)
 {
+  // "GRDNUM"
   trace_script_call(stack, stack_count);
 
-  todo;
+  GameItemDataManage.m_n_guarddata = spiGetStackInt(stack);
 
   return true;
 }
