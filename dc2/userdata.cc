@@ -668,7 +668,7 @@ bool CBattleCharaInfo::GetNowWhp(usize weapon_index, std::array<s32, 2>& values_
 }
 
 // 0019FA60
-s32 CBattleCharaInfo::GetWhpNowVol(usize weapon_index)
+s32 CBattleCharaInfo::GetWhpNowVol(usize weapon_index) const
 {
   log_trace("CBattleCharaInfo::{}({})", __func__, weapon_index);
 
@@ -765,12 +765,19 @@ bool CBattleCharaInfo::AddAbsRate(usize weapon_index, f32 delta, bool* has_level
 // 0019FFE0
 // NOTE: originally void return, but I changed this to be reflective
 // so it's known that the values in values_dest are valid if needed
-bool CBattleCharaInfo::GetNowAbs(usize weapon_index, std::array<s32, 2>* values_dest)
+bool CBattleCharaInfo::GetNowAbs(usize weapon_index, std::array<s32, 2>& values_dest) const
 {
-  log_trace("CBattleCharaInfo::{}({}, {})", __func__, weapon_index, fmt::ptr(values_dest));
+  log_trace("CBattleCharaInfo::{}({}, {})", __func__, weapon_index, fmt::ptr(&values_dest));
 
-  todo;
-  return false;
+  auto abs_gage = GetNowAccessAbs(weapon_index);
+  if (abs_gage == nullptr)
+  {
+    return false;
+  }
+
+  values_dest[0] = GetDispVolumeForFloat(abs_gage->m_current);
+  values_dest[1] = static_cast<s32>(abs_gage->m_max);
+  return true;
 }
 
 // 001A0030

@@ -470,7 +470,7 @@ public:
   // so it's known that the values in values_dest are valid if needed
   bool GetNowWhp(usize weapon_index, std::array<s32, 2>& values_dest) const;
   // 0019FA60
-  s32 GetWhpNowVol(usize weapon_index);
+  s32 GetWhpNowVol(usize weapon_index) const;
   // 0019FAA0
   void SetMagicSwordPow(EMagicSwordElement element, s16 i1);
   // 0019FB60
@@ -490,7 +490,7 @@ public:
   // 0019FFE0
   // NOTE: originally void return, but I changed this to be reflective
   // so it's known that the values in values_dest are valid if needed
-  bool GetNowAbs(usize weapon_index, std::array<s32, 2>* values_dest);
+  bool GetNowAbs(usize weapon_index, std::array<s32, 2>& values_dest) const;
   // 001A0030
   bool LevelUpWeapon(CGameDataUsed* weapon);
   // 001A00A0
