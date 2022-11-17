@@ -623,7 +623,7 @@ public:
   // 24
   _WORD m_unk_field_24{ 0 };
   // 26
-  _WORD m_unk_field_26{ 0 };
+  s16 m_n_weapondata{ 0 };
   // 28
   _WORD m_unk_field_28{ 0 };
   // 2A

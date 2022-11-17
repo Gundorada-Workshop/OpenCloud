@@ -116,9 +116,11 @@ static bool _DATACOM(SPI_STACK* stack, int stack_count)
 // 001949c0
 static bool _DATAWEPNUM(SPI_STACK* stack, int stack_count)
 {
+  // "WEPNUM"
   trace_script_call(stack, stack_count);
 
-  todo;
+  GameItemDataManage.m_n_weapondata = spiGetStackInt(stack++);
+  SpiWeaponPt = GameItemDataManage.m_weapondata;
 
   return true;
 }
