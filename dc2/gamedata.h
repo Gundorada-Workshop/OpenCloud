@@ -562,6 +562,8 @@ public:
   s16 m_unk_field_A{ 0 };
   // C
   std::array<s16, 8> m_unk_field_C{ 0 };
+  // 1C
+  std::array<s16, 8> m_unk_field_1C{ 0 };
   // SIZE 0x4C
 };
 
