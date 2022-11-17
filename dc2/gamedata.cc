@@ -469,9 +469,11 @@ static bool _DATAGUARD(SPI_STACK* stack, int stack_count)
 
 static bool _DATAFISHINIT(SPI_STACK* stack, int stack_count)
 {
+  // "FISHINIT"
   trace_script_call(stack, stack_count);
 
-  todo;
+  GameItemDataManage.m_n_fishdata = spiGetStackInt(stack++);
+  SpiFish = GameItemDataManage.m_fishdata;
 
   return true;
 }
