@@ -500,7 +500,7 @@ struct SDataItemCommon
   // 2
   ECommonItemData m_common_id{ ECommonItemData::Invalid };
   // 4
-  s16 m_unk_field_4{ 0 };
+  s16 m_category_id{ 0 };
   // 6
   s16 m_unk_field_6{ 0 };
   // 8
@@ -665,19 +665,19 @@ public:
   // 20
   _WORD m_unk_field_20{ 0 };
   // 22
-  _WORD m_unk_field_22{ 0 };
+  s16 m_n_com_itemdata{ 0 };
   // 24
-  _WORD m_unk_field_24{ 0 };
+  s16 m_n_itemdata{ 0 };
   // 26
   s16 m_n_weapondata{ 0 };
   // 28
-  _WORD m_unk_field_28{ 0 };
+  s16 m_n_guarddata{ 0 };
   // 2A
-  _WORD m_unk_field_2A{ 0 };
+  s16 m_n_attachdata{ 0 };
   // 2C
-  _WORD m_unk_field_2C{ 0 };
+  s16 m_n_robodata{ 0 };
   // 2E
-  _WORD m_unk_field_2E{ 0 };
+  s16 m_n_fishdata{ 0 };
 };
 
 // 00195470
