@@ -460,9 +460,9 @@ public:
   // 0019F520
   void RefreshParameter();
   // 0019F890
-  COMMON_GAGE* GetNowAccessWHp(usize weapon_index);
+  COMMON_GAGE* GetNowAccessWHp(usize weapon_index) const;
   // 0019F910
-  COMMON_GAGE* GetNowAccessAbs(usize weapon_index);
+  COMMON_GAGE* GetNowAccessAbs(usize weapon_index) const;
   // 0019F990
   f32 AddWhp(usize weapon_index, f32 delta);
   // 0019FA10

@@ -577,21 +577,55 @@ void CBattleCharaInfo::RefreshParameter()
 }
 
 // 0019F890
-COMMON_GAGE* CBattleCharaInfo::GetNowAccessWHp(usize weapon_index)
+COMMON_GAGE* CBattleCharaInfo::GetNowAccessWHp(usize weapon_index) const
 {
   log_trace("CBattleCharaInfo::{}({})", __func__, weapon_index);
 
-  todo;
-  return nullptr;
+  switch (m_battle_chara_type)
+  {
+    case EBattleCharaType::Human:
+      if (m_equip_table != nullptr)
+      {
+        return &m_equip_table[weapon_index].m_sub_data.m_weapon.m_whp_gage;
+      }
+      return nullptr;
+    case EBattleCharaType::MonsterTransform:
+      // 0019F8DC
+      todo;
+      return nullptr;
+    case EBattleCharaType::Ridepod:
+      // 0019F8F4
+      todo;
+      return nullptr;
+    default:
+      return nullptr;
+  }
 }
 
 // 0019F910
-COMMON_GAGE* CBattleCharaInfo::GetNowAccessAbs(usize weapon_index)
+COMMON_GAGE* CBattleCharaInfo::GetNowAccessAbs(usize weapon_index) const
 {
   log_trace("CBattleCharaInfo::{}({})", __func__, weapon_index);
 
-  todo;
-  return nullptr;
+  switch (m_battle_chara_type)
+  {
+    case EBattleCharaType::Human:
+      if (m_equip_table != nullptr)
+      {
+        return &m_equip_table[weapon_index].m_sub_data.m_weapon.m_abs_gage;
+      }
+      return nullptr;
+    case EBattleCharaType::MonsterTransform:
+      // 0019F8DC
+      todo;
+      return nullptr;
+    case EBattleCharaType::Ridepod:
+      // 0019F8F4
+      todo;
+      return nullptr;
+    default:
+      return nullptr;
+  }
 }
 
 // 0019F990
