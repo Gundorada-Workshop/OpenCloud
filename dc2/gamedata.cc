@@ -388,9 +388,11 @@ static bool _DATAATTACH_ST_SP(SPI_STACK* stack, int stack_count)
 // 00195070
 static bool _DATAROBOINIT(SPI_STACK* stack, int stack_count)
 {
+  // "ROBOTINIT"
   trace_script_call(stack, stack_count);
 
-  todo;
+  GameItemDataManage.m_n_robodata = spiGetStackInt(stack++);
+  SpiRoboPart = GameItemDataManage.m_robodata;
 
   return true;
 }
