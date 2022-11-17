@@ -201,8 +201,8 @@ bool CGameDataUsed::IsFishingRod()
 {
   log_trace("CGameDataUsed::{}()", __func__);
 
-  return m_common_index == ECommonItemData::FishingRod0 || \
-    m_common_index == ECommonItemData::FishingRod1;
+  return m_common_index == ECommonItemData::Fishing_Rod || \
+    m_common_index == ECommonItemData::Lure_Rod;
 }
 
 // 00199830

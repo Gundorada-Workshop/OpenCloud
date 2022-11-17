@@ -9,8 +9,8 @@
 
 set_log_channel("gamedata");
 
-using ComType = ECommonItemDataType::ECommonItemDataType;
-using UsedType = EUsedItemType::EUsedItemType;
+using ComType = ECommonItemDataType;
+using UsedType = EUsedItemType;
 
 // 0037704C
 static SDataItemCommon* comdatapt{ nullptr };
@@ -366,16 +366,17 @@ s32 CGameData::LoadData()
 }
 
 // 00195770
-SDataItemCommon* CGameData::GetCommonData(ssize index)
+SDataItemCommon* CGameData::GetCommonData(ECommonItemData index)
 {
-  log_trace("CGameData::{}({})", __func__, index);
+  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
 
-  if (index < 0 || local_itemdatano_converttable.size() <= index)
+  auto id = std::to_underlying(index);
+  if (id < 0 || local_itemdatano_converttable.size() <= id)
   {
     return nullptr;
   }
 
-  auto convert_index = local_itemdatano_converttable[index];
+  auto convert_index = local_itemdatano_converttable[id];
   if (convert_index < 0)
   {
     return nullptr;
@@ -385,9 +386,9 @@ SDataItemCommon* CGameData::GetCommonData(ssize index)
 }
 
 // 001957E0
-CDataWeapon* CGameData::GetWeaponData(ssize index)
+CDataWeapon* CGameData::GetWeaponData(ECommonItemData index)
 {
-  log_trace("CGameData::{}({})", __func__, index);
+  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
 
   auto common_data = GetCommonData(index);
   if (common_data == nullptr)
@@ -413,9 +414,9 @@ CDataWeapon* CGameData::GetWeaponData(ssize index)
 }
 
 // 00195890
-CDataItem* CGameData::GetItemData(ssize index)
+CDataItem* CGameData::GetItemData(ECommonItemData index)
 {
-  log_trace("CGameData::{}({})", __func__, index);
+  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
 
   auto common_data = GetCommonData(index);
   if (common_data == nullptr)
@@ -434,7 +435,7 @@ CDataItem* CGameData::GetItemData(ssize index)
   }
 
   auto type = ConvertUsedItemType(common_data->m_type);
-  if (type == UsedType::Item_7 || type == UsedType::Item_8 || type == UsedType::Item_1)
+  if (type == UsedType::Item_Gift || type == UsedType::Item_8 || type == UsedType::Item_Misc)
   {
     return &m_itemdata[common_data->m_unk_field_4];
   }
@@ -442,9 +443,9 @@ CDataItem* CGameData::GetItemData(ssize index)
 }
 
 // 00195940
-CDataAttach* CGameData::GetAttachData(ssize index)
+CDataAttach* CGameData::GetAttachData(ECommonItemData index)
 {
-  log_trace("CGameData::{}({})", __func__, index);
+  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
 
   auto common_data = GetCommonData(index);
   if (common_data == nullptr)
@@ -471,9 +472,9 @@ CDataAttach* CGameData::GetAttachData(ssize index)
 }
 
 // 001959F0
-CDataRoboPart* CGameData::GetRoboData(ssize index)
+CDataRoboPart* CGameData::GetRoboData(ECommonItemData index)
 {
-  log_trace("CGameData::{}({})", __func__, index);
+  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
 
   auto common_data = GetCommonData(index);
   if (common_data == nullptr)
@@ -495,9 +496,9 @@ CDataRoboPart* CGameData::GetRoboData(ssize index)
 }
 
 // 00195A60
-CDataBreedFish* CGameData::GetFishData(ssize index)
+CDataBreedFish* CGameData::GetFishData(ECommonItemData index)
 {
-  log_trace("CGameData::{}({})", __func__, index);
+  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
 
   auto common_data = GetCommonData(index);
   if (common_data == nullptr)
@@ -524,9 +525,9 @@ CDataBreedFish* CGameData::GetFishData(ssize index)
 }
 
 // 00195B10
-CDataGuard* CGameData::GetGuardData(ssize index)
+CDataGuard* CGameData::GetGuardData(ECommonItemData index)
 {
-  log_trace("CGameData::{}({})", __func__, index);
+  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
 
   auto common_data = GetCommonData(index);
   if (common_data == nullptr)
@@ -548,9 +549,9 @@ CDataGuard* CGameData::GetGuardData(ssize index)
 }
 
 // 00195B80
-ComType CGameData::GetDataType(ssize index)
+ComType CGameData::GetDataType(ECommonItemData index)
 {
-  log_trace("CGameData::{}({})", __func__, index);
+  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
 
   auto common_data = GetCommonData(index);
   if (common_data == nullptr)
@@ -561,20 +562,20 @@ ComType CGameData::GetDataType(ssize index)
 }
 
 // 00195BB0
-s16 CGameData::GetDataStartListNo(ComType type)
+ECommonItemData CGameData::GetDataStartListNo(ComType type)
 {
   log_trace("CGameData::{}({})", __func__, static_cast<int>(type));
 
-  auto common_data = GetCommonData(1);
+  auto common_data = GetCommonData(static_cast<ECommonItemData>(1));
 
   for (int i = 0; i < m_unk_field_22; ++i)
   {
     if (common_data[i].m_type == type)
     {
-      return common_data[i].m_unk_field_2;
+      return common_data[i].m_common_id;
     }
   }
-  return ComType::Invalid;
+  return ECommonItemData::Invalid;
 }
 
 // 00195470
@@ -594,39 +595,39 @@ UsedType ConvertUsedItemType(ComType type)
   // Did runtime analysis to determine these
   static std::unordered_map<ComType, UsedType> convert_table = {
     {ComType::Invalid, UsedType::Invalid},
-    {ComType::_1, UsedType::Weapon},
-    {ComType::_2, UsedType::Weapon},
-    {ComType::_3, UsedType::Weapon},
-    {ComType::_4, UsedType::Weapon},
-    {ComType::_5, UsedType::_4},
-    {ComType::_6, UsedType::_4},
-    {ComType::_7, UsedType::_4},
-    {ComType::_8, UsedType::_4},
-    {ComType::_9, UsedType::_4},
-    {ComType::_10, UsedType::_4},
-    {ComType::_11, UsedType::Item_1},
-    {ComType::_12, UsedType::Robopart},
-    {ComType::_13, UsedType::Robopart},
-    {ComType::_14, UsedType::Robopart},
-    {ComType::_15, UsedType::Robopart},
-    {ComType::_16, UsedType::Attach},
+    {ComType::Melee_Max, UsedType::Weapon},
+    {ComType::Ranged_Max, UsedType::Weapon},
+    {ComType::Melee_Monica, UsedType::Weapon},
+    {ComType::Ranged_Monica, UsedType::Weapon},
+    {ComType::Torso_Max, UsedType::Clothing},
+    {ComType::Hat_Max, UsedType::Clothing},
+    {ComType::Shoes_Max, UsedType::Clothing},
+    {ComType::Torso_Monica, UsedType::Clothing},
+    {ComType::Hat_Monica, UsedType::Clothing},
+    {ComType::Shoes_Monica, UsedType::Clothing},
+    {ComType::Ridepod_Core, UsedType::Item_Misc},
+    {ComType::Ridepod_Body, UsedType::Robopart},
+    {ComType::Ridepod_Arm, UsedType::Robopart},
+    {ComType::Ridepod_Leg, UsedType::Robopart},
+    {ComType::Ridepod_Battery, UsedType::Robopart},
+    {ComType::Crystal, UsedType::Attach},
     {ComType::_17, UsedType::Attach},
-    {ComType::_18, UsedType::Attach},
-    {ComType::_19, UsedType::Attach},
-    {ComType::_20, UsedType::Item_1},
-    {ComType::_21, UsedType::Item_1},
-    {ComType::_22, UsedType::Item_1},
-    {ComType::_23, UsedType::Item_1},
-    {ComType::_24, UsedType::Item_1},
-    {ComType::_25, UsedType::Item_1},
-    {ComType::_26, UsedType::Item_1},
-    {ComType::_27, UsedType::Item_1},
-    {ComType::_28, UsedType::Item_7},
-    {ComType::_29, UsedType::Item_1},
-    {ComType::_30, UsedType::Fish},
-    {ComType::_31, UsedType::Item_1},
-    {ComType::_32, UsedType::Item_1},
-    {ComType::_33, UsedType::Item_1},
+    {ComType::Gem, UsedType::Attach},
+    {ComType::Coin, UsedType::Attach},
+    {ComType::Crafting_Material, UsedType::Item_Misc},
+    {ComType::Badge_Box, UsedType::Item_Misc},
+    {ComType::Food, UsedType::Item_Misc},
+    {ComType::Throwable, UsedType::Item_Misc},
+    {ComType::Powder, UsedType::Item_Misc},
+    {ComType::Amulet, UsedType::Item_Misc},
+    {ComType::Dungeon_Key, UsedType::Item_Misc},
+    {ComType::Story_Item, UsedType::Item_Misc},
+    {ComType::Gift_Capsule, UsedType::Item_Gift},
+    {ComType::Aquarium, UsedType::Item_Misc},
+    {ComType::Fish, UsedType::Fish},
+    {ComType::_31, UsedType::Item_Misc},
+    {ComType::Lure, UsedType::Item_Misc},
+    {ComType::Dungeon_Item_Or_Bait, UsedType::Item_Misc},
     {ComType::_34, UsedType::Attach},
     {ComType::_35, UsedType::Item_8},
   };
@@ -634,64 +635,64 @@ UsedType ConvertUsedItemType(ComType type)
   auto result = convert_table.find(type);
   if (result == convert_table.end())
   {
-    if (type < 0)
+    if (std::to_underlying(type) < 0)
     {
       return UsedType::Invalid;
     }
     else
     {
       // ?
-      return UsedType::Item_1;
+      return UsedType::Item_Misc;
     }
   };
   return result->second;
 }
 
 // 00195C20
-SDataItemCommon* GetCommonItemData(ssize index)
+SDataItemCommon* GetCommonItemData(ECommonItemData index)
 {
-  log_trace("CGameData::{}({})", __func__, index);
+  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
 
   return GameItemDataManage.GetCommonData(index);
 }
 
 // 00195C30
-CDataItem* GetItemInfoData(ssize index)
+CDataItem* GetItemInfoData(ECommonItemData index)
 {
-  log_trace("CGameData::{}({})", __func__, index);
+  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
 
   return GameItemDataManage.GetItemData(index);
 }
 
 // 00195C40
-CDataWeapon* GetWeaponInfoData(ssize index)
+CDataWeapon* GetWeaponInfoData(ECommonItemData index)
 {
-  log_trace("CGameData::{}({})", __func__, index);
+  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
 
   return GameItemDataManage.GetWeaponData(index);
 }
 
 // 00195C50
-CDataRoboPart* GetRoboPartInfoData(ssize index)
+CDataRoboPart* GetRoboPartInfoData(ECommonItemData index)
 {
-  log_trace("CGameData::{}({})", __func__, index);
+  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
 
   return GameItemDataManage.GetRoboData(index);
 }
 
 // 00195C60
-CDataBreedFish* GetBreedFishInfoData(ssize index)
+CDataBreedFish* GetBreedFishInfoData(ECommonItemData index)
 {
-  log_trace("CGameData::{}({})", __func__, index);
+  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
 
   return GameItemDataManage.GetFishData(index);
 }
 
 
 // 00196040
-char* GetItemMessage(ssize index)
+char* GetItemMessage(ECommonItemData index)
 {
-  log_trace("{}({})", __func__, index);
+  log_trace("{}({})", __func__, std::to_underlying(index));
 
   auto common_data = GameItemDataManage.GetCommonData(index);
   
