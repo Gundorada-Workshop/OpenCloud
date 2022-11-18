@@ -101,6 +101,40 @@ std::string GetNPCName(ENPCID npc_id)
   return npc_data->m_name;
 }
 
+// 002AB400
+std::string GetPartyCharaModelName(ENPCID npc_id, int i)
+{
+  log_trace("{}({}, {})", __func__, std::to_underlying(npc_id), i);
+
+  using namespace common;
+
+  // FIXME: magic
+  if (std::to_underlying(npc_id) < 0 || std::to_underlying(npc_id) > 32)
+  {
+    return "";
+  }
+
+  std::string model_name = GetNPCModelName(npc_id);
+  if (model_name == "")
+  {
+    return "";
+  }
+
+  switch (i)
+  {
+    case 0:
+      return file_helpers::resolve_data_path("chara/{}.chr", model_name);
+    case 1:
+      return file_helpers::resolve_data_path("info.cfg");
+    case 2:
+      return file_helpers::resolve_data_path("event/train/t{}.chr", model_name);
+    case 3:
+      return file_helpers::resolve_data_path("menu/npc/t{}.chr", model_name);
+    default:
+      return "";
+  }
+}
+
 // 002AB510
 SPartyNPCData* GetPartyNPCData(ENPCID npc_id)
 {

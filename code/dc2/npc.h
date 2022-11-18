@@ -40,11 +40,14 @@ public:
   // SIZE 0x36
 };
 
-// 002AB510
-SPartyNPCData* GetPartyNPCData(ENPCID npc_id);
-
 // 002AB3A0
 std::string GetNPCModelName(ENPCID npc_id);
 
 // 002AB3D0
 std::string GetNPCName(ENPCID npc_id);
+
+// 002AB400
+std::string GetPartyCharaModelName(ENPCID npc_id, int i);
+
+// 002AB510
+SPartyNPCData* GetPartyNPCData(ENPCID npc_id);
