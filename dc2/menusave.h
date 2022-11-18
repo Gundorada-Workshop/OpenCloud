@@ -1,8 +1,9 @@
 #pragma once
 #include <array>
-#include "editdata.h"
-#include "quest.h"
-#include "userdata.h"
+
+#include "dc2/editdata.h"
+#include "dc2/quest.h"
+#include "dc2/userdata.h"
 
 // ~ 002F12D0 - 002F76C0
 

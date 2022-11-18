@@ -1,6 +1,7 @@
 #include "common/log.h"
-#include "inventmn.h"
-#include "mg_lib.h"
+
+#include "dc2/inventmn.h"
+#include "dc2/mg_lib.h"
 
 set_log_channel("inventmn");
 

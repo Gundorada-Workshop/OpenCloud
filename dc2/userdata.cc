@@ -1,10 +1,12 @@
 ﻿#include <string>
+
 #include "common/debug.h"
 #include "common/log.h"
 #include "common/types.h"
-#include "gamedata.h"
-#include "menumain.h"
-#include "userdata.h"
+
+#include "dc2/gamedata.h"
+#include "dc2/menumain.h"
+#include "dc2/userdata.h"
 
 set_log_channel("userdata");
 

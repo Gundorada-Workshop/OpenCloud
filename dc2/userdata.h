@@ -1,8 +1,9 @@
 #pragma once
 #include "common/debug.h"
 #include "common/types.h"
-#include "gamedata.h"
-#include "inventmn.h"
+
+#include "dc2/gamedata.h"
+#include "dc2/inventmn.h"
 
 // ~ 00196C20 - 001A2080
 

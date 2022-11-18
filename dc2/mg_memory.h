@@ -1,5 +1,6 @@
 #pragma once
 #include <array>
+
 #include "common/types.h"
 
 // Is this what DC2 does to convert sizes to memory alloc sizes?

@@ -1,6 +1,8 @@
 #include <cstdio>
+
 #include "common/log.h"
-#include "mg_memory.h"
+
+#include "dc2/mg_memory.h"
 
 set_log_channel("mg_memory");
 

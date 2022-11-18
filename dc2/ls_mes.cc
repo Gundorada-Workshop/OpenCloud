@@ -1,5 +1,6 @@
 #include "common/log.h"
-#include "ls_mes.h"
+
+#include "dc2/ls_mes.h"
 
 set_log_channel("ls_mes");
 

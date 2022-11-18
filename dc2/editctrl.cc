@@ -1,6 +1,8 @@
-#include "glm/glm.hpp"
+#include <glm/glm.hpp>
+
 #include "common/log.h"
-#include "editctrl.h"
+
+#include "dc2/editctrl.h"
 
 set_log_channel("editctrl");
 

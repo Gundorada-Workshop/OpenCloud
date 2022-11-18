@@ -27,7 +27,7 @@
     <ClInclude Include="quest.h" />
     <ClInclude Include="robopart.h" />
     <ClInclude Include="scene.h" />
-    <ClInclude Include="dc2io.h" />
+    <ClInclude Include="io.h" />
     <ClInclude Include="ls_mes.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="object.h" />
@@ -107,7 +107,7 @@
     <ClCompile Include="robopart.cc" />
     <ClCompile Include="run_script.cc" />
     <ClCompile Include="scene.cc" />
-    <ClCompile Include="dc2io.cc" />
+    <ClCompile Include="io.cc" />
     <ClCompile Include="ls_mes.cc" />
     <ClCompile Include="map.cc" />
     <ClCompile Include="script_interpreter.cc" />

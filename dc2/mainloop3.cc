@@ -1,6 +1,7 @@
 #include "common/log.h"
-#include "mainloop3.h"
-#include "mg_lib.h"
+
+#include "dc2/mainloop3.h"
+#include "dc2/mg_lib.h"
 
 set_log_channel("mainloop3");
 

@@ -1,21 +1,24 @@
 #include <array>
-#include "glm/glm.hpp"
+
+#include <glm/glm.hpp>
+
 #include "common/clock.h"
 #include "common/debug.h"
 #include "common/log.h"
 #include "common/debug.h"
-#include "camera.h"
-#include "character.h"
-#include "collision.h"
-#include "dng_main.h"
-#include "dng_event.h"
-#include "editloop.h"
-#include "effect.h"
-#include "map.h"
-#include "mg_lib.h"
-#include "nowload.h"
-#include "pot.h"
-#include "robopart.h"
+
+#include "dc2/camera.h"
+#include "dc2/character.h"
+#include "dc2/collision.h"
+#include "dc2/dng_main.h"
+#include "dc2/dng_event.h"
+#include "dc2/editloop.h"
+#include "dc2/effect.h"
+#include "dc2/map.h"
+#include "dc2/mg_lib.h"
+#include "dc2/nowload.h"
+#include "dc2/pot.h"
+#include "dc2/robopart.h"
 
 set_log_channel("dng_main");
 

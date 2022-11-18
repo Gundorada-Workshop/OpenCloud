@@ -1,11 +1,12 @@
 #include <array>
 #include <unordered_map>
+
 #include "common/debug.h"
 #include "common/log.h"
 #include "common/types.h"
 
-#include "gamedata.h"
-#include "script_interpreter.h"
+#include "dc2/gamedata.h"
+#include "dc2/script_interpreter.h"
 
 set_log_channel("gamedata");
 

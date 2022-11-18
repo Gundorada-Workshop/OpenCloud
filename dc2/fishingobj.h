@@ -1,11 +1,14 @@
 #pragma once
 #include <array>
-#include "glm/glm.hpp"
+
+#include <glm/glm.hpp>
+
 #include "common/debug.h"
 #include "common/types.h"
-#include "collision.h"
-#include "mg_frame.h"
-#include "scene.h"
+
+#include "dc2/collision.h"
+#include "dc2/mg_frame.h"
+#include "dc2/scene.h"
 
 // ~ 0030F9B0 - 00313770
 

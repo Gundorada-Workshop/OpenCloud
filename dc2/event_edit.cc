@@ -1,7 +1,8 @@
 #include "common/debug.h"
 #include "common/log.h"
-#include "event_edit.h"
-#include "event_func.h"
+
+#include "dc2/event_edit.h"
+#include "dc2/event_func.h"
 
 set_log_channel("event_edit");
 

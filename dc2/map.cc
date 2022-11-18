@@ -1,5 +1,5 @@
-#include "map.h"
-#include "script_interpreter.h"
+#include "dc2/map.h"
+#include "dc2/script_interpreter.h"
 
 // 00164520
 static bool cfgDRAW_OFF_RECT(SPI_STACK* stack, int)

@@ -1,8 +1,9 @@
 #include <cmath>
+
 #include "common/debug.h"
 #include "common/log.h"
 
-#include "gamepad.h"
+#include "dc2/gamepad.h"
 
 set_log_channel("gamepad");
 

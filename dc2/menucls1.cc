@@ -1,6 +1,7 @@
 #include "common/log.h"
 #include "common/types.h"
-#include "menucls1.h"
+
+#include "dc2/menucls1.h"
 
 set_log_channel("menucls1");
 

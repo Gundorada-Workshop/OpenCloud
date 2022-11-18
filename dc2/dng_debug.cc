@@ -1,6 +1,7 @@
 #include "common/log.h"
-#include "dng_debug.h"
-#include "font.h"
+
+#include "dc2/dng_debug.h"
+#include "dc2/font.h"
 
 set_log_channel("dng_debug");
 

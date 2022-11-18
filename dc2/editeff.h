@@ -1,6 +1,6 @@
 #pragma once
-#include "mg_lib.h"
-#include "object.h"
+#include "dc2/mg_lib.h"
+#include "dc2/object.h"
 
 // ~ 002F76C0 - 002FC510
 

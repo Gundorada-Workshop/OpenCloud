@@ -1,6 +1,6 @@
 #pragma once
-#include "mg_memory.h"
-#include "object.h"
+#include "dc2/mg_memory.h"
+#include "dc2/object.h"
 
 // ~ 0015C420 - 00168400
 

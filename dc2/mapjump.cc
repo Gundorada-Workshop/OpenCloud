@@ -1,10 +1,13 @@
 #include <array>
-#include "glm/glm.hpp"
+
+#include <glm/glm.hpp>
+
 #include "common/log.h"
 #include "common/types.h"
-#include "mapjump.h"
-#include "mg_lib.h"
-#include "scene.h"
+
+#include "dc2/mapjump.h"
+#include "dc2/mg_lib.h"
+#include "dc2/scene.h"
 
 set_log_channel("mapjump");
 

@@ -1,6 +1,7 @@
 #include "common/log.h"
-#include "mg_lib.h"
-#include "object.h"
+
+#include "dc2/mg_lib.h"
+#include "dc2/object.h"
 
 set_log_channel("object");
 

@@ -1,7 +1,7 @@
 #include "common/debug.h"
 #include "common/log.h"
 
-#include "font.h"
+#include "dc2/font.h"
 
 set_log_channel("font");
 

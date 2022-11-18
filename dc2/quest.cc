@@ -1,5 +1,6 @@
 #include "common/log.h"
-#include "quest.h"
+
+#include "dc2/quest.h"
 
 set_log_channel("quest");
 

@@ -1,10 +1,12 @@
 #pragma once
 #include <array>
+
 #include "common/debug.h"
 #include "common/types.h"
-#include "mg_memory.h"
-#include "mg_tanime.h"
-#include "sce_temp.h"
+
+#include "dc2/mg_memory.h"
+#include "dc2/mg_tanime.h"
+#include "dc2/sce_temp.h"
 
 // ~ 0012C480 - 0012F1C0
 

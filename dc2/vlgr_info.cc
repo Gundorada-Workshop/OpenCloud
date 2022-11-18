@@ -1,7 +1,9 @@
 #include <array>
+
 #include "common/log.h"
-#include "villager.h"
-#include "vlgr_info.h"
+
+#include "dc2/villager.h"
+#include "dc2/vlgr_info.h"
 
 set_log_channel("vlgr_info");
 

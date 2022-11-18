@@ -1,10 +1,12 @@
-#include "glm/glm.hpp"
+#include <glm/glm.hpp>
+
 #include "common/log.h"
 #include "common/types.h"
-#include "dngmenu.h"
-#include "effect.h"
-#include "event_func.h"
-#include "mg_lib.h"
+
+#include "dc2/dngmenu.h"
+#include "dc2/effect.h"
+#include "dc2/event_func.h"
+#include "dc2/mg_lib.h"
 
 set_log_channel("event_func");
 

@@ -1,6 +1,7 @@
 #include "common/log.h"
-#include "mg_lib.h"
-#include "movieviewlp.h"
+
+#include "dc2/mg_lib.h"
+#include "dc2/movieviewlp.h"
 
 set_log_channel("movieviewlp");
 

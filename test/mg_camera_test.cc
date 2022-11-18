@@ -1,6 +1,7 @@
-#include "gtest/gtest.h"
-#include "glm/glm.hpp"
-#include "mg_camera.h"
+#include <gtest/gtest.h>
+#include <glm/glm.hpp>
+
+#include "dc2/mg_camera.h"
 
 // NOTE: Tests may fail here after implementing variable fps; failure is part of life :)
 

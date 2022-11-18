@@ -1,7 +1,9 @@
-#include "glm/glm.hpp"
+#include <glm/glm.hpp>
+
 #include "common/log.h"
-#include "camera.h"
-#include "mg_math.h"
+
+#include "dc2/camera.h"
+#include "dc2/mg_math.h"
 
 set_log_channel("camera");
 

@@ -1,5 +1,6 @@
 #include "common/log.h"
-#include "run_script.h"
+
+#include "dc2/run_script.h"
 
 set_log_channel("run_script");
 

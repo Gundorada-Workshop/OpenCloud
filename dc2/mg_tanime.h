@@ -1,7 +1,9 @@
 #pragma once
 #include <array>
+
 #include "common/debug.h"
-#include "sce_temp.h"
+
+#include "dc2/sce_temp.h"
 
 // ~ 00139F10 - 001411E0
 

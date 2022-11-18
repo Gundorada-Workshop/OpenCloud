@@ -1,6 +1,7 @@
 #include "common/log.h"
-#include "editmode.h"
-#include "font.h"
+
+#include "dc2/editmode.h"
+#include "dc2/font.h"
 
 set_log_channel("editmode");
 

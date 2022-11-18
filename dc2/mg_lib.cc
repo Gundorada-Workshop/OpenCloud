@@ -1,9 +1,12 @@
 #include <array>
 #include <math.h>
-#include "glm/glm.hpp"
+
+#include <glm/glm.hpp>
+
 #include "common/log.h"
 #include "common/types.h"
-#include "mg_lib.h"
+
+#include "dc2/mg_lib.h"
 
 set_log_channel("mg_lib");
 

@@ -1,6 +1,7 @@
 #include "common/log.h"
-#include "menuop.h"
-#include "mg_lib.h"
+
+#include "dc2/menuop.h"
+#include "dc2/mg_lib.h"
 
 set_log_channel("menuop");
 

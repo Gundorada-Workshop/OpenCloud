@@ -1,20 +1,23 @@
 #pragma once
 #include <array>
+
 #include <glm/glm.hpp>
+
 #include "common/debug.h"
 #include "common/types.h"
-#include "character.h"
-#include "collision.h"
-#include "effect.h"
-#include "effect_script.h"
-#include "dng_main.h"
-#include "map.h"
-#include "mds_img.h"
-#include "mg_camera.h"
-#include "mg_frame.h"
-#include "ls_mes.h"
-#include "snd_mngr.h"
-#include "villager.h"
+
+#include "dc2/character.h"
+#include "dc2/collision.h"
+#include "dc2/effect.h"
+#include "dc2/effect_script.h"
+#include "dc2/dng_main.h"
+#include "dc2/map.h"
+#include "dc2/mds_img.h"
+#include "dc2/mg_camera.h"
+#include "dc2/mg_frame.h"
+#include "dc2/ls_mes.h"
+#include "dc2/snd_mngr.h"
+#include "dc2/villager.h"
 
 
 // TODO

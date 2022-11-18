@@ -1,7 +1,10 @@
 #include <string.h>
-#include "glm/glm.hpp"
+
+#include <glm/glm.hpp>
+
 #include "common/log.h"
-#include "effect.h"
+
+#include "dc2/effect.h"
 
 set_log_channel("effect");
 
