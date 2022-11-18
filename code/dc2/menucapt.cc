@@ -36,7 +36,7 @@ static bool _NPC_INFO(SPI_STACK* stack, int stack_count)
   trace_script_call(stack, stack_count);
 
   auto& npc_info = NpcBaseData[npc_spi_count_num++];
-  npc_info.m_unk_field_0 = spiGetStackInt(stack++);
+  npc_info.m_id = static_cast<ENPCID>(spiGetStackInt(stack++));
 
   char* str1 = spiGetStackString(stack++);
   char* str2 = spiGetStackString(stack++);
@@ -70,3 +70,19 @@ static const std::array<SPI_TAG_PARAM, 3> npc_spitag =
   "NPC_INFO", _NPC_INFO,
   NULL, nullptr
 };
+
+// 002AB510
+SPartyNPCData* GetPartyNPCData(ENPCID npc_id)
+{
+  log_trace("{}({})", __func__, std::to_underlying(npc_id));
+
+  for (int i = 0; i < NpcBaseDataTotalNum; ++i)
+  {
+    if (NpcBaseData[i].m_id == npc_id)
+    {
+      return &NpcBaseData[i];
+    }
+  }
+
+  return nullptr;
+}

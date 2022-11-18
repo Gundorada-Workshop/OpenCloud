@@ -6,11 +6,13 @@
 
 // ~ 002AAA20 - 002AB570
 
+enum class ENPCID;
+
 struct SPartyNPCData
 {
 public:
   // 0
-  s16 m_unk_field_0{};
+  ENPCID m_id{};
   // 2
   s8 m_unk_field_2{};
   // 3 (nice align bro)
@@ -34,3 +36,6 @@ public:
 
   // SIZE 0x36
 };
+
+// 002AB510
+SPartyNPCData* GetPartyNPCData(ENPCID npc_id);
