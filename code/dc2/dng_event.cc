@@ -107,12 +107,12 @@ void CGeoStone::GeoStep()
 
   CCharacter2::Step();
 
-  m_height_offset_sine += DEGREES_TO_RADIANS(3.0f) * GAME_DT * GAME_FPS;
+  m_height_offset_sine += common::deg_to_rad(3.0f) * GAME_DT * GAME_FPS;
 
-  if (m_height_offset_sine > DEGREES_TO_RADIANS(180.0f))
+  if (m_height_offset_sine > common::deg_to_rad(180.0f))
   {
     // Mantain a continuous bound from -pi to +pi
-    m_height_offset_sine -= DEGREES_TO_RADIANS(360.0f);
+    m_height_offset_sine -= common::deg_to_rad(360.0f);
   }
 }
 

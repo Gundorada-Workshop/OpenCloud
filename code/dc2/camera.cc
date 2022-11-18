@@ -193,7 +193,7 @@ void CCameraControl::MoveCamera(const Control& control, const glm::vec3& v, CCPo
 
   if (control.m_unk_field_8 && (m_rot_camera_cancel & 0x40) == 0)
   {
-    RotBack(v.y - DEGREES_TO_RADIANS(180.0f));
+    RotBack(v.y - common::deg_to_rad(180.0f));
   }
 
   if (m_unk_field_C8)
