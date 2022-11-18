@@ -1,6 +1,4 @@
 #pragma once
-#include <glm/glm.hpp>
-
 #include "common/debug.h"
 #include "common/types.h"
 
@@ -10,100 +8,49 @@
 
 struct CameraCtrlParam
 {
-public:
   // 0
-  float m_unk_field_0;
+  f32 m_unk_field_0;
   // 4
-  float m_unk_field_4;
+  f32 m_unk_field_4;
   // 8
-  float m_unk_field_8;
+  f32 m_unk_field_8;
   // C
-  float m_unk_field_C;
+  f32 m_unk_field_C;
   // 10
-  float m_unk_field_10;
+  f32 m_unk_field_10;
   // 14
-  float m_unk_field_14;
+  f32 m_unk_field_14;
   // 18
-  float m_unk_field_18;
+  f32 m_unk_field_18;
   // 1C
-  float m_unk_field_1C;
+  f32 m_unk_field_1C;
   // 20
-  float m_unk_field_20;
+  f32 m_unk_field_20;
   // 24
-  float m_unk_field_24;
+  f32 m_unk_field_24;
   // 28
-  _DWORD m_unk_field_28{};
+  unk32 m_unk_field_28{};
   // SIZE 0x2C
 };
 
 class CCameraControl : mgCCameraFollow
 {
-private:
-  struct Control
-  {
-  public:
-    // 0
-    float x;
-    // 4
-    float y;
-    // 8
-    u32 m_unk_field_8;
-  };
-  // 002EC010
-  inline void InitStatus()
-  {
-    m_rot_camera_cancel = 0;
-    m_unk_field_C8 = false;
-    m_unk_field_CC = 0;
-    m_unk_field_E0 = glm::vec3(0.0f);
-  }
-  // 002EC1F0
-  void MoveCamera(const Control& control, const glm::vec3& v, CCPoly* c_poly, usize i);
-  // 002EC910
-  void CheckCollision(CCPoly* c_poly, usize i);
-  // 002ECB60
-  void AutoMove(CCPoly* c_poly, usize i);
-  // 002ECE70
-  void CheckGround(CCPoly* c_poly, usize i);
-
-  // C0
-  bool m_controlling;
-  // C4
-  u32 m_rot_camera_cancel;
-  // C8
-  bool m_unk_field_C8;
-  // CC
-  float m_unk_field_CC;
-
-  // E0
-  glm::vec3 m_unk_field_E0;
-  // F0
-  usize m_n_active_param;
-  // F4
-  std::array<CameraCtrlParam, 4> m_camera_params{};
-  // 1A4
-  CameraCtrlParam m_active_param;
-
-  // 1D0
-  glm::vec3 m_unk_field_1D0;
-  // 1E0
-  bool m_unk_field_1E0;
-
 public:
   // 002EBE80
   CCameraControl();
 
+public:
   // 002EC0D0
   virtual void Stay();
 
   // 002EC110
-  virtual void Step(int steps = 1);
+  virtual void Step(sint steps = 1);
 
   // 002ED250
-  virtual glm::mat4 GetCameraMatrix();
+  virtual matrix4 GetCameraMatrix();
 
   // 002ED3D0
-  virtual int Iam();
+  virtual sint Iam();
 
 
   // 002EBFA0
@@ -140,19 +87,19 @@ public:
   }
 
   // 002EC370
-  void MoveCamera(const CPadControl* pad_control, const glm::vec3& v, CCPoly* c_poly, usize i);
+  void MoveCamera(const CPadControl* pad_control, const vec3& v, CCPoly* c_poly, usize i);
 
   // 002EC710
-  void Rotate(float delta);
+  void Rotate(f32 delta);
 
   // 002EC790
-  void SetRotate(float rot);
+  void SetRotate(f32 rot);
 
   // 002EC830
-  void SetHeight(float height);
+  void SetHeight(f32 height);
 
   // 002EC890
-  inline void RotBack(float f)
+  inline void RotBack(f32 f)
   {
     m_unk_field_C8 = true;
     m_unk_field_CC = f;
@@ -165,18 +112,74 @@ public:
   }
 
   // 002EC8B0
-  inline void SetCheckRef(const glm::vec3& ref)
+  inline void SetCheckRef(const vec3& ref)
   {
     m_unk_field_1E0 = true;
     m_unk_field_1D0 = ref;
   }
 
   // 002EC8D0
-  inline void SetCheckRef(float x, float y, float z)
+  inline void SetCheckRef(f32 x, f32 y, f32 z)
   {
-    SetCheckRef(glm::vec3(x, y, z));
+    SetCheckRef({ x, y, z });
   }
 
   // 002ED320
   void CopyParam(CCameraControl& other);
+
+private:
+  struct Control
+  {
+    // 0
+    f32 x;
+    // 4
+    f32 y;
+    // 8
+    u32 m_unk_field_8;
+  };
+
+  // 002EC010
+  inline void InitStatus()
+  {
+    m_rot_camera_cancel = 0;
+    m_unk_field_C8 = false;
+    m_unk_field_CC = 0;
+    m_unk_field_E0 = vec3(0.0f);
+  }
+
+  // 002EC1F0
+  void MoveCamera(const Control& control, const vec3& v, CCPoly* c_poly, usize i);
+
+  // 002EC910
+  void CheckCollision(CCPoly* c_poly, usize i);
+
+  // 002ECB60
+  void AutoMove(CCPoly* c_poly, usize i);
+
+  // 002ECE70
+  void CheckGround(CCPoly* c_poly, usize i);
+
+private:
+  // C0
+  bool m_controlling;
+  // C4
+  u32 m_rot_camera_cancel;
+  // C8
+  bool m_unk_field_C8;
+  // CC
+  f32 m_unk_field_CC;
+
+  // E0
+  vec3 m_unk_field_E0;
+  // F0
+  usize m_n_active_param;
+  // F4
+  std::array<CameraCtrlParam, 4> m_camera_params{};
+  // 1A4
+  CameraCtrlParam m_active_param;
+
+  // 1D0
+  vec3 m_unk_field_1D0;
+  // 1E0
+  bool m_unk_field_1E0;
 };

@@ -67,14 +67,38 @@ using schar  = signed char;
 using sint   = signed int;
 using ssize  = std::intmax_t;
 
+// bool
+using b32 = u32;
+
 // floating point
 using f32 = float;
 using f64 = double;
+
+// unknown
+using unk32  = u32;
+using unk64  = u64;
+using unkptr = void*; //note: ps2 ptr is 32 bit
+
+template<usize size>
+struct unkstr
+{
+  char data[size];
+};
+
+template<usize size>
+struct unks
+{
+  std::array<u8, size> data;
+};
 
 // vectors
 using vec2 = glm::vec2;
 using vec3 = glm::vec3;
 using vec4 = glm::vec4;
+
+using ivec2 = glm::ivec2;
+using ivec3 = glm::ivec3;
+using ivec4 = glm::ivec4;
 
 using uvec2 = glm::uvec2;
 using uvec3 = glm::uvec3;

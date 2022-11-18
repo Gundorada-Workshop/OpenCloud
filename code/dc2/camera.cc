@@ -1,5 +1,3 @@
-#include <glm/glm.hpp>
-
 #include "common/log.h"
 
 #include "dc2/camera.h"
@@ -8,7 +6,8 @@
 set_log_channel("camera");
 
 // 002EBE80
-CCameraControl::CCameraControl() : mgCCameraFollow(40.0f, 30.0f, 0.0f, 8.0f)
+CCameraControl::CCameraControl()
+  : mgCCameraFollow(40.0f, 30.0f, 0.0f, 8.0f)
 {
   // 2EBF04 compiler code end (ignore branch slot)
   log_trace("CCameraControl::CCameraControl()");
@@ -48,7 +47,7 @@ void CCameraControl::Stay()
   }
 }
 // 002EC110
-void CCameraControl::Step(int steps)
+void CCameraControl::Step(sint steps)
 {
   log_trace("CCameraControl::Step({})", steps);
 
@@ -64,8 +63,8 @@ void CCameraControl::Step(int steps)
   }
 
   mgCCamera::Step(steps);
-  glm::vec3 difference = m_next_reference - m_next_position;
-  m_distance = glm::distance(glm::vec3(0.0f), difference);
+  vec3 difference = m_next_reference - m_next_position;
+  m_distance = glm::distance(vec3(0.0f), difference);
   m_height = -difference.y;
   m_angle_soon = atan2f(-difference.x, -difference.z);
 
@@ -98,7 +97,7 @@ void CCameraControl::ControlOn()
 }
 
 // 002EC1F0
-void CCameraControl::MoveCamera(const CPadControl* pad_control, const glm::vec3& v, CCPoly* c_poly, usize i)
+void CCameraControl::MoveCamera(const CPadControl* pad_control, const vec3& v, CCPoly* c_poly, usize i)
 {
   log_trace("CCameraControl::{}({}, {}, {}, {})", __func__, fmt::ptr(&pad_control), fmt::ptr(&v), fmt::ptr(c_poly), i);
 
@@ -106,7 +105,7 @@ void CCameraControl::MoveCamera(const CPadControl* pad_control, const glm::vec3&
 }
 
 // 002EC370
-void CCameraControl::MoveCamera(const Control& control, const glm::vec3& v, CCPoly* c_poly, usize i)
+void CCameraControl::MoveCamera(const Control& control, const vec3& v, CCPoly* c_poly, usize i)
 {
   log_trace("CCameraControl::{}({}, {}, {}, {})", __func__, fmt::ptr(&control), fmt::ptr(&v), fmt::ptr(c_poly), i);
 
@@ -117,16 +116,16 @@ void CCameraControl::MoveCamera(const Control& control, const glm::vec3& v, CCPo
 
   CameraCtrlParam& active_param = GetActiveParam();
   
-  glm::vec3 next_difference;
-  glm::vec3 next_difference_normal;
-  glm::vec3 var_10 = glm::vec3(0);
+  vec3 next_difference;
+  vec3 next_difference_normal;
+  vec3 var_10 = vec3(0);
 
   m_next_reference = GetFollow() + GetFollowOffset();
 
   next_difference = m_next_reference - m_next_position;
   next_difference.y = 0.0f;
   next_difference_normal = glm::normalize(next_difference);
-  float dist = glm::distance(next_difference, glm::vec3(0));
+  f32 dist = glm::distance(next_difference, vec3(0));
 
   if (dist > 0.0f)
   {
@@ -144,7 +143,7 @@ void CCameraControl::MoveCamera(const Control& control, const glm::vec3& v, CCPo
     var_10 = next_difference_normal * (dist - active_param.m_unk_field_4);
   }
 
-  float f = control.x * active_param.m_unk_field_0 / std::min(dist, active_param.m_unk_field_0);
+  f32 f = control.x * active_param.m_unk_field_0 / std::min(dist, active_param.m_unk_field_0);
   if (f != 0.0f)
   {
     Rotate(f);
@@ -177,10 +176,10 @@ void CCameraControl::MoveCamera(const Control& control, const glm::vec3& v, CCPo
 
   // TODO clean this up
   // 2EC588
-  float f0;
-  float f1;
-  float f2;
-  float f4 = active_param.m_unk_field_C - active_param.m_unk_field_8;
+  f32 f0;
+  f32 f1;
+  f32 f2;
+  f32 f4 = active_param.m_unk_field_C - active_param.m_unk_field_8;
   f1 = dist - active_param.m_unk_field_0;
   f2 = active_param.m_unk_field_4 - active_param.m_unk_field_0;
   f1 /= f2;
@@ -198,7 +197,7 @@ void CCameraControl::MoveCamera(const Control& control, const glm::vec3& v, CCPo
 
   if (m_unk_field_C8)
   {
-    float f6 = mgAngleInterpolate(GetAngle(), m_unk_field_CC, 1.0f, false);
+    f32 f6 = mgAngleInterpolate(GetAngle(), m_unk_field_CC, 1.0f, false);
     SetRotate(f6);
 
     if (mgAngleCmp(f6, m_unk_field_CC, 0.1f) == 0)
@@ -224,41 +223,41 @@ void CCameraControl::MoveCamera(const Control& control, const glm::vec3& v, CCPo
 }
 
 // 002EC710
-void CCameraControl::Rotate(float delta)
+void CCameraControl::Rotate(f32 delta)
 {
   log_trace("CCameraControl::{}({})", __func__, delta);
 
-  glm::vec4 var_50;
-  glm::mat4 var_40 = glm::mat4(1.0f);
+  vec4 var_50;
+  matrix4 var_40 = matrix4(1.0f);
 
-  var_50 = glm::vec4(m_next_position - m_next_reference, 1.0f);
+  var_50 = vec4(m_next_position - m_next_reference, 1.0f);
   delta = mgAngleLimit(delta);
-  glm::rotate(var_40, delta, glm::vec3(0, 1, 0));
+  glm::rotate(var_40, delta, vec3(0, 1, 0));
   var_50 = var_40 * var_50;
-  m_next_position = m_next_reference + glm::vec3(var_50);
+  m_next_position = m_next_reference + vec3(var_50);
 }
 
 // 002EC790
-void CCameraControl::SetRotate(float rot)
+void CCameraControl::SetRotate(f32 rot)
 {
   log_trace("CCameraControl::{}({})", __func__, rot);
 
-  glm::vec4 var_50 = glm::vec4(0.0f);
-  glm::mat4 var_40 = glm::mat4(1.0f);
+  vec4 var_50 = vec4(0.0f);
+  matrix4 var_40 = matrix4(1.0f);
 
   var_50.z = glm::distance(
-    glm::vec3(m_next_reference.x, 0.0f, m_next_reference.z),
-    glm::vec3(m_next_position.x, 0.0f, m_next_position.z)
+    vec3(m_next_reference.x, 0.0f, m_next_reference.z),
+    vec3(m_next_position.x, 0.0f, m_next_position.z)
   );
   var_50.y = m_next_position.y - m_next_reference.y;
 
-  glm::rotate(var_40, mgAngleLimit(rot), glm::vec3(0, 1, 0));
+  glm::rotate(var_40, mgAngleLimit(rot), vec3(0, 1, 0));
   var_50 = var_40 * var_50;
-  m_next_position = m_next_reference + glm::vec3(var_50);
+  m_next_position = m_next_reference + vec3(var_50);
 }
 
 // 002EC830
-void CCameraControl::SetHeight(float height)
+void CCameraControl::SetHeight(f32 height)
 {
   log_trace("CCameraControl::{}({})", __func__, height);
 
@@ -296,12 +295,13 @@ void CCameraControl::CheckGround(CCPoly* c_poly, usize i)
 }
 
 // 002ED250
-glm::mat4 CCameraControl::GetCameraMatrix()
+matrix4 CCameraControl::GetCameraMatrix()
 {
   log_trace("CCameraControl::{}()", __func__);
 
   todo;
-  return glm::mat4(1.0f);
+
+  return matrix4{ 1.0f };
 }
 
 void CCameraControl::CopyParam(CCameraControl& other)
@@ -310,7 +310,7 @@ void CCameraControl::CopyParam(CCameraControl& other)
 }
 
 // 002ED3D0
-int CCameraControl::Iam()
+sint CCameraControl::Iam()
 {
   log_trace("CCameraControl::{}()", __func__);
 
