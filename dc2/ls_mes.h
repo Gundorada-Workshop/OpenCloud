@@ -1,8 +1,11 @@
 #pragma once
 #include <array>
-#include "glm/glm.hpp"
+
+#include <glm/glm.hpp>
+
 #include "common/debug.h"
-#include "font.h"
+
+#include "dc2/font.h"
 
 // ~ 00151940 - 0015BBD0
 

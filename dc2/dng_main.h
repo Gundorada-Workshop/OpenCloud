@@ -1,13 +1,16 @@
 #pragma once
 #include <array>
-#include "glm/glm.hpp"
+
+#include <glm/glm.hpp>
+
 #include "common/debug.h"
 #include "common/types.h"
-#include "map.h"
-#include "mg_frame.h"
-#include "mg_memory.h"
-#include "ls_mes.h"
-#include "object.h"
+
+#include "dc2/map.h"
+#include "dc2/mg_frame.h"
+#include "dc2/mg_memory.h"
+#include "dc2/ls_mes.h"
+#include "dc2/object.h"
 
 // ~ 001BE6F0 - 001EA760
 

@@ -1,7 +1,8 @@
 #include "common/log.h"
-#include "font.h"
-#include "menumain.h"
-#include "mg_lib.h"
+
+#include "dc2/font.h"
+#include "dc2/menumain.h"
+#include "dc2/mg_lib.h"
 
 set_log_channel("menumain");
 

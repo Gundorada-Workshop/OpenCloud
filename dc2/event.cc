@@ -1,7 +1,8 @@
 #include "common/log.h"
 #include "common/types.h"
-#include "event.h"
-#include "run_script.h"
+
+#include "dc2/event.h"
+#include "dc2/run_script.h"
 
 set_log_channel("event");
 

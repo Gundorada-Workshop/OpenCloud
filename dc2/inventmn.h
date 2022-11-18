@@ -1,5 +1,6 @@
 #pragma once
 #include <array>
+
 #include "common/debug.h"
 
 // ~ 001FE130 - 0020C910

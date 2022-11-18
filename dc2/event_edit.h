@@ -1,6 +1,7 @@
 #pragma once
 #include "common/debug.h"
-#include "event_func.h"
+
+#include "dc2/event_func.h"
 
 // ~ 0027DD00 - 00282AC0
 

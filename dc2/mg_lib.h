@@ -1,12 +1,14 @@
 #pragma once
-#include "glm/glm.hpp"
+#include <glm/glm.hpp>
+
 #include "common/types.h"
-#include "mg_camera.h"
-#include "mg_frame.h"
-#include "mg_math.h"
-#include "mg_memory.h"
-#include "mg_tanime.h"
-#include "mg_texture.h"
+
+#include "dc2/mg_camera.h"
+#include "dc2/mg_frame.h"
+#include "dc2/mg_math.h"
+#include "dc2/mg_memory.h"
+#include "dc2/mg_tanime.h"
+#include "dc2/mg_texture.h"
 
 // 00380EC0
 extern mgRENDER_INFO mgRenderInfo;

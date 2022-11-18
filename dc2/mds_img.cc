@@ -1,5 +1,6 @@
 #include "common/log.h"
-#include "mds_img.h"
+
+#include "dc2/mds_img.h"
 
 set_log_channel("mds_img")
 

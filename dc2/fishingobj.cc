@@ -1,9 +1,12 @@
 #include <stdlib.h>
 #include <string.h>
-#include "glm/glm.hpp"
+
+#include <glm/glm.hpp>
+
 #include "common/debug.h"
 #include "common/log.h"
-#include "fishingobj.h"
+
+#include "dc2/fishingobj.h"
 
 set_log_channel("fishingobj")
 

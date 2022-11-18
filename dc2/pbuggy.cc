@@ -1,13 +1,14 @@
 #pragma once
-#include "glm/glm.hpp"
+#include <glm/glm.hpp>
+
 #include "common/debug.h"
 #include "common/log.h"
 
-#include "character.h"
-#include "effect_script.h"
-#include "mg_lib.h"
-#include "mg_memory.h"
-#include "pbuggy.h"
+#include "dc2/character.h"
+#include "dc2/effect_script.h"
+#include "dc2/mg_lib.h"
+#include "dc2/mg_memory.h"
+#include "dc2/pbuggy.h"
 
 set_log_channel("pbuggy");
 

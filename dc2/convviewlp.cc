@@ -1,6 +1,7 @@
 #include "common/log.h"
-#include "convviewlp.h"
-#include "mg_lib.h"
+
+#include "dc2/convviewlp.h"
+#include "dc2/mg_lib.h"
 
 set_log_channel("convviewlp");
 

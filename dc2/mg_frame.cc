@@ -1,6 +1,8 @@
 #include <string.h>
+
 #include "common/log.h"
-#include "mg_frame.h"
+
+#include "dc2/mg_frame.h"
 
 set_log_channel("mg_frame");
 

@@ -1,6 +1,8 @@
-#include "glm/glm.hpp"
+#include <glm/glm.hpp>
+
 #include "common/log.h"
-#include "pot.h"
+
+#include "dc2/pot.h"
 
 set_log_channel("pot");
 

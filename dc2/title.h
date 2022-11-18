@@ -1,7 +1,9 @@
 #pragma once
 #include <array>
+
 #include "common/debug.h"
-#include "mg_memory.h"
+
+#include "dc2/mg_memory.h"
 
 // ~ 0029F050 - 002A4D90
 

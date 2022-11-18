@@ -1,6 +1,7 @@
 #include "common/log.h"
-#include "dngmenu.h"
-#include "mg_lib.h"
+
+#include "dc2/dngmenu.h"
+#include "dc2/mg_lib.h"
 
 set_log_channel("dngmenu");
 

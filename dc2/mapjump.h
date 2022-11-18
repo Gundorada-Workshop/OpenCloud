@@ -1,8 +1,9 @@
 #pragma once
 #include "common/debug.h"
 #include "common/types.h"
-#include "mg_memory.h"
-#include "scene.h"
+
+#include "dc2/mg_memory.h"
+#include "dc2/scene.h"
 
 // ~ 002DEC10 - 002DFDE0
 

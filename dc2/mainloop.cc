@@ -1,15 +1,17 @@
 #include <string>
+
 #include "common/debug.h"
 #include "common/log.h"
-#include "editdata.h"
-#include "ls_mes.h"
-#include "mainloop.h"
-#include "menusave.h"
-#include "mg_memory.h"
-#include "mg_texture.h"
-#include "scene.h"
-#include "quest.h"
-#include "userdata.h"
+
+#include "dc2/editdata.h"
+#include "dc2/ls_mes.h"
+#include "dc2/mainloop.h"
+#include "dc2/menusave.h"
+#include "dc2/mg_memory.h"
+#include "dc2/mg_texture.h"
+#include "dc2/scene.h"
+#include "dc2/quest.h"
+#include "dc2/userdata.h"
 
 set_log_channel("mainloop")
 

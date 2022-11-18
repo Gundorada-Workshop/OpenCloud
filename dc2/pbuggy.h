@@ -1,9 +1,10 @@
 #pragma once
 #include "common/debug.h"
 #include "common/types.h"
-#include "gamepad.h"
-#include "scene.h"
-#include "subgame.h"
+
+#include "dc2/gamepad.h"
+#include "dc2/scene.h"
+#include "dc2/subgame.h"
 
 // ~ 00313770 - 003169B0
 

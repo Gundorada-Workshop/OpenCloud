@@ -1,7 +1,8 @@
 #include "common/log.h"
-#include "menumain.h"
-#include "menusys.h"
-#include "mg_lib.h"
+
+#include "dc2/menumain.h"
+#include "dc2/menusys.h"
+#include "dc2/mg_lib.h"
 
 set_log_channel("menusys");
 

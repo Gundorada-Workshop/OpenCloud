@@ -1,11 +1,13 @@
 #include <array>
-#include "glm/glm.hpp"
+#include <glm/glm.hpp>
+
 #include "common/debug.h"
 #include "common/log.h"
-#include "editloop.h"
-#include "ls_mes.h"
-#include "mg_frame.h"
-#include "mg_memory.h"
+
+#include "dc2/editloop.h"
+#include "dc2/ls_mes.h"
+#include "dc2/mg_frame.h"
+#include "dc2/mg_memory.h"
 
 set_log_channel("editloop");
 

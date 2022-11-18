@@ -1,7 +1,8 @@
 #include "common/log.h"
-#include "character.h"
-#include "mg_lib.h"
-#include "script_interpreter.h"
+
+#include "dc2/character.h"
+#include "dc2/mg_lib.h"
+#include "dc2/script_interpreter.h"
 
 set_log_channel("character")
 

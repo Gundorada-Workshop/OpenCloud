@@ -1,6 +1,8 @@
 #include <array>
+
 #include "common/log.h"
-#include "snd_mngr.h"
+
+#include "dc2/snd_mngr.h"
 
 set_log_channel("snd_mngr")
 

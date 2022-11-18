@@ -1,6 +1,7 @@
 #include "common/log.h"
-#include "editmenu.h"
-#include "mg_lib.h"
+
+#include "dc2/editmenu.h"
+#include "dc2/mg_lib.h"
 
 set_log_channel("editmenu");
 

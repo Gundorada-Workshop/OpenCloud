@@ -1,6 +1,7 @@
 #include "common/debug.h"
 #include "common/log.h"
-#include "scene.h"
+
+#include "dc2/scene.h"
 
 set_log_channel("scene");
 

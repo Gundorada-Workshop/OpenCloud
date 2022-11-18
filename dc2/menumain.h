@@ -1,8 +1,10 @@
 #pragma once
 #include <array>
+
 #include "common/debug.h"
 #include "common/types.h"
-#include "userdata.h"
+
+#include "dc2/userdata.h"
 
 // ~ 0022D3B0 - 002518A0 (?)
 

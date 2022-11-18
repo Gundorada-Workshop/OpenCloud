@@ -1,6 +1,7 @@
 #include "common/log.h"
-#include "helpmes.h"
-#include "ls_mes.h"
+
+#include "dc2/helpmes.h"
+#include "dc2/ls_mes.h"
 
 set_log_channel("helpmes");
 

@@ -1,10 +1,13 @@
 #pragma once
 #include <array>
-#include "glm/glm.hpp"
+
+#include <glm/glm.hpp>
+
 #include "common/debug.h"
 #include "common/types.h"
-#include "mg_memory.h"
-#include "mg_texture.h"
+
+#include "dc2/mg_memory.h"
+#include "dc2/mg_texture.h"
 
 // ~ 00131B60 - 00139900
 

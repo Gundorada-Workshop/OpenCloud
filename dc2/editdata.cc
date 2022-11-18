@@ -1,7 +1,9 @@
 #include <array>
 #include <string>
+
 #include "common/log.h"
-#include "editdata.h"
+
+#include "dc2/editdata.h"
 
 set_log_channel("editdata")
 

@@ -1,5 +1,6 @@
 #include "common/debug.h"
-#include "title.h"
+
+#include "dc2/title.h"
 
 // 01F06070
 static mgCMemory DataBuffer{};

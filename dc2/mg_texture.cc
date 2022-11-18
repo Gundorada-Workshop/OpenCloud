@@ -1,10 +1,11 @@
 #include "common/debug.h"
 #include "common/log.h"
 #include "common/types.h"
-#include "mg_memory.h"
-#include "mg_tanime.h"
-#include "mg_texture.h"
-#include "script_interpreter.h"
+
+#include "dc2/mg_memory.h"
+#include "dc2/mg_tanime.h"
+#include "dc2/mg_texture.h"
+#include "dc2/script_interpreter.h"
 
 set_log_channel("mg_texture");
 

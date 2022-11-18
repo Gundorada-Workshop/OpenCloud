@@ -1,5 +1,6 @@
 #include "common/log.h"
-#include "mg_math.h"
+
+#include "dc2/mg_math.h"
 
 set_log_channel("mg_math");
 

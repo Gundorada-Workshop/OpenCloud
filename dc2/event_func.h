@@ -1,9 +1,11 @@
 #pragma once
 #include <array>
+
 #include "common/debug.h"
 #include "common/types.h"
-#include "event.h"
-#include "mg_lib.h"
+
+#include "dc2/event.h"
+#include "dc2/mg_lib.h"
 
 // ~ 00255B80 - 0027DD00
 

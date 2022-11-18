@@ -1,2 +1,2 @@
-#include "globals.h"
+#include "dc2/globals.h"
 

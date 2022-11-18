@@ -1,9 +1,11 @@
 #pragma once
 #include <array>
-#include "glm/glm.hpp"
-#include "character.h"
-#include "dng_main.h"
-#include "event_func.h"
+
+#include <glm/glm.hpp>
+
+#include "dc2/character.h"
+#include "dc2/dng_main.h"
+#include "dc2/event_func.h"
 
 // ~ 0028AFC0 - 002912F0
 

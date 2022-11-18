@@ -1,7 +1,9 @@
 #include <array>
+
 #include "common/log.h"
-#include "menuchr.h"
-#include "mg_lib.h"
+
+#include "dc2/menuchr.h"
+#include "dc2/mg_lib.h"
 
 set_log_channel("menuchr");
 

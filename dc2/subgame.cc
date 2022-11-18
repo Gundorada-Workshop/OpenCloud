@@ -1,5 +1,6 @@
 #include "common/log.h"
-#include "subgame.h"
+
+#include "dc2/subgame.h"
 
 set_log_channel("subgame");
 

@@ -1,7 +1,8 @@
 #pragma once
 #include "common/debug.h"
 #include "common/types.h"
-#include "mg_lib.h"
+
+#include "dc2/mg_lib.h"
 
 // ~001EA760 - 001F2510
 

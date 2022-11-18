@@ -1,5 +1,6 @@
 #include "common/log.h"
-#include "villager.h"
+
+#include "dc2/villager.h"
 
 set_log_channel("villager");
 

@@ -1,9 +1,11 @@
 #pragma once
 #include <array>
+
 #include "common/debug.h"
 #include "common/types.h"
-#include "script_interpreter.h"
-#include "mg_lib.h"
+
+#include "dc2/script_interpreter.h"
+#include "dc2/mg_lib.h"
 
 // ~ 0017C240 - 00185EF0
 

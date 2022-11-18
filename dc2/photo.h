@@ -1,10 +1,12 @@
 ﻿#pragma once
 #include <array>
+
 #include "common/types.h"
-#include "gamepad.h"
-#include "inventmn.h"
-#include "mg_memory.h"
-#include "userdata.h"
+
+#include "dc2/gamepad.h"
+#include "dc2/inventmn.h"
+#include "dc2/mg_memory.h"
+#include "dc2/userdata.h"
 
 // ~ 0030E4C0 - 0030F9B0
 

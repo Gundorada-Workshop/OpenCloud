@@ -1,13 +1,15 @@
 #include <array>
+
 #include "common/log.h"
 #include "common/types.h"
-#include "dc2io.h"
-#include "event.h"
-#include "gamepad.h"
-#include "mainloop.h"
-#include "mg_lib.h"
-#include "nowload.h"
-#include "scene.h"
+
+#include "dc2/dc2io.h"
+#include "dc2/event.h"
+#include "dc2/gamepad.h"
+#include "dc2/mainloop.h"
+#include "dc2/mg_lib.h"
+#include "dc2/nowload.h"
+#include "dc2/scene.h"
 
 set_log_channel("nowload");
 

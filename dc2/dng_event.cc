@@ -1,10 +1,12 @@
 #include <cmath>
+
 #include "common/clock.h"
 #include "common/log.h"
-#include "dng_event.h"
-#include "dng_main.h"
-#include "mapjump.h"
-#include "mg_lib.h"
+
+#include "dc2/dng_event.h"
+#include "dc2/dng_main.h"
+#include "dc2/mapjump.h"
+#include "dc2/mg_lib.h"
 
 set_log_channel("dng_event");
 

@@ -1,4 +1,4 @@
-#include "script_interpreter.h"
+#include "dc2/script_interpreter.h"
 
 char* spiGetStackString(SPI_STACK* stack)
 {

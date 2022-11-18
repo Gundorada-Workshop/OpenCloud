@@ -1,9 +1,10 @@
 #pragma once
 #include "common/debug.h"
 #include "common/types.h"
-#include "font.h"
-#include "menusave.h"
-#include "mg_memory.h"
+
+#include "dc2/font.h"
+#include "dc2/menusave.h"
+#include "dc2/mg_memory.h"
 
 enum class Language : s32
 {

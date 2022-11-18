@@ -1,10 +1,12 @@
 #pragma once
-#include "glm/glm.hpp"
+#include <glm/glm.hpp>
+
 #include "common/debug.h"
 #include "common/types.h"
-#include "collision.h"
-#include "gamepad.h"
-#include "mg_camera.h"
+
+#include "dc2/collision.h"
+#include "dc2/gamepad.h"
+#include "dc2/mg_camera.h"
 
 struct CameraCtrlParam
 {

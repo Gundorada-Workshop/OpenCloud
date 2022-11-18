@@ -1,1 +1,1 @@
-#include "effect_script.h"
+#include "dc2/effect_script.h"
