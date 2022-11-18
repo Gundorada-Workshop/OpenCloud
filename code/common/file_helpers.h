@@ -49,6 +49,9 @@ namespace common::file_helpers
   // get the application directory
   std::string_view get_application_directory();
 
+  // get the data directory
+  std::string get_data_directory();
+
   // get the current working directory
   std::string get_working_directory();
 }

@@ -18,10 +18,7 @@ enum class ECharacterID
   MonsterTransform = 3,
 };
 
-enum class ENPCID : s16
-{
-  
-};
+enum class ENPCID;
 
 enum class EMonsterID : s16
 {

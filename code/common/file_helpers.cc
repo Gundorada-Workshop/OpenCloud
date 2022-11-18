@@ -269,6 +269,11 @@ namespace common::file_helpers
     return s_application_directory;
   }
 
+  std::string get_data_directory()
+  {
+    return file_helpers::append(file_helpers::get_application_directory(), "DATA");
+  }
+
   std::string get_working_directory()
   {
 #if defined(_WIN32)

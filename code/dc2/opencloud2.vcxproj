@@ -23,6 +23,7 @@
     <ClInclude Include="menuquest.h" />
     <ClInclude Include="menusave.h" />
     <ClInclude Include="movie.h" />
+    <ClInclude Include="npc.h" />
     <ClInclude Include="pot.h" />
     <ClInclude Include="quest.h" />
     <ClInclude Include="robopart.h" />
@@ -102,6 +103,7 @@
     <ClCompile Include="menuquest.cc" />
     <ClCompile Include="menusave.cc" />
     <ClCompile Include="movie.cc" />
+    <ClCompile Include="npc.cc" />
     <ClCompile Include="pot.cc" />
     <ClCompile Include="quest.cc" />
     <ClCompile Include="robopart.cc" />
