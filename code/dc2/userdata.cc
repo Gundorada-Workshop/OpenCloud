@@ -414,6 +414,15 @@ void CUserDataManager::Initialize()
   todo;
 }
 
+// 0019EAF0
+s32 CUserDataManager::AddMoney(s32 delta)
+{
+  log_trace("CUserDataManager::{}({})", __func__, delta);
+
+  m_money = std::clamp(m_money + delta, 0, 999'999);
+  return m_money;
+}
+
 // 0019A890
 MOS_HENGE_PARAM* GetMonsterHengeParam(ssize index)
 {

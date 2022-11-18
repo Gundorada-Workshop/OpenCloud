@@ -301,6 +301,9 @@ public:
   // 0019C560
   float GetRoboAbs();
 
+  // 0019EAF0
+  s32 AddMoney(s32 delta);
+
   // 0
   std::array<CGameDataUsed, 150> m_unk_field_0{};
   // 3F48
@@ -345,9 +348,7 @@ public:
   // 44D9A
   s16 m_unk_field_44D9A{};
   // 44D9C
-  s16 m_unk_field_44D9C{};
-  // 44D9E
-  s16 m_unk_field_44D9E{};
+  s32 m_money{};
   // 44DA0
   s16 m_unk_field_44DA0{};
 
