@@ -23,9 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "msbuild props", "msbuild pr
 		.msvc\StaticLibrary.Configuration.props = .msvc\StaticLibrary.Configuration.props
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "common", "common\common.vcxproj", "{3024747D-56A5-4B76-835A-12C3899004A7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "common", "code\common\common.vcxproj", "{3024747D-56A5-4B76-835A-12C3899004A7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opencloud2", "dc2\opencloud2.vcxproj", "{DC4A4239-8C6B-42DD-9612-999041EE0B5C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opencloud2", "code\dc2\opencloud2.vcxproj", "{DC4A4239-8C6B-42DD-9612-999041EE0B5C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "external", "external", "{B7584972-373B-4199-A285-5CCD599277EE}"
 	ProjectSection(SolutionItems) = preProject
@@ -45,7 +45,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "test\test.vcxproj",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "projects", "projects", "{5B4BAF44-C9E2-449A-86B5-DE883F2E2919}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "host", "host\host.vcxproj", "{7370DD41-9528-46EE-AD33-EDC26F7C4327}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "host", "code\host\host.vcxproj", "{7370DD41-9528-46EE-AD33-EDC26F7C4327}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

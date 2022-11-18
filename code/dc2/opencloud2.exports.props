@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <ItemGroup>
-    <ProjectReference Include="$(SolutionDir)dc2\opencloud2.vcxproj">
+    <ProjectReference Include="$(SolutionDir)code\dc2\opencloud2.vcxproj">
       <Project>{DC4A4239-8C6B-42DD-9612-999041EE0B5C}</Project>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(SolutionDir)common\common.exports.props" />
+  <Import Project="$(SolutionDir)code\common\common.exports.props" />
 </Project>

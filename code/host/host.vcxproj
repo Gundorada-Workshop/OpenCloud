@@ -18,6 +18,6 @@
     <ClInclude Include="host_interface_dwm.h" />
     <ClInclude Include="texture.h" />
   </ItemGroup>
-  <Import Project="$(SolutionDir)dc2\opencloud2.exports.props" />
+  <Import Project="$(SolutionDir)code\dc2\opencloud2.exports.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
