@@ -16,9 +16,9 @@ public:
   // 2
   s8 m_unk_field_2{};
   // 3 (nice align bro)
-  std::array<char, 28> m_unk_field_3{};
+  std::array<char, 28> m_name{};
   // 1F
-  std::array<char, 16> m_unk_field_1F{};
+  std::array<char, 16> m_model_name{};
   // 2F
   s8 m_unk_field_2F{};
   // 30
@@ -39,3 +39,9 @@ public:
 
 // 002AB510
 SPartyNPCData* GetPartyNPCData(ENPCID npc_id);
+
+// 002AB3A0
+const char* GetNPCModelName(ENPCID npc_id);
+
+// 002AB3D0
+const char* GetNPCName(ENPCID npc_id);

@@ -38,17 +38,17 @@ static bool _NPC_INFO(SPI_STACK* stack, int stack_count)
   auto& npc_info = NpcBaseData[npc_spi_count_num++];
   npc_info.m_id = static_cast<ENPCID>(spiGetStackInt(stack++));
 
-  char* str1 = spiGetStackString(stack++);
-  char* str2 = spiGetStackString(stack++);
+  char* name = spiGetStackString(stack++);
+  char* model_name = spiGetStackString(stack++);
 
-  if (str1 != nullptr)
+  if (name != nullptr)
   {
-    strcpy_s(npc_info.m_unk_field_3.data(), npc_info.m_unk_field_3.size(), str1);
+    strcpy_s(npc_info.m_name.data(), npc_info.m_name.size(), name);
   }
 
-  if (str2 != nullptr)
+  if (model_name != nullptr)
   {
-    strcpy_s(npc_info.m_unk_field_1F.data(), npc_info.m_unk_field_1F.size(), str2);
+    strcpy_s(npc_info.m_model_name.data(), npc_info.m_model_name.size(), model_name);
   }
 
   npc_info.m_unk_field_31 = spiGetStackInt(stack++);
@@ -70,6 +70,36 @@ static const std::array<SPI_TAG_PARAM, 3> npc_spitag =
   "NPC_INFO", _NPC_INFO,
   NULL, nullptr
 };
+
+// 002AB3A0
+const char* GetNPCModelName(ENPCID npc_id)
+{
+  log_trace("{}({})", __func__, std::to_underlying(npc_id));
+
+  auto npc_data = GetPartyNPCData(npc_id);
+
+  if (npc_data == nullptr)
+  {
+    return nullptr;
+  }
+
+  return npc_data->m_model_name.data();
+}
+
+// 002AB3D0
+const char* GetNPCName(ENPCID npc_id)
+{
+  log_trace("{}({})", __func__, std::to_underlying(npc_id));
+
+  auto npc_data = GetPartyNPCData(npc_id);
+
+  if (npc_data == nullptr)
+  {
+    return nullptr;
+  }
+
+  return npc_data->m_name.data();
+}
 
 // 002AB510
 SPartyNPCData* GetPartyNPCData(ENPCID npc_id)
