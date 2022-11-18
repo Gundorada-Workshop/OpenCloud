@@ -4,6 +4,10 @@
 
 set_log_channel("script_interpreter");
 
+static bool SkipSpace(input_str& str);
+static bool CheckChar(char ch);
+static void PreProcess(input_str& str);
+
 char* spiGetStackString(SPI_STACK* stack)
 {
   if (stack->data_type != SPI_DATA_TYPE_STR)
@@ -66,10 +70,62 @@ bool input_str::GetLine(std::string& line_dest, const std::string line_sep)
   return true;
 }
 
+// 00147280
+static bool SkipSpace(input_str& str)
+{
+  for (; str.m_position < str.m_length; ++str.m_position)
+  {
+    if (CheckChar(str.m_string[str.m_position]))
+    {
+      break;
+    }
+  }
+
+  return str.m_position < str.m_length;
+}
+
 // 00147300
 static bool CheckChar(char ch)
 {
   return ch != '\r' && ch != '\n' && ch != '\t' && ch != ' ';
+}
+
+// 00147350
+static void PreProcess(input_str& str)
+{
+  for (int i = 0; i < str.m_length; ++i)
+  {
+    if (str.m_string[i] == '/' && str.m_string[i + 1] == '/')
+    {
+      // Remove same line comment
+      for (; i < str.m_length; ++i)
+      {
+        if (str.m_string[i] == '\n' || str.m_string[i] == '\r')
+        {
+          break;
+        }
+
+        str.m_string[i] = ' ';
+      }
+    }
+
+    if (str.m_string[i] == '/' && str.m_string[i + 1] == '*')
+    {
+      // Remove multi-line comment
+      for (; i < str.m_length; ++i)
+      {
+        if (str.m_string[i] == '*' && str.m_string[i + 1] == '/')
+        {
+          // remove end of comment marker
+          str.m_string[i] = ' ';
+          str.m_string[i + 1] = ' ';
+          break;
+        }
+
+        str.m_string[i] = ' ';
+      }
+    }
+  }
 }
 
 void CScriptInterpreter::Run()
