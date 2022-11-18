@@ -24,6 +24,6 @@
     <ClInclude Include="iso9660\iso_file.h" />
     <ClInclude Include="iso9660\types.h" />
   </ItemGroup>
-  <Import Project="$(SolutionDir)common\common.exports.props" />
+  <Import Project="$(SolutionDir)code\common\common.exports.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
