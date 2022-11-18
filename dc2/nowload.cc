@@ -3,7 +3,7 @@
 #include "common/log.h"
 #include "common/types.h"
 
-#include "dc2/dc2io.h"
+#include "dc2/io.h"
 #include "dc2/event.h"
 #include "dc2/gamepad.h"
 #include "dc2/mainloop.h"

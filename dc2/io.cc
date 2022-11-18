@@ -1,7 +1,7 @@
 #include "common/debug.h"
 #include "common/log.h"
 
-#include "dc2/dc2io.h"
+#include "dc2/io.h"
 
 set_log_channel("dc2io");
 
