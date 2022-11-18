@@ -53,6 +53,24 @@ struct SPI_STACK
   };
 };
 
+template<>
+struct fmt::formatter<SPI_STACK> : fmt::formatter<std::string_view>
+{
+  template<typename FormatContext>
+  auto format(const SPI_STACK& stack_data, FormatContext& ctx)
+  {
+    if (stack_data.data_type == SPI_DATA_TYPE_INT)
+    {
+      return fmt::format_to(ctx.out(), "{}", stack_data.as_integer);
+    }
+    if (stack_data.data_type == SPI_DATA_TYPE_FLT)
+    {
+      return fmt::format_to(ctx.out(), "{}", stack_data.as_float);
+    }
+    return fmt::format_to(ctx.out(), "{}", stack_data.as_string);
+  }
+};
+
 struct SPI_TAG_PARAM
 {
   const char* tag_name;
@@ -92,6 +110,9 @@ public:
   // 00146720
   void Run();
 
+  // 00146500
+  void PushStack(SPI_STACK stack_item);
+
   // 00146590
   sint GetNextTAG(sint)
   {
@@ -105,9 +126,11 @@ public:
   // 0
   input_str m_input_str{};
   // C
-  _DWORD m_unk_field_C{};
+  ssize m_stack_current{};
+  // 10
+  ssize m_stack_top{};
   // 14
-  _DWORD m_unk_field_14{};
+  SPI_STACK* m_stack{};
   // 2C
   _DWORD m_unk_field_2C{};
 };

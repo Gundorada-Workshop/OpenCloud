@@ -133,6 +133,21 @@ void CScriptInterpreter::Run()
   while(GetNextTAG(1) > -1) { }
 }
 
+// 00146500
+void CScriptInterpreter::PushStack(SPI_STACK stack_item)
+{
+  log_trace("CScriptInterpreter::{}({})", __func__, stack_item);
+
+  if (m_stack_current >= m_stack_top)
+  {
+    log_warn("SPI stack over!!\n");
+    return;
+  }
+
+  m_stack[m_stack_current] = stack_item;
+  ++m_stack_current;
+}
+
 sint CScriptInterpreter::hash(char* str)
 {
   sint out = 0;
