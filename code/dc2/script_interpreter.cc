@@ -1,4 +1,8 @@
+#include "common/log.h"
+
 #include "dc2/script_interpreter.h"
+
+set_log_channel("script_interpreter");
 
 char* spiGetStackString(SPI_STACK* stack)
 {
@@ -43,16 +47,29 @@ void spiGetStackVector(vec3 v, SPI_STACK* stack)
   v[2] = spiGetStackFloat(++stack);
 }
 
+// 00146290
+bool input_str::GetLine(std::string& line_dest, const std::string line_sep)
+{
+  log_trace("input_str::{}({}, {})", __func__, fmt::ptr(&line_dest), line_sep);
+
+  while (memcmp(&m_string[m_position], line_sep.data(), line_sep.length()) != 0)
+  {
+    char c;
+    if (!get(&c))
+    {
+      return false;
+    }
+    line_dest += c;
+  }
+
+  m_position += line_sep.size();
+  return true;
+}
 
 // 00147300
 static bool CheckChar(char ch)
 {
   return ch != '\r' && ch != '\n' && ch != '\t' && ch != ' ';
-}
-
-CScriptInterpreter::CScriptInterpreter()
-{
-  // TODO
 }
 
 void CScriptInterpreter::Run()

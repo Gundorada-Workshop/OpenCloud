@@ -34,6 +34,9 @@ struct input_str
     ++m_position;
     return m_position <= m_length;
   }
+
+  // 00146290
+  bool GetLine(std::string& line_dest, const std::string line_sep = "\r\n");
 };
 
 struct SPI_STACK
