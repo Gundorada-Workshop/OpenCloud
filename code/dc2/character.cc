@@ -1,4 +1,5 @@
 #include "common/log.h"
+#include "common/debug.h"
 
 #include "dc2/character.h"
 #include "dc2/mg_lib.h"
@@ -7,7 +8,7 @@
 set_log_channel("character")
 
 // 00172DE0
-void CCharacter2::SetPosition(glm::vec4& v)
+void CCharacter2::SetPosition(vec4& v)
 {
   log_trace("CCharacter2::{}({})", __func__, fmt::ptr(&v));
 
@@ -15,7 +16,7 @@ void CCharacter2::SetPosition(glm::vec4& v)
 }
 
 // 00172DE0
-void CCharacter2::SetPosition(float x, float y, float z)
+void CCharacter2::SetPosition(f32 x, f32 y, f32 z)
 {
   log_trace("CCharacter2::{}({}, {}, {})", __func__, x, y, z);
 
@@ -23,11 +24,12 @@ void CCharacter2::SetPosition(float x, float y, float z)
 }
 
 // 00172F60
-_UNKNOWNPOINTER CCharacter2::Draw()
+unkptr CCharacter2::Draw()
 {
   log_trace("CCharacter2::{}()", __func__);
 
   todo;
+
   return nullptr;
 }
 
@@ -35,12 +37,12 @@ CCharacter2::CCharacter2()
 {
   for (auto& v : m_unk_field_140)
   {
-    v = glm::ivec4(0, 0, -1, 0);
+    v = ivec4(0, 0, -1, 0);
   }
 }
 
 // 001731F0
-_UNKNOWNPOINTER CCharacter2::DrawDirect()
+unkptr CCharacter2::DrawDirect()
 {
   log_trace("CCharacter2::{}()", __func__);
 
@@ -56,7 +58,7 @@ void CCharacter2::Initialize()
 }
 
 // 00173170
-float CCharacter2::GetCameraDist()
+f32 CCharacter2::GetCameraDist()
 {
   log_trace("CCharacter2::{}()", __func__);
 
@@ -74,21 +76,21 @@ bool CCharacter2::DrawStep()
 }
 
 // 001751D0
-void CCharacter2::LoadPack(void* file_buf, char* file_name, mgCMemory* mem1, mgCMemory* mem2, mgCMemory* mem3, _DWORD i, CCharacter2* character2)
+void CCharacter2::LoadPack(void* file_buf, char* file_name, mgCMemory* mem1, mgCMemory* mem2, mgCMemory* mem3, unk32 i, CCharacter2* character2)
 {
   log_trace("CCharacter2::{}({}, {}, {}, {}, {}, {}, {})", __func__, fmt::ptr(file_buf), file_name, fmt::ptr(mem1), fmt::ptr(mem2), fmt::ptr(mem3), i, fmt::ptr(character2));
 
   LoadChrFile(file_buf, file_name, mem1, mem2, mem3, i, character2, true);
 }
 // 00175200
-void CCharacter2::LoadPackNoLine(void* file_buf, char* file_name, mgCMemory* mem1, mgCMemory* mem2, mgCMemory* mem3, _DWORD i, CCharacter2* character2)
+void CCharacter2::LoadPackNoLine(void* file_buf, char* file_name, mgCMemory* mem1, mgCMemory* mem2, mgCMemory* mem3, unk32 i, CCharacter2* character2)
 {
   log_trace("CCharacter2::{}({}, {}, {}, {}, {}, {}, {})", __func__, fmt::ptr(file_buf), file_name, fmt::ptr(mem1), fmt::ptr(mem2), fmt::ptr(mem3), i, fmt::ptr(character2));
 
   LoadChrFile(file_buf, file_name, mem1, mem2, mem3, i, character2, false);
 }
 // 00175230
-void CCharacter2::LoadChrFile(void* file_buf, char* file_name, mgCMemory* mem1, mgCMemory* mem2, mgCMemory* mem3, _DWORD i, CCharacter2* character2, bool b)
+void CCharacter2::LoadChrFile(void* file_buf, char* file_name, mgCMemory* mem1, mgCMemory* mem2, mgCMemory* mem3, unk32 i, CCharacter2* character2, bool b)
 {
   log_trace("CCharacter2::{}({}, {}, {}, {}, {}, {}, {}, {})", __func__, fmt::ptr(file_buf), file_name, fmt::ptr(mem1), fmt::ptr(mem2), fmt::ptr(mem3), i, fmt::ptr(character2), b);
 
@@ -96,14 +98,14 @@ void CCharacter2::LoadChrFile(void* file_buf, char* file_name, mgCMemory* mem1, 
 }
 
 // 00168410
-int CCharacter2::GetMotionStatus()
+sint CCharacter2::GetMotionStatus()
 {
   log_trace("CCharacter2::{}()", __func__);
 
   return m_motion_status;
 }
 // 00168420
-_UNKNOWNPOINTER CCharacter2::GetNowMotionName()
+unkptr CCharacter2::GetNowMotionName()
 {
   log_trace("CCharacter2::{}()", __func__);
 
@@ -126,7 +128,7 @@ bool CCharacter2::CheckMotionEnd()
 }
 
 // 00168440
-float CCharacter2::GetNowFrameWait()
+f32 CCharacter2::GetNowFrameWait()
 {
   log_trace("CCharacter2::{}()", __func__);
 
@@ -134,7 +136,7 @@ float CCharacter2::GetNowFrameWait()
 }
 
 // 00173890
-float CCharacter2::GetChgStepWait()
+f32 CCharacter2::GetChgStepWait()
 {
   log_trace("CCharacter2::{}()", __func__);
 
@@ -148,7 +150,7 @@ float CCharacter2::GetChgStepWait()
 
 
 // 00168450
-void CCharacter2::SetNowFrame(float now_frame)
+void CCharacter2::SetNowFrame(f32 now_frame)
 {
   log_trace("CCharacter2::{}({})", __func__, now_frame);
 
@@ -156,7 +158,7 @@ void CCharacter2::SetNowFrame(float now_frame)
 }
 
 // 001739B0
-void CCharacter2::SetNowFrameWeight(float weight)
+void CCharacter2::SetNowFrameWeight(f32 weight)
 {
   log_trace("CCharacter2::{}({})", __func__, weight);
 
@@ -173,7 +175,7 @@ void CCharacter2::SetNowFrameWeight(float weight)
 }
 
 // 00168460
-float CCharacter2::GetNowFrame()
+f32 CCharacter2::GetNowFrame()
 {
   log_trace("CCharacter2::{}()", __func__);
 
@@ -181,7 +183,7 @@ float CCharacter2::GetNowFrame()
 }
 
 // 00175160
-float CCharacter2::GetWaitToFrame(const char* c, float f)
+f32 CCharacter2::GetWaitToFrame(const char* c, f32 f)
 {
   log_trace("CCharacter2::{}({}, {})", __func__, c, f);
 
@@ -190,7 +192,7 @@ float CCharacter2::GetWaitToFrame(const char* c, float f)
 }
 
 // 00173930
-void CCharacter2::SetMotion(_DWORD i1, _DWORD i2)
+void CCharacter2::SetMotion(unk32 i1, unk32 i2)
 {
   log_trace("CCharacter2::{}({}, {})", __func__, i1, i2);
 
@@ -198,7 +200,7 @@ void CCharacter2::SetMotion(_DWORD i1, _DWORD i2)
 }
 
 // 001739A0
-void CCharacter2::SetMotion(char* c, int i)
+void CCharacter2::SetMotion(char* c, sint i)
 {
   log_trace("CCharacter2::{}({}, {})", __func__, c, i);
 
@@ -217,7 +219,7 @@ void CCharacter2::ResetMotion()
 }
 
 // 00173860
-void CCharacter2::SetStep(float frame_step)
+void CCharacter2::SetStep(f32 frame_step)
 {
   log_trace("CCharacter2::{}()", __func__);
 
@@ -225,7 +227,7 @@ void CCharacter2::SetStep(float frame_step)
 }
 
 // 00168470
-float CCharacter2::GetStep()
+f32 CCharacter2::GetStep()
 {
   log_trace("CCharacter2::{}()", __func__);
 
@@ -233,7 +235,7 @@ float CCharacter2::GetStep()
 }
 
 // 00173840
-float CCharacter2::GetDefaultStep()
+f32 CCharacter2::GetDefaultStep()
 {
   log_trace("CCharacter2::{}()", __func__);
 
@@ -264,7 +266,7 @@ bool CCharacter2::GetFadeFlag()
 }
 
 // 00173610
-_UNKNOWNPOINTER CCharacter2::DrawShadowDirect()
+unkptr CCharacter2::DrawShadowDirect()
 {
   log_trace("CCharacter2::{}()", __func__);
 
@@ -308,11 +310,11 @@ void CCharacter2::ShadowStep()
 }
 
 // 001743C0
-void CCharacter2::SetWind(float velocity, glm::vec4& direction)
+void CCharacter2::SetWind(f32 velocity, vec4& direction)
 {
   log_trace("CCharacter2::{}({}, {})", __func__, velocity, fmt::ptr(&direction));
 
-  for (int i = 0; i < m_n_unk_field_130; ++i)
+  for (sint i = 0; i < m_n_unk_field_130; ++i)
   {
     m_unk_field_130[i].SetWind(velocity, direction);
   }
@@ -323,14 +325,14 @@ void CCharacter2::ResetWind()
 {
   log_trace("CCharacter2::{}()", __func__);
 
-  for (int i = 0; i < m_n_unk_field_130; ++i)
+  for (sint i = 0; i < m_n_unk_field_130; ++i)
   {
     m_unk_field_130[i].ResetWind();
   }
 }
 
 // 001744A0
-void CCharacter2::SetFloor(float floor)
+void CCharacter2::SetFloor(f32 floor)
 {
   log_trace("CCharacter2::{}({})", __func__, floor);
 
@@ -370,7 +372,7 @@ void CCharacter2::DrawEffect()
 }
 
 // 00173A40
-void CCharacter2::SetMotionPara(char* c, int i1, s32 i2)
+void CCharacter2::SetMotionPara(char* c, sint i1, s32 i2)
 {
   log_trace("CCharacter2::{}({}, {}, {})", __func__, c, i1, i2);
 
@@ -378,7 +380,7 @@ void CCharacter2::SetMotionPara(char* c, int i1, s32 i2)
 }
 
 // 00177f20
-static bool _SKIN_IMG(SPI_STACK* stack, int stack_count)
+static bool _SKIN_IMG(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -388,7 +390,7 @@ static bool _SKIN_IMG(SPI_STACK* stack, int stack_count)
 }
 
 // 00177f80
-static bool _SKIN_IMG_END(SPI_STACK* stack, int stack_count)
+static bool _SKIN_IMG_END(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -398,7 +400,7 @@ static bool _SKIN_IMG_END(SPI_STACK* stack, int stack_count)
 }
 
 // 00177f90
-static bool _SKIN_MODEL(SPI_STACK* stack, int stack_count)
+static bool _SKIN_MODEL(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -408,7 +410,7 @@ static bool _SKIN_MODEL(SPI_STACK* stack, int stack_count)
 }
 
 // 00178170
-static bool _SKIN_MOTION(SPI_STACK* stack, int stack_count)
+static bool _SKIN_MOTION(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -431,7 +433,7 @@ CDynamicAnime* dynNowDA{ nullptr };
 mgCMemory* dynStack{ nullptr };
 
 // 0017b160
-static bool dynFRAME_START(SPI_STACK* stack, int stack_count)
+static bool dynFRAME_START(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -441,7 +443,7 @@ static bool dynFRAME_START(SPI_STACK* stack, int stack_count)
 }
 
 // 0017b190
-static bool dynFRAME(SPI_STACK* stack, int stack_count)
+static bool dynFRAME(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -451,7 +453,7 @@ static bool dynFRAME(SPI_STACK* stack, int stack_count)
 }
 
 // 0017b210
-static bool dynFRAME_END(SPI_STACK* stack, int stack_count)
+static bool dynFRAME_END(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -460,22 +462,24 @@ static bool dynFRAME_END(SPI_STACK* stack, int stack_count)
 }
 
 // 0017b220
-static bool dynVERTEX_START(SPI_STACK* stack, int stack_count)
+static bool dynVERTEX_START(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  const int var = spiGetStackInt(stack);
+  const sint var = spiGetStackInt(stack);
   dynNowDA->NewVertexTable(var, dynStack);
 
   return true;
 }
 
 // 0017b300
-static bool dynVERTEX_L(SPI_STACK* stack, int stack_count)
+static bool dynVERTEX_L(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  const int frame_id = spiGetStackInt(stack);
+  const sint frame_id = spiGetStackInt(stack);
+
+  unused_v(frame_id);
 
   vec3 vec{ };
   spiGetStackVector(vec, ++stack);
@@ -486,7 +490,7 @@ static bool dynVERTEX_L(SPI_STACK* stack, int stack_count)
 }
 
 // 0017b390
-static bool dynVERTEX_END(SPI_STACK* stack, int stack_count)
+static bool dynVERTEX_END(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -496,7 +500,7 @@ static bool dynVERTEX_END(SPI_STACK* stack, int stack_count)
 }
 
 // 0017b410
-static bool dynFIX_VERTEX_START(SPI_STACK* stack, int stack_count)
+static bool dynFIX_VERTEX_START(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -506,7 +510,7 @@ static bool dynFIX_VERTEX_START(SPI_STACK* stack, int stack_count)
 }
 
 // 0017b530
-static bool dynFIX_VERTEX(SPI_STACK* stack, int stack_count)
+static bool dynFIX_VERTEX(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -516,7 +520,7 @@ static bool dynFIX_VERTEX(SPI_STACK* stack, int stack_count)
 }
 
 // 0017b5c0
-static bool dynFIX_VERTEX_C(SPI_STACK* stack, int stack_count)
+static bool dynFIX_VERTEX_C(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -526,7 +530,7 @@ static bool dynFIX_VERTEX_C(SPI_STACK* stack, int stack_count)
 }
 
 // 0017b650
-static bool dynFIX_VERTEX_S(SPI_STACK* stack, int stack_count)
+static bool dynFIX_VERTEX_S(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -536,7 +540,7 @@ static bool dynFIX_VERTEX_S(SPI_STACK* stack, int stack_count)
 }
 
 // 0017b6e0
-static bool dynFIX_VERTEX_END(SPI_STACK* stack, int stack_count)
+static bool dynFIX_VERTEX_END(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -546,7 +550,7 @@ static bool dynFIX_VERTEX_END(SPI_STACK* stack, int stack_count)
 }
 
 // 0017b8b0
-static bool dynFRAME_POSE(SPI_STACK* stack, int stack_count)
+static bool dynFRAME_POSE(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -556,7 +560,7 @@ static bool dynFRAME_POSE(SPI_STACK* stack, int stack_count)
 }
 
 // 0017b8b0
-static bool dynFRAME_POSE_L(SPI_STACK* stack, int stack_count)
+static bool dynFRAME_POSE_L(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -566,7 +570,7 @@ static bool dynFRAME_POSE_L(SPI_STACK* stack, int stack_count)
 }
 
 // 0017b970
-static bool dynDRAW_FRAME(SPI_STACK* stack, int stack_count)
+static bool dynDRAW_FRAME(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -576,7 +580,7 @@ static bool dynDRAW_FRAME(SPI_STACK* stack, int stack_count)
 }
 
 // 0017b9f0
-static bool dynBIND_VERTEX_START(SPI_STACK* stack, int stack_count)
+static bool dynBIND_VERTEX_START(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -586,7 +590,7 @@ static bool dynBIND_VERTEX_START(SPI_STACK* stack, int stack_count)
 }
 
 // 0017ba20
-static bool dynBIND_VERTEX(SPI_STACK* stack, int stack_count)
+static bool dynBIND_VERTEX(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -596,7 +600,7 @@ static bool dynBIND_VERTEX(SPI_STACK* stack, int stack_count)
 }
 
 // 0017bb80
-static bool dynBIND_VERTEX_END(SPI_STACK* stack, int stack_count)
+static bool dynBIND_VERTEX_END(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -605,18 +609,18 @@ static bool dynBIND_VERTEX_END(SPI_STACK* stack, int stack_count)
 }
 
 // 0017bb90
-static bool dynBOUNDING_BOX_START(SPI_STACK* stack, int stack_count)
+static bool dynBOUNDING_BOX_START(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  const int var = spiGetStackInt(stack);
+  const sint var = spiGetStackInt(stack);
   dynNowDA->NewBoundingBoxTable(var, dynStack);
 
   return true;
 }
 
 // 0017bbc0
-static bool dynBOUNDING_BOX(SPI_STACK* stack, int stack_count)
+static bool dynBOUNDING_BOX(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -626,7 +630,7 @@ static bool dynBOUNDING_BOX(SPI_STACK* stack, int stack_count)
 }
 
 // 0017bc70
-static bool dynBOUNDING_BOX_END(SPI_STACK* stack, int stack_count)
+static bool dynBOUNDING_BOX_END(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -635,18 +639,18 @@ static bool dynBOUNDING_BOX_END(SPI_STACK* stack, int stack_count)
 }
 
 // 0017bc80
-static bool dynCOLLISION_START(SPI_STACK* stack, int stack_count)
+static bool dynCOLLISION_START(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  const int var = spiGetStackInt(stack);
+  const sint var = spiGetStackInt(stack);
   dynNowDA->NewCollisionTable(var, dynStack);
 
   return true;
 }
 
 // 0017bcb0
-static bool dynCOLLISION(SPI_STACK* stack, int stack_count)
+static bool dynCOLLISION(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -656,7 +660,7 @@ static bool dynCOLLISION(SPI_STACK* stack, int stack_count)
 }
 
 // 0017be60
-static bool dynCOLLISION_END(SPI_STACK* stack, int stack_count)
+static bool dynCOLLISION_END(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -665,7 +669,7 @@ static bool dynCOLLISION_END(SPI_STACK* stack, int stack_count)
 }
 
 // 0017be70
-static bool dynGRAVITY(SPI_STACK* stack, int stack_count)
+static bool dynGRAVITY(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -675,7 +679,7 @@ static bool dynGRAVITY(SPI_STACK* stack, int stack_count)
 }
 
 // 0017bed0
-static bool dynWIND(SPI_STACK* stack, int stack_count)
+static bool dynWIND(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -712,28 +716,28 @@ const std::array<SPI_TAG_PARAM, 27> dynmc_tag =
   NULL, nullptr
 };
 
-void CDynamicAnime::Load(const char* script, int script_size, mgCFrame* frame, mgCMemory* stack)
+void CDynamicAnime::Load(const char* script, sint script_size, mgCFrame* frame, mgCMemory* stack)
 {
   log_trace("CDynamicAnime::Load({}, {}, {}, {})", fmt::ptr(script), script_size, fmt::ptr(frame), fmt::ptr(stack));
 
   todo;
 }
 
-void CDynamicAnime::NewVertexTable(int unk, mgCMemory* stack)
+void CDynamicAnime::NewVertexTable(sint unk, mgCMemory* stack)
 {
   log_trace("CDynamicAnime::NewVertexTable({}, {})", unk, fmt::ptr(stack));
 
   todo;
 }
 
-void CDynamicAnime::NewBoundingBoxTable(int unk, mgCMemory* stack)
+void CDynamicAnime::NewBoundingBoxTable(sint unk, mgCMemory* stack)
 {
   log_trace("CDynamicAnime::NewBoundingBoxTable({}, {})", unk, fmt::ptr(stack));
 
   todo;
 }
 
-void CDynamicAnime::NewCollisionTable(int unk, mgCMemory* stack)
+void CDynamicAnime::NewCollisionTable(sint unk, mgCMemory* stack)
 {
   log_trace("CDynamicAnime::NewCollisionTable({}, {})", unk, fmt::ptr(stack));
 
@@ -741,12 +745,12 @@ void CDynamicAnime::NewCollisionTable(int unk, mgCMemory* stack)
 }
 
 // 00179E70
-void CDynamicAnime::SetWind(float velocity, glm::vec4& direction)
+void CDynamicAnime::SetWind(f32 velocity, vec4& direction)
 {
   log_trace("CDynamicAnime::SetWind({}, {})", velocity, fmt::ptr(&direction));
 
   m_wind_velocity = velocity;
-  m_wind_direction = glm::normalize(direction);
+  m_wind_direction = normalize(direction);
 }
 
 // 00179E80
@@ -758,7 +762,7 @@ void CDynamicAnime::ResetWind()
 }
 
 // 00179E90
-void CDynamicAnime::SetFloor(float floor)
+void CDynamicAnime::SetFloor(f32 floor)
 {
   log_trace("CDynamicAnime::SetFloor({})", floor);
 
