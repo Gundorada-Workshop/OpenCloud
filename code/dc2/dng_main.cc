@@ -224,11 +224,11 @@ void CLockOnModel::Step()
   log_trace("CLockOnModel::Step()");
 
   // NOTE: DEGREES_TO_RADIANS(4.0f) == 0x3D8EFA35
-  m_unk_field_88 += DEGREES_TO_RADIANS(4.0f) * GAME_DT * GAME_FPS;
+  m_unk_field_88 += common::deg_to_rad(4.0f) * GAME_DT * GAME_FPS;
 
-  if (m_unk_field_88 > DEGREES_TO_RADIANS(180.0f))
+  if (m_unk_field_88 > common::deg_to_rad(180.0f))
   {
-    m_unk_field_88 -= DEGREES_TO_RADIANS(360.0f);
+    m_unk_field_88 -= common::deg_to_rad(360.0f);
   }
 }
 

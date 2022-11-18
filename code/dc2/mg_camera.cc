@@ -209,13 +209,13 @@ void mgCCameraFollow::Step(int steps)
   else
   {
     // Clamp m_angle_soon to [0, 360.0] degrees in radians
-    if (m_angle_soon > DEGREES_TO_RADIANS(360.0f))
+    if (m_angle_soon > common::deg_to_rad(360.0f))
     {
-      m_angle_soon -= DEGREES_TO_RADIANS(360.0f);
+      m_angle_soon -= common::deg_to_rad(360.0f);
     }
     if (m_angle_soon < 0)
     {
-      m_angle_soon += DEGREES_TO_RADIANS(360.0f);
+      m_angle_soon += common::deg_to_rad(360.0f);
     }
 
     for (int i = 0; i < steps; ++i)

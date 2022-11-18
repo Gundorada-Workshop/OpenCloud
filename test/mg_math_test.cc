@@ -18,13 +18,13 @@ TEST(mgMathTest, mgAngleCmp)
 
 TEST(mgMathTest, mgAngleLimit)
 {
-  EXPECT_FLOAT_EQ(mgAngleLimit(DEGREES_TO_RADIANS(0.0f)), DEGREES_TO_RADIANS(0.0f));
-  EXPECT_FLOAT_EQ(mgAngleLimit(DEGREES_TO_RADIANS(90.0f)), DEGREES_TO_RADIANS(90.0f));
-  EXPECT_FLOAT_EQ(mgAngleLimit(DEGREES_TO_RADIANS(-90.0f)), DEGREES_TO_RADIANS(-90.0f));
-  EXPECT_FLOAT_EQ(mgAngleLimit(DEGREES_TO_RADIANS(225.0f)), DEGREES_TO_RADIANS(-135.0f));
-  EXPECT_FLOAT_EQ(mgAngleLimit(DEGREES_TO_RADIANS(-225.0f)), DEGREES_TO_RADIANS(135.0f));
-  EXPECT_FLOAT_EQ(mgAngleLimit(DEGREES_TO_RADIANS(270.0f)), DEGREES_TO_RADIANS(-90.0f));
-  EXPECT_FLOAT_EQ(mgAngleLimit(DEGREES_TO_RADIANS(-270.0f)), DEGREES_TO_RADIANS(90.0f));
-  EXPECT_FLOAT_EQ(mgAngleLimit(DEGREES_TO_RADIANS(1100.0f)), DEGREES_TO_RADIANS(20.0f));
-  EXPECT_FLOAT_EQ(mgAngleLimit(DEGREES_TO_RADIANS(-1100.0f)), DEGREES_TO_RADIANS(-20.0f));
+  EXPECT_FLOAT_EQ(mgAngleLimit(common::deg_to_rad(0.0f)), common::deg_to_rad(0.0f));
+  EXPECT_FLOAT_EQ(mgAngleLimit(common::deg_to_rad(90.0f)), common::deg_to_rad(90.0f));
+  EXPECT_FLOAT_EQ(mgAngleLimit(common::deg_to_rad(-90.0f)), common::deg_to_rad(-90.0f));
+  EXPECT_FLOAT_EQ(mgAngleLimit(common::deg_to_rad(225.0f)), common::deg_to_rad(-135.0f));
+  EXPECT_FLOAT_EQ(mgAngleLimit(common::deg_to_rad(-225.0f)), common::deg_to_rad(135.0f));
+  EXPECT_FLOAT_EQ(mgAngleLimit(common::deg_to_rad(270.0f)), common::deg_to_rad(-90.0f));
+  EXPECT_FLOAT_EQ(mgAngleLimit(common::deg_to_rad(-270.0f)), common::deg_to_rad(90.0f));
+  EXPECT_FLOAT_EQ(mgAngleLimit(common::deg_to_rad(1100.0f)), common::deg_to_rad(20.0f));
+  EXPECT_FLOAT_EQ(mgAngleLimit(common::deg_to_rad(-1100.0f)), common::deg_to_rad(-20.0f));
 }
