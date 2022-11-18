@@ -1,19 +1,39 @@
 #pragma once
 #include <functional>
 
+#include "common/debug.h"
 #include "common/log.h"
 #include "common/types.h"
 
 // ~ 00146290 - 00147450
-
-// THIS FILE TODO
-struct input_str {};
 
 enum SPI_STACK_DATA_TYPE
 {
   SPI_DATA_TYPE_STR = 0,
   SPI_DATA_TYPE_INT = 1,
   SPI_DATA_TYPE_FLT = 2,
+};
+
+struct input_str
+{
+  // 0
+  char* m_string{};
+  // 4
+  s32 m_length{};
+  // 8
+  s32 m_position{};
+
+  inline void back()
+  {
+    m_position = std::max(m_position - 1, 0);
+  }
+
+  inline bool get(char* dest)
+  {
+    *dest = m_string[m_position];
+    ++m_position;
+    return m_position <= m_length;
+  }
 };
 
 struct SPI_STACK
@@ -54,8 +74,6 @@ void spiGetStackVector(vec3 v, SPI_STACK* stack);
 class CScriptInterpreter
 {
 public:
-  // 001469f0
-  CScriptInterpreter();
 
   // 001467b0
   void SetTag(const SPI_TAG_PARAM* param)
@@ -79,4 +97,14 @@ public:
 
   // 00146760
   sint hash(char* str);
+
+
+  // 0
+  input_str m_input_str{};
+  // C
+  _DWORD m_unk_field_C{};
+  // 14
+  _DWORD m_unk_field_14{};
+  // 2C
+  _DWORD m_unk_field_2C{};
 };
