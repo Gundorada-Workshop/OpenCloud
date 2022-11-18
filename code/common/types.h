@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <cstddef>
 
+#include <glm/glm.hpp>
+
 // Enum class bitwise operators
 #define IMPLEMENT_ENUM_CLASS_BITWISE_OPERATORS(type_)                                                                  \
   inline constexpr type_ operator&(type_ lhs, type_ rhs)                                                        \
@@ -65,20 +67,20 @@ using schar  = signed char;
 using sint   = signed int;
 using ssize  = std::intmax_t;
 
-template<typename usize S>
-using ivec = std::array<s32, S>;
-
-using ivec4  = ivec<4>;
-using ivec3  = ivec<3>;
-
 // floating point
 using f32 = float;
 using f64 = double;
 
-template<typename usize S>
-using vec = std::array<f32, S>;
+// vectors
+using vec2 = glm::vec2;
+using vec3 = glm::vec3;
+using vec4 = glm::vec4;
 
-using vec4 = vec<4>;
-using vec3 = vec<3>;
+using uvec2 = glm::uvec2;
+using uvec3 = glm::uvec3;
+using uvec4 = glm::uvec4;
 
-using matrix4 = std::array<vec4, 4>;
+// matrices
+using matrix2 = glm::mat2;
+using matrix3 = glm::mat3;
+using matrix4 = glm::mat4;
