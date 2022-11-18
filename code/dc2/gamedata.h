@@ -4,6 +4,10 @@
 
 // ~ 001937C0 - 00196130
 
+class CGameData;
+
+// 01E69570
+extern CGameData GameItemDataManage;
 
 enum class ECommonItemDataType : u8
 {
@@ -556,9 +560,9 @@ class CDataWeapon
 public:
   // memset all to 0 (except field 0 and 2)
   // 0
-  s16 m_unk_field_0{ 20 };
+  s16 m_whp_max{ 20 };
   // 2
-  s16 m_unk_field_2{ 20 };
+  s16 m_abs_max{ 20 };
   // 4
   s16 m_unk_field_4{ 0 };
   // 6
@@ -752,6 +756,9 @@ CDataRoboPart* GetRoboPartInfoData(ECommonItemData index);
 
 // 00195C60
 CDataBreedFish* GetBreedFishInfoData(ECommonItemData index);
+
+// 00195EC0
+ECommonItemDataType GetItemDataType(ECommonItemData index);
 
 // 00196040
 std::string GetItemMessage(ECommonItemData index);

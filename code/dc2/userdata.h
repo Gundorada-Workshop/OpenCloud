@@ -106,6 +106,20 @@ struct SGameDataUsedWeaponSub
   COMMON_GAGE m_abs_gage{};
   // 10
   s16 m_level{ 0 };
+  // 12
+  s16 m_unk_field_12{};
+  // 14
+  s16 m_unk_field_14{};
+  // 16
+  std::array<s16, 8> m_unk_field_16{};
+  // 28
+  s32 m_unk_field_28{};
+  // 2C
+  s16 m_unk_field_2C{};
+  // 2E
+  s16 m_unk_field_2E{};
+  // 30
+  s16 m_unk_field_30{};
   // 33
   std::array<char, 0x20> m_name{ 0 };
 };
@@ -161,13 +175,15 @@ public:
   bool IsFishingRod();
   // 00199830
   void TimeCheck(s32 delta);
+  // 00199A50
+  bool CopyDataWeapon(ECommonItemData item_id);
 
   // 0
   EUsedItemType m_type{ static_cast<EUsedItemType>(0) };
   // 2
   ECommonItemData m_common_index{};
   // 4
-  s8 m_unk_field_4{};
+  ECommonItemDataType m_item_data_type{};
   // 5
   bool m_unk_field_5{};
 
