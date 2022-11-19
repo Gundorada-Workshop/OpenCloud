@@ -1,6 +1,7 @@
 #include <array>
 #include <unordered_map>
 
+#include "common/file_helpers.h"
 #include "common/debug.h"
 #include "common/log.h"
 #include "common/types.h"
@@ -630,6 +631,25 @@ s32 CGameData::LoadData()
   }
 
   return m_unk_field_0;
+}
+
+// 00195630
+void CGameData::LoadItemSystemMes(Language language)
+{
+  log_trace("CGameData::{}({})", __func__, std::to_underlying(language));
+
+  using namespace common::file_helpers;
+  auto file_path = resolve_data_path("menu/cfg7/comdatmes{}.cfg", std::to_underlying(language));
+
+  char* file_buf = nullptr; // LoadFile2(file_path, ...)
+  usize file_size = 0;
+  if (file_buf != nullptr)
+  {
+    CScriptInterpreter script_interpreter{};
+    script_interpreter.SetTag(gamedata_tag.data());
+    script_interpreter.SetScript(file_buf, file_size);
+    script_interpreter.Run();
+  }
 }
 
 // 00195770

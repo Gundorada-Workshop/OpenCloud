@@ -5,6 +5,7 @@
 // ~ 001937C0 - 00196130
 
 class CGameData;
+enum class Language;
 
 // 01E69570
 extern CGameData GameItemDataManage;
@@ -683,6 +684,8 @@ public:
 
   // 00195540
   s32 LoadData();
+  // 00195630
+  void LoadItemSystemMes(Language language);
   // 00195770
   SDataItemCommon* GetCommonData(ECommonItemData index);
   // 001957E0
