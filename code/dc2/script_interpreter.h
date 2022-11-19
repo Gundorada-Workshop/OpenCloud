@@ -107,10 +107,16 @@ struct SPI_TAG_HASH
 class CScriptInterpreter
 {
 public:
+  // 00146720
+  void Run();
+
+  // 001467B0
+  void SetTag(const SPI_TAG_PARAM* param);
 
   // 00146980
-  void SetScript(const char* script, sint script_size);
+  void SetScript(char* script, usize script_len);
 
+private:
   // 00146500
   void PushStack(SPI_STACK stack_item);
 
@@ -123,17 +129,8 @@ public:
   // 00146700
   void SetStringBuff(char* buff, ssize buff_size);
 
-  // 00146720
-  void Run();
-
   // 00146760
   sint hash(const char* str);
-
-  // 001467B0
-  void SetTag(const SPI_TAG_PARAM* param);
-
-  // 00146980
-  void SetScript(char* script, usize script_len);
 
   // 00146A50
   sint GetArgsBin();
@@ -143,8 +140,7 @@ public:
 
   // 00147080
   bool SearchCommand(ssize* command_index_dest);
-
-
+private:
   // 0
   input_str m_input_str{};
   // C

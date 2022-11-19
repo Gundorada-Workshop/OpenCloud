@@ -456,8 +456,8 @@ static CMap* _mapMap{ nullptr };
 // 00376e10
 static mgCMemory* _mapStack{ nullptr };
 
-// 00376e40
-void CMap::LoadCfgFile(const char* file, int size, mgCMemory* map_stack)
+// 00376E40
+void CMap::LoadCfgFile(char* file, int size, mgCMemory* map_stack)
 {
   CScriptInterpreter interpreter{ };
 

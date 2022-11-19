@@ -71,7 +71,7 @@ public:
   // 0012E850
   void ReloadTexture(usize texb, sceVif1Packet* vif1_packet);
   // 0013D8C0
-  void LoadCFGFile(const char* file, int size, mgCMemory* text_anime_stack, mgCTextureAnime* tex_anime);
+  void LoadCFGFile(char* file, int size, mgCMemory* text_anime_stack, mgCTextureAnime* tex_anime);
 
   // 0
   void* m_vram_top;
