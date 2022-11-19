@@ -108,19 +108,14 @@ class CScriptInterpreter
 {
 public:
 
-  void SetScript(const char* script, sint script_size)
-  {
-    // TODO
-  }
+  // 00146980
+  void SetScript(const char* script, sint script_size);
 
   // 00146500
   void PushStack(SPI_STACK stack_item);
 
   // 00146590
-  sint GetNextTAG(sint)
-  {
-    return 0; // TODO
-  }
+  sint GetNextTAG(bool execute = true);
 
   // 001466F0
   void SetStack(SPI_STACK* stack, ssize stack_size);
@@ -139,6 +134,9 @@ public:
 
   // 00146980
   void SetScript(char* script, usize script_len);
+
+  // 00146A50
+  sint GetArgsBin();
 
   // 00146C70
   sint GetArgs();

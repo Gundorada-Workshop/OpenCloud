@@ -143,6 +143,66 @@ void CScriptInterpreter::PushStack(SPI_STACK stack_item)
   ++m_stack_curr;
 }
 
+// 00146590
+sint CScriptInterpreter::GetNextTAG(bool execute)
+{
+  log_trace("CScriptInterpreter::{}({})", __func__, execute);
+
+  if (m_tag_param == nullptr)
+  {
+    return -1;
+  }
+
+  char string_buff[0x2800];
+  SetStringBuff(string_buff, std::size(string_buff));
+
+  while (true)
+  {
+    SPI_STACK spi_stack_buff[0x40];
+    SetStack(spi_stack_buff, std::size(spi_stack_buff));
+
+    ssize command_index;
+    if (!SearchCommand(&command_index))
+    {
+      return -1;
+    }
+
+    if (m_binary_script)
+    {
+      uint arity = GetArgsBin();
+
+      if (command_index >= 0 && command_index < m_n_tag_param && execute)
+      {
+        auto fn = m_tag_param[command_index].func;
+        if (fn != nullptr)
+        {
+          fn(m_stack, arity);
+        }
+      }
+    }
+    else
+    {
+      if (command_index < 0 || command_index >= m_n_tag_param)
+      {
+        char c;
+        while (m_input_str.get(&c) && c != ';') {}
+        continue;
+      }
+
+      uint arity = GetArgs();
+      if (execute)
+      {
+        auto fn = m_tag_param[command_index].func;
+        if (fn != nullptr)
+        {
+          fn(m_stack, arity);
+        }
+      }
+    }
+    return command_index;
+  }
+}
+
 // 001466F0
 void CScriptInterpreter::SetStack(SPI_STACK* stack, ssize stack_size)
 {
@@ -170,7 +230,7 @@ void CScriptInterpreter::Run()
 {
   log_trace("CScriptInterpreter::{}()", __func__);
 
-  while(GetNextTAG(1) >= 0) { }
+  while(GetNextTAG(true) >= 0) { }
 }
 
 // 00146760
@@ -268,6 +328,15 @@ void CScriptInterpreter::SetScript(char* script, usize script_len)
   {
     PreProcess(m_input_str);
   }
+}
+
+// 00146A50
+sint CScriptInterpreter::GetArgsBin()
+{
+  log_trace("CScriptInterpreter::{}()", __func__);
+
+  todo;
+  return 0;
 }
 
 // 00146C70
