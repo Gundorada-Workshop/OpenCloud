@@ -191,3 +191,192 @@ sint CScriptInterpreter::hash(char* str)
 
   return out;
 }
+
+// 00146C70
+sint CScriptInterpreter::GetArgs()
+{
+  log_trace("CScriptInterpreter::{}()", __func__);
+
+  // NOTE: There's a SkipSpace here, but it's done at the beginning of the loop anyways
+
+  bool args_not_terminated = true;
+  sint n_args = 0;
+  char arg_buf[0x100];
+  sint arg_buf_index = 0;
+  SPI_STACK parsed_arg;
+
+  while (args_not_terminated)
+  {
+    // 146CB8
+    if (!SkipSpace(m_input_str))
+    {
+      return n_args;
+    }
+
+    // 146CD0
+    bool string_arg = false;
+    char last_read;
+
+    while (true)
+    {
+      // 146CD4
+      if (!m_input_str.get(&last_read))
+      {
+        return n_args;
+      }
+
+      // 146CF4
+      string_arg = string_arg || (last_read == '"');
+
+      if (string_arg)
+      {
+        // NOTE: There's a special case where more than one character is read,
+        // probably for shift-jis, at 00146D20; we probably don't have to worry about that
+
+        if (last_read == '\\')
+        {
+          // An escape character! We'll want to expend the next character,
+          // if it is a quotation, so it doesn't count as the end of the string.
+
+          char next_char;
+          if (!m_input_str.get(&next_char) || next_char != '"')
+          {
+            // End of string or not a quotation; back up
+            m_input_str.back();
+          }
+          else
+          {
+            // Record the next character, not the escape character
+            last_read = next_char;
+          }
+        }
+      }
+
+      if (string_arg || (last_read != ',' && last_read != ';'))
+      {
+        // 146DD8
+        arg_buf[arg_buf_index++] = last_read;
+        continue;
+      }
+      else if (last_read == ';')
+      {
+        args_not_terminated = false;
+      }
+      break;
+    }
+
+    // 146DEC
+    if (arg_buf_index == 0 && last_read == ';')
+    {
+      return n_args;
+    }
+
+    // 146E00
+    arg_buf[arg_buf_index] = '\0';
+    ++n_args;
+
+    SPI_STACK_DATA_TYPE arg_type = SPI_DATA_TYPE_INT;
+    sint quote_count = 0;
+    bool bad_number_chars = false;
+    bool arg_invalid = false;
+
+    if (arg_buf[0] == '"')
+    {
+      ++quote_count;
+    }
+
+    if (arg_buf[arg_buf_index - 1] == '"')
+    {
+      arg_buf[arg_buf_index - 1] = '\0';
+      ++quote_count;
+    }
+
+    // NOTE: arg_buf_index moves from s2 -> s0
+    for (arg_buf_index = 0; arg_buf[arg_buf_index] != '\0'; ++arg_buf_index)
+    {
+      // 146E54
+      if (quote_count != 0)
+      {
+        continue;
+      }
+
+      char c = arg_buf[arg_buf_index];
+      if (c == '.')
+      {
+        arg_type = SPI_DATA_TYPE_FLT;
+      }
+
+      if (CheckChar(c))
+      {
+        // 146E90
+        if (c != '-' && c != '.' && c < '0' && c > '9')
+        {
+          bad_number_chars = true;
+        }
+      }
+
+      // 146EBC
+      if (!CheckChar(c))
+      {
+        arg_buf[arg_buf_index] = '\0';
+        break;
+      }
+    }
+
+    // 146EF4
+    if (quote_count == 2)
+    {
+      arg_type = SPI_DATA_TYPE_STR;
+    }
+
+    // 146F08
+    if ((bad_number_chars && arg_type != SPI_DATA_TYPE_STR) || arg_buf_index == 0)
+    {
+      arg_invalid = true;
+    }
+
+    parsed_arg.data_type = arg_type;
+
+    // 146F2C
+    if (arg_invalid)
+    {
+      parsed_arg.data_type = SPI_DATA_TYPE_INVALID;
+      parsed_arg.as_integer = 0;
+    }
+
+    // 146F44
+    switch (arg_type)
+    {
+      // 146F50
+      case SPI_DATA_TYPE_STR:
+      {
+        uint str_len = strlen(&arg_buf[1]);
+
+        if (m_string_buff_curr + str_len + 1 >= m_string_buff + m_n_string_buff)
+        {
+          log_warn("SPI string buffer over!!");
+        }
+        else
+        {
+          parsed_arg.as_string = m_string_buff_curr;
+          strcpy(m_string_buff_curr, &arg_buf[1]);
+        }
+        break;
+      }
+      // 146FD0
+      case SPI_DATA_TYPE_INT:
+        parsed_arg.as_integer = atoi(arg_buf);
+        break;
+      // 146FF0
+      case SPI_DATA_TYPE_FLT:
+        parsed_arg.as_float = static_cast<f32>(atof(arg_buf));
+        break;
+      default:
+        break;
+    }
+
+    PushStack(parsed_arg);
+  }
+
+  return n_args;
+}

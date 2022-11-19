@@ -12,6 +12,7 @@ enum SPI_STACK_DATA_TYPE
   SPI_DATA_TYPE_STR = 0,
   SPI_DATA_TYPE_INT = 1,
   SPI_DATA_TYPE_FLT = 2,
+  SPI_DATA_TYPE_INVALID = -1,
 };
 
 struct input_str
@@ -67,7 +68,11 @@ struct fmt::formatter<SPI_STACK> : fmt::formatter<std::string_view>
     {
       return fmt::format_to(ctx.out(), "{}", stack_data.as_float);
     }
-    return fmt::format_to(ctx.out(), "{}", stack_data.as_string);
+    if (stack_data.data_type == SPI_DATA_TYPE_STR)
+    {
+      return fmt::format_to(ctx.out(), "{}", stack_data.as_string);
+    }
+    return fmt::format_to(ctx.out(), "INVALID STACK DATA!!");
   }
 };
 
@@ -127,6 +132,9 @@ public:
 
   // 00146760
   sint hash(char* str);
+
+  // 00146C70
+  sint GetArgs();
 
 
   // 0
