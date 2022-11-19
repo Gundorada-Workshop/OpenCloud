@@ -128,28 +128,56 @@ static void PreProcess(input_str& str)
   }
 }
 
-void CScriptInterpreter::Run()
-{
-  while(GetNextTAG(1) > -1) { }
-}
-
 // 00146500
 void CScriptInterpreter::PushStack(SPI_STACK stack_item)
 {
   log_trace("CScriptInterpreter::{}({})", __func__, stack_item);
 
-  if (m_stack_current >= m_stack_top)
+  if (m_stack_curr >= m_n_stack)
   {
     log_warn("SPI stack over!!\n");
     return;
   }
 
-  m_stack[m_stack_current] = stack_item;
-  ++m_stack_current;
+  m_stack[m_stack_curr] = stack_item;
+  ++m_stack_curr;
 }
 
+// 001466F0
+void CScriptInterpreter::SetStack(SPI_STACK* stack, ssize stack_size)
+{
+  log_trace("CScriptInterpreter::{}({}, {})", __func__, fmt::ptr(stack), stack_size);
+
+  m_stack = stack;
+  m_n_stack = stack_size;
+
+  m_stack_curr = 0;
+}
+
+// 00146700
+void CScriptInterpreter::SetStringBuff(char* buff, ssize buff_size)
+{
+  log_trace("CScriptInterpreter::{}({}, {})", __func__, fmt::ptr(buff), buff_size);
+
+  m_string_buff = buff;
+  m_n_string_buff = buff_size;
+
+  m_string_buff_curr = m_string_buff;
+}
+
+// 00146720
+void CScriptInterpreter::Run()
+{
+  log_trace("CScriptInterpreter::{}()", __func__);
+
+  while(GetNextTAG(1) >= 0) { }
+}
+
+// 00146760
 sint CScriptInterpreter::hash(char* str)
 {
+  log_trace("CScriptInterpreter::{}({})", __func__, str);
+
   sint out = 0;
 
   while(*str != '\0')

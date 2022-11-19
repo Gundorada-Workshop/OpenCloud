@@ -107,9 +107,6 @@ public:
     // TODO
   }
 
-  // 00146720
-  void Run();
-
   // 00146500
   void PushStack(SPI_STACK stack_item);
 
@@ -119,6 +116,15 @@ public:
     return 0; // TODO
   }
 
+  // 001466F0
+  void SetStack(SPI_STACK* stack, ssize stack_size);
+
+  // 00146700
+  void SetStringBuff(char* buff, ssize buff_size);
+
+  // 00146720
+  void Run();
+
   // 00146760
   sint hash(char* str);
 
@@ -126,11 +132,17 @@ public:
   // 0
   input_str m_input_str{};
   // C
-  ssize m_stack_current{};
+  ssize m_stack_curr{};
   // 10
-  ssize m_stack_top{};
+  ssize m_n_stack{};
   // 14
   SPI_STACK* m_stack{};
+  // 18
+  ssize m_n_string_buff{};
+  // 1C
+  char* m_string_buff_curr{};
+  // 20
+  char* m_string_buff{};
   // 2C
   _DWORD m_unk_field_2C{};
 };
