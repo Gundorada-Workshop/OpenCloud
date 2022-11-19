@@ -97,15 +97,16 @@ void spiGetStackVector(vec3 v, SPI_STACK* stack);
 
 #define trace_script_call(stack, count) do { log_trace("{}({}, {})", __func__, fmt::ptr(stack), count); } while (0)
 
+struct SPI_TAG_HASH
+{
+  SPI_TAG_HASH* m_next_hash;
+  const char* m_tag_name;
+  usize m_index;
+};
+
 class CScriptInterpreter
 {
 public:
-
-  // 001467b0
-  void SetTag(const SPI_TAG_PARAM* param)
-  {
-    // TODO
-  }
 
   void SetScript(const char* script, sint script_size)
   {
@@ -131,7 +132,10 @@ public:
   void Run();
 
   // 00146760
-  sint hash(char* str);
+  sint hash(const char* str);
+
+  // 001467B0
+  void SetTag(const SPI_TAG_PARAM* param);
 
   // 00146980
   void SetScript(char* script, usize script_len);
@@ -156,6 +160,18 @@ public:
   char* m_string_buff{};
   // 24
   bool m_binary_script{};
+  // 28
+  ssize m_n_tag_param{};
   // 2C
-  _DWORD m_unk_field_2C{};
+  const SPI_TAG_PARAM* m_tag_param{ nullptr };
+  // 30
+  std::array<SPI_TAG_HASH*, 101>* m_p_hash_list;
+  // 40
+  std::array<SPI_TAG_HASH*, 101> m_hash_list;
+  // 1E0
+  std::array<SPI_TAG_HASH, 128> m_hash_buff;
+
+  // ?
+
+  // SIZE 0xED0
 };

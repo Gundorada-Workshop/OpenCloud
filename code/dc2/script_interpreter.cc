@@ -174,7 +174,7 @@ void CScriptInterpreter::Run()
 }
 
 // 00146760
-sint CScriptInterpreter::hash(char* str)
+sint CScriptInterpreter::hash(const char* str)
 {
   log_trace("CScriptInterpreter::{}({})", __func__, str);
 
@@ -190,6 +190,60 @@ sint CScriptInterpreter::hash(char* str)
   }
 
   return out;
+}
+
+// 001467B0
+void CScriptInterpreter::SetTag(const SPI_TAG_PARAM* param)
+{
+  log_trace("CScriptInterpreter::{}({})", __func__, fmt::ptr(param));
+
+  m_tag_param = param;
+  m_n_tag_param = 0;
+
+  while (m_tag_param[m_n_tag_param].tag_name != nullptr &&
+    m_tag_param[m_n_tag_param].tag_name[0] != '\0')
+  {
+    ++m_n_tag_param;
+  }
+
+  m_p_hash_list = nullptr;
+
+  if (m_n_tag_param >= m_hash_buff.size())
+  {
+    return;
+  }
+
+  m_p_hash_list = &m_hash_list;
+
+  for (int i = 0; i < m_p_hash_list[0].size(); ++i)
+  {
+    m_p_hash_list[0][i] = 0;
+  }
+
+  for (int i = 0; i < m_n_tag_param; ++i)
+  {
+    m_hash_buff[i].m_next_hash = nullptr;
+    m_hash_buff[i].m_tag_name = m_tag_param[i].tag_name;
+    // for lookup in m_tag_param for the associated function later
+    m_hash_buff[i].m_index = i;
+
+    uint hash_val = hash(m_tag_param[i].tag_name);
+
+    // check to see if there's already any items stored at this index
+    if (m_p_hash_list[0][hash_val] == nullptr)
+    {
+      // Nope; just store the hash here
+      m_p_hash_list[0][hash_val] = &m_hash_buff[i];
+    }
+    else
+    {
+      // find and store the hash at the end of the list of hashes
+      SPI_TAG_HASH* hash = m_p_hash_list[0][hash_val];
+      for (; hash->m_next_hash != nullptr; hash = hash->m_next_hash) {}
+
+      hash->m_next_hash = &m_hash_buff[i];
+    }
+  }
 }
 
 // 00146980
