@@ -31,7 +31,7 @@ class CMapEffectsManager {};
 class CMap
 {
 public:
-  void LoadCfgFile(const char* file, int size, mgCMemory* map_stack);
+  void LoadCfgFile(char* file, int size, mgCMemory* map_stack);
 };
 
 class CMapParts : public CObject

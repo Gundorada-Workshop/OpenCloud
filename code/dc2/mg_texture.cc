@@ -498,7 +498,7 @@ mgCTexture* mgCTextureManager::SearchTextureName(const char* name, ssize uuid)
 }
 
 // 0013d8c0
-void mgCTextureManager::LoadCFGFile(const char* file, int size, mgCMemory* tex_anime_stack, mgCTextureAnime* tex_anime)
+void mgCTextureManager::LoadCFGFile(char* file, int size, mgCMemory* tex_anime_stack, mgCTextureAnime* tex_anime)
 {
   log_trace("mgCTextureManager::ReloadTexture({}, {}, {})", file, size, fmt::ptr(tex_anime_stack));
 

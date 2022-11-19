@@ -28,7 +28,7 @@ static CDataRoboPart* SpiRoboPart{ nullptr };
 // 00377064
 static CDataBreedFish* SpiFish{ nullptr };
 // 01E69570
-static CGameData GameItemDataManage{};
+CGameData GameItemDataManage{};
 // 01E695A0
 // FIXME: MAGIC: capacity
 static std::array<SDataItemCommon, 0x1B0> local_com_itemdata{};
@@ -138,8 +138,8 @@ static bool _DATAWEP(SPI_STACK* stack, int stack_count)
     return false;
   }
 
-  SpiWeaponPt->m_unk_field_0 = spiGetStackInt(stack++);
-  SpiWeaponPt->m_unk_field_2 = spiGetStackInt(stack++);
+  SpiWeaponPt->m_whp_max = spiGetStackInt(stack++);
+  SpiWeaponPt->m_abs_max = spiGetStackInt(stack++);
 
   return true;
 }
@@ -955,6 +955,13 @@ CDataBreedFish* GetBreedFishInfoData(ECommonItemData index)
   return GameItemDataManage.GetFishData(index);
 }
 
+// 00195EC0
+ECommonItemDataType GetItemDataType(ECommonItemData index)
+{
+  log_trace("{}({})", __func__, std::to_underlying(index));
+
+  return GameItemDataManage.GetDataType(index);
+}
 
 // 00196040
 std::string GetItemMessage(ECommonItemData index)

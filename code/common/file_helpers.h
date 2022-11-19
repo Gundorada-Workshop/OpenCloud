@@ -49,6 +49,17 @@ namespace common::file_helpers
   // get the application directory
   std::string_view get_application_directory();
 
+  // get the data directory
+  std::string get_data_directory();
+
   // get the current working directory
   std::string get_working_directory();
+
+  // formats a path string and combines it with the data directory path
+  // note: fmtpath must be constexpr
+  template<typename ...Args>
+  std::string resolve_data_path(fmt::format_string<Args...> fmtpath, Args&&... args)
+  {
+    return append(file_helpers::get_data_directory(), strings::format(fmtpath, std::forward<Args>(args)...));
+  }
 }

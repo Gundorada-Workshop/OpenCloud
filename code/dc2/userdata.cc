@@ -220,6 +220,55 @@ void CGameDataUsed::TimeCheck(s32 delta)
   m_sub_data.m_fish.m_unk_field_30 = std::max(m_sub_data.m_fish.m_unk_field_30 - delta, 0);
 }
 
+// 00199A50
+bool CGameDataUsed::CopyDataWeapon(ECommonItemData item_id)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, std::to_underlying(item_id));
+
+  const auto weapon_data = GameItemDataManage.GetWeaponData(item_id);
+
+  if (weapon_data == nullptr)
+  {
+    return false;
+  }
+
+  m_type = EUsedItemType::Weapon;
+  m_common_index = item_id;
+  m_item_data_type = GetItemDataType(item_id);
+
+  m_sub_data.m_weapon.m_level = 0;
+
+  m_sub_data.m_weapon.m_whp_gage.m_max = static_cast<f32>(weapon_data->m_whp_max);
+  m_sub_data.m_weapon.m_whp_gage.m_current = static_cast<f32>(weapon_data->m_whp_max);
+
+  m_sub_data.m_weapon.m_abs_gage.m_max = static_cast<f32>(weapon_data->m_abs_max);
+  m_sub_data.m_weapon.m_abs_gage.m_current = 0.0f;
+
+  m_sub_data.m_weapon.m_unk_field_12 = weapon_data->m_unk_field_4;
+  m_sub_data.m_weapon.m_unk_field_14 = weapon_data->m_unk_field_6;
+
+  for (int i = 0; i < weapon_data->m_unk_field_C.size(); ++i)
+  {
+    m_sub_data.m_weapon.m_unk_field_16[i] = weapon_data->m_unk_field_C[i];
+  }
+
+  m_sub_data.m_weapon.m_unk_field_2C = weapon_data->m_unk_field_38;
+  m_sub_data.m_weapon.m_unk_field_28 = weapon_data->m_unk_field_2C;
+
+  m_sub_data.m_weapon.m_unk_field_2E = 0;
+  m_sub_data.m_weapon.m_unk_field_30 = 0;
+
+  strcpy_s(
+    m_sub_data.m_weapon.m_name.data(),
+    m_sub_data.m_weapon.m_name.size(),
+    GetItemMessage(item_id).c_str()
+  );
+
+  m_unk_field_5 = false;
+
+  return true;
+}
+
 // 0019AE10
 CFishingRecord::CFishingRecord()
 {
@@ -412,6 +461,15 @@ void CUserDataManager::Initialize()
   memset(this, 0, sizeof(this));
 
   todo;
+}
+
+// 0019EAF0
+s32 CUserDataManager::AddMoney(s32 delta)
+{
+  log_trace("CUserDataManager::{}({})", __func__, delta);
+
+  m_money = std::clamp(m_money + delta, 0, 999'999);
+  return m_money;
 }
 
 // 0019A890
