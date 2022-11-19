@@ -192,6 +192,30 @@ sint CScriptInterpreter::hash(char* str)
   return out;
 }
 
+// 00146980
+void CScriptInterpreter::SetScript(char* script, usize script_len)
+{
+  log_trace("CScriptInterpreter::{}({}, {})", __func__, script, script_len);
+
+  m_input_str.m_string = script;
+  m_input_str.m_length = script_len;
+  m_input_str.m_position = 0;
+
+  m_stack_curr = 0;
+
+  constexpr char bin_prefix[] = "BIN";
+  m_binary_script = strncmp(script, bin_prefix, std::size(bin_prefix) - 1) == 0;
+
+  if (m_binary_script)
+  {
+    m_input_str.m_position += std::size(bin_prefix);
+  }
+  else
+  {
+    PreProcess(m_input_str);
+  }
+}
+
 // 00146C70
 sint CScriptInterpreter::GetArgs()
 {

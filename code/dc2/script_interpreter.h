@@ -133,6 +133,9 @@ public:
   // 00146760
   sint hash(char* str);
 
+  // 00146980
+  void SetScript(char* script, usize script_len);
+
   // 00146C70
   sint GetArgs();
 
@@ -151,6 +154,8 @@ public:
   char* m_string_buff_curr{};
   // 20
   char* m_string_buff{};
+  // 24
+  bool m_binary_script{};
   // 2C
   _DWORD m_unk_field_2C{};
 };
