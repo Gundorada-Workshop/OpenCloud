@@ -458,3 +458,98 @@ sint CScriptInterpreter::GetArgs()
 
   return n_args;
 }
+
+// 00147080
+bool CScriptInterpreter::SearchCommand(ssize* command_index_dest)
+{
+  log_trace("CScriptInterpreter::{}({})", __func__, fmt::ptr(command_index_dest));
+
+  if (m_binary_script)
+  {
+    if (m_input_str.m_position >= m_input_str.m_length)
+    {
+      return false;
+    }
+
+    // lh $v1, 0($v1)
+    s16 index = m_input_str.m_string[m_input_str.m_position] |
+      (m_input_str.m_string[m_input_str.m_position + 1] << 8);
+    *command_index_dest = index;
+    m_input_str.m_position += 2;
+
+    return index >= 0;
+  }
+
+  if (!SkipSpace(m_input_str))
+  {
+    return false;
+  }
+
+  char command_buff[0x100];
+  usize command_buff_index = 0;
+
+  char c;
+  while (true)
+  {
+    if (!m_input_str.get(&c))
+    {
+      return false;
+    }
+
+    if (!CheckChar(c) || c == ';')
+    {
+      break;
+    }
+
+    command_buff[command_buff_index++] = c;
+  }
+
+  if (c == ';')
+  {
+    m_input_str.back();
+  }
+
+  command_buff[command_buff_index] = '\0';
+  if (command_buff[0] < 'A' || command_buff[0] > 'Z')
+  {
+    // 147190
+    // ?
+    *command_index_dest = -1;
+    return true;
+  }
+
+  if (m_p_hash_list == nullptr)
+  {
+    // Huh, no hash list? Was the provided tag list too large to store?
+    // We'll do an unhashed look up on the provided tag list.
+
+    for (int i = 0; i < m_n_tag_param; ++i)
+    {
+      if (strcmp(m_tag_param[m_n_tag_param].tag_name, command_buff) == 0)
+      {
+        *command_index_dest = i;
+        return true;
+      }
+    }
+  }
+  else
+  {
+    // We've got a hash list, so we can do a faster look up.
+    uint hash_val = hash(command_buff);
+    auto hash = m_p_hash_list[0][hash_val];
+
+    for (auto hash = m_p_hash_list[0][hash_val]; hash != nullptr; hash = hash->m_next_hash)
+    {
+      if (strcmp(command_buff, hash->m_tag_name) == 0)
+      {
+        *command_index_dest = hash->m_index;
+        return true;
+      }
+    }
+  }
+
+  // 147250
+  // ?
+  *command_index_dest = -1;
+  return true;
+}

@@ -143,6 +143,9 @@ public:
   // 00146C70
   sint GetArgs();
 
+  // 00147080
+  bool SearchCommand(ssize* command_index_dest);
+
 
   // 0
   input_str m_input_str{};
