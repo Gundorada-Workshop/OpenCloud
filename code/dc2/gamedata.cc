@@ -870,8 +870,23 @@ bool LoadGameDataAnalyze(const char* config_file_name)
 {
   log_trace("LoadGameDataAnalyze({})", config_file_name);
 
-  todo;
-  return false;
+  using namespace common::file_helpers;
+  auto file_path = resolve_data_path("menu/cfg7/{}", config_file_name);
+
+  char* file_buf = nullptr; // LoadFile2(file_path, ...)
+  usize file_size = 0;
+
+  if (file_buf == nullptr)
+  {
+    log_warn("{} open error !!!", config_file_name);
+    return false;
+  }
+
+  CScriptInterpreter script_interpreter{};
+  script_interpreter.SetTag(gamedata_tag.data());
+  script_interpreter.SetScript(file_buf, file_size);
+  script_interpreter.Run();
+  return true;
 }
 
 // 00195F10
