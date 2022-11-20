@@ -349,11 +349,12 @@ sint CScriptInterpreter::GetArgs()
   bool args_not_terminated = true;
   sint n_args = 0;
   char arg_buf[0x100];
-  sint arg_buf_index = 0;
   SPI_STACK parsed_arg;
 
   while (args_not_terminated)
   {
+    sint arg_buf_index = 0;
+
     // 146CB8
     if (!SkipSpace(m_input_str))
     {
@@ -373,7 +374,7 @@ sint CScriptInterpreter::GetArgs()
       }
 
       // 146CF4
-      string_arg = string_arg || (last_read == '"');
+      string_arg = string_arg ^ (last_read == '"');
 
       if (string_arg)
       {
@@ -605,7 +606,6 @@ bool CScriptInterpreter::SearchCommand(ssize* command_index_dest)
   {
     // We've got a hash list, so we can do a faster look up.
     uint hash_val = hash(command_buff);
-    auto hash = m_p_hash_list[0][hash_val];
 
     for (auto hash = m_p_hash_list[0][hash_val]; hash != nullptr; hash = hash->m_next_hash)
     {
