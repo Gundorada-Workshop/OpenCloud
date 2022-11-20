@@ -14,7 +14,6 @@
     <!-- cpp files -->
     <ClCompile Include="data_extractor.cc" />
     <ClCompile Include="extract-iso.cc" />
-    <ClCompile Include="hd\hd_file.cc" />
     <ClCompile Include="iso9660\iso_file.cc" />
   </ItemGroup>
   <ItemGroup>

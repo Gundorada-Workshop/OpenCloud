@@ -161,9 +161,8 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
   const auto output_directory = extractor->get_output_directory();
 
   // these are the files we're interested in
-  static constexpr std::array files =
+  static constexpr std::array hdx_files =
   {
-    "DATA.HD2",
     "DATA.HD3",
     "SOUND.HD3"
   };
@@ -175,11 +174,14 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
     file_helpers::append("MOVIE", "TUTO2")
   };
 
-  for (const auto& filename : files)
+  for (const auto& filename : hdx_files)
   {
-    if (!extractor->extract_file(filename))
+    const auto basename = file_helpers::basename(filename);
+    const auto data_file_name = std::string{ basename } + ".DAT";
+
+    if (!extractor->extract_hdx_file(filename, data_file_name))
     {
-      log_error("Failed to extract file {}", filename);
+      log_error("Failed to extract HDX file {} --> {}", filename, data_file_name);
       return EXIT_FAILURE;
     }
   }

@@ -2,27 +2,33 @@
 
 #include "common/log.h"
 #include "common/debug.h"
-#include "common/scoped_function.h"
+#include "common/data_stream.h"
 
 #include "hd/hd_file.h"
 #include "data_extractor.h"
 
-set_log_channel("DC2DataExtractor");
+set_log_channel("dc2data");
 
 using namespace common;
 
-extractor::extractor()
+extractor::extractor(iso9660::file::file_list files)
+  : m_files{ std::move(files) }
+  , m_output_directory_path{ file_helpers::append(file_helpers::get_application_directory(), "DATA") }
 {
-  const std::string_view app_directory_path = file_helpers::get_application_directory();
-
-  m_output_directory_path = file_helpers::append(app_directory_path, "DATA");
 }
 
 extractor::~extractor() = default;
 
 extractor::ptr_type extractor::open()
 {
-  auto out = std::make_unique<extractor>();
+  iso9660::file::file_list files;
+  for (const auto& directory : g_iso_file->directories())
+  {
+    const auto entries = g_iso_file->files_for_directory(directory.path);
+    files.insert(files.end(), entries.begin(), entries.end());
+  }
+
+  auto out = std::make_unique<extractor>(std::move(files));
 
   if (!out)
   {
@@ -31,55 +37,30 @@ extractor::ptr_type extractor::open()
     return nullptr;
   }
 
-  const auto logical_block_byte_count = g_iso_file->get_logical_block_size();
-  auto temp_block_buffer = std::make_unique<u8[]>(logical_block_byte_count);
-
-  if (!temp_block_buffer)
-  {
-    log_error("Failed to allocate temp buffer");
-
-    return nullptr;
-  }
-
-  out->m_temp_block_buffer = std::move(temp_block_buffer);
-
   return out;
 }
 
 bool extractor::extract_file(std::string_view iso_file_path)
 {
+  log_info("Extracting file {}", iso_file_path);
+
   const auto parent_directory_path = file_helpers::parent_directory(iso_file_path);
-  const auto directory_file_list = g_iso_file->get_files_for_directory(parent_directory_path);
+  const auto file = find_file_by_name(iso_file_path);
 
-  const bool is_root = parent_directory_path.empty();
-
-  if (directory_file_list.empty())
+  if (!file)
     return false;
 
-  const auto itr = std::find_if(directory_file_list.begin(), directory_file_list.end(), [&](const iso9660::file::file_entry entry) {
-    if (entry.path == iso_file_path)
-      return true;
-
-    return false;
-  });
-
-  if (itr == directory_file_list.end())
-  {
-    log_error("Failed to find file {}", iso_file_path);
-
-    return false;
-  }
-
-  if (!is_root && !file_helpers::create_directory(parent_directory_path))
+  // don't create the root directory
+  if (!parent_directory_path.empty() && !file_helpers::create_directory(parent_directory_path))
   {
     log_error("Failed to create directory {}", parent_directory_path);
 
     return false;
   }
 
-  if (!extract(*itr))
+  if (!extract_direct(*file))
   {
-    log_error("Failed to extract {}", itr->path);
+    log_error("Failed to extract {}", file->path);
 
     return false;
   }
@@ -89,140 +70,139 @@ bool extractor::extract_file(std::string_view iso_file_path)
 
 bool extractor::extract_directory(std::string_view iso_file_path)
 {
-  const auto iso_file_directory_list = g_iso_file->get_directories();
+  log_info("Extracting directory {}", iso_file_path);
 
-  if (iso_file_directory_list.empty())
-    return false;
-
-  const auto itr = std::find_if(iso_file_directory_list.begin(), iso_file_directory_list.end(), [&](const iso9660::file::directory_entry& entry) {
-    if (entry.path == iso_file_path)
-      return true;
-
-    return false;
-  });
-
-  if (itr == iso_file_directory_list.end())
+  for (const auto& file_entry : m_files)
   {
-    log_error("Failed to file directory {}", iso_file_path);
+    const auto file_path = strings::from_sjis(file_entry.path);
+    if (!file_path)
+      panicf("Failed to convert file path to UTF8");
 
-    return false;
-  }
+    const auto parent_directory = file_helpers::parent_directory(*file_path);
 
-  const auto output_directory = file_helpers::append(m_output_directory_path, itr->path);
+    if (parent_directory != iso_file_path)
+      continue;
 
-  if (!file_helpers::create_directory(output_directory))
-  {
-    log_error("Failed to create directory {}", output_directory);
+    const auto output_directory = file_helpers::append(m_output_directory_path, parent_directory);
 
-    return false;
-  }
-
-  log_info("Directory {}", output_directory);
-
-  for (const auto& file : g_iso_file->get_files_for_directory(itr->path))
-  {
-    if (!extract(file))
+    if (!file_helpers::create_directories(output_directory))
     {
-      log_error("Failed to extract file {}", file.path);
+      log_error("Failed to create directory {} skipping...", output_directory);
 
-      return false;
+      continue;
     }
+
+    if (!extract_direct(file_entry))
+    {
+      log_error("Failed to extract file {} skipping...", *file_path);
+
+      continue;
+    }
+
+    log_info("File {} extracted from {}", file_helpers::filename(*file_path), parent_directory);
   }
 
   return true;
 }
 
-bool extractor::extract(const iso9660::file::file_entry& file)
+bool extractor::extract_hdx_file(std::string_view descriptor_file_path, std::string_view data_file_path)
 {
-  if (hd::file::is_valid_desciptor(file))
-  {
-    auto hd_file = hd::file(file);
+  log_info("Extracting HDX file {} --> {}", descriptor_file_path, data_file_path);
 
-    if (!hd_file.find_data_file())
+  if (strings::lowercase(file_helpers::ext(descriptor_file_path)) != "hd3")
+    return false;
+
+  const auto descriptor_file = find_file_by_name(descriptor_file_path);
+  if (!descriptor_file)
+  {
+    log_error("Failed to find descriptor file {}", descriptor_file_path);
+
+    return false;
+  }
+
+  const auto data_file = find_file_by_name(data_file_path);
+  if (!data_file)
+  {
+    log_error("Failed to find data file {}", data_file_path);
+
+    return false;
+  }
+
+  usize current_byte = 0;
+  while (current_byte < descriptor_file->total_bytes)
+  {
+    g_iso_file->seek_to_logical_block(descriptor_file->logical_block_address);
+    g_iso_file->seek_relative_to_logical_block(current_byte);
+
+    hdx::hd3_file_descriptor desc;
+    if (!g_iso_file->copy_bytes_to_buffer(&desc, hdx::constants::hd3_size))
     {
-      log_warn("Found HDX file but unable to find corresponding data file");
+      log_error("Failed to copy descriptor at {}", current_byte);
 
       return false;
     }
 
-    return extract_hdx(hd_file);
-  }
+    if (desc.size == 0 && desc.logical_block_offset == 0 && desc.logical_block_size == 0)
+      break;
 
-  return extract_direct(file);
-}
+    current_byte += hdx::constants::hd3_size;
 
-bool extractor::extract_hdx(hd::file& hdx_file)
-{
-  log_info("Found HDX File...");
+    // we can continue from failure beyond this poin
+    g_iso_file->seek_relative_to_logical_block(desc.name_location);
 
-  const auto logical_block_byte_count = g_iso_file->get_logical_block_size();
-
-  hdx_file.find_end_of_descriptor_table();
-
-  u64 current_logical_block_offset = 0;
-  while (!hdx_file.descriptor_table_final_logical_block_offset(current_logical_block_offset))
-  {
-    const auto block_entry_list = hdx_file.get_entries_for_descriptor_table_block_offset(current_logical_block_offset);
-
-    for (auto& entry : block_entry_list)
+    std::array<u8, data_stream_base::block_size> temp{ };
+    if (!g_iso_file->copy_bytes_to_buffer(temp.data(), temp.size()))
     {
-      const auto label = strings::from_sjis(entry.label);
-      if (!label)
-        panicf("Failed to convert label to utf8");
+      log_error("Failed to read name to temp buffer");
 
-      log_info("--> {}", *label);
-
-      const std::string output_file_path = file_helpers::append(m_output_directory_path, *label);
-      const std::string_view output_file_parent_path = file_helpers::parent_directory(output_file_path);
-
-      const auto entry_logical_block_count = entry.data_file_logical_block_count;
-      const auto entry_logical_block_start = entry.data_file_logical_block_start;
-
-      if (!file_helpers::create_directories(output_file_parent_path))
-        panicf("Failed to create output directory {}", output_file_parent_path);
-
-      std::FILE* output_file;
-      if (!file_helpers::open_native(&output_file, output_file_path, "wb"))
-        panicf("Failed to open output file {}", output_file_path);
-
-      scoped_function cleanup([&]() {
-        fclose(output_file);
-      });
-
-      u64 current_data_logical_block_offset = 0;
-      while (current_data_logical_block_offset < entry_logical_block_count)
-      {
-        const auto current_data_logical_block_address = entry_logical_block_start + current_data_logical_block_offset;
-
-        g_iso_file->copy_data_from_block(current_data_logical_block_address, &m_temp_block_buffer[0]);
-
-        // write out a whole logical block
-        if (fwrite(&m_temp_block_buffer[0], logical_block_byte_count, 1, output_file) != 1)
-          panicf("Failed to write to file {}", output_file_path);
-
-        current_data_logical_block_offset++;
-      }
-
-      const auto remaining_byte_count = entry.data_file_remaining_bytes_count;
-
-      // write out remaining bytes
-      if (remaining_byte_count)
-      {
-        // the above won't catch if the file is less than a logical block
-        auto remaining_data_logical_block_address = entry_logical_block_start;
-
-        // but if it is more than a logical block, we want the end
-        if (entry_logical_block_count)
-          remaining_data_logical_block_address += current_data_logical_block_offset;
-
-        g_iso_file->copy_data_from_block(remaining_data_logical_block_address, &m_temp_block_buffer[0]);
-
-        if (fwrite(&m_temp_block_buffer[0], remaining_byte_count, 1, output_file) != 1)
-          panicf("Failed to write {} remaining bytes to file {}", remaining_byte_count, output_file_path);
-      }
+      continue;
     }
 
-    current_logical_block_offset++;
+    char* name_of_unknown_length = std::bit_cast<char*>(temp.data());
+    const auto name_length = strnlen_s(name_of_unknown_length, data_stream_base::block_size);
+
+    // we ran off
+    if (name_length >= data_stream_base::block_size)
+    {
+      log_error("Reading name ran off the end of the temp buffer");
+
+      continue;
+    }
+
+    auto name = strings::from_sjis({name_of_unknown_length, name_length});
+
+    if (!name)
+      panicf("Failed to convert to UTF8");
+
+    const std::string output_path = file_helpers::append(m_output_directory_path, *name);
+    const auto parent = file_helpers::parent_directory(output_path);
+
+    if (!file_helpers::create_directories(parent))
+    {
+      log_error("Failed to create directory {}", parent);
+
+      continue;
+    }
+
+    log_info("--> {}", *name);
+
+    g_iso_file->seek_to_logical_block(data_file->logical_block_address + desc.logical_block_offset);
+
+    auto stream = file_stream::open(output_path, "wb");
+
+    if (!stream)
+    {
+      log_error("Failed to open file stream for {}", output_path);
+
+      continue;
+    }
+
+    if (!g_iso_file->copy_bytes_to_stream(stream.get(), desc.size))
+    {
+      log_error("Failed to copy {} bytes to stream", desc.size);
+
+      continue;
+    }
   }
 
   return true;
@@ -230,69 +210,59 @@ bool extractor::extract_hdx(hd::file& hdx_file)
 
 bool extractor::extract_direct(const iso9660::file::file_entry& file)
 {
-  std::FILE* output_file{ nullptr };
-
   const auto file_path = strings::from_sjis(file.path);
+
   if (!file_path)
     panicf("Failed to convert file path to utf8");
 
-  const auto output_file_path = file_helpers::append(m_output_directory_path, *file_path);
+  const auto full_output_file_path = file_helpers::append(m_output_directory_path, *file_path);
 
-  if (!file_helpers::open_native(&output_file, output_file_path, "wb"))
+  auto output_file_stream = file_stream::open(full_output_file_path, "wb");
+
+  if (!output_file_stream)
   {
-    log_error("Failed to open output file {}", output_file_path);
+    log_error("Failed to open file {}", full_output_file_path);
 
     return false;
   }
 
-  // make sure we clean up the file handle
-  scoped_function cleanup([&]() {
-    fclose(output_file);
-  });
+  log_info("Extracting {}...", full_output_file_path);
 
-  const auto logical_block_byte_size    = g_iso_file->get_logical_block_size();
-  const auto file_logical_block_count   = file.logical_block_count;
-  const auto file_logical_block_address = file.logical_block_address;
-  const auto file_remaining_byte_count  = file.extra_bytes;
-
-  log_info("Extracting {}...", output_file_path);
-
-  // read all of the lbas
-  u64 current_file_logical_block_offset = 0;
-  while (current_file_logical_block_offset < file_logical_block_count)
+  if (!g_iso_file->copy_file_entry_to_stream(file, output_file_stream.get()))
   {
-    const auto current_logical_block_address = file_logical_block_address + current_file_logical_block_offset;
+    log_error("--> Extraction failed!");
 
-    g_iso_file->copy_data_from_block(current_logical_block_address, &m_temp_block_buffer[0]);
-
-    if (fwrite(&m_temp_block_buffer[0], logical_block_byte_size, 1, output_file) != 1)
-    {
-      log_error("Failed to write block {} to file", current_file_logical_block_offset);
-
-      return false;
-    }
-
-    current_file_logical_block_offset++;
+    return false;
   }
 
-  // write out any non-lba aligned bytes
-  if (file_remaining_byte_count)
-  {
-    const auto file_last_aligned_logical_block_address = file_logical_block_address + file_logical_block_count;
-    const auto file_unaligned_logical_block_address    = file_last_aligned_logical_block_address + 1;
-
-    log_info("Non-aligned bytes {}", file_remaining_byte_count);
-
-    g_iso_file->copy_data_from_block(file_unaligned_logical_block_address, &m_temp_block_buffer[0]);
-
-    if (fwrite(&m_temp_block_buffer[0], file.extra_bytes, 1, output_file) != 1)
-    {
-      log_error("Failed to write remaining {} bytes to file", file_remaining_byte_count);
-
-      return false;
-    }
-  }
+  log_info("Extracted {}", file_helpers::filename(full_output_file_path));
 
   return true;
+}
+
+std::optional<iso9660::file::file_entry> extractor::find_file_by_name(std::string_view name)
+{
+  if (m_files.empty())
+  {
+    log_error("File list contains no entries searching for {}", name);
+
+    return { };
+  }
+
+  const auto itr = std::find_if(m_files.begin(), m_files.end(), [&](const iso9660::file::file_entry& entry) {
+    if (entry.path == name)
+      return true;
+
+    return false;
+  });
+
+  if (itr == m_files.end())
+  {
+    log_error("Failed to find file {}", name);
+
+    return { };
+  }
+
+  return *itr;
 }
 

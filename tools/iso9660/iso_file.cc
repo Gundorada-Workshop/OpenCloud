@@ -4,7 +4,7 @@
 #include "common/file_helpers.h"
 #include "common/log.h"
 
-set_log_channel("ISO9660");
+set_log_channel("iso9660");
 
 namespace iso9660
 {
@@ -20,165 +20,175 @@ namespace iso9660
     return s.substr(0, pos);
   }
 
-  file::file() = default;
-
-  file::~file()
+  file::file(std::string_view path, std::unique_ptr<common::data_stream_base> stream)
+    : m_file_stream( std::move(stream) )
+    , m_iso_file_path{ std::string{path} }
+    , m_logical_block_size( constants::assumed_sector_size )
+    , m_logical_block_count( m_file_stream->size() / constants::assumed_sector_size )
   {
-    log_info("Cleanup");
-
-    if (m_file)
-      fclose(m_file);
   }
 
-  std::optional<usize> file::get_file_byte_count()
+  file::~file() = default;
+
+  std::unique_ptr<file> file::open(std::string_view path)
   {
-    const auto current_position = file_helpers::tell64(m_file);
+    log_info("Opening iso file {}", path);
 
-    if (!file_helpers::seek64(m_file, 0, SEEK_END))
-      return std::nullopt;
+    auto iso_file_stream = file_stream::open(path, "rb");
 
-    const auto end = file_helpers::tell64(m_file);
+    if (!iso_file_stream)
+    {
+      log_error("Failed to open data stream for iso");
 
-    if (!file_helpers::seek64(m_file, current_position, SEEK_SET))
-      return std::nullopt;
+      return nullptr;
+    }
 
-    return end;
+    auto out = std::make_unique<file>(path, std::move(iso_file_stream));
+
+    if (!out->open_primary_volume_descriptor())
+      return nullptr;
+
+    if (!out->open_path_table())
+      return nullptr;
+
+    return out;
   }
 
-  void file::resize_temp_buffer()
+  void file::seek_to_logical_block(u64 logical_block_address)
   {
-    log_info("Resize buffer to {}", m_logical_block_size);
+    log_trace("Seeking to logical block {}", logical_block_address);
 
-    m_temp_buffer = std::make_unique<u8[]>(m_logical_block_size);
-  }
-
-  bool file::open_file()
-  {
-    log_info("Open {}", m_path);
-
-    return file_helpers::open_native(&m_file, m_path, "rb");
-  }
-
-  bool file::copy_data_from_block(u64 logical_block_address, u8* buff)
-  {
-    //log_info("Read {} logical blocks {} bytes", size, real_size);
-    seek_block(logical_block_address);
-    std::memcpy(buff, &m_temp_buffer[0], m_logical_block_size);
-
-    return true;
-  }
-
-  void file::seek_block(u64 logical_block_address)
-  {
     if (logical_block_address > m_logical_block_count)
       panicf("Tried to seek to logical block {} but there are only {}", logical_block_address, m_logical_block_count);
 
     m_current_logical_block = logical_block_address;
 
-    const auto real_file_pos = logical_block_address * m_logical_block_size;
-
-    if (!file_helpers::seek64(m_file, real_file_pos, SEEK_SET))
+    if (!m_file_stream->seek(logical_block_address * m_logical_block_size))
       panicf("Failed to seek to logical block {}", logical_block_address);
-
-    if (fread(&m_temp_buffer[0], m_logical_block_size, 1, m_file) != 1)
-      panicf("Failed to read logical block {}", logical_block_address);
   }
 
-  u64 file::tell_block()
+  void file::seek_relative_to_logical_block(u64 byte_offset)
   {
-    return file_helpers::tell64(m_file) * m_logical_block_size;
+    seek_to_logical_block(m_current_logical_block);
+
+    if (!m_file_stream->seek_relative(byte_offset))
+      panicf("Failed to seek to byte {} of logical block {}", byte_offset, m_current_logical_block);
   }
 
   bool file::open_primary_volume_descriptor()
   {
+    log_info("Searching for primary volume descriptor at logical block {}", constants::data_lba_start);
+
     // ECMA 6.2.1
     // everything before this is application defined data
     // the spec reserves the first 15 LBAs for that purpose
-    //
+    seek_to_logical_block(constants::data_lba_start);
+
     // ECMA 8.1
     // start with a base descriptor
     // this just has the required fields needed to check the type and magic\
     //
     // this descriptor happens to be 1 logical block in size
     volume_descriptor_base base{ };
-    copy_data_from_block(constants::data_lba_start, reinterpret_cast<u8*>(&base));
+    if (!m_file_stream->read_buffer_checked(&base, sizeof(volume_descriptor_base)))
+    {
+      log_error("Failed to read volume descriptor block");
+
+      return false;
+    }
 
     // EMCA 8.3.2
     // make sure the magic is right
     if (strncmp(base.header.magic, iso9660::volume_descriptor_primary::magic_id, 5) != 0)
+    {
+      log_error("Block magic doesn't match primary volume descriptor");
+
       return false;
+    }
 
     // ECMA 8.3.1
     // now make sure it's a primary volume deescriptor type
     // there are other types (secondary, partition, etc) but I did not write support for them
     if (base.header.type != iso9660::volume_descriptor_types::vd_primary)
+    {
+      log_error("Descriptor type doesn't match primary volume type");
+
       return false;
+    }
 
     m_volume_descriptor = std::move(std::bit_cast<volume_descriptor_primary>(base));
 
     // cache a few useful values
-    m_logical_block_size = deget(m_volume_descriptor.logical_block_size);
+    m_logical_block_size  = deget(m_volume_descriptor.logical_block_size);
     m_logical_block_count = deget(m_volume_descriptor.volume_space_size);
 
-    // if the iso uses a logical block size different than 2048 we need to resize out buffer
-    // warning: this destroys the current buffer. so get all the data we need before this.
-    if (m_logical_block_size != constants::assumed_sector_size)
-      resize_temp_buffer();
+    log_info("Logical block size (bytes): {}", m_logical_block_size);
+    log_info("Number of logical blocks:   {}", m_logical_block_count);
 
     return true;
   }
 
   bool file::open_path_table()
   {
-    const auto entry_bytes = deget(m_volume_descriptor.path_table_size);
+    const auto path_table_total_byte_count = deget(m_volume_descriptor.path_table_size);
 
     // zero length path table
-    if (!entry_bytes)
+    if (!path_table_total_byte_count)
     {
       log_error("The path table was 0 bytes");
 
       return false;
     }
 
-    log_info("Opening path table {} bytes", entry_bytes);
+    log_info("Opening path table {} bytes", path_table_total_byte_count);
 
-    const auto entry_block_address = deget(m_volume_descriptor.path_table_lba).table;
+    seek_to_logical_block(deget(m_volume_descriptor.path_table_lba).table);
 
-    seek_block(entry_block_address);
-
-    u64 offset = 0;
-    while (offset < entry_bytes)
+    u64 path_table_byte_offset = 0;
+    while (path_table_byte_offset < path_table_total_byte_count)
     {
-      constexpr auto path_table_type_bytes = sizeof(path_table_entry);
+      path_table_entry current_path_table_entry;
+      if (!m_file_stream->read_buffer_checked(&current_path_table_entry, sizeof(path_table_entry)))
+      {
+        log_error("Failed to read path table entry");
 
-      path_table_entry table_entry{ };
+        return false;
+      }
 
-      std::memcpy(&table_entry, &m_temp_buffer[offset], path_table_type_bytes);
+      // the size of the string following the entry
+      const auto path_string_byte_count = current_path_table_entry.name_length;
 
-      const auto name_bytes = table_entry.name_length;
-      auto total_entry_bytes = path_table_type_bytes + name_bytes;
+      // we need the total size of the entry plus the string
+      // this way we get the next path table entry and not the string following this entry
+      auto total_entry_byte_count = sizeof(path_table_entry) + path_string_byte_count;
 
-      std::string path{ };
-      path.resize(name_bytes);
+      std::string file_iso_relative_path;
+      file_iso_relative_path.resize(path_string_byte_count);
 
-      std::memcpy(path.data(), &m_temp_buffer[offset + path_table_type_bytes], name_bytes);
+      if (!m_file_stream->read_buffer_checked(file_iso_relative_path.data(), path_string_byte_count))
+      {
+        log_error("Failed to read path table path string");
 
-      // root
-      if (!path.empty() && path[0] == '\0')
-        path = "";
+        return false;
+      }
+
+      m_file_stream->seek_relative(total_entry_byte_count & 1);
+
+      // special root case
+      if (!file_iso_relative_path.empty() && file_iso_relative_path[0] == '\0')
+        file_iso_relative_path = "";
 
       path_entry entry
       {
-        .path = std::move(path),
-        .table = std::move(table_entry)
+        .path  = std::move(file_iso_relative_path),
+        .table = std::move(current_path_table_entry)
       };
 
       // if it's not even we need to pad so it is
-      total_entry_bytes = align_up(total_entry_bytes, 2);
+      // this possible 1 byte pad is required by the spec
+      path_table_byte_offset += align_up(total_entry_byte_count, 2);
 
-      offset += total_entry_bytes;
-
-      log_info("  {}", entry);
+      log_info("--> {}", entry);
 
       m_paths.push_back(std::move(entry));
     }
@@ -186,16 +196,17 @@ namespace iso9660
     return true;
   }
 
-  file::directory_list file::get_directories()
+  file::directory_list file::directories()
   {
     log_info("Reading {} directory records", m_paths.size());
 
-    directory_list list{ };
+    directory_list list;
     for (u64 i = 0; i < m_paths.size(); ++i)
     {
       const auto& path = m_paths[i];
       const auto logical_block_address = path.table.extent;
 
+      // it's 1 indexed because this standard is ridiculous
       auto parent = path.table.parent - 1;
 
       std::string full_path{ };
@@ -211,10 +222,12 @@ namespace iso9660
 
       directory_entry entry =
       {
-        .path = std::move(full_path),
+        .path                  = std::move(full_path),
         .logical_block_address = logical_block_address,
-        .entry = path,
+        .entry                 = path,
       };
+
+      log_info("--> {}", entry);
 
       list.push_back(std::move(entry));
     }
@@ -222,9 +235,11 @@ namespace iso9660
     return list;
   }
 
-  file::file_list file::get_files_for_directory(std::string_view dir_path)
+  file::file_list file::files_for_directory(std::string_view dir_path)
   {
-    directory_list directory_list = get_directories();
+    log_info("Searching for entry records for {}", dir_path);
+
+    directory_list directory_list = directories();
 
     const auto& itr = std::find_if(directory_list.begin(), directory_list.end(), [&](const directory_entry& entry) {
       if (entry.path == dir_path)
@@ -234,45 +249,74 @@ namespace iso9660
     });
 
     if (itr == directory_list.end())
-      return {};
+    {
+      log_warn("Directory not found {}", dir_path);
 
-    seek_block(itr->logical_block_address);
+      return {};
+    }
+
+    const auto entry_record_logical_block_address = itr->logical_block_address;
+
+    log_info("Entry records found at logical block address {}", entry_record_logical_block_address);
+
+    seek_to_logical_block(entry_record_logical_block_address);
 
     dirent dir{ };
-    memcpy(&dir, &m_temp_buffer[0], sizeof(dirent));
+    if (!m_file_stream->read_buffer_checked(&dir, sizeof(dirent)))
+    {
+      log_error("Failed to read directory record at logical block address {}", entry_record_logical_block_address);
 
-    const auto directory_record_length = deget(dir.file_section_length);
-    const auto directory_record_logical_block_address = deget(dir.extent_logical_block_number);
+      return {};
+    }
 
-    seek_block(directory_record_logical_block_address);
+    const auto record_byte_count            = deget(dir.file_section_length);
+    const auto record_logical_block_address = deget(dir.extent_logical_block_number);
 
-    u64 offset = 0;
+    seek_to_logical_block(record_logical_block_address);
+
+    u64 directory_record_byte_offset = 0;
     file_list list{ };
 
-    while (offset < directory_record_length)
+    while (directory_record_byte_offset < record_byte_count)
     {
-      std::memcpy(&dir, &m_temp_buffer[offset], sizeof(dirent));
+      if (!m_file_stream->read_buffer_checked(&dir, sizeof(dirent)))
+      {
+        log_error("Failed to read directory entry");
 
-      std::string name{ };
-      name.resize(dir.name_length);
+        break;
+      }
 
-      std::memcpy(name.data(), &m_temp_buffer[offset + sizeof(dirent)], dir.name_length);
+      const auto entry_iso_relative_path_byte_count = dir.name_length;
 
-      offset += dir.bytes;
+      std::string entry_iso_relative_path{ };
+      entry_iso_relative_path.resize(entry_iso_relative_path_byte_count);
+
+      if (!m_file_stream->read_buffer_checked(entry_iso_relative_path.data(), entry_iso_relative_path_byte_count))
+      {
+        log_error("Failed to read directory entry path");
+
+        break;
+      }
+
+      const usize remaining_bytes = dir.bytes - (sizeof(dirent) + entry_iso_relative_path_byte_count);
+      m_file_stream->seek_relative(remaining_bytes);
+
+      directory_record_byte_offset += dir.bytes;
 
       if (dir.flags & dirent::file_flag_directory)
         continue;
 
-      const auto logical_block_number = deget(dir.extent_logical_block_number);
-      const auto file_size = deget(dir.file_section_length);
+      const auto entry_logical_block_address = deget(dir.extent_logical_block_number);
+      const auto entry_total_bytes           = deget(dir.file_section_length);
 
       file_entry entry =
       {
-        .path = file_helpers::append(dir_path, trim_version_id(name)),
-        .logical_block_address = logical_block_number,
-        .logical_block_count = file_size / m_logical_block_size,
-        .extra_bytes = file_size % m_logical_block_size
+        .path                  = file_helpers::append(dir_path, trim_version_id(entry_iso_relative_path)),
+        .logical_block_address = entry_logical_block_address,
+        .total_bytes           = entry_total_bytes
       };
+
+      log_info("--> {}", entry);
 
       list.push_back(std::move(entry));
     }
@@ -280,40 +324,75 @@ namespace iso9660
     return list;
   }
 
-  file::ptr_type file::open(std::string_view path)
+  bool file::copy_logical_block_to_buffer(void* buff)
   {
-    auto out = std::make_unique<file>();
+    return m_file_stream->read_buffer_checked(buff, m_logical_block_size);
+  }
 
-    out->m_path = std::string{ path };
+  bool file::copy_bytes_to_buffer(void* buff, usize size)
+  {
+    return m_file_stream->read_buffer_checked(buff, size);
+  }
 
-    // take a guess as to the byte coutn of the logical blocks
-    // in practice it's usually 2048 anyway
-    out->m_logical_block_size = constants::assumed_sector_size;
+  bool file::copy_file_entry_to_stream(const file_entry& entry, common::data_stream_base* stream)
+  {
+    if (!stream->seek_to_start())
+      return false;
 
-    // set up our temp buffer with our assumed size
-    out->resize_temp_buffer();
+    seek_to_logical_block(entry.logical_block_address);
 
-    if (!out->open_file())
-      return nullptr;
+    usize write_size = data_stream_base::block_size;
 
-    const auto total_file_bytes = out->get_file_byte_count();
+    std::array<u8, data_stream_base::block_size> temp_buffer{ };
 
-    if (!total_file_bytes)
-      return nullptr;
+    usize bytes_written = 0;
+    while (bytes_written < entry.total_bytes)
+    {
+      if (bytes_written + write_size > entry.total_bytes)
+      {
+        write_size = entry.total_bytes - bytes_written;
 
-    // take a guess as to the total number of logcal blocks for now
-    // when we find the PVD we will know the actual block size and count
-    // in practice it's usually this anyway
-    out->m_logical_block_count = *total_file_bytes / out->m_logical_block_size;
+        log_trace("Unaligned block write {} bytes instead of {}", write_size, data_stream_base::block_size);
+      }
 
-    if (!out->open_primary_volume_descriptor())
-      return nullptr;
+      if (!m_file_stream->read_buffer_checked(temp_buffer.data(), write_size))
+        return false;
 
-    if (!out->open_path_table())
-      return nullptr;
+      if (!stream->write_buffer_checked(temp_buffer.data(), write_size))
+        return false;
 
-    return out;
+      bytes_written += write_size;
+    }
+
+    return true;
+  }
+
+  bool file::copy_bytes_to_stream(data_stream_base* stream, usize size)
+  {
+    if (!stream->seek_to_start())
+      return false;
+
+    usize write_size = data_stream_base::block_size;
+
+    std::array<u8, data_stream_base::block_size> temp_buffer{ };
+
+    usize bytes_written = 0;
+    while (bytes_written < size)
+    {
+      if (bytes_written + write_size > size)
+        write_size = size - bytes_written;
+
+      if (!m_file_stream->read_buffer_checked(temp_buffer.data(), write_size))
+        return false;
+
+      if (!stream->write_buffer_checked(temp_buffer.data(), write_size))
+        return false;
+
+      bytes_written += write_size;
+    }
+
+    return true;
   }
 }
 
-iso9660::file::ptr_type g_iso_file{ };
+std::unique_ptr<iso9660::file> g_iso_file{ };
