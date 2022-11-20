@@ -9,6 +9,7 @@
 #include "dc2/menusave.h"
 #include "dc2/mg_memory.h"
 #include "dc2/mg_texture.h"
+#include "dc2/npc.h"
 #include "dc2/scene.h"
 #include "dc2/quest.h"
 #include "dc2/userdata.h"
@@ -104,6 +105,18 @@ bool GetPlayTimeCountFlag()
 void MainLoop()
 {
 	log_trace("{}()", __func__);
+
+	todo;
+
+	// 00190E7C
+	LanguageCode = Language::English;
+	GameItemDataManage.LoadData();
+	GameItemDataManage.LoadItemSystemMes(LanguageCode);
+
+	todo;
+
+	// 00190EC4
+	LoadNPCCfg();
 
 	todo;
 }

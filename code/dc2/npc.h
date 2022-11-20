@@ -40,6 +40,9 @@ public:
   // SIZE 0x36
 };
 
+// 002AB250
+void LoadNPCCfg();
+
 // 002AB3A0
 std::string GetNPCModelName(ENPCID npc_id);
 
