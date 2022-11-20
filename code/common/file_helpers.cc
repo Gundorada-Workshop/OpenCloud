@@ -153,7 +153,7 @@ namespace common::file_helpers
     const auto wfilename = common::strings::to_wstring(path);
     const auto wmode = common::strings::to_wstring(mode);
 
-    if (!wfilename)
+    if (!wfilename || !wmode)
       return false;
 
     if (_wfopen_s(file, wfilename->c_str(), wmode->c_str()) != 0)
