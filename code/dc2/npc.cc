@@ -5,6 +5,7 @@
 #include "common/strings.h"
 #include "common/types.h"
 
+#include "dc2/mainloop.h"
 #include "dc2/mg_lib.h"
 #include "dc2/npc.h"
 #include "dc2/script_interpreter.h"
@@ -70,6 +71,30 @@ static const std::array<SPI_TAG_PARAM, 3> npc_spitag =
   "NPC_INFO", _NPC_INFO,
   NULL, nullptr
 };
+
+// 002AB250
+void LoadNPCCfg()
+{
+  log_trace("{}()", __func__);
+
+  npc_spi_count_num = 0;
+
+  using namespace common::file_helpers;
+  auto file_path = resolve_data_path("npc{}.cfg", std::to_underlying(LanguageCode));
+
+  char* file_buf = nullptr; // LoadFile2(file_path, ...)
+  usize file_size = 0;
+  if (file_buf != nullptr)
+  {
+    CScriptInterpreter script_interpreter{};
+    script_interpreter.SetTag(npc_spitag.data());
+    script_interpreter.SetScript(file_buf, file_size);
+    script_interpreter.Run();
+  }
+
+  NpcBaseDataTotalNum = npc_spi_count_num;
+}
+
 
 // 002AB3A0
 std::string GetNPCModelName(ENPCID npc_id)
