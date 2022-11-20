@@ -1,7 +1,8 @@
+#include <string>
+
 #include <gtest/gtest.h>
 
 #include "dc2/script_interpreter.h"
-
 
 class input_strTest : public ::testing::Test {
 protected:
@@ -59,3 +60,56 @@ WEP_BUILD 2,90,0;\r\n\
   EXPECT_EQ("WEP_BUILD 2,90,0;", line8);
 }
 
+static bool spi_test1_bool;
+static sint spi_test1_sint;
+static float spi_test1_float;
+static std::string spi_test1_string;
+
+static bool TEST1(SPI_STACK* stack, int stack_count)
+{
+  spi_test1_bool = static_cast<bool>(spiGetStackInt(stack++));
+  spi_test1_sint = spiGetStackInt(stack++);
+  spi_test1_float = spiGetStackFloat(stack++);
+  spi_test1_string = std::string(spiGetStackString(stack++));
+  return true;
+}
+
+static sint spi_test2_sint;
+
+static bool TEST2(SPI_STACK* stack, int stack_count)
+{
+  spi_test2_sint = spiGetStackInt(stack++);
+  return true;
+}
+
+static const SPI_TAG_PARAM test_tag[] =
+{
+  "TEST1",  TEST1,
+  "TEST2",  TEST2,
+  NULL, nullptr
+};
+
+class CScriptInterpreterTest : public ::testing::Test {
+protected:
+
+};
+
+TEST_F(CScriptInterpreterTest, Run)
+{
+  char buf[0x1000];
+  strcpy_s(buf, sizeof(buf) / sizeof(char), "\
+TEST1 1, 200, 735.2, \"HELLO WORLD!\";\r\n\
+TEST2 400;\r\n\
+");
+  
+  CScriptInterpreter script_interpreter{};
+  script_interpreter.SetScript(buf, strlen(buf));
+  script_interpreter.SetTag(test_tag);
+  script_interpreter.Run();
+
+  EXPECT_TRUE(spi_test1_bool);
+  EXPECT_EQ(spi_test1_sint, 200);
+  EXPECT_FLOAT_EQ(spi_test1_float, 735.2);
+  EXPECT_EQ(spi_test1_string, "HELLO WORLD!");
+  EXPECT_EQ(spi_test2_sint, 400);
+}
