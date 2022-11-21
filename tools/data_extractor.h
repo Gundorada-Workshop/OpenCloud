@@ -18,7 +18,7 @@ public:
 
 public:
   // ctor
-  extractor();
+  extractor(iso9660::file::file_list files);
 
   // dtor
   ~extractor();
@@ -29,6 +29,7 @@ public:
 
 public:
   bool extract_file(std::string_view iso_file_path);
+  bool extract_hdx_file(std::string_view descriptor_file_path, std::string_view data_file_path);
   bool extract_directory(std::string_view iso_file_path);
 
 public:
@@ -51,18 +52,13 @@ public:
   }
 
 private:
-  // extract an iso file
-  bool extract(const iso9660::file::file_entry& file);
-
   // extract normal files
   bool extract_direct(const iso9660::file::file_entry& file);
 
-  // extract hd files
-  bool extract_hdx(hd::file& hdx_file);
+  std::optional<iso9660::file::file_entry> find_file_by_name(std::string_view name);
 
   // output directory
   std::string m_output_directory_path{ };
 
-  // temp buffer for ISO blocks
-  std::unique_ptr<u8[]> m_temp_block_buffer{ };
+  iso9660::file::file_list m_files{ };
 };

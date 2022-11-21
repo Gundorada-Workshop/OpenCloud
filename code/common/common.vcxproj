@@ -14,6 +14,7 @@
     <ClInclude Include="clock.h" />
     <ClInclude Include="console.h" />
     <ClInclude Include="console_logger.h" />
+    <ClInclude Include="data_stream.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="dynamic_library.h" />
     <ClInclude Include="file_helpers.h" />
@@ -26,6 +27,7 @@
   <ItemGroup>
     <ClCompile Include="console.cc" />
     <ClCompile Include="console_logger.cpp" />
+    <ClCompile Include="data_stream.cc" />
     <ClCompile Include="debug.cc" />
     <ClCompile Include="dynamic_library.cc" />
     <ClCompile Include="file_helpers.cc" />
