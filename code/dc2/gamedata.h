@@ -522,7 +522,7 @@ struct SDataItemCommon
   // 20
   s8 m_unk_field_20{ 0 };
   // 24
-  s32 m_unk_field_24{ 0 };
+  s32 m_attribute{ 0 };
   // 28
   std::string m_name{};
   // SIZE 0x2C
@@ -743,9 +743,6 @@ public:
 // 00195470
 bool LoadGameDataAnalyze(const char* config_file_name);
 
-// 00195F10
-EUsedItemType ConvertUsedItemType(ECommonItemDataType type);
-
 // 00195C20
 SDataItemCommon* GetCommonItemData(ECommonItemData index);
 
@@ -761,8 +758,20 @@ CDataRoboPart* GetRoboPartInfoData(ECommonItemData index);
 // 00195C60
 CDataBreedFish* GetBreedFishInfoData(ECommonItemData index);
 
+// 00195C70
+std::string GetItemFileName(ECommonItemData item_id, int i);
+
+// 00195C70
+std::string GetItemFilePath(ECommonItemData item_id, int i);
+
 // 00195EC0
 ECommonItemDataType GetItemDataType(ECommonItemData index);
+
+// 00195ED0
+s32 GetItemDataAttribute(ECommonItemData item_id);
+
+// 00195F10
+EUsedItemType ConvertUsedItemType(ECommonItemDataType type);
 
 // 00196040
 std::string GetItemMessage(ECommonItemData index);

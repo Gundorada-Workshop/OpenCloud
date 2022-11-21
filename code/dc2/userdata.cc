@@ -372,7 +372,7 @@ void CGameDataUsed::Initialize()
 }
 
 // 001970D0
-bool CGameDataUsed::CheckTypeEnableStack()
+bool CGameDataUsed::CheckTypeEnableStack() const
 {
   log_trace("CGameDataUsed::{}()", __func__);
 
@@ -392,6 +392,14 @@ bool CGameDataUsed::CheckTypeEnableStack()
   }
 
   return m_common_index != ECommonItemData::Monster_Drop;
+}
+
+// 00197120
+std::string CGameDataUsed::GetDataPath() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  return GetItemFilePath(m_common_index, 0);
 }
 
 // 001971D0

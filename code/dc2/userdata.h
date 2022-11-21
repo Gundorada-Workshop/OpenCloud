@@ -198,7 +198,9 @@ public:
   // 001970c0
   void Initialize();
   // 001970D0
-  bool CheckTypeEnableStack();
+  bool CheckTypeEnableStack() const;
+  // 00197120
+  std::string GetDataPath() const;
   // 001971D0
   s16 GetLevel() const;
   // 00197480
