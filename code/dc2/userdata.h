@@ -552,6 +552,9 @@ public:
   // Size 0x90
 };
 
+// 00196630
+ECommonItemData GetRidePodCore(ssize index);
+
 // 0019A890
 MOS_HENGE_PARAM* GetMonsterHengeParam(EMonsterID index);
 

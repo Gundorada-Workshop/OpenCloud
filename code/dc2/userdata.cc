@@ -13,6 +13,31 @@ set_log_channel("userdata");
 // 01E9B130
 static CBattleCharaInfo BattleParameter{};
 
+// 00196630
+ECommonItemData GetRidePodCore(ssize index)
+{
+  log_trace("{}({})", __func__, index);
+
+  // 00335B80
+  static const ECommonItemData table[]
+  {
+    ECommonItemData::Core,
+    ECommonItemData::Improved_Core,
+    ECommonItemData::Core_II,
+    ECommonItemData::Core_III,
+    ECommonItemData::Super_Core,
+    ECommonItemData::Hyper_Core,
+    ECommonItemData::Master_Grade_Core,
+  };
+
+  if (index < 0 || index >= std::size(table))
+  {
+    return ECommonItemData::Invalid;
+  }
+
+  return table[index];
+}
+
 // 00196C90
 bool COMMON_GAGE::CheckFill()
 {
