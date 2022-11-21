@@ -371,6 +371,29 @@ void CGameDataUsed::Initialize()
   memset(this, 0, sizeof(this));
 }
 
+// 001970D0
+bool CGameDataUsed::CheckTypeEnableStack()
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  if (m_type == EUsedItemType::Item_Misc)
+  {
+    return true;
+  }
+
+  if (m_type == EUsedItemType::Attach)
+  {
+    return false;
+  }
+
+  if (m_common_index == ECommonItemData::Unknown185)
+  {
+    return false;
+  }
+
+  return m_common_index != ECommonItemData::Monster_Drop;
+}
+
 // 001971D0
 s16 CGameDataUsed::GetLevel() const
 {

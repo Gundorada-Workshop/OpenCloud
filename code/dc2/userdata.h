@@ -197,6 +197,8 @@ public:
   CGameDataUsed();
   // 001970c0
   void Initialize();
+  // 001970D0
+  bool CheckTypeEnableStack();
   // 001971D0
   s16 GetLevel() const;
   // 00197480
