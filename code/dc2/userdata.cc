@@ -13,6 +13,28 @@ set_log_channel("userdata");
 // 01E9B130
 static CBattleCharaInfo BattleParameter{};
 
+// 00196520
+bool CheckItemEquip(ECharacterID chara_id, ECommonItemData item_id)
+{
+  log_trace("{}({}, {})", __func__, std::to_underlying(chara_id), std::to_underlying(item_id));
+
+  if (!GetItemInfoData(item_id))
+  {
+    return false;
+  }
+
+  switch (item_id)
+  {
+    case ECommonItemData::Gun_Repair_Powder:
+    case ECommonItemData::Camera:
+      return chara_id == ECharacterID::Max;
+    case ECommonItemData::Armband_Repair_Powder:
+      return chara_id == ECharacterID::Monica;
+    default:
+      return true;
+  }
+}
+
 // 001965C0
 ECommonItemData SearchItemByName(const std::string name)
 {

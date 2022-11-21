@@ -552,6 +552,9 @@ public:
   // Size 0x90
 };
 
+// 00196520
+bool CheckItemEquip(ECharacterID chara_id, ECommonItemData item_id);
+
 // 001965C0
 ECommonItemData SearchItemByName(const std::string name);
 
