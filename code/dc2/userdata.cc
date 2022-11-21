@@ -13,6 +13,22 @@ set_log_channel("userdata");
 // 01E9B130
 static CBattleCharaInfo BattleParameter{};
 
+// 001965C0
+ECommonItemData SearchItemByName(const std::string name)
+{
+  log_trace("{}({})", __func__, name);
+
+  for (int i = 1; i < std::to_underlying(ECommonItemData::COUNT); ++i)
+  {
+    if (GetCommonItemData(static_cast<ECommonItemData>(i))->m_name == name)
+    {
+      return static_cast<ECommonItemData>(i);
+    }
+  }
+
+  return ECommonItemData::Invalid;
+}
+
 // 00196630
 ECommonItemData GetRidePodCore(ssize index)
 {

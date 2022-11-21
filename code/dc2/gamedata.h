@@ -478,6 +478,7 @@ enum class ECommonItemData
   Tasty_Water = 425,
   Sun_Badge = 427,
   Moon_Badge = 428,
+  COUNT = 429,
 };
 
 enum class EUsedItemType

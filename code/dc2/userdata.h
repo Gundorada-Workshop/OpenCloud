@@ -552,6 +552,9 @@ public:
   // Size 0x90
 };
 
+// 001965C0
+ECommonItemData SearchItemByName(const std::string name);
+
 // 00196630
 ECommonItemData GetRidePodCore(ssize index);
 
