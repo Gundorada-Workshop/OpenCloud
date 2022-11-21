@@ -591,6 +591,9 @@ public:
 // 00196130
 usize ItemCmdMsgSet(EItemCmd cmd, s32* dest);
 
+// 001961A0
+usize GetMenuCommandMsg(ECommonItemData item_id, s32* dest);
+
 // 00196520
 bool CheckItemEquip(ECharacterID chara_id, ECommonItemData item_id);
 

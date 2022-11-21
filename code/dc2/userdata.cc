@@ -68,6 +68,145 @@ usize ItemCmdMsgSet(EItemCmd cmd, s32* dest)
   return i;
 }
 
+// 001961A0
+usize GetMenuCommandMsg(ECommonItemData item_id, s32* dest)
+{
+  log_trace("{}({}, {})", __func__, std::to_underlying(item_id), fmt::ptr(dest));
+
+  auto item_type = GetItemDataType(item_id);
+
+  switch (item_type)
+  {
+    case ECommonItemDataType::Torso_Max:
+    case ECommonItemDataType::Hat_Max:
+    case ECommonItemDataType::Shoes_Max:
+    case ECommonItemDataType::Torso_Monica:
+    case ECommonItemDataType::Hat_Monica:
+    case ECommonItemDataType::Shoes_Monica:
+      // 196220
+      return ItemCmdMsgSet(EItemCmd::_8, dest);
+    case ECommonItemDataType::Crystal:
+    case ECommonItemDataType::Gem:
+    case ECommonItemDataType::_34:
+      // 196234
+      return ItemCmdMsgSet(EItemCmd::_1, dest);
+    case ECommonItemDataType::Coin:
+      // 196248
+      return ItemCmdMsgSet(EItemCmd::_24, dest);
+    case ECommonItemDataType::_17:
+      // 19625C
+      return ItemCmdMsgSet(EItemCmd::_5, dest);
+    case ECommonItemDataType::Ridepod_Core:
+      // 196270
+      return ItemCmdMsgSet(EItemCmd::_7, dest);
+    case ECommonItemDataType::Ridepod_Body:
+    case ECommonItemDataType::Ridepod_Leg:
+      // 196284
+      return ItemCmdMsgSet(EItemCmd::_2, dest);
+    case ECommonItemDataType::Ridepod_Arm:
+      // 196298
+      return ItemCmdMsgSet(EItemCmd::_22, dest);
+    case ECommonItemDataType::Ridepod_Battery:
+      // 1962AC
+      return ItemCmdMsgSet(EItemCmd::_16, dest);
+    case ECommonItemDataType::Melee_Max:
+    case ECommonItemDataType::Ranged_Max:
+    case ECommonItemDataType::Melee_Monica:
+    case ECommonItemDataType::Ranged_Monica:
+    {
+      // 1961E8
+      usize result = ItemCmdMsgSet(EItemCmd::_0, dest);
+
+      if (item_id == ECommonItemData::Fishing_Rod || item_id == ECommonItemData::Lure_Rod)
+      {
+        result = ItemCmdMsgSet(EItemCmd::_14, dest);
+      }
+      return result;
+    }
+    case ECommonItemDataType::Food:
+      // 1962C0
+      return ItemCmdMsgSet(EItemCmd::_3, dest);
+    case ECommonItemDataType::Crafting_Material:
+    case ECommonItemDataType::Throwable:
+    case ECommonItemDataType::Powder:
+    case ECommonItemDataType::Amulet:
+    case ECommonItemDataType::Dungeon_Key:
+    case ECommonItemDataType::Story_Item:
+    case ECommonItemDataType::Dungeon_Item_Or_Bait:
+      switch (item_id)
+      {
+        case ECommonItemData::Repair_Powder:
+          // 1962E0
+          return ItemCmdMsgSet(EItemCmd::_13, dest);
+        case ECommonItemData::Gun_Repair_Powder:
+        case ECommonItemData::Armband_Repair_Powder:
+          // 196308
+          return ItemCmdMsgSet(EItemCmd::_17, dest);
+        case ECommonItemData::Ridepod_Fuel:
+          // 196320
+          return ItemCmdMsgSet(EItemCmd::_23, dest);
+        case ECommonItemData::Fruit_Of_Eden:
+          // 19633C
+          return ItemCmdMsgSet(EItemCmd::_20, dest);
+        case ECommonItemData::Potato_Pie:
+          // 196358
+          return ItemCmdMsgSet(EItemCmd::_18, dest);
+        case ECommonItemData::Witch_Parfait:
+          // 196374
+          return ItemCmdMsgSet(EItemCmd::_19, dest);
+        case ECommonItemData::Notebook:
+          // 196390
+          return ItemCmdMsgSet(EItemCmd::_21, dest);
+        case ECommonItemData::Heart_Throb_Cherry:
+        case ECommonItemData::Mellow_Banana:
+        case ECommonItemData::Resurrection_Powder:
+          // 1963C4
+          return ItemCmdMsgSet(EItemCmd::_3, dest);
+        case ECommonItemData::Inside_Scoop_Memo:
+          // 1963DC
+          return ItemCmdMsgSet(EItemCmd::_26, dest);
+        case ECommonItemData::Shield_Kit:
+          // 1963F8
+          return ItemCmdMsgSet(EItemCmd::_25, dest);
+        case ECommonItemData::Escape_Powder:
+          // 196414
+          return ItemCmdMsgSet(EItemCmd::_27, dest);
+        case ECommonItemData::Seal_Breaking_Scroll:
+          // 196430
+          return ItemCmdMsgSet(EItemCmd::_28, dest);
+        case ECommonItemData::Monster_Notes:
+          // 19644C
+          return ItemCmdMsgSet(EItemCmd::_30, dest);
+        case ECommonItemData::Level_Up_Powder:
+          // 196468
+          return ItemCmdMsgSet(EItemCmd::_31, dest);
+        default:
+          // 19647C
+          return ItemCmdMsgSet(EItemCmd::_4, dest);
+      }
+    case ECommonItemDataType::Aquarium:
+      // 19648C
+      return ItemCmdMsgSet(EItemCmd::_9, dest);
+    case ECommonItemDataType::Badge_Box:
+      // 1964A0
+      return ItemCmdMsgSet(EItemCmd::_10, dest);
+    case ECommonItemDataType::Gift_Capsule:
+      // 1964B4
+      return ItemCmdMsgSet(EItemCmd::_11, dest);
+    case ECommonItemDataType::Fish:
+      // 1964C8
+      return ItemCmdMsgSet(EItemCmd::_12, dest);
+    case ECommonItemDataType::Lure:
+      // 1964DC
+      return ItemCmdMsgSet(EItemCmd::_15, dest);
+    case ECommonItemDataType::_35:
+      // 1964F0
+      return ItemCmdMsgSet(EItemCmd::_29, dest);
+    default:
+      return 0;
+  }
+}
+
 // 00196520
 bool CheckItemEquip(ECharacterID chara_id, ECommonItemData item_id)
 {
