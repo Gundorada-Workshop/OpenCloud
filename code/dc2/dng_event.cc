@@ -11,7 +11,7 @@
 set_log_channel("dng_event");
 
 // 01F052C0
-static MapJumpInfo MainMapInfo{};
+static MapJumpInfo MainMapInfo{ };
 
 void CGeoStone::Initialize()
 {
@@ -21,7 +21,7 @@ void CGeoStone::Initialize()
 }
 
 // 0028BCA0
-bool CGeoStone::CheckEvent(glm::vec4& position)
+bool CGeoStone::CheckEvent(vec4& position)
 {
   log_trace("CGeoStone::{}({})", __func__, fmt::ptr(&position));
 
@@ -30,12 +30,13 @@ bool CGeoStone::CheckEvent(glm::vec4& position)
     return false;
   }
 
-  glm::vec4 stone_position = GetPosition();
+  vec4 stone_position = GetPosition();
+
   return glm::distance(stone_position, position) <= 30.0f;
 }
 
 // 0028BA80
-void CGeoStone::GeoDraw(glm::vec4& position)
+void CGeoStone::GeoDraw(vec4& position)
 {
   log_trace("CGeoStone::{}({})", __func__, fmt::ptr(&position));
 
@@ -44,8 +45,8 @@ void CGeoStone::GeoDraw(glm::vec4& position)
     return;
   }
 
-  glm::vec4 orig_pos = GetPosition();
-  glm::vec4 draw_pos{ orig_pos };
+  vec4 orig_pos = GetPosition();
+  vec4 draw_pos{ orig_pos };
 
   if (glm::distance(draw_pos, position) < 1000.0f || !m_unk_field_668)
   {
@@ -71,7 +72,7 @@ void CGeoStone::DrawMiniMapSymbol(CMiniMapSymbol* mini_map_symbol)
 
   if (!m_flag)
   {
-    glm::vec4 stone_position = GetPosition();
+    vec4 stone_position = GetPosition();
     mini_map_symbol->DrawSymbol(stone_position, EMiniMapSymbol::GeoStone);
   }
 }
@@ -92,7 +93,7 @@ void CGeoStone::SetFlag(bool flag)
     return;
   }
 
-  AutoMapGen.m_map_parts->SetPosition(glm::vec4{ 0.0f, -99999.0f, 0.0f, 1.0f });
+  AutoMapGen.m_map_parts->SetPosition({ 0.0f, -99999.0f, 0.0f, 1.0f });
 }
 
 // 0028BC20
@@ -117,11 +118,11 @@ void CGeoStone::GeoStep()
 }
 
 // 0028BD50
-void CRandomCircle::Draw(glm::vec4* v)
+void CRandomCircle::Draw(vec4* v)
 {
   log_trace("CRandomCircle::{}()", __func__);
 
-  for (int i = 0; i < m_unk_field_0.size(); ++i)
+  for (sint i = 0; i < m_unk_field_0.size(); ++i)
   {
     if (!m_unk_field_30[i])
     {
@@ -152,7 +153,7 @@ void CRandomCircle::DrawSymbol(CMiniMapSymbol* mini_map_symbol)
 {
   log_trace("CRandomCircle::{}({})", __func__, fmt::ptr(mini_map_symbol));
 
-  for (int i = 0; i < m_unk_field_0.size(); ++i)
+  for (sint i = 0; i < m_unk_field_0.size(); ++i)
   {
     if (m_unk_field_30[i])
     {
@@ -162,11 +163,11 @@ void CRandomCircle::DrawSymbol(CMiniMapSymbol* mini_map_symbol)
 }
 
 // 0028BEF0
-bool CRandomCircle::CheckArea(glm::vec4* v, float f)
+bool CRandomCircle::CheckArea(vec4* v, f32 f)
 {
   log_trace("CRandomCircle::{}({}, {})", __func__, fmt::ptr(v), f);
 
-  for (int i = 0; i < m_unk_field_0.size(); ++i)
+  for (sint i = 0; i < m_unk_field_0.size(); ++i)
   {
     if (!m_unk_field_30[i])
     {
@@ -183,7 +184,7 @@ bool CRandomCircle::CheckArea(glm::vec4* v, float f)
 }
 
 // 0028BFA0
-bool CRandomCircle::GetPosition(glm::vec4* dest, ssize i)
+bool CRandomCircle::GetPosition(vec4* dest, ssize i)
 {
   log_trace("CRandomCircle::{}({}, {})", __func__, fmt::ptr(dest), i);
 
@@ -193,26 +194,30 @@ bool CRandomCircle::GetPosition(glm::vec4* dest, ssize i)
     {
       return false;
     }
+
     *dest = m_unk_field_0[m_unk_field_3C];
+
     return true;
   }
   else
   {
-    if (i < 0 || m_unk_field_0.size() <= i)
+    if (i < 0 || static_cast<ssize>(m_unk_field_0.size()) <= i)
     {
       return false;
     }
+
     *dest = m_unk_field_0[i];
+
     return true;
   }
 }
 
 // 0028C020
-ssize CRandomCircle::CheckEvent(glm::vec4* v)
+ssize CRandomCircle::CheckEvent(vec4* v)
 {
   log_trace("CRandomCircle::{}(({}, {}, {}))", __func__, v->x, v->y, v->z);
 
-  for (int i = 0; i < m_unk_field_30.size(); ++i)
+  for (sint i = 0; i < m_unk_field_30.size(); ++i)
   {
     if (!m_unk_field_30[i])
     {
@@ -227,23 +232,26 @@ ssize CRandomCircle::CheckEvent(glm::vec4* v)
   }
 
   m_unk_field_3C = -1;
+
   return -1;
 }
 
 // 0028C0D0
-ssize CRandomCircle::SetCircle(glm::vec4* v)
+ssize CRandomCircle::SetCircle(vec4* v)
 {
   log_trace("CRandomCircle::{}(({}, {}, {}))", __func__, v->x, v->y, v->z);
 
-  for (int i = 0; i < m_unk_field_30.size(); ++i)
+  for (sint i = 0; i < m_unk_field_30.size(); ++i)
   {
     if (!m_unk_field_30[i])
     {
       m_unk_field_0[i] = *v;
       m_unk_field_30[i] = true;
+
       return i;
     }
   }
+
   return -1;
 }
 
@@ -256,5 +264,6 @@ void CRandomCircle::Clear()
   {
     b = false;
   }
+
   m_unk_field_3C = -1;
 }
