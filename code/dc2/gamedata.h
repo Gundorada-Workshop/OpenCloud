@@ -602,7 +602,7 @@ public:
   // 44
   s16 m_unk_field_44{ 0 };
   // 46
-  s8 m_unk_field_46{ 0 };
+  s8 m_palette_color{ 0 };
   // 47
   s8 m_unk_field_47{ 0 };
   // 48

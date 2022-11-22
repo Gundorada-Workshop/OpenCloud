@@ -234,7 +234,7 @@ static bool _DATAWEP_SPE(SPI_STACK* stack, int stack_count)
   }
 
   SpiWeaponPt->m_unk_field_38 = static_cast<u8>(spiGetStackFloat(stack++));
-  SpiWeaponPt->m_unk_field_46 = spiGetStackInt(stack++);
+  SpiWeaponPt->m_palette_color = spiGetStackInt(stack++);
   SpiWeaponPt->m_unk_field_47 = spiGetStackInt(stack++);
   SpiWeaponPt->m_unk_field_39 = spiGetStackInt(stack++);
   SpiWeaponPt->m_unk_field_2C = spiGetStackInt(stack++);

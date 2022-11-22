@@ -206,6 +206,8 @@ public:
   ECharacterID IsWhoEquip() const;
   // 001971D0
   s16 GetLevel() const;
+  // 00197200
+  s8 GetPaletteColor() const;
   // 00197480
   s16 AddFishHp(s16 delta);
   // 00197630

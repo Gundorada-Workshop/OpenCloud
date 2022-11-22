@@ -450,6 +450,25 @@ s16 CGameDataUsed::GetLevel() const
   }
 }
 
+// 00197200
+s8 CGameDataUsed::GetPaletteColor() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  if (m_type != EUsedItemType::Weapon)
+  {
+    return 0;
+  }
+
+  auto wep_data = GameItemDataManage.GetWeaponData(m_common_index);
+  if (wep_data == nullptr)
+  {
+    return 0;
+  }
+
+  return wep_data->m_palette_color;
+}
+
 // 00197480
 s16 CGameDataUsed::AddFishHp(s16 delta)
 {
