@@ -1,4 +1,4 @@
-#include <string>
+﻿#include <string>
 
 #include <gtest/gtest.h>
 
@@ -28,7 +28,7 @@ WEP_BUILD 2,90,0;\r\n\
 ");
   input.m_string = buf;
   input.m_position = 0;
-  input.m_length = strlen(input.m_string);
+  input.m_length = input.m_string.length();
 
   std::string line1;
   std::string line2;
@@ -157,4 +157,43 @@ TEST1 0, 123, 3.14, \"Is this thing working?\";\r\n\
   EXPECT_EQ(spi_test1_sint, 123);
   EXPECT_FLOAT_EQ(spi_test1_float, 3.14);
   EXPECT_EQ(spi_test1_string, "Is this thing working?");
+}
+
+TEST_F(CScriptInterpreterTest, ShouldConvertFromShiftJIS)
+{
+  char buf[0x1000];
+  strcpy_s(buf, sizeof(buf) / sizeof(char), 
+    "TEST1 0, 123, 3.14, \"\x32\x8F\xCD\x82\xA9\x82\xE7\";\r\n"
+);
+
+  CScriptInterpreter script_interpreter{};
+  script_interpreter.SetScript(buf, strlen(buf));
+  script_interpreter.SetTag(test_tag);
+  script_interpreter.Run();
+
+  EXPECT_FALSE(spi_test1_bool);
+  EXPECT_EQ(spi_test1_sint, 123);
+  EXPECT_FLOAT_EQ(spi_test1_float, 3.14);
+  EXPECT_EQ(spi_test1_string, "2章から");
+}
+
+TEST_F(CScriptInterpreterTest, ShouldNotConvertWhenUTF8EncodingSpecified)
+{
+  char buf[0x1000];
+  strcpy_s(buf, sizeof(buf) / sizeof(char),
+    "// This is a comment\r\n"
+    "\r\n"
+    "encoding utf-8;\r\n"
+    "TEST1 1, 124, 3.15, \"これはＵTF8がなくてはならない\";\r\n"
+  );
+
+  CScriptInterpreter script_interpreter{};
+  script_interpreter.SetScript(buf, strlen(buf));
+  script_interpreter.SetTag(test_tag);
+  script_interpreter.Run();
+
+  EXPECT_TRUE(spi_test1_bool);
+  EXPECT_EQ(spi_test1_sint, 124);
+  EXPECT_FLOAT_EQ(spi_test1_float, 3.15);
+  EXPECT_EQ(spi_test1_string, "これはＵTF8がなくてはならない");
 }

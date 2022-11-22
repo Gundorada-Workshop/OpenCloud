@@ -1,3 +1,4 @@
+#include "common/strings.h"
 #include "common/log.h"
 
 #include "dc2/script_interpreter.h"
@@ -90,17 +91,78 @@ static bool CheckChar(char ch)
   return ch != '\r' && ch != '\n' && ch != '\t' && ch != ' ';
 }
 
+static inline bool IsSingleLineCommentStart(input_str& str, usize i)
+{
+  if (i < str.m_length - 1)
+  {
+    return str.m_string[i] == '/' && str.m_string[i + 1] == '/';
+  }
+
+  return false;
+}
+
+static bool IsMultiLineCommentStart(input_str& str, usize i)
+{
+  if (i < str.m_length - 1)
+  {
+    return str.m_string[i] == '/' && str.m_string[i + 1] == '*';
+  }
+
+  return false;
+}
+
+static bool IsMultiLineCommentEnd(input_str& str, usize i)
+{
+  if (i > 1 && i < str.m_length - 1)
+  {
+    return str.m_string[i] == '*' && str.m_string[i + 1] == '/' && str.m_string[i - 1] != '/';
+  }
+
+  return false;
+}
+
+static bool IsNewLine(char c)
+{
+  return c == '\n' || c == '\r';
+}
+
+static bool IsUTF8(input_str& str)
+{
+  auto old_position = str.m_position;
+
+  // A simple check I might make more robust later;
+  // The first non-comment/non-whitespace text must
+  // string match "encoding utf-8;"
+
+  constexpr char check[] = "encoding utf-8;";
+
+  bool valid = SkipSpace(str);
+  auto pos = str.m_position;
+  str.m_position = old_position;
+
+  if (valid && strncmp(&str.m_string.c_str()[pos], check, std::size(check) - 1) == 0)
+  {
+    // Remove the encoding utf-8; line
+    for (int i = pos; i < pos + std::size(check); ++i)
+    {
+      str.m_string[i] = ' ';
+    }
+    return true;
+  }
+  return false;
+}
+
 // 00147350
 static void PreProcess(input_str& str)
 {
   for (int i = 0; i < str.m_length; ++i)
   {
-    if (str.m_string[i] == '/' && str.m_string[i + 1] == '/')
+    if (IsSingleLineCommentStart(str, i))
     {
       // Remove same line comment
       for (; i < str.m_length; ++i)
       {
-        if (str.m_string[i] == '\n' || str.m_string[i] == '\r')
+        if (IsNewLine(str.m_string[i]))
         {
           break;
         }
@@ -109,12 +171,12 @@ static void PreProcess(input_str& str)
       }
     }
 
-    if (str.m_string[i] == '/' && str.m_string[i + 1] == '*')
+    if (IsMultiLineCommentStart(str, i))
     {
       // Remove multi-line comment
       for (; i < str.m_length; ++i)
       {
-        if (str.m_string[i] == '*' && str.m_string[i + 1] == '/')
+        if (IsMultiLineCommentEnd(str, i))
         {
           // remove end of comment marker
           str.m_string[i] = ' ';
@@ -125,6 +187,15 @@ static void PreProcess(input_str& str)
         str.m_string[i] = ' ';
       }
     }
+  }
+
+  // Now, convert the script from Shift-JIS to UTF8
+  if (!IsUTF8(str))
+  {
+    auto view = std::string_view{ str.m_string };
+    auto utf8 = common::strings::from_sjis(view);
+    str.m_string = std::move(utf8.value());
+    str.m_length = str.m_string.length();
   }
 }
 
@@ -587,6 +658,8 @@ bool CScriptInterpreter::SearchCommand(ssize* command_index_dest)
     *command_index_dest = -1;
     return true;
   }
+
+  log_debug("SearchCommand: Found command: {}", command_buff);
 
   if (m_p_hash_list == nullptr)
   {

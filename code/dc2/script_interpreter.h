@@ -18,7 +18,7 @@ enum SPI_STACK_DATA_TYPE
 struct input_str
 {
   // 0
-  char* m_string{};
+  std::string m_string{};
   // 4
   s32 m_length{};
   // 8

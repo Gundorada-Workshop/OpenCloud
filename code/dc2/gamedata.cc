@@ -2,6 +2,7 @@
 #include <unordered_map>
 
 #include "common/file_helpers.h"
+#include "common/data_stream.h"
 #include "common/debug.h"
 #include "common/log.h"
 #include "common/types.h"
@@ -638,17 +639,25 @@ void CGameData::LoadItemSystemMes(Language language)
 {
   log_trace("CGameData::{}({})", __func__, std::to_underlying(language));
 
-  using namespace common::file_helpers;
-  auto file_path = resolve_data_path("menu/cfg7/comdatmes{}.cfg", std::to_underlying(language));
+  using namespace common;
+  auto file_path = file_helpers::resolve_data_path("menu/cfg7/comdatmes{}.cfg", std::to_underlying(language));
 
-  char* file_buf = nullptr; // LoadFile2(file_path, ...)
-  usize file_size = 0;
-  if (file_buf != nullptr)
+  auto fs = file_stream::open(file_path, "rb");
+  auto file_size = fs->size();
+
+  auto file_buf = std::make_unique<char[]>(file_size);
+  bool result = fs->read_buffer_checked(file_buf.get(), file_size);
+
+  if (file_buf != nullptr && result)
   {
     CScriptInterpreter script_interpreter{};
     script_interpreter.SetTag(gamedata_tag.data());
-    script_interpreter.SetScript(file_buf, file_size);
+    script_interpreter.SetScript(file_buf.get(), file_size);
     script_interpreter.Run();
+  }
+  else
+  {
+    log_warn("{} open error!!!", file_path);
   }
 }
 
@@ -870,13 +879,16 @@ bool LoadGameDataAnalyze(const char* config_file_name)
 {
   log_trace("LoadGameDataAnalyze({})", config_file_name);
 
-  using namespace common::file_helpers;
-  auto file_path = resolve_data_path("menu/cfg7/{}", config_file_name);
+  using namespace common;
+  auto file_path = file_helpers::resolve_data_path("menu/cfg7/{}", config_file_name);
 
-  char* file_buf = nullptr; // LoadFile2(file_path, ...)
-  usize file_size = 0;
+  auto fs = file_stream::open(file_path, "rb");
+  auto file_size = fs->size();
 
-  if (file_buf == nullptr)
+  auto file_buf = std::make_unique<char[]>(file_size);
+  bool result = fs->read_buffer_checked(file_buf.get(), file_size);
+
+  if (file_buf == nullptr || !result)
   {
     log_warn("{} open error !!!", config_file_name);
     return false;
@@ -884,7 +896,7 @@ bool LoadGameDataAnalyze(const char* config_file_name)
 
   CScriptInterpreter script_interpreter{};
   script_interpreter.SetTag(gamedata_tag.data());
-  script_interpreter.SetScript(file_buf, file_size);
+  script_interpreter.SetScript(file_buf.get(), file_size);
   script_interpreter.Run();
   return true;
 }
