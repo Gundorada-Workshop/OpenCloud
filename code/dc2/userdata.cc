@@ -93,7 +93,7 @@ usize GetMenuCommandMsg(ECommonItemData item_id, s32* dest)
     case ECommonItemDataType::Coin:
       // 196248
       return ItemCmdMsgSet(EItemCmd::_24, dest);
-    case ECommonItemDataType::_17:
+    case ECommonItemDataType::Spectrumized_Item:
       // 19625C
       return ItemCmdMsgSet(EItemCmd::_5, dest);
     case ECommonItemDataType::Ridepod_Core:
@@ -386,7 +386,7 @@ bool CGameDataUsed::CheckTypeEnableStack() const
     return false;
   }
 
-  if (m_common_index == ECommonItemData::Unknown185)
+  if (m_common_index == ECommonItemData::Spectrumized_Item)
   {
     return false;
   }
@@ -467,6 +467,19 @@ s8 CGameDataUsed::GetPaletteColor() const
   }
 
   return wep_data->m_palette_color;
+}
+
+// 00197250
+ECommonItemData CGameDataUsed::GetSpectrumNo() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  if (m_common_index != ECommonItemData::Spectrumized_Item)
+  {
+    return ECommonItemData::Invalid;
+  }
+
+  return m_sub_data.m_attach.m_spectrumized_item_id;
 }
 
 // 00197480

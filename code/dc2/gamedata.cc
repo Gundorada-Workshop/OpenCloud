@@ -989,7 +989,7 @@ UsedType ConvertUsedItemType(ComType type)
     {ComType::Ridepod_Leg, UsedType::Robopart},
     {ComType::Ridepod_Battery, UsedType::Robopart},
     {ComType::Crystal, UsedType::Attach},
-    {ComType::_17, UsedType::Attach},
+    {ComType::Spectrumized_Item, UsedType::Attach},
     {ComType::Gem, UsedType::Attach},
     {ComType::Coin, UsedType::Attach},
     {ComType::Crafting_Material, UsedType::Item_Misc},

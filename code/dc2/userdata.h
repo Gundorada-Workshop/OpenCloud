@@ -129,6 +129,8 @@ struct SGameDataUsedAttachSub
 {
   // 8
   COMMON_GAGE m_unk_field_8;
+  // 16
+  ECommonItemData m_spectrumized_item_id;
   // 18
   s16 m_level{ 0 };
   // 20
@@ -208,6 +210,8 @@ public:
   s16 GetLevel() const;
   // 00197200
   s8 GetPaletteColor() const;
+  // 00197250
+  ECommonItemData GetSpectrumNo() const;
   // 00197480
   s16 AddFishHp(s16 delta);
   // 00197630
