@@ -739,6 +739,31 @@ COMMON_GAGE* CUserDataManager::GetCharaHpGage(ECharacterID chara_id)
   }
 }
 
+// 0019B510
+sint CUserDataManager::AddHp(ECharacterID chara_id, sint delta)
+{
+  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), delta);
+
+  auto gage = GetCharaHpGage(chara_id);
+  if (gage == nullptr) 
+    return 0;
+
+  gage->AddPoint(delta);
+  return static_cast<sint>(gage->m_current);
+}
+
+// 0019B560
+f32 CUserDataManager::GetHp(ECharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(chara_id));
+
+  auto gage = GetCharaHpGage(chara_id);
+  if (gage == nullptr)
+    return 0.0f;
+
+  return truncf(gage->m_current);
+}
+
 // 0019B620
 COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_index)
 {

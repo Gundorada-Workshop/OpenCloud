@@ -6,6 +6,8 @@
 
 // ~ 0012F1C0 - 00131110
 
+#define VALID_INDEX(arr, n) (n >= 0 && n < std::size(arr))
+
 // Clamps an angle to (-pi, +pi] radians.
 // (Only valid for f32s within (-2pi, +2pi].
 // Use mgAngleLimit if your f32 is not within that range.)
