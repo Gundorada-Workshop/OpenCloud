@@ -362,6 +362,9 @@ public:
   // 0019B560
   f32 GetHp(ECharacterID chara_id);
 
+  // 0019B5A0
+  f32 AddHp_Rate(ECharacterID chara_id, f32 rate);
+
   // 0019B620
   COMMON_GAGE* GetWHpGage(ECharacterID chara_id, ssize gage_index);
 

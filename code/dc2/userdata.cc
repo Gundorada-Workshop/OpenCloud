@@ -764,6 +764,20 @@ f32 CUserDataManager::GetHp(ECharacterID chara_id)
   return truncf(gage->m_current);
 }
 
+// 0019B5A0
+f32 CUserDataManager::AddHp_Rate(ECharacterID chara_id, f32 rate)
+{
+  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), rate);
+
+  auto gage = GetCharaHpGage(chara_id);
+  if (gage == nullptr)
+    return 0.0f;
+
+  gage->AddRate(rate);
+  gage->m_current = std::max(gage->m_current, 1.0f);
+  return gage->GetRate();
+}
+
 // 0019B620
 COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_index)
 {
