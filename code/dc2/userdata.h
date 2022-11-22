@@ -48,6 +48,7 @@ enum class EItemCmd
 
 enum class ECharacterID
 {
+  Invalid = -1,
   Max = 0,
   Monica = 1,
   Steve = 2,
@@ -201,6 +202,8 @@ public:
   bool CheckTypeEnableStack() const;
   // 00197120
   std::string GetDataPath() const;
+  // 00197130
+  ECharacterID IsWhoEquip() const;
   // 001971D0
   s16 GetLevel() const;
   // 00197480

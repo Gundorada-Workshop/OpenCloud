@@ -402,6 +402,38 @@ std::string CGameDataUsed::GetDataPath() const
   return GetItemFilePath(m_common_index, 0);
 }
 
+// 00197130
+ECharacterID CGameDataUsed::IsWhoEquip() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  switch (m_type)
+  {
+    case EUsedItemType::Weapon:
+      switch (m_item_data_type)
+      {
+        case ECommonItemDataType::Melee_Max:
+        case ECommonItemDataType::Ranged_Max:
+        case ECommonItemDataType::Torso_Max:
+        case ECommonItemDataType::Hat_Max:
+        case ECommonItemDataType::Shoes_Max:
+          return ECharacterID::Max;
+        case ECommonItemDataType::Melee_Monica:
+        case ECommonItemDataType::Ranged_Monica:
+        case ECommonItemDataType::Torso_Monica:
+        case ECommonItemDataType::Hat_Monica:
+        case ECommonItemDataType::Shoes_Monica:
+          return ECharacterID::Monica;
+        default:
+          return ECharacterID::Invalid;
+      }
+    case EUsedItemType::Robopart:
+      return ECharacterID::Steve;
+    default:
+      return ECharacterID::Invalid;
+  }
+}
+
 // 001971D0
 s16 CGameDataUsed::GetLevel() const
 {
