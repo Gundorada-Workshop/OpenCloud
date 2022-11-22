@@ -86,7 +86,7 @@ static bool SkipSpace(input_str& str)
 }
 
 // 00147300
-static bool CheckChar(char ch)
+static inline bool CheckChar(char ch)
 {
   return ch != '\r' && ch != '\n' && ch != '\t' && ch != ' ';
 }
@@ -101,7 +101,7 @@ static inline bool IsSingleLineCommentStart(input_str& str, usize i)
   return false;
 }
 
-static bool IsMultiLineCommentStart(input_str& str, usize i)
+static inline bool IsMultiLineCommentStart(input_str& str, usize i)
 {
   if (i < str.m_length - 1)
   {
@@ -111,7 +111,7 @@ static bool IsMultiLineCommentStart(input_str& str, usize i)
   return false;
 }
 
-static bool IsMultiLineCommentEnd(input_str& str, usize i)
+static inline bool IsMultiLineCommentEnd(input_str& str, usize i)
 {
   if (i > 1 && i < str.m_length - 1)
   {
@@ -121,7 +121,7 @@ static bool IsMultiLineCommentEnd(input_str& str, usize i)
   return false;
 }
 
-static bool IsNewLine(char c)
+static inline bool IsNewLine(char c)
 {
   return c == '\n' || c == '\r';
 }
