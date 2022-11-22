@@ -428,7 +428,7 @@ ECharacterID CGameDataUsed::IsWhoEquip() const
           return ECharacterID::Invalid;
       }
     case EUsedItemType::Robopart:
-      return ECharacterID::Steve;
+      return ECharacterID::Ridepod;
     default:
       return ECharacterID::Invalid;
   }
@@ -657,7 +657,7 @@ CUserDataManager::CUserDataManager()
 {
   log_trace("CUserDataManager::CUserDataManager()");
 
-  for (auto& game_data_used : m_unk_field_0)
+  for (auto& game_data_used : m_inventory)
   {
     new (&game_data_used) CGameDataUsed;
   }
@@ -674,7 +674,7 @@ CUserDataManager::CUserDataManager()
     }
   }
 
-  for (auto& game_data_used : m_robopart_data)
+  for (auto& game_data_used : m_robo_data.m_part_data)
   {
     new (&game_data_used) CGameDataUsed;
   }
@@ -720,6 +720,25 @@ SCharaData* CUserDataManager::GetCharaDataPtr(ECharacterID chara_id)
   }
 }
 
+// 0019B4C0
+COMMON_GAGE* CUserDataManager::GetCharaHpGage(ECharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(chara_id));
+
+  switch (chara_id)
+  {
+    case ECharacterID::Max:
+    case ECharacterID::Monica:
+      return &m_chara_data[std::to_underlying(chara_id)].m_chara_hp_gage;
+    case ECharacterID::Ridepod:
+      return &m_robo_data.m_chara_hp_gage;
+    case ECharacterID::Monster:
+      return &m_chara_data[std::to_underlying(ECharacterID::Monica)].m_chara_hp_gage;
+    default:
+      return nullptr;
+  }
+}
+
 // 0019B620
 COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_index)
 {
@@ -727,9 +746,9 @@ COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_inde
 
   switch (chara_id)
   {
-    case ECharacterID::Steve:
-      return &m_robopart_data[0].m_sub_data.m_robopart.m_whp_gage;
-    case ECharacterID::MonsterTransform:
+    case ECharacterID::Ridepod:
+      return &m_robo_data.m_part_data[0].m_sub_data.m_robopart.m_whp_gage;
+    case ECharacterID::Monster:
       return &m_monster_box.GetMonsterBadgeData(m_monster_id)->m_whp_gage;
     case ECharacterID::Max:
     case ECharacterID::Monica:
@@ -785,7 +804,7 @@ s32 CUserDataManager::AddAbs(ECharacterID chara_id, ssize gage_index, s32 delta)
 {
   log_trace("CUserDataManager::{}({}, {}, {})", __func__, std::to_underlying(chara_id), gage_index, delta);
 
-  if (chara_id == ECharacterID::Steve)
+  if (chara_id == ECharacterID::Ridepod)
   {
     // Ridepod
     AddRoboAbs(static_cast<f32>(delta));
@@ -808,8 +827,8 @@ float CUserDataManager::AddRoboAbs(f32 delta)
 {
   log_trace("CUserDataManager::{}({})", __func__, delta);
 
-  m_robo_abs = std::clamp(m_robo_abs + delta, 0.0f, 99999.0f);
-  return m_robo_abs;
+  m_robo_data.m_abs = std::clamp(m_robo_data.m_abs + delta, 0.0f, 99999.0f);
+  return m_robo_data.m_abs;
 }
 
 // 0019C560
@@ -817,7 +836,7 @@ float CUserDataManager::GetRoboAbs()
 {
   log_trace("CUserDataManager::{}()", __func__);
 
-  return m_robo_abs;
+  return m_robo_data.m_abs;
 }
 
 // 0019B160

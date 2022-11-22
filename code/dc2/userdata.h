@@ -51,8 +51,8 @@ enum class ECharacterID
   Invalid = -1,
   Max = 0,
   Monica = 1,
-  Steve = 2,
-  MonsterTransform = 3,
+  Ridepod = 2,
+  Monster = 3,
 };
 
 enum class ENPCID : s16;
@@ -312,7 +312,7 @@ struct SCharaData
   // Contains information about Max's/Monica's equipped items
 
   // 0
-  COMMON_GAGE m_unk_field_0;
+  COMMON_GAGE m_chara_hp_gage;
 
   // ?
 
@@ -321,6 +321,24 @@ struct SCharaData
   // 170
   std::array<CGameDataUsed, 5> m_equip_table;
   // SIZE 0x38C
+};
+
+struct ROBO_DATA
+{
+  // ?
+
+  // 20
+  COMMON_GAGE m_chara_hp_gage{};
+  
+  // ?
+  // 2C
+  f32 m_abs{};
+  // 30
+  std::array<CGameDataUsed, 4> m_part_data{};
+
+  // ?
+
+  // SIZE 0x220
 };
 
 class CUserDataManager
@@ -334,6 +352,9 @@ public:
 
   // 0019B490
   SCharaData* GetCharaDataPtr(ECharacterID chara_id);
+
+  // 0019B4C0
+  COMMON_GAGE* GetCharaHpGage(ECharacterID chara_id);
 
   // 0019B620
   COMMON_GAGE* GetWHpGage(ECharacterID chara_id, ssize gage_index);
@@ -372,19 +393,11 @@ public:
   s32 AddMoney(s32 delta);
 
   // 0
-  std::array<CGameDataUsed, 150> m_unk_field_0{};
+  std::array<CGameDataUsed, 150> m_inventory{};
   // 3F48
   std::array<SCharaData, 2> m_chara_data{};
-
-  // ?
-
-  // 468C
-  f32 m_robo_abs{};
-  // 4690
-  std::array<CGameDataUsed, 4> m_robopart_data{};
-
-  // ?
-  
+  // 4660
+  ROBO_DATA m_robo_data{};
   // 4880
   std::array<CGameDataUsed, 2> m_unk_field_4880{};
   // 4958
