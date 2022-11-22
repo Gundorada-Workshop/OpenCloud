@@ -5,17 +5,54 @@
 #include "dc2/gamedata.h"
 #include "dc2/inventmn.h"
 
-// ~ 00196C20 - 001A2080
+// ~ 00196130 - 001A2080
 
 // TODO THIS FILE
 struct MOS_CHANGE_PARAM {};
 
+enum class EItemCmd
+{
+  _0 = 0,
+  _1 = 1,
+  _2 = 2,
+  _3 = 3,
+  _4 = 4,
+  _5 = 5,
+  _6 = 6,
+  _7 = 7,
+  _8 = 8,
+  _9 = 9,
+  _10 = 10,
+  _11 = 11,
+  _12 = 12,
+  _13 = 13,
+  _14 = 14,
+  _15 = 15,
+  _16 = 16,
+  _17 = 17,
+  _18 = 18,
+  _19 = 19,
+  _20 = 20,
+  _21 = 21,
+  _22 = 22,
+  _23 = 23,
+  _24 = 24,
+  _25 = 25,
+  _26 = 26,
+  _27 = 27,
+  _28 = 28,
+  _29 = 29,
+  _30 = 30,
+  _31 = 31,
+};
+
 enum class ECharacterID
 {
+  Invalid = -1,
   Max = 0,
   Monica = 1,
-  Steve = 2,
-  MonsterTransform = 3,
+  Ridepod = 2,
+  Monster = 3,
 };
 
 enum class ENPCID : s16;
@@ -92,6 +129,8 @@ struct SGameDataUsedAttachSub
 {
   // 8
   COMMON_GAGE m_unk_field_8;
+  // 16
+  ECommonItemData m_spectrumized_item_id;
   // 18
   s16 m_level{ 0 };
   // 20
@@ -161,9 +200,21 @@ public:
   CGameDataUsed();
   // 001970c0
   void Initialize();
+  // 001970D0
+  bool CheckTypeEnableStack() const;
+  // 00197120
+  std::string GetDataPath() const;
+  // 00197130
+  ECharacterID IsWhoEquip() const;
   // 001971D0
   s16 GetLevel() const;
+  // 00197200
+  s8 GetPaletteColor() const;
+  // 00197250
+  ECommonItemData GetSpectrumNo() const;
   // 00197480
+  sint GetUseCapacity() const;
+  // 001974C0
   s16 AddFishHp(s16 delta);
   // 00197630
   void SetName(const char* name);
@@ -261,7 +312,7 @@ struct SCharaData
   // Contains information about Max's/Monica's equipped items
 
   // 0
-  COMMON_GAGE m_unk_field_0;
+  COMMON_GAGE m_chara_hp_gage;
 
   // ?
 
@@ -270,6 +321,24 @@ struct SCharaData
   // 170
   std::array<CGameDataUsed, 5> m_equip_table;
   // SIZE 0x38C
+};
+
+struct ROBO_DATA
+{
+  // ?
+
+  // 20
+  COMMON_GAGE m_chara_hp_gage{};
+  
+  // ?
+  // 2C
+  f32 m_abs{};
+  // 30
+  std::array<CGameDataUsed, 4> m_part_data{};
+
+  // ?
+
+  // SIZE 0x220
 };
 
 class CUserDataManager
@@ -283,6 +352,18 @@ public:
 
   // 0019B490
   SCharaData* GetCharaDataPtr(ECharacterID chara_id);
+
+  // 0019B4C0
+  COMMON_GAGE* GetCharaHpGage(ECharacterID chara_id);
+
+  // 0019B510
+  sint AddHp(ECharacterID chara_id, sint delta);
+
+  // 0019B560
+  f32 GetHp(ECharacterID chara_id);
+
+  // 0019B5A0
+  f32 AddHp_Rate(ECharacterID chara_id, f32 rate);
 
   // 0019B620
   COMMON_GAGE* GetWHpGage(ECharacterID chara_id, ssize gage_index);
@@ -321,19 +402,11 @@ public:
   s32 AddMoney(s32 delta);
 
   // 0
-  std::array<CGameDataUsed, 150> m_unk_field_0{};
+  std::array<CGameDataUsed, 150> m_inventory{};
   // 3F48
   std::array<SCharaData, 2> m_chara_data{};
-
-  // ?
-
-  // 468C
-  f32 m_robo_abs{};
-  // 4690
-  std::array<CGameDataUsed, 4> m_robopart_data{};
-
-  // ?
-  
+  // 4660
+  ROBO_DATA m_robo_data{};
   // 4880
   std::array<CGameDataUsed, 2> m_unk_field_4880{};
   // 4958
@@ -551,6 +624,21 @@ public:
 
   // Size 0x90
 };
+
+// 00196130
+usize ItemCmdMsgSet(EItemCmd cmd, s32* dest);
+
+// 001961A0
+usize GetMenuCommandMsg(ECommonItemData item_id, s32* dest);
+
+// 00196520
+bool CheckItemEquip(ECharacterID chara_id, ECommonItemData item_id);
+
+// 001965C0
+ECommonItemData SearchItemByName(const std::string name);
+
+// 00196630
+ECommonItemData GetRidePodCore(ssize index);
 
 // 0019A890
 MOS_HENGE_PARAM* GetMonsterHengeParam(EMonsterID index);

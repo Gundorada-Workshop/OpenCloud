@@ -113,3 +113,48 @@ TEST2 400;\r\n\
   EXPECT_EQ(spi_test1_string, "HELLO WORLD!");
   EXPECT_EQ(spi_test2_sint, 400);
 }
+
+TEST_F(CScriptInterpreterTest, ShouldIgnoreSpecialCharactersInStrings)
+{
+  char buf[0x1000];
+  strcpy_s(buf, sizeof(buf) / sizeof(char), "\
+TEST1 0, 123, 3.14, \"Hallo! ,;\\\" whoops that shouldn't break the script either\";\r\n\
+");
+
+  CScriptInterpreter script_interpreter{};
+  script_interpreter.SetScript(buf, strlen(buf));
+  script_interpreter.SetTag(test_tag);
+  script_interpreter.Run();
+
+  EXPECT_FALSE(spi_test1_bool);
+  EXPECT_EQ(spi_test1_sint, 123);
+  EXPECT_FLOAT_EQ(spi_test1_float, 3.14);
+  EXPECT_EQ(spi_test1_string, "Hallo! ,;\" whoops that shouldn't break the script either");
+}
+
+TEST_F(CScriptInterpreterTest, ShouldIgnoreComments)
+{
+  char buf[0x1000];
+  strcpy_s(buf, sizeof(buf) / sizeof(char), "\
+//Hi, here's my first script!\r\n\
+//Look at this \"TEST2 555;\" command, it should set a variable to 555\r\n\
+TEST2 555;\r\n\
+/*\r\n\
+  And this command is a bit more complicated, but it should set \r\n\
+  multiple variables, if everything works correctly. \r\n\
+*/\r\n\
+TEST1 0, 123, 3.14, \"Is this thing working?\";\r\n\
+");
+
+  CScriptInterpreter script_interpreter{};
+  script_interpreter.SetScript(buf, strlen(buf));
+  script_interpreter.SetTag(test_tag);
+  script_interpreter.Run();
+
+  EXPECT_EQ(spi_test2_sint, 555);
+
+  EXPECT_FALSE(spi_test1_bool);
+  EXPECT_EQ(spi_test1_sint, 123);
+  EXPECT_FLOAT_EQ(spi_test1_float, 3.14);
+  EXPECT_EQ(spi_test1_string, "Is this thing working?");
+}

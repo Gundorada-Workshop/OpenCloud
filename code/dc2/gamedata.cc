@@ -104,7 +104,7 @@ static bool _DATACOM(SPI_STACK* stack, int stack_count)
     strcpy_s(comdatapt->m_sprite_name.data(), comdatapt->m_sprite_name.size(), sprite_name);
   }
 
-  comdatapt->m_unk_field_24 = spiGetStackInt(stack++);
+  comdatapt->m_attribute = spiGetStackInt(stack++);
   comdatapt->m_name = "";
 
   local_itemdatano_converttable[std::to_underlying(comdatapt->m_common_id)] = comdatapt_num;
@@ -234,7 +234,7 @@ static bool _DATAWEP_SPE(SPI_STACK* stack, int stack_count)
   }
 
   SpiWeaponPt->m_unk_field_38 = static_cast<u8>(spiGetStackFloat(stack++));
-  SpiWeaponPt->m_unk_field_46 = spiGetStackInt(stack++);
+  SpiWeaponPt->m_palette_color = spiGetStackInt(stack++);
   SpiWeaponPt->m_unk_field_47 = spiGetStackInt(stack++);
   SpiWeaponPt->m_unk_field_39 = spiGetStackInt(stack++);
   SpiWeaponPt->m_unk_field_2C = spiGetStackInt(stack++);
@@ -415,7 +415,7 @@ static bool _DATAROBO_ANALYZE(SPI_STACK* stack, int stack_count)
   }
 
   int mode = spiGetStackInt(stack++);
-  SpiRoboPart->m_unk_field_0 = spiGetStackInt(stack++);
+  SpiRoboPart->m_use_capacity = spiGetStackInt(stack++);
   SpiRoboPart->m_unk_field_22 = spiGetStackInt(stack++);
 
   switch (mode)
@@ -889,6 +889,82 @@ bool LoadGameDataAnalyze(const char* config_file_name)
   return true;
 }
 
+// 00195C20
+SDataItemCommon* GetCommonItemData(ECommonItemData index)
+{
+  log_trace("{}({})", __func__, std::to_underlying(index));
+
+  return GameItemDataManage.GetCommonData(index);
+}
+
+// 00195C30
+CDataItem* GetItemInfoData(ECommonItemData index)
+{
+  log_trace("{}({})", __func__, std::to_underlying(index));
+
+  return GameItemDataManage.GetItemData(index);
+}
+
+// 00195C40
+CDataWeapon* GetWeaponInfoData(ECommonItemData index)
+{
+  log_trace("{}({})", __func__, std::to_underlying(index));
+
+  return GameItemDataManage.GetWeaponData(index);
+}
+
+// 00195C50
+CDataRoboPart* GetRoboPartInfoData(ECommonItemData index)
+{
+  log_trace("{}({})", __func__, std::to_underlying(index));
+
+  return GameItemDataManage.GetRoboData(index);
+}
+
+// 00195C60
+CDataBreedFish* GetBreedFishInfoData(ECommonItemData index)
+{
+  log_trace("{}({})", __func__, std::to_underlying(index));
+
+  return GameItemDataManage.GetFishData(index);
+}
+
+// 00195C70
+std::string GetItemFileName(ECommonItemData item_id, int i)
+{
+  log_trace("{}({}, {})", __func__, std::to_underlying(item_id), i);
+
+  todo;
+  return "";
+}
+
+// 00195C70
+std::string GetItemFilePath(ECommonItemData item_id, int i)
+{
+  log_trace("{}({})", __func__, std::to_underlying(item_id), i);
+
+  todo;
+  return "";
+}
+
+// 00195EC0
+ECommonItemDataType GetItemDataType(ECommonItemData index)
+{
+  log_trace("{}({})", __func__, std::to_underlying(index));
+
+  return GameItemDataManage.GetDataType(index);
+}
+
+// 00195ED0
+s32 GetItemDataAttribute(ECommonItemData item_id)
+{
+  if (auto com_data = GameItemDataManage.GetCommonData(item_id); com_data != nullptr)
+  {
+    return com_data->m_attribute;
+  }
+  return 0;
+}
+
 // 00195F10
 UsedType ConvertUsedItemType(ComType type)
 {
@@ -913,7 +989,7 @@ UsedType ConvertUsedItemType(ComType type)
     {ComType::Ridepod_Leg, UsedType::Robopart},
     {ComType::Ridepod_Battery, UsedType::Robopart},
     {ComType::Crystal, UsedType::Attach},
-    {ComType::_17, UsedType::Attach},
+    {ComType::Spectrumized_Item, UsedType::Attach},
     {ComType::Gem, UsedType::Attach},
     {ComType::Coin, UsedType::Attach},
     {ComType::Crafting_Material, UsedType::Item_Misc},
@@ -948,54 +1024,6 @@ UsedType ConvertUsedItemType(ComType type)
     }
   };
   return result->second;
-}
-
-// 00195C20
-SDataItemCommon* GetCommonItemData(ECommonItemData index)
-{
-  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
-
-  return GameItemDataManage.GetCommonData(index);
-}
-
-// 00195C30
-CDataItem* GetItemInfoData(ECommonItemData index)
-{
-  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
-
-  return GameItemDataManage.GetItemData(index);
-}
-
-// 00195C40
-CDataWeapon* GetWeaponInfoData(ECommonItemData index)
-{
-  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
-
-  return GameItemDataManage.GetWeaponData(index);
-}
-
-// 00195C50
-CDataRoboPart* GetRoboPartInfoData(ECommonItemData index)
-{
-  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
-
-  return GameItemDataManage.GetRoboData(index);
-}
-
-// 00195C60
-CDataBreedFish* GetBreedFishInfoData(ECommonItemData index)
-{
-  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
-
-  return GameItemDataManage.GetFishData(index);
-}
-
-// 00195EC0
-ECommonItemDataType GetItemDataType(ECommonItemData index)
-{
-  log_trace("{}({})", __func__, std::to_underlying(index));
-
-  return GameItemDataManage.GetDataType(index);
 }
 
 // 00196040

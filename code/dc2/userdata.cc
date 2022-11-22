@@ -13,6 +13,263 @@ set_log_channel("userdata");
 // 01E9B130
 static CBattleCharaInfo BattleParameter{};
 
+// 00196130
+usize ItemCmdMsgSet(EItemCmd cmd, s32* dest)
+{
+  log_trace("{}({}, {})", __func__, std::to_underlying(cmd), fmt::ptr(dest));
+
+  // 00335A70
+  static s8 ItemCmdMsgTbl[][8] = {
+    2,  3,  4,  9,  23, 26, 1,  -1,
+    9,  3,  1,  -1, 0,  0,  0,  0,
+    10, 9,  26, 1,  -1, 0,  0,  0,
+    5,  9,  1,  -1, 0,  0,  0,  0,
+    30, 3,  1,  -1, 0,  0,  0,  0,
+    2,  3,  9,  1,  -1, 0,  0,  0,
+    3,  26, 34, -1, 0,  0,  0,  0,
+    2,  9,  1,  -1, 0,  0,  0,  0,
+    11, -1, 0,  0,  0,  0,  0,  0,
+    12, -1, 0,  0,  0,  0,  0,  0,
+    13, 5,  1,  -1, 0,  0,  0,  0,
+    14, 45, 42, 9,  26, 1,  -1, 0,
+    19, 5,  9,  1,  -1, 0,  0,  0,
+    2,  3,  46, 26, 1,  -1, 0,  0,
+    25, 9,  1,  -1, -1, 0,  0,  0,
+    10, 22, 9,  26, 1,  -1, 0,  0,
+    20, 5,  9,  1,  -1, 0,  0,  0,
+    15, -1, 0,  0,  0,  0,  0,  0,
+    16, -1, 0,  0,  0,  0,  0,  0,
+    15, 16, -1, 0,  0,  0,  0,  0,
+    29, -1, 0,  0,  0,  0,  0,  0,
+    10, 3,  4,  9,  26, 1,  -1, 0,
+    22, 9,  1,  -1, 0,  0,  0,  0,
+    9,  1,  -1, 0,  0,  0,  0,  0,
+    37, 9,  1,  -1, 0,  0,  0,  0,
+    38, -1, 0,  0,  0,  0,  0,  0,
+    43, 9,  1,  -1, 0,  0,  0,  0,
+    44, 9,  1,  -1, 0,  0,  0,  0,
+    15, 16, 1,  -1, 0,  0,  0,  0,
+    47, -1, 0,  0,  0,  0,  0,  0,
+    19, 20, 9,  1,  -1, 0,  0,  0,
+    48, -1, 0,  0,  0,  0,  0,  0,
+  };
+
+  int i = 0;
+  for (; i < std::size(ItemCmdMsgTbl[0]); ++i)
+  {
+    dest[i] = ItemCmdMsgTbl[std::to_underlying(cmd)][i] + 5000;
+    if (dest[i] < 5000)
+    {
+      break;
+    }
+  }
+
+  dest[i] = -1;
+  return i;
+}
+
+// 001961A0
+usize GetMenuCommandMsg(ECommonItemData item_id, s32* dest)
+{
+  log_trace("{}({}, {})", __func__, std::to_underlying(item_id), fmt::ptr(dest));
+
+  auto item_type = GetItemDataType(item_id);
+
+  switch (item_type)
+  {
+    case ECommonItemDataType::Torso_Max:
+    case ECommonItemDataType::Hat_Max:
+    case ECommonItemDataType::Shoes_Max:
+    case ECommonItemDataType::Torso_Monica:
+    case ECommonItemDataType::Hat_Monica:
+    case ECommonItemDataType::Shoes_Monica:
+      // 196220
+      return ItemCmdMsgSet(EItemCmd::_8, dest);
+    case ECommonItemDataType::Crystal:
+    case ECommonItemDataType::Gem:
+    case ECommonItemDataType::_34:
+      // 196234
+      return ItemCmdMsgSet(EItemCmd::_1, dest);
+    case ECommonItemDataType::Coin:
+      // 196248
+      return ItemCmdMsgSet(EItemCmd::_24, dest);
+    case ECommonItemDataType::Spectrumized_Item:
+      // 19625C
+      return ItemCmdMsgSet(EItemCmd::_5, dest);
+    case ECommonItemDataType::Ridepod_Core:
+      // 196270
+      return ItemCmdMsgSet(EItemCmd::_7, dest);
+    case ECommonItemDataType::Ridepod_Body:
+    case ECommonItemDataType::Ridepod_Leg:
+      // 196284
+      return ItemCmdMsgSet(EItemCmd::_2, dest);
+    case ECommonItemDataType::Ridepod_Arm:
+      // 196298
+      return ItemCmdMsgSet(EItemCmd::_22, dest);
+    case ECommonItemDataType::Ridepod_Battery:
+      // 1962AC
+      return ItemCmdMsgSet(EItemCmd::_16, dest);
+    case ECommonItemDataType::Melee_Max:
+    case ECommonItemDataType::Ranged_Max:
+    case ECommonItemDataType::Melee_Monica:
+    case ECommonItemDataType::Ranged_Monica:
+    {
+      // 1961E8
+      usize result = ItemCmdMsgSet(EItemCmd::_0, dest);
+
+      if (item_id == ECommonItemData::Fishing_Rod || item_id == ECommonItemData::Lure_Rod)
+      {
+        result = ItemCmdMsgSet(EItemCmd::_14, dest);
+      }
+      return result;
+    }
+    case ECommonItemDataType::Food:
+      // 1962C0
+      return ItemCmdMsgSet(EItemCmd::_3, dest);
+    case ECommonItemDataType::Crafting_Material:
+    case ECommonItemDataType::Throwable:
+    case ECommonItemDataType::Powder:
+    case ECommonItemDataType::Amulet:
+    case ECommonItemDataType::Dungeon_Key:
+    case ECommonItemDataType::Story_Item:
+    case ECommonItemDataType::Dungeon_Item_Or_Bait:
+      switch (item_id)
+      {
+        case ECommonItemData::Repair_Powder:
+          // 1962E0
+          return ItemCmdMsgSet(EItemCmd::_13, dest);
+        case ECommonItemData::Gun_Repair_Powder:
+        case ECommonItemData::Armband_Repair_Powder:
+          // 196308
+          return ItemCmdMsgSet(EItemCmd::_17, dest);
+        case ECommonItemData::Ridepod_Fuel:
+          // 196320
+          return ItemCmdMsgSet(EItemCmd::_23, dest);
+        case ECommonItemData::Fruit_Of_Eden:
+          // 19633C
+          return ItemCmdMsgSet(EItemCmd::_20, dest);
+        case ECommonItemData::Potato_Pie:
+          // 196358
+          return ItemCmdMsgSet(EItemCmd::_18, dest);
+        case ECommonItemData::Witch_Parfait:
+          // 196374
+          return ItemCmdMsgSet(EItemCmd::_19, dest);
+        case ECommonItemData::Notebook:
+          // 196390
+          return ItemCmdMsgSet(EItemCmd::_21, dest);
+        case ECommonItemData::Heart_Throb_Cherry:
+        case ECommonItemData::Mellow_Banana:
+        case ECommonItemData::Resurrection_Powder:
+          // 1963C4
+          return ItemCmdMsgSet(EItemCmd::_3, dest);
+        case ECommonItemData::Inside_Scoop_Memo:
+          // 1963DC
+          return ItemCmdMsgSet(EItemCmd::_26, dest);
+        case ECommonItemData::Shield_Kit:
+          // 1963F8
+          return ItemCmdMsgSet(EItemCmd::_25, dest);
+        case ECommonItemData::Escape_Powder:
+          // 196414
+          return ItemCmdMsgSet(EItemCmd::_27, dest);
+        case ECommonItemData::Seal_Breaking_Scroll:
+          // 196430
+          return ItemCmdMsgSet(EItemCmd::_28, dest);
+        case ECommonItemData::Monster_Notes:
+          // 19644C
+          return ItemCmdMsgSet(EItemCmd::_30, dest);
+        case ECommonItemData::Level_Up_Powder:
+          // 196468
+          return ItemCmdMsgSet(EItemCmd::_31, dest);
+        default:
+          // 19647C
+          return ItemCmdMsgSet(EItemCmd::_4, dest);
+      }
+    case ECommonItemDataType::Aquarium:
+      // 19648C
+      return ItemCmdMsgSet(EItemCmd::_9, dest);
+    case ECommonItemDataType::Badge_Box:
+      // 1964A0
+      return ItemCmdMsgSet(EItemCmd::_10, dest);
+    case ECommonItemDataType::Gift_Capsule:
+      // 1964B4
+      return ItemCmdMsgSet(EItemCmd::_11, dest);
+    case ECommonItemDataType::Fish:
+      // 1964C8
+      return ItemCmdMsgSet(EItemCmd::_12, dest);
+    case ECommonItemDataType::Lure:
+      // 1964DC
+      return ItemCmdMsgSet(EItemCmd::_15, dest);
+    case ECommonItemDataType::_35:
+      // 1964F0
+      return ItemCmdMsgSet(EItemCmd::_29, dest);
+    default:
+      return 0;
+  }
+}
+
+// 00196520
+bool CheckItemEquip(ECharacterID chara_id, ECommonItemData item_id)
+{
+  log_trace("{}({}, {})", __func__, std::to_underlying(chara_id), std::to_underlying(item_id));
+
+  if (!GetItemInfoData(item_id))
+  {
+    return false;
+  }
+
+  switch (item_id)
+  {
+    case ECommonItemData::Gun_Repair_Powder:
+    case ECommonItemData::Camera:
+      return chara_id == ECharacterID::Max;
+    case ECommonItemData::Armband_Repair_Powder:
+      return chara_id == ECharacterID::Monica;
+    default:
+      return true;
+  }
+}
+
+// 001965C0
+ECommonItemData SearchItemByName(const std::string name)
+{
+  log_trace("{}({})", __func__, name);
+
+  for (int i = 1; i < std::to_underlying(ECommonItemData::COUNT); ++i)
+  {
+    if (GetCommonItemData(static_cast<ECommonItemData>(i))->m_name == name)
+    {
+      return static_cast<ECommonItemData>(i);
+    }
+  }
+
+  return ECommonItemData::Invalid;
+}
+
+// 00196630
+ECommonItemData GetRidePodCore(ssize index)
+{
+  log_trace("{}({})", __func__, index);
+
+  // 00335B80
+  static const ECommonItemData table[]
+  {
+    ECommonItemData::Core,
+    ECommonItemData::Improved_Core,
+    ECommonItemData::Core_II,
+    ECommonItemData::Core_III,
+    ECommonItemData::Super_Core,
+    ECommonItemData::Hyper_Core,
+    ECommonItemData::Master_Grade_Core,
+  };
+
+  if (index < 0 || index >= std::size(table))
+  {
+    return ECommonItemData::Invalid;
+  }
+
+  return table[index];
+}
+
 // 00196C90
 bool COMMON_GAGE::CheckFill()
 {
@@ -114,6 +371,69 @@ void CGameDataUsed::Initialize()
   memset(this, 0, sizeof(this));
 }
 
+// 001970D0
+bool CGameDataUsed::CheckTypeEnableStack() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  if (m_type == EUsedItemType::Item_Misc)
+  {
+    return true;
+  }
+
+  if (m_type == EUsedItemType::Attach)
+  {
+    return false;
+  }
+
+  if (m_common_index == ECommonItemData::Spectrumized_Item)
+  {
+    return false;
+  }
+
+  return m_common_index != ECommonItemData::Monster_Drop;
+}
+
+// 00197120
+std::string CGameDataUsed::GetDataPath() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  return GetItemFilePath(m_common_index, 0);
+}
+
+// 00197130
+ECharacterID CGameDataUsed::IsWhoEquip() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  switch (m_type)
+  {
+    case EUsedItemType::Weapon:
+      switch (m_item_data_type)
+      {
+        case ECommonItemDataType::Melee_Max:
+        case ECommonItemDataType::Ranged_Max:
+        case ECommonItemDataType::Torso_Max:
+        case ECommonItemDataType::Hat_Max:
+        case ECommonItemDataType::Shoes_Max:
+          return ECharacterID::Max;
+        case ECommonItemDataType::Melee_Monica:
+        case ECommonItemDataType::Ranged_Monica:
+        case ECommonItemDataType::Torso_Monica:
+        case ECommonItemDataType::Hat_Monica:
+        case ECommonItemDataType::Shoes_Monica:
+          return ECharacterID::Monica;
+        default:
+          return ECharacterID::Invalid;
+      }
+    case EUsedItemType::Robopart:
+      return ECharacterID::Ridepod;
+    default:
+      return ECharacterID::Invalid;
+  }
+}
+
 // 001971D0
 s16 CGameDataUsed::GetLevel() const
 {
@@ -130,7 +450,54 @@ s16 CGameDataUsed::GetLevel() const
   }
 }
 
+// 00197200
+s8 CGameDataUsed::GetPaletteColor() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  if (m_type != EUsedItemType::Weapon)
+  {
+    return 0;
+  }
+
+  auto wep_data = GameItemDataManage.GetWeaponData(m_common_index);
+  if (wep_data == nullptr)
+  {
+    return 0;
+  }
+
+  return wep_data->m_palette_color;
+}
+
+// 00197250
+ECommonItemData CGameDataUsed::GetSpectrumNo() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  if (m_common_index != ECommonItemData::Spectrumized_Item)
+  {
+    return ECommonItemData::Invalid;
+  }
+
+  return m_sub_data.m_attach.m_spectrumized_item_id;
+}
+
 // 00197480
+sint CGameDataUsed::GetUseCapacity() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  auto robo_data = GameItemDataManage.GetRoboData(m_common_index);
+
+  if (robo_data == nullptr)
+  {
+    return 0;
+  }
+
+  return robo_data->m_use_capacity;
+}
+
+// 001974C0
 s16 CGameDataUsed::AddFishHp(s16 delta)
 {
   log_trace("CGameDataUsed::{}({})", __func__, delta);
@@ -290,7 +657,7 @@ CUserDataManager::CUserDataManager()
 {
   log_trace("CUserDataManager::CUserDataManager()");
 
-  for (auto& game_data_used : m_unk_field_0)
+  for (auto& game_data_used : m_inventory)
   {
     new (&game_data_used) CGameDataUsed;
   }
@@ -307,7 +674,7 @@ CUserDataManager::CUserDataManager()
     }
   }
 
-  for (auto& game_data_used : m_robopart_data)
+  for (auto& game_data_used : m_robo_data.m_part_data)
   {
     new (&game_data_used) CGameDataUsed;
   }
@@ -353,6 +720,64 @@ SCharaData* CUserDataManager::GetCharaDataPtr(ECharacterID chara_id)
   }
 }
 
+// 0019B4C0
+COMMON_GAGE* CUserDataManager::GetCharaHpGage(ECharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(chara_id));
+
+  switch (chara_id)
+  {
+    case ECharacterID::Max:
+    case ECharacterID::Monica:
+      return &m_chara_data[std::to_underlying(chara_id)].m_chara_hp_gage;
+    case ECharacterID::Ridepod:
+      return &m_robo_data.m_chara_hp_gage;
+    case ECharacterID::Monster:
+      return &m_chara_data[std::to_underlying(ECharacterID::Monica)].m_chara_hp_gage;
+    default:
+      return nullptr;
+  }
+}
+
+// 0019B510
+sint CUserDataManager::AddHp(ECharacterID chara_id, sint delta)
+{
+  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), delta);
+
+  auto gage = GetCharaHpGage(chara_id);
+  if (gage == nullptr) 
+    return 0;
+
+  gage->AddPoint(delta);
+  return static_cast<sint>(gage->m_current);
+}
+
+// 0019B560
+f32 CUserDataManager::GetHp(ECharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(chara_id));
+
+  auto gage = GetCharaHpGage(chara_id);
+  if (gage == nullptr)
+    return 0.0f;
+
+  return truncf(gage->m_current);
+}
+
+// 0019B5A0
+f32 CUserDataManager::AddHp_Rate(ECharacterID chara_id, f32 rate)
+{
+  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), rate);
+
+  auto gage = GetCharaHpGage(chara_id);
+  if (gage == nullptr)
+    return 0.0f;
+
+  gage->AddRate(rate);
+  gage->m_current = std::max(gage->m_current, 1.0f);
+  return gage->GetRate();
+}
+
 // 0019B620
 COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_index)
 {
@@ -360,9 +785,9 @@ COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_inde
 
   switch (chara_id)
   {
-    case ECharacterID::Steve:
-      return &m_robopart_data[0].m_sub_data.m_robopart.m_whp_gage;
-    case ECharacterID::MonsterTransform:
+    case ECharacterID::Ridepod:
+      return &m_robo_data.m_part_data[0].m_sub_data.m_robopart.m_whp_gage;
+    case ECharacterID::Monster:
       return &m_monster_box.GetMonsterBadgeData(m_monster_id)->m_whp_gage;
     case ECharacterID::Max:
     case ECharacterID::Monica:
@@ -418,7 +843,7 @@ s32 CUserDataManager::AddAbs(ECharacterID chara_id, ssize gage_index, s32 delta)
 {
   log_trace("CUserDataManager::{}({}, {}, {})", __func__, std::to_underlying(chara_id), gage_index, delta);
 
-  if (chara_id == ECharacterID::Steve)
+  if (chara_id == ECharacterID::Ridepod)
   {
     // Ridepod
     AddRoboAbs(static_cast<f32>(delta));
@@ -441,8 +866,8 @@ float CUserDataManager::AddRoboAbs(f32 delta)
 {
   log_trace("CUserDataManager::{}({})", __func__, delta);
 
-  m_robo_abs = std::clamp(m_robo_abs + delta, 0.0f, 99999.0f);
-  return m_robo_abs;
+  m_robo_data.m_abs = std::clamp(m_robo_data.m_abs + delta, 0.0f, 99999.0f);
+  return m_robo_data.m_abs;
 }
 
 // 0019C560
@@ -450,7 +875,7 @@ float CUserDataManager::GetRoboAbs()
 {
   log_trace("CUserDataManager::{}()", __func__);
 
-  return m_robo_abs;
+  return m_robo_data.m_abs;
 }
 
 // 0019B160

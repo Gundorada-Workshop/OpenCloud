@@ -29,7 +29,7 @@ enum class ECommonItemDataType : u8
   Ridepod_Leg = 14,
   Ridepod_Battery = 15,
   Crystal = 16,
-  _17 = 17,
+  Spectrumized_Item = 17,
   Gem = 18,
   Coin = 19,
   Crafting_Material = 20,
@@ -235,7 +235,7 @@ enum class ECommonItemData
   Sea_Dragon_Crystal = 182,
   Power_Crystal = 183,
   Protector_Crystal = 184,
-  Unknown185 = 185,
+  Spectrumized_Item = 185,
   Garnet = 186,
   Amethyst = 187,
   Aquamarine = 188,
@@ -478,6 +478,7 @@ enum class ECommonItemData
   Tasty_Water = 425,
   Sun_Badge = 427,
   Moon_Badge = 428,
+  COUNT = 429,
 };
 
 enum class EUsedItemType
@@ -521,7 +522,7 @@ struct SDataItemCommon
   // 20
   s8 m_unk_field_20{ 0 };
   // 24
-  s32 m_unk_field_24{ 0 };
+  s32 m_attribute{ 0 };
   // 28
   std::string m_name{};
   // SIZE 0x2C
@@ -601,7 +602,7 @@ public:
   // 44
   s16 m_unk_field_44{ 0 };
   // 46
-  s8 m_unk_field_46{ 0 };
+  s8 m_palette_color{ 0 };
   // 47
   s8 m_unk_field_47{ 0 };
   // 48
@@ -616,7 +617,7 @@ class CDataRoboPart
 {
 public:
   // 0
-  s16 m_unk_field_0{ 0 };
+  s16 m_use_capacity{ 0 };
   // 2
   s16 m_unk_field_2{ 0 };
   // 4
@@ -742,9 +743,6 @@ public:
 // 00195470
 bool LoadGameDataAnalyze(const char* config_file_name);
 
-// 00195F10
-EUsedItemType ConvertUsedItemType(ECommonItemDataType type);
-
 // 00195C20
 SDataItemCommon* GetCommonItemData(ECommonItemData index);
 
@@ -760,8 +758,20 @@ CDataRoboPart* GetRoboPartInfoData(ECommonItemData index);
 // 00195C60
 CDataBreedFish* GetBreedFishInfoData(ECommonItemData index);
 
+// 00195C70
+std::string GetItemFileName(ECommonItemData item_id, int i);
+
+// 00195C70
+std::string GetItemFilePath(ECommonItemData item_id, int i);
+
 // 00195EC0
 ECommonItemDataType GetItemDataType(ECommonItemData index);
+
+// 00195ED0
+s32 GetItemDataAttribute(ECommonItemData item_id);
+
+// 00195F10
+EUsedItemType ConvertUsedItemType(ECommonItemDataType type);
 
 // 00196040
 std::string GetItemMessage(ECommonItemData index);
