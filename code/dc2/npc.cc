@@ -1,5 +1,6 @@
 #include <array>
 
+#include "common/data_stream.h"
 #include "common/file_helpers.h"
 #include "common/log.h"
 #include "common/strings.h"
@@ -79,17 +80,25 @@ void LoadNPCCfg()
 
   npc_spi_count_num = 0;
 
-  using namespace common::file_helpers;
-  auto file_path = resolve_data_path("npc{}.cfg", std::to_underlying(LanguageCode));
+  using namespace common;
+  auto file_path = file_helpers::resolve_data_path("npc{}.cfg", std::to_underlying(LanguageCode));
 
-  char* file_buf = nullptr; // LoadFile2(file_path, ...)
-  usize file_size = 0;
-  if (file_buf != nullptr)
+  auto fs = file_stream::open(file_path, "rb");
+  auto file_size = fs->size();
+
+  auto file_buf = std::make_unique<char[]>(file_size);
+  bool result = fs->read_buffer_checked(file_buf.get(), file_size);
+
+  if (file_buf != nullptr && result)
   {
     CScriptInterpreter script_interpreter{};
     script_interpreter.SetTag(npc_spitag.data());
-    script_interpreter.SetScript(file_buf, file_size);
+    script_interpreter.SetScript(file_buf.get(), file_size);
     script_interpreter.Run();
+  }
+  else
+  {
+    log_warn("{} open error!!!", file_path);
   }
 
   NpcBaseDataTotalNum = npc_spi_count_num;
