@@ -415,7 +415,7 @@ static bool _DATAROBO_ANALYZE(SPI_STACK* stack, int stack_count)
   }
 
   int mode = spiGetStackInt(stack++);
-  SpiRoboPart->m_unk_field_0 = spiGetStackInt(stack++);
+  SpiRoboPart->m_use_capacity = spiGetStackInt(stack++);
   SpiRoboPart->m_unk_field_22 = spiGetStackInt(stack++);
 
   switch (mode)

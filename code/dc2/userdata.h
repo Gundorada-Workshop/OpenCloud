@@ -213,6 +213,8 @@ public:
   // 00197250
   ECommonItemData GetSpectrumNo() const;
   // 00197480
+  sint GetUseCapacity() const;
+  // 001974C0
   s16 AddFishHp(s16 delta);
   // 00197630
   void SetName(const char* name);

@@ -617,7 +617,7 @@ class CDataRoboPart
 {
 public:
   // 0
-  s16 m_unk_field_0{ 0 };
+  s16 m_use_capacity{ 0 };
   // 2
   s16 m_unk_field_2{ 0 };
   // 4

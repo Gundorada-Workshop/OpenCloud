@@ -483,6 +483,21 @@ ECommonItemData CGameDataUsed::GetSpectrumNo() const
 }
 
 // 00197480
+sint CGameDataUsed::GetUseCapacity() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  auto robo_data = GameItemDataManage.GetRoboData(m_common_index);
+
+  if (robo_data == nullptr)
+  {
+    return 0;
+  }
+
+  return robo_data->m_use_capacity;
+}
+
+// 001974C0
 s16 CGameDataUsed::AddFishHp(s16 delta)
 {
   log_trace("CGameDataUsed::{}({})", __func__, delta);
