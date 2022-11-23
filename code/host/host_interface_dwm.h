@@ -3,19 +3,21 @@
 #include <memory>
 #include <string_view>
 
+#include "common/types.h"
+#include "host/pad_handler.h"
+
 namespace host
 {
   class dwm_interface
   {
   public:
-    using ptr = std::unique_ptr<dwm_interface>;
-
-    // create a windows host interface
-    static bool create(std::string_view name);
-  public:
     dwm_interface();
     ~dwm_interface();
 
+    // create a windows host interface
+    static bool create(std::string_view name);
+
+  public:
     // create the render window
     bool create_render_window();
 
@@ -62,6 +64,69 @@ namespace host
       m_message_pump_quit_requested = true;
     }
 
+    // check if a button is being pressed
+    inline bool pad_button_down(pad_handler::buttons btn)
+    {
+      return (m_pad_handler->changed_buttons() & btn) == btn;
+    }
+
+    // check if a button has been released
+    inline bool pad_button_up(pad_handler::buttons btn)
+    {
+      return (m_pad_handler->changed_buttons() & (~btn)) == btn;
+    }
+
+    inline bool pad_button_pressed(pad_handler::buttons btn)
+    {
+      return (m_pad_handler->current_buttons() & btn) == btn;
+    }
+
+    inline bool pad_button_unpressed(pad_handler::buttons btn)
+    {
+      return (m_pad_handler->current_buttons() & (~btn)) == btn;
+    }
+
+    inline std::pair<f32, f32> pad_right_thumb_xy()
+    {
+      const auto axis = m_pad_handler->right_stick_axis();
+
+      return { axis.x, axis.y };
+    }
+
+    inline std::pair<f32, f32> pad_left_thumb_xy()
+    {
+      const auto axis = m_pad_handler->left_stick_axis();
+
+      return { axis.x, axis.y };
+    }
+
+    inline f32 pad_right_thumb_x()
+    {
+      const auto [x, y] = pad_right_thumb_xy();
+
+      return x;
+    }
+
+    inline f32 pad_right_thumb_y()
+    {
+      const auto [x, y] = pad_right_thumb_xy();
+
+      return y;
+    }
+
+    inline f32 pad_left_thumb_x()
+    {
+      const auto [x, y] = pad_left_thumb_xy();
+
+      return x;
+    }
+
+    inline f32 pad_left_thumb_y()
+    {
+      const auto [x, y] = pad_left_thumb_xy();
+
+      return y;
+    }
   private:
     // window loop
     static LRESULT CALLBACK winproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
@@ -79,8 +144,10 @@ namespace host
     // native module instance
     HINSTANCE m_module_base{ NULL };
 
+    std::unique_ptr<pad_handler> m_pad_handler{ nullptr };
+
     bool m_message_pump_quit_requested{ false };
   };
 }
 
-extern host::dwm_interface::ptr g_host_interface;
+extern std::unique_ptr<host::dwm_interface> g_host_interface;
