@@ -179,7 +179,7 @@ namespace common::bits
   template<typename type>
   inline u64 lsb_index(type val)
   {
-    u64 index;
+    ulong index;
     _BitScanForward64(&index, val);
 
     return index;
@@ -190,7 +190,7 @@ namespace common::bits
   template<typename type>
   inline u64 msb_index(type val)
   {
-    u64 index;
+    ulong index;
     _BitScanReverse64(&index, val);
 
     return index;
