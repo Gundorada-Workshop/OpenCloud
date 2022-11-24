@@ -391,7 +391,7 @@ static bool _DATAATTACH_ST_SP(SPI_STACK* stack, int stack_count)
 // 00195070
 static bool _DATAROBOINIT(SPI_STACK* stack, int stack_count)
 {
-  // "ROBOTINIT"
+  // "ROBOINIT"
   trace_script_call(stack, stack_count);
 
   GameItemDataManage.m_n_robodata = spiGetStackInt(stack++);
@@ -567,7 +567,7 @@ static const std::array<SPI_TAG_PARAM, 25> gamedata_tag =
   "AT_ST",      _DATAATTACH_ST,
   "AT_ST2",     _DATAATTACH_ST2,
   "AT_ST_SP",   _DATAATTACH_ST_SP,
-  "ROBOTINIT",  _DATAROBOINIT,
+  "ROBOINIT",  _DATAROBOINIT,
   "RB_PARTS",   _DATAROBO_ANALYZE,
   "GRDNUM",     _DATAGUARDNUM,
   "GRD",        _DATAGUARD,
