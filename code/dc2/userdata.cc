@@ -628,6 +628,28 @@ bool CGameDataUsed::Repair(sint delta)
   return true;
 }
 
+// 001982F0
+ECommonItemData CGameDataUsed::GetRepairItemNo() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  switch (m_item_data_type)
+  {
+    case ECommonItemDataType::Melee_Max:
+    case ECommonItemDataType::Melee_Monica:
+    case ECommonItemDataType::Ridepod_Arm:
+      return ECommonItemData::Repair_Powder;
+    case ECommonItemDataType::Ranged_Max:
+      return ECommonItemData::Gun_Repair_Powder;
+    case ECommonItemDataType::Ranged_Monica:
+      return ECommonItemData::Armband_Repair_Powder;
+    case ECommonItemDataType::Ridepod_Battery:
+      return ECommonItemData::Ridepod_Fuel;
+    default:
+      return ECommonItemData::Invalid;
+  }
+}
+
 // 001985A0
 bool CGameDataUsed::IsLevelUp() const
 {

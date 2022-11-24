@@ -228,6 +228,9 @@ public:
   bool IsRepair();
   // 00198270
   bool Repair(sint delta);
+  // 001982F0
+  // Returns the item ID used to repair this item
+  ECommonItemData GetRepairItemNo() const;
   // 001985A0
   bool IsLevelUp() const;
   // 00198620
