@@ -803,6 +803,34 @@ void CGameDataUsed::LevelUp()
   todo;
 }
 
+// 00198950
+bool CGameDataUsed::IsTrush() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  bool result = false;
+
+  auto com_data = GetCommonItemData(m_common_index);
+  if (com_data != nullptr)
+  {
+    // FIXME: MAGIC
+    if ((com_data->m_attribute & 1) != 0)
+    {
+      result = true;
+    }
+  }
+
+  if (m_type == EUsedItemType::Fish)
+  {
+    if ((m_sub_data.m_fish.m_unk_field_38 & 2) != 0)
+    {
+      result = false;
+    }
+  }
+
+  return result;
+}
+
 // 001992B0
 bool CGameDataUsed::IsFishingRod() const
 {

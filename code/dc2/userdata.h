@@ -185,6 +185,9 @@ struct SGameDataUsedFishSub
 
   // 30
   s32 m_unk_field_30{ 0 };
+
+  // 38
+  u16 m_unk_field_38{};
 };
 
 union UGameDataUsedSub
@@ -249,6 +252,8 @@ public:
   bool IsLevelUp() const;
   // 00198620
   void LevelUp();
+  // 00198950
+  bool IsTrush() const;
   // 001992B0
   bool IsFishingRod() const;
   // 00199830
