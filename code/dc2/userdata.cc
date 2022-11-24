@@ -728,6 +728,21 @@ std::string CGameDataUsed::GetRoboSoundFileName() const
   return strings::format("CH_0{}", offset_no);
 }
 
+// 00198550
+bool CGameDataUsed::IsBroken()
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  if (m_item_data_type == ECommonItemDataType::Ridepod_Battery)
+  {
+    return false;
+  }
+
+  sint whp[2];
+  GetWHp(whp);
+  return whp[0] <= 0;
+}
+
 // 001985A0
 bool CGameDataUsed::IsLevelUp() const
 {

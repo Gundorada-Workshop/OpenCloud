@@ -223,7 +223,7 @@ public:
   // 00197630
   void SetName(const char* name);
   // 001980C0
-  f32 GetWHp(sint* values_dest);
+  f32 GetWHp(sint* values_dest = nullptr);
   // 00198180
   bool IsRepair();
   // 00198270
@@ -239,6 +239,8 @@ public:
   std::string GetRoboJointName() const;
   // 001984B0
   std::string GetRoboSoundFileName() const;
+  // 00198550
+  bool IsBroken();
   // 001985A0
   bool IsLevelUp() const;
   // 00198620
