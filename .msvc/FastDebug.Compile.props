@@ -8,7 +8,7 @@
       <!-- Enable checked iterators but disable iterator debugging -->
       <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <!-- Add a macro for identifying fast debug builds -->
-      <PreprocessorDefinitions>_FDEBUG%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_FDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
 </Project>

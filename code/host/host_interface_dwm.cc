@@ -1,8 +1,11 @@
 #include "common/log.h"
 #include "common/strings.h"
-#include "host/host_interface_dwm.h"
+#include "common/dynamic_library.h"
 
-host::dwm_interface::ptr g_host_interface{ nullptr };
+#include "host/host_interface_dwm.h"
+#include "host/xinput_pad_handler.h"
+
+std::unique_ptr<host::dwm_interface> g_host_interface{ nullptr };
 
 set_log_channel("DWM");
 
@@ -51,6 +54,8 @@ namespace host
 
       return false;
     }
+
+    host_interface->m_pad_handler = xinput_pad_handler::create();
 
     g_host_interface = std::move(host_interface);
 
@@ -132,6 +137,8 @@ namespace host
 
     while (!m_message_pump_quit_requested)
     {
+      m_pad_handler->poll();
+
       MSG msg;
       if (!GetMessageW(&msg, nullptr, 0, 0))
         continue;
