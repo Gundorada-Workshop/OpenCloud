@@ -748,8 +748,18 @@ bool CGameDataUsed::IsLevelUp() const
 {
   log_trace("CGameDataUsed::{}()", __func__);
 
-  todo;
-  return false;
+  if (m_type != EUsedItemType::Weapon)
+  {
+    return false;
+  }
+
+  if (m_sub_data.m_weapon.m_level >= 99)
+  {
+    return false;
+  }
+
+  return static_cast<f32>(GetDispVolumeForFloat(m_sub_data.m_weapon.m_abs_gage.m_current)) >=
+    m_sub_data.m_weapon.m_abs_gage.m_max;
 }
 
 // 00198620
