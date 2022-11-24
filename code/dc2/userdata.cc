@@ -658,6 +658,28 @@ bool CGameDataUsed::IsEnableUseRepair(ECommonItemData item_id) const
   return GetRepairItemNo() == item_id;
 }
 
+// 00198390
+sint CGameDataUsed::GetRoboInfoType() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  auto robo_data = GetRoboPartInfoData(m_common_index);
+  if (robo_data == nullptr)
+  {
+    return -1;
+  }
+
+  switch (m_item_data_type)
+  {
+    case ECommonItemDataType::Ridepod_Arm:
+      return robo_data->m_unk_field_1E;
+    case ECommonItemDataType::Ridepod_Leg:
+      return robo_data->m_unk_field_20;
+    default:
+      return -1;
+  }
+}
+
 // 001985A0
 bool CGameDataUsed::IsLevelUp() const
 {

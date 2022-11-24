@@ -233,6 +233,8 @@ public:
   ECommonItemData GetRepairItemNo() const;
   // 00198360
   bool IsEnableUseRepair(ECommonItemData item_id) const;
+  // 00198390
+  sint GetRoboInfoType() const;
   // 001985A0
   bool IsLevelUp() const;
   // 00198620
