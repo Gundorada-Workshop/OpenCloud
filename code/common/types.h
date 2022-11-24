@@ -68,7 +68,10 @@ using sint   = signed int;
 using ssize  = std::intmax_t;
 
 // bool
+using b8 = u8;
+using b16 = u16;
 using b32 = u32;
+using b64 = u64;
 
 // floating point
 using f32 = float;
