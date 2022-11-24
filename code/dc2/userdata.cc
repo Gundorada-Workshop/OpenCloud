@@ -702,6 +702,32 @@ std::string CGameDataUsed::GetRoboJointName() const
   }
 }
 
+// 001984B0
+std::string CGameDataUsed::GetRoboSoundFileName() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+  using namespace common;
+
+  auto robo_data = GetRoboPartInfoData(m_common_index);
+  if (robo_data == nullptr)
+  {
+    return "";
+  }
+
+  if (m_item_data_type != ECommonItemDataType::Ridepod_Arm)
+  {
+    return "";
+  }
+
+  // FIXME: magic
+  sint offset_no = robo_data->GetOffsetNo() + 39;
+  if (offset_no < 40 || offset_no > 50)
+  {
+    offset_no = 40;
+  }
+  return strings::format("CH_0{}", offset_no);
+}
+
 // 001985A0
 bool CGameDataUsed::IsLevelUp() const
 {
