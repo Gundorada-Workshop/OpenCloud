@@ -197,6 +197,8 @@ union UGameDataUsedSub
 
 class CGameDataUsed
 {
+private:
+  COMMON_GAGE* GetWHpGage();
 public:
   // 00197090
   CGameDataUsed();
@@ -221,9 +223,11 @@ public:
   // 00197630
   void SetName(const char* name);
   // 001980C0
-  f32 GetWHp(sint* values_dest) const;
+  f32 GetWHp(sint* values_dest);
   // 00198180
-  bool IsRepair() const;
+  bool IsRepair();
+  // 00198270
+  bool Repair(sint delta);
   // 001985A0
   bool IsLevelUp() const;
   // 00198620

@@ -548,8 +548,29 @@ void CGameDataUsed::SetName(const char* name)
   m_unk_field_5 = strcmp(GetItemMessage(m_common_index).data(), name_buf->data()) != 0;
 }
 
+COMMON_GAGE* CGameDataUsed::GetWHpGage()
+{
+  if (m_type == EUsedItemType::Robopart)
+  {
+    if (m_item_data_type == ECommonItemDataType::Ridepod_Arm)
+    {
+      return &m_sub_data.m_robopart.m_whp_gage;
+    }
+    else if (m_item_data_type == ECommonItemDataType::Ridepod_Battery)
+    {
+      return &m_sub_data.m_robopart.m_battery_gage;
+    }
+  }
+  else if (m_type == EUsedItemType::Weapon)
+  {
+    return &m_sub_data.m_weapon.m_whp_gage;
+  }
+
+  return nullptr;
+}
+
 // 001980C0
-f32 CGameDataUsed::GetWHp(sint* values_dest) const
+f32 CGameDataUsed::GetWHp(sint* values_dest)
 {
   log_trace("CGameDataUsed::{}({})", __func__, fmt::ptr(values_dest));
 
@@ -559,22 +580,7 @@ f32 CGameDataUsed::GetWHp(sint* values_dest) const
     values_dest[1] = 0;
   }
 
-  const COMMON_GAGE* gage = nullptr;
-  if (m_type == EUsedItemType::Robopart)
-  {
-    if (m_item_data_type == ECommonItemDataType::Ridepod_Arm)
-    {
-      gage = &m_sub_data.m_robopart.m_whp_gage;
-    }
-    else if (m_item_data_type == ECommonItemDataType::Ridepod_Battery)
-    {
-      gage = &m_sub_data.m_robopart.m_battery_gage;
-    }
-  }
-  else if (m_type == EUsedItemType::Weapon)
-  {
-    gage = &m_sub_data.m_weapon.m_whp_gage;
-  }
+  auto gage = GetWHpGage();
 
   if (gage == nullptr)
   {
@@ -591,18 +597,35 @@ f32 CGameDataUsed::GetWHp(sint* values_dest) const
 }
 
 // 00198180
-bool CGameDataUsed::IsRepair() const
+bool CGameDataUsed::IsRepair()
 {
   // NOTE: Returns if an item *can* be repaired; not that it is repaired.
 
   log_trace("CGameDataUsed::{}()", __func__);
 
-  // Kind of a simplification to avoid duplicate code; should work
-  // since max should always be a float representing an integer
-  sint whp[2];
-  GetWHp(whp);
+  auto gage = GetWHpGage();
 
-  return whp[0] < whp[1];
+  if (gage == nullptr)
+  {
+    return false;
+  }
+
+  return static_cast<f32>(GetDispVolumeForFloat(gage->m_current)) < gage->m_max;
+}
+
+// 00198270
+bool CGameDataUsed::Repair(sint delta)
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  auto gage = GetWHpGage();
+
+  if (gage != nullptr)
+  {
+    gage->AddPoint(delta);
+  }
+
+  return true;
 }
 
 // 001985A0
