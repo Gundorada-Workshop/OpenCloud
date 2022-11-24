@@ -416,7 +416,7 @@ static bool _DATAROBO_ANALYZE(SPI_STACK* stack, int stack_count)
 
   int mode = spiGetStackInt(stack++);
   SpiRoboPart->m_use_capacity = spiGetStackInt(stack++);
-  SpiRoboPart->m_unk_field_22 = spiGetStackInt(stack++);
+  SpiRoboPart->m_offset_no = spiGetStackInt(stack++);
 
   switch (mode)
   {
@@ -576,6 +576,14 @@ static const std::array<SPI_TAG_PARAM, 25> gamedata_tag =
   "MES_SYSSPE", _MES_SYS_SPECTOL,
   NULL, nullptr
 };
+
+// 00194690
+s16 CDataRoboPart::GetOffsetNo() const
+{
+  log_trace("CDataRoboPart::{}()", __func__);
+
+  return m_offset_no;
+}
 
 // 001946D0
 CGameData::CGameData()

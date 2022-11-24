@@ -616,6 +616,9 @@ public:
 class CDataRoboPart
 {
 public:
+  // 00194690
+  s16 GetOffsetNo() const;
+
   // 0
   s16 m_use_capacity{ 0 };
   // 2
@@ -637,7 +640,7 @@ public:
   // 20
   s16 m_unk_field_20{ 0 };
   // 22
-  s8 m_unk_field_22{ 0 };
+  s8 m_offset_no{ 0 };
   // 23
   s8 m_unk_field_23{ 0 };
   // SIZE 0x24

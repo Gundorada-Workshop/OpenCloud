@@ -680,6 +680,28 @@ sint CGameDataUsed::GetRoboInfoType() const
   }
 }
 
+// 00198400
+std::string CGameDataUsed::GetRoboJointName() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  auto robo_data = GetRoboPartInfoData(m_common_index);
+  if (robo_data == nullptr)
+  {
+    return "";
+  }
+
+  switch (m_item_data_type)
+  {
+    case ECommonItemDataType::Ridepod_Arm:
+      return common::strings::format("body{}", robo_data->GetOffsetNo());
+    case ECommonItemDataType::Ridepod_Body:
+      return common::strings::format("arm{}", robo_data->GetOffsetNo());
+    default:
+      return "";
+  }
+}
+
 // 001985A0
 bool CGameDataUsed::IsLevelUp() const
 {
