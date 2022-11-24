@@ -590,6 +590,21 @@ f32 CGameDataUsed::GetWHp(sint* values_dest) const
   return gage->GetRate();
 }
 
+// 00198180
+bool CGameDataUsed::IsRepair() const
+{
+  // NOTE: Returns if an item *can* be repaired; not that it is repaired.
+
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  // Kind of a simplification to avoid duplicate code; should work
+  // since max should always be a float representing an integer
+  sint whp[2];
+  GetWHp(whp);
+
+  return whp[0] < whp[1];
+}
+
 // 001985A0
 bool CGameDataUsed::IsLevelUp() const
 {
@@ -608,7 +623,7 @@ void CGameDataUsed::LevelUp()
 }
 
 // 001992B0
-bool CGameDataUsed::IsFishingRod()
+bool CGameDataUsed::IsFishingRod() const
 {
   log_trace("CGameDataUsed::{}()", __func__);
 

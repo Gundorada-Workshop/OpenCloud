@@ -222,12 +222,14 @@ public:
   void SetName(const char* name);
   // 001980C0
   f32 GetWHp(sint* values_dest) const;
+  // 00198180
+  bool IsRepair() const;
   // 001985A0
   bool IsLevelUp() const;
   // 00198620
   void LevelUp();
   // 001992B0
-  bool IsFishingRod();
+  bool IsFishingRod() const;
   // 00199830
   void TimeCheck(s32 delta);
   // 00199A50
