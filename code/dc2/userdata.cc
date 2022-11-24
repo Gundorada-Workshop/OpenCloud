@@ -548,6 +548,14 @@ void CGameDataUsed::SetName(const char* name)
   m_unk_field_5 = strcmp(GetItemMessage(m_common_index).data(), name_buf->data()) != 0;
 }
 
+// 00197DC0
+sint CGameDataUsed::RemainFusion() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  return m_type == EUsedItemType::Weapon ? m_sub_data.m_weapon.m_fusion_point : 0;
+}
+
 COMMON_GAGE* CGameDataUsed::GetWHpGage()
 {
   if (m_type == EUsedItemType::Robopart)
@@ -824,7 +832,7 @@ bool CGameDataUsed::CopyDataWeapon(ECommonItemData item_id)
     m_sub_data.m_weapon.m_unk_field_16[i] = weapon_data->m_unk_field_C[i];
   }
 
-  m_sub_data.m_weapon.m_unk_field_2C = weapon_data->m_unk_field_38;
+  m_sub_data.m_weapon.m_fusion_point = weapon_data->m_fusion_point;
   m_sub_data.m_weapon.m_unk_field_28 = weapon_data->m_unk_field_2C;
 
   m_sub_data.m_weapon.m_unk_field_2E = 0;

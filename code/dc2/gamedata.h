@@ -586,7 +586,7 @@ public:
   // ?
 
   // 38
-  u8 m_unk_field_38{ 0 };
+  u8 m_fusion_point{ 0 };
   // 39
   s8 m_unk_field_39{ 0 };
   // 3A

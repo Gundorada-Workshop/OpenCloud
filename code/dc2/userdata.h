@@ -154,7 +154,7 @@ struct SGameDataUsedWeaponSub
   // 28
   s32 m_unk_field_28{};
   // 2C
-  s16 m_unk_field_2C{};
+  s16 m_fusion_point{};
   // 2E
   s16 m_unk_field_2E{};
   // 30
@@ -222,6 +222,8 @@ public:
   s16 AddFishHp(s16 delta);
   // 00197630
   void SetName(const char* name);
+  // 00197DC0
+  sint RemainFusion() const;
   // 001980C0
   f32 GetWHp(sint* values_dest = nullptr);
   // 00198180
