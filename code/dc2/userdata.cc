@@ -650,6 +650,14 @@ ECommonItemData CGameDataUsed::GetRepairItemNo() const
   }
 }
 
+// 00198360
+bool CGameDataUsed::IsEnableUseRepair(ECommonItemData item_id) const
+{
+  log_trace("CGameDataUsed::{}({})", __func__, std::to_underlying(item_id));
+
+  return GetRepairItemNo() == item_id;
+}
+
 // 001985A0
 bool CGameDataUsed::IsLevelUp() const
 {
