@@ -271,7 +271,7 @@ ECommonItemData GetRidePodCore(ssize index)
 }
 
 // 00196C90
-bool COMMON_GAGE::CheckFill()
+bool COMMON_GAGE::CheckFill() const
 {
   log_trace("COMMON_GAGE::{}()", __func__);
 
@@ -279,7 +279,7 @@ bool COMMON_GAGE::CheckFill()
 }
 
 // 00196CC0
-f32 COMMON_GAGE::GetRate()
+f32 COMMON_GAGE::GetRate() const
 {
   log_trace("COMMON_GAGE::{}()", __func__);
 
@@ -546,6 +546,48 @@ void CGameDataUsed::SetName(const char* name)
 
   strcpy_s(name_buf->data(), name_buf->size(), name);
   m_unk_field_5 = strcmp(GetItemMessage(m_common_index).data(), name_buf->data()) != 0;
+}
+
+// 001980C0
+f32 CGameDataUsed::GetWHp(sint* values_dest) const
+{
+  log_trace("CGameDataUsed::{}({})", __func__, fmt::ptr(values_dest));
+
+  if (values_dest != nullptr)
+  {
+    values_dest[0] = 0;
+    values_dest[1] = 0;
+  }
+
+  const COMMON_GAGE* gage = nullptr;
+  if (m_type == EUsedItemType::Robopart)
+  {
+    if (m_item_data_type == ECommonItemDataType::Ridepod_Arm)
+    {
+      gage = &m_sub_data.m_robopart.m_whp_gage;
+    }
+    else if (m_item_data_type == ECommonItemDataType::Ridepod_Battery)
+    {
+      gage = &m_sub_data.m_robopart.m_battery_gage;
+    }
+  }
+  else if (m_type == EUsedItemType::Weapon)
+  {
+    gage = &m_sub_data.m_weapon.m_whp_gage;
+  }
+
+  if (gage == nullptr)
+  {
+    return 1.0f;
+  }
+
+  if (values_dest != nullptr)
+  {
+    values_dest[0] = GetDispVolumeForFloat(gage->m_current);
+    values_dest[1] = static_cast<s32>(gage->m_max);
+  }
+
+  return gage->GetRate();
 }
 
 // 001985A0

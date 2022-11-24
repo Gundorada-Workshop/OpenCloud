@@ -107,9 +107,9 @@ struct COMMON_GAGE
   f32 m_current{};
 
   // 00196C90
-  bool CheckFill();
+  bool CheckFill() const;
   // 00196CC0
-  f32 GetRate();
+  f32 GetRate() const;
   // 00196D00
   void SetFillRate(f32 rate);
   // 00196D10
@@ -165,6 +165,8 @@ struct SGameDataUsedWeaponSub
 
 struct SGameDataUsedRobopartSub
 {
+  // 0
+  COMMON_GAGE m_battery_gage{};
   // 8
   COMMON_GAGE m_whp_gage{};
   // 2C
@@ -218,6 +220,8 @@ public:
   s16 AddFishHp(s16 delta);
   // 00197630
   void SetName(const char* name);
+  // 001980C0
+  f32 GetWHp(sint* values_dest) const;
   // 001985A0
   bool IsLevelUp() const;
   // 00198620
