@@ -86,7 +86,7 @@ static bool SkipSpace(input_str& str)
 }
 
 // 00147300
-static bool CheckChar(char ch)
+static inline bool CheckChar(char ch)
 {
   return ch != '\r' && ch != '\n' && ch != '\t' && ch != ' ';
 }
@@ -101,7 +101,7 @@ static inline bool IsSingleLineCommentStart(input_str& str, usize i)
   return false;
 }
 
-static bool IsMultiLineCommentStart(input_str& str, usize i)
+static inline bool IsMultiLineCommentStart(input_str& str, usize i)
 {
   if (i < str.m_length - 1)
   {
@@ -111,7 +111,7 @@ static bool IsMultiLineCommentStart(input_str& str, usize i)
   return false;
 }
 
-static bool IsMultiLineCommentEnd(input_str& str, usize i)
+static inline bool IsMultiLineCommentEnd(input_str& str, usize i)
 {
   if (i > 1 && i < str.m_length - 1)
   {
@@ -121,7 +121,7 @@ static bool IsMultiLineCommentEnd(input_str& str, usize i)
   return false;
 }
 
-static bool IsNewLine(char c)
+static inline bool IsNewLine(char c)
 {
   return c == '\n' || c == '\r';
 }
@@ -134,16 +134,19 @@ static bool IsUTF8(input_str& str)
   // The first non-comment/non-whitespace text must
   // string match "encoding utf-8;"
 
-  constexpr char check[] = "encoding utf-8;";
-
   bool valid = SkipSpace(str);
   auto pos = str.m_position;
   str.m_position = old_position;
 
-  if (valid && strncmp(&str.m_string.c_str()[pos], check, std::size(check) - 1) == 0)
+  static constexpr std::string_view check = "encoding utf-8;";
+
+  std::string_view str_view{ str.m_string };
+  std::string_view sub = str_view.substr(pos, check.length());
+
+  if (valid && sub == check)
   {
     // Remove the encoding utf-8; line
-    for (int i = pos; i < pos + std::size(check); ++i)
+    for (int i = pos; i < pos + check.length(); ++i)
     {
       str.m_string[i] = ' ';
     }
