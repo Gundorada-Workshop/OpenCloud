@@ -831,6 +831,22 @@ bool CGameDataUsed::IsTrush() const
   return result;
 }
 
+// 001989D0
+bool CGameDataUsed::IsSpectolTrans() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  auto com_data = GetCommonItemData(m_common_index);
+
+  if (com_data == nullptr)
+  {
+    return false;
+  }
+
+  // FIXME: MAGIC
+  return (com_data->m_attribute & 2) != 0;
+}
+
 // 001992B0
 bool CGameDataUsed::IsFishingRod() const
 {

@@ -254,6 +254,8 @@ public:
   void LevelUp();
   // 00198950
   bool IsTrush() const;
+  // 001989D0
+  bool IsSpectolTrans() const;
   // 001992B0
   bool IsFishingRod() const;
   // 00199830
