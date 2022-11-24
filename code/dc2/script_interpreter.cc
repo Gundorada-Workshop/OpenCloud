@@ -134,16 +134,19 @@ static bool IsUTF8(input_str& str)
   // The first non-comment/non-whitespace text must
   // string match "encoding utf-8;"
 
-  constexpr char check[] = "encoding utf-8;";
-
   bool valid = SkipSpace(str);
   auto pos = str.m_position;
   str.m_position = old_position;
 
-  if (valid && strncmp(&str.m_string.c_str()[pos], check, std::size(check) - 1) == 0)
+  static constexpr std::string_view check = "encoding utf-8;";
+
+  std::string_view str_view{ str.m_string };
+  std::string_view sub = str_view.substr(pos, check.length());
+
+  if (valid && sub == check)
   {
     // Remove the encoding utf-8; line
-    for (int i = pos; i < pos + std::size(check); ++i)
+    for (int i = pos; i < pos + check.length(); ++i)
     {
       str.m_string[i] = ' ';
     }
