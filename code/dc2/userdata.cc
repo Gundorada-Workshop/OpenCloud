@@ -556,6 +556,31 @@ sint CGameDataUsed::RemainFusion() const
   return m_type == EUsedItemType::Weapon ? m_sub_data.m_weapon.m_fusion_point : 0;
 }
 
+// 00197DE0
+sint CGameDataUsed::AddFusionPoint(sint delta)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, delta);
+
+  if (m_type != EUsedItemType::Weapon)
+  {
+    return 0;
+  }
+
+  s16 fusion_point = std::max<s16>(m_sub_data.m_weapon.m_fusion_point + delta, 0);
+
+  if (IsFishingRod())
+  {
+    fusion_point = std::min<s16>(fusion_point, 9999);
+  }
+  else
+  {
+    fusion_point = std::min<s16>(fusion_point, 999);
+  }
+
+  m_sub_data.m_weapon.m_fusion_point = fusion_point;
+  return fusion_point;
+}
+
 COMMON_GAGE* CGameDataUsed::GetWHpGage()
 {
   if (m_type == EUsedItemType::Robopart)

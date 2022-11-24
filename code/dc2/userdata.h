@@ -224,6 +224,8 @@ public:
   void SetName(const char* name);
   // 00197DC0
   sint RemainFusion() const;
+  // 00197DE0
+  sint AddFusionPoint(sint delta);
   // 001980C0
   f32 GetWHp(sint* values_dest = nullptr);
   // 00198180
