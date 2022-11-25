@@ -242,6 +242,8 @@ public:
   sint GetNum() const;
   // 00197360
   u8 GetActiveSetNum() const;
+  // 00197370
+  s16 AddNum(sint delta, bool reset_if_empty);
   // 00197480
   sint GetUseCapacity() const;
   // 001974C0

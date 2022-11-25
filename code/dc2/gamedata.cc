@@ -83,15 +83,15 @@ static bool _DATACOM(SPI_STACK* stack, int stack_count)
   comdatapt->m_type = static_cast<ECommonItemDataType>(spiGetStackInt(stack++));
   comdatapt->m_category_id = spiGetStackInt(stack++);
   comdatapt->m_active_set_num = spiGetStackInt(stack++);
-  comdatapt->m_stack_max = spiGetStackInt(stack++);
-  comdatapt->m_unk_field_A = spiGetStackInt(stack++);
+  comdatapt->m_stack_max_1E = spiGetStackInt(stack++);
+  comdatapt->m_stack_max_A = spiGetStackInt(stack++);
 
   if (ConvertUsedItemType(comdatapt->m_type) == EUsedItemType::Weapon)
   {
     // FIXME: MAGIC?
-    if (comdatapt->m_unk_field_A > 100)
+    if (comdatapt->m_stack_max_A > 100)
     {
-      comdatapt->m_unk_field_A = 144;
+      comdatapt->m_stack_max_A = 144;
     }
   }
 

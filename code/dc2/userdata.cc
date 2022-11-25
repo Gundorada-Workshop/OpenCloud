@@ -498,7 +498,7 @@ sint CGameDataUsed::CheckStackRemain() const
     return 0;
   }
 
-  return com_data->m_stack_max - GetNum();
+  return com_data->m_stack_max_1E - GetNum();
 }
 
 // 001972E0
@@ -534,6 +534,41 @@ sint CGameDataUsed::GetNum() const
 u8 CGameDataUsed::GetActiveSetNum() const
 {
   return IsActiveSet();
+}
+
+// 00197370
+s16 CGameDataUsed::AddNum(sint delta, bool reset_if_empty)
+{
+  log_trace("CGameDataUsed::{}({}, {})", __func__, delta, reset_if_empty);
+
+  if (m_common_index == ECommonItemData::Invalid)
+  {
+    return 0;
+  }
+
+  auto com_data = GetCommonItemData(m_common_index);
+
+  s16 stack_num;
+  if (m_type == EUsedItemType::Item_Misc)
+  {
+    stack_num = std::clamp<s16>(m_sub_data.m_item_misc.m_stack_num + delta, 0, com_data->m_stack_max_A);
+  }
+  else if (m_type == EUsedItemType::Attach)
+  {
+    stack_num = std::clamp<s16>(m_sub_data.m_attach.m_stack_num + delta, 0, com_data->m_stack_max_A);
+  }
+  else
+  {
+    // ?
+    stack_num = delta + 1;
+  }
+
+  if (stack_num <= 0 && reset_if_empty)
+  {
+    new (this) CGameDataUsed();
+  }
+
+  return stack_num;
 }
 
 // 00197480
