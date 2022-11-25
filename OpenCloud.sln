@@ -37,6 +37,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fmt", "external\fmt.vcxproj
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{189CD55B-0F7A-469D-BD55-459A8C0ECCEC}"
 	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		.github\workflows\msbuild.yml = .github\workflows\msbuild.yml
 	EndProjectSection
