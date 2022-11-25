@@ -271,7 +271,7 @@ ECommonItemData GetRidePodCore(ssize index)
 }
 
 // 00196C90
-bool COMMON_GAGE::CheckFill()
+bool COMMON_GAGE::CheckFill() const
 {
   log_trace("COMMON_GAGE::{}()", __func__);
 
@@ -279,7 +279,7 @@ bool COMMON_GAGE::CheckFill()
 }
 
 // 00196CC0
-f32 COMMON_GAGE::GetRate()
+f32 COMMON_GAGE::GetRate() const
 {
   log_trace("COMMON_GAGE::{}()", __func__);
 
@@ -482,6 +482,95 @@ ECommonItemData CGameDataUsed::GetSpectrumNo() const
   return m_sub_data.m_attach.m_spectrumized_item_id;
 }
 
+// 00197270
+sint CGameDataUsed::CheckStackRemain() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  if (!CheckTypeEnableStack())
+  {
+    return 0;
+  }
+
+  auto com_data = GetCommonItemData(m_common_index);
+  if (com_data == nullptr)
+  {
+    return 0;
+  }
+
+  return com_data->m_stack_max_1E - GetNum();
+}
+
+// 001972E0
+sint CGameDataUsed::GetNum() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  if (m_common_index == ECommonItemData::Invalid)
+  {
+    return 0;
+  }
+
+  switch (m_type)
+  {
+    case EUsedItemType::Item_Misc:
+      return m_sub_data.m_item_misc.m_stack_num;
+    case EUsedItemType::Clothing:
+      return m_sub_data.m_clothing.m_stack_num;
+    case EUsedItemType::Attach:
+      if (m_item_data_type == ECommonItemDataType::Spectrumized_Item)
+      {
+        return true;
+      }
+      if (m_item_data_type == ECommonItemDataType::_34)
+      {
+        return true;
+      }
+      return m_sub_data.m_attach.m_stack_num;
+  }
+}
+
+// 00197360
+u8 CGameDataUsed::GetActiveSetNum() const
+{
+  return IsActiveSet();
+}
+
+// 00197370
+s16 CGameDataUsed::AddNum(sint delta, bool reset_if_empty)
+{
+  log_trace("CGameDataUsed::{}({}, {})", __func__, delta, reset_if_empty);
+
+  if (m_common_index == ECommonItemData::Invalid)
+  {
+    return 0;
+  }
+
+  auto com_data = GetCommonItemData(m_common_index);
+
+  s16 stack_num;
+  if (m_type == EUsedItemType::Item_Misc)
+  {
+    stack_num = std::clamp<s16>(m_sub_data.m_item_misc.m_stack_num + delta, 0, com_data->m_stack_max_A);
+  }
+  else if (m_type == EUsedItemType::Attach)
+  {
+    stack_num = std::clamp<s16>(m_sub_data.m_attach.m_stack_num + delta, 0, com_data->m_stack_max_A);
+  }
+  else
+  {
+    // ?
+    stack_num = delta + 1;
+  }
+
+  if (stack_num <= 0 && reset_if_empty)
+  {
+    new (this) CGameDataUsed();
+  }
+
+  return stack_num;
+}
+
 // 00197480
 sint CGameDataUsed::GetUseCapacity() const
 {
@@ -509,6 +598,20 @@ s16 CGameDataUsed::AddFishHp(s16 delta)
 
   m_sub_data.m_fish.m_hp = std::clamp(m_sub_data.m_fish.m_hp + delta, 0, 100);
   return m_sub_data.m_fish.m_hp;
+}
+
+// 00197600
+u8 CGameDataUsed::IsActiveSet() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  auto com_data = GetCommonItemData(m_common_index);
+  if (com_data == nullptr)
+  {
+    return false;
+  }
+
+  return com_data->m_active_set_num;
 }
 
 // 00197630
@@ -548,13 +651,251 @@ void CGameDataUsed::SetName(const char* name)
   m_unk_field_5 = strcmp(GetItemMessage(m_common_index).data(), name_buf->data()) != 0;
 }
 
+// 00197DC0
+sint CGameDataUsed::RemainFusion() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  return m_type == EUsedItemType::Weapon ? m_sub_data.m_weapon.m_fusion_point : 0;
+}
+
+// 00197DE0
+sint CGameDataUsed::AddFusionPoint(sint delta)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, delta);
+
+  if (m_type != EUsedItemType::Weapon)
+  {
+    return 0;
+  }
+
+  s16 fusion_point = std::max<s16>(m_sub_data.m_weapon.m_fusion_point + delta, 0);
+
+  if (IsFishingRod())
+  {
+    fusion_point = std::min<s16>(fusion_point, 9999);
+  }
+  else
+  {
+    fusion_point = std::min<s16>(fusion_point, 999);
+  }
+
+  m_sub_data.m_weapon.m_fusion_point = fusion_point;
+  return fusion_point;
+}
+
+COMMON_GAGE* CGameDataUsed::GetWHpGage()
+{
+  if (m_type == EUsedItemType::Robopart)
+  {
+    if (m_item_data_type == ECommonItemDataType::Ridepod_Arm)
+    {
+      return &m_sub_data.m_robopart.m_whp_gage;
+    }
+    else if (m_item_data_type == ECommonItemDataType::Ridepod_Battery)
+    {
+      return &m_sub_data.m_robopart.m_battery_gage;
+    }
+  }
+  else if (m_type == EUsedItemType::Weapon)
+  {
+    return &m_sub_data.m_weapon.m_whp_gage;
+  }
+
+  return nullptr;
+}
+
+// 001980C0
+f32 CGameDataUsed::GetWHp(sint* values_dest)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, fmt::ptr(values_dest));
+
+  if (values_dest != nullptr)
+  {
+    values_dest[0] = 0;
+    values_dest[1] = 0;
+  }
+
+  auto gage = GetWHpGage();
+
+  if (gage == nullptr)
+  {
+    return 1.0f;
+  }
+
+  if (values_dest != nullptr)
+  {
+    values_dest[0] = GetDispVolumeForFloat(gage->m_current);
+    values_dest[1] = static_cast<s32>(gage->m_max);
+  }
+
+  return gage->GetRate();
+}
+
+// 00198180
+bool CGameDataUsed::IsRepair()
+{
+  // NOTE: Returns if an item *can* be repaired; not that it is repaired.
+
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  auto gage = GetWHpGage();
+
+  if (gage == nullptr)
+  {
+    return false;
+  }
+
+  return static_cast<f32>(GetDispVolumeForFloat(gage->m_current)) < gage->m_max;
+}
+
+// 00198270
+bool CGameDataUsed::Repair(sint delta)
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  auto gage = GetWHpGage();
+
+  if (gage != nullptr)
+  {
+    gage->AddPoint(delta);
+  }
+
+  return true;
+}
+
+// 001982F0
+ECommonItemData CGameDataUsed::GetRepairItemNo() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  switch (m_item_data_type)
+  {
+    case ECommonItemDataType::Melee_Max:
+    case ECommonItemDataType::Melee_Monica:
+    case ECommonItemDataType::Ridepod_Arm:
+      return ECommonItemData::Repair_Powder;
+    case ECommonItemDataType::Ranged_Max:
+      return ECommonItemData::Gun_Repair_Powder;
+    case ECommonItemDataType::Ranged_Monica:
+      return ECommonItemData::Armband_Repair_Powder;
+    case ECommonItemDataType::Ridepod_Battery:
+      return ECommonItemData::Ridepod_Fuel;
+    default:
+      return ECommonItemData::Invalid;
+  }
+}
+
+// 00198360
+bool CGameDataUsed::IsEnableUseRepair(ECommonItemData item_id) const
+{
+  log_trace("CGameDataUsed::{}({})", __func__, std::to_underlying(item_id));
+
+  return GetRepairItemNo() == item_id;
+}
+
+// 00198390
+sint CGameDataUsed::GetRoboInfoType() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  auto robo_data = GetRoboPartInfoData(m_common_index);
+  if (robo_data == nullptr)
+  {
+    return -1;
+  }
+
+  switch (m_item_data_type)
+  {
+    case ECommonItemDataType::Ridepod_Arm:
+      return robo_data->m_unk_field_1E;
+    case ECommonItemDataType::Ridepod_Leg:
+      return robo_data->m_unk_field_20;
+    default:
+      return -1;
+  }
+}
+
+// 00198400
+std::string CGameDataUsed::GetRoboJointName() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  auto robo_data = GetRoboPartInfoData(m_common_index);
+  if (robo_data == nullptr)
+  {
+    return "";
+  }
+
+  switch (m_item_data_type)
+  {
+    case ECommonItemDataType::Ridepod_Arm:
+      return common::strings::format("body{}", robo_data->GetOffsetNo());
+    case ECommonItemDataType::Ridepod_Body:
+      return common::strings::format("arm{}", robo_data->GetOffsetNo());
+    default:
+      return "";
+  }
+}
+
+// 001984B0
+std::string CGameDataUsed::GetRoboSoundFileName() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+  using namespace common;
+
+  auto robo_data = GetRoboPartInfoData(m_common_index);
+  if (robo_data == nullptr)
+  {
+    return "";
+  }
+
+  if (m_item_data_type != ECommonItemDataType::Ridepod_Arm)
+  {
+    return "";
+  }
+
+  // FIXME: magic
+  sint offset_no = robo_data->GetOffsetNo() + 39;
+  if (offset_no < 40 || offset_no > 50)
+  {
+    offset_no = 40;
+  }
+  return strings::format("CH_0{}", offset_no);
+}
+
+// 00198550
+bool CGameDataUsed::IsBroken()
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  if (m_item_data_type == ECommonItemDataType::Ridepod_Battery)
+  {
+    return false;
+  }
+
+  sint whp[2];
+  GetWHp(whp);
+  return whp[0] <= 0;
+}
+
 // 001985A0
 bool CGameDataUsed::IsLevelUp() const
 {
   log_trace("CGameDataUsed::{}()", __func__);
 
-  todo;
-  return false;
+  if (m_type != EUsedItemType::Weapon)
+  {
+    return false;
+  }
+
+  if (m_sub_data.m_weapon.m_level >= 99)
+  {
+    return false;
+  }
+
+  return static_cast<f32>(GetDispVolumeForFloat(m_sub_data.m_weapon.m_abs_gage.m_current)) >=
+    m_sub_data.m_weapon.m_abs_gage.m_max;
 }
 
 // 00198620
@@ -565,8 +906,140 @@ void CGameDataUsed::LevelUp()
   todo;
 }
 
+// 00198950
+bool CGameDataUsed::IsTrush() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  bool result = false;
+
+  auto com_data = GetCommonItemData(m_common_index);
+  if (com_data != nullptr)
+  {
+    // FIXME: MAGIC
+    if ((com_data->m_attribute & 1) != 0)
+    {
+      result = true;
+    }
+  }
+
+  if (m_type == EUsedItemType::Fish)
+  {
+    if ((m_sub_data.m_fish.m_unk_field_38 & 2) != 0)
+    {
+      result = false;
+    }
+  }
+
+  return result;
+}
+
+// 001989D0
+bool CGameDataUsed::IsSpectolTrans() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  auto com_data = GetCommonItemData(m_common_index);
+
+  if (com_data == nullptr)
+  {
+    return false;
+  }
+
+  // FIXME: MAGIC
+  return (com_data->m_attribute & 2) != 0;
+}
+
+// 00198FC0
+uint CGameDataUsed::IsBuildUp(uint* total_possible_dest, ECommonItemData* buildup_item_ids_dest, bool* can_build_up_dest) const
+{
+  log_trace("CGameDataUsed::{}({}, {}, {})", __func__, fmt::ptr(total_possible_dest), fmt::ptr(buildup_item_ids_dest), fmt::ptr(can_build_up_dest));
+
+  if (m_type != EUsedItemType::Weapon)
+  {
+    return 0;
+  }
+
+  auto wep_data = GetWeaponInfoData(m_common_index);
+  if (wep_data == nullptr)
+  {
+    return 0;
+  }
+
+  s16 now_param[9];
+
+  now_param[0] = m_sub_data.m_weapon.m_attack;
+  now_param[1] = m_sub_data.m_weapon.m_flame;
+  now_param[2] = m_sub_data.m_weapon.m_chill;
+  now_param[3] = m_sub_data.m_weapon.m_lightning;
+  now_param[4] = m_sub_data.m_weapon.m_cyclone;
+  now_param[5] = m_sub_data.m_weapon.m_smash;
+  now_param[6] = m_sub_data.m_weapon.m_exorcism;
+  now_param[7] = m_sub_data.m_weapon.m_beast;
+  now_param[8] = m_sub_data.m_weapon.m_scale;
+
+  uint total_possible = 0;
+  uint total_can_build_up = 0;
+  for (int i = 0; i < std::size(wep_data->m_buildup_next); ++i)
+  {
+    auto goal_wep_data = GetWeaponInfoData(wep_data->m_buildup_next[i]);
+
+    if (goal_wep_data == nullptr)
+    {
+      continue;
+    }
+
+    ++total_possible;
+
+    s16 goal_param[std::size(now_param)];
+
+    goal_param[0] = goal_wep_data->m_attack;
+    goal_param[1] = goal_wep_data->m_flame;
+    goal_param[2] = goal_wep_data->m_chill;
+    goal_param[3] = goal_wep_data->m_lightning;
+    goal_param[4] = goal_wep_data->m_cyclone;
+    goal_param[5] = goal_wep_data->m_smash;
+    goal_param[6] = goal_wep_data->m_exorcism;
+    goal_param[7] = goal_wep_data->m_beast;
+    goal_param[8] = goal_wep_data->m_scale;
+
+    bool goal_reached = true;
+
+    for (int i = 0; i < std::size(now_param); ++i)
+    {
+      if (now_param[i] < goal_param[i] * 0.9f)
+      {
+        goal_reached = false;
+        break;
+      }
+    }
+
+    if (buildup_item_ids_dest != nullptr)
+    {
+      buildup_item_ids_dest[i] = wep_data->m_buildup_next[i];
+    }
+
+    if (can_build_up_dest != nullptr)
+    {
+      can_build_up_dest[i] = goal_reached;
+    }
+
+    if (goal_reached)
+    {
+      ++total_can_build_up;
+    }
+  }
+
+  if (total_possible_dest != nullptr)
+  {
+    *total_possible_dest = total_possible;
+  }
+
+  return total_can_build_up;
+}
+
 // 001992B0
-bool CGameDataUsed::IsFishingRod()
+bool CGameDataUsed::IsFishingRod() const
 {
   log_trace("CGameDataUsed::{}()", __func__);
 
@@ -611,15 +1084,19 @@ bool CGameDataUsed::CopyDataWeapon(ECommonItemData item_id)
   m_sub_data.m_weapon.m_abs_gage.m_max = static_cast<f32>(weapon_data->m_abs_max);
   m_sub_data.m_weapon.m_abs_gage.m_current = 0.0f;
 
-  m_sub_data.m_weapon.m_unk_field_12 = weapon_data->m_unk_field_4;
-  m_sub_data.m_weapon.m_unk_field_14 = weapon_data->m_unk_field_6;
+  m_sub_data.m_weapon.m_attack = weapon_data->m_attack;
+  m_sub_data.m_weapon.m_durable = weapon_data->m_durable;
 
-  for (int i = 0; i < weapon_data->m_unk_field_C.size(); ++i)
-  {
-    m_sub_data.m_weapon.m_unk_field_16[i] = weapon_data->m_unk_field_C[i];
-  }
+  m_sub_data.m_weapon.m_flame = weapon_data->m_flame;
+  m_sub_data.m_weapon.m_chill = weapon_data->m_chill;
+  m_sub_data.m_weapon.m_lightning = weapon_data->m_lightning;
+  m_sub_data.m_weapon.m_cyclone = weapon_data->m_cyclone;
+  m_sub_data.m_weapon.m_smash = weapon_data->m_smash;
+  m_sub_data.m_weapon.m_exorcism = weapon_data->m_exorcism;
+  m_sub_data.m_weapon.m_beast = weapon_data->m_beast;
+  m_sub_data.m_weapon.m_scale = weapon_data->m_scale;
 
-  m_sub_data.m_weapon.m_unk_field_2C = weapon_data->m_unk_field_38;
+  m_sub_data.m_weapon.m_fusion_point = weapon_data->m_fusion_point;
   m_sub_data.m_weapon.m_unk_field_28 = weapon_data->m_unk_field_2C;
 
   m_sub_data.m_weapon.m_unk_field_2E = 0;

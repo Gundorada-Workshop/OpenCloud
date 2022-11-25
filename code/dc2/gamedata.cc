@@ -83,16 +83,16 @@ static bool _DATACOM(SPI_STACK* stack, int stack_count)
   comdatapt->m_common_id = static_cast<ECommonItemData>(spiGetStackInt(stack++));
   comdatapt->m_type = static_cast<ECommonItemDataType>(spiGetStackInt(stack++));
   comdatapt->m_category_id = spiGetStackInt(stack++);
-  comdatapt->m_unk_field_1C = spiGetStackInt(stack++);
-  comdatapt->m_unk_field_1E = spiGetStackInt(stack++);
-  comdatapt->m_unk_field_A = spiGetStackInt(stack++);
+  comdatapt->m_active_set_num = spiGetStackInt(stack++);
+  comdatapt->m_stack_max_1E = spiGetStackInt(stack++);
+  comdatapt->m_stack_max_A = spiGetStackInt(stack++);
 
   if (ConvertUsedItemType(comdatapt->m_type) == EUsedItemType::Weapon)
   {
     // FIXME: MAGIC?
-    if (comdatapt->m_unk_field_A > 100)
+    if (comdatapt->m_stack_max_A > 100)
     {
-      comdatapt->m_unk_field_A = 144;
+      comdatapt->m_stack_max_A = 144;
     }
   }
 
@@ -158,8 +158,8 @@ static bool _DATAWEP_ST(SPI_STACK* stack, int stack_count)
     return false;
   }
 
-  SpiWeaponPt->m_unk_field_4 = spiGetStackInt(stack++);
-  SpiWeaponPt->m_unk_field_6 = spiGetStackInt(stack++);
+  SpiWeaponPt->m_attack = spiGetStackInt(stack++);
+  SpiWeaponPt->m_durable = spiGetStackInt(stack++);
 
   return true;
 }
@@ -194,10 +194,14 @@ static bool _DATAWEP2_ST(SPI_STACK* stack, int stack_count)
     return false;
   }
 
-  for (int i = 0; i < 8; ++i)
-  {
-    SpiWeaponPt->m_unk_field_C[i] = spiGetStackInt(stack++);
-  }
+  SpiWeaponPt->m_flame = spiGetStackInt(stack++);
+  SpiWeaponPt->m_chill = spiGetStackInt(stack++);
+  SpiWeaponPt->m_lightning = spiGetStackInt(stack++);
+  SpiWeaponPt->m_cyclone = spiGetStackInt(stack++);
+  SpiWeaponPt->m_smash = spiGetStackInt(stack++);
+  SpiWeaponPt->m_exorcism = spiGetStackInt(stack++);
+  SpiWeaponPt->m_beast = spiGetStackInt(stack++);
+  SpiWeaponPt->m_scale = spiGetStackInt(stack++);
 
   return true;
 }
@@ -234,7 +238,7 @@ static bool _DATAWEP_SPE(SPI_STACK* stack, int stack_count)
     return false;
   }
 
-  SpiWeaponPt->m_unk_field_38 = static_cast<u8>(spiGetStackFloat(stack++));
+  SpiWeaponPt->m_fusion_point = static_cast<u8>(spiGetStackFloat(stack++));
   SpiWeaponPt->m_palette_color = spiGetStackInt(stack++);
   SpiWeaponPt->m_unk_field_47 = spiGetStackInt(stack++);
   SpiWeaponPt->m_unk_field_39 = spiGetStackInt(stack++);
@@ -257,9 +261,9 @@ static bool _DATAWEP_BUILDUP(SPI_STACK* stack, int stack_count)
     return false;
   }
 
-  SpiWeaponPt->m_unk_field_3A = spiGetStackInt(stack++);
-  SpiWeaponPt->m_unk_field_3C = spiGetStackInt(stack++);
-  SpiWeaponPt->m_unk_field_3E = spiGetStackInt(stack++);
+  SpiWeaponPt->m_buildup_next[0] = static_cast<ECommonItemData>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_buildup_next[1] = static_cast<ECommonItemData>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_buildup_next[2] = static_cast<ECommonItemData>(spiGetStackInt(stack++));
 
   if (stack_count >= 4)
   {
@@ -417,7 +421,7 @@ static bool _DATAROBO_ANALYZE(SPI_STACK* stack, int stack_count)
 
   int mode = spiGetStackInt(stack++);
   SpiRoboPart->m_use_capacity = spiGetStackInt(stack++);
-  SpiRoboPart->m_unk_field_22 = spiGetStackInt(stack++);
+  SpiRoboPart->m_offset_no = spiGetStackInt(stack++);
 
   switch (mode)
   {
@@ -577,6 +581,14 @@ static const std::array<SPI_TAG_PARAM, 25> gamedata_tag =
   "MES_SYSSPE", _MES_SYS_SPECTOL,
   NULL, nullptr
 };
+
+// 00194690
+s16 CDataRoboPart::GetOffsetNo() const
+{
+  log_trace("CDataRoboPart::{}()", __func__);
+
+  return m_offset_no;
+}
 
 // 001946D0
 CGameData::CGameData()

@@ -512,13 +512,13 @@ struct SDataItemCommon
   // 8
   s16 m_unk_field_8{ 0 };
   // A
-  s16 m_unk_field_A{ 0 };
+  s16 m_stack_max_A{ 0 };
   // C
   std::array<char, 0x10> m_sprite_name{};
   // 1C
-  s8 m_unk_field_1C{ 0 };
+  u8 m_active_set_num{ 0 };
   // 1E
-  s16 m_unk_field_1E{ 0 };
+  s16 m_stack_max_1E{ 0 };
   // 20
   s8 m_unk_field_20{ 0 };
   // 24
@@ -566,15 +566,29 @@ public:
   // 2
   s16 m_abs_max{ 20 };
   // 4
-  s16 m_unk_field_4{ 0 };
+  s16 m_attack{ 0 };
   // 6
-  s16 m_unk_field_6{ 0 };
+  s16 m_durable{ 0 };
   // 8
   s16 m_unk_field_8{ 0 };
   // A
   s16 m_unk_field_A{ 0 };
   // C
-  std::array<s16, 8> m_unk_field_C{ 0 };
+  s16 m_flame{ 0 };
+  // E
+  s16 m_chill{ 0 };
+  // 10
+  s16 m_lightning{ 0 };
+  // 12
+  s16 m_cyclone{ 0 };
+  // 14
+  s16 m_smash{ 0 };
+  // 16
+  s16 m_exorcism{ 0 };
+  // 18
+  s16 m_beast{ 0 };
+  // 1A
+  s16 m_scale{ 0 };
   // 1C
   std::array<s16, 8> m_unk_field_1C{ 0 };
   
@@ -586,15 +600,11 @@ public:
   // ?
 
   // 38
-  u8 m_unk_field_38{ 0 };
+  u8 m_fusion_point{ 0 };
   // 39
   s8 m_unk_field_39{ 0 };
   // 3A
-  s16 m_unk_field_3A{ 0 };
-  // 3C
-  s16 m_unk_field_3C{ 0 };
-  // 3E
-  s16 m_unk_field_3E{ 0 };
+  ECommonItemData m_buildup_next[3]{};
   // 40
   s16 m_unk_field_40{ 0 };
   // 42
@@ -616,6 +626,9 @@ public:
 class CDataRoboPart
 {
 public:
+  // 00194690
+  s16 GetOffsetNo() const;
+
   // 0
   s16 m_use_capacity{ 0 };
   // 2
@@ -637,7 +650,7 @@ public:
   // 20
   s16 m_unk_field_20{ 0 };
   // 22
-  s8 m_unk_field_22{ 0 };
+  s8 m_offset_no{ 0 };
   // 23
   s8 m_unk_field_23{ 0 };
   // SIZE 0x24

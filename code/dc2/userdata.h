@@ -107,9 +107,9 @@ struct COMMON_GAGE
   f32 m_current{};
 
   // 00196C90
-  bool CheckFill();
+  bool CheckFill() const;
   // 00196CC0
-  f32 GetRate();
+  f32 GetRate() const;
   // 00196D00
   void SetFillRate(f32 rate);
   // 00196D10
@@ -125,6 +125,18 @@ enum class EUsedItemType;
 
 enum class ECommonItemData;
 
+struct SGameDataUsedItem_MiscSub
+{
+  // 0
+  s16 m_stack_num{};
+};
+
+struct SGameDataUsedClothingSub
+{
+  // 0
+  s16 m_stack_num{};
+};
+
 struct SGameDataUsedAttachSub
 {
   // 8
@@ -135,6 +147,9 @@ struct SGameDataUsedAttachSub
   s16 m_level{ 0 };
   // 20
   std::array<char, 0x20> m_name{ 0 };
+
+  // 3A (??? - is m_name erroneously short here?)
+  s16 m_stack_num{};
 };
 
 struct SGameDataUsedWeaponSub
@@ -146,15 +161,29 @@ struct SGameDataUsedWeaponSub
   // 10
   s16 m_level{ 0 };
   // 12
-  s16 m_unk_field_12{};
+  s16 m_attack{};
   // 14
-  s16 m_unk_field_14{};
+  s16 m_durable{};
   // 16
-  std::array<s16, 8> m_unk_field_16{};
+  s16 m_flame{};
+  // 18
+  s16 m_chill{};
+  // 1A
+  s16 m_lightning{};
+  // 1C
+  s16 m_cyclone{};
+  // 1E
+  s16 m_smash{};
+  // 20
+  s16 m_exorcism{};
+  // 22
+  s16 m_beast{};
+  // 24
+  s16 m_scale{};
   // 28
   s32 m_unk_field_28{};
   // 2C
-  s16 m_unk_field_2C{};
+  s16 m_fusion_point{};
   // 2E
   s16 m_unk_field_2E{};
   // 30
@@ -165,6 +194,8 @@ struct SGameDataUsedWeaponSub
 
 struct SGameDataUsedRobopartSub
 {
+  // 0
+  COMMON_GAGE m_battery_gage{};
   // 8
   COMMON_GAGE m_whp_gage{};
   // 2C
@@ -183,10 +214,15 @@ struct SGameDataUsedFishSub
 
   // 30
   s32 m_unk_field_30{ 0 };
+
+  // 38
+  u16 m_unk_field_38{};
 };
 
 union UGameDataUsedSub
 {
+  SGameDataUsedItem_MiscSub m_item_misc;
+  SGameDataUsedClothingSub m_clothing;
   SGameDataUsedAttachSub m_attach;
   SGameDataUsedWeaponSub m_weapon;
   SGameDataUsedRobopartSub m_robopart;
@@ -195,6 +231,8 @@ union UGameDataUsedSub
 
 class CGameDataUsed
 {
+private:
+  COMMON_GAGE* GetWHpGage();
 public:
   // 00197090
   CGameDataUsed();
@@ -212,18 +250,57 @@ public:
   s8 GetPaletteColor() const;
   // 00197250
   ECommonItemData GetSpectrumNo() const;
+  // 00197270
+  sint CheckStackRemain() const;
+  // 001972E0
+  sint GetNum() const;
+  // 00197360
+  u8 GetActiveSetNum() const;
+  // 00197370
+  s16 AddNum(sint delta, bool reset_if_empty);
   // 00197480
   sint GetUseCapacity() const;
   // 001974C0
   s16 AddFishHp(s16 delta);
+  // 00197600
+  u8 IsActiveSet() const;
   // 00197630
   void SetName(const char* name);
+  // 00197DC0
+  sint RemainFusion() const;
+  // 00197DE0
+  sint AddFusionPoint(sint delta);
+  // 001980C0
+  f32 GetWHp(sint* values_dest = nullptr);
+  // 00198180
+  bool IsRepair();
+  // 00198270
+  bool Repair(sint delta);
+  // 001982F0
+  // Returns the item ID used to repair this item
+  ECommonItemData GetRepairItemNo() const;
+  // 00198360
+  bool IsEnableUseRepair(ECommonItemData item_id) const;
+  // 00198390
+  sint GetRoboInfoType() const;
+  // 00198400
+  std::string GetRoboJointName() const;
+  // 001984B0
+  std::string GetRoboSoundFileName() const;
+  // 00198550
+  bool IsBroken();
   // 001985A0
   bool IsLevelUp() const;
   // 00198620
   void LevelUp();
+  // 00198950
+  bool IsTrush() const;
+  // 001989D0
+  bool IsSpectolTrans() const;
+  // 00198FC0
+  uint IsBuildUp(uint* total_possible_dest, ECommonItemData* buildup_item_ids_dest, bool* can_build_up_dest) const;
   // 001992B0
-  bool IsFishingRod();
+  bool IsFishingRod() const;
   // 00199830
   void TimeCheck(s32 delta);
   // 00199A50
