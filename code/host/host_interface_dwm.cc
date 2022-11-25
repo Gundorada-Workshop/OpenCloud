@@ -5,16 +5,13 @@
 #include "host/host_interface_dwm.h"
 #include "host/xinput_pad_handler.h"
 
-std::unique_ptr<host::dwm_interface> g_host_interface{ nullptr };
-
-set_log_channel("DWM");
+set_log_channel("dwm");
 
 using namespace common;
 
 namespace host
 {
   dwm_interface::dwm_interface() = default;
-
   dwm_interface::~dwm_interface() = default;
 
   LRESULT CALLBACK dwm_interface::winproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
@@ -26,7 +23,7 @@ namespace host
       const u32 width = LOWORD(lparam);
       const u32 height = HIWORD(lparam);
 
-      g_host_interface->handle_resize(width, height);
+      g_host_interface->handle_render_window_resize(width, height);
     } break;
     case WM_CLOSE:
     case WM_QUIT:
@@ -45,7 +42,7 @@ namespace host
 
     auto host_interface = std::make_unique<dwm_interface>();
 
-    host_interface->set_window_name(name);
+    host_interface->set_window_title(name);
     host_interface->set_module(GetModuleHandleW(nullptr));
 
     if (!host_interface->register_window_class(name))
@@ -110,7 +107,7 @@ namespace host
 
     if (!window_handle)
     {
-      error_dialog("Failed to create render window");
+      present_user_error_dialog("Failed to create render window");
 
       return false;
     }
@@ -121,7 +118,7 @@ namespace host
 
     if (!UpdateWindow(m_window_handle.get()))
     {
-      error_dialog("Failed to update window");
+      present_user_error_dialog("Failed to update window");
 
       return false;
     }
@@ -131,7 +128,12 @@ namespace host
     return true;
   }
 
-  int dwm_interface::run_message_pump()
+  void dwm_interface::destroy_render_window()
+  {
+    // TODO
+  }
+
+  sint dwm_interface::run_message_pump()
   {
     log_info("Starting Windows message pump");
 
@@ -150,7 +152,7 @@ namespace host
     return EXIT_SUCCESS;
   }
 
-  void dwm_interface::error_dialog(std::string_view message)
+  void dwm_interface::present_user_error_dialog(std::string_view message)
   {
     const auto wide_message = strings::to_wstring(message);
     if (!wide_message)
@@ -159,38 +161,8 @@ namespace host
     MessageBoxW(m_window_handle.get(), wide_message->c_str(), L"Error", MB_ICONERROR | MB_OK);
   }
 
-  void dwm_interface::handle_resize(u32 width, u32 height)
+  void dwm_interface::handle_render_window_resize(u32 width, u32 height)
   {
     log_info("Window resize event width: {}, height: {}", width, height);
-  }
-
-  void dwm_interface::start_game_frame()
-  {
-    log_trace("Starting in-grame frame");
-
-    // critical section
-    {
-      std::lock_guard<std::mutex> lk(m_pad_handler_mutex);
-
-      m_game_button_buffer[m_game_button_buffer_index ^= 1] = m_pad_handler->current_buttons();
-    }
-  }
-
-  vec2 dwm_interface::sample_pad_left_stick_xy()
-  {
-    std::lock_guard<std::mutex> lk(m_pad_handler_mutex);
-
-    const auto axis = m_pad_handler->right_stick_axis();
-
-    return { axis.x, axis.y };
-  }
-
-  vec2 dwm_interface::sample_pad_right_stick_xy()
-  {
-    std::lock_guard<std::mutex> lk(m_pad_handler_mutex);
-
-    const auto axis = m_pad_handler->left_stick_axis();
-
-    return { axis.x, axis.y };
   }
 }
