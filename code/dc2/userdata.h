@@ -125,6 +125,18 @@ enum class EUsedItemType;
 
 enum class ECommonItemData;
 
+struct SGameDataUsedItem_MiscSub
+{
+  // 0
+  s16 m_stack_num{};
+};
+
+struct SGameDataUsedClothingSub
+{
+  // 0
+  s16 m_stack_num{};
+};
+
 struct SGameDataUsedAttachSub
 {
   // 8
@@ -135,6 +147,9 @@ struct SGameDataUsedAttachSub
   s16 m_level{ 0 };
   // 20
   std::array<char, 0x20> m_name{ 0 };
+
+  // 3A (??? - is m_name erroneously short here?)
+  s16 m_stack_num{};
 };
 
 struct SGameDataUsedWeaponSub
@@ -192,6 +207,8 @@ struct SGameDataUsedFishSub
 
 union UGameDataUsedSub
 {
+  SGameDataUsedItem_MiscSub m_item_misc;
+  SGameDataUsedClothingSub m_clothing;
   SGameDataUsedAttachSub m_attach;
   SGameDataUsedWeaponSub m_weapon;
   SGameDataUsedRobopartSub m_robopart;
@@ -219,6 +236,8 @@ public:
   s8 GetPaletteColor() const;
   // 00197250
   ECommonItemData GetSpectrumNo() const;
+  // 001972E0
+  sint GetNum() const;
   // 00197480
   sint GetUseCapacity() const;
   // 001974C0

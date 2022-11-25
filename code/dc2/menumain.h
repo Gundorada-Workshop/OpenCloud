@@ -97,6 +97,12 @@ public:
   // SIZE 0x370
 };
 
+// 002506C0
+sint GetRandI(sint n);
+
+// 00250700
+f32 GetRandF(f32 n);
+
 // 002516C0
 // Returns number of digits in a number
 u32 GetNumberKeta(s32 n);

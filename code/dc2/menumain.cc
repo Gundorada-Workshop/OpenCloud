@@ -43,6 +43,18 @@ void CBaseMenuClass::SetAskParam(MENU_ASKMODE_PARA* param)
   }
 }
 
+// 002506C0
+sint GetRandI(sint n)
+{
+  return rand() % n;
+}
+
+// 00250700
+f32 GetRandF(f32 n)
+{
+  return mgRnd() * n;
+}
+
 // 002516C0
 // Returns number of digits in a number
 u32 GetNumberKeta(s32 n)

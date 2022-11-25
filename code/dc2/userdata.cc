@@ -482,6 +482,35 @@ ECommonItemData CGameDataUsed::GetSpectrumNo() const
   return m_sub_data.m_attach.m_spectrumized_item_id;
 }
 
+// 001972E0
+sint CGameDataUsed::GetNum() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  if (m_common_index == ECommonItemData::Invalid)
+  {
+    return 0;
+  }
+
+  switch (m_type)
+  {
+    case EUsedItemType::Item_Misc:
+      return m_sub_data.m_item_misc.m_stack_num;
+    case EUsedItemType::Clothing:
+      return m_sub_data.m_clothing.m_stack_num;
+    case EUsedItemType::Attach:
+      if (m_item_data_type == ECommonItemDataType::Spectrumized_Item)
+      {
+        return true;
+      }
+      if (m_item_data_type == ECommonItemDataType::_34)
+      {
+        return true;
+      }
+      return m_sub_data.m_attach.m_stack_num;
+  }
+}
+
 // 00197480
 sint CGameDataUsed::GetUseCapacity() const
 {
