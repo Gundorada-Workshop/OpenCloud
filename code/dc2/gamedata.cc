@@ -83,7 +83,7 @@ static bool _DATACOM(SPI_STACK* stack, int stack_count)
   comdatapt->m_type = static_cast<ECommonItemDataType>(spiGetStackInt(stack++));
   comdatapt->m_category_id = spiGetStackInt(stack++);
   comdatapt->m_unk_field_1C = spiGetStackInt(stack++);
-  comdatapt->m_unk_field_1E = spiGetStackInt(stack++);
+  comdatapt->m_stack_max = spiGetStackInt(stack++);
   comdatapt->m_unk_field_A = spiGetStackInt(stack++);
 
   if (ConvertUsedItemType(comdatapt->m_type) == EUsedItemType::Weapon)

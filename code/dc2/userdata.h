@@ -236,6 +236,8 @@ public:
   s8 GetPaletteColor() const;
   // 00197250
   ECommonItemData GetSpectrumNo() const;
+  // 00197270
+  sint CheckStackRemain() const;
   // 001972E0
   sint GetNum() const;
   // 00197480

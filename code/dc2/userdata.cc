@@ -482,6 +482,25 @@ ECommonItemData CGameDataUsed::GetSpectrumNo() const
   return m_sub_data.m_attach.m_spectrumized_item_id;
 }
 
+// 00197270
+sint CGameDataUsed::CheckStackRemain() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  if (!CheckTypeEnableStack())
+  {
+    return 0;
+  }
+
+  auto com_data = GetCommonItemData(m_common_index);
+  if (com_data == nullptr)
+  {
+    return 0;
+  }
+
+  return com_data->m_stack_max - GetNum();
+}
+
 // 001972E0
 sint CGameDataUsed::GetNum() const
 {

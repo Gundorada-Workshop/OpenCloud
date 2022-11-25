@@ -518,7 +518,7 @@ struct SDataItemCommon
   // 1C
   s8 m_unk_field_1C{ 0 };
   // 1E
-  s16 m_unk_field_1E{ 0 };
+  s16 m_stack_max{ 0 };
   // 20
   s8 m_unk_field_20{ 0 };
   // 24
