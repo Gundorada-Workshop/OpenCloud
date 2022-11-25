@@ -1,0 +1,10 @@
+*.c text
+*.cc text
+*.cpp text
+*.h text
+*.yml text
+
+*.sln text eol=crlf
+*.vcxproj text eol=crlf
+*.props text eol=crlf
+test/packages.config text eol=crlf
