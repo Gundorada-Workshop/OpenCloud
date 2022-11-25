@@ -240,10 +240,14 @@ public:
   sint CheckStackRemain() const;
   // 001972E0
   sint GetNum() const;
+  // 00197360
+  u8 GetActiveSetNum() const;
   // 00197480
   sint GetUseCapacity() const;
   // 001974C0
   s16 AddFishHp(s16 delta);
+  // 00197600
+  u8 IsActiveSet() const;
   // 00197630
   void SetName(const char* name);
   // 00197DC0

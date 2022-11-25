@@ -516,7 +516,7 @@ struct SDataItemCommon
   // C
   std::array<char, 0x10> m_sprite_name{};
   // 1C
-  s8 m_unk_field_1C{ 0 };
+  u8 m_active_set_num{ 0 };
   // 1E
   s16 m_stack_max{ 0 };
   // 20

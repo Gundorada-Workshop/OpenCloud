@@ -82,7 +82,7 @@ static bool _DATACOM(SPI_STACK* stack, int stack_count)
   comdatapt->m_common_id = static_cast<ECommonItemData>(spiGetStackInt(stack++));
   comdatapt->m_type = static_cast<ECommonItemDataType>(spiGetStackInt(stack++));
   comdatapt->m_category_id = spiGetStackInt(stack++);
-  comdatapt->m_unk_field_1C = spiGetStackInt(stack++);
+  comdatapt->m_active_set_num = spiGetStackInt(stack++);
   comdatapt->m_stack_max = spiGetStackInt(stack++);
   comdatapt->m_unk_field_A = spiGetStackInt(stack++);
 

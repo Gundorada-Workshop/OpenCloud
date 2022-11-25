@@ -530,6 +530,12 @@ sint CGameDataUsed::GetNum() const
   }
 }
 
+// 00197360
+u8 CGameDataUsed::GetActiveSetNum() const
+{
+  return IsActiveSet();
+}
+
 // 00197480
 sint CGameDataUsed::GetUseCapacity() const
 {
@@ -557,6 +563,20 @@ s16 CGameDataUsed::AddFishHp(s16 delta)
 
   m_sub_data.m_fish.m_hp = std::clamp(m_sub_data.m_fish.m_hp + delta, 0, 100);
   return m_sub_data.m_fish.m_hp;
+}
+
+// 00197600
+u8 CGameDataUsed::IsActiveSet() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  auto com_data = GetCommonItemData(m_common_index);
+  if (com_data == nullptr)
+  {
+    return false;
+  }
+
+  return com_data->m_active_set_num;
 }
 
 // 00197630
