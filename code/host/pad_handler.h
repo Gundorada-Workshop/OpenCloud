@@ -12,10 +12,10 @@ namespace host
   {
   public:
     // ctor
-    pad_handler();
+    pad_handler() = default;
 
     // dtor
-    virtual ~pad_handler();
+    virtual ~pad_handler() = default;
 
   public:
     enum class buttons : u32
@@ -49,22 +49,28 @@ namespace host
     virtual bool poll() = 0;
 
     // get the current button buffer
-    buttons current_buttons();
-
-    // get the previous button buffer
-    buttons previous_buttons();
-
-    // changes since the last poll
-    buttons changed_buttons();
+    inline buttons current_buttons()
+    {
+      return m_buttons;
+    }
 
     // get the right stick values
-    axis right_stick_axis();
+    inline axis right_stick_axis()
+    {
+      return m_right_stick_axis;
+    }
 
     // get the left stick values
-    axis left_stick_axis();
+    axis left_stick_axis()
+    {
+      return m_left_stick_axis;
+    }
 
     // get the value of the triggers
-    axis trigger_axis();
+    axis trigger_axis()
+    {
+      return m_trigger_axis;
+    }
 
   protected:
     template<typename T>
@@ -86,14 +92,11 @@ namespace host
     }
 
   protected:
-    usize m_current_button_buffer{ 0 };
-    std::array<buttons, 2> m_button_buffers{ };
+    buttons m_buttons;
 
     axis m_right_stick_axis{ };
     axis m_left_stick_axis{ };
     axis m_trigger_axis{ };
-
-    std::mutex m_input_mutex{ };
   };
 }
 

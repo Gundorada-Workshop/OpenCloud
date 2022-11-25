@@ -171,18 +171,11 @@ namespace host
     if (trigger.y)
       current_buttons |= m_mapping[right_trigger_button_id];
 
-    // critical section
-    {
-      std::lock_guard<std::mutex> lk(m_input_mutex);
+    m_buttons = current_buttons;
 
-      m_current_button_buffer ^= 1;
-
-      m_button_buffers[m_current_button_buffer] = current_buttons;
-
-      m_right_stick_axis = std::move(right_axis);
-      m_left_stick_axis  = std::move(left_axis);
-      m_trigger_axis     = std::move(trigger);
-    }
+    m_right_stick_axis = std::move(right_axis);
+    m_left_stick_axis  = std::move(left_axis);
+    m_trigger_axis     = std::move(trigger);
 
     return true;
   }

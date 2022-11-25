@@ -30,7 +30,7 @@ namespace host
     } break;
     case WM_CLOSE:
     case WM_QUIT:
-      g_host_interface->quit_message_pump();
+      g_host_interface->request_message_pump_quit();
       break;
     default:
       return DefWindowProcW(hwnd, msg, wparam, lparam);
@@ -162,5 +162,35 @@ namespace host
   void dwm_interface::handle_resize(u32 width, u32 height)
   {
     log_info("Window resize event width: {}, height: {}", width, height);
+  }
+
+  void dwm_interface::start_game_frame()
+  {
+    log_trace("Starting in-grame frame");
+
+    // critical section
+    {
+      std::lock_guard<std::mutex> lk(m_pad_handler_mutex);
+
+      m_game_button_buffer[m_game_button_buffer_index ^= 1] = m_pad_handler->current_buttons();
+    }
+  }
+
+  vec2 dwm_interface::sample_pad_left_stick_xy()
+  {
+    std::lock_guard<std::mutex> lk(m_pad_handler_mutex);
+
+    const auto axis = m_pad_handler->right_stick_axis();
+
+    return { axis.x, axis.y };
+  }
+
+  vec2 dwm_interface::sample_pad_right_stick_xy()
+  {
+    std::lock_guard<std::mutex> lk(m_pad_handler_mutex);
+
+    const auto axis = m_pad_handler->left_stick_axis();
+
+    return { axis.x, axis.y };
   }
 }
