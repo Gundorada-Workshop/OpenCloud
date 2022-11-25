@@ -117,7 +117,7 @@ NowLoadingInfo nowload{};
 // 01EB6740
 CWaveTable WaveTable{};
 // 01EB7948
-_UNKNOWN SparcModel{ 0 };
+unk64 SparcModel{ 0 };
 // 01EB7960
 CSwordLuminous SwordLuminous{};
 // 01EB7980
@@ -172,11 +172,11 @@ void CChillAfterHit::Initialize()
   m_unk_field_4 = 0;
   m_unk_field_8 = 0;
   memset(&m_unk_field_20, 0, sizeof(m_unk_field_20));
-  m_unk_field_10 = glm::vec4(0);
+  m_unk_field_10 = vec4(0);
 }
 
 // 001D4C40
-void CMiniMapSymbol::DrawSymbol(glm::vec4& pos, EMiniMapSymbol::EMiniMapSymbol symbol_type)
+void CMiniMapSymbol::DrawSymbol(vec4& pos, EMiniMapSymbol::EMiniMapSymbol symbol_type)
 {
   // 0033D8A0
   static std::array<MINIMAP_SYMBOL_DATA, EMiniMapSymbol::COUNT + 1> symbol_table
@@ -242,7 +242,7 @@ void CLockOnModel::Initialize(CScene* scene)
 }
 
 // 001CB7B0
-void CLockOnModel::DrawMes(int i)
+void CLockOnModel::DrawMes(sint i)
 {
   log_trace("CLockOnModel::DrawMes({})", i);
 

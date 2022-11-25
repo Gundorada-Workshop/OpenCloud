@@ -51,19 +51,19 @@ extern CAutoMapGen AutoMapGen;
 struct SDungeonStatus
 {
   // 0
-  _DWORD m_unk_field_0;
+  unk32 m_unk_field_0;
   // 4
-  _DWORD m_unk_field_4;
+  unk32 m_unk_field_4;
   // 8
-  _DWORD m_unk_field_8;
+  unk32 m_unk_field_8;
   // C
-  _DWORD m_unk_field_C;
+  unk32 m_unk_field_C;
   // 10
-  _DWORD m_unk_field_10;
+  unk32 m_unk_field_10;
   // 14
-  _DWORD m_unk_field_14;
+  unk32 m_unk_field_14;
   // 18
-  _DWORD m_unk_field_18;
+  unk32 m_unk_field_18;
 };
 
 class CAccumulateEffect
@@ -76,14 +76,14 @@ class CMiniEffPrim
   // 001C0FF0
   void Initialize();
   // 001C0DB0
-  void SetPrim(glm::vec4* v, int i);
+  void SetPrim(vec4* v, sint i);
   // 001C0E20
   void Draw(CPreSprite* pre_sprite);
   // 001C0F70
   void Step();
 
   // 10
-  _DWORD m_unk_field_10;
+  unk32 m_unk_field_10;
 };
 
 class CMiniEffPrimMan
@@ -92,7 +92,7 @@ public:
   // 001C11C0
   void Initialize();
   // 001C1000
-  void CreatePrim(glm::vec4* v, int i);
+  void CreatePrim(vec4* v, sint i);
   // 001C1070
   void Draw();
   // 001C1150
@@ -101,7 +101,7 @@ public:
   // 0
   std::array<CMiniEffPrim, 0x40> m_mini_eff{};
   // 800
-  _DWORD m_unk_field_800{ 0 };
+  unk32 m_unk_field_800{ 0 };
   // 810
   mgCDrawPrim m_unk_field_810{};
 };
@@ -111,7 +111,7 @@ class CAfterWire
 public:
 
   // 0
-  _DWORD m_unk_field_0{ 0 };
+  unk32 m_unk_field_0{ 0 };
 
   // SIZE 0x120
 };
@@ -179,17 +179,17 @@ public:
   // 001BF4F0
   void Initialize();
   // 0
-  _DWORD m_unk_field_0;
+  unk32 m_unk_field_0;
   // 4
-  _DWORD m_unk_field_4;
+  unk32 m_unk_field_4;
   // 8
-  _DWORD m_unk_field_8;
+  unk32 m_unk_field_8;
   // C
-  _DWORD m_unk_field_C;
+  unk32 m_unk_field_C;
   // 10
-  _UNKNOWNSTRUCT(0x2A0) m_unk_field_10;
+  unks<0x2A0> m_unk_field_10;
   // 2B0
-  _UNKNOWNSTRUCT(0x690) m_unk_field_2B0;
+  unks<0x690> m_unk_field_2B0;
 
   // SIZE 0x940
 };
@@ -203,15 +203,15 @@ public:
   void Initialize();
 
   // 0
-  _DWORD m_unk_field_0;
+  unk32 m_unk_field_0;
   // 4
-  _DWORD m_unk_field_4;
+  unk32 m_unk_field_4;
   // 8
-  _DWORD m_unk_field_8;
+  unk32 m_unk_field_8;
   // 10
-  glm::vec4 m_unk_field_10;
+  vec4 m_unk_field_10;
   // 20
-  _UNKNOWNSTRUCT(0x780) m_unk_field_20;
+  unks<0x780> m_unk_field_20;
 
   // SIZE 0x7A0
 };
@@ -231,7 +231,7 @@ class CMiniMapSymbol
 {
 public:
   // 001D4C40
-  void DrawSymbol(glm::vec4& pos, EMiniMapSymbol::EMiniMapSymbol symbol_type);
+  void DrawSymbol(vec4& pos, EMiniMapSymbol::EMiniMapSymbol symbol_type);
 };
 
 class CDngFloorManager
@@ -240,7 +240,7 @@ public:
   // 002F8CC0
   void Initialize();
   // 002F9420
-  void AnalyzeFile(const char* script, int script_size, mgCMemory* tree_stack);
+  void AnalyzeFile(const char* script, sint script_size, mgCMemory* tree_stack);
   // 002F94B0
   void LoadDataTable(s8 map_id, mgCMemory* stack);
   // 002F9610
@@ -248,9 +248,9 @@ public:
   // 002F9690
   bool IsGeoStone(s8 floor);
   // 002F96C0
-  bool GetSphedaPrize(s8 floor, s32 i2, _UNKNOWNPOINTER p1, _UNKNOWNPOINTER p2);
+  bool GetSphedaPrize(s8 floor, s32 i2, unkptr p1, unkptr p2);
   // 002F9760
-  bool GetSphedaPrize(s32 i2, _UNKNOWNPOINTER p1, _UNKNOWNPOINTER p2);
+  bool GetSphedaPrize(s32 i2, unkptr p1, unkptr p2);
   // 002F97E0
   u8 IsPlaySubGame();
   // 002F9840
@@ -260,19 +260,19 @@ public:
   // 002F9A70
   u8 IsClearPractice(usize i);
   // 002F9DA0
-  _UNKNOWNPOINTER GetDngMapFloorInfo(s8 floor);
+  unkptr GetDngMapFloorInfo(s8 floor);
   // 002F9DA0
-  _UNKNOWNPOINTER GetActiveMapFloorInfo(s8 floor);
+  unkptr GetActiveMapFloorInfo(s8 floor);
   // 002F9E40
   void RelationGlid();
   // 002F9F30
   void CheckDrawGlidInfo();
   // 002FA2C0
-  _UNKNOWNPOINTER GetNextGlid(GLID_INFO* info, s32* pi);
+  unkptr GetNextGlid(GLID_INFO* info, s32* pi);
   // 002FA3B0
-  _UNKNOWNPOINTER GetNextRoom(s8 floor, usize i2, GLID_INFO* info, int unused, s32* pi);
+  unkptr GetNextRoom(s8 floor, usize i2, GLID_INFO* info, sint unused, s32* pi);
   // 002FA4E0
-  _UNKNOWNPOINTER GetKeyNextRoom(s8 floor, usize i2, GLID_INFO* info);
+  unkptr GetKeyNextRoom(s8 floor, usize i2, GLID_INFO* info);
   // 002FA550
   s8 GetDngMapNextFloorID(s8 floor, u8 i2);
   // 002FA680
@@ -283,7 +283,7 @@ public:
   // 0
   u8 m_map_id;
   // 4
-  _UNKNOWNPOINTER m_unk_field_4;
+  unkptr m_unk_field_4;
   // 8
   s32 m_unk_field_8;
   // C
@@ -334,21 +334,21 @@ class CLockOnModel : CObjectFrame
   virtual void Initialize(CScene* scene);
 
   // 001CB7B0
-  void DrawMes(int i);
+  void DrawMes(sint i);
 
   // 80
   CScene* m_scene{ nullptr };
   // 84
   ClsMes* m_mes{ nullptr };
   // 88
-  float m_unk_field_88{ 0.0f };
+  f32 m_unk_field_88{ 0.0f };
   // 8C
-  int m_unk_field_8C{ 0 };
+  sint m_unk_field_8C{ 0 };
 
   // ?
   
   // A0
-  glm::vec4 m_unk_field_A0{ 0.0f };
+  vec4 m_unk_field_A0{ 0.0f };
 
   // SIZE 0xB0
 };
