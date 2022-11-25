@@ -4,6 +4,8 @@
 #include <string_view>
 
 #include "common/types.h"
+#include "common/bits.h"
+
 #include "host/pad_handler.h"
 
 namespace host
@@ -36,71 +38,84 @@ namespace host
     // start a new in-game frame
     void start_game_frame();
 
-  public:
-    inline void set_window_name(std::string_view name)
-    {
-      m_window_title = name;
-    }
-
-    inline std::string_view get_title() const
-    {
-      return m_window_title;
-    }
-
-    inline HANDLE get_window_handle() const
-    {
-      return m_window_handle.get();
-    }
-
-    inline void set_module(HINSTANCE module_handle)
-    {
-      m_module_base = module_handle;
-    }
-
-    inline HINSTANCE get_module() const
-    {
-      return m_module_base;
-    }
-
-    inline void request_message_pump_quit()
-    {
-      m_message_pump_quit_requested = true;
-    }
-
-    inline bool message_pump_quit_requested() const
-    {
-      return m_message_pump_quit_requested;
-    }
-
-    // check if a button is being pressed this frame
-    inline bool pad_button_down(pad_handler::buttons btn)
-    {
-      return (delta_frame_buttons() & btn) == btn;
-    }
-
-    // check if a button has been released this frame
-    inline bool pad_button_up(pad_handler::buttons btn)
-    {
-      return (delta_frame_buttons() & (~btn)) == btn;
-    }
-
-    // check if the button is pressed
-    inline bool pad_button_pressed(pad_handler::buttons btn)
-    {
-      return (current_frame_buttons() & btn) == btn;
-    }
-
-    // check if the button is not pressed
-    inline bool pad_button_unpressed(pad_handler::buttons btn)
-    {
-      return (current_frame_buttons() & (~btn)) == btn;
-    }
-
     // sample the left stick axis
     vec2 sample_pad_left_stick_xy();
 
     // sample the right stick axis
     vec2 sample_pad_right_stick_xy();
+
+  public:
+    // get the window name
+    inline void set_window_name(std::string_view name)
+    {
+      m_window_title = name;
+    }
+
+    // set the window handle
+    inline std::string_view get_title() const
+    {
+      return m_window_title;
+    }
+
+    // request the message pump exit
+    inline void request_message_pump_quit()
+    {
+      m_message_pump_quit_requested = true;
+    }
+
+    // check if the message pump was requested to exit
+    inline bool message_pump_quit_requested() const
+    {
+      return m_message_pump_quit_requested;
+    }
+
+    // check if any buttons started being pressed this frame
+    inline bool pad_button_any_down(pad_handler::buttons btn)
+    {
+      return common::bits::to_bool(delta_frame_buttons() & btn);
+    }
+
+    // check if any buttons started being released this frame
+    inline bool pad_button_any_up(pad_handler::buttons btn)
+    {
+      return common::bits::to_bool(delta_frame_buttons() & (~btn));
+    }
+
+    // check if all buttons started being pressed this frame
+    inline bool pad_button_all_down(pad_handler::buttons btn)
+    {
+      return (delta_frame_buttons() & btn) == btn;
+    }
+
+    // check if all buttons started being released this frame
+    inline bool pad_button_all_up(pad_handler::buttons btn)
+    {
+      return (delta_frame_buttons() & (~btn)) == btn;
+    }
+
+    // check if any button is pressed this frame
+    inline bool pad_button_any_pressed(pad_handler::buttons btn)
+    {
+      return common::bits::to_bool(current_frame_buttons() & btn);
+    }
+
+    // check if any button is not pressed this frame
+    inline bool pad_button_any_unpressed(pad_handler::buttons btn)
+    {
+      return common::bits::to_bool(current_frame_buttons() & (~btn));
+    }
+
+    // check if all buttons are pressed this frame
+    inline bool pad_button_all_pressed(pad_handler::buttons btn)
+    {
+      return (current_frame_buttons() & btn) == btn;
+    }
+
+    // check if all buttons are not pressed this frame
+    inline bool pad_button_all_unpressed(pad_handler::buttons btn)
+    {
+      return (current_frame_buttons() & (~btn)) == btn;
+    }
 
     // sample the left stick x value
     inline f32 sample_pad_left_stick_x()
@@ -133,6 +148,7 @@ namespace host
 
       return axis.y;
     }
+
   private:
     // window loop
     static LRESULT CALLBACK winproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
@@ -140,6 +156,25 @@ namespace host
   private:
     // register the window
     bool register_window_class(std::string_view class_name);
+
+  private:
+    // get the window handle
+    inline HANDLE get_window_handle() const
+    {
+      return m_window_handle.get();
+    }
+
+    // set the hinstance
+    inline void set_module(HINSTANCE module_handle)
+    {
+      m_module_base = module_handle;
+    }
+
+    // get the hinstance
+    inline HINSTANCE get_module() const
+    {
+      return m_module_base;
+    }
 
     inline pad_handler::buttons current_frame_buttons()
     {
