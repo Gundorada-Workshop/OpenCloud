@@ -1,11 +1,10 @@
 #include <Windows.h>
 #include <cstdlib>
+#include <thread>
 
 #include "common/console.h"
 #include "common/console_logger.h"
 #include "common/file_helpers.h"
-#include <thread>
-
 #include "common/log.h"
 #include "common/strings.h"
 #include "common/scoped_function.h"

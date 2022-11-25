@@ -33,6 +33,9 @@ namespace host
     // resize the render window
     void handle_resize(u32 width, u32 height);
 
+    // start a new in-game frame
+    void start_game_frame();
+
   public:
     inline void set_window_name(std::string_view name)
     {
@@ -59,73 +62,76 @@ namespace host
       return m_module_base;
     }
 
-    inline void quit_message_pump()
+    inline void request_message_pump_quit()
     {
       m_message_pump_quit_requested = true;
     }
 
-    // check if a button is being pressed
+    inline bool message_pump_quit_requested() const
+    {
+      return m_message_pump_quit_requested;
+    }
+
+    // check if a button is being pressed this frame
     inline bool pad_button_down(pad_handler::buttons btn)
     {
-      return (m_pad_handler->changed_buttons() & btn) == btn;
+      return (delta_frame_buttons() & btn) == btn;
     }
 
-    // check if a button has been released
+    // check if a button has been released this frame
     inline bool pad_button_up(pad_handler::buttons btn)
     {
-      return (m_pad_handler->changed_buttons() & (~btn)) == btn;
+      return (delta_frame_buttons() & (~btn)) == btn;
     }
 
+    // check if the button is pressed
     inline bool pad_button_pressed(pad_handler::buttons btn)
     {
-      return (m_pad_handler->current_buttons() & btn) == btn;
+      return (current_frame_buttons() & btn) == btn;
     }
 
+    // check if the button is not pressed
     inline bool pad_button_unpressed(pad_handler::buttons btn)
     {
-      return (m_pad_handler->current_buttons() & (~btn)) == btn;
+      return (current_frame_buttons() & (~btn)) == btn;
     }
 
-    inline std::pair<f32, f32> pad_right_thumb_xy()
-    {
-      const auto axis = m_pad_handler->right_stick_axis();
+    // sample the left stick axis
+    vec2 sample_pad_left_stick_xy();
 
-      return { axis.x, axis.y };
+    // sample the right stick axis
+    vec2 sample_pad_right_stick_xy();
+
+    // sample the left stick x value
+    inline f32 sample_pad_left_stick_x()
+    {
+      const auto axis = sample_pad_left_stick_xy();
+
+      return axis.x;
     }
 
-    inline std::pair<f32, f32> pad_left_thumb_xy()
+    // sample the left stick y value
+    inline f32 sample_pad_left_stick_y()
     {
-      const auto axis = m_pad_handler->left_stick_axis();
+      const auto axis = sample_pad_left_stick_xy();
 
-      return { axis.x, axis.y };
+      return axis.y;
     }
 
-    inline f32 pad_right_thumb_x()
+    // sample the right stick x value
+    inline f32 sample_pad_right_stick_x()
     {
-      const auto [x, y] = pad_right_thumb_xy();
+      const auto axis = sample_pad_right_stick_xy();
 
-      return x;
+      return axis.x;
     }
 
-    inline f32 pad_right_thumb_y()
+    // sample the right stick y value
+    inline f32 sample_pad_right_stick_y()
     {
-      const auto [x, y] = pad_right_thumb_xy();
+      const auto axis = sample_pad_right_stick_xy();
 
-      return y;
-    }
-
-    inline f32 pad_left_thumb_x()
-    {
-      const auto [x, y] = pad_left_thumb_xy();
-
-      return x;
-    }
-
-    inline f32 pad_left_thumb_y()
-    {
-      const auto [x, y] = pad_left_thumb_xy();
-
-      return y;
+      return axis.y;
     }
   private:
     // window loop
@@ -134,6 +140,21 @@ namespace host
   private:
     // register the window
     bool register_window_class(std::string_view class_name);
+
+    inline pad_handler::buttons current_frame_buttons()
+    {
+      return m_game_button_buffer[m_game_button_buffer_index];
+    }
+
+    inline pad_handler::buttons previous_frame_buttons()
+    {
+      return m_game_button_buffer[m_game_button_buffer_index ^ 1];
+    }
+
+    inline pad_handler::buttons delta_frame_buttons()
+    {
+      return current_frame_buttons() ^ previous_frame_buttons();
+    }
 
   private:
     std::string m_window_title{ };
@@ -144,9 +165,20 @@ namespace host
     // native module instance
     HINSTANCE m_module_base{ NULL };
 
+    // mutex for input
+    std::mutex m_pad_handler_mutex{ };
+
+    // handle to the pad
     std::unique_ptr<pad_handler> m_pad_handler{ nullptr };
 
-    bool m_message_pump_quit_requested{ false };
+    // buffer of buttons
+    std::array<pad_handler::buttons, 2> m_game_button_buffer{ };
+
+    // index into the button double buffer
+    usize m_game_button_buffer_index{ 0 };
+
+    // should we exit?
+    std::atomic<bool> m_message_pump_quit_requested{ false };
   };
 }
 

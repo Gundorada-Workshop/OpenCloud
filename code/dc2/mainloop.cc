@@ -3,6 +3,8 @@
 #include "common/debug.h"
 #include "common/log.h"
 
+#include "host/host_interface_dwm.h"
+
 #include "dc2/editdata.h"
 #include "dc2/ls_mes.h"
 #include "dc2/mainloop.h"
@@ -64,59 +66,64 @@ static ClsMes PauseMes{};
 // 00190840
 CFont* GetDebugFont()
 {
-	log_trace("{}()", __func__);
+  log_trace("{}()", __func__);
 
-	return &Font;
+  return &Font;
 }
 
 // 00190860
 u32 GetSystemSndId(void)
 {
-	return s_system_snd_id;
+  return s_system_snd_id;
 }
 
 // 00190880
 CSaveData* GetSaveData()
 {
-	return ActiveSaveData;
+  return ActiveSaveData;
 }
 
 // 001908F0
 mgCMemory* GetMainStack()
 {
-	log_trace("{}()", __func__);
+  log_trace("{}()", __func__);
 
-	return &MainBuffer;
+  return &MainBuffer;
 }
 
 // 00190BE0
 void PlayTimeCount(bool flag)
 {
-	PlayTimeCountFlag = flag;
+  PlayTimeCountFlag = flag;
 }
 
 // 00190BF0
 bool GetPlayTimeCountFlag()
 {
-	return PlayTimeCountFlag;
+  return PlayTimeCountFlag;
 }
 
 // 00190CB0
 void MainLoop()
 {
-	log_trace("{}()", __func__);
+  log_trace("{}()", __func__);
 
-	todo;
+  todo;
 
-	// 00190E7C
-	LanguageCode = Language::English;
-	GameItemDataManage.LoadData();
-	GameItemDataManage.LoadItemSystemMes(LanguageCode);
+  // 00190E7C
+  LanguageCode = Language::English;
+  GameItemDataManage.LoadData();
+  GameItemDataManage.LoadItemSystemMes(LanguageCode);
 
-	todo;
+  todo;
 
-	// 00190EC4
-	LoadNPCCfg();
+  // 00190EC4
+  LoadNPCCfg();
 
-	todo;
+  todo;
+
+  while (!g_host_interface->message_pump_quit_requested())
+  {
+    g_host_interface->start_game_frame();
+  }
 }
