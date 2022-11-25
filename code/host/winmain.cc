@@ -27,15 +27,15 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
 
   // start the console
   // todo: report message box to user
-  if (!common::console::initialize())
+  if (!console::initialize())
     return EXIT_FAILURE;
 
-  common::log::console_logger::initialize();
+ log::console_logger::initialize();
 
   scoped_function cleanup([&]() {
     // free the console
-    common::log::console_logger::shutdown();
-    common::console::shutdown();
+    log::console_logger::shutdown();
+    console::shutdown();
   });
 
   log_info("Starting");
