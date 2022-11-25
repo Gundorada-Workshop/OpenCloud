@@ -16,10 +16,43 @@ class CSubGameData {};
 
 struct SV_CONFIG_OPTION
 {
-  // 35
-  s8 m_unk_field_35;
+  // NOTE: These correspond to menu indices and are not necessarily like bools
+  // Refer to the options menu
 
-  // SIZE 0xD2C
+  // 0
+  s32 m_cursor_location_memory{}; // ON, OFF
+  // 4
+  s32 m_vibration{}; // ON, OFF
+  // 8
+  s32 m_message_speed{}; // ON, OFF
+  // C
+  s32 m_sound{}; // STEREO, MONO
+  // 10
+  s32 m_time_speed{}; // NORMAL, FAST
+  // 14
+  s32 m_map_display{}; // 1, 2, 3
+  // 1C
+  s32 m_enemy_hp_display{}; // ON, OFF
+  // 20
+  s32 m_damage_points{}; // ON, OFF
+  // 24
+  s32 m_character_name_display{}; // ON, OFF
+  // 28
+  s32 m_display_monster_name{}; // ON, OFF
+  // 2C
+  s32 m_anger_counter{}; // ON, OFF
+  // 30
+  s32 m_blur_background{}; // ON, OFF
+  // 34
+  s8 m_display_captions{}; // ON, OFF
+  // 35
+  s8 m_pause_display{}; // ON, OFF
+  // 36
+  s8 m_camera_pitch{}; // NORMAL, REVERSE
+  // 37
+  s8 m_camera_rotation{}; // NORMAL, REVERSE
+
+  // SIZE 0x40
 };
 
 class CSaveDataDungeon
