@@ -566,15 +566,29 @@ public:
   // 2
   s16 m_abs_max{ 20 };
   // 4
-  s16 m_unk_field_4{ 0 };
+  s16 m_attack{ 0 };
   // 6
-  s16 m_unk_field_6{ 0 };
+  s16 m_durable{ 0 };
   // 8
   s16 m_unk_field_8{ 0 };
   // A
   s16 m_unk_field_A{ 0 };
   // C
-  std::array<s16, 8> m_unk_field_C{ 0 };
+  s16 m_flame{ 0 };
+  // E
+  s16 m_chill{ 0 };
+  // 10
+  s16 m_lightning{ 0 };
+  // 12
+  s16 m_cyclone{ 0 };
+  // 14
+  s16 m_smash{ 0 };
+  // 16
+  s16 m_exorcism{ 0 };
+  // 18
+  s16 m_beast{ 0 };
+  // 1A
+  s16 m_scale{ 0 };
   // 1C
   std::array<s16, 8> m_unk_field_1C{ 0 };
   
@@ -590,11 +604,7 @@ public:
   // 39
   s8 m_unk_field_39{ 0 };
   // 3A
-  s16 m_unk_field_3A{ 0 };
-  // 3C
-  s16 m_unk_field_3C{ 0 };
-  // 3E
-  s16 m_unk_field_3E{ 0 };
+  ECommonItemData m_buildup_next[3]{};
   // 40
   s16 m_unk_field_40{ 0 };
   // 42

@@ -157,8 +157,8 @@ static bool _DATAWEP_ST(SPI_STACK* stack, int stack_count)
     return false;
   }
 
-  SpiWeaponPt->m_unk_field_4 = spiGetStackInt(stack++);
-  SpiWeaponPt->m_unk_field_6 = spiGetStackInt(stack++);
+  SpiWeaponPt->m_attack = spiGetStackInt(stack++);
+  SpiWeaponPt->m_durable = spiGetStackInt(stack++);
 
   return true;
 }
@@ -193,10 +193,14 @@ static bool _DATAWEP2_ST(SPI_STACK* stack, int stack_count)
     return false;
   }
 
-  for (int i = 0; i < 8; ++i)
-  {
-    SpiWeaponPt->m_unk_field_C[i] = spiGetStackInt(stack++);
-  }
+  SpiWeaponPt->m_flame = spiGetStackInt(stack++);
+  SpiWeaponPt->m_chill = spiGetStackInt(stack++);
+  SpiWeaponPt->m_lightning = spiGetStackInt(stack++);
+  SpiWeaponPt->m_cyclone = spiGetStackInt(stack++);
+  SpiWeaponPt->m_smash = spiGetStackInt(stack++);
+  SpiWeaponPt->m_exorcism = spiGetStackInt(stack++);
+  SpiWeaponPt->m_beast = spiGetStackInt(stack++);
+  SpiWeaponPt->m_scale = spiGetStackInt(stack++);
 
   return true;
 }
@@ -256,9 +260,9 @@ static bool _DATAWEP_BUILDUP(SPI_STACK* stack, int stack_count)
     return false;
   }
 
-  SpiWeaponPt->m_unk_field_3A = spiGetStackInt(stack++);
-  SpiWeaponPt->m_unk_field_3C = spiGetStackInt(stack++);
-  SpiWeaponPt->m_unk_field_3E = spiGetStackInt(stack++);
+  SpiWeaponPt->m_buildup_next[0] = static_cast<ECommonItemData>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_buildup_next[1] = static_cast<ECommonItemData>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_buildup_next[2] = static_cast<ECommonItemData>(spiGetStackInt(stack++));
 
   if (stack_count >= 4)
   {

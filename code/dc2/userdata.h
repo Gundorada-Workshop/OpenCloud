@@ -161,11 +161,25 @@ struct SGameDataUsedWeaponSub
   // 10
   s16 m_level{ 0 };
   // 12
-  s16 m_unk_field_12{};
+  s16 m_attack{};
   // 14
-  s16 m_unk_field_14{};
+  s16 m_durable{};
   // 16
-  std::array<s16, 8> m_unk_field_16{};
+  s16 m_flame{};
+  // 18
+  s16 m_chill{};
+  // 1A
+  s16 m_lightning{};
+  // 1C
+  s16 m_cyclone{};
+  // 1E
+  s16 m_smash{};
+  // 20
+  s16 m_exorcism{};
+  // 22
+  s16 m_beast{};
+  // 24
+  s16 m_scale{};
   // 28
   s32 m_unk_field_28{};
   // 2C
@@ -283,6 +297,8 @@ public:
   bool IsTrush() const;
   // 001989D0
   bool IsSpectolTrans() const;
+  // 00198FC0
+  uint IsBuildUp(uint* total_possible_dest, ECommonItemData* buildup_item_ids_dest, bool* can_build_up_dest) const;
   // 001992B0
   bool IsFishingRod() const;
   // 00199830

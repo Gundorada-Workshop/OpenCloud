@@ -950,6 +950,94 @@ bool CGameDataUsed::IsSpectolTrans() const
   return (com_data->m_attribute & 2) != 0;
 }
 
+// 00198FC0
+uint CGameDataUsed::IsBuildUp(uint* total_possible_dest, ECommonItemData* buildup_item_ids_dest, bool* can_build_up_dest) const
+{
+  log_trace("CGameDataUsed::{}({}, {}, {})", __func__, fmt::ptr(total_possible_dest), fmt::ptr(buildup_item_ids_dest), fmt::ptr(can_build_up_dest));
+
+  if (m_type != EUsedItemType::Weapon)
+  {
+    return 0;
+  }
+
+  auto wep_data = GetWeaponInfoData(m_common_index);
+  if (wep_data == nullptr)
+  {
+    return 0;
+  }
+
+  s16 now_param[9];
+
+  now_param[0] = m_sub_data.m_weapon.m_attack;
+  now_param[1] = m_sub_data.m_weapon.m_flame;
+  now_param[2] = m_sub_data.m_weapon.m_chill;
+  now_param[3] = m_sub_data.m_weapon.m_lightning;
+  now_param[4] = m_sub_data.m_weapon.m_cyclone;
+  now_param[5] = m_sub_data.m_weapon.m_smash;
+  now_param[6] = m_sub_data.m_weapon.m_exorcism;
+  now_param[7] = m_sub_data.m_weapon.m_beast;
+  now_param[8] = m_sub_data.m_weapon.m_scale;
+
+  uint total_possible = 0;
+  uint total_can_build_up = 0;
+  for (int i = 0; i < std::size(wep_data->m_buildup_next); ++i)
+  {
+    auto goal_wep_data = GetWeaponInfoData(wep_data->m_buildup_next[i]);
+
+    if (goal_wep_data == nullptr)
+    {
+      continue;
+    }
+
+    ++total_possible;
+
+    s16 goal_param[std::size(now_param)];
+
+    goal_param[0] = goal_wep_data->m_attack;
+    goal_param[1] = goal_wep_data->m_flame;
+    goal_param[2] = goal_wep_data->m_chill;
+    goal_param[3] = goal_wep_data->m_lightning;
+    goal_param[4] = goal_wep_data->m_cyclone;
+    goal_param[5] = goal_wep_data->m_smash;
+    goal_param[6] = goal_wep_data->m_exorcism;
+    goal_param[7] = goal_wep_data->m_beast;
+    goal_param[8] = goal_wep_data->m_scale;
+
+    bool goal_reached = true;
+
+    for (int i = 0; i < std::size(now_param); ++i)
+    {
+      if (now_param[i] < goal_param[i] * 0.9f)
+      {
+        goal_reached = false;
+        break;
+      }
+    }
+
+    if (buildup_item_ids_dest != nullptr)
+    {
+      buildup_item_ids_dest[i] = wep_data->m_buildup_next[i];
+    }
+
+    if (can_build_up_dest != nullptr)
+    {
+      can_build_up_dest[i] = goal_reached;
+    }
+
+    if (goal_reached)
+    {
+      ++total_can_build_up;
+    }
+  }
+
+  if (total_possible_dest != nullptr)
+  {
+    *total_possible_dest = total_possible;
+  }
+
+  return total_can_build_up;
+}
+
 // 001992B0
 bool CGameDataUsed::IsFishingRod() const
 {
@@ -996,13 +1084,17 @@ bool CGameDataUsed::CopyDataWeapon(ECommonItemData item_id)
   m_sub_data.m_weapon.m_abs_gage.m_max = static_cast<f32>(weapon_data->m_abs_max);
   m_sub_data.m_weapon.m_abs_gage.m_current = 0.0f;
 
-  m_sub_data.m_weapon.m_unk_field_12 = weapon_data->m_unk_field_4;
-  m_sub_data.m_weapon.m_unk_field_14 = weapon_data->m_unk_field_6;
+  m_sub_data.m_weapon.m_attack = weapon_data->m_attack;
+  m_sub_data.m_weapon.m_durable = weapon_data->m_durable;
 
-  for (int i = 0; i < weapon_data->m_unk_field_C.size(); ++i)
-  {
-    m_sub_data.m_weapon.m_unk_field_16[i] = weapon_data->m_unk_field_C[i];
-  }
+  m_sub_data.m_weapon.m_flame = weapon_data->m_flame;
+  m_sub_data.m_weapon.m_chill = weapon_data->m_chill;
+  m_sub_data.m_weapon.m_lightning = weapon_data->m_lightning;
+  m_sub_data.m_weapon.m_cyclone = weapon_data->m_cyclone;
+  m_sub_data.m_weapon.m_smash = weapon_data->m_smash;
+  m_sub_data.m_weapon.m_exorcism = weapon_data->m_exorcism;
+  m_sub_data.m_weapon.m_beast = weapon_data->m_beast;
+  m_sub_data.m_weapon.m_scale = weapon_data->m_scale;
 
   m_sub_data.m_weapon.m_fusion_point = weapon_data->m_fusion_point;
   m_sub_data.m_weapon.m_unk_field_28 = weapon_data->m_unk_field_2C;
