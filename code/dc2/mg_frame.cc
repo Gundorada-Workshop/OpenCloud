@@ -811,6 +811,59 @@ void mgCFrame::SetName(const std::string& name)
   m_name = name;
 }
 
+// 001365A0
+void mgCFrame::SetTransMatrix(vec4& v)
+{
+  log_trace("mgCFrame::{}({})", __func__, fmt::ptr(&v));
+
+  todo;
+}
+
+// 001365F0
+void mgCFrame::SetBBox(vec4& corner1, vec4& corner2)
+{
+  log_trace("mgCFrame::{}(({}, {}, {}), ({}, {}, {}))", __func__,
+    corner1.x, corner1.y, corner1.z, corner2.x, corner2.y, corner2.z);
+
+  if (m_bound_info == nullptr)
+  {
+    return;
+  }
+
+  m_bound_info->m_corner1 = corner1;
+  m_bound_info->m_corner2 = corner2;
+
+  /*
+  * The following code constructs all points of a 3D box, given the two corners.
+  * Consider the following corners:
+  * (1, 2, 3), (4, 5, 6)
+  * 
+  * This loop creates the following points (w/ w component = 1.0f) and stores it in m_bound_info:
+  * (4, 5, 6)
+  * (1, 5, 6)
+  * (4, 2, 6)
+  * (1, 2, 6)
+  * (4, 5, 3)
+  * (1, 5, 3)
+  * (4, 2, 3)
+  * (1, 2, 3)
+  */
+  vec4* bounds[2] = { &m_bound_info->m_corner2, &m_bound_info->m_corner1 };
+
+  for (int i = 0; i < std::size(m_bound_info->m_vertices); ++i)
+  {
+    vec4* bound1 = bounds[(i & 1) != 0];
+    vec4* bound2 = bounds[(i & 2) != 0];
+    vec4* bound3 = bounds[(i & 4) != 0];
+
+    m_bound_info->m_vertices[i].w = 1.0f;
+
+    m_bound_info->m_vertices[i].x = bound1->x;
+    m_bound_info->m_vertices[i].y = bound2->y;
+    m_bound_info->m_vertices[i].z = bound3->z;
+  }
+}
+
 mgCDrawEnv::mgCDrawEnv() : mgCDrawEnv(false) {}
 
 // 001388B0

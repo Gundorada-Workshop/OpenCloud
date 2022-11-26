@@ -377,6 +377,16 @@ public:
 class mgCFrame : public mgCFrameBase
 {
 public:
+  struct BoundInfo
+  {
+    // 0
+    vec4 m_vertices[8]{};
+    // 80
+    vec4 m_corner1{};
+    // 90
+    vec4 m_corner2{};
+  };
+
   // 34 001387F0
   virtual _UNKNOWNPOINTER Draw();
   // 3C 00136520
@@ -508,7 +518,7 @@ public:
   // B0
   matrix4 m_unk_field_B0{ 1.0f };
   // F0
-  _DWORD m_unk_field_F0{ 0 };
+  BoundInfo* m_bound_info{ nullptr };
   // F4
   _DWORD m_unk_field_F4{ 0 };
   // F8
