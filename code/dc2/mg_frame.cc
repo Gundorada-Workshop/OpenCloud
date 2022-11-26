@@ -1,5 +1,6 @@
 #include <string.h>
 
+#include "common/debug.h"
 #include "common/log.h"
 
 #include "dc2/mg_frame.h"
@@ -1006,6 +1007,61 @@ void mgCFrame::SetChild(mgCFrame* child)
   {
     m_child->SetBrother(child);
     child->m_parent = this;
+  }
+}
+
+// 00136BC0
+void mgCFrame::DeleteParent()
+{
+  log_trace("mgCFrame::{}()", __func__);
+  
+  if (m_parent == nullptr)
+  {
+    return;
+  }
+
+  if (this == m_parent->m_child)
+  {
+    // we're the designated child frame for the parent;
+    // but we don't want this parent any more,
+    // so the parent has to adopt our brother as the primary child.
+    m_parent->m_child = m_next_brother;
+    m_parent = nullptr;
+
+    if (m_next_brother != nullptr)
+    {
+      // no longer siblings as we no longer share the same parent
+      m_next_brother->m_prev_brother = nullptr;
+    }
+
+    // NOTE: In this case we *should* be the first brother, so
+    // we don't have to worry about stranding previous brothers.
+    assert_msg(m_prev_brother == nullptr, "More frames than this were reparented to nothing!");
+
+    m_next_brother = nullptr;
+    m_prev_brother = nullptr;
+  }
+  else
+  {
+    // We're not the primary child, so we just have to remove our parent
+    // and ourselves from the list of brothers
+
+    m_parent = nullptr;
+    if (m_prev_brother != nullptr)
+    {
+      m_prev_brother->m_next_brother = m_next_brother;
+    }
+
+    // NOTE: The game doesn't do this check,
+    // (and it probably doesn't even matter in their case)
+    // but we should avoid dangling references in the scene graph
+    if (m_next_brother != nullptr)
+    {
+      m_next_brother->m_prev_brother = m_prev_brother;
+    }
+
+    m_next_brother = nullptr;
+    m_prev_brother = nullptr;
   }
 }
 
