@@ -1080,6 +1080,16 @@ void mgCFrame::SetReference(mgCFrame* ref)
   m_unk_field_40 = true;
 }
 
+// 00136C60
+void mgCFrame::DeleteReference()
+{
+  log_trace("mgCFrame::{}()", __func__);
+
+  m_parent = nullptr;
+  m_unk_field_FC = false;
+  m_unk_field_40 = true;
+}
+
 // 00137030
 matrix4 mgCFrame::GetLWMatrix()
 {

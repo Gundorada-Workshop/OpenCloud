@@ -437,7 +437,7 @@ public:
   void SetReference(mgCFrame* ref);
 
   // 00136C60
-  void DeleteReference(void);
+  void DeleteReference();
 
   // 00136C80
   void ClearChildFlag(void);
