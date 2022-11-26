@@ -896,6 +896,24 @@ void mgCFrame::SetBSphere(vec4& origin, float radius)
   m_bound_info->m_sphere.w = radius;
 }
 
+// 001367B0
+mgCFrame* mgCFrame::GetFrame(ssize i)
+{
+  log_trace("mgCFrame::{}({})", __func__, i);
+
+  if (i < 0 || i >= m_unk_field_64)
+  {
+    return nullptr;
+  }
+  
+  if (m_unk_field_68 == nullptr)
+  {
+    return nullptr;
+  }
+
+  return m_unk_field_68[i];
+}
+
 mgCDrawEnv::mgCDrawEnv() : mgCDrawEnv(false) {}
 
 // 001388B0

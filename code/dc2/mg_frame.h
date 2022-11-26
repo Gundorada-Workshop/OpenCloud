@@ -417,7 +417,7 @@ public:
   void SetBSphere(vec4& origin, float radius);
 
   // 001367B0
-  mgCFrame* GetFrame(usize i);
+  mgCFrame* GetFrame(ssize i);
 
   // 0013688C
   void RemakeBBox(vec4& corner1, vec4& corner2);
@@ -511,9 +511,9 @@ public:
   // 60
   _DWORD m_unk_field_60{ 0 };
   // 64
-  _DWORD m_unk_field_64{ 0 };
+  ssize m_unk_field_64{ 0 };
   // 68
-  _DWORD m_unk_field_68{ 0 };
+  mgCFrame** m_unk_field_68{ nullptr };
   // 6C
   _DWORD m_unk_field_6C{ 0 };
   // 70
