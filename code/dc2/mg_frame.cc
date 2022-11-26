@@ -914,7 +914,7 @@ mgCFrame* mgCFrame::GetFrame(ssize i)
   return m_unk_field_68[i];
 }
 
-// 0013688C
+// 00136800
 bool mgCFrame::RemakeBBox(vec4& corner1, vec4& corner2)
 {
   log_trace("mgCFrame::{}(({}, {}, {}), ({}, {}, {}))", __func__,
@@ -933,6 +933,19 @@ bool mgCFrame::RemakeBBox(vec4& corner1, vec4& corner2)
 
   SetBBox(corner1, corner2);
   return true;
+}
+
+// 00136A80
+uint mgCFrame::GetFrameNum() const
+{
+  log_trace("mgCFrame::{}()", __func__);
+
+  uint frame_num = 1;
+  for (mgCFrame* curr = m_child; curr != nullptr; curr = curr->m_next_sibling)
+  {
+    frame_num += curr->GetFrameNum();
+  }
+  return frame_num;
 }
 
 // 00137030

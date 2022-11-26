@@ -419,11 +419,13 @@ public:
   // 001367B0
   mgCFrame* GetFrame(ssize i);
 
-  // 0013688C
+  // 00136800
   bool RemakeBBox(vec4& corner1, vec4& corner2);
 
   // 00136A80
-  int GetFrameNum(void);
+  // Returns the number of frames contained within a subgraph, with this
+  // frame as the root.
+  uint GetFrameNum() const;
 
   // 00136AE0
   void SetParent(mgCFrame& parent);
@@ -503,13 +505,13 @@ public:
   // 50
   std::string m_name{};
   // 54
-  _DWORD m_unk_field_54{ 0 };
+  mgCFrame* m_parent{ nullptr };
   // 58
-  _DWORD m_unk_field_58{ 0 };
+  mgCFrame* m_child{ nullptr };
   // 5C
-  _DWORD m_unk_field_5C{ 0 };
+  mgCFrame* m_next_sibling{ nullptr };
   // 60
-  _DWORD m_unk_field_60{ 0 };
+  mgCFrame* m_prev_sibling{ nullptr };
   // 64
   ssize m_unk_field_64{ 0 };
   // 68
