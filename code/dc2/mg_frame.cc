@@ -1090,6 +1090,17 @@ void mgCFrame::DeleteReference()
   m_unk_field_40 = true;
 }
 
+// 00136C80
+void mgCFrame::ClearChildFlag()
+{
+  log_trace("mgCFrame::{}()", __func__);
+
+  for (auto curr = m_child; curr != nullptr; curr = curr->m_next_brother)
+  {
+    curr->m_unk_field_40 = true;
+  }
+}
+
 // 00137030
 matrix4 mgCFrame::GetLWMatrix()
 {

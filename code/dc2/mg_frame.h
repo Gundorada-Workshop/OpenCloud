@@ -440,7 +440,7 @@ public:
   void DeleteReference();
 
   // 00136C80
-  void ClearChildFlag(void);
+  void ClearChildFlag();
 
   // 00136CE0
   matrix4 GetLocalMatrix();
