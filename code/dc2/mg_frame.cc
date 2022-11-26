@@ -1065,6 +1065,21 @@ void mgCFrame::DeleteParent()
   }
 }
 
+// 00136C30
+void mgCFrame::SetReference(mgCFrame* ref)
+{
+  log_trace("mgCFrame::{}({})", __func__, fmt::ptr(ref));
+
+  if (m_parent != nullptr || ref == nullptr)
+  {
+    return;
+  }
+
+  m_parent = ref;
+  m_unk_field_FC = true;
+  m_unk_field_40 = true;
+}
+
 // 00137030
 matrix4 mgCFrame::GetLWMatrix()
 {

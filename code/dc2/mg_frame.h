@@ -434,7 +434,7 @@ public:
   void DeleteParent();
 
   // 00136C30
-  void SetReference(mgCFrame& ref);
+  void SetReference(mgCFrame* ref);
 
   // 00136C60
   void DeleteReference(void);
