@@ -420,7 +420,7 @@ public:
   mgCFrame* GetFrame(ssize i);
 
   // 0013688C
-  void RemakeBBox(vec4& corner1, vec4& corner2);
+  bool RemakeBBox(vec4& corner1, vec4& corner2);
 
   // 00136A80
   int GetFrameNum(void);
@@ -525,7 +525,7 @@ public:
   // F4
   _DWORD m_unk_field_F4{ 0 };
   // F8
-  _DWORD m_unk_field_F8{ 0 };
+  mgCVisual* m_visual{ nullptr };
   // FC
   _DWORD m_unk_field_FC{ 0 };
   // 100

@@ -914,6 +914,36 @@ mgCFrame* mgCFrame::GetFrame(ssize i)
   return m_unk_field_68[i];
 }
 
+// 0013688C
+bool mgCFrame::RemakeBBox(vec4& corner1, vec4& corner2)
+{
+  log_trace("mgCFrame::{}(({}, {}, {}), ({}, {}, {}))", __func__,
+    corner1.x, corner1.y, corner1.z, corner2.x, corner2.y, corner2.z);
+
+  if (m_visual == nullptr)
+  {
+    return false;
+  }
+
+  auto lw_mat = GetLWMatrix();
+  if (!m_visual->CreateBBox(corner1, corner2, lw_mat))
+  {
+    return false;
+  }
+
+  SetBBox(corner1, corner2);
+  return true;
+}
+
+// 00137030
+matrix4 mgCFrame::GetLWMatrix()
+{
+  log_trace("mgCFrame::{}()", __func__);
+
+  todo;
+  return matrix4{ 1.0f };
+}
+
 mgCDrawEnv::mgCDrawEnv() : mgCDrawEnv(false) {}
 
 // 001388B0
