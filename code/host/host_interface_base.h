@@ -37,7 +37,17 @@ namespace host
     // start a new in-game frame
     void start_game_frame();
 
+    // end an in-game frame
+    void end_game_frame();
+
   public:
+    inline void set_frame_divider(uint divider)
+    {
+      if (!divider)
+        return;
+
+      m_frame_divider = divider;
+    }
     // request the message pump exit
     inline void request_message_pump_quit()
     {
@@ -169,6 +179,12 @@ namespace host
 
     // index into the button double buffer
     usize m_game_button_buffer_index{ 0 };
+
+    // start of the frame
+    u64 m_frame_start_time{ 0 };
+
+    // frame divider
+    uint m_frame_divider{ 1 };
   };
 }
 
