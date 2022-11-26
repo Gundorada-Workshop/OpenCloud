@@ -428,13 +428,13 @@ public:
   uint GetFrameNum() const;
 
   // 00136AE0
-  void SetParent(mgCFrame& parent);
+  void SetParent(mgCFrame* parent);
 
   // 00136B20
   void SetBrother(mgCFrame* brother); // sibling?
 
   // 00136B60
-  void SetChild(mgCFrame& child);
+  void SetChild(mgCFrame* child);
 
   // 00136BC0
   void DeleteParent(void);

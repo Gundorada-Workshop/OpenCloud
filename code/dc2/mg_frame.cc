@@ -948,10 +948,28 @@ uint mgCFrame::GetFrameNum() const
   return frame_num;
 }
 
+// 00136AE0
+void mgCFrame::SetParent(mgCFrame* parent)
+{
+  log_trace("mgCFrame::{}({})", __func__, fmt::ptr(parent));
+
+  if (m_parent != nullptr)
+  {
+    return;
+  }
+
+  m_parent = parent;
+
+  if (parent != nullptr)
+  {
+    parent->SetChild(this);
+  }
+}
+
 // 00136B20
 void mgCFrame::SetBrother(mgCFrame* brother)
 {
-  log_trace("mgCFrame::{}({})", __func__, fmt::ptr(&brother));
+  log_trace("mgCFrame::{}({})", __func__, fmt::ptr(brother));
 
   if (brother == nullptr)
   {
@@ -966,6 +984,28 @@ void mgCFrame::SetBrother(mgCFrame* brother)
   else
   {
     m_next_brother->SetBrother(brother);
+  }
+}
+
+// 00136B60
+void mgCFrame::SetChild(mgCFrame* child)
+{
+  log_trace("mgCFrame::{}({})", __func__, fmt::ptr(child));
+
+  if (child == nullptr)
+  {
+    return;
+  }
+
+  if (m_child == nullptr)
+  {
+    m_child = child;
+    m_child->m_parent = this;
+  }
+  else
+  {
+    m_child->SetBrother(child);
+    child->m_parent = this;
   }
 }
 
