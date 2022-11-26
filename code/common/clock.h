@@ -1,4 +1,6 @@
 #pragma once
+#include <string_view>
+
 #include "common/types.h"
 
 constexpr float GAME_FPS = 29.97f;
@@ -41,4 +43,41 @@ namespace common::time
   {
     return val / 1000000000.0;
   }
+
+  // simple timer class
+  class stopwatch
+  {
+  public:
+    // constructs a new timer
+    // calls start
+    stopwatch();
+
+  public:
+    // start the timer
+    void start();
+
+    // stop the timer
+    void stop();
+
+    // reset the timer
+    void reset();
+
+    // number of cycles since start to end
+    // or start to now if stop wasn't called
+    cycles_type delta_cycles();
+
+    // number of seconds since the start to end
+    // or start to now if stop wasn't called
+    seconds_type delta_seconds();
+
+  private:
+    // the cycle we started at
+    cycles_type m_start_cycle{ 0 };
+
+    // the cycle we ended at
+    cycles_type m_end_cycle{ 0 };
+
+    // whether the timer is started
+    bool m_started{ false };
+  };
 }
