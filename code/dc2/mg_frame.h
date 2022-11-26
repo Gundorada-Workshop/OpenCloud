@@ -389,7 +389,7 @@ public:
   virtual void SetVisual(mgCVisual* visual);
 
   // 00136590
-  void SetName(char* name);
+  void SetName(const std::string& name);
 
   // 001365A0
   void SetTransMatrix(vec4& v);
@@ -488,7 +488,7 @@ public:
   mgCFrame(mgCFrame& other);
 
   // 50
-  char* m_name{ nullptr };
+  std::string m_name{};
   // 54
   _DWORD m_unk_field_54{ 0 };
   // 58

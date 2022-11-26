@@ -803,6 +803,14 @@ void mgCFrame::SetVisual(mgCVisual* visual)
   todo;
 }
 
+// 00136590
+void mgCFrame::SetName(const std::string& name)
+{
+  log_trace("mgCFrame::{}({})", __func__, name);
+
+  m_name = name;
+}
+
 mgCDrawEnv::mgCDrawEnv() : mgCDrawEnv(false) {}
 
 // 001388B0
