@@ -241,7 +241,7 @@ bool PauseLoop()
   draw_prim.TextureMapEnable(true);
   draw_prim.Begin(6);
   draw_prim.Texture(pause_work);
-  u8 rgb = sv_config_option.m_unk_field_35 ? 0x80 : 0x40;
+  u8 rgb = sv_config_option.m_pause_display ? 0x80 : 0x40;
   draw_prim.Color(rgb, rgb, rgb, 0x80);
   draw_prim.TextureCrd(0, 0);
   draw_prim.Vertex(0, 0, 0);
@@ -250,7 +250,7 @@ bool PauseLoop()
   draw_prim.End();
 
   mgCTexture* skip_texture = mgTexManager.GetTexture("skip", -1);
-  if (skip_texture != nullptr && !sv_config_option.m_unk_field_35)
+  if (skip_texture != nullptr && !sv_config_option.m_pause_display)
   {
     int t = (PauseInfo.skip_flag == 1) ? 46 : 22;
     int x = (mgScreenWidth / 2) - 41;

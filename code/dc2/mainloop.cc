@@ -20,9 +20,16 @@ set_log_channel("mainloop")
 
 // 00376FB4
 u32 s_system_snd_id{ 0 };
-
+// 00376FB8
+bool DebugFlag{};
+// 00376FBC
+u32 DefStartEventNo{};
 // 00376FC0
 Language LanguageCode{ Language::English };
+// 00376FC4
+bool OmakeFlag{};
+// 00376FC8
+s32 MasterDebugCode{};
 
 // 00376FE4
 static CSaveData* ActiveSaveData{};

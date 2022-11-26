@@ -13,8 +13,23 @@ enum class Language : s32
 	COUNT = 2
 };
 
+// 00376FB4
+extern u32 s_system_snd_id;
+// 00376FB8
+extern bool DebugFlag;
+// 00376FBC
+extern u32 DefStartEventNo;
 // 00376FC0
 extern Language LanguageCode;
+// 00376FC4
+extern bool OmakeFlag;
+// 00376FC8
+extern s32 MasterDebugCode;
+
+struct INIT_LOOP_ARG
+{
+
+};
 
 struct SDebugInfo
 {
