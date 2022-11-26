@@ -881,6 +881,21 @@ void mgCFrame::GetBBox(vec4& corner1, vec4& corner2)
   }
 }
 
+// 00136760
+void mgCFrame::SetBSphere(vec4& origin, float radius)
+{
+  log_trace("mgCFrame::{}(({}, {}, {}), {})", __func__,
+    origin.x, origin.y, origin.z, origin.x, radius);
+
+  if (m_bound_info == nullptr)
+  {
+    return;
+  }
+
+  m_bound_info->m_sphere = origin;
+  m_bound_info->m_sphere.w = radius;
+}
+
 mgCDrawEnv::mgCDrawEnv() : mgCDrawEnv(false) {}
 
 // 001388B0

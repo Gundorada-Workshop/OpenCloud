@@ -385,6 +385,9 @@ public:
     vec4 m_corner1{};
     // 90
     vec4 m_corner2{};
+    // A0
+    // NOTE: X, Y, Z is origin; W is radius
+    vec4 m_sphere{};
   };
 
   // 34 001387F0
