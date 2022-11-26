@@ -129,8 +129,12 @@ void MainLoop()
 
   todo;
 
+  g_host_interface->set_frame_divider(1);
+
   while (!g_host_interface->message_pump_quit_requested())
   {
     g_host_interface->start_game_frame();
+
+    g_host_interface->end_game_frame();
   }
 }

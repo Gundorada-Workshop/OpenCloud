@@ -1,4 +1,5 @@
 #include "common/log.h"
+#include "common/clock.h"
 
 #include "host/host_interface_base.h"
 
@@ -33,11 +34,31 @@ namespace host
   {
     log_trace("Starting in-game frame");
 
+    m_frame_start_time = common::time::current_cycle_count();
+
     // critical section
     {
       std::lock_guard<std::mutex> lk(m_pad_handler_mutex);
 
       m_game_button_buffer[m_game_button_buffer_index ^= 1] = m_pad_handler->current_buttons();
+    }
+  }
+
+  void host_interface_base::end_game_frame()
+  {
+    log_trace("Ending in-game frame");
+
+    static constexpr f64 max_frame_seconds = 1.0 / 60.0;
+
+    const u64 limit = common::time::seconds_to_cycles(max_frame_seconds * m_frame_divider);
+
+    u64 dt = common::time::current_cycle_count() - m_frame_start_time;
+
+    log_trace("Delta time {}:{}", limit, dt);
+
+    while (dt < limit)
+    {
+      dt = common::time::current_cycle_count() - m_frame_start_time;
     }
   }
 }
