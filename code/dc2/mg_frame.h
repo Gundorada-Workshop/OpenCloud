@@ -431,7 +431,7 @@ public:
   void SetParent(mgCFrame& parent);
 
   // 00136B20
-  void SetBrother(mgCFrame& brother); // sibling?
+  void SetBrother(mgCFrame* brother); // sibling?
 
   // 00136B60
   void SetChild(mgCFrame& child);
@@ -509,9 +509,9 @@ public:
   // 58
   mgCFrame* m_child{ nullptr };
   // 5C
-  mgCFrame* m_next_sibling{ nullptr };
+  mgCFrame* m_next_brother{ nullptr };
   // 60
-  mgCFrame* m_prev_sibling{ nullptr };
+  mgCFrame* m_prev_brother{ nullptr };
   // 64
   ssize m_unk_field_64{ 0 };
   // 68

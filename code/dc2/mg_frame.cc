@@ -941,11 +941,32 @@ uint mgCFrame::GetFrameNum() const
   log_trace("mgCFrame::{}()", __func__);
 
   uint frame_num = 1;
-  for (mgCFrame* curr = m_child; curr != nullptr; curr = curr->m_next_sibling)
+  for (mgCFrame* curr = m_child; curr != nullptr; curr = curr->m_next_brother)
   {
     frame_num += curr->GetFrameNum();
   }
   return frame_num;
+}
+
+// 00136B20
+void mgCFrame::SetBrother(mgCFrame* brother)
+{
+  log_trace("mgCFrame::{}({})", __func__, fmt::ptr(&brother));
+
+  if (brother == nullptr)
+  {
+    return;
+  }
+
+  if (m_next_brother == nullptr)
+  {
+    m_next_brother = brother;
+    m_next_brother->m_prev_brother = this;
+  }
+  else
+  {
+    m_next_brother->SetBrother(brother);
+  }
 }
 
 // 00137030
