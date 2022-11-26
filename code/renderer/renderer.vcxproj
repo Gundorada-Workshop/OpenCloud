@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(SolutionDir)\.msvc\Base.Targets.Props" />
+  <Import Project="$(SolutionDir)\.msvc\Base.Globals.Props" />
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{321F2C50-1086-4E2D-8B27-D52DA68CCDF4}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(SolutionDir)\.msvc\StaticLibrary.Configuration.Props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
+  <ItemGroup>
+    <!-- cpp files -->
+    <ClInclude Include="context.h" />
+    <ClInclude Include="shader.h" />
+    <ClInclude Include="swapchain.h" />
+    <ClInclude Include="texture.h" />
+    <ClInclude Include="types.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="context.cc" />
+    <ClCompile Include="shader.cc" />
+    <ClCompile Include="swapchain.cc" />
+    <ClCompile Include="texture.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="renderer.exports.props" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)code\common\common.exports.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>
