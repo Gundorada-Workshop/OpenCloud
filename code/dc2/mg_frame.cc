@@ -864,6 +864,23 @@ void mgCFrame::SetBBox(vec4& corner1, vec4& corner2)
   }
 }
 
+// 001366F0
+void mgCFrame::GetBBox(vec4& corner1, vec4& corner2)
+{
+  log_trace("mgCFrame::{}({}, {})", __func__, fmt::ptr(&corner1), fmt::ptr(&corner2));
+
+  if (m_bound_info != nullptr)
+  {
+    corner1 = m_bound_info->m_corner1;
+    corner2 = m_bound_info->m_corner2;
+  }
+  else
+  {
+    corner1 = vec4{ 0, 0, 0, 0 };
+    corner2 = vec4{ 0, 0, 0, 0 };
+  }
+}
+
 mgCDrawEnv::mgCDrawEnv() : mgCDrawEnv(false) {}
 
 // 001388B0
