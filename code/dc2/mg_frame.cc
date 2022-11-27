@@ -805,7 +805,7 @@ void mgCFrame::SetVisual(mgCVisual* visual)
 {
   log_trace("mgCFrame::SetVisual({})", fmt::ptr(visual));
 
-  todo;
+  m_visual = visual;
 }
 
 // 00136590
