@@ -20,10 +20,12 @@
     <ClInclude Include="file_helpers.h" />
     <ClInclude Include="log.h" />
     <ClInclude Include="math.h" />
+    <ClInclude Include="platform.h" />
     <ClInclude Include="scoped_function.h" />
     <ClInclude Include="strings.h" />
     <ClInclude Include="synchro.h" />
     <ClInclude Include="types.h" />
+    <ClInclude Include="window_handle.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="clock.cc" />
