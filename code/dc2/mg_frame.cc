@@ -1160,8 +1160,52 @@ matrix4 mgCFrame::GetLWMatrix()
 {
   log_trace("mgCFrame::{}()", __func__);
 
-  todo;
-  return matrix4{ 1.0f };
+  if (m_unk_field_FC)
+  {
+    m_unk_field_40 = true;
+  }
+
+  // ... is there a goto somewhere in here?
+
+  auto parent = m_parent;
+  if (!m_unk_field_40 && parent == nullptr)
+  {
+    return m_lw_matrix;
+  }
+
+  while (true)
+  {
+    if (parent == nullptr || m_unk_field_40)
+    {
+      break;
+    }
+
+    parent = parent->m_parent;
+    if (parent == nullptr)
+    {
+      return m_lw_matrix;
+    }
+  }
+
+  ClearChildFlag();
+  auto local_mat = GetLocalMatrix();
+
+  if (m_parent == nullptr)
+  {
+    m_lw_matrix = local_mat;
+    m_unk_field_40 = false;
+    return m_lw_matrix;
+  }
+
+  auto lw_mat = m_parent->GetLWMatrix();
+  matrix4 result;
+
+  result[0] = lw_mat * local_mat[0];
+  result[1] = lw_mat * local_mat[1];
+  result[2] = lw_mat * local_mat[2];
+  result[3] = lw_mat * local_mat[3];
+  m_unk_field_40 = false;
+  return result;
 }
 
 mgCDrawEnv::mgCDrawEnv() : mgCDrawEnv(false) {}
