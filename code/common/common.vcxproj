@@ -22,6 +22,7 @@
     <ClInclude Include="math.h" />
     <ClInclude Include="scoped_function.h" />
     <ClInclude Include="strings.h" />
+    <ClInclude Include="synchro.h" />
     <ClInclude Include="types.h" />
   </ItemGroup>
   <ItemGroup>
@@ -34,6 +35,7 @@
     <ClCompile Include="file_helpers.cc" />
     <ClCompile Include="log.cc" />
     <ClCompile Include="strings.cc" />
+    <ClCompile Include="synchro.cc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="common.exports.props" />
