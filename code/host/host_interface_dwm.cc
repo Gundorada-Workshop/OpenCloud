@@ -130,7 +130,7 @@ namespace host
 
   void dwm_interface::destroy_render_window()
   {
-    // TODO
+    m_window_handle.reset();
   }
 
   sint dwm_interface::run_message_pump()
@@ -164,5 +164,15 @@ namespace host
   void dwm_interface::handle_render_window_resize(u32 width, u32 height)
   {
     log_info("Window resize event width: {}, height: {}", width, height);
+  }
+
+  common::native_window_handle_type dwm_interface::window_handle()
+  {
+    common::native_window_handle_type handle =
+    {
+      .window_handle = m_window_handle.get()
+    };
+
+    return handle;
   }
 }

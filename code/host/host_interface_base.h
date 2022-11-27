@@ -1,6 +1,7 @@
 #pragma once
 #include "common/types.h"
 #include "common/bits.h"
+#include "common/window_handle.h"
 
 #include "host/pad_handler.h"
 
@@ -26,6 +27,8 @@ namespace host
 
     // present the user with an error in a host specific way
     virtual void present_user_error_dialog(std::string_view message) = 0;
+
+    virtual common::native_window_handle_type window_handle() = 0;
 
   public:
     // sample the left stick axis

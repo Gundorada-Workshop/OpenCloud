@@ -5,6 +5,7 @@
 
 #include "common/types.h"
 #include "common/bits.h"
+#include "common/window_handle.h"
 
 #include "host/host_interface_base.h"
 #include "host/pad_handler.h"
@@ -35,6 +36,9 @@ namespace host
 
     // resize the render window
     void handle_render_window_resize(u32 width, u32 height) override;
+
+    // get the window handle
+    common::native_window_handle_type window_handle() override;
 
   private:
     // win32 message pump
