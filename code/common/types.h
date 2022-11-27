@@ -1,9 +1,9 @@
 #pragma once
+#include <glm/glm.hpp>
+
 #include <array>
 #include <cstdint>
 #include <cstddef>
-
-#include <glm/glm.hpp>
 
 // Enum class bitwise operators
 #define IMPLEMENT_ENUM_CLASS_BITWISE_OPERATORS(type_)                                                                  \
@@ -94,18 +94,22 @@ struct unks
   std::array<u8, size> data;
 };
 
+// wrapper for glm vectors
+template<typename type, usize size>
+using vec = glm::vec<size, type>;
+
 // vectors
-using vec2 = glm::vec2;
-using vec3 = glm::vec3;
-using vec4 = glm::vec4;
+using vec2 = vec<f32, 2>;
+using vec3 = vec<f32, 3>;
+using vec4 = vec<f32, 4>;
 
-using ivec2 = glm::ivec2;
-using ivec3 = glm::ivec3;
-using ivec4 = glm::ivec4;
+using ivec2 = vec<sint, 2>;
+using ivec3 = vec<sint, 3>;
+using ivec4 = vec<sint, 4>;
 
-using uvec2 = glm::uvec2;
-using uvec3 = glm::uvec3;
-using uvec4 = glm::uvec4;
+using uvec2 = vec<uint, 2>;
+using uvec3 = vec<uint, 3>;
+using uvec4 = vec<uint, 4>;
 
 // matrices
 using matrix2 = glm::mat2;
