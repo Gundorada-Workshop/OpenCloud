@@ -2,6 +2,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 #include "common/debug.h"
 #include "common/log.h"
@@ -816,11 +817,14 @@ void mgCFrame::SetName(const std::string& name)
 }
 
 // 001365A0
-void mgCFrame::SetTransMatrix(vec4& v)
+void mgCFrame::SetTransMatrix(glm::fquat& quat)
 {
-  log_trace("mgCFrame::{}({})", __func__, fmt::ptr(&v));
+  log_trace("mgCFrame::{}({})", __func__, fmt::ptr(&quat));
 
-  todo;
+  m_unk_field_40 = true;
+  vec4 w = m_trans_matrix[3];
+  m_trans_matrix = glm::mat4_cast(quat);
+  m_trans_matrix[3] = w;
 }
 
 // 001365F0

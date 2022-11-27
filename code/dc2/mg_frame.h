@@ -405,7 +405,7 @@ public:
   void SetName(const std::string& name);
 
   // 001365A0
-  void SetTransMatrix(vec4& v);
+  void SetTransMatrix(glm::fquat& quat);
 
   // 001365F0
   void SetBBox(vec4& corner1, vec4& corner2);
