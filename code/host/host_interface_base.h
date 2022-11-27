@@ -1,6 +1,7 @@
 #pragma once
 #include "common/types.h"
 #include "common/bits.h"
+#include "common/rectangle.h"
 #include "common/window_handle.h"
 
 #include "host/pad_handler.h"
@@ -51,6 +52,7 @@ namespace host
 
       m_frame_divider = divider;
     }
+
     // request the message pump exit
     inline void request_message_pump_quit()
     {
@@ -167,6 +169,9 @@ namespace host
   protected:
     // name of the window
     std::string m_window_title{ };
+
+    // the extent of the window
+    urect m_window_extent{ };
 
     // should we exit?
     std::atomic<bool> m_message_pump_quit_requested{ false };

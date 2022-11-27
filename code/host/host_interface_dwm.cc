@@ -19,12 +19,8 @@ namespace host
     switch (msg)
     {
     case WM_SIZE:
-    {
-      const u32 width = LOWORD(lparam);
-      const u32 height = HIWORD(lparam);
-
-      g_host_interface->handle_render_window_resize(width, height);
-    } break;
+      g_host_interface->handle_render_window_resize(LOWORD(lparam), HIWORD(lparam));
+      break;
     case WM_CLOSE:
     case WM_QUIT:
       g_host_interface->request_message_pump_quit();
@@ -38,7 +34,7 @@ namespace host
 
   bool dwm_interface::create(std::string_view name)
   {
-    log_info("Creating DWM interface");
+    log_debug("Creating DWM interface");
 
     auto host_interface = std::make_unique<dwm_interface>();
 
@@ -61,7 +57,7 @@ namespace host
 
   bool dwm_interface::register_window_class(std::string_view class_name)
   {
-    log_info("Registering window class");
+    log_debug("Registering window class");
 
     const auto wide_class_name = strings::to_wstring(class_name);
 
@@ -92,7 +88,7 @@ namespace host
 
   bool dwm_interface::create_render_window()
   {
-    log_info("Creating render window");
+    log_debug("Creating render window");
 
     constexpr DWORD window_style = WS_OVERLAPPEDWINDOW | WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_SIZEBOX;
     constexpr DWORD window_style_ex = WS_EX_DLGMODALFRAME | WS_EX_CLIENTEDGE | WS_EX_STATICEDGE;
@@ -114,6 +110,8 @@ namespace host
 
     m_window_handle.reset(window_handle);
 
+    // show window/update window should set the window extent by sending a resize/paint event
+    // so there's no need to set it here
     ShowWindow(m_window_handle.get(), SW_SHOW);
 
     if (!UpdateWindow(m_window_handle.get()))
@@ -123,7 +121,7 @@ namespace host
       return false;
     }
 
-    log_info("Render window created");
+    log_debug("Render window created");
 
     return true;
   }
@@ -135,7 +133,7 @@ namespace host
 
   sint dwm_interface::run_message_pump()
   {
-    log_info("Starting Windows message pump");
+    log_debug("Starting Windows message pump");
 
     while (!m_message_pump_quit_requested)
     {
@@ -163,7 +161,9 @@ namespace host
 
   void dwm_interface::handle_render_window_resize(u32 width, u32 height)
   {
-    log_info("Window resize event width: {}, height: {}", width, height);
+    log_debug("Window resize event width: {}, height: {}", width, height);
+
+    m_window_extent = urect::from_extent(width, height);
   }
 
   common::native_window_handle_type dwm_interface::window_handle()
