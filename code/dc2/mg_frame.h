@@ -442,9 +442,6 @@ public:
   // 00136C80
   void ClearChildFlag();
 
-  // 00136CE0
-  matrix4 GetLocalMatrix();
-
   // 00136E40
   matrix4 GetBBoardMatrix(int i1, mgRENDER_INFO& render_info);
 
@@ -513,9 +510,9 @@ public:
   // 6C
   _DWORD m_unk_field_6C{ 0 };
   // 70
-  matrix4 m_unk_field_70{ 1.0f };
+  matrix4 m_lw_matrix{ 1.0f };
   // B0
-  matrix4 m_unk_field_B0{ 1.0f };
+  matrix4 m_trans_matrix{ 1.0f };
   // F0
   BoundInfo* m_bound_info{ nullptr };
   // F4
@@ -534,6 +531,9 @@ private:
 
   // 00136B60
   void SetChild(mgCFrame * child);
+
+  // 00136CE0
+  matrix4 GetLocalMatrix();
 };
 
 class mgCDrawEnv {

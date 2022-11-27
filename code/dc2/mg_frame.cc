@@ -1,5 +1,8 @@
 #include <string.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "common/debug.h"
 #include "common/log.h"
 
@@ -1098,6 +1101,57 @@ void mgCFrame::ClearChildFlag()
   for (auto curr = m_child; curr != nullptr; curr = curr->m_next_brother)
   {
     curr->m_unk_field_40 = true;
+  }
+}
+
+// 00136CE0
+matrix4 mgCFrame::GetLocalMatrix()
+{
+  log_trace("mgCFrame::{}()", __func__);
+
+  if (!m_unk_field_44)
+  {
+    return m_trans_matrix;
+  }
+
+  matrix4 result;
+  result[0] = m_trans_matrix[0] * m_scale;
+  result[1] = m_trans_matrix[1] * m_scale;
+  result[2] = m_trans_matrix[2] * m_scale;
+  result[3] = m_trans_matrix[3];
+
+  vec4 v;
+  if (m_unk_field_100 & 2)
+  {
+    v = result[3];
+    result[3] = vec4{ 0, 0, 0, 1 };
+  }
+
+  if (m_unk_field_100 & 1)
+  {
+    if (m_rotation.x != 0.0f)
+    {
+      result = glm::rotate(result, m_rotation.x, { 1, 0, 0 });
+    }
+    if (m_rotation.y != 0.0f)
+    {
+      result = glm::rotate(result, m_rotation.y, { 0, 1, 0 });
+    }
+    if (m_rotation.z != 0.0f)
+    {
+      result = glm::rotate(result, m_rotation.z, { 0, 0, 1 });
+    }
+  }
+
+  if (m_unk_field_100 & 2)
+  {
+    result[3] += v;
+    result[3].w = 1.0f;
+  }
+  else
+  {
+    result[3] += m_position;
+    result[3].w = 1.0f;
   }
 }
 
