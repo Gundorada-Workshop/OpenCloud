@@ -7,6 +7,7 @@
 #include "common/file_helpers.h"
 #include "common/log.h"
 #include "common/strings.h"
+#include "common/synchro.h"
 #include "common/scoped_function.h"
 
 #include "host/host_interface_dwm.h"
@@ -24,6 +25,8 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
   log_trace("WinMain()");
 
   using namespace common;
+
+  synchro::set_current_thread_name("gui-thread");
 
   // start the console
   // todo: report message box to user
@@ -58,6 +61,8 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
 
   s_game_thread = std::jthread([]() {
     log_info("Starting game thread");
+
+    synchro::set_current_thread_name("game-thread");
 
     MainLoop();
   });
