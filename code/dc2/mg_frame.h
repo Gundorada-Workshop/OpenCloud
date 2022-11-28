@@ -6,6 +6,7 @@
 #include "common/debug.h"
 #include "common/types.h"
 
+#include "dc2/mg_math.h"
 #include "dc2/mg_memory.h"
 #include "dc2/mg_texture.h"
 
@@ -110,7 +111,7 @@ public:
   // 18 00133750 (NOTE: this class actually just returns its own reference :( )
   virtual mgCVisual* Copy(mgCMemory& stack);
   // 1C 00134330
-  virtual bool CreateBBox(vec4& v1, vec4& v2, matrix4& m1);
+  virtual bool CreateBBox(const vec4& v1, const vec4& v2, const matrix4& m1);
   // 20 00134340
   virtual _UNKNOWNPOINTER CreateRenderInfoPacket(_UNKNOWNPOINTER p, matrix4& m1, mgRENDER_INFO& render_info);
   // 24 001342F0
@@ -221,16 +222,6 @@ struct mgPOINT_LIGHT
   vec4 field_10;
   float field_20;
   float field_24;
-};
-
-struct mgVu0FBOX
-{
-  // 0
-  // Corner 1
-  vec4 m_a;
-  // 10
-  // Corner 2
-  vec4 m_b;
 };
 
 class mgCDrawManager 
@@ -380,14 +371,12 @@ public:
   struct BoundInfo
   {
     // 0
-    vec4 m_vertices[8]{};
+    mgVu0FBOX8 m_box8;
     // 80
-    vec4 m_corner1{};
-    // 90
-    vec4 m_corner2{};
+    mgVu0FBOX m_box;
     // A0
     // NOTE: X, Y, Z is origin; W is radius
-    vec4 m_sphere{};
+    vec4 m_sphere;
   };
 
   // 34 001387F0
@@ -408,10 +397,12 @@ public:
   void SetTransMatrix(glm::fquat& quat);
 
   // 001365F0
-  void SetBBox(vec4& corner1, vec4& corner2);
+  void SetBBox(const vec4& corner1, const vec4& corner2);
+  void SetBBox(const mgVu0FBOX& box);
 
   // 001366F0
-  void GetBBox(vec4& corner1, vec4& corner2);
+  void GetBBox(vec4& corner1, vec4& corner2) const;
+  void GetBBox(mgVu0FBOX& box) const;
 
   // 00136760
   void SetBSphere(vec4& origin, float radius);
@@ -420,7 +411,8 @@ public:
   mgCFrame* GetFrame(ssize i);
 
   // 00136800
-  bool RemakeBBox(vec4& corner1, vec4& corner2);
+  bool RemakeBBox(const vec4& corner1, const vec4& corner2);
+  bool RemakeBBox(const mgVu0FBOX& box);
 
   // 00136A80
   // Returns the number of frames contained within a subgraph, with this
