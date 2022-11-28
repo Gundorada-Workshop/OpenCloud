@@ -7,10 +7,10 @@
 
 set_log_channel("mg_math");
 
-// 00376504
-static f32 sin_table_unit_1 = std::bit_cast<f32>(0x4322F983); // Approx. 162.975f
 // 0037FD40
 static std::array<f32, 1024> SinTable{};
+// 00376504
+constexpr static f32 sin_table_unit_1 = static_cast<f32>(SinTable.size()) / common::pi2();
 
 // 0012F1D0
 mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec4& c2)
@@ -514,8 +514,11 @@ f32 mgSinf(f32 f)
 {
   log_trace("{}({})", __func__, f);
 
-  todo;
-  return 0.0f;
+  f32 sign = copysign(1, f);
+
+  ssize index = static_cast<ssize>(fabsf(f) * sin_table_unit_1);
+  index = abs(index) & 0x3FF;
+  return SinTable[index] * sign;
 }
 
 // 001310F0

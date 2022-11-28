@@ -253,7 +253,9 @@ f32 mgNRnd();
 void mgCreateSinTable();
 
 // 00131050
+// Quick (but inaccurate) sinf call
 f32 mgSinf(f32 f);
 
 // 001310F0
+// Quick (but inaccurate) cosf call
 f32 mgCosf(f32 f);
