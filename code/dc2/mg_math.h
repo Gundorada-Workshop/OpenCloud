@@ -5,6 +5,8 @@
 #include "common/types.h"
 #include "common/math.h"
 
+#include "glm/glm.hpp"
+
 // ~ 0012F1C0 - 00131110
 
 #define VALID_INDEX(n, min, max) (n >= min && n < max)
@@ -20,6 +22,12 @@ struct mgVu0FBOX8
   // Represents all points in a 3D rectangle
   std::array<vec4, 8> vertices;
 };
+
+// 0012F1C0
+inline ivec4 mgFtoI4(const vec4& v)
+{
+  return glm::floatBitsToInt(v);
+}
 
 // 0012F1D0
 mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec4& c2);
@@ -38,6 +46,30 @@ inline f32 mgAngleClamp(f32 x)
     return x + common::deg_to_rad(360.0f);
   }
   return x;
+}
+
+// 0012F230
+inline void mgZeroVector(vec4& v)
+{
+  v = { 0, 0, 0, 0 };
+}
+
+// 0012F240
+inline void mgZeroVectorW(vec4& v)
+{
+  v = { 0, 0, 0, 1 };
+}
+
+// 0012F3D0
+inline void mgAddVector(vec4& lhs, const vec4& rhs)
+{
+  lhs += rhs;
+}
+
+// 0012F3F0
+inline void mgSubVector(vec4& lhs, const vec4& rhs)
+{
+  lhs -= rhs;
 }
 
 // 00130B60
