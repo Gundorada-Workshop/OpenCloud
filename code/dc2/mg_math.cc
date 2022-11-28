@@ -32,48 +32,44 @@ mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec4& c2)
 }
 
 // 0012F250
-bool mgClipBoxVector(const vec4& v1, const vec4& v2, const vec4& v3)
+bool mgClipBoxVertex(const vec4& v1, const vec4& v2, const vec4& v3)
 {
-  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3));
+  // NOTE: Status & 0x0080 is the signed sticky flag; should be set if the vsub op results in any negative components
+  log_trace("{}({}, {}, {})", __func__, v1, v2, v3);
 
-  todo;
-  return false;
+  return !(glm::any(glm::lessThan(v2.xyz - v1.xyz, { 0, 0, 0 })) || glm::any(glm::lessThan(v1.xyz - v3.xyz, { 0, 0, 0 })));
 }
 
 // 0012F290
 bool mgClipBox(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3), fmt::ptr(&v4));
+  log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
 
-  todo;
-  return false;
+  return !(glm::any(glm::lessThan(v1.xyz - v4.xyz, { 0, 0, 0 })) || glm::any(glm::lessThan(v3.xyz - v2.xyz, { 0, 0, 0 })));
 }
 
 // 0012F2E0
 bool mgClipBoxW(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3), fmt::ptr(&v4));
+  log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
 
-  todo;
-  return false;
+  return !(glm::any(glm::lessThan(v1.xyw - v4.xyw, { 0, 0, 0 })) || glm::any(glm::lessThan(v3.xyw - v2.xyw, { 0, 0, 0 })));
 }
 
 // 0012F330
 bool mgClipInBox(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3), fmt::ptr(&v4));
+  log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
 
-  todo;
-  return false;
+  return !(glm::any(glm::lessThan(v3.xyz - v1.xyz, { 0, 0, 0 })) || glm::any(glm::lessThan(v2.xyz - v4.xyz, { 0, 0, 0 })));
 }
 
 // 0012F380
 bool mgClipInBoxW(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3), fmt::ptr(&v4));
+  log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
 
-  todo;
-  return false;
+  return !(glm::any(glm::lessThan(v3.xyw - v1.xyw, { 0, 0, 0 })) || glm::any(glm::lessThan(v2.xyw - v4.xyw, { 0, 0, 0 })));
 }
 
 // 0012F410

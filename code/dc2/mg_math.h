@@ -61,7 +61,7 @@ inline void mgZeroVectorW(vec4& v)
 }
 
 // 0012F250
-bool mgClipBoxVector(const vec4& v1, const vec4& v2, const vec4& v3);
+bool mgClipBoxVertex(const vec4& v1, const vec4& v2, const vec4& v3);
 
 // 0012F290
 bool mgClipBox(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4);
