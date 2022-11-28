@@ -20,6 +20,9 @@ extern mgCDrawManager mgDrawManager;
 // TEMP
 using sceGsTex0 = mgCTexture;
 
+// 001413E0
+void mgInit();
+
 // 001421E0
 void mgBeginFrame(mgCDrawManager* draw_man);
 // 00142F90
