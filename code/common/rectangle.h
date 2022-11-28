@@ -37,7 +37,12 @@ namespace common
     // construct from a single point and an extent
     static constexpr rectangle<type> from_extent(type x, type y, type width, type height)
     {
-      return rectangle<type>{ x, y, x + width, y + height };
+      const point_type p0{ x, y };
+      const point_type extent{ width, height };
+
+      const point_type p1 = p0 + extent;
+
+      return rectangle<type>{ p0.x, p0.y, p1.x, p1.y };
     }
 
     // construct from an extent assuming top left is 0,0
@@ -61,13 +66,13 @@ namespace common
     // get the extent (width, height)
     constexpr point_type extent()
     {
-      return { width(), height() };
+      return m_data.zw - m_data.xy;
     }
 
     // get the top left origin point (x, y)
     constexpr point_type origin()
     {
-      return { m_data.x, m_data.y };
+      return m_data.xy;
     }
 
   private:
