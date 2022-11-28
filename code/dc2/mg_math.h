@@ -127,6 +127,9 @@ inline void mgVectorMaxMin(vec4& max_dest, vec4& min_dest, const vec4& v1, const
   min_dest = glm::min(v1, glm::min(v2, glm::min(v3, v4)));
 }
 
+// 0012F540
+void mgBoxMaxMin(mgVu0FBOX& lhs, const mgVu0FBOX& rhs);
+
 // 00130B60
 f32 mgAngleInterpolate(f32 f1, f32 f2, f32 f3, bool b);
 

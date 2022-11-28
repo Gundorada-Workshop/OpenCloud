@@ -83,6 +83,15 @@ vec4 mgNormalizeVector(const vec4& v, float scale)
   return glm::normalize(v) * scale;
 }
 
+// 0012F540
+void mgBoxMaxMin(mgVu0FBOX& lhs, const mgVu0FBOX& rhs)
+{
+  log_trace("{}({}, {})", __func__, fmt::ptr(&lhs), fmt::ptr(&rhs));
+
+  lhs.corners[0] = glm::max(lhs.corners[0], glm::max(lhs.corners[1], glm::max(rhs.corners[0], rhs.corners[1])));
+  lhs.corners[0] = glm::min(lhs.corners[0], glm::min(lhs.corners[1], glm::min(rhs.corners[0], rhs.corners[1])));
+}
+
 // 00130B60
 f32 mgAngleInterpolate(f32 f12, f32 f13, f32 f14, bool b)
 {
