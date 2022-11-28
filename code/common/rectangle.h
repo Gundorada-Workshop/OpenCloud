@@ -10,6 +10,8 @@ namespace common
     using storage_type = vec<type, 4>;
     using point_type = vec<type, 2>;
 
+    friend struct fmt::formatter<rectangle<type>>;
+
     rectangle()
       : m_data{ 0, 0, 0, 0 }
     {
@@ -84,3 +86,13 @@ namespace common
 using irect = common::rectangle<sint>;
 using urect = common::rectangle<uint>;
 using rect  = common::rectangle<f32>;
+
+template<typename rect_type>
+struct fmt::formatter<common::rectangle<rect_type>> : formatter<std::string_view>
+{
+  auto format(const common::rectangle<rect_type>& rect, format_context& ctx)
+  {
+    return fmt::format_to(ctx.out(), "rect<{}>({}, {}, {}, {})",
+      typeid(rect_type).name(), rect.m_data.x, rect.m_data.y, rect.m_data.z, rect.m_data.w);
+  }
+};
