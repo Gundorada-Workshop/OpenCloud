@@ -1,9 +1,16 @@
+#include <array>
+
 #include "common/math.h"
 #include "common/log.h"
 
 #include "dc2/mg_math.h"
 
 set_log_channel("mg_math");
+
+// 00376504
+static f32 sin_table_unit_1 = std::bit_cast<f32>(0x4322F983); // Approx. 162.975f
+// 0037FD40
+static std::array<f32, 1024> SinTable{};
 
 // 0012F1D0
 mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec4& c2)
@@ -494,7 +501,12 @@ void mgCreateSinTable()
 {
   log_trace("{}()", __func__);
 
-  todo;
+  f32 sin_table_num = static_cast<f32>(SinTable.size());
+
+  for (int i = 0; i < SinTable.size(); ++i)
+  {
+    SinTable[i] = sinf(static_cast<f32>(i) * common::pi2() / sin_table_num);
+  }
 }
 
 // 00131050
