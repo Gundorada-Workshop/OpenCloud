@@ -4,6 +4,32 @@
 
 set_log_channel("mg_math");
 
+// 0012F1D0
+mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec4& c2)
+{
+  log_trace("{}({}, {})", __func__, fmt::ptr(&c1), fmt::ptr(&c2));
+
+  // TODO: Check if this produces better code with swizzling.
+  mgVu0FBOX8 result;
+
+  result.vertices[0] = c2;
+  result.vertices[1] = c2;
+  result.vertices[2] = c2;
+  result.vertices[3] = c2;
+  result.vertices[4] = c1;
+  result.vertices[5] = c1;
+  result.vertices[6] = c1;
+  result.vertices[7] = c1;
+
+  result.vertices[1].x = c1.x;
+  result.vertices[2].y = c1.y;
+  result.vertices[3].z = c1.z;
+  result.vertices[4].x = c2.x;
+  result.vertices[5].y = c2.y;
+  result.vertices[6].z = c2.z;
+  return result;
+}
+
 // 00130B60
 f32 mgAngleInterpolate(f32 f12, f32 f13, f32 f14, bool b)
 {

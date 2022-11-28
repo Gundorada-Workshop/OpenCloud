@@ -21,6 +21,9 @@ struct mgVu0FBOX8
   std::array<vec4, 8> vertices;
 };
 
+// 0012F1D0
+mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec4& c2);
+
 // Clamps an angle to (-pi, +pi] radians.
 // (Only valid for f32s within (-2pi, +2pi].
 // Use mgAngleLimit if your f32 is not within that range.)
