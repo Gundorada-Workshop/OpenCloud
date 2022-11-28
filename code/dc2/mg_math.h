@@ -60,6 +60,21 @@ inline void mgZeroVectorW(vec4& v)
   v = { 0, 0, 0, 1 };
 }
 
+// 0012F250
+bool mgClipBoxVector(const vec4& v1, const vec4& v2, const vec4& v3);
+
+// 0012F290
+bool mgClipBox(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4);
+
+// 0012F2E0
+bool mgClipBoxW(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4);
+
+// 0012F330
+bool mgClipInBox(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4);
+
+// 0012F380
+bool mgClipInBoxW(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4);
+
 // 0012F3D0
 inline void mgAddVector(vec4& lhs, const vec4& rhs)
 {

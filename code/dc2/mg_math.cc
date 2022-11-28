@@ -30,6 +30,51 @@ mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec4& c2)
   return result;
 }
 
+// 0012F250
+bool mgClipBoxVector(const vec4& v1, const vec4& v2, const vec4& v3)
+{
+  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3));
+
+  todo;
+  return false;
+}
+
+// 0012F290
+bool mgClipBox(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
+{
+  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3), fmt::ptr(&v4));
+
+  todo;
+  return false;
+}
+
+// 0012F2E0
+bool mgClipBoxW(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
+{
+  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3), fmt::ptr(&v4));
+
+  todo;
+  return false;
+}
+
+// 0012F330
+bool mgClipInBox(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
+{
+  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3), fmt::ptr(&v4));
+
+  todo;
+  return false;
+}
+
+// 0012F380
+bool mgClipInBoxW(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
+{
+  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3), fmt::ptr(&v4));
+
+  todo;
+  return false;
+}
+
 // 00130B60
 f32 mgAngleInterpolate(f32 f12, f32 f13, f32 f14, bool b)
 {
