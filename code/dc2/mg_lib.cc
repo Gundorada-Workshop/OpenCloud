@@ -7,6 +7,7 @@
 #include "common/types.h"
 
 #include "dc2/mg_lib.h"
+#include "dc2/mg_math.h"
 
 set_log_channel("mg_lib");
 
@@ -26,6 +27,19 @@ static std::array<mgCMemory, 2> data_buf{};
 static mgCTexture frame_tex{};
 // 00382510
 static std::array<mgCTexture, 2> fixz_tex{};
+
+// 001413E0
+void mgInit()
+{
+  log_trace("{}()", __func__);
+
+  todo;
+
+  // 001419B0
+  mgCreateSinTable();
+
+  todo;
+}
 
 // 001421E0
 void mgBeginFrame(mgCDrawManager* draw_man)

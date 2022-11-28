@@ -1,3 +1,4 @@
+#include "common/math.h"
 #include "common/log.h"
 
 #include "dc2/mg_math.h"
@@ -76,7 +77,7 @@ bool mgClipInBoxW(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4
 }
 
 // 0012F410
-vec4 mgNormalizeVector(const vec4& v, float scale)
+vec4 mgNormalizeVector(const vec4& v, f32 scale)
 {
   log_trace("{}({}, {})", __func__, fmt::ptr(&v), scale);
 
@@ -90,6 +91,302 @@ void mgBoxMaxMin(mgVu0FBOX& lhs, const mgVu0FBOX& rhs)
 
   lhs.corners[0] = glm::max(lhs.corners[0], glm::max(lhs.corners[1], glm::max(rhs.corners[0], rhs.corners[1])));
   lhs.corners[0] = glm::min(lhs.corners[0], glm::min(lhs.corners[1], glm::min(rhs.corners[0], rhs.corners[1])));
+}
+
+// 0012F580
+vec4 mgPlaneNormal(const vec4& v1, const vec4& v2, const vec4& v3)
+{
+  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3));
+
+  todo;
+  return { 0, 0, 0, 1 };
+}
+
+// 0012F5B0
+vec4 mgDistPlanePoint(const vec4& v1, const vec4& v2)
+{
+  log_trace("{}({}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2));
+
+  todo;
+  return { 0, 0, 0, 1 };
+}
+
+// 0012F5F0
+vec4 mgDistLinePoint(const vec4& v1, const vec4& v2, const vec4& v3)
+{
+  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3));
+
+  todo;
+  return { 0, 0, 0, 1 };
+}
+
+// 0012F760
+vec4 mgReflectionPlane(const vec4& v1, const vec4& v2, const vec4& v3)
+{
+  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3));
+
+  todo;
+  return { 0, 0, 0, 1 };
+}
+
+// 0012F7F0
+vec4 mgIntersectionSphereLine0(const vec4& v1, const vec4& v2, f32 f)
+{
+  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), f);
+
+  todo;
+  return { 0, 0, 0, 1 };
+}
+
+// 0012F990
+vec4 mgIntersectionSphereLine(const vec4& v1, const vec4& v2, const vec4& v3)
+{
+  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3));
+
+  todo;
+  return { 0, 0, 0, 1 };
+}
+
+// 0012FA50
+vec4 mgIntersectionPoint_line_poly3(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4, const vec4& v5, const vec4& v6)
+{
+  log_trace("{}({}, {}, {}, {}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3), fmt::ptr(&v4), fmt::ptr(&v5), fmt::ptr(&v6));
+
+  todo;
+  return { 0, 0, 0, 1 };
+}
+
+// 0012FB70
+bool mgCheckPointPoly3_XYZ(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4, const vec4& v5)
+{
+  log_trace("{}({}, {}, {}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3), fmt::ptr(&v4), fmt::ptr(&v5));
+
+  todo;
+  return false;
+}
+
+// 0012FD10
+bool mgCheckPointPoly3_XZ(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
+{
+  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3), fmt::ptr(&v4));
+
+  todo;
+  return false;
+}
+
+// 0012FD40
+bool Check_Point_Poly3(f32 f1, f32 f2, f32 f3, f32 f4, f32 f5, f32 f6, f32 f7, f32 f8)
+{
+  log_trace("{}({}, {}, {}, {}, {}, {}, {}, {})", __func__, f1, f2, f3, f4, f5, f6, f7, f8);
+
+  todo;
+  return false;
+}
+
+// 0012FFD0
+f32 mgDistVector(const vec4& v)
+{
+  log_trace("{}({})", __func__, fmt::ptr(&v));
+
+  todo;
+  return 0.0f;
+}
+
+// 00130000
+f32 mgDistVectorXZ(const vec4& v)
+{
+  log_trace("{}({})", __func__, fmt::ptr(&v));
+
+  todo;
+  return 0.0f;
+}
+
+// 00130030
+f32 mgDistVector2(const vec4& v)
+{
+  log_trace("{}({})", __func__, fmt::ptr(&v));
+
+  todo;
+  return 0.0f;
+}
+
+// 00130060
+f32 mgDistVector(const vec4& v, const vec4& other)
+{
+  log_trace("{}({})", __func__, fmt::ptr(&v), fmt::ptr(&other));
+
+  todo;
+  return 0.0f;
+}
+
+// 001300A0
+f32 mgDistVectorXZ(const vec4& v, const vec4& other)
+{
+  log_trace("{}({})", __func__, fmt::ptr(&v), fmt::ptr(&other));
+
+  todo;
+  return 0.0f;
+}
+
+// 001300E0
+f32 mgDistVector2(const vec4& v, const vec4& other)
+{
+  log_trace("{}({})", __func__, fmt::ptr(&v), fmt::ptr(&other));
+
+  todo;
+  return 0.0f;
+}
+
+// 00130110
+f32 mgDistVectorXZ2(const vec4& v, const vec4& other)
+{
+  log_trace("{}({})", __func__, fmt::ptr(&v), fmt::ptr(&other));
+
+  todo;
+  return 0.0f;
+}
+
+// 00130140
+matrix4 mgUnitMatrix()
+{
+  log_trace("{}()", __func__);
+
+  return matrix4{ 1.0f };
+}
+
+// 00130160
+matrix4 mgZeroMatrix()
+{
+  log_trace("{}()", __func__);
+
+  return matrix4{ 0.0f };
+}
+
+// 00130180
+matrix4 MulMatrix3(const matrix4& lhs, const matrix4& rhs)
+{
+  log_trace("{}({}, {})", __func__, fmt::ptr(&lhs), fmt::ptr(&rhs));
+
+  todo;
+  return matrix4{ 1.0f };
+}
+
+// 00130250
+matrix4 mgMulMatrix(const matrix4& lhs, const matrix4& rhs)
+{
+  log_trace("{}({}, {})", __func__, fmt::ptr(&lhs), fmt::ptr(&rhs));
+
+  todo;
+  return matrix4{ 1.0f };
+}
+
+// 001302D0
+matrix4 mgInverseMatrix(const matrix4& mat)
+{
+  log_trace("{}({})", __func__, fmt::ptr(&mat));
+
+  todo;
+  return matrix4{ 1.0f };
+}
+
+// 001303D0
+void mgRotMatrixX(matrix4& mat, f32 rotation)
+{
+  log_trace("{}({}, {})", __func__, fmt::ptr(&mat), rotation);
+
+  todo;
+}
+
+// 00130430
+void mgRotMatrixY(matrix4& mat, f32 rotation)
+{
+  log_trace("{}({}, {})", __func__, fmt::ptr(&mat), rotation);
+
+  todo;
+}
+
+// 00130490
+void mgRotMatrixZ(matrix4& mat, f32 rotation)
+{
+  log_trace("{}({}, {})", __func__, fmt::ptr(&mat), rotation);
+
+  todo;
+}
+
+// 001304F0
+void mgRotMatrixXYZ(matrix4& mat, const vec4& rotation)
+{
+  log_trace("{}({}, {})", __func__, fmt::ptr(&mat), fmt::ptr(&rotation));
+
+  todo;
+}
+
+// 00130550
+matrix4 mgCreateMatrixPY(const vec4& v, f32 f)
+{
+  log_trace("{}({}, {})", __func__, fmt::ptr(&v), f);
+
+  todo;
+  return matrix4{ 1.0f };
+}
+
+// 001305B0
+matrix4 mgLookAtMatrixZ(const vec4& v)
+{
+  log_trace("{}({})", __func__, fmt::ptr(&v));
+
+  todo;
+  return matrix4{ 1.0f };
+}
+
+// 00130690
+matrix4 mgShadowMatrix(const vec4& v1, const vec4& v2, const vec4& v3)
+{
+  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3));
+
+  todo;
+  return matrix4{ 1.0f };
+}
+
+// 001308A0
+void mgApplyMatrixN(vec4* vecs_dest, const matrix4& mat, const vec4* vecs, usize n)
+{
+  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(vecs_dest), fmt::ptr(&mat), fmt::ptr(vecs), n);
+
+  todo;
+}
+
+// 001308F0
+void mgApplyMatrixN_MaxMin(vec4* vecs_dest, const matrix4& mat, const vec4* vecs, usize n, vec4& max_dest, vec4& min_dest)
+{
+  log_trace("{}({}, {}, {}, {}, {})", __func__, fmt::ptr(vecs_dest), fmt::ptr(&mat), fmt::ptr(vecs), n, fmt::ptr(&max_dest), fmt::ptr(&min_dest));
+
+  todo;
+}
+
+// 00130980
+void mgVectorMinMaxN(vec4* max_dest, vec4* min_dest, vec4* vecs, usize n)
+{
+  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(max_dest), fmt::ptr(min_dest), fmt::ptr(vecs), n);
+
+  todo;
+}
+
+// 001309E0
+void mgApplyMatrix(vec4& max_dest, vec4& min_dest, const matrix4& mat, const vec4& c1, const vec4& c2)
+{
+  log_trace("{}({}, {}, {}, {}, {})", __func__, fmt::ptr(&max_dest), fmt::ptr(&min_dest), fmt::ptr(&mat), fmt::ptr(&c1), fmt::ptr(&c2));
+
+  todo;
+}
+
+// 00130A50
+vec4 mgVectorInterpolate(const vec4& lhs, const vec4& rhs, f32 t, bool b)
+{
+  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&lhs), fmt::ptr(&rhs), t, b);
+
+  todo;
+  return vec4{ 0, 0, 0, 1 };
 }
 
 // 00130B60
@@ -194,4 +491,29 @@ f32 mgNRnd()
     f += mgRnd();
   }
   return f - 6.0f;
+}
+
+// 00130FB0
+void mgCreateSinTable()
+{
+  log_trace("{}()", __func__);
+
+  todo;
+}
+
+// 00131050
+f32 mgSinf(f32 f)
+{
+  log_trace("{}({})", __func__, f);
+
+  todo;
+  return 0.0f;
+}
+
+// 001310F0
+f32 mgCosf(f32 f)
+{
+  log_trace("{}({})", __func__, f);
+
+  return mgSinf(f + common::deg_to_rad(90.0f));
 }

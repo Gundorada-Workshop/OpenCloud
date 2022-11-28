@@ -88,7 +88,7 @@ inline void mgSubVector(vec4& lhs, const vec4& rhs)
 }
 
 // 0012F410
-vec4 mgNormalizeVector(const vec4& v, float scale);
+vec4 mgNormalizeVector(const vec4& v, f32 scale);
 
 // 0012F460
 inline vec4 mgVectorMin(const vec4& lhs, const vec4& rhs)
@@ -130,6 +130,108 @@ inline void mgVectorMaxMin(vec4& max_dest, vec4& min_dest, const vec4& v1, const
 // 0012F540
 void mgBoxMaxMin(mgVu0FBOX& lhs, const mgVu0FBOX& rhs);
 
+// 0012F580
+vec4 mgPlaneNormal(const vec4& v1, const vec4& v2, const vec4& v3);
+
+// 0012F5B0
+vec4 mgDistPlanePoint(const vec4& v1, const vec4& v2);
+
+// 0012F5F0
+vec4 mgDistLinePoint(const vec4& v1, const vec4& v2, const vec4& v3);
+
+// 0012F760
+vec4 mgReflectionPlane(const vec4& v1, const vec4& v2, const vec4& v3);
+
+// 0012F7F0
+vec4 mgIntersectionSphereLine0(const vec4& v1, const vec4& v2, f32 f);
+
+// 0012F990
+vec4 mgIntersectionSphereLine(const vec4& v1, const vec4& v2, const vec4& v3);
+
+// 0012FA50
+vec4 mgIntersectionPoint_line_poly3(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4, const vec4& v5, const vec4& v6);
+
+// 0012FB70
+bool mgCheckPointPoly3_XYZ(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4, const vec4& v5);
+
+// 0012FD10
+bool mgCheckPointPoly3_XZ(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4);
+
+// 0012FD40
+bool Check_Point_Poly3(f32 f1, f32 f2, f32 f3, f32 f4, f32 f5, f32 f6, f32 f7, f32 f8);
+
+// 0012FFD0
+f32 mgDistVector(const vec4& v);
+
+// 00130000
+f32 mgDistVectorXZ(const vec4& v);
+
+// 00130030
+f32 mgDistVector2(const vec4& v);
+
+// 00130060
+f32 mgDistVector(const vec4& v, const vec4& other);
+
+// 001300A0
+f32 mgDistVectorXZ(const vec4& v, const vec4& other);
+
+// 001300E0
+f32 mgDistVector2(const vec4& v, const vec4& other);
+
+// 00130110
+f32 mgDistVectorXZ2(const vec4& v, const vec4& other);
+
+// 00130140
+matrix4 mgUnitMatrix();
+
+// 00130160
+matrix4 mgZeroMatrix();
+
+// 00130180
+matrix4 MulMatrix3(const matrix4& lhs, const matrix4& rhs);
+
+// 00130250
+matrix4 mgMulMatrix(const matrix4& lhs, const matrix4& rhs);
+
+// 001302D0
+matrix4 mgInverseMatrix(const matrix4& mat);
+
+// 001303D0
+void mgRotMatrixX(matrix4& mat, f32 rotation);
+
+// 00130430
+void mgRotMatrixY(matrix4& mat, f32 rotation);
+
+// 00130490
+void mgRotMatrixZ(matrix4& mat, f32 rotation);
+
+// 001304F0
+void mgRotMatrixXYZ(matrix4& mat, const vec4& rotation);
+
+// 00130550
+matrix4 mgCreateMatrixPY(const vec4& v, f32 f);
+
+// 001305B0
+matrix4 mgLookAtMatrixZ(const vec4& v);
+
+// 00130690
+matrix4 mgShadowMatrix(const vec4& v1, const vec4& v2, const vec4& v3);
+
+// 001308A0
+void mgApplyMatrixN(vec4* vecs_dest, const matrix4& mat, const vec4* vecs, usize n);
+
+// 001308F0
+void mgApplyMatrixN_MaxMin(vec4* vecs_dest, const matrix4& mat, const vec4* vecs, usize n, vec4& max_dest, vec4& min_dest);
+
+// 00130980
+void mgVectorMinMaxN(vec4* max_dest, vec4* min_dest, vec4* vecs, usize n);
+
+// 001309E0
+void mgApplyMatrix(vec4& max_dest, vec4& min_dest, const matrix4& mat, const vec4& c1, const vec4& c2);
+
+// 00130A50
+vec4 mgVectorInterpolate(const vec4& lhs, const vec4& rhs, f32 t, bool b);
+
 // 00130B60
 f32 mgAngleInterpolate(f32 f1, f32 f2, f32 f3, bool b);
 
@@ -146,3 +248,12 @@ f32 mgRnd();
 // for when you want a rand that returns [-6, 6] but really biases towards 0
 // for whatever reason
 f32 mgNRnd();
+
+// 00130FB0
+void mgCreateSinTable();
+
+// 00131050
+f32 mgSinf(f32 f);
+
+// 001310F0
+f32 mgCosf(f32 f);

@@ -117,6 +117,11 @@ void MainLoop()
 
   todo;
 
+  // 00190D20
+  mgInit();
+
+  todo;
+
   // 00190E7C
   LanguageCode = Language::English;
   GameItemDataManage.LoadData();
