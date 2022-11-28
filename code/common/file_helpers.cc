@@ -150,8 +150,8 @@ namespace common::file_helpers
       panicf("File is null opening {} with mode {}", path, mode);
 
 #if defined(_WIN32)
-    const auto wfilename = common::strings::to_wstring(path);
-    const auto wmode = common::strings::to_wstring(mode);
+    const auto wfilename = common::strings::utf8_to_wstring(path);
+    const auto wmode = common::strings::utf8_to_wstring(mode);
 
     if (!wfilename || !wmode)
       return false;
@@ -192,7 +192,7 @@ namespace common::file_helpers
   bool create_directory(std::string_view path)
   {
 #if defined(_WIN32)
-    const auto wdir = common::strings::to_wstring(path);
+    const auto wdir = common::strings::utf8_to_wstring(path);
     if (!wdir)
       panicf("Failed to convert directory path to UTF16: ", path);
 
@@ -280,7 +280,7 @@ namespace common::file_helpers
     TCHAR dir[MAX_PATH];
     GetCurrentDirectoryW(MAX_PATH, dir);
 
-    auto working_dir = common::strings::to_utf8(dir);
+    auto working_dir = common::strings::wstring_to_utf8(dir);
 
     if (!working_dir)
       panicf("Failed to convert working directory path to UTF8");

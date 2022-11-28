@@ -71,7 +71,7 @@ namespace common::debug
 
       if (symbols->NameLen)
       {
-        auto name = strings::to_utf8({ symbols->Name, symbols->NameLen });
+        auto name = strings::wstring_to_utf8({ symbols->Name, symbols->NameLen });
 
         IMAGEHLP_LINEW64 line_info = {};
         line_info.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
@@ -80,7 +80,7 @@ namespace common::debug
         if (SymGetLineFromAddrW64(process, frame.AddrPC.Offset, &unused2, &line_info))
         {
           // note: null terminated
-          auto path = strings::to_utf8({ line_info.FileName });
+          auto path = strings::wstring_to_utf8({ line_info.FileName });
 
           if (name && path)
           {

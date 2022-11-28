@@ -59,7 +59,7 @@ namespace host
   {
     log_debug("Registering window class");
 
-    const auto wide_class_name = strings::to_wstring(class_name);
+    const auto wide_class_name = strings::utf8_to_wstring(class_name);
 
     if (!wide_class_name)
       panicf("Failed to convert window class name");
@@ -93,7 +93,7 @@ namespace host
     constexpr DWORD window_style = WS_OVERLAPPEDWINDOW | WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_SIZEBOX;
     constexpr DWORD window_style_ex = WS_EX_DLGMODALFRAME | WS_EX_CLIENTEDGE | WS_EX_STATICEDGE;
 
-    const auto wide_window_name = strings::to_wstring(m_window_title);
+    const auto wide_window_name = strings::utf8_to_wstring(m_window_title);
 
     if (!wide_window_name)
       panicf("Failed to convert window title");
@@ -152,7 +152,7 @@ namespace host
 
   void dwm_interface::present_user_error_dialog(std::string_view message)
   {
-    const auto wide_message = strings::to_wstring(message);
+    const auto wide_message = strings::utf8_to_wstring(message);
     if (!wide_message)
       panicf("Failed to convert error message");
 

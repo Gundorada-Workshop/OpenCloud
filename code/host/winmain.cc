@@ -47,7 +47,7 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
   WCHAR w_path[MAX_PATH];
   GetModuleFileNameW(NULL, w_path, MAX_PATH);
 
-  auto path = strings::to_utf8(w_path);
+  auto path = strings::wstring_to_utf8(w_path);
   if (!path)
     panicf("Can't convert application directory to utf8");
 
