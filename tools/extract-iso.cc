@@ -35,7 +35,7 @@ static std::vector<std::string> get_cmd_line_utf8()
   // convert everything to UTF-8
   for (int i = 0; i < count; ++i)
   {
-    auto arg = common::strings::to_utf8(szArglist[i]);
+    auto arg = common::strings::wstring_to_utf8(szArglist[i]);
 
     if (arg)
       utf8_args.push_back(std::move(*arg));

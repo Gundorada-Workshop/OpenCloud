@@ -74,7 +74,7 @@ bool extractor::extract_directory(std::string_view iso_file_path)
 
   for (const auto& file_entry : m_files)
   {
-    const auto file_path = strings::from_sjis(file_entry.path);
+    const auto file_path = strings::sjis_to_utf8(file_entry.path);
     if (!file_path)
       panicf("Failed to convert file path to UTF8");
 
@@ -169,7 +169,7 @@ bool extractor::extract_hdx_file(std::string_view descriptor_file_path, std::str
       continue;
     }
 
-    auto name = strings::from_sjis({name_of_unknown_length, name_length});
+    auto name = strings::sjis_to_utf8({name_of_unknown_length, name_length});
 
     if (!name)
       panicf("Failed to convert to UTF8");
@@ -210,7 +210,7 @@ bool extractor::extract_hdx_file(std::string_view descriptor_file_path, std::str
 
 bool extractor::extract_direct(const iso9660::file::file_entry& file)
 {
-  const auto file_path = strings::from_sjis(file.path);
+  const auto file_path = strings::sjis_to_utf8(file.path);
 
   if (!file_path)
     panicf("Failed to convert file path to utf8");

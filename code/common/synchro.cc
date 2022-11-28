@@ -21,7 +21,7 @@ namespace common::synchro
     if (!p_set_thread_description)
       return;
 
-    auto wname = strings::to_wstring(name);
+    auto wname = strings::utf8_to_wstring(name);
     if (!wname)
       return;
 

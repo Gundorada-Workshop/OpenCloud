@@ -195,9 +195,9 @@ static void PreProcess(input_str& str)
   // Now, convert the script from Shift-JIS to UTF8
   if (!IsUTF8(str))
   {
-    auto view = std::string_view{ str.m_string };
-    auto utf8 = common::strings::from_sjis(view);
-    str.m_string = std::move(utf8.value());
+    auto utf8 = common::strings::sjis_to_utf8(str.m_string);
+
+    str.m_string = std::move(*utf8);
     str.m_length = str.m_string.length();
   }
 }

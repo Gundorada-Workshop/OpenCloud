@@ -6,7 +6,7 @@
 namespace common::strings
 {
 #if defined(_WIN32)
-  std::optional<std::string> to_utf8(std::wstring_view wide)
+  std::optional<std::string> wstring_to_utf8(std::wstring_view wide)
   {
     if (wide.empty())
       return { };
@@ -29,7 +29,7 @@ namespace common::strings
     return out;
   }
 
-  std::optional<std::wstring> to_wstring(std::string_view utf8)
+  std::optional<std::wstring> utf8_to_wstring(std::string_view utf8)
   {
     if (utf8.empty())
       return { };
@@ -51,7 +51,7 @@ namespace common::strings
     return out;
   }
 
-  std::optional<std::string> from_sjis(std::string_view sjis)
+  std::optional<std::string> sjis_to_utf8(std::string_view sjis)
   {
     static constexpr UINT CP_SJIS = 932;
 
@@ -71,7 +71,7 @@ namespace common::strings
     if (size < 1)
       return std::nullopt;
 
-    return to_utf8(out);
+    return wstring_to_utf8(out);
   }
 #endif
 }
