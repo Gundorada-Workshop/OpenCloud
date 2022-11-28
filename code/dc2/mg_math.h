@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <numbers>
 
 #include "common/types.h"
@@ -6,7 +7,19 @@
 
 // ~ 0012F1C0 - 00131110
 
-#define VALID_INDEX(arr, n) (n >= 0 && n < std::size(arr))
+#define VALID_INDEX(n, min, max) (n >= min && n < max)
+
+struct mgVu0FBOX
+{
+  // Represents the "top left" and "bottom right" corners of a 3D rectangle
+  std::array<vec4, 2> corners;
+};
+
+struct mgVu0FBOX8
+{
+  // Represents all points in a 3D rectangle
+  std::array<vec4, 8> vertices;
+};
 
 // Clamps an angle to (-pi, +pi] radians.
 // (Only valid for f32s within (-2pi, +2pi].

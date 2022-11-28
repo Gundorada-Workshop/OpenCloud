@@ -1,5 +1,9 @@
 #include <string.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/quaternion.hpp>
+
 #include "common/debug.h"
 #include "common/log.h"
 
@@ -55,7 +59,7 @@ mgCVisual* mgCVisual::Copy(mgCMemory& stack)
 }
 
 // 00134330
-bool mgCVisual::CreateBBox(vec4& v1, vec4& v2, matrix4& m1)
+bool mgCVisual::CreateBBox(const vec4& v1, const vec4& v2, const matrix4& m1)
 {
   log_trace("mgCVisual::{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&m1));
 
@@ -801,7 +805,7 @@ void mgCFrame::SetVisual(mgCVisual* visual)
 {
   log_trace("mgCFrame::SetVisual({})", fmt::ptr(visual));
 
-  todo;
+  m_visual = visual;
 }
 
 // 00136590
@@ -813,15 +817,18 @@ void mgCFrame::SetName(const std::string& name)
 }
 
 // 001365A0
-void mgCFrame::SetTransMatrix(vec4& v)
+void mgCFrame::SetTransMatrix(glm::fquat& quat)
 {
-  log_trace("mgCFrame::{}({})", __func__, fmt::ptr(&v));
+  log_trace("mgCFrame::{}({})", __func__, fmt::ptr(&quat));
 
-  todo;
+  m_unk_field_40 = true;
+  vec4 w = m_trans_matrix[3];
+  m_trans_matrix = glm::mat4_cast(quat);
+  m_trans_matrix[3] = w;
 }
 
 // 001365F0
-void mgCFrame::SetBBox(vec4& corner1, vec4& corner2)
+void mgCFrame::SetBBox(const vec4& corner1, const vec4& corner2)
 {
   log_trace("mgCFrame::{}(({}, {}, {}), ({}, {}, {}))", __func__,
     corner1.x, corner1.y, corner1.z, corner2.x, corner2.y, corner2.z);
@@ -831,8 +838,8 @@ void mgCFrame::SetBBox(vec4& corner1, vec4& corner2)
     return;
   }
 
-  m_bound_info->m_corner1 = corner1;
-  m_bound_info->m_corner2 = corner2;
+  m_bound_info->m_box.corners[0] = corner1;
+  m_bound_info->m_box.corners[1] = corner2;
 
   /*
   * The following code constructs all points of a 3D box, given the two corners.
@@ -849,37 +856,48 @@ void mgCFrame::SetBBox(vec4& corner1, vec4& corner2)
   * (4, 2, 3)
   * (1, 2, 3)
   */
-  vec4* bounds[2] = { &m_bound_info->m_corner2, &m_bound_info->m_corner1 };
+  vec4* bounds[2] = { &m_bound_info->m_box.corners[1], &m_bound_info->m_box.corners[0]};
 
-  for (int i = 0; i < std::size(m_bound_info->m_vertices); ++i)
+  for (int i = 0; i < m_bound_info->m_box8.vertices.size(); ++i)
   {
     vec4* bound1 = bounds[(i & 1) != 0];
     vec4* bound2 = bounds[(i & 2) != 0];
     vec4* bound3 = bounds[(i & 4) != 0];
 
-    m_bound_info->m_vertices[i].w = 1.0f;
+    auto& vertex = m_bound_info->m_box8.vertices[i];
 
-    m_bound_info->m_vertices[i].x = bound1->x;
-    m_bound_info->m_vertices[i].y = bound2->y;
-    m_bound_info->m_vertices[i].z = bound3->z;
+    vertex.w = 1.0f;
+    vertex.x = bound1->x;
+    vertex.y = bound2->y;
+    vertex.z = bound3->z;
   }
 }
 
+void mgCFrame::SetBBox(const mgVu0FBOX& box)
+{
+  SetBBox(box.corners[0], box.corners[1]);
+}
+
 // 001366F0
-void mgCFrame::GetBBox(vec4& corner1, vec4& corner2)
+void mgCFrame::GetBBox(vec4& corner1, vec4& corner2) const
 {
   log_trace("mgCFrame::{}({}, {})", __func__, fmt::ptr(&corner1), fmt::ptr(&corner2));
 
   if (m_bound_info != nullptr)
   {
-    corner1 = m_bound_info->m_corner1;
-    corner2 = m_bound_info->m_corner2;
+    corner1 = m_bound_info->m_box.corners[0];
+    corner2 = m_bound_info->m_box.corners[1];
   }
   else
   {
     corner1 = vec4{ 0, 0, 0, 0 };
     corner2 = vec4{ 0, 0, 0, 0 };
   }
+}
+
+void mgCFrame::GetBBox(mgVu0FBOX& box) const
+{
+  GetBBox(box.corners[0], box.corners[1]);
 }
 
 // 00136760
@@ -916,7 +934,7 @@ mgCFrame* mgCFrame::GetFrame(ssize i)
 }
 
 // 00136800
-bool mgCFrame::RemakeBBox(vec4& corner1, vec4& corner2)
+bool mgCFrame::RemakeBBox(const vec4& corner1, const vec4& corner2)
 {
   log_trace("mgCFrame::{}(({}, {}, {}), ({}, {}, {}))", __func__,
     corner1.x, corner1.y, corner1.z, corner2.x, corner2.y, corner2.z);
@@ -934,6 +952,11 @@ bool mgCFrame::RemakeBBox(vec4& corner1, vec4& corner2)
 
   SetBBox(corner1, corner2);
   return true;
+}
+
+bool mgCFrame::RemakeBBox(const mgVu0FBOX& box)
+{
+  return RemakeBBox(box.corners[0], box.corners[1]);
 }
 
 // 00136A80
@@ -1101,13 +1124,108 @@ void mgCFrame::ClearChildFlag()
   }
 }
 
+// 00136CE0
+matrix4 mgCFrame::GetLocalMatrix()
+{
+  log_trace("mgCFrame::{}()", __func__);
+
+  if (!m_unk_field_44)
+  {
+    return m_trans_matrix;
+  }
+
+  matrix4 result;
+  result[0] = m_trans_matrix[0] * m_scale;
+  result[1] = m_trans_matrix[1] * m_scale;
+  result[2] = m_trans_matrix[2] * m_scale;
+  result[3] = m_trans_matrix[3];
+
+  vec4 v;
+  if (m_unk_field_100 & 2)
+  {
+    v = result[3];
+    result[3] = vec4{ 0, 0, 0, 1 };
+  }
+
+  if (m_unk_field_100 & 1)
+  {
+    if (m_rotation.x != 0.0f)
+    {
+      result = glm::rotate(result, m_rotation.x, { 1, 0, 0 });
+    }
+    if (m_rotation.y != 0.0f)
+    {
+      result = glm::rotate(result, m_rotation.y, { 0, 1, 0 });
+    }
+    if (m_rotation.z != 0.0f)
+    {
+      result = glm::rotate(result, m_rotation.z, { 0, 0, 1 });
+    }
+  }
+
+  if (m_unk_field_100 & 2)
+  {
+    result[3] += v;
+    result[3].w = 1.0f;
+  }
+  else
+  {
+    result[3] += m_position;
+    result[3].w = 1.0f;
+  }
+}
+
 // 00137030
 matrix4 mgCFrame::GetLWMatrix()
 {
   log_trace("mgCFrame::{}()", __func__);
 
-  todo;
-  return matrix4{ 1.0f };
+  if (m_unk_field_FC)
+  {
+    m_unk_field_40 = true;
+  }
+
+  // ... is there a goto somewhere in here?
+
+  auto parent = m_parent;
+  if (!m_unk_field_40 && parent == nullptr)
+  {
+    return m_lw_matrix;
+  }
+
+  while (true)
+  {
+    if (parent == nullptr || m_unk_field_40)
+    {
+      break;
+    }
+
+    parent = parent->m_parent;
+    if (parent == nullptr)
+    {
+      return m_lw_matrix;
+    }
+  }
+
+  ClearChildFlag();
+  auto local_mat = GetLocalMatrix();
+
+  if (m_parent == nullptr)
+  {
+    m_lw_matrix = local_mat;
+    m_unk_field_40 = false;
+    return m_lw_matrix;
+  }
+
+  auto lw_mat = m_parent->GetLWMatrix();
+  matrix4 result;
+
+  result[0] = lw_mat * local_mat[0];
+  result[1] = lw_mat * local_mat[1];
+  result[2] = lw_mat * local_mat[2];
+  result[3] = lw_mat * local_mat[3];
+  m_unk_field_40 = false;
+  return result;
 }
 
 mgCDrawEnv::mgCDrawEnv() : mgCDrawEnv(false) {}
