@@ -75,6 +75,14 @@ bool mgClipInBoxW(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4
   return false;
 }
 
+// 0012F410
+vec4 mgNormalizeVector(const vec4& v, float scale)
+{
+  log_trace("{}({}, {})", __func__, fmt::ptr(&v), scale);
+
+  return glm::normalize(v) * scale;
+}
+
 // 00130B60
 f32 mgAngleInterpolate(f32 f12, f32 f13, f32 f14, bool b)
 {

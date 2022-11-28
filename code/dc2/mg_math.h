@@ -87,6 +87,46 @@ inline void mgSubVector(vec4& lhs, const vec4& rhs)
   lhs -= rhs;
 }
 
+// 0012F410
+vec4 mgNormalizeVector(const vec4& v, float scale);
+
+// 0012F460
+inline vec4 mgVectorMin(const vec4& lhs, const vec4& rhs)
+{
+  return glm::min(lhs, rhs);
+}
+
+// 0012F480
+inline vec4 mgVectorMin(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
+{
+  // what?
+  return glm::min(v1, glm::min(v2, glm::min(v3, v4)));
+}
+
+// 0012F4B0
+inline void mgVectorMaxMin(vec4& max_dest, vec4& min_dest, const vec4& lhs, const vec4& rhs)
+{
+  // ez pz
+  max_dest = glm::max(lhs, rhs);
+  min_dest = glm::min(lhs, rhs);
+}
+
+// 0012F4D0
+inline void mgVectorMaxMin(vec4& max_dest, vec4& min_dest, const vec4& v1, const vec4& v2, const vec4& v3)
+{
+  // oh, wait
+  max_dest = glm::max(v1, glm::max(v2, v3));
+  min_dest = glm::min(v1, glm::min(v2, v3));
+}
+
+// 0012F500
+inline void mgVectorMaxMin(vec4& max_dest, vec4& min_dest, const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
+{
+  // I'm trapped in a function overload, aren't I?
+  max_dest = glm::max(v1, glm::max(v2, glm::max(v3, v4)));
+  min_dest = glm::min(v1, glm::min(v2, glm::min(v3, v4)));
+}
+
 // 00130B60
 f32 mgAngleInterpolate(f32 f1, f32 f2, f32 f3, bool b);
 
