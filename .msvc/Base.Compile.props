@@ -41,6 +41,8 @@
       <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <!-- Don't allow Windows to add min/max defines that conflict with anything called min/max -->
       <PreprocessorDefinitions>NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- Enable AVX2 -->
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <!-- Bring in our includes -->
       <AdditionalIncludeDirectories>$(SolutionDir)code;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
