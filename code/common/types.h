@@ -1,5 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
+#include <fmt/core.h>
+#include <fmt/ranges.h>
 
 #include <array>
 #include <cstdint>
@@ -115,3 +117,18 @@ using uvec4 = vec<uint, 4>;
 using matrix2 = glm::mat2;
 using matrix3 = glm::mat3;
 using matrix4 = glm::mat4;
+
+template<typename type, usize size>
+struct fmt::formatter<vec<type, size>> : formatter<std::string_view>
+{
+  const auto format(const vec<type, size>& v, format_context& ctx)
+  {
+    // TODO: find a less ass way to do this
+    std::array<type, size> data{ };
+
+    for (usize i = 0; i < size; ++i)
+      data[i] = v[i];
+
+    return fmt::format_to(ctx.out(), "vec{}({})", size, fmt::join(data, ","));
+  }
+};
