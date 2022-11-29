@@ -143,10 +143,10 @@ vec4 mgDistLinePoint(const vec4& v1, const vec4& v2, const vec4& v3);
 vec4 mgReflectionPlane(const vec4& v1, const vec4& v2, const vec4& v3);
 
 // 0012F7F0
-uint mgIntersectionSphereLine0(const vec4& v1, vec4* v2, f32 f);
+uint mgIntersectionSphereLine0(const vec4& v1, const vec4& v2, vec4* intersections, f32 radius);
 
 // 0012F990
-vec4 mgIntersectionSphereLine(const vec4& v1, const vec4& v2, const vec4& v3);
+vec4 mgIntersectionSphereLine(const vec4& v1, const vec4& v2, vec4* v3);
 
 // 0012FA50
 vec4 mgIntersectionPoint_line_poly3(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4, const vec4& v5, const vec4& v6);
