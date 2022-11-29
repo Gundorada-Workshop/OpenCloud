@@ -6,9 +6,9 @@
 #include "common/debug.h"
 #include "common/types.h"
 
-#include "dc2/mg_math.h"
-#include "dc2/mg_memory.h"
-#include "dc2/mg_texture.h"
+#include "dc2/mg/mg_math.h"
+#include "dc2//mg/mg_memory.h"
+#include "dc2/mg/mg_texture.h"
 
 // ~ 00131B60 - 00139900
 

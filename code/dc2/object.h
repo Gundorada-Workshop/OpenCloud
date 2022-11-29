@@ -1,7 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 
-#include "dc2/mg_frame.h"
+#include "dc2/mg/mg_frame.h"
 
 // ~ 001699F0 - 0016A160
 

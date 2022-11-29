@@ -6,7 +6,7 @@
 #include "common/types.h"
 
 #include "dc2/menusave.h"
-#include "dc2/mg_memory.h"
+#include "dc2/mg/mg_memory.h"
 #include "dc2/scene.h"
 
 // ~ 0029F050 - 002A4D90

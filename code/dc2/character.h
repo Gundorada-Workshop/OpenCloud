@@ -1,5 +1,5 @@
 #pragma once
-#include "dc2/mg_lib.h"
+#include "dc2/mg/mg_lib.h"
 #include "dc2/object.h"
 
 // ~ 0016A140 - 0017C240

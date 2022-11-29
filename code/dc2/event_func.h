@@ -5,7 +5,7 @@
 #include "common/types.h"
 
 #include "dc2/event.h"
-#include "dc2/mg_lib.h"
+#include "dc2/mg/mg_lib.h"
 
 // ~ 00255B80 - 0027DD00
 

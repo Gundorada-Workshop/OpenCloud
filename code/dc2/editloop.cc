@@ -6,8 +6,8 @@
 
 #include "dc2/editloop.h"
 #include "dc2/ls_mes.h"
-#include "dc2/mg_frame.h"
-#include "dc2/mg_memory.h"
+#include "dc2/mg/mg_frame.h"
+#include "dc2/mg/mg_memory.h"
 
 set_log_channel("editloop");
 

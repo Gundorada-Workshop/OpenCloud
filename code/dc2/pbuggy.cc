@@ -6,8 +6,8 @@
 
 #include "dc2/character.h"
 #include "dc2/effect_script.h"
-#include "dc2/mg_lib.h"
-#include "dc2/mg_memory.h"
+#include "dc2/mg/mg_lib.h"
+#include "dc2/mg/mg_memory.h"
 #include "dc2/pbuggy.h"
 
 set_log_channel("pbuggy");

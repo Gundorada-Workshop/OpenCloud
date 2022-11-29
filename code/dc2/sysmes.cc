@@ -1,7 +1,7 @@
 #include "common/log.h"
 
 #include "dc2/ls_mes.h"
-#include "dc2/mg_memory.h"
+#include "dc2/mg/mg_memory.h"
 #include "dc2/sysmes.h"
 
 set_log_channel("sysmes")

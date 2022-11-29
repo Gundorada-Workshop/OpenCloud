@@ -4,8 +4,8 @@
 #include "common/debug.h"
 #include "common/types.h"
 
-#include "dc2/mg_memory.h"
-#include "dc2/mg_tanime.h"
+#include "dc2/mg/mg_memory.h"
+#include "dc2/mg/mg_tanime.h"
 #include "dc2/sce_temp.h"
 
 // ~ 0012C480 - 0012F1C0

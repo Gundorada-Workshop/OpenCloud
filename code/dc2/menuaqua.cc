@@ -1,7 +1,7 @@
 #include "common/log.h"
 
 #include "dc2/menuaqua.h"
-#include "dc2/mg_lib.h"
+#include "dc2/mg/mg_lib.h"
 
 set_log_channel("menuaqua");
 

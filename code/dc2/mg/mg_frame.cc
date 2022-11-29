@@ -7,7 +7,7 @@
 #include "common/debug.h"
 #include "common/log.h"
 
-#include "dc2/mg_frame.h"
+#include "dc2/mg/mg_frame.h"
 
 set_log_channel("mg_frame");
 

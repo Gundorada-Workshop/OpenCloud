@@ -6,7 +6,7 @@
 
 #include "dc2/font.h"
 #include "dc2/mainloop.h"
-#include "dc2/mg_texture.h"
+#include "dc2/mg/mg_texture.h"
 #include "dc2/photo.h"
 
 set_log_channel("Photo");

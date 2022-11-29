@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "dc2/mg_math.h"
+#include "dc2/mg/mg_math.h"
 
 TEST(mgMathTest, mgAngleInterpolate)
 {

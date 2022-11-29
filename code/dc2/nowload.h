@@ -2,7 +2,7 @@
 #include "common/debug.h"
 #include "common/types.h"
 
-#include "dc2/mg_memory.h"
+#include "dc2/mg/mg_memory.h"
 
 // ~ 00309470 - 00309B50
 
