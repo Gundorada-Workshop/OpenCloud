@@ -133,12 +133,76 @@ vec4 mgReflectionPlane(const vec4& v1, const vec4& v2, const vec4& v3)
 }
 
 // 0012F7F0
-vec4 mgIntersectionSphereLine0(const vec4& v1, const vec4& v2, f32 f)
+uint mgIntersectionSphereLine0(const vec4& v1, vec4* v2, f32 f)
 {
-  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), f);
+  log_trace("{}({}, {}, {})", __func__, v1, fmt::ptr(v2), f);
 
-  todo;
-  return { 0, 0, 0, 1 };
+  // 0012F7F0 - 0012F828
+  auto var_20 = *v2 - v1;
+  // 0012F828 - 0012F834
+  float f20 = mgDistVector2(var_20);
+  // 0012F834 - 0012F844
+  float f21 = glm::dot(var_20, v1);
+  // 0012F844 - 0012F854
+  float f0 = mgDistVector2(v1) - (f * f);
+
+  // 0012F854 - 0012F85C
+  // NOTE: another way of thinking about these 2 instructions:
+  // ACC = f21 * f21
+  // f22 = ACC - (f20 * f0)
+  float f22 = (f21 * f21) - (f20 * f0);
+
+  // 0012F864 - 0012F87C
+  if (f22 < 0.0f)
+  {
+    return 0;
+  }
+
+  // 0012F888 - 0012F88C
+  uint result = 0;
+
+  // 0012F87C - 0012F884 (f22 is moved into f12 before previous branch)
+  f0 = sqrtf(f22);
+  // 0012F884 - 0012F888
+  float f2 = -f21;
+  // 0012F88C - 0012F894
+  float f12 = (f2 - f0) / f20;
+  // 0012F894 - 0012F8A0
+  f20 = (f0 + f2) / f20;
+
+  // 0012F8A0 - 0012F8D0
+  vec4 var_10;
+  if (f12 >= 0.0f && f12 <= 1.0f)
+  {
+    // 0012F8D0 - 0012F8D8
+    var_10 = var_20 * f12;
+    // 0012F8D8 - 0012F8E8
+    *v2 = v1 + var_10;
+    // 0012F8E8 - 0012F8EC
+    ++result;
+  }
+
+  // 0012F8EC - 0012F904
+  if (f22 == 0.0f)
+  {
+    return 1;
+  }
+
+  // 0012F90C - 0012F938
+  if (f20 < 0.0f || f20 > 1.0f)
+  {
+    return result;
+  }
+
+  // 0012F938 - 0012F944
+  var_10 = var_20 * f20;
+  // 0012F948 - 0012F958
+  v2[result] = v1 + var_10;
+  // 0012F958 - 0012F95C
+  ++result;
+
+  // 0012F95C -
+  return result;
 }
 
 // 0012F990

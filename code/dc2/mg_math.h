@@ -143,7 +143,7 @@ vec4 mgDistLinePoint(const vec4& v1, const vec4& v2, const vec4& v3);
 vec4 mgReflectionPlane(const vec4& v1, const vec4& v2, const vec4& v3);
 
 // 0012F7F0
-vec4 mgIntersectionSphereLine0(const vec4& v1, const vec4& v2, f32 f);
+uint mgIntersectionSphereLine0(const vec4& v1, vec4* v2, f32 f);
 
 // 0012F990
 vec4 mgIntersectionSphereLine(const vec4& v1, const vec4& v2, const vec4& v3);
