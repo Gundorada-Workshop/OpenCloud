@@ -8,7 +8,7 @@
 set_log_channel("editdata")
 
 // 01F06300
-std::array<EditAnalyzeSrc, 5> AnalyzeSrc{};
+std::array<EditAnalyzeSrc, 5> AnalyzeSrc{ };
 
 // 00194550
 CEditData::CEditData()
@@ -42,12 +42,12 @@ void CEditData::InitPlaceData()
   m_n_unk_field_2A40 = m_unk_field_2A40.size();
   memset(&m_unk_field_2A40, 0, sizeof(m_unk_field_2A40));
 
-  for (int i = 0; i < m_unk_field_2C40.size(); ++i)
+  for (usize i = 0; i < m_unk_field_2C40.size(); ++i)
   {
     m_unk_field_2C40[i] = -1;
   }
 
-  for (int i = 0; i < m_unk_field_4C40.size(); ++i)
+  for (usize i = 0; i < m_unk_field_4C40.size(); ++i)
   {
     m_unk_field_4C40[i] = -1;
   }
