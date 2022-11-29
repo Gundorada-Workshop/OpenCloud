@@ -7,8 +7,8 @@
 set_log_channel("event_edit");
 
 // 01F04200
-CCameraPas g_cmr_pas{};
+CCameraPas g_cmr_pas{ };
 // 01F04B50
-CCharaPas g_chara_pas{};
+CCharaPas g_chara_pas{ };
 // 01F05000
-_UNKNOWN g_info{};
+unk g_info{ };

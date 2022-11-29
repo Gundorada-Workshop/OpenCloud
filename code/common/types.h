@@ -80,8 +80,12 @@ using f32 = float;
 using f64 = double;
 
 // unknown
+using unk8   = u8;
+using unk16  = u16;
 using unk32  = u32;
 using unk64  = u64;
+
+using unk = uint;
 using unkptr = void*; //note: ps2 ptr is 32 bit
 
 template<usize size>

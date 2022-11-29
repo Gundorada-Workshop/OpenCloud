@@ -32,7 +32,7 @@ void CFadeInOut::Initialize()
 }
 
 // 00181490
-static bool __BUFFER_SIZE(SPI_STACK* stack, int stack_count)
+static bool __BUFFER_SIZE(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -45,7 +45,7 @@ static bool __BUFFER_SIZE(SPI_STACK* stack, int stack_count)
 }
 
 // 001814e0
-static bool __EFFECT_START(SPI_STACK* stack, int stack_count)
+static bool __EFFECT_START(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -55,7 +55,7 @@ static bool __EFFECT_START(SPI_STACK* stack, int stack_count)
 }
 
 // 00181530
-static bool __EFFECT_END(SPI_STACK* stack, int stack_count)
+static bool __EFFECT_END(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -65,7 +65,7 @@ static bool __EFFECT_END(SPI_STACK* stack, int stack_count)
 }
 
 // 00181b30
-static bool __WAIT_FRAME(SPI_STACK* stack, int stack_count)
+static bool __WAIT_FRAME(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -75,7 +75,7 @@ static bool __WAIT_FRAME(SPI_STACK* stack, int stack_count)
 }
 
 // 00181b80
-static bool __IMG_NAME(SPI_STACK* stack, int stack_count)
+static bool __IMG_NAME(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -85,7 +85,7 @@ static bool __IMG_NAME(SPI_STACK* stack, int stack_count)
 }
 
 // 00181bb0
-static bool __SIZE(SPI_STACK* stack, int stack_count)
+static bool __SIZE(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -95,7 +95,7 @@ static bool __SIZE(SPI_STACK* stack, int stack_count)
 }
 
 // 00181bf0
-static bool __DIR(SPI_STACK* stack, int stack_count)
+static bool __DIR(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -105,7 +105,7 @@ static bool __DIR(SPI_STACK* stack, int stack_count)
 }
 
 // 00181c20
-static bool __NUM(SPI_STACK* stack, int stack_count)
+static bool __NUM(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -115,7 +115,7 @@ static bool __NUM(SPI_STACK* stack, int stack_count)
 }
 
 // 00181c50
-static bool __NUM_RAND(SPI_STACK* stack, int stack_count)
+static bool __NUM_RAND(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -125,7 +125,7 @@ static bool __NUM_RAND(SPI_STACK* stack, int stack_count)
 }
 
 // 00181cb0
-static bool __COUNT(SPI_STACK* stack, int stack_count)
+static bool __COUNT(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -135,7 +135,7 @@ static bool __COUNT(SPI_STACK* stack, int stack_count)
 }
 
 // 00181ce0
-static bool __CNT_RAND(SPI_STACK* stack, int stack_count)
+static bool __CNT_RAND(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -145,7 +145,7 @@ static bool __CNT_RAND(SPI_STACK* stack, int stack_count)
 }
 
 // 00181d40
-static bool __REPEAT(SPI_STACK* stack, int stack_count)
+static bool __REPEAT(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -155,7 +155,7 @@ static bool __REPEAT(SPI_STACK* stack, int stack_count)
 }
 
 // 00181db0
-static bool __REP_RAND(SPI_STACK* stack, int stack_count)
+static bool __REP_RAND(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -165,7 +165,7 @@ static bool __REP_RAND(SPI_STACK* stack, int stack_count)
 }
 
 // 00181e10
-static bool __POS(SPI_STACK* stack, int stack_count)
+static bool __POS(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -175,7 +175,7 @@ static bool __POS(SPI_STACK* stack, int stack_count)
 }
 
 // 00181e70
-static bool __POS_RAND(SPI_STACK* stack, int stack_count)
+static bool __POS_RAND(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -185,7 +185,7 @@ static bool __POS_RAND(SPI_STACK* stack, int stack_count)
 }
 
 // 00181ef0
-static bool __VELO(SPI_STACK* stack, int stack_count)
+static bool __VELO(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -195,7 +195,7 @@ static bool __VELO(SPI_STACK* stack, int stack_count)
 }
 
 // 00181f50
-static bool __VELO_RAND(SPI_STACK* stack, int stack_count)
+static bool __VELO_RAND(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -205,7 +205,7 @@ static bool __VELO_RAND(SPI_STACK* stack, int stack_count)
 }
 
 // 00181fd0
-static bool __VELO_MUL(SPI_STACK* stack, int stack_count)
+static bool __VELO_MUL(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -215,7 +215,7 @@ static bool __VELO_MUL(SPI_STACK* stack, int stack_count)
 }
 
 // 00182030
-static bool __ACC(SPI_STACK* stack, int stack_count)
+static bool __ACC(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -225,7 +225,7 @@ static bool __ACC(SPI_STACK* stack, int stack_count)
 }
 
 // 00182090
-static bool __ACC_RAND(SPI_STACK* stack, int stack_count)
+static bool __ACC_RAND(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -235,7 +235,7 @@ static bool __ACC_RAND(SPI_STACK* stack, int stack_count)
 }
 
 // 00182110
-static bool __ACC_MUL(SPI_STACK* stack, int stack_count)
+static bool __ACC_MUL(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -245,7 +245,7 @@ static bool __ACC_MUL(SPI_STACK* stack, int stack_count)
 }
 
 // 00182170
-static bool __MOVE_TYPE(SPI_STACK* stack, int stack_count)
+static bool __MOVE_TYPE(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -255,7 +255,7 @@ static bool __MOVE_TYPE(SPI_STACK* stack, int stack_count)
 }
 
 // 001821d0
-static bool __MOVE_P1(SPI_STACK* stack, int stack_count)
+static bool __MOVE_P1(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -265,7 +265,7 @@ static bool __MOVE_P1(SPI_STACK* stack, int stack_count)
 }
 
 // 00182230
-static bool __MOVE_P1_RAND(SPI_STACK* stack, int stack_count)
+static bool __MOVE_P1_RAND(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -275,7 +275,7 @@ static bool __MOVE_P1_RAND(SPI_STACK* stack, int stack_count)
 }
 
 // 001822b0
-static bool __MOVE_P2(SPI_STACK* stack, int stack_count)
+static bool __MOVE_P2(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -285,7 +285,7 @@ static bool __MOVE_P2(SPI_STACK* stack, int stack_count)
 }
 
 // 00182310
-static bool __MOVE_P2_RAND(SPI_STACK* stack, int stack_count)
+static bool __MOVE_P2_RAND(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -295,7 +295,7 @@ static bool __MOVE_P2_RAND(SPI_STACK* stack, int stack_count)
 }
 
 // 00182390
-static bool __SCALE_TYPE(SPI_STACK* stack, int stack_count)
+static bool __SCALE_TYPE(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -305,7 +305,7 @@ static bool __SCALE_TYPE(SPI_STACK* stack, int stack_count)
 }
 
 // 001823d0
-static bool __SCALE(SPI_STACK* stack, int stack_count)
+static bool __SCALE(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -315,7 +315,7 @@ static bool __SCALE(SPI_STACK* stack, int stack_count)
 }
 
 // 00182410
-static bool __SCALE_RAND(SPI_STACK* stack, int stack_count)
+static bool __SCALE_RAND(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -325,7 +325,7 @@ static bool __SCALE_RAND(SPI_STACK* stack, int stack_count)
 }
 
 // 00182480
-static bool __SVELO(SPI_STACK* stack, int stack_count)
+static bool __SVELO(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -335,7 +335,7 @@ static bool __SVELO(SPI_STACK* stack, int stack_count)
 }
 
 // 001824c0
-static bool __SVELO_RAND(SPI_STACK* stack, int stack_count)
+static bool __SVELO_RAND(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -345,7 +345,7 @@ static bool __SVELO_RAND(SPI_STACK* stack, int stack_count)
 }
 
 // 00182530
-static bool __SCALE_P1(SPI_STACK* stack, int stack_count)
+static bool __SCALE_P1(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -355,7 +355,7 @@ static bool __SCALE_P1(SPI_STACK* stack, int stack_count)
 }
 
 // 00182570
-static bool __SCALE_P1_RAND(SPI_STACK* stack, int stack_count)
+static bool __SCALE_P1_RAND(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -365,7 +365,7 @@ static bool __SCALE_P1_RAND(SPI_STACK* stack, int stack_count)
 }
 
 // 001825e0
-static bool __SCALE_P2(SPI_STACK* stack, int stack_count)
+static bool __SCALE_P2(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -375,7 +375,7 @@ static bool __SCALE_P2(SPI_STACK* stack, int stack_count)
 }
 
 // 00182620
-static bool __SCALE_P2_RAND(SPI_STACK* stack, int stack_count)
+static bool __SCALE_P2_RAND(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -384,7 +384,7 @@ static bool __SCALE_P2_RAND(SPI_STACK* stack, int stack_count)
   return true;
 }
 
-static bool __ALPHA_BLEND(SPI_STACK* stack, int stack_count)
+static bool __ALPHA_BLEND(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -394,7 +394,7 @@ static bool __ALPHA_BLEND(SPI_STACK* stack, int stack_count)
 }
 
 // 001826c0
-static bool __ALPHA_TYPE(SPI_STACK* stack, int stack_count)
+static bool __ALPHA_TYPE(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -404,7 +404,7 @@ static bool __ALPHA_TYPE(SPI_STACK* stack, int stack_count)
 }
 
 // 001826f0
-static bool __ALPHA(SPI_STACK* stack, int stack_count)
+static bool __ALPHA(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -414,7 +414,7 @@ static bool __ALPHA(SPI_STACK* stack, int stack_count)
 }
 
 // 00182720
-static bool __ALPHA_RAND(SPI_STACK* stack, int stack_count)
+static bool __ALPHA_RAND(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -424,7 +424,7 @@ static bool __ALPHA_RAND(SPI_STACK* stack, int stack_count)
 }
 
 // 00182780
-static bool __ALPHA_P1(SPI_STACK* stack, int stack_count)
+static bool __ALPHA_P1(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -434,7 +434,7 @@ static bool __ALPHA_P1(SPI_STACK* stack, int stack_count)
 }
 
 // 001827b0
-static bool __ALPHA_P1_RAND(SPI_STACK* stack, int stack_count)
+static bool __ALPHA_P1_RAND(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -444,7 +444,7 @@ static bool __ALPHA_P1_RAND(SPI_STACK* stack, int stack_count)
 }
 
 // 00182810
-static bool __ALPHA_P2(SPI_STACK* stack, int stack_count)
+static bool __ALPHA_P2(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -454,7 +454,7 @@ static bool __ALPHA_P2(SPI_STACK* stack, int stack_count)
 }
 
 // 00182840
-static bool __ALPHA_P2_RAND(SPI_STACK* stack, int stack_count)
+static bool __ALPHA_P2_RAND(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -464,7 +464,7 @@ static bool __ALPHA_P2_RAND(SPI_STACK* stack, int stack_count)
 }
 
 // 001828a0
-static bool __TEX_GET_RECT(SPI_STACK* stack, int stack_count)
+static bool __TEX_GET_RECT(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -474,7 +474,7 @@ static bool __TEX_GET_RECT(SPI_STACK* stack, int stack_count)
 }
 
 // 00182970
-static bool __TEX_GET_TYPE(SPI_STACK* stack, int stack_count)
+static bool __TEX_GET_TYPE(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -484,7 +484,7 @@ static bool __TEX_GET_TYPE(SPI_STACK* stack, int stack_count)
 }
 
 // 001829a0
-static bool __TEX_NAME(SPI_STACK* stack, int stack_count)
+static bool __TEX_NAME(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -494,7 +494,7 @@ static bool __TEX_NAME(SPI_STACK* stack, int stack_count)
 }
 
 // 001829f0
-static bool __GRAVITY(SPI_STACK* stack, int stack_count)
+static bool __GRAVITY(SPI_STACK* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -557,7 +557,7 @@ const std::array<SPI_TAG_PARAM, 48> effm_tag =
 };
 
 // 00182fa0
-void CEffectManager::GetBufferNums(const char* script, int script_size, int* unk0, int* unk2)
+void CEffectManager::GetBufferNums(const char* script, sint script_size, sint* unk0, sint* unk2)
 {
   log_trace("GetBufferNums({}, {}, {}, {})", fmt::ptr(script), script_size, fmt::ptr(unk0), fmt::ptr(unk2));
 
@@ -565,7 +565,7 @@ void CEffectManager::GetBufferNums(const char* script, int script_size, int* unk
 }
 
 // 00182bc0
-void CEffectManager::GetEffectNums(int unk0, int unk1)
+void CEffectManager::GetEffectNums(sint unk0, sint unk1)
 {
   log_trace("GetEffectNums({}, {})", unk0, unk1);
 

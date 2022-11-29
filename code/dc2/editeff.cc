@@ -8,6 +8,7 @@
 set_log_channel("editeff");
 
 // 01F59370
-static std::array<CStarEffect, 3> _StarEffect{};
+static std::array<CStarEffect, 3> _StarEffect{ };
+
 // 01F59670
-static mgCMemory CurPartsBuff{};
+static mgCMemory CurPartsBuff{ };

@@ -12,57 +12,82 @@
 set_log_channel("editloop");
 
 // 01E9B440
-static CWaveTable WaveTable{};
+static CWaveTable WaveTable{ };
+
 // 01E9C650
-static glm::vec4 CharaOldPos{};
+static vec4 CharaOldPos{ };
+
 // 01E9C660
-static ClsMes EventMes1{};
+static ClsMes EventMes1{ };
+
 // 01E9E840
-static mgCMemory buf0{};
+static mgCMemory buf0{ };
+
 // 01E9E870
-static mgCMemory buf1{};
+static mgCMemory buf1{ };
+
 // 01E9E8A0
-static std::array<mgCMemory, 2> data_buf{};
+static std::array<mgCMemory, 2> data_buf{ };
+
 // 01E9E900
-static std::array<mgCMemory, 2> init_dbuf{};
+static std::array<mgCMemory, 2> init_dbuf{ };
+
 // 01E9E960
-static mgCMemory WorkBuffer{};
+static mgCMemory WorkBuffer{ };
+
 // 01E9E990
-static mgCMemory MenuBuffer{};
+static mgCMemory MenuBuffer{ };
+
 // 01E9E9C0
-static mgCMemory ChrEffBuffer{};
+static mgCMemory ChrEffBuffer{ };
+
 // 01E9E990
-static mgCMemory Script_Buffer{};
+static mgCMemory Script_Buffer{ };
+
 // 01E9EA20
-static mgCMemory TotalDataBuff{};
+static mgCMemory TotalDataBuff{ };
+
 // 01E9EA50
-static mgCMemory ControlCharaBuff{};
+static mgCMemory ControlCharaBuff{ };
+
 // 01E9EA80
-static mgCMemory MainDataBuff{};
+static mgCMemory MainDataBuff{ };
+
 // 01E9EA80
-static mgCMemory MainCharaBuff{};
+static mgCMemory MainCharaBuff{ };
+
 // 01E9EAE0
-static mgCMemory SubDataBuff{};
+static mgCMemory SubDataBuff{ };
+
 // 01E9EB10
-static mgCMemory SubCharaBuff{};
+static mgCMemory SubCharaBuff{ };
+
 // 01E9EB40
-static std::array<mgCMemory, 4> EventBuff{};
+static std::array<mgCMemory, 4> EventBuff{ };
+
 // 01E9EC00
-static std::array<mgCMemory, 8> CharaBufs{};
+static std::array<mgCMemory, 8> CharaBufs{ };
+
 // 01E9ED80
-static mgCMemory FishingBuff{};
+static mgCMemory FishingBuff{ };
+
 // 01E9EDB0
-static mgCMemory SkyBuff{};
+static mgCMemory SkyBuff{ };
+
 // 01E9EDE0
-static CEditEvent EditEvent{};
+static CEditEvent EditEvent{ };
+
 // 01E9EF30
-static EditDebugInfo EdDebugInfo{};
+static EditDebugInfo EdDebugInfo{ };
+
 // 01E9EF70
-static mgCVisualMDT TestVisual{};
+static mgCVisualMDT TestVisual{ };
+
 // 01E9EFC0
-static mgCFrame TestFrame{};
+static mgCFrame TestFrame{ };
+
 // 01E9F0F0
-static std::array<_DWORD, 0x10> beforeAnalyze{};
+static std::array<unk32, 0x10> beforeAnalyze{ };
 
 // 001A2110
 CWaveTable::CWaveTable()

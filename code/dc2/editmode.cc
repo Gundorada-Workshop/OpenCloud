@@ -6,4 +6,4 @@
 set_log_channel("editmode");
 
 // 01F589F0
-CFont Font{};
+CFont Font{ };

@@ -6,15 +6,19 @@
 set_log_channel("dngmenu");
 
 // 00368640
-static mgRect<int> dng_light_circle{ 388, 304, 124, 80 };
+static irect dng_light_circle{ irect::from_extent(388, 304, 124, 80) };
+
 // 00368650
-static mgRect<int> dngfreemap_num{ 0, 0, 12, 18 };
+static irect dngfreemap_num{ irect::from_extent(0, 0, 12, 18) };
+
 // 01EC8DE0
-static mgRect<float> treemap_root_put{ 0, 0, 0, 0 };
+static rect treemap_root_put{ 0, 0, 0, 0 };
+
 // 01EC8DF0
-static mgRect<int> Floor_Info{ 0, 238, 256, 18 };
+static irect Floor_Info{ irect::from_extent(0, 238, 256, 18) };
+
 // 01EC8E00
-static mgCMemory MenuTreeMapStack{};
+static mgCMemory MenuTreeMapStack{ };
 
 // 001EA760
 CDngFreeMap::CDngFreeMap()
@@ -28,11 +32,11 @@ CDngFreeMap::CDngFreeMap()
   m_unk_field_0 = 0;
   m_unk_field_C = 0;
 
-  m_unk_field_20.Set(120, 138, 420, 286);
+  m_unk_field_20 = rect::from_extent(120, 138, 420, 286);
 
   for (auto& rect : m_unk_field_40)
   {
-    rect.Set(0, 0, 0, 0);
+    rect = rect::from_extent(0, 0, 0, 0);
   }
 
   m_unk_field_30 = 0;

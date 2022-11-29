@@ -7,5 +7,5 @@
 class CStarEffect : CObject
 {
   // A0
-  mgC3DSprite m_unk_field_A0{};
+  mgC3DSprite m_unk_field_A0{ };
 };
