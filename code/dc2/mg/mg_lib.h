@@ -2,6 +2,7 @@
 #include <glm/glm.hpp>
 
 #include "common/types.h"
+#include "common/rectangle.h"
 
 #include "dc2/mg/mg_camera.h"
 #include "dc2/mg/mg_frame.h"
@@ -12,8 +13,10 @@
 
 // 00380EC0
 extern mgRENDER_INFO mgRenderInfo;
+
 // 00381EF0
 extern mgCTextureManager mgTexManager;
+
 // 003820E0
 extern mgCDrawManager mgDrawManager;
 
@@ -25,15 +28,21 @@ void mgInit();
 
 // 001421E0
 void mgBeginFrame(mgCDrawManager* draw_man);
+
 // 00142F90
-_UNKNOWNPOINTER mgDraw(mgCFrame* frame);
+unkptr mgDraw(mgCFrame* frame);
+
 // 00142FD0
-_UNKNOWNPOINTER mgDrawDirect(mgCFrame* frame);
+unkptr mgDrawDirect(mgCFrame* frame);
+
 // 001425B0
 void mgEndFrame(mgCDrawManager* draw_man);
+
 // 00144400
 void mgGetFrameBackBuffer(mgCTexture* texture);
+
 // 001445A0
-void mgSetPkMoveImage(sceGsTex0* tex1, mgRect<int>* rect, sceGsTex0* tex2, int i1, int i2, int i3);
+void mgSetPkMoveImage(sceGsTex0* tex1, irect* rect, sceGsTex0* tex2, sint i1, sint i2, sint i3);
+
 // 00145B20
-float mgGetDistFromCamera(glm::vec4& point);
+f32 mgGetDistFromCamera(vec4& point);
