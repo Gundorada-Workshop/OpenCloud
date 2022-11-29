@@ -3,7 +3,9 @@
 // ~ 001A2080 - 001A76C0
 
 // TODO THIS FILE
-class CEditCollision {};
+class CEditCollision
+{
+};
 
 struct MoveCheckInfo
 {
