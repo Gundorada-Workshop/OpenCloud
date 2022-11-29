@@ -12,14 +12,16 @@
 set_log_channel("mg_frame");
 
 // 00376C70
-s32 mgScreenWidth{0};
+s32 mgScreenWidth{ 0 };
+
 // 00376C74
-s32 mgScreenHeight{0};
+s32 mgScreenHeight{ 0 };
+
 // 00380DA0
-static mgCFrameAttr dmy_attr{};
+static mgCFrameAttr dmy_attr{ };
 
 // 00133740
-int mgCVisual::Iam()
+sint mgCVisual::Iam()
 {
   log_trace("mgCVisual::{}()", __func__);
 
@@ -27,7 +29,7 @@ int mgCVisual::Iam()
 }
 
 // 00134300
-int mgCVisual::GetMaterialNum()
+sint mgCVisual::GetMaterialNum()
 {
   log_trace("mgCVisual::{}()", __func__);
 
@@ -35,7 +37,7 @@ int mgCVisual::GetMaterialNum()
 }
 
 // 00134310
-_UNKNOWNPOINTER mgCVisual::GetpMaterial()
+unkptr mgCVisual::GetpMaterial()
 {
   log_trace("mgCVisual::{}()", __func__);
 
@@ -43,7 +45,7 @@ _UNKNOWNPOINTER mgCVisual::GetpMaterial()
 }
 
 // 00134320
-_UNKNOWNPOINTER mgCVisual::GetMaterial(ssize index)
+unkptr mgCVisual::GetMaterial(ssize index)
 {
   log_trace("mgCVisual::{}({})", __func__, index);
 
@@ -67,14 +69,14 @@ bool mgCVisual::CreateBBox(const vec4& v1, const vec4& v2, const matrix4& m1)
 }
 
 // 00134340
-_UNKNOWNPOINTER mgCVisual::CreateRenderInfoPacket(_UNKNOWNPOINTER p, matrix4& m1, mgRENDER_INFO& render_info)
+unkptr mgCVisual::CreateRenderInfoPacket(unkptr p, matrix4& m1, mgRENDER_INFO& render_info)
 {
   log_trace("mgCVisual::{}({}, {}, {})", __func__, fmt::ptr(p), fmt::ptr(&m1), fmt::ptr(&render_info));
 
   return nullptr;
 }
 // 001342F0
-_UNKNOWNPOINTER mgCVisual::CreatePacket(mgCMemory& mem1, mgCMemory& mem2)
+unkptr mgCVisual::CreatePacket(mgCMemory& mem1, mgCMemory& mem2)
 {
   log_trace("mgCVisual::{}({}, {})", __func__, fmt::ptr(&mem1), fmt::ptr(&mem2));
 
@@ -82,7 +84,7 @@ _UNKNOWNPOINTER mgCVisual::CreatePacket(mgCMemory& mem1, mgCMemory& mem2)
 }
 
 // 00134360
-_UNKNOWNPOINTER mgCVisual::Draw(matrix4& m1, mgCDrawManager& draw_man)
+unkptr mgCVisual::Draw(matrix4& m1, mgCDrawManager& draw_man)
 {
   log_trace("mgCVisual::{}({}, {})", __func__, fmt::ptr(&m1), fmt::ptr(&draw_man));
 
@@ -90,7 +92,7 @@ _UNKNOWNPOINTER mgCVisual::Draw(matrix4& m1, mgCDrawManager& draw_man)
 }
 
 // 00134350
-_UNKNOWNPOINTER mgCVisual::Draw(_UNKNOWNPOINTER p, matrix4& m1, mgCDrawManager& draw_man)
+unkptr mgCVisual::Draw(unkptr p, matrix4& m1, mgCDrawManager& draw_man)
 {
   log_trace("mgCVisual::{}({}, {}, {})", __func__, fmt::ptr(p), fmt::ptr(&m1), fmt::ptr(&draw_man));
 
@@ -110,7 +112,7 @@ mgCVisual::mgCVisual()
 }
 
 // 00134280
-int mgCVisualMDT::Iam()
+sint mgCVisualMDT::Iam()
 {
   log_trace("mgCVisualMDT::{}()", __func__);
 
@@ -118,7 +120,7 @@ int mgCVisualMDT::Iam()
 }
 
 // 00134290
-int mgCVisualMDT::GetMaterialNum()
+sint mgCVisualMDT::GetMaterialNum()
 {
   log_trace("mgCVisualMDT::{}()", __func__);
 
@@ -126,7 +128,7 @@ int mgCVisualMDT::GetMaterialNum()
 }
 
 // 001342A0
-_UNKNOWNPOINTER mgCVisualMDT::GetpMaterial()
+unkptr mgCVisualMDT::GetpMaterial()
 {
   log_trace("mgCVisualMDT::{}()", __func__);
 
@@ -134,7 +136,7 @@ _UNKNOWNPOINTER mgCVisualMDT::GetpMaterial()
 }
 
 // 0013EF60
-_UNKNOWNPOINTER mgCVisualMDT::GetMaterial(ssize index)
+unkptr mgCVisualMDT::GetMaterial(ssize index)
 {
   log_trace("mgCVisualMDT::{}({})", __func__, index);
 
@@ -166,7 +168,7 @@ bool mgCVisualMDT::CreateBBox(vec4& v1, vec4& v2, matrix4& m1)
 }
 
 // 001404D0
-_UNKNOWNPOINTER mgCVisualMDT::CreateRenderInfoPacket(_UNKNOWNPOINTER p, matrix4& m1, mgRENDER_INFO& render_info)
+unkptr mgCVisualMDT::CreateRenderInfoPacket(unkptr p, matrix4& m1, mgRENDER_INFO& render_info)
 {
   log_trace("mgCVisualMDT::{}({}, {}, {})", __func__, fmt::ptr(p), fmt::ptr(&m1), fmt::ptr(&render_info));
 
@@ -175,7 +177,7 @@ _UNKNOWNPOINTER mgCVisualMDT::CreateRenderInfoPacket(_UNKNOWNPOINTER p, matrix4&
 }
 
 // 001342B0
-_UNKNOWNPOINTER mgCVisualMDT::Draw(matrix4& m1, mgCDrawManager& draw_man)
+unkptr mgCVisualMDT::Draw(matrix4& m1, mgCDrawManager& draw_man)
 {
   log_trace("mgCVisualMDT::{}({}, {})", __func__, fmt::ptr(&m1), fmt::ptr(&draw_man));
 
@@ -183,7 +185,7 @@ _UNKNOWNPOINTER mgCVisualMDT::Draw(matrix4& m1, mgCDrawManager& draw_man)
 }
 
 // 0013F4E0
-_UNKNOWNPOINTER mgCVisualMDT::Draw(_UNKNOWNPOINTER p, matrix4& m1, mgCDrawManager& draw_man)
+unkptr mgCVisualMDT::Draw(unkptr p, matrix4& m1, mgCDrawManager& draw_man)
 {
   log_trace("mgCVisualMDT::{}({}, {}, {})", __func__, fmt::ptr(p), fmt::ptr(&m1), fmt::ptr(&draw_man));
 
@@ -211,7 +213,7 @@ mgCVisualMDT::mgCVisualMDT()
 }
 
 // 0013F6A0
-_DWORD mgCVisualMDT::CreatePacket(mgCDrawManager& draw_man)
+unk32 mgCVisualMDT::CreatePacket(mgCDrawManager& draw_man)
 {
   log_trace("mgCVisualMDT::{}({})", __func__, fmt::ptr(&draw_man));
 
@@ -220,7 +222,7 @@ _DWORD mgCVisualMDT::CreatePacket(mgCDrawManager& draw_man)
 }
 
 // 0013FF60
-_DWORD mgCVisualMDT::CreateFacePacket(_UNKNOWNPOINTER p, mgCFace& face)
+unk32 mgCVisualMDT::CreateFacePacket(unkptr p, mgCFace& face)
 {
   log_trace("mgCVisualMDT::{}({}, {})", __func__, fmt::ptr(p), fmt::ptr(&face));
 
@@ -238,7 +240,7 @@ mgCFace* mgCVisualMDT::CreateFace(FACES_ID& faces_id, mgCMemory& mem1, mgCMemory
 }
 
 // 00140BE0
-_UNKNOWNPOINTER mgCVisualMDT::CreateExtRenderInfoPacket(_UNKNOWNPOINTER p, matrix4& m1, mgRENDER_INFO& render_info)
+unkptr mgCVisualMDT::CreateExtRenderInfoPacket(unkptr p, matrix4& m1, mgRENDER_INFO& render_info)
 {
   log_trace("mgCVisualMDT::{}({}, {}, {})", __func__, fmt::ptr(p), fmt::ptr(&m1), fmt::ptr(&render_info));
 
@@ -271,7 +273,7 @@ mgCDrawPrim::mgCDrawPrim(mgCMemory* memory, sceVif1Packet* vif1_packet)
 }
 
 // 001344A0
-void mgCDrawPrim::Begin(int i)
+void mgCDrawPrim::Begin(sint i)
 {
   log_trace("mgCDrawPrim::{}({})", __func__, i);
 
@@ -377,7 +379,7 @@ void mgCDrawPrim::Data(glm::ivec4 v)
 }
 
 // 00134AE0
-void mgCDrawPrim::DirectData(int i)
+void mgCDrawPrim::DirectData(sint i)
 {
   log_trace("mgCDrawPrim::{}({})", __func__, i);
 
@@ -385,7 +387,7 @@ void mgCDrawPrim::DirectData(int i)
 }
 
 // 00134B20
-void mgCDrawPrim::Vertex(int x, int y, int z)
+void mgCDrawPrim::Vertex(sint x, sint y, sint z)
 {
   log_trace("mgCDrawPrim::{}({}, {}, {})", __func__, x, y, z);
 
@@ -409,7 +411,7 @@ void mgCDrawPrim::Vertex(glm::vec3 v)
 }
 
 // 00134BB0
-void mgCDrawPrim::Vertex4(int x, int y, int z)
+void mgCDrawPrim::Vertex4(sint x, sint y, sint z)
 {
   log_trace("mgCDrawPrim::{}({}, {}, {})", __func__, x, y, z);
 
@@ -449,7 +451,7 @@ void mgCDrawPrim::Color(vec4 rgba)
 }
 
 // 00134D30
-void mgCDrawPrim::TextureCrd4(int s, int t)
+void mgCDrawPrim::TextureCrd4(sint s, sint t)
 {
   log_trace("mgCDrawPrim::{}({}, {})", __func__, s, t);
 
@@ -489,7 +491,7 @@ void mgCDrawPrim::AlphaBlendEnable(bool value)
 }
 
 // 00134EE0
-void mgCDrawPrim::AlphaBlend(int alpha_mode)
+void mgCDrawPrim::AlphaBlend(sint alpha_mode)
 {
   log_trace("mgCDrawPrim::{}({})", __func__, alpha_mode);
 
@@ -505,7 +507,7 @@ void mgCDrawPrim::AlphaTestEnable(bool value)
 }
 
 // 00134EE0
-void mgCDrawPrim::AlphaTest(int i1, int i2)
+void mgCDrawPrim::AlphaTest(sint i1, sint i2)
 {
   log_trace("mgCDrawPrim::{}({}, {})", __func__, i1, i2);
 
@@ -513,7 +515,7 @@ void mgCDrawPrim::AlphaTest(int i1, int i2)
 }
 
 // 00134F50
-void mgCDrawPrim::DAlphaTest(int i1, int i2)
+void mgCDrawPrim::DAlphaTest(sint i1, sint i2)
 {
   log_trace("mgCDrawPrim::{}({}, {})", __func__, i1, i2);
 
@@ -529,7 +531,7 @@ void mgCDrawPrim::DepthTestEnable(bool value)
 }
 
 // 00134FF0
-void mgCDrawPrim::DepthTest(int i)
+void mgCDrawPrim::DepthTest(sint i)
 {
   log_trace("mgCDrawPrim::{}({})", __func__, i);
 
@@ -537,7 +539,7 @@ void mgCDrawPrim::DepthTest(int i)
 }
 
 // 00135090
-void mgCDrawPrim::ZMask(int zmask)
+void mgCDrawPrim::ZMask(sint zmask)
 {
   log_trace("mgCDrawPrim::{}({})", __func__, zmask);
 
@@ -585,7 +587,7 @@ void mgCDrawPrim::FogEnable(bool value)
 }
 
 // 00135130
-void mgCDrawPrim::Coord(int i)
+void mgCDrawPrim::Coord(sint i)
 {
   log_trace("mgCDrawPrim::{}({})", __func__, i);
 
@@ -726,7 +728,7 @@ vec4 mgCObject::GetScale()
 }
 
 // 00138840
-_UNKNOWNPOINTER mgCObject::Draw()
+unkptr mgCObject::Draw()
 {
   log_trace("mgCObject::Draw()");
 
@@ -734,7 +736,7 @@ _UNKNOWNPOINTER mgCObject::Draw()
 }
 
 // 00138830
-_UNKNOWNPOINTER mgCObject::DrawDirect()
+unkptr mgCObject::DrawDirect()
 {
   log_trace("mgCObject::DrawDirect()");
 
@@ -775,7 +777,7 @@ void mgCFrame::Initialize()
 }
 
 // 001387F0
-_UNKNOWNPOINTER mgCFrame::Draw()
+unkptr mgCFrame::Draw()
 {
   log_trace("mgCFrame::Draw()");
 
@@ -793,7 +795,7 @@ mgVu0FBOX mgCFrame::GetWorldBBox()
 }
 
 // 00137E10
-void mgCFrame::Draw(_UNKNOWNPOINTER p)
+void mgCFrame::Draw(unkptr p)
 {
   log_trace("mgCFrame::Draw({})", fmt::ptr(p));
 
@@ -858,7 +860,7 @@ void mgCFrame::SetBBox(const vec4& corner1, const vec4& corner2)
   */
   vec4* bounds[2] = { &m_bound_info->m_box.corners[1], &m_bound_info->m_box.corners[0]};
 
-  for (int i = 0; i < m_bound_info->m_box8.vertices.size(); ++i)
+  for (usize i = 0; i < m_bound_info->m_box8.vertices.size(); ++i)
   {
     vec4* bound1 = bounds[(i & 1) != 0];
     vec4* bound2 = bounds[(i & 2) != 0];
@@ -1298,7 +1300,7 @@ u8 mgCDrawEnv::GetAlphaMacroID()
 }
 
 // 00138A40
-void mgCDrawEnv::SetZBuf(int i)
+void mgCDrawEnv::SetZBuf(sint i)
 {
   log_trace("mgCDrawEnv::{}({})", __func__, i);
 

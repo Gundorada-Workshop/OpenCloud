@@ -13,12 +13,29 @@
 // ~ 00131B60 - 00139900
 
 // THIS FILE TODO
-class mgCMDTBuilder {};
-class mgCVisualFixMDT {};
-class mgMaterial {};
-class mgCShadowMDT {};
-class mgCSprite {};
-class mgCVisualPrim {};
+class mgCMDTBuilder
+{
+};
+
+class mgCVisualFixMDT
+{
+};
+
+class mgMaterial
+{
+};
+
+class mgCShadowMDT
+{
+};
+
+class mgCSprite
+{
+};
+
+class mgCVisualPrim
+{
+};
 
 struct mgRENDER_INFO;
 class mgCDrawManager;
@@ -35,10 +52,13 @@ struct mgRect
 public:
   // 0
   T m_ax;
+
   // 4
   T m_ay;
+
   // 8
   T m_bx;
+
   // C
   T m_by;
 
@@ -77,18 +97,14 @@ public:
 
 struct FACES_ID
 {
-
 };
 
 struct MDT_HEADER
 {
-
 };
 
 class mgCFace
 {
-public:
-
 };
 
 class mgCVisual
@@ -101,42 +117,58 @@ public:
   // 0  0
   // 4  0
   // 8  00133740
-  virtual int Iam();
+  virtual sint Iam();
+
   // C  00134300
-  virtual int GetMaterialNum();
+  virtual sint GetMaterialNum();
+
   // 10 00134310
-  virtual _UNKNOWNPOINTER GetpMaterial();
+  virtual unkptr GetpMaterial();
+
   // 14 00134320
-  virtual _UNKNOWNPOINTER GetMaterial(ssize index);
+  virtual unkptr GetMaterial(ssize index);
+
   // 18 00133750 (NOTE: this class actually just returns its own reference :( )
   virtual mgCVisual* Copy(mgCMemory& stack);
+
   // 1C 00134330
   virtual bool CreateBBox(const vec4& v1, const vec4& v2, const matrix4& m1);
+
   // 20 00134340
-  virtual _UNKNOWNPOINTER CreateRenderInfoPacket(_UNKNOWNPOINTER p, matrix4& m1, mgRENDER_INFO& render_info);
+  virtual unkptr CreateRenderInfoPacket(unkptr p, matrix4& m1, mgRENDER_INFO& render_info);
+
   // 24 001342F0
-  virtual _UNKNOWNPOINTER CreatePacket(mgCMemory& mem1, mgCMemory& mem2);
+  virtual unkptr CreatePacket(mgCMemory& mem1, mgCMemory& mem2);
+
   // 28 00134360
-  virtual _UNKNOWNPOINTER Draw(matrix4& m1, mgCDrawManager& draw_man);
+  virtual unkptr Draw(matrix4& m1, mgCDrawManager& draw_man);
+
   // 2C 00134350
-  virtual _UNKNOWNPOINTER Draw(_UNKNOWNPOINTER p, matrix4& m1, mgCDrawManager& draw_man);
+  virtual unkptr Draw(unkptr p, matrix4& m1, mgCDrawManager& draw_man);
+
   // 30 00132DC0
   //virtual void Initialize();
 
   // 0
-  _DWORD m_unk_field_0;
+  unk32 m_unk_field_0;
+
   // 4
-  _DWORD m_unk_field_4;
+  unk32 m_unk_field_4;
+
   // 8
-  _DWORD m_unk_field_8;
+  unk32 m_unk_field_8;
+
   // C
-  _DWORD m_unk_field_C;
+  unk32 m_unk_field_C;
+
   // 10
   s32 m_unk_field_10;
+
   // 14
   s32 m_unk_field_14;
+
   // 18
-  _DWORD m_unk_field_18;
+  unk32 m_unk_field_18;
   
   // SIZE 0x20 (vtable @ 0x1C)
 };
@@ -151,58 +183,80 @@ public:
   // 0  0
   // 4  0
   // 8  00134280
-  virtual int Iam();
+  virtual sint Iam();
+
   // C  00134290
-  virtual int GetMaterialNum();
+  virtual sint GetMaterialNum();
+
   // 10 001342A0
-  virtual _UNKNOWNPOINTER GetpMaterial();
+  virtual unkptr GetpMaterial();
+
   // 14 0013EF60
-  virtual _UNKNOWNPOINTER GetMaterial(ssize index);
+  virtual unkptr GetMaterial(ssize index);
+
   // 18 00133750 (mgCVisual::Copy)
   // 1C 0013EFC0
   virtual bool CreateBBox(vec4& v1, vec4& v2, matrix4& m1);
+
   // 20 001404D0
-  virtual _UNKNOWNPOINTER CreateRenderInfoPacket(_UNKNOWNPOINTER p, matrix4& m1, mgRENDER_INFO& render_info);
+  virtual unkptr CreateRenderInfoPacket(unkptr p, matrix4& m1, mgRENDER_INFO& render_info);
+
   // 24 001342F0 (mgCVisual::CreatePacket)
   // 28 001342B0
-  virtual _UNKNOWNPOINTER Draw(matrix4& m1, mgCDrawManager& draw_man);
+  virtual unkptr Draw(matrix4& m1, mgCDrawManager& draw_man);
+
   // 2C 0013F4E0
-  virtual _UNKNOWNPOINTER Draw(_UNKNOWNPOINTER p, matrix4& m1, mgCDrawManager& draw_man);
+  virtual unkptr Draw(unkptr p, matrix4& m1, mgCDrawManager& draw_man);
+
   // 30 0013EAC0
   //virtual void Initialize();
   // 34 0013F6A0
-  virtual _DWORD CreatePacket(mgCDrawManager& draw_man);
+  virtual unk32 CreatePacket(mgCDrawManager& draw_man);
+
   // 38 0013FF60
-  virtual _DWORD CreateFacePacket(_UNKNOWNPOINTER p, mgCFace& face);
+  virtual unk32 CreateFacePacket(unkptr p, mgCFace& face);
+
   // 3C 0013F010
   virtual mgCFace* CreateFace(FACES_ID& faces_id, mgCMemory& mem1, mgCMemory& mem2, mgCFace&& faces);
+
   // 40 00140BE0
-  virtual _UNKNOWNPOINTER CreateExtRenderInfoPacket(_UNKNOWNPOINTER p, matrix4& m1, mgRENDER_INFO& render_info);
+  virtual unkptr CreateExtRenderInfoPacket(unkptr p, matrix4& m1, mgRENDER_INFO& render_info);
+
   // 44 0013F290
   virtual bool DataAssignMT(MDT_HEADER* mdt_header, mgCMemory& stack, mgCTextureManager* texture_man);
 
   // 20
   s32 m_unk_field_20;
+
   // 24
-  _DWORD m_unk_field_24;
+  unk32 m_unk_field_24;
+
   // 28
-  _DWORD m_unk_field_28;
+  unk32 m_unk_field_28;
+
   // 2C
-  _DWORD m_unk_field_2C;
+  unk32 m_unk_field_2C;
+
   // 30
   matrix4* m_unk_field_30;
+
   // 34
-  _DWORD m_unk_field_34;
+  unk32 m_unk_field_34;
+
   // 38
-  _DWORD m_unk_field_38;
+  unk32 m_unk_field_38;
+
   // 3C
-  _DWORD m_unk_field_3C;
+  unk32 m_unk_field_3C;
+
   // 40
   s32 m_material_num;
+
   // 44
-  _UNKNOWNPOINTER m_p_material;
+  unkptr m_p_material;
+
   // 48
-  _DWORD m_unk_field_48;
+  unk32 m_unk_field_48;
 
   // SIZE 0x4C
 };
@@ -213,15 +267,15 @@ public:
   // 0013BCB0
   mgC3DSprite();
 
-  _DWORD m_unk_field_20;
+  unk32 m_unk_field_20;
 };
 
 struct mgPOINT_LIGHT
 {
   vec4 field_0;
   vec4 field_10;
-  float field_20;
-  float field_24;
+  f32 field_20;
+  f32 field_24;
 };
 
 class mgCDrawManager 
@@ -231,13 +285,13 @@ public:
   mgCDrawManager();
 
   // 64
-  _UNKNOWNPOINTER m_unk_field_64;
+  unkptr m_unk_field_64;
   // 68
   u32 m_unk_field_68;
   // 6C
-  _UNKNOWN m_unk_field_6C;
+  unk m_unk_field_6C;
   // 70
-  _UNKNOWN m_unk_field_70;
+  unk m_unk_field_70;
 };
 
 class mgCObject
@@ -245,30 +299,43 @@ class mgCObject
 public:
   // 8  00138810
   virtual void ChangeParam();
+
   // C  00138820
   virtual void UseParam();
+
   // 10 00136190
   virtual void SetPosition(const vec4&);
+
   // 14 00136220
-  virtual void SetPosition(float x, float y, float z);
+  virtual void SetPosition(f32 x, f32 y, f32 z);
+
   // 18 00136260
   virtual vec4 GetPosition();
+
   // 1C 00136270
   virtual void SetRotation(const vec4&);
+
   // 20 001362F0
-  virtual void SetRotation(float x, float y, float z);
+  virtual void SetRotation(f32 x, f32 y, f32 z);
+
   // 24 00136330
   virtual vec4 GetRotation();
+
   // 28 00136340
   virtual void SetScale(const vec4&);
+
   // 2C 001363C0
-  virtual void SetScale(float x, float y, float z);
+  virtual void SetScale(f32 x, f32 y, f32 z);
+
   // 30 00136400
   virtual vec4 GetScale();
+
   // 34 00138840
-  virtual _UNKNOWNPOINTER Draw();
+  virtual unkptr Draw();
+
   // 38 00138830
-  virtual _UNKNOWNPOINTER DrawDirect();
+  virtual unkptr DrawDirect();
+
   // 3C 00136410
   virtual void Initialize();
 
@@ -277,19 +344,26 @@ public:
 
   // (vtable @ 0x0)
   // 4
-  _DWORD m_unk_field_4;
+  unk32 m_unk_field_4;
+
   // 8
-  _DWORD m_unk_field_8;
+  unk32 m_unk_field_8;
+
   // C
-  _DWORD m_unk_field_C;
+  unk32 m_unk_field_C;
+
   // 10
   vec4 m_position;
+
   // 20
   vec4 m_rotation;
+
   // 30
   vec4 m_scale;
+
   // 40
   bool m_unk_field_40;
+
   // 44
   bool m_unk_field_44;
 
@@ -304,7 +378,7 @@ public:
 
   // ?
 
-  float m_unk_field_20{ 100.0f };
+  f32 m_unk_field_20{ 100.0f };
 
   // ?
 
@@ -314,45 +388,53 @@ public:
   // ?
 
   // 3C
-  _DWORD m_unk_field_3C{ 0 };
+  unk32 m_unk_field_3C{ 0 };
 
   // ?
 
   // 44
-  float m_unk_field_44{ 1.0f };
+  f32 m_unk_field_44{ 1.0f };
 
   // ?
 
   // 50
   // probably a vec4 to be honest
-  _DWORD m_unk_field_50{ 0 };
+  unk32 m_unk_field_50{ 0 };
+
   // 54
-  float m_unk_field_54{ 1.0f };
+  f32 m_unk_field_54{ 1.0f };
+
   // 58
-  _DWORD m_unk_field_58{ 0 };
+  unk32 m_unk_field_58{ 0 };
+
   // 5C
-  _DWORD m_unk_field_5C{ 0 };
+  unk32 m_unk_field_5C{ 0 };
 
   // ?
 
   // 70
   // also probably a vec4
-  float m_unk_field_70{ 128.0f };
+  f32 m_unk_field_70{ 128.0f };
+
   // 74
-  float m_unk_field_74{ 128.0f };
+  f32 m_unk_field_74{ 128.0f };
+
   // 78
-  float m_unk_field_78{ 128.0f };
+  f32 m_unk_field_78{ 128.0f };
+
   // 7C
-  float m_unk_field_7C{ 128.0f };
+  f32 m_unk_field_7C{ 128.0f };
+
   // 80
   s32 m_unk_field_80{ 1 };
+
   // 84
-  _DWORD m_unk_field_84{ 0 };
+  unk32 m_unk_field_84{ 0 };
   
   // ?
 
   // 8C
-  _DWORD m_unk_field_8C{ 0 };
+  unk32 m_unk_field_8C{ 0 };
 
   // SIZE 0x90
 };
@@ -372,21 +454,27 @@ public:
   {
     // 0
     mgVu0FBOX8 m_box8;
+
     // 80
     mgVu0FBOX m_box;
+
     // A0
     // NOTE: X, Y, Z is origin; W is radius
     vec4 m_sphere;
   };
 
   // 34 001387F0
-  virtual _UNKNOWNPOINTER Draw();
+  virtual unkptr Draw();
+
   // 3C 00136520
   virtual void Initialize();
+
   // 40 00136890
   virtual mgVu0FBOX GetWorldBBox();
+
   // 44 00137E10
-  virtual void Draw(_UNKNOWNPOINTER p);
+  virtual void Draw(unkptr p);
+
   // 48 00132D90
   virtual void SetVisual(mgCVisual* visual);
 
@@ -398,20 +486,23 @@ public:
 
   // 001365F0
   void SetBBox(const vec4& corner1, const vec4& corner2);
+
   void SetBBox(const mgVu0FBOX& box);
 
   // 001366F0
   void GetBBox(vec4& corner1, vec4& corner2) const;
+
   void GetBBox(mgVu0FBOX& box) const;
 
   // 00136760
-  void SetBSphere(vec4& origin, float radius);
+  void SetBSphere(vec4& origin, f32 radius);
 
   // 001367B0
   mgCFrame* GetFrame(ssize i);
 
   // 00136800
   bool RemakeBBox(const vec4& corner1, const vec4& corner2);
+
   bool RemakeBBox(const mgVu0FBOX& box);
 
   // 00136A80
@@ -435,7 +526,7 @@ public:
   void ClearChildFlag();
 
   // 00136E40
-  matrix4 GetBBoardMatrix(int i1, mgRENDER_INFO& render_info);
+  matrix4 GetBBoardMatrix(sint i1, mgRENDER_INFO& render_info);
 
   // 00137030
   matrix4 GetLWMatrix();
@@ -465,16 +556,16 @@ public:
   vec4 GetWorldDir(vec4& v1);
 
   // 00137930
-  void SetRotType(int i1);
+  void SetRotType(sint i1);
 
   // 00137950
-  void SetAttrParam(mgCFrameAttr& attr, int i1, int i2);
+  void SetAttrParam(mgCFrameAttr& attr, sint i1, sint i2);
 
   // 00137D30
-  void SetAttrParamObjAlpha(float f1, int i1);
+  void SetAttrParamObjAlpha(f32 f1, sint i1);
 
   // 00137DA0
-  void SetAttrParamDraw(int i1, int i2);
+  void SetAttrParamDraw(sint i1, sint i2);
 
   // 001381C0
   mgVu0FBOX GetDrawRect(mgCDrawManager* manager);
@@ -486,35 +577,49 @@ public:
   mgCFrame(mgCFrame& other);
 
   // 50
-  std::string m_name{};
+  std::string m_name{ };
+
   // 54
   mgCFrame* m_parent{ nullptr };
+
   // 58
   mgCFrame* m_child{ nullptr };
+
   // 5C
   mgCFrame* m_next_brother{ nullptr };
+
   // 60
   mgCFrame* m_prev_brother{ nullptr };
+
   // 64
   ssize m_unk_field_64{ 0 };
+
   // 68
   mgCFrame** m_unk_field_68{ nullptr };
+
   // 6C
-  _DWORD m_unk_field_6C{ 0 };
+  unk32 m_unk_field_6C{ 0 };
+
   // 70
   matrix4 m_lw_matrix{ 1.0f };
+
   // B0
   matrix4 m_trans_matrix{ 1.0f };
+
   // F0
   BoundInfo* m_bound_info{ nullptr };
+
   // F4
-  _DWORD m_unk_field_F4{ 0 };
+  unk32 m_unk_field_F4{ 0 };
+
   // F8
   mgCVisual* m_visual{ nullptr };
+
   // FC
-  _DWORD m_unk_field_FC{ 0 };
+  unk32 m_unk_field_FC{ 0 };
+
   // 100
-  _DWORD m_unk_field_100{ 0 };
+  unk32 m_unk_field_100{ 0 };
 
   // SIZE 0x104 (?)
 private:
@@ -537,27 +642,34 @@ public:
   u8 GetAlphaMacroID(void);
 
   // 00138A40
-  void SetZBuf(int i);
+  void SetZBuf(sint i);
 
   // 00138850
   mgCDrawEnv(bool b);
+
   mgCDrawEnv();
 
   // 0
   u64 m_unk_field_0;
+
   // 8
   u64 m_unk_field_8;
+
   // 10
   u64 m_unk_field_10;
+
   // 18
   u64 m_unk_field_18;
   
   // 24
   u8 m_unk_field_24;
+
   // 28
   u64 m_unk_field_28;
+
   // 30
   u64 m_unk_field_30;
+
   // 38
   u64 m_unk_field_38;
 };
@@ -571,10 +683,11 @@ public:
 
   // 00134410
   mgCDrawPrim(mgCMemory* memory, sceVif1Packet* vif1_packet);
+
   mgCDrawPrim() = default;
 
   // 001344a0
-  void Begin(int i);
+  void Begin(sint i);
 
   // 00134530
   void BeginDma();
@@ -616,7 +729,7 @@ public:
   void DirectData(sint);
 
   // 00134b20
-  // note: x and y are fixed point (>> 4)
+  // note: x and y are fixed posint (>> 4)
   void Vertex(sint x, sint y, sint z);
 
   // 00134b30
@@ -644,7 +757,7 @@ public:
   void Color(vec4 v);
 
   // 00134d30
-  // fixed point (<< 4)
+  // fixed posint (<< 4)
   void TextureCrd4(sint s, sint t);
 
   // 00134d70
@@ -703,30 +816,39 @@ public:
   void GetOffset(sint*, sint*);
 
   // 0
-  _DWORD m_unk_field_0{};
+  unk32 m_unk_field_0{ };
+
   // 4
-  _DWORD m_unk_field_4{};
+  unk32 m_unk_field_4{ };
+
   // 8
-  _DWORD m_unk_field_8{};
+  unk32 m_unk_field_8{ };
+
   // 10
   mgCDrawEnv m_unk_field_10{};
+
   // 50
-  _DWORD m_unk_field_50{ 0x100 };
+  unk32 m_unk_field_50{ 0x100 };
+
   // 58
-  mgCTexture m_unk_field_58{};
+  mgCTexture m_unk_field_58{ };
+
   // C8
   bool m_unk_field_C8{ true };
+
   // CC
   bool m_unk_field_CC{ true };
+
   // DO
   bool m_unk_field_D0{ true };
 
   // ?
 
   // F8
-  float m_unk_field_F8{ 1.0f };
+  f32 m_unk_field_F8{ 1.0f };
+
   // FC
-  _DWORD m_unk_field_FC{};
+  unk32 m_unk_field_FC{ };
 
   // SIZE 0x100
 };
@@ -735,7 +857,7 @@ struct mgRENDER_INFO
 {
 public:
   // 00138B00
-  void SetRenderInfo(float f1, int i1, int i2, float f2, float f3, int i3);
+  void SetRenderInfo(f32 f1, sint i1, sint i2, f32 f2, f32 f3, sint i3);
 
   // 00138FC0
   void SetViewMatrix(matrix4& m1, vec4& v1);
@@ -763,7 +885,7 @@ public:
   void GetLight(matrix4& m1, matrix4& m2);
 
   // 00139400
-  void SetLight(int i1, vec4& v1, vec4& v2);
+  void SetLight(sint i1, vec4& v1, vec4& v2);
 
   // 001394B0
   void SetAmbient(vec4& v1);
@@ -772,13 +894,13 @@ public:
   void GetAmbient(vec4& v1);
 
   // 00139510
-  void SetPlight(int i1, vec4& v1, vec4& v2, float f1, float f2);
+  void SetPlight(sint i1, vec4& v1, vec4& v2, f32 f1, f32 f2);
 
   // 00139590
-  void SetPlight(int i1, mgPOINT_LIGHT& pl);
+  void SetPlight(sint i1, mgPOINT_LIGHT& pl);
 
   // 00139700
-  void GetPlight(int i1, mgPOINT_LIGHT& pl);
+  void GetPlight(sint i1, mgPOINT_LIGHT& pl);
 
   // 001397C0
   void FogEnable(bool enabled);
@@ -793,7 +915,7 @@ public:
   bool GetPlightEnable(void);
 
   // 00139800
-  void SetFogParam(float f1, float f2, u8 i1, u8 i2, u8 i3, float f3, float f4);
+  void SetFogParam(f32 f1, f32 f2, u8 i1, u8 i2, u8 i3, f32 f3, f32 f4);
 
   // 3A0
   vec4 camera_pos{0};
@@ -827,10 +949,10 @@ bool mgInsideScreen(vec4& v1, vec4& v2);
 bool mgInsideScreen(matrix4& m1, matrix4& m2, vec4& v1, vec4& v2);
 
 // 001375C0
-int StrCmp(char* s1, char* s2);
+sint StrCmp(char* s1, char* s2);
 
 // 001376C0
-int mgFrameNameComp(char* s1, char* s2);
+sint mgFrameNameComp(char* s1, char* s2);
 
 // 001398B0
 void MG_ADDRESS_CHECK(void*, char*);
