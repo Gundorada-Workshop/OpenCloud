@@ -12,7 +12,7 @@ set_log_channel("mg_camera");
 bool mgCCamera::StopCamera = false;
 
 // 00131630
-mgCCamera::mgCCamera(float speed)
+mgCCamera::mgCCamera(f32 speed)
 {
   log_trace("mgCCamera::mgCCamera({})", speed);
 
@@ -25,6 +25,7 @@ mgCCamera::mgCCamera(float speed)
   m_rotation_speed = speed;
   m_unk_field_44 = 0;
   m_roll = 0.0f;
+
   // how close a pos/dir component has to get to next pos/dir in order
   // to snap to the final position.
   m_step_epsilon = 0.1f;
@@ -40,7 +41,7 @@ mgCCamera::mgCCamera(float speed)
 }
 
 // 00131110
-void mgCCamera::Step(int steps)
+void mgCCamera::Step(sint steps)
 {
   log_trace("mgCCamera::Step({})", steps);
 
@@ -66,9 +67,9 @@ void mgCCamera::Step(int steps)
     m_reference = m_next_reference;
   }
 
-  for (int i = 0; i < steps; ++i)
+  for (sint i = 0; i < steps; ++i)
   {
-    float one_frame = GAME_DT * GAME_FPS;
+    f32 one_frame = GAME_DT * GAME_FPS;
     if (m_position_speed <= one_frame && m_rotation_speed <= one_frame)
     {
       // We snap to our new target in one frame, we're done here.
@@ -77,19 +78,19 @@ void mgCCamera::Step(int steps)
       break;
     }
 
-    for (int j = 0; j < 3; ++j)
+    for (usize j = 0; j < 3; ++j)
     {
       // Adjust our position
       // NOTE: no std::max for pos_speed in original game
-      float pos_speed = std::max(m_position_speed, 1.0f);
+      f32 pos_speed = std::max(m_position_speed, 1.0f);
       m_position[j] += (m_next_position[j] - m_position[j]) / pos_speed * one_frame;
 
       // Adjust our direction
-      float rot_speed = std::max(m_rotation_speed, 1.0f);
+      f32 rot_speed = std::max(m_rotation_speed, 1.0f);
       m_reference[j] += (m_next_reference[j] - m_reference[j]) / pos_speed * one_frame;
 
       // Check to see if are close enough to stop adjusting this component
-      float step_epsilon = m_step_epsilon * one_frame;
+      f32 step_epsilon = m_step_epsilon * one_frame;
       // Position
       if (std::fabsf(m_position[j] - m_next_position[j]) < step_epsilon)
       {
@@ -105,9 +106,9 @@ void mgCCamera::Step(int steps)
   }
 
   // Record our pitch and yaw (these probably aren't pitch and yaw?)
-  glm::vec3 direction = GetDir();
+  vec3 direction = GetDir();
 
-  glm::vec3 direction_normal = glm::normalize(glm::vec3{ direction.x, 0.0f, direction.z });
+  vec3 direction_normal = glm::normalize(vec3{ direction.x, 0.0f, direction.z });
   m_angleH = atan2f(direction_normal.x, direction_normal.z);
   m_angleV = -atan2f(direction.y, sqrtf(powf(direction.x, 2) + powf(direction.z, 2)));
 }
@@ -138,7 +139,7 @@ void mgCCamera::Stay()
 }
 
 // 001314D0
-glm::mat4 mgCCamera::GetCameraMatrix() const
+matrix4 mgCCamera::GetCameraMatrix() const
 {
   log_trace("mgCCamera::GetCameraMatrix()");
 
@@ -146,12 +147,12 @@ glm::mat4 mgCCamera::GetCameraMatrix() const
   return glm::lookAt(
     m_position,
     m_reference,
-    glm::vec3(0, 1, 0)
+    vec3(0, 1, 0)
   );
 }
 
 // 00131B50
-int mgCCamera::Iam() const
+sint mgCCamera::Iam() const
 {
   log_trace("mgCCamera::Iam()");
 
@@ -160,10 +161,10 @@ int mgCCamera::Iam() const
 
 // 00131A90
 mgCCameraFollow::mgCCameraFollow(
-  float follow_distance,
-  float height,
-  float angle,
-  float speed
+  f32 follow_distance,
+  f32 height,
+  f32 angle,
+  f32 speed
 ) : mgCCamera(speed)
 {
   log_trace(
@@ -174,17 +175,17 @@ mgCCameraFollow::mgCCameraFollow(
     speed
   );
 
-  m_follow_next = glm::vec3(0.0f);
+  m_follow_next = vec3(0.0f);
   m_angle_soon = angle;
   m_angle = angle;
   m_distance = follow_distance;
   m_height = height;
-  m_follow_offset = glm::vec3(0.0f);
+  m_follow_offset = vec3(0.0f);
   m_following = true;
 }
 
 // 00131740
-void mgCCameraFollow::Step(int steps)
+void mgCCameraFollow::Step(sint steps)
 {
   log_trace("mgCCameraFollow::{}({})", __func__, steps);
 
@@ -218,11 +219,11 @@ void mgCCameraFollow::Step(int steps)
       m_angle_soon += common::deg_to_rad(360.0f);
     }
 
-    for (int i = 0; i < steps; ++i)
+    for (sint i = 0; i < steps; ++i)
     {
       if (m_following)
       {
-        float position_speed = m_position_speed / (GAME_DT * GAME_FPS);
+        f32 position_speed = m_position_speed / (GAME_DT * GAME_FPS);
         m_angle = mgAngleInterpolate(
           m_angle,
           m_angle_soon,
@@ -264,7 +265,7 @@ void mgCCameraFollow::Stay()
 }
 
 // 00131B20
-int mgCCameraFollow::Iam() const
+sint mgCCameraFollow::Iam() const
 {
   log_trace("mgCCameraFollow::{}()", __func__);
 
@@ -272,11 +273,11 @@ int mgCCameraFollow::Iam() const
 }
 
 // 00131680
-glm::vec3 mgCCameraFollow::GetFollowNextPos() const
+vec3 mgCCameraFollow::GetFollowNextPos() const
 {
   log_trace("mgCCameraFollow::{}()", __func__);
   
-  return glm::vec3(
+  return vec3(
     m_follow_next.x + (m_distance * sinf(m_angle)),
     m_follow_next.y + m_height,
     m_follow_next.z + (m_distance * cosf(m_angle))
