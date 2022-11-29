@@ -189,46 +189,42 @@ bool Check_Point_Poly3(f32 f1, f32 f2, f32 f3, f32 f4, f32 f5, f32 f6, f32 f7, f
 // 0012FFD0
 f32 mgDistVector(const vec4& v)
 {
-  log_trace("{}({})", __func__, fmt::ptr(&v));
+  log_trace("{}({})", __func__, v);
 
-  todo;
-  return 0.0f;
+  return glm::distance(vec3{ v.xyz }, { 0, 0, 0 });
 }
 
 // 00130000
 f32 mgDistVectorXZ(const vec4& v)
 {
-  log_trace("{}({})", __func__, fmt::ptr(&v));
+  log_trace("{}({})", __func__, v);
 
-  todo;
-  return 0.0f;
+  return glm::distance(vec2{ v.xz }, { 0, 0 });
 }
 
 // 00130030
 f32 mgDistVector2(const vec4& v)
 {
-  log_trace("{}({})", __func__, fmt::ptr(&v));
+  log_trace("{}({})", __func__, v);
 
-  todo;
-  return 0.0f;
+  auto temp = v.xyz * v.xyz;
+  return temp.x + temp.y + temp.z;
 }
 
 // 00130060
 f32 mgDistVector(const vec4& v, const vec4& other)
 {
-  log_trace("{}({})", __func__, fmt::ptr(&v), fmt::ptr(&other));
+  log_trace("{}({})", __func__, v, other);
 
-  todo;
-  return 0.0f;
+  return glm::distance(vec3{ v.xyz }, vec3{ other.xyz });
 }
 
 // 001300A0
 f32 mgDistVectorXZ(const vec4& v, const vec4& other)
 {
-  log_trace("{}({})", __func__, fmt::ptr(&v), fmt::ptr(&other));
+  log_trace("{}({})", __func__, v, other);
 
-  todo;
-  return 0.0f;
+  return glm::distance(vec2{ v.xz }, vec2{ other.xz });
 }
 
 // 001300E0
@@ -236,8 +232,9 @@ f32 mgDistVector2(const vec4& v, const vec4& other)
 {
   log_trace("{}({})", __func__, fmt::ptr(&v), fmt::ptr(&other));
 
-  todo;
-  return 0.0f;
+  auto temp = v.xyz - other.xyz;
+  temp *= temp;
+  return temp.x + temp.y + temp.z;
 }
 
 // 00130110
@@ -245,8 +242,9 @@ f32 mgDistVectorXZ2(const vec4& v, const vec4& other)
 {
   log_trace("{}({})", __func__, fmt::ptr(&v), fmt::ptr(&other));
 
-  todo;
-  return 0.0f;
+  auto temp = v.xyz - other.xyz;
+  temp *= temp;
+  return temp.x + temp.z;
 }
 
 // 00130140
