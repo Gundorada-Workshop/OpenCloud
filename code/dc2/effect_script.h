@@ -4,6 +4,4 @@
 
 class CEffectScriptMan
 {
-public:
-
 };
