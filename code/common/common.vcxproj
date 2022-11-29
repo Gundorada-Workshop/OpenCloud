@@ -14,6 +14,7 @@
     <ClInclude Include="clock.h" />
     <ClInclude Include="console.h" />
     <ClInclude Include="console_logger.h" />
+    <ClInclude Include="constants.h" />
     <ClInclude Include="data_stream.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="dynamic_library.h" />

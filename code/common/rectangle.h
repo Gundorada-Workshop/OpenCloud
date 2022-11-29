@@ -1,5 +1,6 @@
 #pragma once
 #include "common/types.h"
+#include "common/constants.h"
 
 namespace common
 {
@@ -12,19 +13,19 @@ namespace common
 
     friend struct fmt::formatter<rectangle<type>>;
 
-    rectangle()
-      : m_data{ 0, 0, 0, 0 }
+    constexpr rectangle()
+      : m_data{ constants::vector_constants<storage_type>::zero() }
     {
     }
 
     // construct from a vector type
-    explicit rectangle(storage_type v)
+    explicit constexpr rectangle(storage_type v)
       : m_data{ v }
     {
     }
 
     // consturct by values
-    explicit rectangle(type x0, type y0, type x1, type y1)
+    explicit constexpr rectangle(type x0, type y0, type x1, type y1)
       : m_data{ x0, y0, x1, y1 }
     {
     }
@@ -79,7 +80,7 @@ namespace common
 
   private:
     // vector storage
-    storage_type m_data{ 0, 0, 0, 0 };
+    storage_type m_data;
   };
 }
 
