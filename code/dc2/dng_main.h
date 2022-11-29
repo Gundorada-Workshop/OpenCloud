@@ -15,31 +15,105 @@
 // ~ 001BE6F0 - 001EA760
 
 // TODO THIS FILE
-class CTornado {};
-class CSparcEffect {};
-class CMiniEffParam {};
-class CPalletAnime {};
-class CHealingEffectMan {};
-class CSwordLuminous {};
-class CSwordAfterImage {};
-class CFlushEffect {};
-class CPowerLine {};
-class CDeadEffect {};
-struct BattleEffectMan {};
-class CWeaponElement {};
-class CLevelupInfo {};
-class CPiyori {};
-class CGiftMark {};
-class CEnemyGekirin {};
-class CEnemyLifeGage {};
-class CDamageScore2 {};
-class CWarningGauge2 {};
-class CHealingPoint {};
-class CActiveMonster {};
-class CMonsterLocateInfo {};
-class CMonsterMan {};
-class CPreSprite {};
-struct GLID_INFO {};
+class CTornado
+{
+};
+
+class CSparcEffect
+{
+};
+
+class CMiniEffParam
+{
+};
+
+class CPalletAnime
+{
+};
+
+class CHealingEffectMan
+{
+};
+
+class CSwordLuminous
+{
+};
+
+class CSwordAfterImage
+{
+};
+
+class CFlushEffect
+{
+};
+
+class CPowerLine
+{
+};
+
+class CDeadEffect
+{
+};
+
+struct BattleEffectMan
+{
+};
+
+class CWeaponElement
+{
+};
+
+class CLevelupInfo
+{
+};
+
+class CPiyori
+{
+};
+
+class CGiftMark
+{
+};
+
+class CEnemyGekirin
+{
+};
+
+class CEnemyLifeGage
+{
+};
+
+class CDamageScore2
+{
+};
+
+class CWarningGauge2
+{
+};
+
+class CHealingPoint
+{
+};
+
+class CActiveMonster
+{
+};
+
+class CMonsterLocateInfo
+{
+};
+
+class CMonsterMan
+{
+};
+
+class CPreSprite
+{
+};
+
+struct GLID_INFO
+{
+};
 
 // Forward declarations
 class CScene;
@@ -75,10 +149,13 @@ class CMiniEffPrim
 {
   // 001C0FF0
   void Initialize();
+
   // 001C0DB0
   void SetPrim(vec4* v, sint i);
+
   // 001C0E20
   void Draw(CPreSprite* pre_sprite);
+
   // 001C0F70
   void Step();
 
@@ -91,10 +168,13 @@ class CMiniEffPrimMan
 public:
   // 001C11C0
   void Initialize();
+
   // 001C1000
   void CreatePrim(vec4* v, sint i);
+
   // 001C1070
   void Draw();
+
   // 001C1150
   void Step();
 
@@ -158,14 +238,19 @@ struct MINIMAP_SYMBOL_DATA
 {
   // 0
   EMiniMapSymbol::EMiniMapSymbol id;
+
   // 2, 4, 6
   glm::u16vec3 rgb;
+
   // 8
   s16 m_unk_field_8;
+
   // A
   s16 m_unk_field_A;
+
   // C
   bool m_unk_field_C;
+
   // E
   bool m_unk_field_E;
   // SIZE 0x10
@@ -176,18 +261,25 @@ class CFireAfterHit
 public:
   // 001D4850
   CFireAfterHit();
+
   // 001BF4F0
   void Initialize();
+
   // 0
   unk32 m_unk_field_0;
+
   // 4
   unk32 m_unk_field_4;
+
   // 8
   unk32 m_unk_field_8;
+
   // C
   unk32 m_unk_field_C;
+
   // 10
   unks<0x2A0> m_unk_field_10;
+
   // 2B0
   unks<0x690> m_unk_field_2B0;
 
@@ -199,6 +291,7 @@ class CChillAfterHit
 public:
   // 001D4880
   CChillAfterHit();
+
   // 001BE6F0
   void Initialize();
 
@@ -221,6 +314,7 @@ class CThunder
 public:
   // 0
   mgCFrame m_unk_field_0{};
+
   // 110
   mgCFrameAttr m_unk_field_110{};
 
@@ -239,44 +333,64 @@ class CDngFloorManager
 public:
   // 002F8CC0
   void Initialize();
+
   // 002F9420
   void AnalyzeFile(const char* script, sint script_size, mgCMemory* tree_stack);
+
   // 002F94B0
   void LoadDataTable(s8 map_id, mgCMemory* stack);
+
   // 002F9610
   GLID_INFO* GetDngMapFloorGlidInfo(s8 floor);
+
   // 002F9690
   bool IsGeoStone(s8 floor);
+
   // 002F96C0
   bool GetSphedaPrize(s8 floor, s32 i2, unkptr p1, unkptr p2);
+
   // 002F9760
   bool GetSphedaPrize(s32 i2, unkptr p1, unkptr p2);
+
   // 002F97E0
   u8 IsPlaySubGame();
+
   // 002F9840
   u8 IsSealFloor(s8 floor);
+
   // 002F9950
   u8 IsClearMostFastDestroy();
+
   // 002F9A70
   u8 IsClearPractice(usize i);
+
   // 002F9DA0
   unkptr GetDngMapFloorInfo(s8 floor);
+
   // 002F9DA0
   unkptr GetActiveMapFloorInfo(s8 floor);
+
   // 002F9E40
   void RelationGlid();
+
   // 002F9F30
   void CheckDrawGlidInfo();
+
   // 002FA2C0
   unkptr GetNextGlid(GLID_INFO* info, s32* pi);
+
   // 002FA3B0
   unkptr GetNextRoom(s8 floor, usize i2, GLID_INFO* info, sint unused, s32* pi);
+
   // 002FA4E0
   unkptr GetKeyNextRoom(s8 floor, usize i2, GLID_INFO* info);
+
   // 002FA550
   s8 GetDngMapNextFloorID(s8 floor, u8 i2);
+
   // 002FA680
   const char* GetFloorTitle(s8 floor);
+
   // 002FA710
   u8 GetDngMapNextRoot(s8 floor);
 
@@ -326,10 +440,13 @@ class CLockOnModel : CObjectFrame
   // 70 00160BC0 (CObject::Copy)
   // 74 00169E80 (CObjectFrame::UpdatePosition)
   // 78 0016A050 (CObjectFrame::Copy)
+
   // 7C 001CB3E0
   virtual void* Draw();
+
   // 80 001CB860
   virtual void Step();
+
   // 84 001CBD20
   virtual void Initialize(CScene* scene);
 
@@ -338,10 +455,13 @@ class CLockOnModel : CObjectFrame
 
   // 80
   CScene* m_scene{ nullptr };
+
   // 84
   ClsMes* m_mes{ nullptr };
+
   // 88
   f32 m_unk_field_88{ 0.0f };
+
   // 8C
   sint m_unk_field_8C{ 0 };
 

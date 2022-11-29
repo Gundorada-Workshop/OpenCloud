@@ -23,115 +23,169 @@
 set_log_channel("dng_main");
 
 // 01E9F230
-std::array<mgCMemory, 2> BuffPacketList{};
+std::array<mgCMemory, 2> BuffPacketList{ };
+
 // 01E9F290
-std::array<mgCMemory, 2> BuffPacketData{};
+std::array<mgCMemory, 2> BuffPacketData{ };
+
 // 01E9F2F0
-mgCMemory BuffStageMain{};
+mgCMemory BuffStageMain{ };
+
 // 01E9F320
-mgCMemory BuffStageChara{};
+mgCMemory BuffStageChara{ };
+
 // 01E9F350
-mgCMemory BuffStageSubData{};
+mgCMemory BuffStageSubData{ };
+
 // 01E9F3B0
-mgCMemory BuffStageSubChara{};
+mgCMemory BuffStageSubChara{ };
+
 // 01E9F3E0
-mgCMemory BuffWorkData{};
+mgCMemory BuffWorkData{ };
+
 // 01E9F3E0
-mgCMemory BuffCharacter{};
+mgCMemory BuffCharacter{ };
+
 // 01E9F410
-std::array<mgCMemory, 6> BaseCharacter{};
+std::array<mgCMemory, 6> BaseCharacter{ };
+
 // 01E9F530
-mgCMemory BuffTempData{};
+mgCMemory BuffTempData{ };
+
 // 01E9F560
-mgCMemory BuffScriptData{};
+mgCMemory BuffScriptData{ };
+
 // 01E9F590
-mgCMemory BuffEffectScriptData{};
+mgCMemory BuffEffectScriptData{ };
+
 // 01E9F5C0
-std::array<mgCMemory, 4> BuffEventData{};
+std::array<mgCMemory, 4> BuffEventData{ };
+
 // 01E9F680
-mgCMemory BuffMDTBuild{};
+mgCMemory BuffMDTBuild{ };
+
 // 01E9F6B0
-mgCMemory BuffMDTBuild2{};
+mgCMemory BuffMDTBuild2{ };
+
 // 01E9F6E0
-SDungeonStatus DngStatus{};
+SDungeonStatus DngStatus{ };
+
 // 01E9F700
-CMapEffectsManager map_effect{};
+CMapEffectsManager map_effect{ };
+
 // 01E9F720
-CAccumulateEffect AccumulateEffect{};
+CAccumulateEffect AccumulateEffect{ };
+
 // 01E9FA50
-CDamageScore DamageScore{};
+CDamageScore DamageScore{ };
+
 // 01E9FAE0
-std::array<CDamageScore, 8> DamageScoreMons{};
+std::array<CDamageScore, 8> DamageScoreMons{ };
+
 // 01E9FF60
-CDamageScore2 DamageScore2{};
+CDamageScore2 DamageScore2{ };
+
 // 01E9FF90
-MessageTaskManager MsgTaskMan{};
+MessageTaskManager MsgTaskMan{ };
+
 // 01EA0300
-CStartupEpisodeTitle StartupEpisodeTitle{};
+CStartupEpisodeTitle StartupEpisodeTitle{ };
+
 // 01EA0320
-BattleEffectMan BattleFX{};
+BattleEffectMan BattleFX{ };
+
 // 01EA0370
-CLevelupInfo LevelupInfo{};
+CLevelupInfo LevelupInfo{ };
+
 // 01EA03B0
-CLockOnModel LockOnModel{};
+CLockOnModel LockOnModel{ };
+
 // 01EA0460
-CWarningGauge2 WarningGauge2{};
+CWarningGauge2 WarningGauge2{ };
+
 // 01EA0480
-CAutoMapGen AutoMapGen{};
+CAutoMapGen AutoMapGen{ };
+
 // 01EA0710
-CColPrimMan ColPrimMan{};
+CColPrimMan ColPrimMan{ };
+
 // 01EA4B20
-CRandomCircle RandomCircle{};
+CRandomCircle RandomCircle{ };
+
 // 01EA51C0
-CGeoStone GeoStone{};
+CGeoStone GeoStone{ };
+
 // 01EA5830
-CCameraControl MainCamera{};
+CCameraControl MainCamera{ };
+
 // 01EA5A20
-CCameraControl EventCamera{};
+CCameraControl EventCamera{ };
+
 // 01EA5C10
-CHealingEffectMan HealingEffectMan{};
+CHealingEffectMan HealingEffectMan{ };
+
 // 01EA5F40
-CMiniEffPrimMan MiniEffPrimMan{};
+CMiniEffPrimMan MiniEffPrimMan{ };
+
 // 01EA6870
-std::array<CCharacter2, 19> ItemBaseData{};
+std::array<CCharacter2, 19> ItemBaseData{} ;
+
 // 01EAE190
-std::array<CAfterWire, 16> afterWire{};
+std::array<CAfterWire, 16> afterWire{ };
+
 // 01EAF390
-CRoboVoiceSystem VoiceUnit{};
+CRoboVoiceSystem VoiceUnit{ };
+
 // 01EAF3B0
-CPot BTpot{};
+CPot BTpot{ };
+
 // 01EAF430
-CBPot BTpot2{};
+CBPot BTpot2{ };
+
 // 01EB0080
-CRocketLauncherMan RocketLauncher{};
+CRocketLauncherMan RocketLauncher{ };
+
 // 01EB2600
-CMachineGun MachineGun{};
+CMachineGun MachineGun{ };
+
 // 01EB2990
-CLaserGunMan LaserGun{};
+CLaserGunMan LaserGun{ };
+
 // 01EB3C90
-CCharacter2 LaserGunModel{};
+CCharacter2 LaserGunModel{ };
+
 // 01EB42F0
-std::array<CPullItem, 72> PullItem{};
+std::array<CPullItem, 72> PullItem{ };
+
 // 01EB66F0
-NowLoadingInfo nowload{};
+NowLoadingInfo nowload{ };
+
 // 01EB6740
-CWaveTable WaveTable{};
+CWaveTable WaveTable{ };
+
 // 01EB7948
 unk64 SparcModel{ 0 };
+
 // 01EB7960
-CSwordLuminous SwordLuminous{};
+CSwordLuminous SwordLuminous{ };
+
 // 01EB7980
-CWeaponElement wep_effect{};
+CWeaponElement wep_effect{ };
+
 // 01EBB780
-std::array<CSparcEffect, 6> Sparc_fx{};
+std::array<CSparcEffect, 6> Sparc_fx{ };
+
 // 01EBBBA0
-std::array<CThunder, 6> thunder{};
+std::array<CThunder, 6> thunder{ };
+
 // 01EC0E20
-std::array<CTornado, 6> tornado{};
+std::array<CTornado, 6> tornado{ };
+
 // 01EC2320
-std::array<CChillAfterHit, 6> chillAfterHit{};
+std::array<CChillAfterHit, 6> chillAfterHit{ };
+
 // 01EC50E0
-std::array<CFireAfterHit, 6> fireAfterHit{};
+std::array<CFireAfterHit, 6> fireAfterHit{ };
 
 // 001D4850
 CFireAfterHit::CFireAfterHit()
