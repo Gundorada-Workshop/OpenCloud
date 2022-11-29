@@ -61,7 +61,7 @@ inline void mgZeroVectorW(vec4& v)
 }
 
 // 0012F250
-bool mgClipBoxVector(const vec4& v1, const vec4& v2, const vec4& v3);
+bool mgClipBoxVertex(const vec4& v1, const vec4& v2, const vec4& v3);
 
 // 0012F290
 bool mgClipBox(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4);
@@ -143,10 +143,10 @@ vec4 mgDistLinePoint(const vec4& v1, const vec4& v2, const vec4& v3);
 vec4 mgReflectionPlane(const vec4& v1, const vec4& v2, const vec4& v3);
 
 // 0012F7F0
-vec4 mgIntersectionSphereLine0(const vec4& v1, const vec4& v2, f32 f);
+uint mgIntersectionSphereLine0(const vec4& v1, const vec4& v2, vec4* intersections, f32 radius);
 
 // 0012F990
-vec4 mgIntersectionSphereLine(const vec4& v1, const vec4& v2, const vec4& v3);
+vec4 mgIntersectionSphereLine(const vec4& v1, const vec4& v2, vec4* v3);
 
 // 0012FA50
 vec4 mgIntersectionPoint_line_poly3(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4, const vec4& v5, const vec4& v6);
@@ -253,7 +253,9 @@ f32 mgNRnd();
 void mgCreateSinTable();
 
 // 00131050
+// Quick (but inaccurate) sinf call
 f32 mgSinf(f32 f);
 
 // 001310F0
+// Quick (but inaccurate) cosf call
 f32 mgCosf(f32 f);

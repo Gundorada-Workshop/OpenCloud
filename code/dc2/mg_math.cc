@@ -1,9 +1,16 @@
+#include <array>
+
 #include "common/math.h"
 #include "common/log.h"
 
 #include "dc2/mg_math.h"
 
 set_log_channel("mg_math");
+
+// 0037FD40
+static std::array<f32, 1024> SinTable{};
+// 00376504
+constexpr static f32 sin_table_unit_1 = static_cast<f32>(SinTable.size()) / common::pi2();
 
 // 0012F1D0
 mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec4& c2)
@@ -32,48 +39,44 @@ mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec4& c2)
 }
 
 // 0012F250
-bool mgClipBoxVector(const vec4& v1, const vec4& v2, const vec4& v3)
+bool mgClipBoxVertex(const vec4& v1, const vec4& v2, const vec4& v3)
 {
-  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3));
+  // NOTE: Status & 0x0080 is the signed sticky flag; should be set if the vsub op results in any negative components
+  log_trace("{}({}, {}, {})", __func__, v1, v2, v3);
 
-  todo;
-  return false;
+  return !(glm::any(glm::lessThan(v2.xyz - v1.xyz, { 0, 0, 0 })) || glm::any(glm::lessThan(v1.xyz - v3.xyz, { 0, 0, 0 })));
 }
 
 // 0012F290
 bool mgClipBox(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3), fmt::ptr(&v4));
+  log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
 
-  todo;
-  return false;
+  return !(glm::any(glm::lessThan(v1.xyz - v4.xyz, { 0, 0, 0 })) || glm::any(glm::lessThan(v3.xyz - v2.xyz, { 0, 0, 0 })));
 }
 
 // 0012F2E0
 bool mgClipBoxW(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3), fmt::ptr(&v4));
+  log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
 
-  todo;
-  return false;
+  return !(glm::any(glm::lessThan(v1.xyw - v4.xyw, { 0, 0, 0 })) || glm::any(glm::lessThan(v3.xyw - v2.xyw, { 0, 0, 0 })));
 }
 
 // 0012F330
 bool mgClipInBox(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3), fmt::ptr(&v4));
+  log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
 
-  todo;
-  return false;
+  return !(glm::any(glm::lessThan(v3.xyz - v1.xyz, { 0, 0, 0 })) || glm::any(glm::lessThan(v2.xyz - v4.xyz, { 0, 0, 0 })));
 }
 
 // 0012F380
 bool mgClipInBoxW(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3), fmt::ptr(&v4));
+  log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
 
-  todo;
-  return false;
+  return !(glm::any(glm::lessThan(v3.xyw - v1.xyw, { 0, 0, 0 })) || glm::any(glm::lessThan(v2.xyw - v4.xyw, { 0, 0, 0 })));
 }
 
 // 0012F410
@@ -130,21 +133,95 @@ vec4 mgReflectionPlane(const vec4& v1, const vec4& v2, const vec4& v3)
 }
 
 // 0012F7F0
-vec4 mgIntersectionSphereLine0(const vec4& v1, const vec4& v2, f32 f)
+uint mgIntersectionSphereLine0(const vec4& start, const vec4& end, vec4* intersections, f32 radius)
 {
-  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), f);
+  log_trace("{}({}, {}, {}, {})", __func__, start, end, fmt::ptr(intersections), radius);
 
-  todo;
-  return { 0, 0, 0, 1 };
+  // 0012F7F0 - 0012F828
+  auto distance = end - start;
+  // 0012F828 - 0012F834
+  float f20 = mgDistVector2(distance);
+  // 0012F834 - 0012F844
+  float f21 = glm::dot(vec3{ distance }, vec3{ start });
+  // 0012F844 - 0012F854
+  float f0 = mgDistVector2(start) - (radius * radius);
+
+  // 0012F854 - 0012F85C
+  // NOTE: another way of thinking about these 2 instructions:
+  // ACC = f21 * f21
+  // f22 = ACC - (f20 * f0)
+  float f22 = (f21 * f21) - (f20 * f0);
+
+  // 0012F864 - 0012F87C
+  if (f22 < 0.0f)
+  {
+    return 0;
+  }
+
+  // 0012F888 - 0012F88C
+  usize n_intersections = 0;
+
+  // 0012F87C - 0012F884 (f22 is moved into f12 before previous branch)
+  f0 = sqrtf(f22);
+  // 0012F884 - 0012F888
+  float f2 = -f21;
+  // 0012F88C - 0012F894
+  float f12 = (f2 - f0) / f20;
+  // 0012F894 - 0012F8A0
+  f20 = (f0 + f2) / f20;
+
+  // 0012F8A0 - 0012F8D0
+  vec4 intersection_dist;
+  if (f12 >= 0.0f && f12 <= 1.0f)
+  {
+    // 0012F8D0 - 0012F8D8
+    intersection_dist = distance * f12;
+    // 0012F8D8 - 0012F8E8
+    intersections[0] = start + intersection_dist;
+    // 0012F8E8 - 0012F8EC
+    ++n_intersections;
+  }
+
+  // 0012F8EC - 0012F904
+  if (f22 == 0.0f)
+  {
+    return 1;
+  }
+
+  // 0012F90C - 0012F938
+  if (f20 < 0.0f || f20 > 1.0f)
+  {
+    return n_intersections;
+  }
+
+  // 0012F938 - 0012F944
+  intersection_dist = distance * f20;
+  // 0012F948 - 0012F958
+  intersections[n_intersections] = start + intersection_dist;
+  // 0012F958 - 0012F95C
+  ++n_intersections;
+
+  // 0012F95C -
+  return n_intersections;
 }
 
 // 0012F990
-vec4 mgIntersectionSphereLine(const vec4& v1, const vec4& v2, const vec4& v3)
+usize mgIntersectionSphereLine(const vec4& sphere, const vec4& start, const vec4& end, vec4* intersections)
 {
-  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3));
+  log_trace("{}({}, {}, {})", __func__, start, end, fmt::ptr(intersections));
 
-  todo;
-  return { 0, 0, 0, 1 };
+  float radius = sphere.w;
+
+  auto start_normal = start - sphere;
+  auto end_normal = end - sphere;
+
+  usize n_intersections = mgIntersectionSphereLine0(start_normal, end_normal, intersections, radius);
+
+  for (int i = 0; i < n_intersections; ++i)
+  {
+    intersections[i] += sphere;
+  }
+  return n_intersections;
 }
 
 // 0012FA50
@@ -186,46 +263,42 @@ bool Check_Point_Poly3(f32 f1, f32 f2, f32 f3, f32 f4, f32 f5, f32 f6, f32 f7, f
 // 0012FFD0
 f32 mgDistVector(const vec4& v)
 {
-  log_trace("{}({})", __func__, fmt::ptr(&v));
+  log_trace("{}({})", __func__, v);
 
-  todo;
-  return 0.0f;
+  return glm::distance(vec3{ v.xyz }, { 0, 0, 0 });
 }
 
 // 00130000
 f32 mgDistVectorXZ(const vec4& v)
 {
-  log_trace("{}({})", __func__, fmt::ptr(&v));
+  log_trace("{}({})", __func__, v);
 
-  todo;
-  return 0.0f;
+  return glm::distance(vec2{ v.xz }, { 0, 0 });
 }
 
 // 00130030
 f32 mgDistVector2(const vec4& v)
 {
-  log_trace("{}({})", __func__, fmt::ptr(&v));
+  log_trace("{}({})", __func__, v);
 
-  todo;
-  return 0.0f;
+  auto temp = v.xyz * v.xyz;
+  return temp.x + temp.y + temp.z;
 }
 
 // 00130060
 f32 mgDistVector(const vec4& v, const vec4& other)
 {
-  log_trace("{}({})", __func__, fmt::ptr(&v), fmt::ptr(&other));
+  log_trace("{}({})", __func__, v, other);
 
-  todo;
-  return 0.0f;
+  return glm::distance(vec3{ v.xyz }, vec3{ other.xyz });
 }
 
 // 001300A0
 f32 mgDistVectorXZ(const vec4& v, const vec4& other)
 {
-  log_trace("{}({})", __func__, fmt::ptr(&v), fmt::ptr(&other));
+  log_trace("{}({})", __func__, v, other);
 
-  todo;
-  return 0.0f;
+  return glm::distance(vec2{ v.xz }, vec2{ other.xz });
 }
 
 // 001300E0
@@ -233,8 +306,9 @@ f32 mgDistVector2(const vec4& v, const vec4& other)
 {
   log_trace("{}({})", __func__, fmt::ptr(&v), fmt::ptr(&other));
 
-  todo;
-  return 0.0f;
+  auto temp = v.xyz - other.xyz;
+  temp *= temp;
+  return temp.x + temp.y + temp.z;
 }
 
 // 00130110
@@ -242,8 +316,9 @@ f32 mgDistVectorXZ2(const vec4& v, const vec4& other)
 {
   log_trace("{}({})", __func__, fmt::ptr(&v), fmt::ptr(&other));
 
-  todo;
-  return 0.0f;
+  auto temp = v.xyz - other.xyz;
+  temp *= temp;
+  return temp.x + temp.z;
 }
 
 // 00130140
@@ -498,7 +573,12 @@ void mgCreateSinTable()
 {
   log_trace("{}()", __func__);
 
-  todo;
+  f32 sin_table_num = static_cast<f32>(SinTable.size());
+
+  for (int i = 0; i < SinTable.size(); ++i)
+  {
+    SinTable[i] = sinf(static_cast<f32>(i) * common::pi2() / sin_table_num);
+  }
 }
 
 // 00131050
@@ -506,8 +586,11 @@ f32 mgSinf(f32 f)
 {
   log_trace("{}({})", __func__, f);
 
-  todo;
-  return 0.0f;
+  f32 sign = copysign(1, f);
+
+  ssize index = static_cast<ssize>(fabsf(f) * sin_table_unit_1);
+  index = abs(index) & 0x3FF;
+  return SinTable[index] * sign;
 }
 
 // 001310F0
