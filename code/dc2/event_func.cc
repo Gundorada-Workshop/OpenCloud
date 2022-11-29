@@ -6,7 +6,7 @@
 #include "dc2/dngmenu.h"
 #include "dc2/effect.h"
 #include "dc2/event_func.h"
-#include "dc2/mg_lib.h"
+#include "dc2/mg/mg_lib.h"
 
 set_log_channel("event_func");
 

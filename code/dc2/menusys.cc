@@ -2,7 +2,7 @@
 
 #include "dc2/menumain.h"
 #include "dc2/menusys.h"
-#include "dc2/mg_lib.h"
+#include "dc2/mg/mg_lib.h"
 
 set_log_channel("menusys");
 

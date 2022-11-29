@@ -7,7 +7,7 @@
 #include "dc2/event.h"
 #include "dc2/gamepad.h"
 #include "dc2/mainloop.h"
-#include "dc2/mg_lib.h"
+#include "dc2/mg/mg_lib.h"
 #include "dc2/nowload.h"
 #include "dc2/scene.h"
 

@@ -2,7 +2,7 @@
 
 #include "dc2/camera.h"
 #include "dc2/fishing.h"
-#include "dc2/mg_lib.h"
+#include "dc2/mg/mg_lib.h"
 
 // 01F59880
 static mgCMemory EsaStack{};

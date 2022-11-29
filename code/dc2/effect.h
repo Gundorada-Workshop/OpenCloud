@@ -6,7 +6,7 @@
 #include "common/rectangle.h"
 
 #include "dc2/script_interpreter.h"
-#include "dc2/mg_lib.h"
+#include "dc2/mg/mg_lib.h"
 
 // ~ 0017C240 - 00185EF0
 

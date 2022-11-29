@@ -1,6 +1,6 @@
 #include "common/log.h"
 
-#include "dc2/mg_tanime.h"
+#include "dc2/mg/mg_tanime.h"
 
 set_log_channel("mg_tanime");
 

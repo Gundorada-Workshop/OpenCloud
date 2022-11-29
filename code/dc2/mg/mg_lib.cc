@@ -6,8 +6,8 @@
 #include "common/log.h"
 #include "common/types.h"
 
-#include "dc2/mg_lib.h"
-#include "dc2/mg_math.h"
+#include "dc2/mg/mg_lib.h"
+#include "dc2/mg/mg_math.h"
 
 set_log_channel("mg_lib");
 

@@ -3,12 +3,12 @@
 
 #include "common/types.h"
 
-#include "dc2/mg_camera.h"
-#include "dc2/mg_frame.h"
-#include "dc2/mg_math.h"
-#include "dc2/mg_memory.h"
-#include "dc2/mg_tanime.h"
-#include "dc2/mg_texture.h"
+#include "dc2/mg/mg_camera.h"
+#include "dc2/mg/mg_frame.h"
+#include "dc2/mg/mg_math.h"
+#include "dc2/mg/mg_memory.h"
+#include "dc2/mg/mg_tanime.h"
+#include "dc2/mg/mg_texture.h"
 
 // 00380EC0
 extern mgRENDER_INFO mgRenderInfo;

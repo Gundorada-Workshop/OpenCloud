@@ -6,7 +6,7 @@
 #include "dc2/dng_event.h"
 #include "dc2/dng_main.h"
 #include "dc2/mapjump.h"
-#include "dc2/mg_lib.h"
+#include "dc2/mg/mg_lib.h"
 
 set_log_channel("dng_event");
 

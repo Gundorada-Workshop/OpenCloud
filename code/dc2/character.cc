@@ -2,7 +2,7 @@
 #include "common/debug.h"
 
 #include "dc2/character.h"
-#include "dc2/mg_lib.h"
+#include "dc2/mg/mg_lib.h"
 #include "dc2/script_interpreter.h"
 
 set_log_channel("character")

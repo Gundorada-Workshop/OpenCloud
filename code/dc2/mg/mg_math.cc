@@ -3,7 +3,7 @@
 #include "common/math.h"
 #include "common/log.h"
 
-#include "dc2/mg_math.h"
+#include "dc2/mg/mg_math.h"
 
 set_log_channel("mg_math");
 

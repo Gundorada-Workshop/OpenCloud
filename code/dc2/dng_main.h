@@ -7,8 +7,8 @@
 #include "common/types.h"
 
 #include "dc2/map.h"
-#include "dc2/mg_frame.h"
-#include "dc2/mg_memory.h"
+#include "dc2/mg/mg_frame.h"
+#include "dc2/mg/mg_memory.h"
 #include "dc2/ls_mes.h"
 #include "dc2/object.h"
 

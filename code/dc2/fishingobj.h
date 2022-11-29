@@ -7,7 +7,7 @@
 #include "common/types.h"
 
 #include "dc2/collision.h"
-#include "dc2/mg_frame.h"
+#include "dc2/mg/mg_frame.h"
 #include "dc2/scene.h"
 
 // ~ 0030F9B0 - 00313770

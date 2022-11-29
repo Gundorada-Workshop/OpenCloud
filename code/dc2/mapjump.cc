@@ -6,7 +6,7 @@
 #include "common/types.h"
 
 #include "dc2/mapjump.h"
-#include "dc2/mg_lib.h"
+#include "dc2/mg/mg_lib.h"
 #include "dc2/scene.h"
 
 set_log_channel("mapjump");
