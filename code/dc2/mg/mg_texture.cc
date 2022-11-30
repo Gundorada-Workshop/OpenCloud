@@ -536,22 +536,22 @@ void mgCTexture::Initialize()
   m_name[0] = '\0';
   m_hash_uuid = -1;
 
-  for (float& f : m_unk_field_50)
+  for (f32& f : m_unk_field_50)
   {
     f = 0.0f;
   }
 
   m_unk_field_60 = 0;
   m_unk_field_48 = 0;
-  m_unk_field_40 = 0;
-  m_unk_field_38 = 0;
+  m_tex1 = 0;
+  m_tex0 = 0;
 
   m_unk_field_48 = m_unk_field_48 & (~0b0000'0011) | 1;
   m_unk_field_48 = m_unk_field_48 & (~0b0000'1100) | 4;
 
-  m_unk_field_6 = 0;
-  m_unk_field_4 = 0;
-  m_unk_field_2 = 0;
+  m_bytes_per_pixel = 0;
+  m_height = 0;
+  m_width = 0;
   m_unk_field_64 = 0;
   m_unk_field_28 = 0;
   m_unk_field_2C = 0;
