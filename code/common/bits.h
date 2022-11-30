@@ -2,6 +2,7 @@
 #include <type_traits>
 
 #include "common/types.h"
+#include "common/constants.h"
 
 namespace common::bits
 {
@@ -134,6 +135,34 @@ namespace common::bits
   constexpr u64 sext64(type val)
   {
     return sext<u64, type>(val);
+  }
+
+  // clamp to 0x00 -> 0xFF
+  template<typename type>
+  constexpr u8 clamp8(type val)
+  {
+    return std::clamp<type>(val, constants::u8_min, constants::u8_max);
+  }
+
+  // clamp to 0x0000 -> 0xFFFF
+  template<typename type>
+  constexpr u16 clamp16(type val)
+  {
+    return std::clamp<type>(val, constants::u16_min, constants::u16_max);
+  }
+
+  // clamp to 0x00000000 -> 0xFFFFFFFF
+  template<typename type>
+  constexpr u32 clamp32(type val)
+  {
+    return std::clamp<type>(val, constants::u32_min, constants::u32_max);
+  }
+
+  // clamp to 0x0000000000000000 -> 0xFFFFFFFFFFFFFFFFF
+  template<typename type>
+  constexpr u64 clamp64(type val)
+  {
+    return std::clamp<type>(val, constants::u64_min, constants::u64_max);
   }
 
   // cast to bool
