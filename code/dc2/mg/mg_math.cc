@@ -97,12 +97,13 @@ void mgBoxMaxMin(mgVu0FBOX& lhs, const mgVu0FBOX& rhs)
 }
 
 // 0012F580
-vec4 mgPlaneNormal(const vec4& v1, const vec4& v2, const vec4& v3)
+vec3 mgPlaneNormal(const vec4& v1, const vec4& v2, const vec4& v3)
 {
-  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3));
+  log_trace("{}({}, {}, {})", __func__, v1, v2, v3);
 
-  todo;
-  return { 0, 0, 0, 1 };
+  auto temp1 = v2 - v1;
+  auto temp2 = v3 - v1;
+  return (temp1.xyz * temp2.xyz) - vec3{ temp2 * temp1 };
 }
 
 // 0012F5B0

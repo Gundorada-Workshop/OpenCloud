@@ -131,7 +131,7 @@ inline void mgVectorMaxMin(vec4& max_dest, vec4& min_dest, const vec4& v1, const
 void mgBoxMaxMin(mgVu0FBOX& lhs, const mgVu0FBOX& rhs);
 
 // 0012F580
-vec4 mgPlaneNormal(const vec4& v1, const vec4& v2, const vec4& v3);
+vec3 mgPlaneNormal(const vec4& v1, const vec4& v2, const vec4& v3);
 
 // 0012F5B0
 vec4 mgDistPlanePoint(const vec4& v1, const vec4& v2);
