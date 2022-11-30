@@ -123,7 +123,7 @@ f32 mgDistPlanePoint(const vec3& v1, const vec3& v2, const vec3& v3)
 // 0012F5F0
 f32 mgDistLinePoint(const vec3& v1, const vec3& v2, const vec3& v3, vec3& v4_dest)
 {
-  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3));
+  log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, fmt::ptr(&v4_dest));
 
   auto var_40 = v2 - v1;
   auto var_30 = v3 - v1;
@@ -157,12 +157,13 @@ f32 mgDistLinePoint(const vec3& v1, const vec3& v2, const vec3& v3, vec3& v4_des
 }
 
 // 0012F760
-vec3 mgReflectionPlane(const vec3& v1, const vec3& v2, const vec3& v3)
+f32 mgReflectionPlane(const vec3& v1, const vec3& v2, const vec3& v3, vec3& v4_dest)
 {
-  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3));
+  log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, fmt::ptr(&v4_dest));
 
-  todo;
-  return { 0, 0, 0};
+  f32 result = mgDistPlanePoint(v1, v2, v3) * 2.0f;
+  v4_dest = v2 - v3 - (v1 * -result);
+  return result;
 }
 
 // 0012F7F0
