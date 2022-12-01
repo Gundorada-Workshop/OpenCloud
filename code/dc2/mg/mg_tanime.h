@@ -19,11 +19,11 @@ public:
   // 0
   s8 m_unk_field_0{ -1 };
   // 1
-  _BYTE m_unk_field_1{ 0 };
+  unk8 m_unk_field_1{ 0 };
   // 2
   s8 m_unk_field_2{ -1 };
   // 3
-  _BYTE m_unk_field_3{ 0 };
+  unk8 m_unk_field_3{ 0 };
   // 4
   _UNKNOWN m_unk_field_4{ 0 };
   // 8
@@ -59,13 +59,13 @@ public:
   // 2A
   unk16 m_unk_field_2A{ 4 };
   // 2C
-  _BYTE m_unk_field_2C{ 1 };
+  unk8 m_unk_field_2C{ 1 };
   // 2D
-  _BYTE m_unk_field_2D{ 4 };
+  unk8 m_unk_field_2D{ 4 };
   // 2E
   s8 m_unk_field_2E{ -1 };
   // 2F
-  _BYTE m_unk_field_2F{ 0 };
+  unk8 m_unk_field_2F{ 0 };
   // 30
   u8 m_unk_field_30{ 0x80 };
   // 31

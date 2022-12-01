@@ -57,7 +57,7 @@ public:
   // 2
   unk16 m_unk_field_2;
   // 4
-  _BYTE m_unk_field_4;
+  unk8 m_unk_field_4;
   // 6
   unk16 m_unk_field_6;
   // 8

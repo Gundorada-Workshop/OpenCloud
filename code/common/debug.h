@@ -107,7 +107,6 @@ namespace common::debug
   (void)var
 
 #define _UNKNOWN int
-#define _BYTE s8
 #define _QWORD s64
 #define _UNKNOWNSTRUCT(size) std::array<u8, size>
 #define _UNKNOWNPOINTER void*
