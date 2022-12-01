@@ -63,7 +63,7 @@ public:
   // 0012D050
   mgCTexture* GetTexture(const char* name, ssize i);
   // 0012D140
-  void EnterTexture(usize texb, const char* name, _UNKNOWNPOINTER p1, s32 width, s32 height, u32 i3, _UNKNOWNPOINTER p2, u64 i4, int i5);
+  void EnterTexture(usize texb, const char* name, unkptr p1, s32 width, s32 height, u32 i3, unkptr p2, u64 i4, int i5);
   // 0012DA90
   void EnterIMGFile(u8* img_file_buff, usize texb, mgCMemory* stack, mgCEnterIMGInfo* enter_info);
   // 0012E540

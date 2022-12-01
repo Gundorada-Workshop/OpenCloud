@@ -112,7 +112,7 @@ public:
   void Initialize();
 
   usize m_n_unk_field_4;
-  _UNKNOWNPOINTER m_unk_field_4;
+  unkptr m_unk_field_4;
 };
 
 // 0018D1E0

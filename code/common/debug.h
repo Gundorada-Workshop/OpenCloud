@@ -109,7 +109,6 @@ namespace common::debug
 #define _UNKNOWN int
 #define _QWORD s64
 #define _UNKNOWNSTRUCT(size) std::array<u8, size>
-#define _UNKNOWNPOINTER void*
 
 #if defined(_DEBUG) || defined(_FDEBUG)
 

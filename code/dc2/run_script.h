@@ -125,15 +125,15 @@ private:
   // 18
   RS_STACKDATA* m_stack_top{};
   // 1C
-  _UNKNOWNPOINTER m_unk_field_1C{};
+  unkptr m_unk_field_1C{};
   // 20
   usize m_unk_field_20{};
   // 24
-  _UNKNOWNPOINTER m_unk_field_24{};
+  unkptr m_unk_field_24{};
   // 28
-  _UNKNOWNPOINTER m_unk_field_28{};
+  unkptr m_unk_field_28{};
   // 2C
-  _UNKNOWNPOINTER m_unk_field_2C{};
+  unkptr m_unk_field_2C{};
   // 30
   RS_STACKDATA* m_unk_field_30{ nullptr };
   // 34

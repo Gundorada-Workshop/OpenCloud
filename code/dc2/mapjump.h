@@ -24,7 +24,7 @@ struct MapJumpInfo
   // 10
   s32 m_unk_field_10{ 0 };
   // 14
-  _UNKNOWNPOINTER m_unk_field_14{ nullptr };
+  unkptr m_unk_field_14{ nullptr };
 
   // SIZE 0x18
 };
