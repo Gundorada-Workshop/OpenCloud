@@ -419,7 +419,15 @@ void mgRotMatrixY(matrix4& mat, f32 rotation)
 {
   log_trace("{}({}, {})", __func__, fmt::ptr(&mat), rotation);
 
-  todo;
+  mat = mgUnitMatrix();
+
+  f32 f = cosf(rotation);
+  mat[2].z = f;
+  mat[0].x = f;
+
+  f = sinf(rotation);
+  mat[0].z = f;
+  mat[2].x = f;
 }
 
 // 00130490
