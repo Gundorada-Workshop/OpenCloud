@@ -2,8 +2,9 @@
 #include <array>
 #include <numbers>
 
-#include "common/types.h"
+#include "common/constants.h"
 #include "common/math.h"
+#include "common/types.h"
 
 #include "glm/glm.hpp"
 
@@ -160,26 +161,17 @@ uint mgCheckPointPoly3_XZ(const vec3& v1, const vec3& v2, const vec3& v3, const 
 // 0012FD40
 uint Check_Point_Poly3(f32 aa, f32 ab, f32 ba, f32 bb, f32 ca, f32 cb, f32 da, f32 db);
 
-// 0012FFD0
-f32 mgDistVector(const vec3& v);
-
-// 00130000
-f32 mgDistVectorXZ(const vec3& v);
-
-// 00130030
-f32 mgDistVector2(const vec3& v);
-
 // 00130060
-f32 mgDistVector(const vec3& v, const vec3& other);
+f32 mgDistVector(const vec3& v, const vec3& other = common::constants::vec3_zero);
 
 // 001300A0
-f32 mgDistVectorXZ(const vec3& v, const vec3& other);
+f32 mgDistVectorXZ(const vec3& v, const vec3& other = common::constants::vec3_zero);
 
 // 001300E0
-f32 mgDistVector2(const vec3& v, const vec3& other);
+f32 mgDistVector2(const vec3& v, const vec3& other = common::constants::vec3_zero);
 
 // 00130110
-f32 mgDistVectorXZ2(const vec3& v, const vec3& other);
+f32 mgDistVectorXZ2(const vec3& v, const vec3& other = common::constants::vec3_zero);
 
 // 00130140
 matrix4 mgUnitMatrix();

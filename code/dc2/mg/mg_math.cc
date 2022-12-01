@@ -349,31 +349,6 @@ uint Check_Point_Poly3(f32 aa, f32 ab, f32 ba, f32 bb, f32 ca, f32 cb, f32 da, f
   return 0;
 }
 
-// 0012FFD0
-f32 mgDistVector(const vec3& v)
-{
-  log_trace("{}({})", __func__, v);
-
-  return glm::distance(v, {0, 0, 0});
-}
-
-// 00130000
-f32 mgDistVectorXZ(const vec3& v)
-{
-  log_trace("{}({})", __func__, v);
-
-  return glm::distance(vec2{ v.xz }, { 0, 0 });
-}
-
-// 00130030
-f32 mgDistVector2(const vec3& v)
-{
-  log_trace("{}({})", __func__, v);
-
-  auto temp = v * v;
-  return temp.x + temp.y + temp.z;
-}
-
 // 00130060
 f32 mgDistVector(const vec3& v, const vec3& other)
 {
