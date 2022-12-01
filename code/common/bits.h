@@ -165,6 +165,27 @@ namespace common::bits
     return std::clamp<type>(val, constants::u64_min, constants::u64_max);
   }
 
+  // truncate a value to 8 bits
+  template<typename type>
+  constexpr u8 trunc8(type val)
+  {
+    return trunc<u8, type>(val);
+  }
+
+  // truncate a value to 16 bits
+  template<typename type>
+  constexpr u16 trunc16(type val)
+  {
+    return trunc<u8, type>(val);
+  }
+
+  // truncate a value to 32 bits
+  template<typename type>
+  constexpr u32 trunc32(type val)
+  {
+    return trunc<u8, type>(val);
+  }
+
   // cast to bool
   template<typename type>
   constexpr bool to_bool(type val)
