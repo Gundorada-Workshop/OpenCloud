@@ -13,7 +13,7 @@ struct STRU_1F5F9A0
 	// 0
 	s32 field_0{ 0 };
 	// 4
-	_DWORD field_4{ 0 };
+	unk32 field_4{ 0 };
 	// 8
 	bool field_8{ false };
 	// C

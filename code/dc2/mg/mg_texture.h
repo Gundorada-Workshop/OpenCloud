@@ -94,7 +94,7 @@ public:
   // 1C0
   usize m_n_textures{};
   // 1C4
-  _DWORD m_unk_field_1C4;
+  unk32 m_unk_field_1C4;
   // 1C8
   TextureHash* m_hashes;
   // 1CC

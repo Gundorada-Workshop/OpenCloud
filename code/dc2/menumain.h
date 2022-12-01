@@ -23,17 +23,17 @@ struct CMENU_USERPARAM
 {
 public:
   // 0
-  _DWORD m_unk_field_0{ 0 };
+  unk32 m_unk_field_0{ 0 };
   // 4
-  _DWORD m_unk_field_4{ 0 };
+  unk32 m_unk_field_4{ 0 };
   // 8
-  _DWORD m_unk_field_8{ 0 };
+  unk32 m_unk_field_8{ 0 };
   // C
-  _DWORD m_unk_field_C{ 0 };
+  unk32 m_unk_field_C{ 0 };
   // 10
-  _DWORD m_unk_field_10{ 0 };
+  unk32 m_unk_field_10{ 0 };
   // 14
-  _DWORD m_unk_field_14{ 0 };
+  unk32 m_unk_field_14{ 0 };
 };
 
 struct MENU_ASKMODE_PARA
@@ -61,15 +61,15 @@ public:
   // 6
   _WORD m_unk_field_6;
   // 8
-  _DWORD m_unk_field_8;
+  unk32 m_unk_field_8;
   // C
-  _DWORD m_unk_field_C;
+  unk32 m_unk_field_C;
   // 10
   u32 m_unk_field_10;
   // 14
   _WORD m_unk_field_14;
   // 18
-  std::array<_DWORD, 0x20> m_unk_field_18;
+  std::array<unk32, 0x20> m_unk_field_18;
   // 58
   MENU_ASKMODE_PARA m_unk_field_58;
   // EE
@@ -81,7 +81,7 @@ public:
   // F4
   s32 m_unk_field_F4;
   // F8
-  _DWORD m_unk_field_F8;
+  unk32 m_unk_field_F8;
   // FC
   _UNKNOWNSTRUCT(0x10) m_unk_field_10C;
 

@@ -720,7 +720,7 @@ public:
   ECommonItemData GetDataStartListNo(ECommonItemDataType type);
 
   // 0
-  _DWORD m_unk_field_0{ 0 };
+  unk32 m_unk_field_0{ 0 };
   // 4
   SDataItemCommon* m_com_itemdata;
   // 8

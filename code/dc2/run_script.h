@@ -117,9 +117,9 @@ private:
   // 8
   ext_func_t** m_ext_func{ nullptr };
   // C
-  _DWORD m_unk_field_C{};
+  unk32 m_unk_field_C{};
   // 10
-  _DWORD m_unk_field_10{};
+  unk32 m_unk_field_10{};
   // 14
   RS_STACKDATA* m_stack_current{};
   // 18

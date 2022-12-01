@@ -16,33 +16,33 @@ public:
   void Initialize();
 
   // 0
-  _DWORD m_unk_field_0;
+  unk32 m_unk_field_0;
   // 4
-  _DWORD m_unk_field_4;
+  unk32 m_unk_field_4;
   // 8
-  _DWORD m_unk_field_8;
+  unk32 m_unk_field_8;
   // C
-  _DWORD m_unk_field_C;
+  unk32 m_unk_field_C;
   // 10
-  _DWORD m_unk_field_10;
+  unk32 m_unk_field_10;
   // 14
-  _DWORD m_unk_field_14;
+  unk32 m_unk_field_14;
   // 18
-  _DWORD m_unk_field_18;
+  unk32 m_unk_field_18;
   // 1C
-  _DWORD m_unk_field_1C;
+  unk32 m_unk_field_1C;
   // 20
-  _DWORD m_unk_field_20;
+  unk32 m_unk_field_20;
   // 24
-  _DWORD m_unk_field_24;
+  unk32 m_unk_field_24;
   // 28
-  _DWORD m_unk_field_28;
+  unk32 m_unk_field_28;
   // 2C
-  _DWORD m_unk_field_2C;
+  unk32 m_unk_field_2C;
   // 30
-  _DWORD m_unk_field_30;
+  unk32 m_unk_field_30;
   // 34
-  _DWORD m_unk_field_34;
+  unk32 m_unk_field_34;
 };
 
 class C3DSpline
@@ -56,13 +56,13 @@ public:
   // 0
   std::array<SPLINE_KEY, 0x10> m_spline_keys;
   // 380
-  _DWORD m_unk_field_380;
+  unk32 m_unk_field_380;
   // 384
-  _DWORD m_unk_field_384;
+  unk32 m_unk_field_384;
   // 388
-  _DWORD m_unk_field_388;
+  unk32 m_unk_field_388;
   // 398
-  _DWORD m_unk_field_398;
+  unk32 m_unk_field_398;
 };
 
 class CCameraPas
@@ -78,15 +78,15 @@ public:
   // 100
   std::array<vec4, 0x10> m_unk_field_100;
   // 200
-  _DWORD m_unk_field_200;
+  unk32 m_unk_field_200;
   // 204
-  _DWORD m_unk_field_204;
+  unk32 m_unk_field_204;
   // 208
   C3DSpline m_unk_field_208{};
   // 5A4
   C3DSpline m_unk_field_5A4{};
   // 940
-  _DWORD m_unk_field_940;
+  unk32 m_unk_field_940;
 };
 
 struct _SEN_CMR_SEQ
@@ -95,21 +95,21 @@ struct _SEN_CMR_SEQ
   void Initialize();
 
   // 0
-  _DWORD m_unk_field_0;
+  unk32 m_unk_field_0;
   // 10
   vec4 m_unk_field_10;
   // 20
   vec4 m_unk_field_20;
   // 30
-  _DWORD m_unk_field_30;
+  unk32 m_unk_field_30;
   // 34
-  _DWORD m_unk_field_34;
+  unk32 m_unk_field_34;
   // 38
-  _DWORD m_unk_field_38;
+  unk32 m_unk_field_38;
   // 3C
   std::array<char, 0x20> m_unk_field_3C;
   // 5C
-  _DWORD m_unk_field_5C;
+  unk32 m_unk_field_5C;
 };
 
 class CSceneCmrSeq
@@ -131,63 +131,63 @@ public:
   // 4
   usize m_n_sequences;
   // 8
-  _DWORD m_unk_field_8;
+  unk32 m_unk_field_8;
   // C
-  _DWORD m_unk_field_C;
+  unk32 m_unk_field_C;
   // 10
-  _DWORD m_unk_field_10;
+  unk32 m_unk_field_10;
   // 14
-  _DWORD m_unk_field_14;
+  unk32 m_unk_field_14;
   // 18
-  _DWORD m_unk_field_18;
+  unk32 m_unk_field_18;
   // 1C
-  _DWORD m_unk_field_1C;
+  unk32 m_unk_field_1C;
   // 20
-  _DWORD m_unk_field_20;
+  unk32 m_unk_field_20;
   // 24
-  _DWORD m_unk_field_24;
+  unk32 m_unk_field_24;
   // 28
-  _DWORD m_unk_field_28;
+  unk32 m_unk_field_28;
   // 2C
-  _DWORD m_unk_field_2C;
+  unk32 m_unk_field_2C;
   // 30
-  _DWORD m_unk_field_30;
+  unk32 m_unk_field_30;
   // 34
-  _DWORD m_unk_field_34;
+  unk32 m_unk_field_34;
   // 38
-  _DWORD m_unk_field_38;
+  unk32 m_unk_field_38;
   // 3C
-  _DWORD m_unk_field_3C;
+  unk32 m_unk_field_3C;
   // 40
-  _DWORD m_unk_field_40;
+  unk32 m_unk_field_40;
   // 44
-  _DWORD m_unk_field_44;
+  unk32 m_unk_field_44;
   // 48
-  _DWORD m_unk_field_48;
+  unk32 m_unk_field_48;
   // 50
   vec4 m_unk_field_50;
   // 60
   vec4 m_unk_field_60;
   // 70
-  _DWORD m_unk_field_70;
+  unk32 m_unk_field_70;
   // 74
-  _DWORD m_unk_field_74;
+  unk32 m_unk_field_74;
   // 78
-  _DWORD m_unk_field_78;
+  unk32 m_unk_field_78;
   // 7C
-  _DWORD m_unk_field_7C;
+  unk32 m_unk_field_7C;
   // 80
   s32 m_unk_field_80;
   // 84
-  _DWORD m_unk_field_84;
+  unk32 m_unk_field_84;
   // 90
   vec4 m_unk_field_90;
   // A0
-  _DWORD m_unk_field_A0;
+  unk32 m_unk_field_A0;
   // A4
-  _DWORD m_unk_field_A4;
+  unk32 m_unk_field_A4;
   // A8
-  _DWORD m_unk_field_A8;
+  unk32 m_unk_field_A8;
   // AC
   std::array<char, 0x20> m_unk_field_AC;
   // D0
@@ -195,14 +195,14 @@ public:
   // E0
   vec4 m_unk_field_E0;
   // F0
-  _DWORD m_unk_field_F0;
+  unk32 m_unk_field_F0;
 
   // ?
 
   // F8
-  _DWORD m_unk_field_F8;
+  unk32 m_unk_field_F8;
   // FC
-  _DWORD m_unk_field_FC;
+  unk32 m_unk_field_FC;
   // 100
   vec4 m_unk_field_100;
   // 110
@@ -212,7 +212,7 @@ public:
   // 130
   vec4 m_unk_field_130;
   // 140
-  _DWORD m_unk_field_140;
+  unk32 m_unk_field_140;
   // 150
   vec4 m_unk_field_150;
   // 160
@@ -220,7 +220,7 @@ public:
   // 170
   vec4 m_unk_field_170;
   // 180
-  _DWORD m_unk_field_180;
+  unk32 m_unk_field_180;
   // 190
   vec4 m_unk_field_190;
   // 1A0
@@ -242,15 +242,15 @@ public:
   // 0
   std::array<vec4, 16> m_unk_field_0;
   // 100
-  _DWORD m_unk_field_100;
+  unk32 m_unk_field_100;
   // 104
-  _DWORD m_unk_field_104;
+  unk32 m_unk_field_104;
   // 108
   C3DSpline m_unk_field_108{};
   // 4A4
-  _DWORD m_unk_field_4A4;
+  unk32 m_unk_field_4A4;
   // 4A8
-  _DWORD m_unk_field_4A8;
+  unk32 m_unk_field_4A8;
 };
 
 struct _SEN_OBJ_SEQ
@@ -260,19 +260,19 @@ public:
   void Initialize();
 
   // 0
-  _DWORD m_unk_field_0;
+  unk32 m_unk_field_0;
   // 10
   vec4 m_unk_field_10;
   // 20
-  _DWORD m_unk_field_20;
+  unk32 m_unk_field_20;
   // 24
-  _DWORD m_unk_field_24;
+  unk32 m_unk_field_24;
   // 28
-  _DWORD m_unk_field_28;
+  unk32 m_unk_field_28;
   // 2C
   std::array<char, 0x20> m_unk_field_2C;
   // 4C
-  _DWORD m_unk_field_4C;
+  unk32 m_unk_field_4C;
 };
 
 class CSceneObjSeq
@@ -293,47 +293,47 @@ public:
   // 4
   usize m_n_sequences;
   // 8
-  _DWORD m_unk_field_8;
+  unk32 m_unk_field_8;
   // C
-  _DWORD m_unk_field_C;
+  unk32 m_unk_field_C;
   // 10
-  _DWORD m_unk_field_10;
+  unk32 m_unk_field_10;
   // 14
-  _DWORD m_unk_field_14;
+  unk32 m_unk_field_14;
   // 18
-  _DWORD m_unk_field_18;
+  unk32 m_unk_field_18;
   // 1C
-  _DWORD m_unk_field_1C;
+  unk32 m_unk_field_1C;
   // 20
-  _DWORD m_unk_field_20;
+  unk32 m_unk_field_20;
   // 24
-  _DWORD m_unk_field_24;
+  unk32 m_unk_field_24;
   // 28
-  _DWORD m_unk_field_28;
+  unk32 m_unk_field_28;
   // 2C
-  _DWORD m_unk_field_2C;
+  unk32 m_unk_field_2C;
   // 30
-  _DWORD m_unk_field_30;
+  unk32 m_unk_field_30;
   // 34
-  _DWORD m_unk_field_34;
+  unk32 m_unk_field_34;
   // 38
-  _DWORD m_unk_field_38;
+  unk32 m_unk_field_38;
   // 3C
-  _DWORD m_unk_field_3C;
+  unk32 m_unk_field_3C;
   // 40
-  _DWORD m_unk_field_40;
+  unk32 m_unk_field_40;
   // 44
-  _DWORD m_unk_field_44;
+  unk32 m_unk_field_44;
   // 48
-  _DWORD m_unk_field_48;
+  unk32 m_unk_field_48;
   // 4C
-  _DWORD m_unk_field_4C;
+  unk32 m_unk_field_4C;
   // 50
-  _DWORD m_unk_field_50;
+  unk32 m_unk_field_50;
   // 54
-  _DWORD m_unk_field_54;
+  unk32 m_unk_field_54;
   // 58
-  _DWORD m_unk_field_58;
+  unk32 m_unk_field_58;
 
   // ?
 
@@ -355,9 +355,9 @@ public:
   // E0
   vec4 m_unk_field_E0;
   // F0
-  _DWORD m_unk_field_F0;
+  unk32 m_unk_field_F0;
   // F4
-  _DWORD m_unk_field_F4;
+  unk32 m_unk_field_F4;
   // 120
   vec4 m_unk_field_120;
 
@@ -378,7 +378,7 @@ public:
   // 8
   bool m_unk_field_8{ true };
   // C
-  _DWORD m_unk_field_C{ 0 };
+  unk32 m_unk_field_C{ 0 };
 };
 
 class CEohMother
@@ -393,48 +393,48 @@ class CRaster
 {
 public:
   // 0
-  _DWORD m_unk_field_0{ 0 };
+  unk32 m_unk_field_0{ 0 };
   // 4
-  _DWORD m_unk_field_4{ 0 };
+  unk32 m_unk_field_4{ 0 };
   // 8
-  _DWORD m_unk_field_8{ 0 };
+  unk32 m_unk_field_8{ 0 };
   // C
-  _DWORD m_unk_field_C{ 0 };
+  unk32 m_unk_field_C{ 0 };
   // 10
-  _DWORD m_unk_field_10{ 0 };
+  unk32 m_unk_field_10{ 0 };
   // 14
-  _DWORD m_unk_field_14{ 0 };
+  unk32 m_unk_field_14{ 0 };
   // 18
-  _DWORD m_unk_field_18{ 0 };
+  unk32 m_unk_field_18{ 0 };
   // 1C
-  _DWORD m_unk_field_1C{ 0 };
+  unk32 m_unk_field_1C{ 0 };
   // 20
-  _DWORD m_unk_field_20{ 0 };
+  unk32 m_unk_field_20{ 0 };
   // 24
   s32 m_unk_field_24{ -1 };
   // 28
-  _DWORD m_unk_field_28{ 0 };
+  unk32 m_unk_field_28{ 0 };
 };
 
 class CScreenEffect : CRaster
 {
 public:
   // 2C
-  _DWORD m_unk_field_2C{ 0 };
+  unk32 m_unk_field_2C{ 0 };
   // 30
-  _DWORD m_unk_field_30{ 0 };
+  unk32 m_unk_field_30{ 0 };
   // 34
-  _DWORD m_unk_field_34{ 0 };
+  unk32 m_unk_field_34{ 0 };
   // 38
-  _DWORD m_unk_field_38{ 0 };
+  unk32 m_unk_field_38{ 0 };
   // 3C
-  _DWORD m_unk_field_3C{ 0 };
+  unk32 m_unk_field_3C{ 0 };
   // 40
-  _DWORD m_unk_field_40{ 0 };
+  unk32 m_unk_field_40{ 0 };
   // 44
-  _DWORD m_unk_field_44{ 0 };
+  unk32 m_unk_field_44{ 0 };
   // 48
-  _DWORD m_unk_field_48{ 0 };
+  unk32 m_unk_field_48{ 0 };
 };
 
 
@@ -442,22 +442,22 @@ class CRipple
 {
 public:
   // 0
-  _DWORD m_unk_field_0{ 0 };
+  unk32 m_unk_field_0{ 0 };
   // 10
   vec4 m_unk_field_10{ 0.0f, 0.0f, 0.0f, 1.0f };
   // 20
-  _DWORD m_unk_field_20{ 0 };
+  unk32 m_unk_field_20{ 0 };
   // 24
-  _DWORD m_unk_field_24{ 0 };
+  unk32 m_unk_field_24{ 0 };
   // 28
-  _DWORD m_unk_field_28{ 0 };
+  unk32 m_unk_field_28{ 0 };
 };
 
 class CParticle
 {
 public:
   // 0
-  _DWORD m_unk_field_0{ 0 };
+  unk32 m_unk_field_0{ 0 };
   // 10
   vec4 m_unk_field_10{ 0.0f, 0.0f, 0.0f, 1.0f };
   // 20
@@ -465,7 +465,7 @@ public:
   // 30
   vec4 m_unk_field_30{ 0.0f, 0.0f, 0.0f, 1.0f };
   // 40
-  _DWORD m_unk_field_40{ 0 };
+  unk32 m_unk_field_40{ 0 };
 };
 
 class CRainDrop
@@ -475,9 +475,9 @@ public:
   CRainDrop();
 
   // 0
-  _DWORD m_unk_field_0{ 0 };
+  unk32 m_unk_field_0{ 0 };
   // 4
-  _DWORD m_unk_field_4{ 0 };
+  unk32 m_unk_field_4{ 0 };
   // 10
   std::array<vec4, 8> m_unk_field_10{};
   // 90
@@ -490,9 +490,9 @@ class CRain
 {
 public:
   // 0
-  _DWORD m_unk_field_0{ 0 };
+  unk32 m_unk_field_0{ 0 };
   // 4
-  _DWORD m_unk_field_4{ 0 };
+  unk32 m_unk_field_4{ 0 };
   // 10
   std::array<CRainDrop, 100> m_unk_field_10{};
   // 44D0
@@ -521,9 +521,9 @@ class CEventSprite
 {
 public:
   // 0
-  _DWORD m_unk_field_0{ 0 };
+  unk32 m_unk_field_0{ 0 };
   // 4
-  _DWORD m_unk_field_4{ 0 };
+  unk32 m_unk_field_4{ 0 };
   // 8
   std::array<char, 0x40> m_name{ 0 };
   // 48
@@ -557,7 +557,7 @@ public:
   void Initialize();
 
   // 0
-  _DWORD m_unk_field_0{ 0 };
+  unk32 m_unk_field_0{ 0 };
   // 4
   s32 m_unk_field_4{ -1 };
   // 8
@@ -571,19 +571,19 @@ public:
   // 40
   vec4 m_unk_field_40{ 128.0f };
   // 50
-  _DWORD m_unk_field_50{ 0 };
+  unk32 m_unk_field_50{ 0 };
   // 54
-  _DWORD m_unk_field_54{ 0 };
+  unk32 m_unk_field_54{ 0 };
   // 58
-  _DWORD m_unk_field_58{ 0 };
+  unk32 m_unk_field_58{ 0 };
   // 5C
-  _DWORD m_unk_field_5C{ 0 };
+  unk32 m_unk_field_5C{ 0 };
   // 60
-  _DWORD m_unk_field_60{ 0 };
+  unk32 m_unk_field_60{ 0 };
   // 64
-  _DWORD m_unk_field_64{ 0 };
+  unk32 m_unk_field_64{ 0 };
   // 68
-  _DWORD m_unk_field_68{ 0 };
+  unk32 m_unk_field_68{ 0 };
   // 6C
   f32 m_unk_field_6C{ 1.0f };
   // 70
@@ -594,11 +594,11 @@ class CEventScriptArg
 {
 public:
   // 0
-  _DWORD m_unk_field_0{ 0 };
+  unk32 m_unk_field_0{ 0 };
   // 4
-  _DWORD m_unk_field_4{ 0 };
+  unk32 m_unk_field_4{ 0 };
   // 8
-  _DWORD m_unk_field_8{ 0 };
+  unk32 m_unk_field_8{ 0 };
   // C
-  _DWORD m_unk_field_C{ 0 };
+  unk32 m_unk_field_C{ 0 };
 };

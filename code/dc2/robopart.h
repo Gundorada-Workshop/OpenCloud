@@ -33,8 +33,8 @@ struct ROBO_INFO_DATA
   _UNKNOWNPOINTER m_unk_field_18;
   // 1C
   // FIXME: enum type?
-  _DWORD m_robo_info_type1;
+  unk32 m_robo_info_type1;
   // 20
   // FIXME: enum type?
-  _DWORD m_robo_info_type2;
+  unk32 m_robo_info_type2;
 };
