@@ -118,34 +118,33 @@ public:
   // 0
   s16 m_hash_uuid;
   // 2
-  s16 m_unk_field_2;
+  u16 m_width;
   // 4
-  s16 m_unk_field_4;
+  u16 m_height;
   // 6
-  s16 m_unk_field_6;
+  u16 m_bytes_per_pixel;
   // 8
   std::array<char, 0x20> m_name;
   // 28
-  _DWORD m_unk_field_28;
+  unk32 m_unk_field_28;
   // 2C
-  _DWORD m_unk_field_2C;
+  unk32 m_unk_field_2C;
   // 30
-  _DWORD m_unk_field_30;
-  // ??
+  unk32 m_unk_field_30;
+  // 34
+  unk32 m_unk_field_24;
   // 38
-  _DWORD m_unk_field_38;
-  // 3C
-  u8 m_unk_field_3C;
+  u64 m_tex0;
   // 40
-  s64 m_unk_field_40;
+  u64 m_tex1;
   // 48
   s64 m_unk_field_48;
   // 50
-  std::array<float, 4> m_unk_field_50;
+  std::array<f32, 4> m_unk_field_50;
   // 60
-  _DWORD m_unk_field_60;
+  unk32 m_unk_field_60;
   // 64
-  _DWORD m_unk_field_64;
+  unk32 m_unk_field_64;
   // 68
   mgCTexture* m_next;
 };
