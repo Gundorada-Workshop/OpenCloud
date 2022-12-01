@@ -710,7 +710,7 @@ f32 mgSinf(f32 f)
   f32 sign = copysign(1, f);
 
   ssize index = static_cast<ssize>(fabsf(f) * sin_table_unit_1);
-  index = abs(index) & 0x3FF;
+  index = abs(index) % SinTable.size();
   return SinTable[index] * sign;
 }
 
