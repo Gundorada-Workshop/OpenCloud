@@ -104,12 +104,7 @@ vec3 mgPlaneNormal(const vec3& v1, const vec3& v2, const vec3& v3)
   auto temp1 = v2 - v1;
   auto temp2 = v3 - v1;
   
-  // TODO: Vector outer product - is there a GLM fn for this?
-  return {
-    temp1.y * temp2.z - temp2.y * temp1.z,
-    temp1.z * temp2.x - temp2.z * temp1.x,
-    temp1.x * temp2.y - temp2.x * temp1.y
-  };
+  return common::vector_outer_product(temp1, temp2);
 }
 
 // 0012F5B0
@@ -259,27 +254,43 @@ usize mgIntersectionSphereLine(const vec4& sphere, const vec4& start, const vec4
 }
 
 // 0012FA50
-vec4 mgIntersectionPoint_line_poly3(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4, const vec4& v5, const vec4& v6)
+bool mgIntersectionPoint_line_poly3(const vec3& v1, const vec3& v2, const vec3& v3, const vec3& v4, const vec3& v5, const vec3& v6, const vec3& v7)
 {
-  log_trace("{}({}, {}, {}, {}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3), fmt::ptr(&v4), fmt::ptr(&v5), fmt::ptr(&v6));
-
-  todo;
-  return { 0, 0, 0, 1 };
-}
-
-// 0012FB70
-bool mgCheckPointPoly3_XYZ(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4, const vec4& v5)
-{
-  log_trace("{}({}, {}, {}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3), fmt::ptr(&v4), fmt::ptr(&v5));
+  log_trace("{}({}, {}, {}, {}, {}, {}, {})", __func__, v1, v2, v3, v4, v5, v6, v7);
 
   todo;
   return false;
 }
 
-// 0012FD10
-bool mgCheckPointPoly3_XZ(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
+// 0012FB70
+bool mgCheckPointPoly3_XYZ(const vec3& v1, const vec3& v2, const vec3& v3, const vec3& v4, const vec3& v5)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3), fmt::ptr(&v4));
+  log_trace("{}({}, {}, {}, {}, {})", __func__, v1, v2, v3, v4, v5);
+
+  using namespace common;
+  auto var_90 = v1 - v2;
+  auto var_80 = v1 - v3;
+  auto var_70 = v1 - v4;
+  auto var_60 = v3 - v2;
+  auto var_50 = v4 - v3;
+  auto var_40 = v2 - v4;
+  auto var_30 = vector_outer_product(var_60, var_90);
+  auto var_20 = vector_outer_product(var_50, var_80);
+  auto var_10 = vector_outer_product(var_40, var_70);
+
+  f32 f20 = glm::dot(var_30, v5);
+  f32 f21 = glm::dot(var_20, v5);
+  f32 f0 = glm::dot(var_10, v5);
+
+  return 
+    (f20 >= 0.0f && f21 >= 0.0f && f0 >= 0.0f) ||
+    (f20 <= 0.0f && f21 <= 0.0f && f0 <= 0.0f);
+}
+
+// 0012FD10
+bool mgCheckPointPoly3_XZ(const vec3& v1, const vec3& v2, const vec3& v3, const vec3& v4)
+{
+  log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
 
   todo;
   return false;
