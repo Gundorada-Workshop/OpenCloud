@@ -376,8 +376,17 @@ matrix4 MulMatrix3(const matrix4& m1, const matrix4& m2, const matrix4& m3)
 {
   log_trace("{}({}, {}, {})", __func__, fmt::ptr(&m1), fmt::ptr(&m2), fmt::ptr(&m3));
 
-  todo;
-  return mgUnitMatrix();
+  matrix4 temp;
+  temp[0] = m1 * m2[0];
+  temp[1] = m1 * m2[1];
+  temp[2] = m1 * m2[2];
+  temp[3] = m1 * m2[3];
+  matrix4 result;
+  result[0] = temp * m3[0];
+  result[1] = temp * m3[1];
+  result[2] = temp * m3[2];
+  result[3] = temp * m3[3];
+  return result;
 }
 
 // 00130250
