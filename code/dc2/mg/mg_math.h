@@ -2,8 +2,9 @@
 #include <array>
 #include <numbers>
 
-#include "common/types.h"
+#include "common/constants.h"
 #include "common/math.h"
+#include "common/types.h"
 
 #include "glm/glm.hpp"
 
@@ -149,37 +150,28 @@ usize mgIntersectionSphereLine0(const vec4& start, const vec4& end, vec4* inters
 usize mgIntersectionSphereLine(const vec4& sphere, const vec4& start, const vec4& end, vec4* intersections);
 
 // 0012FA50
-vec4 mgIntersectionPoint_line_poly3(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4, const vec4& v5, const vec4& v6);
+bool mgIntersectionPoint_line_poly3(const vec3& v1, const vec3& v2, const vec3& v3, const vec3& v4, const vec3& v5, const vec3& v6, vec3& v7_dest);
 
 // 0012FB70
-bool mgCheckPointPoly3_XYZ(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4, const vec4& v5);
+bool mgCheckPointPoly3_XYZ(const vec3& v1, const vec3& v2, const vec3& v3, const vec3& v4, const vec3& v5);
 
 // 0012FD10
-bool mgCheckPointPoly3_XZ(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4);
+uint mgCheckPointPoly3_XZ(const vec3& v1, const vec3& v2, const vec3& v3, const vec3& v4);
 
 // 0012FD40
-bool Check_Point_Poly3(f32 f1, f32 f2, f32 f3, f32 f4, f32 f5, f32 f6, f32 f7, f32 f8);
-
-// 0012FFD0
-f32 mgDistVector(const vec3& v);
-
-// 00130000
-f32 mgDistVectorXZ(const vec3& v);
-
-// 00130030
-f32 mgDistVector2(const vec3& v);
+uint Check_Point_Poly3(f32 aa, f32 ab, f32 ba, f32 bb, f32 ca, f32 cb, f32 da, f32 db);
 
 // 00130060
-f32 mgDistVector(const vec3& v, const vec3& other);
+f32 mgDistVector(const vec3& v, const vec3& other = common::constants::vec3_zero);
 
 // 001300A0
-f32 mgDistVectorXZ(const vec3& v, const vec3& other);
+f32 mgDistVectorXZ(const vec3& v, const vec3& other = common::constants::vec3_zero);
 
 // 001300E0
-f32 mgDistVector2(const vec3& v, const vec3& other);
+f32 mgDistVector2(const vec3& v, const vec3& other = common::constants::vec3_zero);
 
 // 00130110
-f32 mgDistVectorXZ2(const vec3& v, const vec3& other);
+f32 mgDistVectorXZ2(const vec3& v, const vec3& other = common::constants::vec3_zero);
 
 // 00130140
 matrix4 mgUnitMatrix();
@@ -188,7 +180,7 @@ matrix4 mgUnitMatrix();
 matrix4 mgZeroMatrix();
 
 // 00130180
-matrix4 MulMatrix3(const matrix4& lhs, const matrix4& rhs);
+matrix4 MulMatrix3(const matrix4& m1, const matrix4& m2, const matrix4& m3);
 
 // 00130250
 matrix4 mgMulMatrix(const matrix4& lhs, const matrix4& rhs);
@@ -197,16 +189,16 @@ matrix4 mgMulMatrix(const matrix4& lhs, const matrix4& rhs);
 matrix4 mgInverseMatrix(const matrix4& mat);
 
 // 001303D0
-void mgRotMatrixX(matrix4& mat, f32 rotation);
+matrix4 mgRotMatrixX(f32 rotation);
 
 // 00130430
-void mgRotMatrixY(matrix4& mat, f32 rotation);
+matrix4 mgRotMatrixY(f32 rotation);
 
 // 00130490
-void mgRotMatrixZ(matrix4& mat, f32 rotation);
+matrix4 mgRotMatrixZ(f32 rotation);
 
 // 001304F0
-void mgRotMatrixXYZ(matrix4& mat, const vec4& rotation);
+matrix4 mgRotMatrixXYZ(const vec3& rotation);
 
 // 00130550
 matrix4 mgCreateMatrixPY(const vec4& v, f32 f);

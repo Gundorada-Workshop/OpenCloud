@@ -5,6 +5,9 @@
 
 #include "dc2/mg/mg_math.h"
 
+#include <glm/glm.hpp>
+#include <glm/gtx/transform.hpp>
+
 set_log_channel("mg_math");
 
 // 0037FD40
@@ -104,12 +107,7 @@ vec3 mgPlaneNormal(const vec3& v1, const vec3& v2, const vec3& v3)
   auto temp1 = v2 - v1;
   auto temp2 = v3 - v1;
   
-  // TODO: Vector outer product - is there a GLM fn for this?
-  return {
-    temp1.y * temp2.z - temp2.y * temp1.z,
-    temp1.z * temp2.x - temp2.z * temp1.x,
-    temp1.x * temp2.y - temp2.x * temp1.y
-  };
+  return common::vector_outer_product(temp1, temp2);
 }
 
 // 0012F5B0
@@ -259,64 +257,111 @@ usize mgIntersectionSphereLine(const vec4& sphere, const vec4& start, const vec4
 }
 
 // 0012FA50
-vec4 mgIntersectionPoint_line_poly3(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4, const vec4& v5, const vec4& v6)
+bool mgIntersectionPoint_line_poly3(const vec3& v1, const vec3& v2, const vec3& v3, const vec3& v4, const vec3& v5, const vec3& v6, vec3& v7_dest)
 {
-  log_trace("{}({}, {}, {}, {}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3), fmt::ptr(&v4), fmt::ptr(&v5), fmt::ptr(&v6));
+  log_trace("{}({}, {}, {}, {}, {}, {}, {})", __func__, v1, v2, v3, v4, v5, v6, v7_dest);
 
-  todo;
-  return { 0, 0, 0, 1 };
+  auto var_40 = v2 - v1;
+  auto var_30 = v3 - v1;
+  auto var_20 = v4 - v1;
+  auto var_10 = v5 - v1;
+  f32 f1 = glm::dot(v5, var_30);
+  f32 f0 = glm::dot(v5, var_40);
+
+  if (f0 == 0.0f)
+  {
+    return false;
+  }
+
+  v7_dest = var_40 * (f1 / f0) * 2.0f;
+  return mgCheckPointPoly3_XYZ(v7_dest, v3, v4, v5, v6);
 }
 
 // 0012FB70
-bool mgCheckPointPoly3_XYZ(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4, const vec4& v5)
+bool mgCheckPointPoly3_XYZ(const vec3& v1, const vec3& v2, const vec3& v3, const vec3& v4, const vec3& v5)
 {
-  log_trace("{}({}, {}, {}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3), fmt::ptr(&v4), fmt::ptr(&v5));
+  log_trace("{}({}, {}, {}, {}, {})", __func__, v1, v2, v3, v4, v5);
 
-  todo;
-  return false;
+  using namespace common;
+  auto var_90 = v1 - v2;
+  auto var_80 = v1 - v3;
+  auto var_70 = v1 - v4;
+  auto var_60 = v3 - v2;
+  auto var_50 = v4 - v3;
+  auto var_40 = v2 - v4;
+  auto var_30 = vector_outer_product(var_60, var_90);
+  auto var_20 = vector_outer_product(var_50, var_80);
+  auto var_10 = vector_outer_product(var_40, var_70);
+
+  f32 f20 = glm::dot(var_30, v5);
+  f32 f21 = glm::dot(var_20, v5);
+  f32 f0 = glm::dot(var_10, v5);
+
+  return 
+    (f20 >= 0.0f && f21 >= 0.0f && f0 >= 0.0f) ||
+    (f20 <= 0.0f && f21 <= 0.0f && f0 <= 0.0f);
 }
 
 // 0012FD10
-bool mgCheckPointPoly3_XZ(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
+uint mgCheckPointPoly3_XZ(const vec3& v1, const vec3& v2, const vec3& v3, const vec3& v4)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3), fmt::ptr(&v4));
+  log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
 
-  todo;
-  return false;
+  return Check_Point_Poly3(v1.x, v1.z, v2.x, v2.z, v3.x, v3.z, v4.x, v4.z);
 }
 
 // 0012FD40
-bool Check_Point_Poly3(f32 f1, f32 f2, f32 f3, f32 f4, f32 f5, f32 f6, f32 f7, f32 f8)
+uint Check_Point_Poly3(f32 aa, f32 ab, f32 ba, f32 bb, f32 ca, f32 cb, f32 da, f32 db)
 {
-  log_trace("{}({}, {}, {}, {}, {}, {}, {}, {})", __func__, f1, f2, f3, f4, f5, f6, f7, f8);
+  log_trace("{}({}, {}, {}, {}, {}, {}, {}, {})", __func__, aa, ab, ba, ab, ca, cb, da, db);
 
-  todo;
-  return false;
-}
+  if (aa < std::min({ ba, ca, da }))
+  {
+    return 0;
+  }
 
-// 0012FFD0
-f32 mgDistVector(const vec3& v)
-{
-  log_trace("{}({})", __func__, v);
+  if (aa > std::max({ ba, ca, da }))
+  {
+    return 0;
+  }
 
-  return glm::distance(v, {0, 0, 0});
-}
+  if (ab < std::min({ bb, cb, db }))
+  {
+    return 0;
+  }
 
-// 00130000
-f32 mgDistVectorXZ(const vec3& v)
-{
-  log_trace("{}({})", __func__, v);
+  if (ab > std::max({ ba, ca, da }))
+  {
+    return 0;
+  }
 
-  return glm::distance(vec2{ v.xz }, { 0, 0 });
-}
+  f32 f6 = (ca - ba) * (ab - bb) - (cb - bb) * (aa - ba);
+  f32 f4 = (da - ca) * (ab - cb) - (db - cb) * (aa - ca);
+  f32 f1 = (ba - da) * (ab - db) - (bb - db) * (aa - da);
 
-// 00130030
-f32 mgDistVector2(const vec3& v)
-{
-  log_trace("{}({})", __func__, v);
+  if (f6 == 0.0f)
+  {
+    return 2;
+  }
 
-  auto temp = v * v;
-  return temp.x + temp.y + temp.z;
+  if (f4 == 0.0f)
+  {
+    return 3;
+  }
+
+  if (f1 == 0.0f)
+  {
+    return 4;
+  }
+
+  if (
+    (f6 > 0.0f && f4 > 0.0f && f1 > 0.0f) ||
+    (f6 < 0.0f && f4 < 0.0f && f1 < 0.0f)
+    )
+  {
+    return 1;
+  }
+  return 0;
 }
 
 // 00130060
@@ -372,12 +417,21 @@ matrix4 mgZeroMatrix()
 }
 
 // 00130180
-matrix4 MulMatrix3(const matrix4& lhs, const matrix4& rhs)
+matrix4 MulMatrix3(const matrix4& m1, const matrix4& m2, const matrix4& m3)
 {
-  log_trace("{}({}, {})", __func__, fmt::ptr(&lhs), fmt::ptr(&rhs));
+  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&m1), fmt::ptr(&m2), fmt::ptr(&m3));
 
-  todo;
-  return matrix4{ 1.0f };
+  matrix4 temp;
+  temp[0] = m1 * m2[0];
+  temp[1] = m1 * m2[1];
+  temp[2] = m1 * m2[2];
+  temp[3] = m1 * m2[3];
+  matrix4 result;
+  result[0] = temp * m3[0];
+  result[1] = temp * m3[1];
+  result[2] = temp * m3[2];
+  result[3] = temp * m3[3];
+  return result;
 }
 
 // 00130250
@@ -385,8 +439,12 @@ matrix4 mgMulMatrix(const matrix4& lhs, const matrix4& rhs)
 {
   log_trace("{}({}, {})", __func__, fmt::ptr(&lhs), fmt::ptr(&rhs));
 
-  todo;
-  return matrix4{ 1.0f };
+  matrix4 result;
+  result[0] = lhs * rhs[0];
+  result[1] = lhs * rhs[1];
+  result[2] = lhs * rhs[2];
+  result[3] = lhs * rhs[3];
+  return result;
 }
 
 // 001302D0
@@ -399,44 +457,80 @@ matrix4 mgInverseMatrix(const matrix4& mat)
 }
 
 // 001303D0
-void mgRotMatrixX(matrix4& mat, f32 rotation)
+matrix4 mgRotMatrixX(f32 rotation)
 {
-  log_trace("{}({}, {})", __func__, fmt::ptr(&mat), rotation);
+  log_trace("{}({})", __func__, rotation);
 
-  todo;
+  matrix4 mat = mgUnitMatrix();
+
+  f32 f = cosf(rotation);
+  mat[2].z = f;
+  mat[1].y = f;
+
+  f = sinf(rotation);
+  mat[1].z = f;
+  mat[2].y = f;
+  return mat;
 }
 
 // 00130430
-void mgRotMatrixY(matrix4& mat, f32 rotation)
+matrix4 mgRotMatrixY(f32 rotation)
 {
-  log_trace("{}({}, {})", __func__, fmt::ptr(&mat), rotation);
+  log_trace("{}({})", __func__, rotation);
 
-  todo;
+  matrix4 mat = mgUnitMatrix();
+
+  f32 f = cosf(rotation);
+  mat[2].z = f;
+  mat[0].x = f;
+
+  f = sinf(rotation);
+  mat[0].z = f;
+  mat[2].x = f;
+  return mat;
 }
 
 // 00130490
-void mgRotMatrixZ(matrix4& mat, f32 rotation)
+matrix4 mgRotMatrixZ(f32 rotation)
 {
-  log_trace("{}({}, {})", __func__, fmt::ptr(&mat), rotation);
+  log_trace("{}({})", __func__, rotation);
 
-  todo;
+  matrix4 mat = mgUnitMatrix();
+
+  f32 f = cosf(rotation);
+  mat[1].y = f;
+  mat[0].x = f;
+
+  f = sinf(rotation);
+  mat[0].y = f;
+  mat[1].x = f;
+  return mat;
 }
 
 // 001304F0
-void mgRotMatrixXYZ(matrix4& mat, const vec4& rotation)
+matrix4 mgRotMatrixXYZ(const vec3& rotation)
 {
-  log_trace("{}({}, {})", __func__, fmt::ptr(&mat), fmt::ptr(&rotation));
+  log_trace("{}({})", __func__, rotation);
 
-  todo;
+  matrix4 rotX = mgRotMatrixX(rotation.x);
+  matrix4 rotY = mgRotMatrixY(rotation.y);
+  matrix4 rotZ = mgRotMatrixZ(rotation.z);
+
+  MulMatrix3(rotZ, rotY, rotX);
+  return rotZ;
 }
 
 // 00130550
 matrix4 mgCreateMatrixPY(const vec4& v, f32 f)
 {
-  log_trace("{}({}, {})", __func__, fmt::ptr(&v), f);
+  log_trace("{}({}, {})", __func__, v, f);
 
-  todo;
-  return matrix4{ 1.0f };
+  matrix4 result = mgUnitMatrix();
+  result = glm::rotate(result, f, { 0, 1, 0 });
+
+  result[3] = v;
+  result[3].w = 1.0f;
+  return result;
 }
 
 // 001305B0
@@ -623,7 +717,7 @@ f32 mgSinf(f32 f)
   f32 sign = copysign(1, f);
 
   ssize index = static_cast<ssize>(fabsf(f) * sin_table_unit_1);
-  index = abs(index) & 0x3FF;
+  index = abs(index) % SinTable.size();
   return SinTable[index] * sign;
 }
 
