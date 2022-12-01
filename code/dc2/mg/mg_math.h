@@ -131,22 +131,22 @@ inline void mgVectorMaxMin(vec4& max_dest, vec4& min_dest, const vec4& v1, const
 void mgBoxMaxMin(mgVu0FBOX& lhs, const mgVu0FBOX& rhs);
 
 // 0012F580
-vec4 mgPlaneNormal(const vec4& v1, const vec4& v2, const vec4& v3);
+vec3 mgPlaneNormal(const vec3& v1, const vec3& v2, const vec3& v3);
 
 // 0012F5B0
-vec4 mgDistPlanePoint(const vec4& v1, const vec4& v2);
+f32 mgDistPlanePoint(const vec3& v1, const vec3& v2, const vec3& v3);
 
 // 0012F5F0
-vec4 mgDistLinePoint(const vec4& v1, const vec4& v2, const vec4& v3);
+f32 mgDistLinePoint(const vec3& v1, const vec3& v2, const vec3& v3, vec3& v4_dest);
 
 // 0012F760
-vec4 mgReflectionPlane(const vec4& v1, const vec4& v2, const vec4& v3);
+f32 mgReflectionPlane(const vec3& v1, const vec3& v2, const vec3& v3, vec3& v4_dest);
 
 // 0012F7F0
-uint mgIntersectionSphereLine0(const vec4& v1, const vec4& v2, vec4* intersections, f32 radius);
+usize mgIntersectionSphereLine0(const vec4& start, const vec4& end, vec4* intersections, f32 radius);
 
 // 0012F990
-vec4 mgIntersectionSphereLine(const vec4& v1, const vec4& v2, vec4* v3);
+usize mgIntersectionSphereLine(const vec4& sphere, const vec4& start, const vec4& end, vec4* intersections);
 
 // 0012FA50
 vec4 mgIntersectionPoint_line_poly3(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4, const vec4& v5, const vec4& v6);
@@ -161,25 +161,25 @@ bool mgCheckPointPoly3_XZ(const vec4& v1, const vec4& v2, const vec4& v3, const 
 bool Check_Point_Poly3(f32 f1, f32 f2, f32 f3, f32 f4, f32 f5, f32 f6, f32 f7, f32 f8);
 
 // 0012FFD0
-f32 mgDistVector(const vec4& v);
+f32 mgDistVector(const vec3& v);
 
 // 00130000
-f32 mgDistVectorXZ(const vec4& v);
+f32 mgDistVectorXZ(const vec3& v);
 
 // 00130030
-f32 mgDistVector2(const vec4& v);
+f32 mgDistVector2(const vec3& v);
 
 // 00130060
-f32 mgDistVector(const vec4& v, const vec4& other);
+f32 mgDistVector(const vec3& v, const vec3& other);
 
 // 001300A0
-f32 mgDistVectorXZ(const vec4& v, const vec4& other);
+f32 mgDistVectorXZ(const vec3& v, const vec3& other);
 
 // 001300E0
-f32 mgDistVector2(const vec4& v, const vec4& other);
+f32 mgDistVector2(const vec3& v, const vec3& other);
 
 // 00130110
-f32 mgDistVectorXZ2(const vec4& v, const vec4& other);
+f32 mgDistVectorXZ2(const vec3& v, const vec3& other);
 
 // 00130140
 matrix4 mgUnitMatrix();

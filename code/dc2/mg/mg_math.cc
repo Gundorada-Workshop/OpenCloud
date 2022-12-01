@@ -97,43 +97,77 @@ void mgBoxMaxMin(mgVu0FBOX& lhs, const mgVu0FBOX& rhs)
 }
 
 // 0012F580
-vec4 mgPlaneNormal(const vec4& v1, const vec4& v2, const vec4& v3)
+vec3 mgPlaneNormal(const vec3& v1, const vec3& v2, const vec3& v3)
 {
-  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3));
+  log_trace("{}({}, {}, {})", __func__, v1, v2, v3);
 
-  todo;
-  return { 0, 0, 0, 1 };
+  auto temp1 = v2 - v1;
+  auto temp2 = v3 - v1;
+  
+  // TODO: Vector outer product - is there a GLM fn for this?
+  return {
+    temp1.y * temp2.z - temp2.y * temp1.z,
+    temp1.z * temp2.x - temp2.z * temp1.x,
+    temp1.x * temp2.y - temp2.x * temp1.y
+  };
 }
 
 // 0012F5B0
-vec4 mgDistPlanePoint(const vec4& v1, const vec4& v2)
+f32 mgDistPlanePoint(const vec3& v1, const vec3& v2, const vec3& v3)
 {
-  log_trace("{}({}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2));
+  log_trace("{}({}, {})", __func__, v1, v2);
 
-  todo;
-  return { 0, 0, 0, 1 };
+  return glm::dot(v1, v3 - v2);
 }
 
 // 0012F5F0
-vec4 mgDistLinePoint(const vec4& v1, const vec4& v2, const vec4& v3)
+f32 mgDistLinePoint(const vec3& v1, const vec3& v2, const vec3& v3, vec3& v4_dest)
 {
-  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3));
+  log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, fmt::ptr(&v4_dest));
 
-  todo;
-  return { 0, 0, 0, 1 };
+  auto var_40 = v2 - v1;
+  auto var_30 = v3 - v1;
+  auto var_10 = var_30 - var_40;
+  f32 f20 = mgDistVector(var_10);
+  f20 *= f20;
+  f32 f0 = -glm::dot(var_40, var_10);
+  f32 f12 = f0 / f20;
+
+  if (f12 >= 0.0f && f12 <= 1.0f)
+  {
+    auto var_20 = var_10 * f12;
+    var_20 += var_40;
+    v4_dest = var_20 + v1;
+    return mgDistVector(var_20);
+  }
+
+  f20 = mgDistVector(v1, v2);
+  f32 f21 = mgDistVector(v1, v3);
+
+  if (f20 < f21)
+  {
+    v4_dest = v2;
+    return f20;
+  }
+  else
+  {
+    v4_dest = v3;
+    return f21;
+  }
 }
 
 // 0012F760
-vec4 mgReflectionPlane(const vec4& v1, const vec4& v2, const vec4& v3)
+f32 mgReflectionPlane(const vec3& v1, const vec3& v2, const vec3& v3, vec3& v4_dest)
 {
-  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3));
+  log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, fmt::ptr(&v4_dest));
 
-  todo;
-  return { 0, 0, 0, 1 };
+  f32 result = mgDistPlanePoint(v1, v2, v3) * 2.0f;
+  v4_dest = v2 - v3 - (v1 * -result);
+  return result;
 }
 
 // 0012F7F0
-uint mgIntersectionSphereLine0(const vec4& start, const vec4& end, vec4* intersections, f32 radius)
+usize mgIntersectionSphereLine0(const vec4& start, const vec4& end, vec4* intersections, f32 radius)
 {
   log_trace("{}({}, {}, {}, {})", __func__, start, end, fmt::ptr(intersections), radius);
 
@@ -261,15 +295,15 @@ bool Check_Point_Poly3(f32 f1, f32 f2, f32 f3, f32 f4, f32 f5, f32 f6, f32 f7, f
 }
 
 // 0012FFD0
-f32 mgDistVector(const vec4& v)
+f32 mgDistVector(const vec3& v)
 {
   log_trace("{}({})", __func__, v);
 
-  return glm::distance(vec3{ v.xyz }, { 0, 0, 0 });
+  return glm::distance(v, {0, 0, 0});
 }
 
 // 00130000
-f32 mgDistVectorXZ(const vec4& v)
+f32 mgDistVectorXZ(const vec3& v)
 {
   log_trace("{}({})", __func__, v);
 
@@ -277,24 +311,24 @@ f32 mgDistVectorXZ(const vec4& v)
 }
 
 // 00130030
-f32 mgDistVector2(const vec4& v)
+f32 mgDistVector2(const vec3& v)
 {
   log_trace("{}({})", __func__, v);
 
-  auto temp = v.xyz * v.xyz;
+  auto temp = v * v;
   return temp.x + temp.y + temp.z;
 }
 
 // 00130060
-f32 mgDistVector(const vec4& v, const vec4& other)
+f32 mgDistVector(const vec3& v, const vec3& other)
 {
   log_trace("{}({})", __func__, v, other);
 
-  return glm::distance(vec3{ v.xyz }, vec3{ other.xyz });
+  return glm::distance(v, other);
 }
 
 // 001300A0
-f32 mgDistVectorXZ(const vec4& v, const vec4& other)
+f32 mgDistVectorXZ(const vec3& v, const vec3& other)
 {
   log_trace("{}({})", __func__, v, other);
 
@@ -302,21 +336,21 @@ f32 mgDistVectorXZ(const vec4& v, const vec4& other)
 }
 
 // 001300E0
-f32 mgDistVector2(const vec4& v, const vec4& other)
+f32 mgDistVector2(const vec3& v, const vec3& other)
 {
-  log_trace("{}({})", __func__, fmt::ptr(&v), fmt::ptr(&other));
+  log_trace("{}({})", __func__, v, other);
 
-  auto temp = v.xyz - other.xyz;
+  auto temp = v - other;
   temp *= temp;
   return temp.x + temp.y + temp.z;
 }
 
 // 00130110
-f32 mgDistVectorXZ2(const vec4& v, const vec4& other)
+f32 mgDistVectorXZ2(const vec3& v, const vec3& other)
 {
-  log_trace("{}({})", __func__, fmt::ptr(&v), fmt::ptr(&other));
+  log_trace("{}({})", __func__, v, other);
 
-  auto temp = v.xyz - other.xyz;
+  auto temp = v - other;
   temp *= temp;
   return temp.x + temp.z;
 }
