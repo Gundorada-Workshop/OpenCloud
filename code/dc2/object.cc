@@ -6,7 +6,7 @@
 set_log_channel("object");
 
 // 00160B50
-_UNKNOWNPOINTER CObject::Draw()
+unkptr CObject::Draw()
 {
   log_trace("CObject::{}()", __func__);
 
@@ -14,7 +14,7 @@ _UNKNOWNPOINTER CObject::Draw()
 }
 
 // 00160B60
-_UNKNOWNPOINTER CObject::DrawDirect()
+unkptr CObject::DrawDirect()
 {
   log_trace("CObject::{}()", __func__);
 
@@ -229,7 +229,7 @@ void CObjectFrame::Initialize()
 }
 
 // 00169FD0
-_UNKNOWNPOINTER CObjectFrame::Draw()
+unkptr CObjectFrame::Draw()
 {
   log_trace("CObjectFrame::Draw()");
 
@@ -242,7 +242,7 @@ _UNKNOWNPOINTER CObjectFrame::Draw()
 }
 
 // 0016A010
-_UNKNOWNPOINTER CObjectFrame::DrawDirect()
+unkptr CObjectFrame::DrawDirect()
 {
   log_trace("CObjectFrame::DrawDirect()");
 

@@ -116,15 +116,15 @@ public:
   ESceneDataStatus m_status { ESceneDataStatus::Initial };
   // 4
   // NOTE: Retrieved in CScene::GetType; some enumeration, maybe?
-  _UNKNOWN m_unk_field_4{ 0 };
+  unk m_unk_field_4{ 0 };
   // 8
   std::array<char, 0x20> m_name{ 0 };
   // 28
   s32 m_unk_field_28{ -1 };
   // 2C
-  _UNKNOWN m_unk_field_2C{ 0 };
+  unk m_unk_field_2C{ 0 };
   // 30
-  _UNKNOWN m_unk_field_30{ 0 };
+  unk m_unk_field_30{ 0 };
 };
 
 class CSceneCharacter : public CSceneData
@@ -210,7 +210,7 @@ public:
   {
   public:
     // 0
-    _UNKNOWN m_unk_field_0{ 0 };
+    unk m_unk_field_0{ 0 };
     // 4
     s32 m_unk_field_4{ 0 };
     // 8
@@ -220,15 +220,15 @@ public:
     // 10
     s32 m_volume{ 0 };
     // 14
-    _UNKNOWN m_unk_field_14{ 0 };
+    unk m_unk_field_14{ 0 };
     // 18
     float m_unk_field_18{ 0 };
     // 1C
-    _UNKNOWN m_unk_field_1C{ 0 };
+    unk m_unk_field_1C{ 0 };
     // 20
-    _UNKNOWN m_unk_field_20{ 0 };
+    unk m_unk_field_20{ 0 };
     // 24
-    _UNKNOWN m_unk_field_24{ 0 };
+    unk m_unk_field_24{ 0 };
 
     // ?
 
@@ -309,7 +309,7 @@ public:
   // 00283E00
   ssize GetMainMapNo();
   // 00283E30
-  _UNKNOWNPOINTER InScreenFunc(InScreenFuncInfo& func_info);
+  unkptr InScreenFunc(InScreenFuncInfo& func_info);
   // 002842F0
   void DrawScreenFunc(mgCFrame& frame);
   // 00284390
@@ -339,9 +339,9 @@ public:
   // 002847C0
   ESceneDataStatus GetStatus(ESceneDataType data_type, ssize data_index);
   // 002847F0
-  void SetType(ESceneDataType data_type, ssize data_index, _UNKNOWN _data_type);
+  void SetType(ESceneDataType data_type, ssize data_index, unk _data_type);
   // 00284820
-  _UNKNOWN GetType(ESceneDataType data_type, ssize data_index);
+  unk GetType(ESceneDataType data_type, ssize data_index);
   // 00284850
   // Stores active maps in maps_dest, returns amount of active maps.
   usize GetActiveMaps(CMap** maps_dest, usize maps_capacity);
@@ -367,7 +367,7 @@ public:
   // 00284B80
   void SetNowSubMapNo(s32 now_sub_map_no);
   // 00284BA0
-  void LoadChara(_UNKNOWN i1, _UNKNOWNPOINTER p1, _UNKNOWNPOINTER p2, mgCMemory& m1, mgCMemory& m2, mgCMemory& m3, _UNKNOWN i2, _UNKNOWN i3);
+  void LoadChara(unk i1, unkptr p1, unkptr p2, mgCMemory& m1, mgCMemory& m2, mgCMemory& m3, unk i2, unk i3);
   // 002853B0
   void DeleteChara(ssize character_index);
   // 002853E0
@@ -467,21 +467,21 @@ public:
   // 002A6C00
   bool CheckLoadSeBase(int i);
   // 002A6C30
-  _UNKNOWNPOINTER SearchSndDataID(int i);
+  unkptr SearchSndDataID(int i);
   // 002A6CC0
   s16 GetDefBGMNo(int i);
   // 002A6CF0
   bool GetDefEventSeFile(int i, char* c);
   // 002A7290
-  bool LoadBGMPack(int i, _UNKNOWNPOINTER p);
+  bool LoadBGMPack(int i, unkptr p);
   // 002A7340
-  bool LoadSeSrcPack(int i, _UNKNOWNPOINTER p);
+  bool LoadSeSrcPack(int i, unkptr p);
   // 002A7410
-  bool LoadSeEnvPack(int i, _UNKNOWNPOINTER p);
+  bool LoadSeEnvPack(int i, unkptr p);
   // 002A74C0
-  bool LoadSeBattlePack(int i, _UNKNOWNPOINTER p);
+  bool LoadSeBattlePack(int i, unkptr p);
   // 002A7560
-  bool LoadSeBasePack(int i, _UNKNOWNPOINTER p);
+  bool LoadSeBasePack(int i, unkptr p);
   // 002A7600
   void PrePlaySeSrc();
   // 002A7670
@@ -503,11 +503,11 @@ public:
   // 002A80E0
   void SePlayFoot(int i1, int i2, float* fp);
   // 002A8160
-  int GetLine(_UNKNOWNPOINTER p1, _UNKNOWNPOINTER p2, _UNKNOWNPOINTER p3);
+  int GetLine(unkptr p1, unkptr p2, unkptr p3);
   // 002A8300
-  void LoadSndRevInfo(_UNKNOWNPOINTER p1, int i);
+  void LoadSndRevInfo(unkptr p1, int i);
   // 002A8320
-  void LoadSndFileInfo(_UNKNOWNPOINTER p1, int i);
+  void LoadSndFileInfo(unkptr p1, int i);
   // 002C79F0
   void UpdateMapInfo();
   // 002C7B50
@@ -531,7 +531,7 @@ public:
   // 002C8370
   void DrawSky(s32 i);
   // 002C8520
-  void DrawLensFlare(ssize map_index, _UNKNOWNPOINTER p1, _UNKNOWNPOINTER p2);
+  void DrawLensFlare(ssize map_index, unkptr p1, unkptr p2);
   // 002C8790
   void EffectStep();
   // 002C8820
@@ -553,7 +553,7 @@ public:
   // 002C94F0
   s32 SearchCharaTexb(int i);
   // 002C9590
-  void PreLoadVillager(ssize villager_index, _UNKNOWNPOINTER p);
+  void PreLoadVillager(ssize villager_index, unkptr p);
   // 002C9640
   void DeleteVillager(ssize villager_index);
   // 002C9660
@@ -565,9 +565,9 @@ public:
   // 002C9830
   bool GetNowVillagerTime();
   // 002C9880
-  usize GetLoadVillagerList(_UNKNOWN i, _UNKNOWNPOINTER pi, CVillagerPlaceInfo&& place_info);
+  usize GetLoadVillagerList(unk i, unkptr pi, CVillagerPlaceInfo&& place_info);
   // 002C9980
-  s32 SearchCopyModel(_UNKNOWN i);
+  s32 SearchCopyModel(unk i);
   // 002C9B80
   void CharaObjectOnOff(ssize character_index, mgCMemory& stack);
   // 002C9D40
@@ -585,9 +585,9 @@ public:
   // 002CA880
   void StepVillager();
   // 002CACD0
-  void StayNearVillager(vec4& v, _UNKNOWNPOINTER pi);
+  void StayNearVillager(vec4& v, unkptr pi);
   // 002CAE60
-  void CancelStayVillager(_UNKNOWNPOINTER pi);
+  void CancelStayVillager(unkptr pi);
   // 002CAEE0
   void StayVillager(int i);
   // 002CAF20
@@ -613,9 +613,9 @@ public:
   // 8
   std::array<mgCMemory*, 12> m_stacks;
   // 38
-  _UNKNOWN m_unk_field_38;
+  unk m_unk_field_38;
   // 3C
-  _UNKNOWN m_unk_field_3C;
+  unk m_unk_field_3C;
   // 40
   ssize m_n_characters;
   // 44
@@ -654,7 +654,7 @@ public:
   // 2C70
   CFadeInOut m_fade_in_out;
   // 2CA0
-  _UNKNOWN m_unk_field_2CA0;
+  unk m_unk_field_2CA0;
   // 2CA8
   SCN_LOADMAP_INFO2 m_scn_loadmap_info;
   // 2E50
@@ -674,44 +674,44 @@ public:
   // 2E6C
   s32 m_last_sub_map_no;
   // 2E70
-  _UNKNOWN m_unk_field_2E70;
+  unk m_unk_field_2E70;
   // 2E74
-  _UNKNOWN m_unk_field_2E74;
+  unk m_unk_field_2E74;
   // 2E78
-  _UNKNOWN m_unk_field_2E78;
+  unk m_unk_field_2E78;
   // 2E7C
-  _UNKNOWN m_unk_field_2E7C;
+  unk m_unk_field_2E7C;
   // 2E80
-  _UNKNOWN m_unk_field_2E80;
+  unk m_unk_field_2E80;
   // 2E84
-  _UNKNOWN m_unk_field_2E84;
+  unk m_unk_field_2E84;
   // 2E90
   CSceneEventData m_scene_event_data;
   // 2F64
-  _UNKNOWN m_unk_field_2F64;
+  unk m_unk_field_2F64;
   // 2F68
-  _UNKNOWN m_unk_field_2F68;
+  unk m_unk_field_2F68;
   // 2F6C
-  _UNKNOWN m_unk_field_2F6C;
+  unk m_unk_field_2F6C;
   // 2F70
   float m_unk_field_2F70;
   // 2F74
-  _UNKNOWN m_unk_field_2F74;
+  unk m_unk_field_2F74;
   // 2F78
   float m_wind_velocity;
   // 2F80
   vec4 m_wind_direction;
   // 2F90
-  _UNKNOWN m_unk_field_2F90;
+  unk m_unk_field_2F90;
   // 2F94
-  _UNKNOWN m_unk_field_2F94;
+  unk m_unk_field_2F94;
 
   // ?
 
   // 2FA4
   CDngFloorManager m_dng_floor_manager;
   // 2FB4
-  _UNKNOWN m_unk_field_2FB4;
+  unk m_unk_field_2FB4;
 
   // ?
 
@@ -726,26 +726,26 @@ public:
   // ?
 
   // 3008
-  _UNKNOWN m_unk_field_3008;
+  unk m_unk_field_3008;
   // 300C
-  _UNKNOWN m_unk_field_300C;
+  unk m_unk_field_300C;
   // 3010
-  _UNKNOWN m_unk_field_3010;
+  unk m_unk_field_3010;
 
   // ?
 
   // 3038
-  _UNKNOWN m_unk_field_3038;
+  unk m_unk_field_3038;
   // 303C
-  _UNKNOWN m_unk_field_303C;
+  unk m_unk_field_303C;
   // 3040
-  _UNKNOWN m_unk_field_3040;
+  unk m_unk_field_3040;
   // 3050
   CVillagerMngr m_villager_manager;
   // 3E60
-  _UNKNOWN m_unk_field_3E60;
+  unk m_unk_field_3E60;
   // 3E64
-  _UNKNOWN m_unk_field_3E64;
+  unk m_unk_field_3E64;
   // 3E70
   CThunderEffect m_thunder_effect;
 

@@ -14,9 +14,9 @@ struct MapJumpInfo
   //MapJumpInfo();
 
   // 0
-  _DWORD m_unk_field_0{ 0 };
+  unk32 m_unk_field_0{ 0 };
   // 4
-  _DWORD m_unk_field_4{ 0 };
+  unk32 m_unk_field_4{ 0 };
   // 8
   s32 m_unk_field_8{ 0 };
   // C
@@ -24,7 +24,7 @@ struct MapJumpInfo
   // 10
   s32 m_unk_field_10{ 0 };
   // 14
-  _UNKNOWNPOINTER m_unk_field_14{ nullptr };
+  unkptr m_unk_field_14{ nullptr };
 
   // SIZE 0x18
 };

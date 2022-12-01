@@ -720,7 +720,7 @@ public:
   ECommonItemData GetDataStartListNo(ECommonItemDataType type);
 
   // 0
-  _DWORD m_unk_field_0{ 0 };
+  unk32 m_unk_field_0{ 0 };
   // 4
   SDataItemCommon* m_com_itemdata;
   // 8
@@ -736,7 +736,7 @@ public:
   // 1C
   CDataBreedFish* m_fishdata;
   // 20
-  _WORD m_unk_field_20{ 0 };
+  unk16 m_unk_field_20{ 0 };
   // 22
   s16 m_n_com_itemdata{ 0 };
   // 24

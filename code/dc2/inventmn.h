@@ -30,9 +30,9 @@ struct SInventUserDataUnk1
   // 0
   USER_PICTURE_INFO m_user_picture_info;
   // C
-  _UNKNOWN m_unk_field_C;
+  unk m_unk_field_C;
   // 10
-  _UNKNOWN m_unk_field_10;
+  unk m_unk_field_10;
   // 14
   std::array<u8, 0x2000>* m_unk_field_14;
 };
@@ -47,11 +47,11 @@ public:
   void ResetAddress();
 
   // 0
-  _UNKNOWN m_unk_field_0;
+  unk m_unk_field_0;
   // 4
-  _UNKNOWN m_unk_field_4;
+  unk m_unk_field_4;
   // 8
-  _UNKNOWNSTRUCT(0x400) m_unk_field_8;
+  unks<0x400> m_unk_field_8;
   // 408
   std::array<SInventUserDataUnk1, 30> m_unk_field_408;
   // 6D8

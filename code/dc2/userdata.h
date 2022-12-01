@@ -338,15 +338,15 @@ public:
   // 43C
   std::array<CGameDataUsed, 2> m_unk_field_43C;
   // 514
-  _UNKNOWN m_unk_field_514;
+  unk m_unk_field_514;
   // 518 (8 bytes)
-  _UNKNOWN m_unk_field_518;
+  unk m_unk_field_518;
   // 520 (8 bytes)
-  _UNKNOWN m_unk_field_520;
+  unk m_unk_field_520;
   // 528
-  _UNKNOWN m_unk_field_528;
+  unk m_unk_field_528;
   // 52C
-  _UNKNOWN m_unk_field_52C;
+  unk m_unk_field_52C;
 };
 
 class CFishingRecord

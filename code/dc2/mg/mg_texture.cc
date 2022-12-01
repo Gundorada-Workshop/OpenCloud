@@ -438,7 +438,7 @@ mgCTexture* mgCTextureManager::GetTexture(const char* name, ssize i)
 }
 
 // 0012D140
-void mgCTextureManager::EnterTexture(usize texb, const char* name, _UNKNOWNPOINTER p1, s32 width, s32 height, u32 i3, _UNKNOWNPOINTER p2, u64 i4, int i5)
+void mgCTextureManager::EnterTexture(usize texb, const char* name, unkptr p1, s32 width, s32 height, u32 i3, unkptr p2, u64 i4, int i5)
 {
   log_trace(
     "mgCTextureManager::{}({}, {}, {}, {}, {}, {}, {}, {}, {})",

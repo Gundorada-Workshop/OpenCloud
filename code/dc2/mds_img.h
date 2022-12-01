@@ -12,9 +12,9 @@ public:
   // 0
   char* m_unk_field_0;
   // 4
-  _UNKNOWN m_unk_field_4;
+  unk m_unk_field_4;
   // 8
-  _UNKNOWN m_unk_field_8;
+  unk m_unk_field_8;
 };
 
 class CIMGList
@@ -23,7 +23,7 @@ public:
   // 0
   char* m_unk_field_0;
   // 4
-  _UNKNOWN m_unk_field_4;
+  unk m_unk_field_4;
 };
 
 class CMdsListSet

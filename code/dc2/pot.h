@@ -14,9 +14,9 @@ public:
   CFragment();
 
   // 0
-  _DWORD m_unk_field_0;
+  unk32 m_unk_field_0;
   // 4
-  _DWORD m_unk_field_4;
+  unk32 m_unk_field_4;
   // 10
   vec4 m_unk_field_10;
   // 20
@@ -26,7 +26,7 @@ public:
   // 40
   vec4 m_unk_field_40;
   // 50
-  _DWORD m_unk_field_50;
+  unk32 m_unk_field_50;
 
   // ALIGNED SIZE 0x60 
 };
@@ -38,23 +38,23 @@ public:
   CBPot();
 
   // 0
-  _DWORD m_unk_field_0;
+  unk32 m_unk_field_0;
   // 4
-  _DWORD m_unk_field_4;
+  unk32 m_unk_field_4;
   // 8
-  _DWORD m_unk_field_8;
+  unk32 m_unk_field_8;
   // C
-  _DWORD m_unk_field_C;
+  unk32 m_unk_field_C;
   // 10
-  _DWORD m_unk_field_10;
+  unk32 m_unk_field_10;
   // 20
   vec4 m_unk_field_20;
   // 30
-  _DWORD m_unk_field_30;
+  unk32 m_unk_field_30;
   // 40
   std::array<CFragment, 32> m_fragments;
   // C40
-  _DWORD m_unk_field_C40;
+  unk32 m_unk_field_C40;
 };
 
 class CPot
@@ -65,9 +65,9 @@ public:
   CPot();
 
   // 0
-  _DWORD m_unk_field_0;
+  unk32 m_unk_field_0;
   // 4
-  _DWORD m_unk_field_4;
+  unk32 m_unk_field_4;
   // 10
   vec4 m_unk_field_10;
   // 20
@@ -81,7 +81,7 @@ public:
   // 60
   vec4 m_unk_field_60;
   // 70
-  _DWORD m_unk_field_70;
+  unk32 m_unk_field_70;
 
   // ALIGNED SIZE 0x80
 };

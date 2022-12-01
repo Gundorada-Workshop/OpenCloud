@@ -28,9 +28,9 @@ public:
 	// 90
 	u32 m_unk_field_90;
 	// 94
-	_UNKNOWN m_unk_field_94;
+	unk m_unk_field_94;
 	// 98
-	_UNKNOWN m_unk_field_98;
+	unk m_unk_field_98;
 	// 9C
 	u32 m_unk_field_9C;
 	// A0
@@ -40,5 +40,5 @@ public:
 	// A8
 	u32 m_unk_field_A8;
 	// AC
-	_UNKNOWN m_unk_field_AC;
+	unk m_unk_field_AC;
 };

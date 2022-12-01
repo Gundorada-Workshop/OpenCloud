@@ -838,7 +838,7 @@ ssize CScene::GetMainMapNo()
 }
 
 // 00283E30
-_UNKNOWNPOINTER CScene::InScreenFunc(InScreenFuncInfo& func_info)
+unkptr CScene::InScreenFunc(InScreenFuncInfo& func_info)
 {
 	log_trace("CScene::{}({})", __func__, fmt::ptr(&func_info));
 
@@ -1106,7 +1106,7 @@ ESceneDataStatus CScene::GetStatus(ESceneDataType data_type, ssize data_index)
 }
 
 // 002847F0
-void CScene::SetType(ESceneDataType data_type, ssize data_index, _UNKNOWN _data_type)
+void CScene::SetType(ESceneDataType data_type, ssize data_index, unk _data_type)
 {
 	log_trace("CScene::{}({}, {}, {})", __func__, data_type, data_index, _data_type);
 
@@ -1114,7 +1114,7 @@ void CScene::SetType(ESceneDataType data_type, ssize data_index, _UNKNOWN _data_
 }
 
 // 00284820
-_UNKNOWN CScene::GetType(ESceneDataType data_type, ssize data_index)
+unk CScene::GetType(ESceneDataType data_type, ssize data_index)
 {
 	log_trace("CScene::{}({}, {})", __func__, data_type, data_index);
 
@@ -1232,7 +1232,7 @@ void CScene::SetNowSubMapNo(s32 now_sub_map_no)
 }
 
 // 00284BA0
-void CScene::LoadChara(_UNKNOWN i1, _UNKNOWNPOINTER p1, _UNKNOWNPOINTER p2, mgCMemory& m1, mgCMemory& m2, mgCMemory& m3, _UNKNOWN i2, _UNKNOWN i3)
+void CScene::LoadChara(unk i1, unkptr p1, unkptr p2, mgCMemory& m1, mgCMemory& m2, mgCMemory& m3, unk i2, unk i3)
 {
 	log_trace("CScene::{}({}, {}, {}, {}, {}, {}, {}, {})", __func__, i1, fmt::ptr(p1), fmt::ptr(p2), fmt::ptr(&m1), fmt::ptr(&m2), fmt::ptr(&m3), i2, i3);
 
@@ -1652,7 +1652,7 @@ bool CScene::CheckLoadSeBase(int i)
 }
 
 // 002A6C30
-_UNKNOWNPOINTER CScene::SearchSndDataID(int i)
+unkptr CScene::SearchSndDataID(int i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -1679,7 +1679,7 @@ bool CScene::GetDefEventSeFile(int i, char* c)
 }
 
 // 002A7290
-bool CScene::LoadBGMPack(int i, _UNKNOWNPOINTER p)
+bool CScene::LoadBGMPack(int i, unkptr p)
 {
 	log_trace("CScene::{}({}, {})", __func__, i, fmt::ptr(p));
 
@@ -1688,7 +1688,7 @@ bool CScene::LoadBGMPack(int i, _UNKNOWNPOINTER p)
 }
 
 // 002A7340
-bool CScene::LoadSeSrcPack(int i, _UNKNOWNPOINTER p)
+bool CScene::LoadSeSrcPack(int i, unkptr p)
 {
 	log_trace("CScene::{}({}, {})", __func__, i, fmt::ptr(p));
 
@@ -1697,7 +1697,7 @@ bool CScene::LoadSeSrcPack(int i, _UNKNOWNPOINTER p)
 }
 
 // 002A7410
-bool CScene::LoadSeEnvPack(int i, _UNKNOWNPOINTER p)
+bool CScene::LoadSeEnvPack(int i, unkptr p)
 {
 	log_trace("CScene::{}({}, {})", __func__, i, fmt::ptr(p));
 
@@ -1706,7 +1706,7 @@ bool CScene::LoadSeEnvPack(int i, _UNKNOWNPOINTER p)
 }
 
 // 002A74C0
-bool CScene::LoadSeBattlePack(int i, _UNKNOWNPOINTER p)
+bool CScene::LoadSeBattlePack(int i, unkptr p)
 {
 	log_trace("CScene::{}({}, {})", __func__, i, fmt::ptr(p));
 
@@ -1715,7 +1715,7 @@ bool CScene::LoadSeBattlePack(int i, _UNKNOWNPOINTER p)
 }
 
 // 002A7560
-bool CScene::LoadSeBasePack(int i, _UNKNOWNPOINTER p)
+bool CScene::LoadSeBasePack(int i, unkptr p)
 {
 	log_trace("CScene::{}({}, {})", __func__, i, fmt::ptr(p));
 
@@ -1806,7 +1806,7 @@ void CScene::SePlayFoot(int i1, int i2, float* fp)
 }
 
 // 002A8160
-int CScene::GetLine(_UNKNOWNPOINTER p1, _UNKNOWNPOINTER p2, _UNKNOWNPOINTER p3)
+int CScene::GetLine(unkptr p1, unkptr p2, unkptr p3)
 {
 	log_trace("CScene::{}()", __func__, fmt::ptr(p1), fmt::ptr(p2), fmt::ptr(p3));
 
@@ -1815,7 +1815,7 @@ int CScene::GetLine(_UNKNOWNPOINTER p1, _UNKNOWNPOINTER p2, _UNKNOWNPOINTER p3)
 }
 
 // 002A8300
-void CScene::LoadSndRevInfo(_UNKNOWNPOINTER p1, int i)
+void CScene::LoadSndRevInfo(unkptr p1, int i)
 {
 	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(p1), i);
 
@@ -1823,7 +1823,7 @@ void CScene::LoadSndRevInfo(_UNKNOWNPOINTER p1, int i)
 }
 
 // 002A8320
-void CScene::LoadSndFileInfo(_UNKNOWNPOINTER p1, int i)
+void CScene::LoadSndFileInfo(unkptr p1, int i)
 {
 	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(p1), i);
 
@@ -1922,7 +1922,7 @@ void CScene::DrawSky(s32 i)
 }
 
 // 002C8520
-void CScene::DrawLensFlare(ssize map_index, _UNKNOWNPOINTER p1, _UNKNOWNPOINTER p2)
+void CScene::DrawLensFlare(ssize map_index, unkptr p1, unkptr p2)
 {
 	log_trace("CScene::{}({}, {}, {})", __func__, map_index, fmt::ptr(p1), fmt::ptr(p2));
 
@@ -2026,7 +2026,7 @@ s32 CScene::SearchCharaTexb(int i)
 }
 
 // 002C9590
-void CScene::PreLoadVillager(ssize villager_index, _UNKNOWNPOINTER p)
+void CScene::PreLoadVillager(ssize villager_index, unkptr p)
 {
 	log_trace("CScene::{}({}, {})", __func__, villager_index, fmt::ptr(p));
 
@@ -2076,7 +2076,7 @@ bool CScene::GetNowVillagerTime()
 }
 
 // 002C9880
-usize CScene::GetLoadVillagerList(_UNKNOWN i, _UNKNOWNPOINTER pi, CVillagerPlaceInfo&& place_info)
+usize CScene::GetLoadVillagerList(unk i, unkptr pi, CVillagerPlaceInfo&& place_info)
 {
 	log_trace("CScene::{}({}, {}, {})", __func__, i, fmt::ptr(pi), fmt::ptr(&place_info));
 
@@ -2085,7 +2085,7 @@ usize CScene::GetLoadVillagerList(_UNKNOWN i, _UNKNOWNPOINTER pi, CVillagerPlace
 }
 
 // 002C9980
-s32 CScene::SearchCopyModel(_UNKNOWN i)
+s32 CScene::SearchCopyModel(unk i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -2164,7 +2164,7 @@ void CScene::StepVillager()
 }
 
 // 002CACD0
-void CScene::StayNearVillager(vec4& v, _UNKNOWNPOINTER pi)
+void CScene::StayNearVillager(vec4& v, unkptr pi)
 {
 	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(&v), fmt::ptr(pi));
 
@@ -2172,7 +2172,7 @@ void CScene::StayNearVillager(vec4& v, _UNKNOWNPOINTER pi)
 }
 
 // 002CAE60
-void CScene::CancelStayVillager(_UNKNOWNPOINTER pi)
+void CScene::CancelStayVillager(unkptr pi)
 {
 	log_trace("CScene::{}({})", __func__, fmt::ptr(pi));
 

@@ -48,15 +48,15 @@ struct SDebugInfo
 struct SInitArg
 {
 	// 0
-	_UNKNOWN m_unk_field_0{ 0 };
+	unk m_unk_field_0{ 0 };
 	// 4
-	_UNKNOWNSTRUCT(0x40) m_unk_field_4{ 0 };
+	unks<0x40> m_unk_field_4{ };
 	// 44
-	_UNKNOWN m_unk_field_44{ 0 };
+	unk m_unk_field_44{ 0 };
 	// 48
-	_UNKNOWN m_unk_field_48{ 0 };
+	unk m_unk_field_48{ 0 };
 	// 4C
-	_UNKNOWN m_unk_field_4C{ 0 };
+	unk m_unk_field_4C{ 0 };
 };
 
 namespace MainLoop_SInit

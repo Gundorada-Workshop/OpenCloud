@@ -9,9 +9,9 @@ class CObject : public mgCObject
 {
 public:
 	// 34 00160B50
-	virtual _UNKNOWNPOINTER Draw();
+	virtual unkptr Draw();
 	// 38 00160B60
-	virtual _UNKNOWNPOINTER DrawDirect();
+	virtual unkptr DrawDirect();
 	// 3C 00169DE0
 	virtual void Initialize();
 	// 40 00169DB0
@@ -63,9 +63,9 @@ class CObjectFrame : public CObject
 {
 public:
 	// 34 00169FD0
-	virtual _UNKNOWNPOINTER Draw();
+	virtual unkptr Draw();
 	// 38 0016A010
-	virtual _UNKNOWNPOINTER DrawDirect();
+	virtual unkptr DrawDirect();
 	// 3C 0016A130
 	virtual void Initialize();
 	// 40 00169F30

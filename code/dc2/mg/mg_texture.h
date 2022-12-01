@@ -63,7 +63,7 @@ public:
   // 0012D050
   mgCTexture* GetTexture(const char* name, ssize i);
   // 0012D140
-  void EnterTexture(usize texb, const char* name, _UNKNOWNPOINTER p1, s32 width, s32 height, u32 i3, _UNKNOWNPOINTER p2, u64 i4, int i5);
+  void EnterTexture(usize texb, const char* name, unkptr p1, s32 width, s32 height, u32 i3, unkptr p2, u64 i4, int i5);
   // 0012DA90
   void EnterIMGFile(u8* img_file_buff, usize texb, mgCMemory* stack, mgCEnterIMGInfo* enter_info);
   // 0012E540
@@ -78,7 +78,7 @@ public:
   // 4
   void* m_vram_bottom;
   // 8
-  _UNKNOWN m_unk_field_8;
+  unk m_unk_field_8;
   // C
   usize m_n_blocks{};
   // 10
@@ -94,7 +94,7 @@ public:
   // 1C0
   usize m_n_textures{};
   // 1C4
-  _DWORD m_unk_field_1C4;
+  unk32 m_unk_field_1C4;
   // 1C8
   TextureHash* m_hashes;
   // 1CC

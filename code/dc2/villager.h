@@ -34,33 +34,33 @@ public:
   // 8
   s32 m_unk_field_8;
   // C
-  _UNKNOWN m_unk_field_C;
+  unk m_unk_field_C;
   // 10
-  _UNKNOWN m_unk_field_10;
+  unk m_unk_field_10;
   // 14
-  _UNKNOWN m_unk_field_14;
+  unk m_unk_field_14;
   // 18
-  _UNKNOWN m_unk_field_18;
+  unk m_unk_field_18;
   // 1C
-  _UNKNOWN m_unk_field_1C;
+  unk m_unk_field_1C;
   // 20
-  _UNKNOWN m_unk_field_20;
+  unk m_unk_field_20;
   // 24
-  _UNKNOWN m_unk_field_24;
+  unk m_unk_field_24;
   // 28
-  _UNKNOWN m_unk_field_28;
+  unk m_unk_field_28;
   // 2C
-  _UNKNOWN m_unk_field_2C;
+  unk m_unk_field_2C;
   // 30
-  _UNKNOWN m_unk_field_30;
+  unk m_unk_field_30;
   // 34
-  _UNKNOWN m_unk_field_34;
+  unk m_unk_field_34;
   // 38
-  _UNKNOWN m_unk_field_38;
+  unk m_unk_field_38;
   // 3C
-  _UNKNOWN m_unk_field_3C;
+  unk m_unk_field_3C;
   // 40
-  _UNKNOWN m_unk_field_40;
+  unk m_unk_field_40;
   // 50
   vec4 m_unk_field_50;
   // 60
@@ -74,7 +74,7 @@ public:
   void Initialize();
 
   // 0
-  _UNKNOWN m_unk_field_0;
+  unk m_unk_field_0;
   // 4
   usize m_n_villager_data;
   // 10

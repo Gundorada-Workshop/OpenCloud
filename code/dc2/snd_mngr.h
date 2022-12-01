@@ -47,21 +47,21 @@ public:
   sndCSeSeq();
 
   // 8
-  _UNKNOWN m_unk_field_8;
+  unk m_unk_field_8;
   // C
   // FIXME: What the heck is this type? 00190620
-  _UNKNOWN m_unk_field_C;
+  unk m_unk_field_C;
   // 10
-  _UNKNOWN m_unk_field_10;
+  unk m_unk_field_10;
   // 14
-  _UNKNOWN m_unk_field_14;
+  unk m_unk_field_14;
   // 18
   int m_unk_field_18;
   
   // ?
   
   // 28
-  _UNKNOWN m_unk_field_28;
+  unk m_unk_field_28;
   // 2C
   usize m_n_unk_field_30;
   // 30
@@ -86,19 +86,19 @@ struct sndPortInfo
   // 4
   s32 m_unk_field_4;
   // 8
-  _UNKNOWN m_unk_field_8;
+  unk m_unk_field_8;
   // C
   // (70 32-bit words ; size 0x1C0)
-  std::array<_UNKNOWN, 70> m_unk_field_C;
+  std::array<unk, 70> m_unk_field_C;
 
   // ?
 
   // 20C
   s32 m_unk_field_20C;
   // 210
-  _UNKNOWN m_unk_field_210;
+  unk m_unk_field_210;
   // 214
-  _UNKNOWN m_unk_field_214;
+  unk m_unk_field_214;
   // 218
   s32 m_unk_field_218;
   // 21C
@@ -112,7 +112,7 @@ public:
   void Initialize();
 
   usize m_n_unk_field_4;
-  _UNKNOWNPOINTER m_unk_field_4;
+  unkptr m_unk_field_4;
 };
 
 // 0018D1E0
