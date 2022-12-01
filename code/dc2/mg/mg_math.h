@@ -188,7 +188,7 @@ matrix4 mgUnitMatrix();
 matrix4 mgZeroMatrix();
 
 // 00130180
-matrix4 MulMatrix3(const matrix4& lhs, const matrix4& rhs);
+matrix4 MulMatrix3(const matrix4& m1, const matrix4& m2, const matrix4& m3);
 
 // 00130250
 matrix4 mgMulMatrix(const matrix4& lhs, const matrix4& rhs);
@@ -197,16 +197,16 @@ matrix4 mgMulMatrix(const matrix4& lhs, const matrix4& rhs);
 matrix4 mgInverseMatrix(const matrix4& mat);
 
 // 001303D0
-void mgRotMatrixX(matrix4& mat, f32 rotation);
+matrix4 mgRotMatrixX(f32 rotation);
 
 // 00130430
-void mgRotMatrixY(matrix4& mat, f32 rotation);
+matrix4 mgRotMatrixY(f32 rotation);
 
 // 00130490
-void mgRotMatrixZ(matrix4& mat, f32 rotation);
+matrix4 mgRotMatrixZ(f32 rotation);
 
 // 001304F0
-void mgRotMatrixXYZ(matrix4& mat, const vec4& rotation);
+matrix4 mgRotMatrixXYZ(const vec3& rotation);
 
 // 00130550
 matrix4 mgCreateMatrixPY(const vec4& v, f32 f);

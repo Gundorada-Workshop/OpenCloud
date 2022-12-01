@@ -372,12 +372,12 @@ matrix4 mgZeroMatrix()
 }
 
 // 00130180
-matrix4 MulMatrix3(const matrix4& lhs, const matrix4& rhs)
+matrix4 MulMatrix3(const matrix4& m1, const matrix4& m2, const matrix4& m3)
 {
-  log_trace("{}({}, {})", __func__, fmt::ptr(&lhs), fmt::ptr(&rhs));
+  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&m1), fmt::ptr(&m2), fmt::ptr(&m3));
 
   todo;
-  return matrix4{ 1.0f };
+  return mgUnitMatrix();
 }
 
 // 00130250
@@ -399,11 +399,11 @@ matrix4 mgInverseMatrix(const matrix4& mat)
 }
 
 // 001303D0
-void mgRotMatrixX(matrix4& mat, f32 rotation)
+matrix4 mgRotMatrixX(f32 rotation)
 {
-  log_trace("{}({}, {})", __func__, fmt::ptr(&mat), rotation);
+  log_trace("{}({})", __func__, rotation);
 
-  mat = mgUnitMatrix();
+  matrix4 mat = mgUnitMatrix();
 
   f32 f = cosf(rotation);
   mat[2].z = f;
@@ -412,14 +412,15 @@ void mgRotMatrixX(matrix4& mat, f32 rotation)
   f = sinf(rotation);
   mat[1].z = f;
   mat[2].y = f;
+  return mat;
 }
 
 // 00130430
-void mgRotMatrixY(matrix4& mat, f32 rotation)
+matrix4 mgRotMatrixY(f32 rotation)
 {
-  log_trace("{}({}, {})", __func__, fmt::ptr(&mat), rotation);
+  log_trace("{}({})", __func__, rotation);
 
-  mat = mgUnitMatrix();
+  matrix4 mat = mgUnitMatrix();
 
   f32 f = cosf(rotation);
   mat[2].z = f;
@@ -428,14 +429,15 @@ void mgRotMatrixY(matrix4& mat, f32 rotation)
   f = sinf(rotation);
   mat[0].z = f;
   mat[2].x = f;
+  return mat;
 }
 
 // 00130490
-void mgRotMatrixZ(matrix4& mat, f32 rotation)
+matrix4 mgRotMatrixZ(f32 rotation)
 {
-  log_trace("{}({}, {})", __func__, fmt::ptr(&mat), rotation);
+  log_trace("{}({})", __func__, rotation);
 
-  mat = mgUnitMatrix();
+  matrix4 mat = mgUnitMatrix();
 
   f32 f = cosf(rotation);
   mat[1].y = f;
@@ -444,14 +446,20 @@ void mgRotMatrixZ(matrix4& mat, f32 rotation)
   f = sinf(rotation);
   mat[0].y = f;
   mat[1].x = f;
+  return mat;
 }
 
 // 001304F0
-void mgRotMatrixXYZ(matrix4& mat, const vec4& rotation)
+matrix4 mgRotMatrixXYZ(const vec3& rotation)
 {
-  log_trace("{}({}, {})", __func__, fmt::ptr(&mat), fmt::ptr(&rotation));
+  log_trace("{}({})", __func__, rotation);
 
-  todo;
+  matrix4 rotX = mgRotMatrixX(rotation.x);
+  matrix4 rotY = mgRotMatrixY(rotation.y);
+  matrix4 rotZ = mgRotMatrixZ(rotation.z);
+
+  MulMatrix3(rotZ, rotY, rotX);
+  return rotZ;
 }
 
 // 00130550
