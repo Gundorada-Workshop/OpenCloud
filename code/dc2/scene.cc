@@ -5,6 +5,8 @@
 
 set_log_channel("scene");
 
+using namespace common;
+
 // 00285150
 void SCN_LOADMAP_INFO2::Initialize()
 {
@@ -265,7 +267,7 @@ CScene::CScene()
 	m_unk_field_3010 = 0;
 	m_unk_field_2FD4 = -1;
 	m_wind_velocity = 0.0f;
-	m_wind_direction = glm::vec4(0.0f);
+	m_wind_direction = vec4(0.0f);
 
 	m_unk_field_3E60 = -1;
 	m_unk_field_3E64 = -1;
@@ -1179,12 +1181,12 @@ void CScene::TimeStep(float time)
 }
 
 // 00284B30
-void CScene::SetWind(const glm::vec4& wind_direction, float wind_velocity)
+void CScene::SetWind(const vec4& wind_direction, float wind_velocity)
 {
 	log_trace("CScene::{}()", __func__, fmt::ptr(&wind_direction), wind_velocity);
 
 	m_wind_velocity = wind_velocity;
-	m_wind_direction = glm::normalize(wind_direction);
+	m_wind_direction = math::vector_normalize(wind_direction);
 }
 
 // 00284B40
@@ -1197,7 +1199,7 @@ void CScene::ResetWind()
 
 // 00284B50
 // Stores direction in direction; returns velocity.
-float CScene::GetWind(glm::vec4& direction)
+float CScene::GetWind(vec4& direction)
 {
 	log_trace("CScene::{}({})", __func__, fmt::ptr(&direction));
 
@@ -1861,7 +1863,7 @@ void CScene::RunEvent(int i, CSceneEventData& event_data)
 }
 
 // 002C7E60
-bool CScene::GetMapEvent(glm::vec4& v, int i, CSceneEventData& event_data)
+bool CScene::GetMapEvent(vec4& v, int i, CSceneEventData& event_data)
 {
 	log_trace("CScene::{}({}, {}, {})", __func__, fmt::ptr(&v), i, fmt::ptr(&event_data));
 
@@ -1870,7 +1872,7 @@ bool CScene::GetMapEvent(glm::vec4& v, int i, CSceneEventData& event_data)
 }
 
 // 002C8070
-bool CScene::GetFixCameraPos(glm::vec4& v1, glm::vec4& v2)
+bool CScene::GetFixCameraPos(vec4& v1, vec4& v2)
 {
 	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2));
 
@@ -1879,7 +1881,7 @@ bool CScene::GetFixCameraPos(glm::vec4& v1, glm::vec4& v2)
 }
 
 // 002C8120
-void CScene::FixCameraPartsOnOff(glm::vec4& v)
+void CScene::FixCameraPartsOnOff(vec4& v)
 {
 	log_trace("CScene::{}({})", __func__, fmt::ptr(&v));
 
@@ -1895,7 +1897,7 @@ void CScene::EyeViewDrawOnOff(int i)
 }
 
 // 002C8260
-void CScene::GetSunPosition(glm::vec4& sun_position)
+void CScene::GetSunPosition(vec4& sun_position)
 {
 	log_trace("CScene::{}({})", __func__, fmt::ptr(&sun_position));
 
@@ -1903,7 +1905,7 @@ void CScene::GetSunPosition(glm::vec4& sun_position)
 }
 
 // 002C8330
-void CScene::GetMoonPosition(glm::vec4& moon_position)
+void CScene::GetMoonPosition(vec4& moon_position)
 {
 	log_trace("CScene::{}({})", __func__, fmt::ptr(&moon_position));
 
@@ -1981,7 +1983,7 @@ bool CScene::StepChar(ssize character_index)
 }
 
 // 002C8D70
-void CScene::GetCharaLighting(glm::mat4& m, glm::vec4& v)
+void CScene::GetCharaLighting(matrix4& m, vec4& v)
 {
 	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(&m), fmt::ptr(&v));
 
@@ -2145,7 +2147,7 @@ bool CScene::RegisterVillager(int i1, int i2, mgCMemory& stack)
 }
 
 // 002CA540
-bool CScene::GetTalkEvent(glm::vec4& v, CSceneEventData& event_data)
+bool CScene::GetTalkEvent(vec4& v, CSceneEventData& event_data)
 {
 	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(&v), fmt::ptr(&event_data));
 
@@ -2162,7 +2164,7 @@ void CScene::StepVillager()
 }
 
 // 002CACD0
-void CScene::StayNearVillager(glm::vec4& v, _UNKNOWNPOINTER pi)
+void CScene::StayNearVillager(vec4& v, _UNKNOWNPOINTER pi)
 {
 	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(&v), fmt::ptr(pi));
 
@@ -2226,7 +2228,7 @@ void CScene::LoadGameObject(int i1, int i2, mgCMemory& stack)
 }
 
 // 002CB900
-s32 CScene::GetGameObjectEvent(glm::vec4& v, CSceneEventData& event_data)
+s32 CScene::GetGameObjectEvent(vec4& v, CSceneEventData& event_data)
 {
 	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(&v), fmt::ptr(&event_data));
 

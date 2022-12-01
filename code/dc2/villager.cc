@@ -1,8 +1,11 @@
 #include "common/log.h"
+#include "common/constants.h"
 
 #include "dc2/villager.h"
 
 set_log_channel("villager");
+
+using namespace common;
 
 // 002CD110
 void CVillagerData::Initialize()
@@ -26,8 +29,8 @@ void CVillagerData::Initialize()
   m_unk_field_38 = 0;
   m_unk_field_3C = 0;
   m_unk_field_40 = 0;
-  m_unk_field_50 = glm::vec4(0.0f);
-  m_unk_field_60 = glm::vec4(0.0f);
+  m_unk_field_50 = constants::vec4_zero;
+  m_unk_field_60 = constants::vec4_zero;
 }
 
 // 002CD220

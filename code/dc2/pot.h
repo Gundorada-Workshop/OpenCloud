@@ -18,13 +18,13 @@ public:
   // 4
   _DWORD m_unk_field_4;
   // 10
-  glm::vec4 m_unk_field_10;
+  vec4 m_unk_field_10;
   // 20
-  glm::vec4 m_unk_field_20;
+  vec4 m_unk_field_20;
   // 30
-  glm::vec4 m_unk_field_30;
+  vec4 m_unk_field_30;
   // 40
-  glm::vec4 m_unk_field_40;
+  vec4 m_unk_field_40;
   // 50
   _DWORD m_unk_field_50;
 
@@ -48,7 +48,7 @@ public:
   // 10
   _DWORD m_unk_field_10;
   // 20
-  glm::vec4 m_unk_field_20;
+  vec4 m_unk_field_20;
   // 30
   _DWORD m_unk_field_30;
   // 40
@@ -69,17 +69,17 @@ public:
   // 4
   _DWORD m_unk_field_4;
   // 10
-  glm::vec4 m_unk_field_10;
+  vec4 m_unk_field_10;
   // 20
-  glm::vec4 m_unk_field_20;
+  vec4 m_unk_field_20;
   // 30
-  glm::vec4 m_unk_field_30;
+  vec4 m_unk_field_30;
   // 40
-  glm::vec4 m_unk_field_40;
+  vec4 m_unk_field_40;
   // 50
-  glm::vec4 m_unk_field_50;
+  vec4 m_unk_field_50;
   // 60
-  glm::vec4 m_unk_field_60;
+  vec4 m_unk_field_60;
   // 70
   _DWORD m_unk_field_70;
 

@@ -371,7 +371,7 @@ void mgCDrawPrim::Data4(vec4 v)
 }
 
 // 00134AE0
-void mgCDrawPrim::Data(glm::ivec4 v)
+void mgCDrawPrim::Data(ivec4 v)
 {
   log_trace("mgCDrawPrim::{}(({}, {}, {}, {}))", __func__, v.x, v.y, v.z, v.w);
 
@@ -403,7 +403,7 @@ void mgCDrawPrim::Vertex(float x, float y, float z)
 }
 
 // 00134B70
-void mgCDrawPrim::Vertex(glm::vec3 v)
+void mgCDrawPrim::Vertex(vec3 v)
 {
   log_trace("mgCDrawPrim::{}({}, {}, {})", __func__, v.x, v.y, v.z);
 
@@ -419,14 +419,14 @@ void mgCDrawPrim::Vertex4(sint x, sint y, sint z)
 }
 
 // 00134C60
-void mgCDrawPrim::Vertex4(glm::ivec3 v)
+void mgCDrawPrim::Vertex4(ivec3 v)
 {
   log_trace("mgCDrawPrim::{}({}, {}, {})", __func__, v.x, v.y, v.z);
 
   Vertex4(v[0], v[1], v[2]);
 }
 
-void mgCDrawPrim::Vertex4(glm::vec3 v)
+void mgCDrawPrim::Vertex4(vec3 v)
 {
   log_trace("mgCDrawPrim::{}({}, {}, {})", __func__, v.x, v.y, v.z);
 
@@ -633,7 +633,7 @@ void mgCObject::SetPosition(const vec4& v)
 {
   log_trace("mgCObject::SetPosition({}) (x, y, z = {}, {}, {})", fmt::ptr(&v), v.x, v.y, v.z);
 
-  if (static_cast<glm::vec3>(v) == static_cast<glm::vec3>(m_position))
+  if (static_cast<vec3>(v) == static_cast<vec3>(m_position))
   {
     return;
   }
@@ -666,7 +666,7 @@ void mgCObject::SetRotation(const vec4& v)
 {
   log_trace("mgCObject::SetRotation({}) (x, y, z = {}, {}, {})", fmt::ptr(&v), v.x, v.y, v.z);
 
-  if (static_cast<glm::vec3>(v) == static_cast<glm::vec3>(m_rotation))
+  if (static_cast<vec3>(v) == static_cast<vec3>(m_rotation))
   {
     return;
   }
@@ -699,7 +699,7 @@ void mgCObject::SetScale(const vec4& v)
 {
   log_trace("mgCObject::SetScale({}) (x, y, z = {}, {}, {})", fmt::ptr(&v), v.x, v.y, v.z);
 
-  if (static_cast<glm::vec3>(v) == static_cast<glm::vec3>(m_scale))
+  if (static_cast<vec3>(v) == static_cast<vec3>(m_scale))
   {
     return;
   }

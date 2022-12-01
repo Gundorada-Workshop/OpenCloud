@@ -1,6 +1,4 @@
 #pragma once
-#include <glm/glm.hpp>
-
 #include "common/debug.h"
 #include "common/types.h"
 
@@ -64,9 +62,9 @@ public:
   // 40
   _UNKNOWN m_unk_field_40;
   // 50
-  glm::vec4 m_unk_field_50;
+  vec4 m_unk_field_50;
   // 60
-  glm::vec4 m_unk_field_60;
+  vec4 m_unk_field_60;
 };
 
 class CVillagerMngr

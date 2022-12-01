@@ -2,11 +2,14 @@
 
 #include "common/clock.h"
 #include "common/log.h"
+#include "common/math.h"
 
 #include "dc2/mg/mg_camera.h"
 #include "dc2/mg/mg_math.h"
 
 set_log_channel("mg_camera");
+
+using namespace common;
 
 // 00376C00
 bool mgCCamera::StopCamera = false;
@@ -108,7 +111,7 @@ void mgCCamera::Step(sint steps)
   // Record our pitch and yaw (these probably aren't pitch and yaw?)
   vec3 direction = GetDir();
 
-  vec3 direction_normal = glm::normalize(vec3{ direction.x, 0.0f, direction.z });
+  vec3 direction_normal = math::vector_normalize(vec3{ direction.x, 0.0f, direction.z });
   m_angleH = atan2f(direction_normal.x, direction_normal.z);
   m_angleV = -atan2f(direction.y, sqrtf(powf(direction.x, 2) + powf(direction.z, 2)));
 }
@@ -210,13 +213,13 @@ void mgCCameraFollow::Step(sint steps)
   else
   {
     // Clamp m_angle_soon to [0, 360.0] degrees in radians
-    if (m_angle_soon > common::deg_to_rad(360.0f))
+    if (m_angle_soon > math::deg_to_rad(360.0f))
     {
-      m_angle_soon -= common::deg_to_rad(360.0f);
+      m_angle_soon -= math::deg_to_rad(360.0f);
     }
     if (m_angle_soon < 0)
     {
-      m_angle_soon += common::deg_to_rad(360.0f);
+      m_angle_soon += math::deg_to_rad(360.0f);
     }
 
     for (sint i = 0; i < steps; ++i)

@@ -356,12 +356,12 @@ public:
   // 00284A70
   void TimeStep(float time);
   // 00284B30
-  void SetWind(const glm::vec4& wind_dir, float wind_velocity);
+  void SetWind(const vec4& wind_dir, float wind_velocity);
   // 00284B40
   void ResetWind();
   // 00284B50
   // Stores direction in direction; returns velocity.
-  float GetWind(glm::vec4& direction);
+  float GetWind(vec4& direction);
   // 00284B60
   void SetNowMapNo(s32 now_map_no);
   // 00284B80
@@ -517,17 +517,17 @@ public:
   // 002C7CF0
   void RunEvent(int i, CSceneEventData& event_data);
   // 002C7E60
-  bool GetMapEvent(glm::vec4& v, int i, CSceneEventData& event_data);
+  bool GetMapEvent(vec4& v, int i, CSceneEventData& event_data);
   // 002C8070
-  bool GetFixCameraPos(glm::vec4& v1, glm::vec4& v2);
+  bool GetFixCameraPos(vec4& v1, vec4& v2);
   // 002C8120
-  void FixCameraPartsOnOff(glm::vec4& v);
+  void FixCameraPartsOnOff(vec4& v);
   // 002C81A0
   void EyeViewDrawOnOff(int i);
   // 002C8260
-  void GetSunPosition(glm::vec4& sun_position);
+  void GetSunPosition(vec4& sun_position);
   // 002C8330
-  void GetMoonPosition(glm::vec4& moon_position);
+  void GetMoonPosition(vec4& moon_position);
   // 002C8370
   void DrawSky(s32 i);
   // 002C8520
@@ -543,7 +543,7 @@ public:
   // 002C8C70
   bool StepChar(ssize character_index);
   // 002C8D70
-  void GetCharaLighting(glm::mat4& m, glm::vec4& v);
+  void GetCharaLighting(matrix4& m, vec4& v);
   // 002C8F80
   bool DrawChara(ssize character_index, int i);
   // 002C9280
@@ -581,11 +581,11 @@ public:
   // 002CA450
   bool RegisterVillager(int i1, int i2, mgCMemory& stack);
   // 002CA540
-  bool GetTalkEvent(glm::vec4& v, CSceneEventData& event_data);
+  bool GetTalkEvent(vec4& v, CSceneEventData& event_data);
   // 002CA880
   void StepVillager();
   // 002CACD0
-  void StayNearVillager(glm::vec4& v, _UNKNOWNPOINTER pi);
+  void StayNearVillager(vec4& v, _UNKNOWNPOINTER pi);
   // 002CAE60
   void CancelStayVillager(_UNKNOWNPOINTER pi);
   // 002CAEE0
@@ -601,7 +601,7 @@ public:
   // 002CB5A0
   void LoadGameObject(int i1, int i2, mgCMemory& stack);
   // 002CB900
-  s32 GetGameObjectEvent(glm::vec4& v, CSceneEventData& event_data);
+  s32 GetGameObjectEvent(vec4& v, CSceneEventData& event_data);
   // 002CBAA0
   void DrawGameObject(ssize gameobj_index);
 
@@ -700,7 +700,7 @@ public:
   // 2F78
   float m_wind_velocity;
   // 2F80
-  glm::vec4 m_wind_direction;
+  vec4 m_wind_direction;
   // 2F90
   _UNKNOWN m_unk_field_2F90;
   // 2F94
