@@ -288,21 +288,65 @@ bool mgCheckPointPoly3_XYZ(const vec3& v1, const vec3& v2, const vec3& v3, const
 }
 
 // 0012FD10
-bool mgCheckPointPoly3_XZ(const vec3& v1, const vec3& v2, const vec3& v3, const vec3& v4)
+uint mgCheckPointPoly3_XZ(const vec3& v1, const vec3& v2, const vec3& v3, const vec3& v4)
 {
   log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
 
-  todo;
-  return false;
+  return Check_Point_Poly3(v1.x, v1.z, v2.x, v2.z, v3.x, v3.z, v4.x, v4.z);
 }
 
 // 0012FD40
-bool Check_Point_Poly3(f32 f1, f32 f2, f32 f3, f32 f4, f32 f5, f32 f6, f32 f7, f32 f8)
+uint Check_Point_Poly3(f32 aa, f32 ab, f32 ba, f32 bb, f32 ca, f32 cb, f32 da, f32 db)
 {
-  log_trace("{}({}, {}, {}, {}, {}, {}, {}, {})", __func__, f1, f2, f3, f4, f5, f6, f7, f8);
+  log_trace("{}({}, {}, {}, {}, {}, {}, {}, {})", __func__, aa, ab, ba, ab, ca, cb, da, db);
 
-  todo;
-  return false;
+  if (aa < std::min({ ba, ca, da }))
+  {
+    return 0;
+  }
+
+  if (aa > std::max({ ba, ca, da }))
+  {
+    return 0;
+  }
+
+  if (ab < std::min({ bb, cb, db }))
+  {
+    return 0;
+  }
+
+  if (ab > std::max({ ba, ca, da }))
+  {
+    return 0;
+  }
+
+  f32 f6 = (ca - ba) * (ab - bb) - (cb - bb) * (aa - ba);
+  f32 f4 = (da - ca) * (ab - cb) - (db - cb) * (aa - ca);
+  f32 f1 = (ba - da) * (ab - db) - (bb - db) * (aa - da);
+
+  if (f6 == 0.0f)
+  {
+    return 2;
+  }
+
+  if (f4 == 0.0f)
+  {
+    return 3;
+  }
+
+  if (f1 == 0.0f)
+  {
+    return 4;
+  }
+
+  if (
+    (f6 > 0.0f && f4 > 0.0f && f1 > 0.0f) ||
+    (f6 < 0.0f && f4 < 0.0f && f1 < 0.0f)
+    )
+  {
+    return 1;
+  }
+  return 0;
 }
 
 // 0012FFD0

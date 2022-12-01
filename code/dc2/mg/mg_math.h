@@ -155,10 +155,10 @@ bool mgIntersectionPoint_line_poly3(const vec3& v1, const vec3& v2, const vec3& 
 bool mgCheckPointPoly3_XYZ(const vec3& v1, const vec3& v2, const vec3& v3, const vec3& v4, const vec3& v5);
 
 // 0012FD10
-bool mgCheckPointPoly3_XZ(const vec3& v1, const vec3& v2, const vec3& v3, const vec3& v4);
+uint mgCheckPointPoly3_XZ(const vec3& v1, const vec3& v2, const vec3& v3, const vec3& v4);
 
 // 0012FD40
-bool Check_Point_Poly3(f32 f1, f32 f2, f32 f3, f32 f4, f32 f5, f32 f6, f32 f7, f32 f8);
+uint Check_Point_Poly3(f32 aa, f32 ab, f32 ba, f32 bb, f32 ca, f32 cb, f32 da, f32 db);
 
 // 0012FFD0
 f32 mgDistVector(const vec3& v);
