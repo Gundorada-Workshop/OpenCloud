@@ -5,6 +5,9 @@
 
 #include "dc2/mg/mg_math.h"
 
+#include <glm/glm.hpp>
+#include <glm/gtx/transform.hpp>
+
 set_log_channel("mg_math");
 
 // 0037FD40
@@ -520,10 +523,14 @@ matrix4 mgRotMatrixXYZ(const vec3& rotation)
 // 00130550
 matrix4 mgCreateMatrixPY(const vec4& v, f32 f)
 {
-  log_trace("{}({}, {})", __func__, fmt::ptr(&v), f);
+  log_trace("{}({}, {})", __func__, v, f);
 
-  todo;
-  return matrix4{ 1.0f };
+  matrix4 result = mgUnitMatrix();
+  result = glm::rotate(result, f, { 0, 1, 0 });
+
+  result[3] = v;
+  result[3].w = 1.0f;
+  return result;
 }
 
 // 001305B0
