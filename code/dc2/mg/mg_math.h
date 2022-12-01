@@ -150,7 +150,7 @@ usize mgIntersectionSphereLine0(const vec4& start, const vec4& end, vec4* inters
 usize mgIntersectionSphereLine(const vec4& sphere, const vec4& start, const vec4& end, vec4* intersections);
 
 // 0012FA50
-bool mgIntersectionPoint_line_poly3(const vec3& v1, const vec3& v2, const vec3& v3, const vec3& v4, const vec3& v5, const vec3& v6, const vec3& v7);
+bool mgIntersectionPoint_line_poly3(const vec3& v1, const vec3& v2, const vec3& v3, const vec3& v4, const vec3& v5, const vec3& v6, vec3& v7_dest);
 
 // 0012FB70
 bool mgCheckPointPoly3_XYZ(const vec3& v1, const vec3& v2, const vec3& v3, const vec3& v4, const vec3& v5);

@@ -254,12 +254,24 @@ usize mgIntersectionSphereLine(const vec4& sphere, const vec4& start, const vec4
 }
 
 // 0012FA50
-bool mgIntersectionPoint_line_poly3(const vec3& v1, const vec3& v2, const vec3& v3, const vec3& v4, const vec3& v5, const vec3& v6, const vec3& v7)
+bool mgIntersectionPoint_line_poly3(const vec3& v1, const vec3& v2, const vec3& v3, const vec3& v4, const vec3& v5, const vec3& v6, vec3& v7_dest)
 {
-  log_trace("{}({}, {}, {}, {}, {}, {}, {})", __func__, v1, v2, v3, v4, v5, v6, v7);
+  log_trace("{}({}, {}, {}, {}, {}, {}, {})", __func__, v1, v2, v3, v4, v5, v6, v7_dest);
 
-  todo;
-  return false;
+  auto var_40 = v2 - v1;
+  auto var_30 = v3 - v1;
+  auto var_20 = v4 - v1;
+  auto var_10 = v5 - v1;
+  f32 f1 = glm::dot(v5, var_30);
+  f32 f0 = glm::dot(v5, var_40);
+
+  if (f0 == 0.0f)
+  {
+    return false;
+  }
+
+  v7_dest = var_40 * (f1 / f0) * 2.0f;
+  return mgCheckPointPoly3_XYZ(v7_dest, v3, v4, v5, v6);
 }
 
 // 0012FB70
