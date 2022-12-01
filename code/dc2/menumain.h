@@ -53,13 +53,13 @@ public:
   void SetAskParam(MENU_ASKMODE_PARA* param);
   
   // 0
-  _WORD m_unk_field_0;
+  unk16 m_unk_field_0;
   // 2
-  _WORD m_unk_field_2;
+  unk16 m_unk_field_2;
   // 4
   _BYTE m_unk_field_4;
   // 6
-  _WORD m_unk_field_6;
+  unk16 m_unk_field_6;
   // 8
   unk32 m_unk_field_8;
   // C
@@ -67,7 +67,7 @@ public:
   // 10
   u32 m_unk_field_10;
   // 14
-  _WORD m_unk_field_14;
+  unk16 m_unk_field_14;
   // 18
   std::array<unk32, 0x20> m_unk_field_18;
   // 58
@@ -75,7 +75,7 @@ public:
   // EE
   s16 m_unk_field_EE;
   // F0
-  _WORD m_unk_field_F0;
+  unk16 m_unk_field_F0;
   // F2
   s16 m_unk_field_16;
   // F4

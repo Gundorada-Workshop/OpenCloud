@@ -29,35 +29,35 @@ public:
   // 8
   _UNKNOWN m_unk_field_8{ 0 };
   // C
-  _WORD m_unk_field_C{ 0 };
+  unk16 m_unk_field_C{ 0 };
   // E
-  _WORD m_unk_field_E{ 0 };
+  unk16 m_unk_field_E{ 0 };
   // 10
-  _WORD m_unk_field_10{ 0 };
+  unk16 m_unk_field_10{ 0 };
   // 12
-  _WORD m_unk_field_12{ 0 };
+  unk16 m_unk_field_12{ 0 };
   // 14
-  _WORD m_unk_field_14{ 0 };
+  unk16 m_unk_field_14{ 0 };
   // 16
-  _WORD m_unk_field_16{ 0 };
+  unk16 m_unk_field_16{ 0 };
   // 18
-  _WORD m_unk_field_18{ 0 };
+  unk16 m_unk_field_18{ 0 };
   // 1C
-  _WORD m_unk_field_1C{ 0 };
+  unk16 m_unk_field_1C{ 0 };
   // 1E
-  _WORD m_unk_field_1E{ 0 };
+  unk16 m_unk_field_1E{ 0 };
   // 20
-  _WORD m_unk_field_20{ 0 };
+  unk16 m_unk_field_20{ 0 };
   // 22
-  _WORD m_unk_field_22{ 0 };
+  unk16 m_unk_field_22{ 0 };
   // 24
-  _WORD m_unk_field_24{ 0 };
+  unk16 m_unk_field_24{ 0 };
   // 26
-  _WORD m_unk_field_26{ 0 };
+  unk16 m_unk_field_26{ 0 };
   // 28
-  _WORD m_unk_field_28{ 0 };
+  unk16 m_unk_field_28{ 0 };
   // 2A
-  _WORD m_unk_field_2A{ 4 };
+  unk16 m_unk_field_2A{ 4 };
   // 2C
   _BYTE m_unk_field_2C{ 1 };
   // 2D

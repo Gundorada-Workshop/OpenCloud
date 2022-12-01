@@ -736,7 +736,7 @@ public:
   // 1C
   CDataBreedFish* m_fishdata;
   // 20
-  _WORD m_unk_field_20{ 0 };
+  unk16 m_unk_field_20{ 0 };
   // 22
   s16 m_n_com_itemdata{ 0 };
   // 24
