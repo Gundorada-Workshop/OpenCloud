@@ -10,10 +10,12 @@
 
 set_log_channel("mg_math");
 
+using namespace common;
+
 // 0037FD40
 static std::array<f32, 1024> SinTable{};
 // 00376504
-constexpr static f32 sin_table_unit_1 = static_cast<f32>(SinTable.size()) / common::pi2();
+constexpr static f32 sin_table_unit_1 = static_cast<f32>(SinTable.size()) / math::pi2();
 
 // 0012F1D0
 mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec4& c2)
@@ -87,7 +89,7 @@ vec4 mgNormalizeVector(const vec4& v, f32 scale)
 {
   log_trace("{}({}, {})", __func__, fmt::ptr(&v), scale);
 
-  return glm::normalize(v) * scale;
+  return math::vector_normalize(v) * scale;
 }
 
 // 0012F540
@@ -107,7 +109,7 @@ vec3 mgPlaneNormal(const vec3& v1, const vec3& v2, const vec3& v3)
   auto temp1 = v2 - v1;
   auto temp2 = v3 - v1;
   
-  return common::vector_outer_product(temp1, temp2);
+  return math::vector_outer_product(temp1, temp2);
 }
 
 // 0012F5B0
@@ -115,7 +117,7 @@ f32 mgDistPlanePoint(const vec3& v1, const vec3& v2, const vec3& v3)
 {
   log_trace("{}({}, {})", __func__, v1, v2);
 
-  return glm::dot(v1, v3 - v2);
+  return math::vector_dot_product(v1, v3 - v2);
 }
 
 // 0012F5F0
@@ -128,7 +130,7 @@ f32 mgDistLinePoint(const vec3& v1, const vec3& v2, const vec3& v3, vec3& v4_des
   auto var_10 = var_30 - var_40;
   f32 f20 = mgDistVector(var_10);
   f20 *= f20;
-  f32 f0 = -glm::dot(var_40, var_10);
+  f32 f0 = math::negate(math::vector_dot_product(var_40, var_10));
   f32 f12 = f0 / f20;
 
   if (f12 >= 0.0f && f12 <= 1.0f)
@@ -174,7 +176,7 @@ usize mgIntersectionSphereLine0(const vec4& start, const vec4& end, vec4* inters
   // 0012F828 - 0012F834
   float f20 = mgDistVector2(distance);
   // 0012F834 - 0012F844
-  float f21 = glm::dot(vec3{ distance }, vec3{ start });
+  float f21 = math::vector_dot_product(vec3{ distance }, vec3{ start });
   // 0012F844 - 0012F854
   float f0 = mgDistVector2(start) - (radius * radius);
 
@@ -265,8 +267,8 @@ bool mgIntersectionPoint_line_poly3(const vec3& v1, const vec3& v2, const vec3& 
   auto var_30 = v3 - v1;
   auto var_20 = v4 - v1;
   auto var_10 = v5 - v1;
-  f32 f1 = glm::dot(v5, var_30);
-  f32 f0 = glm::dot(v5, var_40);
+  f32 f1 = math::vector_dot_product(v5, var_30);
+  f32 f0 = math::vector_dot_product(v5, var_40);
 
   if (f0 == 0.0f)
   {
@@ -282,20 +284,19 @@ bool mgCheckPointPoly3_XYZ(const vec3& v1, const vec3& v2, const vec3& v3, const
 {
   log_trace("{}({}, {}, {}, {}, {})", __func__, v1, v2, v3, v4, v5);
 
-  using namespace common;
   auto var_90 = v1 - v2;
   auto var_80 = v1 - v3;
   auto var_70 = v1 - v4;
   auto var_60 = v3 - v2;
   auto var_50 = v4 - v3;
   auto var_40 = v2 - v4;
-  auto var_30 = vector_outer_product(var_60, var_90);
-  auto var_20 = vector_outer_product(var_50, var_80);
-  auto var_10 = vector_outer_product(var_40, var_70);
+  auto var_30 = math::vector_outer_product(var_60, var_90);
+  auto var_20 = math::vector_outer_product(var_50, var_80);
+  auto var_10 = math::vector_outer_product(var_40, var_70);
 
-  f32 f20 = glm::dot(var_30, v5);
-  f32 f21 = glm::dot(var_20, v5);
-  f32 f0 = glm::dot(var_10, v5);
+  f32 f20 = math::vector_dot_product(var_30, v5);
+  f32 f21 = math::vector_dot_product(var_20, v5);
+  f32 f0 = math::vector_dot_product(var_10, v5);
 
   return 
     (f20 >= 0.0f && f21 >= 0.0f && f0 >= 0.0f) ||
@@ -369,7 +370,7 @@ f32 mgDistVector(const vec3& v, const vec3& other)
 {
   log_trace("{}({})", __func__, v, other);
 
-  return glm::distance(v, other);
+  return math::vector_distance(v, other);
 }
 
 // 001300A0
@@ -377,7 +378,7 @@ f32 mgDistVectorXZ(const vec3& v, const vec3& other)
 {
   log_trace("{}({})", __func__, v, other);
 
-  return glm::distance(vec2{ v.xz }, vec2{ other.xz });
+  return math::vector_distance(vec2{ v.xz }, vec2{ other.xz });
 }
 
 // 001300E0
@@ -666,12 +667,12 @@ f32 mgAngleLimit(f32 f)
 {
   log_trace("{}({})", __func__, f);
 
-  if (common::negate(common::pi()) <= f && f < common::pi())
+  if (math::negate(math::pi()) <= f && f < math::pi())
   {
     return f;
   }
 
-  f -= truncf(f / common::pi2()) * common::pi2();
+  f -= truncf(f / math::pi2()) * math::pi2();
   return mgAngleClamp(f);
 }
 
@@ -705,7 +706,7 @@ void mgCreateSinTable()
 
   for (int i = 0; i < SinTable.size(); ++i)
   {
-    SinTable[i] = sinf(static_cast<f32>(i) * common::pi2() / sin_table_num);
+    SinTable[i] = sinf(static_cast<f32>(i) * math::pi2() / sin_table_num);
   }
 }
 
@@ -726,5 +727,5 @@ f32 mgCosf(f32 f)
 {
   log_trace("{}({})", __func__, f);
 
-  return mgSinf(f + common::deg_to_rad(90.0f));
+  return mgSinf(f + math::deg_to_rad(90.0f));
 }

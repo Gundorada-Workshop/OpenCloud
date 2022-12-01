@@ -1,7 +1,12 @@
 #include <gtest/gtest.h>
-#include <glm/glm.hpp>
+
+#include "common/types.h"
+#include "common/math.h"
+#include "common/constants.h"
 
 #include "dc2/mg/mg_camera.h"
+
+using namespace common;
 
 // NOTE: Tests may fail here after implementing variable fps; failure is part of life :)
 
@@ -17,7 +22,7 @@ protected:
 
 TEST_F(mgCCameraTest, ShouldNotMoveOnItsOwn) 
 {
-  glm::vec3 orig_pos = camera.GetPos();
+  vec3 orig_pos = camera.GetPos();
 
   camera.Step();
   EXPECT_TRUE(orig_pos == camera.GetPos());
@@ -25,7 +30,7 @@ TEST_F(mgCCameraTest, ShouldNotMoveOnItsOwn)
 
 TEST_F(mgCCameraTest, ShouldNotRotateOnItsOwn)
 {
-  glm::vec3 orig_ref = camera.GetRef();
+  vec3 orig_ref = camera.GetRef();
 
   camera.Step();
   EXPECT_TRUE(orig_ref == camera.GetRef());
@@ -33,27 +38,27 @@ TEST_F(mgCCameraTest, ShouldNotRotateOnItsOwn)
 
 TEST_F(mgCCameraTest, ShouldMoveToNextPos) 
 {
-  glm::vec3 dest_pos = glm::vec3(10.0f);
-  glm::vec3 orig_pos = camera.GetPos();
+  vec3 dest_pos = vec3(10.0f);
+  vec3 orig_pos = camera.GetPos();
 
   camera.SetNextPos(dest_pos);
   camera.Step();
-  EXPECT_TRUE(glm::distance(orig_pos, dest_pos) > glm::distance(camera.GetPos(), dest_pos));
+  EXPECT_TRUE(math::vector_distance(orig_pos, dest_pos) > math::vector_distance(camera.GetPos(), dest_pos));
 }
 
 TEST_F(mgCCameraTest, ShouldRotateToNextRef)
 {
-  glm::vec3 dest_hpr = glm::vec3(10.0f, 9.0f, 0.0f);
-  glm::vec3 orig_hpr = camera.GetRef();
+  vec3 dest_hpr = vec3(10.0f, 9.0f, 0.0f);
+  vec3 orig_hpr = camera.GetRef();
 
   camera.SetNextRef(dest_hpr);
   camera.Step();
-  EXPECT_TRUE(glm::distance(orig_hpr, dest_hpr) > glm::distance(camera.GetRef(), dest_hpr));
+  EXPECT_TRUE(math::vector_distance(orig_hpr, dest_hpr) > math::vector_distance(camera.GetRef(), dest_hpr));
 }
 
 TEST_F(mgCCameraTest, ShouldStopAtNextPos)
 {
-  glm::vec3 dest_pos = glm::vec3(10.0f);
+  vec3 dest_pos = vec3(10.0f);
 
   camera.SetNextPos(dest_pos);
   camera.Step(100);
@@ -62,7 +67,7 @@ TEST_F(mgCCameraTest, ShouldStopAtNextPos)
 
 TEST_F(mgCCameraTest, ShouldStopAtNextRef)
 {
-  glm::vec3 dest_hpr = glm::vec3(10.0f, 9.0f, 0.0f);
+  vec3 dest_hpr = vec3(10.0f, 9.0f, 0.0f);
 
   camera.SetNextRef(dest_hpr);
   camera.Step(100);
@@ -71,7 +76,7 @@ TEST_F(mgCCameraTest, ShouldStopAtNextRef)
 
 TEST_F(mgCCameraTest, ShouldJumpToNextPos)
 {
-  glm::vec3 dest_pos = glm::vec3(10000.0f);
+  vec3 dest_pos = vec3(10000.0f);
 
   camera.SetNextPos(dest_pos);
   camera.Step(-1);
@@ -80,7 +85,7 @@ TEST_F(mgCCameraTest, ShouldJumpToNextPos)
 
 TEST_F(mgCCameraTest, ShouldJumpToNextRef)
 {
-  glm::vec3 dest_hpr = glm::vec3(180.0f, 180.0f, 0.0f);
+  vec3 dest_hpr = vec3(180.0f, 180.0f, 0.0f);
 
   camera.SetNextRef(dest_hpr);
   camera.Step(-1);
@@ -89,10 +94,10 @@ TEST_F(mgCCameraTest, ShouldJumpToNextRef)
 
 TEST_F(mgCCameraTest, ShouldNotMoveOrRotateWhileItIsSuspended)
 {
-  glm::vec3 orig_pos = camera.GetPos();
-  glm::vec3 orig_hpr = camera.GetRef();
-  glm::vec3 dest_pos = glm::vec3(10000.0f);
-  glm::vec3 dest_hpr = glm::vec3(180.0f, 180.0f, 0.0f);
+  vec3 orig_pos = camera.GetPos();
+  vec3 orig_hpr = camera.GetRef();
+  vec3 dest_pos = vec3(10000.0f);
+  vec3 dest_hpr = vec3(180.0f, 180.0f, 0.0f);
 
   camera.SetNextPos(dest_pos);
   camera.SetNextRef(dest_hpr);
@@ -110,10 +115,10 @@ TEST_F(mgCCameraTest, ShouldNotMoveOrRotateWhileItIsSuspended)
 
 TEST_F(mgCCameraTest, ShouldNotMoveOrRotateWhileAllCamerasAreSuspended)
 {
-  glm::vec3 orig_pos = camera.GetPos();
-  glm::vec3 orig_hpr = camera.GetRef();
-  glm::vec3 dest_pos = glm::vec3(10000.0f);
-  glm::vec3 dest_hpr = glm::vec3(180.0f, 180.0f, 0.0f);
+  vec3 orig_pos = camera.GetPos();
+  vec3 orig_hpr = camera.GetRef();
+  vec3 dest_pos = vec3(10000.0f);
+  vec3 dest_hpr = vec3(180.0f, 180.0f, 0.0f);
 
   camera.SetNextPos(dest_pos);
   camera.SetNextRef(dest_hpr);
@@ -131,10 +136,10 @@ TEST_F(mgCCameraTest, ShouldNotMoveOrRotateWhileAllCamerasAreSuspended)
 
 TEST_F(mgCCameraTest, ShouldMoveAfterItsSuspensionStops)
 {
-  glm::vec3 orig_pos = camera.GetPos();
-  glm::vec3 orig_hpr = camera.GetRef();
-  glm::vec3 dest_pos = glm::vec3(10000.0f);
-  glm::vec3 dest_hpr = glm::vec3(180.0f, 180.0f, 0.0f);
+  vec3 orig_pos = camera.GetPos();
+  vec3 orig_hpr = camera.GetRef();
+  vec3 dest_pos = vec3(10000.0f);
+  vec3 dest_hpr = vec3(180.0f, 180.0f, 0.0f);
 
   camera.SetNextPos(dest_pos);
   camera.SetNextRef(dest_hpr);
@@ -153,10 +158,10 @@ TEST_F(mgCCameraTest, ShouldMoveAfterItsSuspensionStops)
 
 TEST_F(mgCCameraTest, ShouldNotMoveAfterStay)
 {
-  glm::vec3 orig_pos = camera.GetPos();
-  glm::vec3 orig_hpr = camera.GetRef();
-  glm::vec3 dest_pos = glm::vec3(10000.0f);
-  glm::vec3 dest_hpr = glm::vec3(180.0f, 180.0f, 0.0f);
+  vec3 orig_pos = camera.GetPos();
+  vec3 orig_hpr = camera.GetRef();
+  vec3 dest_pos = vec3(10000.0f);
+  vec3 dest_hpr = vec3(180.0f, 180.0f, 0.0f);
 
   camera.SetNextPos(dest_pos);
   camera.SetNextRef(dest_hpr);

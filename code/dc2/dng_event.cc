@@ -2,6 +2,8 @@
 
 #include "common/clock.h"
 #include "common/log.h"
+#include "common/math.h"
+#include "common/console.h"
 
 #include "dc2/dng_event.h"
 #include "dc2/dng_main.h"
@@ -9,6 +11,8 @@
 #include "dc2/mg/mg_lib.h"
 
 set_log_channel("dng_event");
+
+using namespace common;
 
 // 01F052C0
 static MapJumpInfo MainMapInfo{ };
@@ -32,7 +36,7 @@ bool CGeoStone::CheckEvent(vec4& position)
 
   vec4 stone_position = GetPosition();
 
-  return glm::distance(stone_position, position) <= 30.0f;
+  return math::vector_distance(stone_position, position) <= 30.0f;
 }
 
 // 0028BA80
@@ -48,7 +52,7 @@ void CGeoStone::GeoDraw(vec4& position)
   vec4 orig_pos = GetPosition();
   vec4 draw_pos{ orig_pos };
 
-  if (glm::distance(draw_pos, position) < 1000.0f || !m_unk_field_668)
+  if (math::vector_distance(draw_pos, position) < 1000.0f || !m_unk_field_668)
   {
     if (m_unk_field_668)
     {
@@ -108,12 +112,12 @@ void CGeoStone::GeoStep()
 
   CCharacter2::Step();
 
-  m_height_offset_sine += common::deg_to_rad(3.0f) * GAME_DT * GAME_FPS;
+  m_height_offset_sine += math::deg_to_rad(3.0f) * GAME_DT * GAME_FPS;
 
-  if (m_height_offset_sine > common::deg_to_rad(180.0f))
+  if (m_height_offset_sine > math::deg_to_rad(180.0f))
   {
     // Mantain a continuous bound from -pi to +pi
-    m_height_offset_sine -= common::deg_to_rad(360.0f);
+    m_height_offset_sine -= math::deg_to_rad(360.0f);
   }
 }
 
@@ -129,7 +133,7 @@ void CRandomCircle::Draw(vec4* v)
       continue;
     }
 
-    if (glm::distance(*v, m_unk_field_0[i]) >= 1000.0f)
+    if (math::vector_distance(*v, m_unk_field_0[i]) >= 1000.0f)
     {
       continue;
     }
@@ -174,7 +178,7 @@ bool CRandomCircle::CheckArea(vec4* v, f32 f)
       continue;
     }
 
-    if (glm::distance(m_unk_field_0[i], *v) < f)
+    if (math::vector_distance(m_unk_field_0[i], *v) < f)
     {
       return false;
     }
@@ -224,7 +228,7 @@ ssize CRandomCircle::CheckEvent(vec4* v)
       continue;
     }
 
-    if (glm::distance(m_unk_field_0[i], *v) <= 20.0f)
+    if (math::vector_distance(m_unk_field_0[i], *v) <= 20.0f)
     {
       m_unk_field_3C = i;
       return i;

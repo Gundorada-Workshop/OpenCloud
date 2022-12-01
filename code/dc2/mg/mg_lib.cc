@@ -5,11 +5,14 @@
 
 #include "common/log.h"
 #include "common/types.h"
+#include "common/math.h"
 
 #include "dc2/mg/mg_lib.h"
 #include "dc2/mg/mg_math.h"
 
 set_log_channel("mg_lib");
+
+using namespace common;
 
 // 00380EC0
 mgRENDER_INFO mgRenderInfo{ };
@@ -113,5 +116,5 @@ f32 mgGetDistFromCamera(vec4& point)
 {
   log_trace("mgGetDistFromCamera({})", fmt::ptr(&point));
 
-  return glm::distance(point, mgRenderInfo.camera_pos);
+  return math::vector_distance(point, mgRenderInfo.camera_pos);
 }

@@ -6,7 +6,7 @@
 #include "common/math.h"
 #include "common/types.h"
 
-#include "glm/glm.hpp"
+using namespace common;
 
 // ~ 0012F1C0 - 00131110
 
@@ -38,13 +38,13 @@ mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec4& c2);
 // Use mgAngleLimit if your f32 is not within that range.)
 inline f32 mgAngleClamp(f32 x)
 {
-  if (x > common::deg_to_rad(180.0f))
+  if (x > math::deg_to_rad(180.0f))
   {
-    return x - common::deg_to_rad(360.0f);
+    return x - math::deg_to_rad(360.0f);
   }
-  if (x <= common::deg_to_rad(-180.0f))
+  if (x <= math::deg_to_rad(-180.0f))
   {
-    return x + common::deg_to_rad(360.0f);
+    return x + math::deg_to_rad(360.0f);
   }
   return x;
 }

@@ -1,14 +1,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <glm/glm.hpp>
-
 #include "common/debug.h"
 #include "common/log.h"
 
 #include "dc2/fishingobj.h"
 
 set_log_channel("fishingobj")
+
+using namespace common;
 
 // 00378734
 static float WaterLevel;
@@ -44,35 +44,35 @@ static s32 ActionChanceCnt;
 static s32 ActionChanceDir;
 
 // 01F5DF20
-static std::array<std::array<glm::vec4, 3>, 5> RodPoint;
+static std::array<std::array<vec4, 3>, 5> RodPoint;
 // 01F5E010
-static std::array<glm::vec4, 5> RodPointDist;
+static std::array<vec4, 5> RodPointDist;
 // 01F5E060
 static std::array<mgCFrame*, 8> SaoFrame;
 // 01F5E080
 static std::array<float, 8> SaoDist;
 // 01F5E0A0
-static std::array<std::array<glm::vec4, 3>, 64> LinePoint;
+static std::array<std::array<vec4, 3>, 64> LinePoint;
 // 01F5ECA0
-static std::array<std::array<glm::vec4, 3>, 3> LurePoint;
+static std::array<std::array<vec4, 3>, 3> LurePoint;
 // 01F5ED30
-static glm::vec4 FlyingPoint;
+static vec4 FlyingPoint;
 // 01F5ED40
-static glm::vec4 stru_1F5ED40;
+static vec4 stru_1F5ED40;
 // 01F5ED50
-static glm::vec4 stru_1F5ED50;
+static vec4 stru_1F5ED50;
 // 01F5ED60
-static glm::vec4 FishPoint;
+static vec4 FishPoint;
 // 01F5ED70
-static glm::vec4 stru_1F5ED70;
+static vec4 stru_1F5ED70;
 // 01F5ED80
-static glm::vec4 stru_1F5ED80;
+static vec4 stru_1F5ED80;
 // 01F5ED90
-static glm::vec4 CastingPoint;
+static vec4 CastingPoint;
 // 01F5EDA0
-static glm::vec4 stru_1F5EDA0;
+static vec4 stru_1F5EDA0;
 // 01F5EDB0
-static glm::vec4 stru_1F5EDB0;
+static vec4 stru_1F5EDB0;
 // 01F5EDC0
 static CFishObj LureObj{};
 // 01F5F190
@@ -80,7 +80,7 @@ static CFishObj UkiObj{};
 // 01F5F560
 static CFishObj HariObj{};
 // 01F5F930
-static glm::vec4 ChanceBarPos;
+static vec4 ChanceBarPos;
 
 // 003130B0
 void CFishObj::MovePoint()
@@ -208,7 +208,7 @@ void InitRodPoint(mgCFrame& fr1, mgCFrame& fr2)
 }
 
 // 00310020
-void GetTriPose(glm::mat4& m1, glm::mat4& m2, glm::vec4& v1)
+void GetTriPose(matrix4& m1, matrix4& m2, vec4& v1)
 {
 	log_trace("GetTriPose({}, {}, {})", fmt::ptr(&m1), fmt::ptr(&m2), fmt::ptr(&v1));
 
@@ -216,7 +216,7 @@ void GetTriPose(glm::mat4& m1, glm::mat4& m2, glm::vec4& v1)
 }
 
 // 003101F0
-void GetHariPos(glm::vec4& v1, glm::vec4& v2)
+void GetHariPos(vec4& v1, vec4& v2)
 {
 	log_trace("GetHariPos({}, {})", fmt::ptr(&v1), fmt::ptr(&v2));
 
@@ -225,7 +225,7 @@ void GetHariPos(glm::vec4& v1, glm::vec4& v2)
 }
 
 // 00310220
-void GetUkiPos(glm::vec4& v1, glm::vec4& v2)
+void GetUkiPos(vec4& v1, vec4& v2)
 {
 	log_trace("GetUkiPos({}, {})", fmt::ptr(&v1), fmt::ptr(&v2));
 
@@ -254,8 +254,8 @@ bool GetShowHari()
 {
 	log_trace("GetShowHari()");
 
-	glm::vec4 v1;
-	glm::vec4 v2;
+	vec4 v1;
+	vec4 v2;
 	GetHariPos(v1, v2);
 
 	float water_level = GetWaterLevel() - 3.0f;
@@ -284,7 +284,7 @@ void SetUkiPose(mgCFrame& fr1, mgCFrame& fr2)
 }
 
 // 003105C0
-void CastingLure(glm::vec4& v)
+void CastingLure(vec4& v)
 {
 	log_trace("CastingLure({})", fmt::ptr(&v));
 
@@ -302,7 +302,7 @@ void EndCastingLure()
 }
 
 // 00310740
-bool CatchLine(glm::vec4& v, float f)
+bool CatchLine(vec4& v, float f)
 {
 	log_trace("CatchLine({}, {})", fmt::ptr(&v), f);
 
@@ -353,9 +353,9 @@ bool InitFishBattle()
 	stru_1F5EDB0 = LinePoint[LinePoint.size() - 1][0];
 	FishPoint = LinePoint[LinePoint.size() - 1][0];
 	stru_1F5ED70 = LinePoint[LinePoint.size() - 1][0];
-	stru_1F5ED80 = glm::vec4(0.0f);
+	stru_1F5ED80 = vec4(0.0f);
 
-	BattleLineDist = glm::distance(glm::vec3(LinePoint[LinePoint.size() - 1][0]), glm::vec3(LinePoint[4][0]));
+	BattleLineDist = math::vector_distance(vec3(LinePoint[LinePoint.size() - 1][0]), vec3(LinePoint[4][0]));
 	NowFishSpeed = 0;
 	BattleFlag = true;
 	NowFishRot = 0.0f;
@@ -417,7 +417,7 @@ void FishBattle(CScene& scene, CCPoly& poly, int i)
 }
 
 // 00311070
-void GetFishPosVelo(glm::vec4& pos, glm::vec4& velocity)
+void GetFishPosVelo(vec4& pos, vec4& velocity)
 {
 	log_trace("GetFishPosVelo({}, {})", fmt::ptr(&pos), fmt::ptr(&velocity));
 
@@ -442,14 +442,14 @@ void RodStep(CScene& scene, CCPoly& poly)
 }
 
 // 00312200
-void BindPosition(glm::vec4& v1, glm::vec4& v2, float f1, float f2)
+void BindPosition(vec4& v1, vec4& v2, float f1, float f2)
 {
 	log_trace("BindPosition({}, {}, {}, {})", fmt::ptr(&v1), fmt::ptr(&v2), f1, f2);
 
-	glm::vec4 var_10;
-	glm::vec4 var_20;
-	glm::vec4 var_30 = v1 - v2;
-	float f0 = glm::distance(glm::vec3(var_30), glm::vec3(0.0f));
+	vec4 var_10;
+	vec4 var_20;
+	vec4 var_30 = v1 - v2;
+	float f0 = math::vector_distance(vec3(var_30), vec3(0.0f));
 	float f21 = f0 - f1;
 	float f20 = f0;
 	f0 -= f2;

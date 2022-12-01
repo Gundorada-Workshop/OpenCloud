@@ -32,13 +32,13 @@ static MapJumpInfo SubMapInfo{};
 // 01F58E10
 static std::array<char, 0x40> old_mapname{ 0 };
 // 01F58E50
-static glm::vec4 OldPos{ 0 };
+static vec4 OldPos{ 0 };
 // 01F58E60
-static glm::vec4 OldRot{ 0 };
+static vec4 OldRot{ 0 };
 // 01F58E70
-static glm::vec4 OldCamPos{ 0 };
+static vec4 OldCamPos{ 0 };
 // 01F58E80
-static glm::vec4 OldCamRef{ 0 };
+static vec4 OldCamRef{ 0 };
 // 01F58E90
 static std::array<char, 0x40> PrevInterior{ 0 };
 // 01F58ED0

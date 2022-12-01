@@ -74,9 +74,9 @@ public:
   void Initialize();
 
   // 0
-  std::array<glm::vec4, 0x10> m_unk_field_0;
+  std::array<vec4, 0x10> m_unk_field_0;
   // 100
-  std::array<glm::vec4, 0x10> m_unk_field_100;
+  std::array<vec4, 0x10> m_unk_field_100;
   // 200
   _DWORD m_unk_field_200;
   // 204
@@ -97,9 +97,9 @@ struct _SEN_CMR_SEQ
   // 0
   _DWORD m_unk_field_0;
   // 10
-  glm::vec4 m_unk_field_10;
+  vec4 m_unk_field_10;
   // 20
-  glm::vec4 m_unk_field_20;
+  vec4 m_unk_field_20;
   // 30
   _DWORD m_unk_field_30;
   // 34
@@ -165,9 +165,9 @@ public:
   // 48
   _DWORD m_unk_field_48;
   // 50
-  glm::vec4 m_unk_field_50;
+  vec4 m_unk_field_50;
   // 60
-  glm::vec4 m_unk_field_60;
+  vec4 m_unk_field_60;
   // 70
   _DWORD m_unk_field_70;
   // 74
@@ -181,7 +181,7 @@ public:
   // 84
   _DWORD m_unk_field_84;
   // 90
-  glm::vec4 m_unk_field_90;
+  vec4 m_unk_field_90;
   // A0
   _DWORD m_unk_field_A0;
   // A4
@@ -191,9 +191,9 @@ public:
   // AC
   std::array<char, 0x20> m_unk_field_AC;
   // D0
-  glm::vec4 m_unk_field_D0;
+  vec4 m_unk_field_D0;
   // E0
-  glm::vec4 m_unk_field_E0;
+  vec4 m_unk_field_E0;
   // F0
   _DWORD m_unk_field_F0;
 
@@ -204,29 +204,29 @@ public:
   // FC
   _DWORD m_unk_field_FC;
   // 100
-  glm::vec4 m_unk_field_100;
+  vec4 m_unk_field_100;
   // 110
-  glm::vec4 m_unk_field_110;
+  vec4 m_unk_field_110;
   // 120
-  glm::vec4 m_unk_field_120;
+  vec4 m_unk_field_120;
   // 130
-  glm::vec4 m_unk_field_130;
+  vec4 m_unk_field_130;
   // 140
   _DWORD m_unk_field_140;
   // 150
-  glm::vec4 m_unk_field_150;
+  vec4 m_unk_field_150;
   // 160
-  glm::vec4 m_unk_field_160;
+  vec4 m_unk_field_160;
   // 170
-  glm::vec4 m_unk_field_170;
+  vec4 m_unk_field_170;
   // 180
   _DWORD m_unk_field_180;
   // 190
-  glm::vec4 m_unk_field_190;
+  vec4 m_unk_field_190;
   // 1A0
-  glm::vec4 m_unk_field_1A0;
+  vec4 m_unk_field_1A0;
   // 1B0
-  glm::vec4 m_unk_field_1B0;
+  vec4 m_unk_field_1B0;
   // 1C0
   CCameraPas m_unk_field_1C0{};
 };
@@ -240,7 +240,7 @@ public:
   void Initialize();
 
   // 0
-  std::array<glm::vec4, 16> m_unk_field_0;
+  std::array<vec4, 16> m_unk_field_0;
   // 100
   _DWORD m_unk_field_100;
   // 104
@@ -262,7 +262,7 @@ public:
   // 0
   _DWORD m_unk_field_0;
   // 10
-  glm::vec4 m_unk_field_10;
+  vec4 m_unk_field_10;
   // 20
   _DWORD m_unk_field_20;
   // 24
@@ -340,26 +340,26 @@ public:
   // 64
   s32 m_unk_field_64;
   // 70
-  glm::vec4 m_unk_field_70;
+  vec4 m_unk_field_70;
   // 80
-  glm::vec4 m_unk_field_80;
+  vec4 m_unk_field_80;
 
   // ?
 
   // B0
-  glm::vec4 m_unk_field_B0;
+  vec4 m_unk_field_B0;
   // C0
-  glm::vec4 m_unk_field_C0;
+  vec4 m_unk_field_C0;
   // D0
-  glm::vec4 m_unk_field_D0;
+  vec4 m_unk_field_D0;
   // E0
-  glm::vec4 m_unk_field_E0;
+  vec4 m_unk_field_E0;
   // F0
   _DWORD m_unk_field_F0;
   // F4
   _DWORD m_unk_field_F4;
   // 120
-  glm::vec4 m_unk_field_120;
+  vec4 m_unk_field_120;
 
   // ?
 
@@ -444,7 +444,7 @@ public:
   // 0
   _DWORD m_unk_field_0{ 0 };
   // 10
-  glm::vec4 m_unk_field_10{ 0.0f, 0.0f, 0.0f, 1.0f };
+  vec4 m_unk_field_10{ 0.0f, 0.0f, 0.0f, 1.0f };
   // 20
   _DWORD m_unk_field_20{ 0 };
   // 24
@@ -459,11 +459,11 @@ public:
   // 0
   _DWORD m_unk_field_0{ 0 };
   // 10
-  glm::vec4 m_unk_field_10{ 0.0f, 0.0f, 0.0f, 1.0f };
+  vec4 m_unk_field_10{ 0.0f, 0.0f, 0.0f, 1.0f };
   // 20
-  glm::vec4 m_unk_field_20{ 0.0f, 0.0f, 0.0f, 1.0f };
+  vec4 m_unk_field_20{ 0.0f, 0.0f, 0.0f, 1.0f };
   // 30
-  glm::vec4 m_unk_field_30{ 0.0f, 0.0f, 0.0f, 1.0f };
+  vec4 m_unk_field_30{ 0.0f, 0.0f, 0.0f, 1.0f };
   // 40
   _DWORD m_unk_field_40{ 0 };
 };
@@ -479,9 +479,9 @@ public:
   // 4
   _DWORD m_unk_field_4{ 0 };
   // 10
-  std::array<glm::vec4, 8> m_unk_field_10{};
+  std::array<vec4, 8> m_unk_field_10{};
   // 90
-  glm::vec4 m_unk_field_90{ 0.0f, 0.0f, 0.0f, 1.0f };
+  vec4 m_unk_field_90{ 0.0f, 0.0f, 0.0f, 1.0f };
   // A0, A4, A8, AC
   glm::u8vec4 m_color{ 128.0f, 128.0f, 128.0f, 128.0f };
 };
@@ -567,9 +567,9 @@ public:
   // 2C
   bool m_unk_field_2C{ true };
   // 30
-  glm::vec4 m_unk_field_30{ 0.0f };
+  vec4 m_unk_field_30{ 0.0f };
   // 40
-  glm::vec4 m_unk_field_40{ 128.0f };
+  vec4 m_unk_field_40{ 128.0f };
   // 50
   _DWORD m_unk_field_50{ 0 };
   // 54

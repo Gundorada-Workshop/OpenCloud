@@ -1,7 +1,6 @@
-#include <glm/glm.hpp>
-
 #include "common/log.h"
-#include "common/types.h"
+#include "common/math.h"
+#include "common/constants.h"
 
 #include "dc2/dngmenu.h"
 #include "dc2/effect.h"
@@ -9,6 +8,8 @@
 #include "dc2/mg/mg_lib.h"
 
 set_log_channel("event_func");
+
+using namespace common;
 
 // 00377CD4
 static CMarker EventMarker{};
@@ -118,12 +119,12 @@ void CCameraPas::Initialize()
 
   for (auto& v : m_unk_field_0)
   {
-    v = glm::vec4(0.0f);
+    v = constants::vec4_zero;
   }
 
   for (auto& v : m_unk_field_100)
   {
-    v = glm::vec4(0.0f);
+    v = constants::vec4_zero;
   }
 
   m_unk_field_200 = 0;
@@ -140,8 +141,8 @@ void _SEN_CMR_SEQ::Initialize()
   log_trace("_SEN_CMR_SEQ::Initialize()");
 
   m_unk_field_0 = 0;
-  m_unk_field_10 = glm::vec4(0.0f);
-  m_unk_field_20 = glm::vec4(0.0f);
+  m_unk_field_10 = constants::vec4_zero;
+  m_unk_field_20 = constants::vec4_zero;
   m_unk_field_30 = 0;
   m_unk_field_34 = 0;
   m_unk_field_38 = 0;
@@ -165,8 +166,8 @@ void CSceneCmrSeq::ZeroInitialize()
 
   m_sequences = nullptr;
   m_n_sequences = 0;
-  m_unk_field_50 = glm::vec4(0.0f);
-  m_unk_field_60 = glm::vec4(0.0f);
+  m_unk_field_50 = constants::vec4_zero;
+  m_unk_field_60 = constants::vec4_zero;
   Clear();
 }
 
@@ -193,35 +194,35 @@ void CSceneCmrSeq::Clear()
   m_unk_field_40 = 0;
   m_unk_field_44 = 0;
   m_unk_field_48 = 0;
-  m_unk_field_50 = glm::vec4(0.0f);
-  m_unk_field_60 = glm::vec4(0.0f);
+  m_unk_field_50 = constants::vec4_zero;
+  m_unk_field_60 = constants::vec4_zero;
   m_unk_field_78 = 0;
   m_unk_field_7C = 0;
   m_unk_field_80 = -1;
   m_unk_field_84 = 0;
-  m_unk_field_90 = glm::vec4(0.0f);
+  m_unk_field_90 = constants::vec4_zero;
   m_unk_field_AC[0] = '\0';
   m_unk_field_A8 = 0;
   m_unk_field_A4 = 0;
   m_unk_field_A0 = 0;
-  m_unk_field_D0 = glm::vec4(0.0f);
-  m_unk_field_E0 = glm::vec4(0.0f);
+  m_unk_field_D0 = constants::vec4_zero;
+  m_unk_field_E0 = constants::vec4_zero;
   m_unk_field_FC = 0;
   m_unk_field_F8 = 0;
   m_unk_field_F0 = 0;
-  m_unk_field_100 = glm::vec4(0.0f);
-  m_unk_field_110 = glm::vec4(0.0f);
-  m_unk_field_120 = glm::vec4(0.0f);
-  m_unk_field_130 = glm::vec4(0.0f);
+  m_unk_field_100 = constants::vec4_zero;
+  m_unk_field_110 = constants::vec4_zero;
+  m_unk_field_120 = constants::vec4_zero;
+  m_unk_field_130 = constants::vec4_zero;
   m_unk_field_140 = 0;
-  m_unk_field_150 = glm::vec4(0.0f);
-  m_unk_field_160 = glm::vec4(0.0f);
-  m_unk_field_170 = glm::vec4(0.0f);
+  m_unk_field_150 = constants::vec4_zero;
+  m_unk_field_160 = constants::vec4_zero;
+  m_unk_field_170 = constants::vec4_zero;
   m_unk_field_180 = 0;
   m_unk_field_1C0.Initialize();
-  m_unk_field_190 = glm::vec4(0.0f);
-  m_unk_field_1A0 = glm::vec4(0.0f);
-  m_unk_field_1B0 = glm::vec4(0.0f);
+  m_unk_field_190 = constants::vec4_zero;
+  m_unk_field_1A0 = constants::vec4_zero;
+  m_unk_field_1B0 = constants::vec4_zero;
   m_unk_field_8 = 0;
   m_unk_field_C = 0;
   m_unk_field_10 = 0;
@@ -258,7 +259,7 @@ void CCharaPas::Initialize()
 
   for (auto& v : m_unk_field_0)
   {
-    v = glm::vec4(0.0f);
+    v = constants::vec4_zero;
   }
   m_unk_field_100 = 0;
   m_unk_field_104 = 0;
@@ -273,7 +274,7 @@ void _SEN_OBJ_SEQ::Initialize()
   log_trace("_SEN_OBJ_SEQ::{}()", __func__);
 
   m_unk_field_0 = 0;
-  m_unk_field_10 = glm::vec4(0.0f);
+  m_unk_field_10 = constants::vec4_zero;
   m_unk_field_20 = 0;
   m_unk_field_24 = 0;
   m_unk_field_28 = 0;
@@ -324,14 +325,14 @@ void CSceneObjSeq::Clear()
   log_trace("CSceneObjSeq::{}()", __func__);
 
   m_unk_field_64 = -1;
-  m_unk_field_70 = glm::vec4(0.0f);
-  m_unk_field_80 = glm::vec4(0.0f);
-  m_unk_field_120 = glm::vec4(0.0f);
-  m_unk_field_B0 = glm::vec4(0.0f);
-  m_unk_field_D0 = glm::vec4(0.0f);
+  m_unk_field_70 = constants::vec4_zero;
+  m_unk_field_80 = constants::vec4_zero;
+  m_unk_field_120 = constants::vec4_zero;
+  m_unk_field_B0 = constants::vec4_zero;
+  m_unk_field_D0 = constants::vec4_zero;
   m_unk_field_F0 = 0;
-  m_unk_field_C0 = glm::vec4(0.0f);
-  m_unk_field_E0 = glm::vec4(0.0f);
+  m_unk_field_C0 = constants::vec4_zero;
+  m_unk_field_E0 = constants::vec4_zero;
   m_unk_field_8 = 0;
   m_unk_field_C = 0;
   m_unk_field_10 = 0;
@@ -365,10 +366,10 @@ CRainDrop::CRainDrop()
 
   for (auto& v : m_unk_field_10)
   {
-    v = glm::vec4(0, 0, 0, 1);
+    v = vec4(0, 0, 0, 1);
   }
 
-  m_unk_field_90 = glm::vec4(0, 0, 0, 1);
+  m_unk_field_90 = vec4(0, 0, 0, 1);
   m_color = glm::u8vec4(128, 128, 128, 128);
 }
 

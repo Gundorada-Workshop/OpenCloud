@@ -1,9 +1,13 @@
 #include "common/log.h"
+#include "common/math.h"
+#include "common/constants.h"
 
 #include "dc2/camera.h"
 #include "dc2/mg/mg_math.h"
 
 set_log_channel("camera");
+
+using namespace common;
 
 // 002EBE80
 CCameraControl::CCameraControl()
@@ -64,7 +68,9 @@ void CCameraControl::Step(sint steps)
 
   mgCCamera::Step(steps);
   vec3 difference = m_next_reference - m_next_position;
-  m_distance = glm::distance(vec3(0.0f), difference);
+
+  m_distance = math::vector_distance(constants::vec3_zero, difference);
+
   m_height = -difference.y;
   m_angle_soon = atan2f(-difference.x, -difference.z);
 
@@ -118,14 +124,15 @@ void CCameraControl::MoveCamera(const Control& control, const vec3& v, CCPoly* c
   
   vec3 next_difference;
   vec3 next_difference_normal;
-  vec3 var_10 = vec3(0);
+  vec3 var_10 = constants::vec3_zero;
 
   m_next_reference = GetFollow() + GetFollowOffset();
 
   next_difference = m_next_reference - m_next_position;
   next_difference.y = 0.0f;
-  next_difference_normal = glm::normalize(next_difference);
-  f32 dist = glm::distance(next_difference, vec3(0));
+
+  next_difference_normal = math::vector_normalize(next_difference);
+  f32 dist = math::vector_distance(next_difference, constants::vec3_zero);
 
   if (dist > 0.0f)
   {
@@ -192,7 +199,7 @@ void CCameraControl::MoveCamera(const Control& control, const vec3& v, CCPoly* c
 
   if (control.m_unk_field_8 && (m_rot_camera_cancel & 0x40) == 0)
   {
-    RotBack(v.y - common::deg_to_rad(180.0f));
+    RotBack(v.y - math::deg_to_rad(180.0f));
   }
 
   if (m_unk_field_C8)
@@ -232,7 +239,10 @@ void CCameraControl::Rotate(f32 delta)
 
   var_50 = vec4(m_next_position - m_next_reference, 1.0f);
   delta = mgAngleLimit(delta);
+
+  // TODO: replace
   glm::rotate(var_40, delta, vec3(0, 1, 0));
+
   var_50 = var_40 * var_50;
   m_next_position = m_next_reference + vec3(var_50);
 }
@@ -245,13 +255,15 @@ void CCameraControl::SetRotate(f32 rot)
   vec4 var_50 = vec4(0.0f);
   matrix4 var_40 = matrix4(1.0f);
 
-  var_50.z = glm::distance(
+  var_50.z = math::vector_distance(
     vec3(m_next_reference.x, 0.0f, m_next_reference.z),
     vec3(m_next_position.x, 0.0f, m_next_position.z)
   );
   var_50.y = m_next_position.y - m_next_reference.y;
 
+  // TODO: replace
   glm::rotate(var_40, mgAngleLimit(rot), vec3(0, 1, 0));
+
   var_50 = var_40 * var_50;
   m_next_position = m_next_reference + vec3(var_50);
 }
