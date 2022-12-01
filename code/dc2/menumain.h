@@ -83,7 +83,7 @@ public:
   // F8
   unk32 m_unk_field_F8;
   // FC
-  _UNKNOWNSTRUCT(0x10) m_unk_field_10C;
+  unks<0x10> m_unk_field_10C;
 
   // SIZE 0x110, VTABLE @ 0x10C
 };

@@ -527,13 +527,13 @@ public:
   // 8
   std::array<char, 0x40> m_name{ 0 };
   // 48
-  _UNKNOWNSTRUCT(0x10) m_unk_field_48{ 0 };
+  unks<0x10> m_unk_field_48{ 0 };
   // 58
-  _UNKNOWNSTRUCT(0x10) m_unk_field_58{ 0 };
+  unks<0x10> m_unk_field_58{ 0 };
   // 68
-  _UNKNOWNSTRUCT(0x10) m_unk_field_68{ 0 };
+  unks<0x10> m_unk_field_68{ 0 };
   // 78
-  _UNKNOWNSTRUCT(0x10) m_unk_field_78{ 0 };
+  unks<0x10> m_unk_field_78{ 0 };
 
   // SIZE 0x88
 };
@@ -563,7 +563,7 @@ public:
   // 8
   s32 m_unk_field_8{ -1 };
   // C
-  _UNKNOWNSTRUCT(0x20) m_unk_field_C { 0 };
+  unks<0x20> m_unk_field_C { 0 };
   // 2C
   bool m_unk_field_2C{ true };
   // 30

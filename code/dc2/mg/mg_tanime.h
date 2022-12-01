@@ -25,9 +25,9 @@ public:
   // 3
   unk8 m_unk_field_3{ 0 };
   // 4
-  _UNKNOWN m_unk_field_4{ 0 };
+  unk m_unk_field_4{ 0 };
   // 8
-  _UNKNOWN m_unk_field_8{ 0 };
+  unk m_unk_field_8{ 0 };
   // C
   unk16 m_unk_field_C{ 0 };
   // E

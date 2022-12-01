@@ -78,7 +78,7 @@ public:
   // 4
   void* m_vram_bottom;
   // 8
-  _UNKNOWN m_unk_field_8;
+  unk m_unk_field_8;
   // C
   usize m_n_blocks{};
   // 10

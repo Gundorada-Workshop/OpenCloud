@@ -1106,7 +1106,7 @@ ESceneDataStatus CScene::GetStatus(ESceneDataType data_type, ssize data_index)
 }
 
 // 002847F0
-void CScene::SetType(ESceneDataType data_type, ssize data_index, _UNKNOWN _data_type)
+void CScene::SetType(ESceneDataType data_type, ssize data_index, unk _data_type)
 {
 	log_trace("CScene::{}({}, {}, {})", __func__, data_type, data_index, _data_type);
 
@@ -1114,7 +1114,7 @@ void CScene::SetType(ESceneDataType data_type, ssize data_index, _UNKNOWN _data_
 }
 
 // 00284820
-_UNKNOWN CScene::GetType(ESceneDataType data_type, ssize data_index)
+unk CScene::GetType(ESceneDataType data_type, ssize data_index)
 {
 	log_trace("CScene::{}({}, {})", __func__, data_type, data_index);
 
@@ -1232,7 +1232,7 @@ void CScene::SetNowSubMapNo(s32 now_sub_map_no)
 }
 
 // 00284BA0
-void CScene::LoadChara(_UNKNOWN i1, unkptr p1, unkptr p2, mgCMemory& m1, mgCMemory& m2, mgCMemory& m3, _UNKNOWN i2, _UNKNOWN i3)
+void CScene::LoadChara(unk i1, unkptr p1, unkptr p2, mgCMemory& m1, mgCMemory& m2, mgCMemory& m3, unk i2, unk i3)
 {
 	log_trace("CScene::{}({}, {}, {}, {}, {}, {}, {}, {})", __func__, i1, fmt::ptr(p1), fmt::ptr(p2), fmt::ptr(&m1), fmt::ptr(&m2), fmt::ptr(&m3), i2, i3);
 
@@ -2076,7 +2076,7 @@ bool CScene::GetNowVillagerTime()
 }
 
 // 002C9880
-usize CScene::GetLoadVillagerList(_UNKNOWN i, unkptr pi, CVillagerPlaceInfo&& place_info)
+usize CScene::GetLoadVillagerList(unk i, unkptr pi, CVillagerPlaceInfo&& place_info)
 {
 	log_trace("CScene::{}({}, {}, {})", __func__, i, fmt::ptr(pi), fmt::ptr(&place_info));
 
@@ -2085,7 +2085,7 @@ usize CScene::GetLoadVillagerList(_UNKNOWN i, unkptr pi, CVillagerPlaceInfo&& pl
 }
 
 // 002C9980
-s32 CScene::SearchCopyModel(_UNKNOWN i)
+s32 CScene::SearchCopyModel(unk i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 

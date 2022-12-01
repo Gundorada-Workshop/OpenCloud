@@ -106,9 +106,6 @@ namespace common::debug
 #define unused_v(var) \
   (void)var
 
-#define _UNKNOWN int
-#define _UNKNOWNSTRUCT(size) std::array<u8, size>
-
 #if defined(_DEBUG) || defined(_FDEBUG)
 
 #define debug_assert(cnd) assert(cnd)
