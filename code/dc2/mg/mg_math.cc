@@ -658,9 +658,10 @@ void mgVectorMinMaxN(vec4& max_dest, vec4& min_dest, const vec4* vecs, usize n)
 // 001309E0
 void mgApplyMatrix(vec4& max_dest, vec4& min_dest, const matrix4& mat, const vec4& c1, const vec4& c2)
 {
-  log_trace("{}({}, {}, {}, {}, {})", __func__, fmt::ptr(&max_dest), fmt::ptr(&min_dest), fmt::ptr(&mat), fmt::ptr(&c1), fmt::ptr(&c2));
+  log_trace("{}({}, {}, {}, {}, {})", __func__, fmt::ptr(&max_dest), fmt::ptr(&min_dest), fmt::ptr(&mat), c1, c2);
 
-  todo;
+  auto var_80 = mgCreateBox8(c1, c2);
+  mgApplyMatrixN_MaxMin(var_80.vertices.data(), mat, var_80.vertices.data(), var_80.vertices.size(), max_dest, min_dest);
 }
 
 // 00130A50
