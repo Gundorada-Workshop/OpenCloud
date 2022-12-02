@@ -595,12 +595,95 @@ matrix4 mgLookAtMatrixZ(const vec4& v)
 }
 
 // 00130690
-matrix4 mgShadowMatrix(const vec4& v1, const vec4& v2, const vec4& v3)
+matrix4 mgShadowMatrix(const vec3& v1, const vec3& v2, const vec3& v3)
 {
-  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3));
+  log_trace("{}({}, {}, {})", __func__, v1, v2, v3);
 
-  todo;
-  return matrix4{ 1.0f };
+  vec3 var_10{ v3 };
+  vec3 var_20{ v2 };
+  vec3 var_30{ v1 };
+  matrix4 result;
+
+  f32 f0 = math::vector_dot_product(var_10, var_20);
+  if (f0 == 0.0f)
+  {
+    var_20.x *= 0.9f;
+    var_20.y *= 0.9f;
+    var_20.z *= 0.9f;
+    f0 = math::vector_dot_product(var_10, var_20);
+  }
+
+  f0 = 1.0f / f0;
+  f32 f20 = var_10.x * f0;
+  f32 f21 = var_10.y * f0;
+  f32 f22 = var_10.z * f0;
+  var_30 = math::vector_normalize(var_30);
+
+  // Lord forgive me for what I am about to do
+  // This needs to get simplified/cleaned up
+  f32 f1;
+  f32 f2;
+  f32 f3;
+  f32 f4;
+  f32 f5;
+  f32 f6;
+  f32 f7;
+  f32 f8;
+  f32 f9;
+  f32 ACC;
+
+  f6 = var_30.y;
+  f4 = var_30.x;
+  f7 = var_30.z;
+  f0 = -1.0f;
+  f3 = f21 * f6;
+  f2 = f20 = f20 * f4;
+  ACC = f2 + f3;
+  f1 = ACC + (f22 * f7);
+  f8 = f0 / f1;
+  f0 = f2 - f1;
+  f0 *= f8;
+  result[0].x = f0;
+  f0 = f3 - f1;
+  f9 = f22 * f7;
+  f5 = f8 * f0;
+  f0 = f9 - f1;
+  f2 = f8 * f0;
+  f0 = -f1;
+  f1 = f21 * f4;
+  f1 *= f8;
+  result[1].x = f1;
+  f1 = f21 * f7;
+  f3 = f8 * f1;
+  f1 = f22 * f4;
+  f3 = f8 * f1;
+  result[2].x = f1;
+  f1 = -f4;
+  f1 *= f8;
+  result[3].x = f1;
+  f1 = f22 * f6;
+  f4 = f8 * f1;
+  f1 = f20 * f6;
+  f1 *= f8;
+  result[0].y = f1;
+  f1 = -f6;
+  result[1].y = f5;
+  f1 *= f8;
+  result[2].y = f4;
+  result[3].y = f1;
+  f1 = f20 * f7;
+  f1 *= f8;
+  result[0].z = f1;
+  f1 = -f7;
+  result[1].z = f3;
+  f1 *= f8;
+  result[2].z = f2;
+  result[3].z = f1;
+  result[0].w = 0.0f;
+  result[1].w = 0.0f;
+  result[2].w = 0.0f;
+  result[3].w = f8 * f0;
+  return result;
 }
 
 // 001308A0
