@@ -49,7 +49,7 @@ bool mgClipBoxVertex(const vec4& v1, const vec4& v2, const vec4& v3)
   // NOTE: Status & 0x0080 is the signed sticky flag; should be set if the vsub op results in any negative components
   log_trace("{}({}, {}, {})", __func__, v1, v2, v3);
 
-  return !(glm::any(glm::lessThan(v2.xyz - v1.xyz, { 0, 0, 0 })) || glm::any(glm::lessThan(v1.xyz - v3.xyz, { 0, 0, 0 })));
+  return !(math::vector_any_less_than(v2.xyz - v1.xyz, constants::vec3_zero) || math::vector_any_less_than(v1.xyz - v3.xyz, constants::vec3_zero));
 }
 
 // 0012F290
@@ -57,7 +57,7 @@ bool mgClipBox(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
 {
   log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
 
-  return !(glm::any(glm::lessThan(v1.xyz - v4.xyz, { 0, 0, 0 })) || glm::any(glm::lessThan(v3.xyz - v2.xyz, { 0, 0, 0 })));
+  return !(math::vector_any_less_than(v1.xyz - v4.xyz, constants::vec3_zero) || math::vector_any_less_than(v3.xyz - v2.xyz, constants::vec3_zero));
 }
 
 // 0012F2E0
@@ -65,7 +65,7 @@ bool mgClipBoxW(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
 {
   log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
 
-  return !(glm::any(glm::lessThan(v1.xyw - v4.xyw, { 0, 0, 0 })) || glm::any(glm::lessThan(v3.xyw - v2.xyw, { 0, 0, 0 })));
+  return !(math::vector_any_less_than(v1.xyw - v4.xyw, constants::vec3_zero) || math::vector_any_less_than(v3.xyw - v2.xyw, constants::vec3_zero));
 }
 
 // 0012F330
@@ -73,7 +73,7 @@ bool mgClipInBox(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
 {
   log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
 
-  return !(glm::any(glm::lessThan(v3.xyz - v1.xyz, { 0, 0, 0 })) || glm::any(glm::lessThan(v2.xyz - v4.xyz, { 0, 0, 0 })));
+  return !(math::vector_any_less_than(v3.xyz - v1.xyz, constants::vec3_zero) || math::vector_any_less_than(v2.xyz - v4.xyz, constants::vec3_zero));
 }
 
 // 0012F380
@@ -81,7 +81,7 @@ bool mgClipInBoxW(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4
 {
   log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
 
-  return !(glm::any(glm::lessThan(v3.xyw - v1.xyw, { 0, 0, 0 })) || glm::any(glm::lessThan(v2.xyw - v4.xyw, { 0, 0, 0 })));
+  return !(math::vector_any_less_than(v3.xyw - v1.xyw, constants::vec3_zero) || math::vector_any_less_than(v2.xyw - v4.xyw, constants::vec3_zero));
 }
 
 // 0012F410
@@ -174,17 +174,17 @@ usize mgIntersectionSphereLine0(const vec4& start, const vec4& end, vec4* inters
   // 0012F7F0 - 0012F828
   auto distance = end - start;
   // 0012F828 - 0012F834
-  float f20 = mgDistVector2(distance);
+  f32 f20 = mgDistVector2(distance);
   // 0012F834 - 0012F844
-  float f21 = math::vector_dot_product(vec3{ distance }, vec3{ start });
+  f32 f21 = math::vector_dot_product(vec3{ distance }, vec3{ start });
   // 0012F844 - 0012F854
-  float f0 = mgDistVector2(start) - (radius * radius);
+  f32 f0 = mgDistVector2(start) - (radius * radius);
 
   // 0012F854 - 0012F85C
   // NOTE: another way of thinking about these 2 instructions:
   // ACC = f21 * f21
   // f22 = ACC - (f20 * f0)
-  float f22 = (f21 * f21) - (f20 * f0);
+  f32 f22 = (f21 * f21) - (f20 * f0);
 
   // 0012F864 - 0012F87C
   if (f22 < 0.0f)
@@ -681,7 +681,7 @@ f32 mgRnd()
 {
   log_trace("{}()", __func__);
 
-  return rand() / static_cast<f32>(std::numeric_limits<s32>::max());
+  return rand() / static_cast<f32>(constants::s32_max);
 }
 
 // 00130F20
@@ -704,7 +704,7 @@ void mgCreateSinTable()
 
   f32 sin_table_num = static_cast<f32>(SinTable.size());
 
-  for (int i = 0; i < SinTable.size(); ++i)
+  for (usize i = 0; i < SinTable.size(); ++i)
   {
     SinTable[i] = sinf(static_cast<f32>(i) * math::pi2() / sin_table_num);
   }

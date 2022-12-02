@@ -64,7 +64,7 @@ unkptr mgDraw(mgCFrame* frame)
 {
   log_trace("mgDraw({})", fmt::ptr(frame));
 
-  if (frame == nullptr)
+  if (!frame)
   {
     return nullptr;
   }
@@ -77,7 +77,7 @@ unkptr mgDrawDirect(mgCFrame* frame)
 {
   log_trace("mgDrawDirect({})", fmt::ptr(frame));
 
-  if (frame == nullptr)
+  if (!frame)
   {
     return nullptr;
   }

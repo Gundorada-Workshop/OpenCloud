@@ -1,6 +1,4 @@
 #pragma once
-#include <glm/glm.hpp>
-
 #include "common/types.h"
 #include "common/rectangle.h"
 
