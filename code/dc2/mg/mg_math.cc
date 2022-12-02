@@ -562,10 +562,36 @@ matrix4 mgCreateMatrixPY(const vec4& v, f32 f)
 // 001305B0
 matrix4 mgLookAtMatrixZ(const vec4& v)
 {
-  log_trace("{}({})", __func__, fmt::ptr(&v));
+  log_trace("{}({})", __func__, v);
 
-  todo;
-  return matrix4{ 1.0f };
+  auto var_60 = mgUnitMatrix();
+  auto var_A0 = var_60;
+  auto var_20 = math::vector_normalize(v);
+  auto var_10 = var_20;
+  var_10.y = 0.0f;
+  f32 f0 = mgDistVector(var_10);
+  f32 f1 = 1.0f;
+  f32 f2 = 0.0f;
+
+  if (f0 == 0.0f)
+  {
+    var_A0[1].y = 1.0f;
+  }
+  else
+  {
+    f2 /= f0;
+    f1 /= f0;
+    var_A0[1].y = f0;
+  }
+
+  var_A0[2].z = f0;
+  var_60[0].z = -f2;
+  var_60[2].x = f2;
+  var_60[0].x = f1;
+  var_60[2].z = f1;
+  var_A0[2].y = var_20.y;
+  var_A0[1].z = -var_20.y;
+  return mgMulMatrix(var_60, var_A0);
 }
 
 // 00130690
