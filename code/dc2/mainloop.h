@@ -59,11 +59,6 @@ struct SInitArg
 	unk m_unk_field_4C{ 0 };
 };
 
-namespace MainLoop_SInit
-{
-	void SInit();
-}
-
 // 00190840
 CFont* GetDebugFont();
 
