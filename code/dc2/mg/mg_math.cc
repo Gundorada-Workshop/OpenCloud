@@ -665,12 +665,29 @@ void mgApplyMatrix(vec4& max_dest, vec4& min_dest, const matrix4& mat, const vec
 }
 
 // 00130A50
-vec4 mgVectorInterpolate(const vec4& lhs, const vec4& rhs, f32 t, bool b)
+vec3 mgVectorInterpolate(const vec3& lhs, const vec3& rhs, f32 t, bool b)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&lhs), fmt::ptr(&rhs), t, b);
+  log_trace("{}({}, {}, {}, {})", __func__, lhs, rhs, t, b);
 
-  todo;
-  return vec4{ 0, 0, 0, 1 };
+  auto delta = rhs - lhs;
+  if (b)
+  {
+    // NOTE: apparently this is dead code, nothing calls this fn with true
+    return { 
+      lhs.x + (delta.x / t),
+      lhs.y + (delta.y / t),
+      lhs.z + (delta.z / t)
+    };
+  }
+
+  if (mgDistVector(delta) < t)
+  {
+    return rhs;
+  }
+
+  delta = math::vector_normalize(delta);
+  delta *= t;
+  return lhs + delta;
 }
 
 // 00130B60

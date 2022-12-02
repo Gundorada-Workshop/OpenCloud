@@ -222,7 +222,7 @@ void mgVectorMinMaxN(vec4& max_dest, vec4& min_dest, const vec4* vecs, usize n);
 void mgApplyMatrix(vec4& max_dest, vec4& min_dest, const matrix4& mat, const vec4& c1, const vec4& c2);
 
 // 00130A50
-vec4 mgVectorInterpolate(const vec4& lhs, const vec4& rhs, f32 t, bool b);
+vec3 mgVectorInterpolate(const vec3& lhs, const vec3& rhs, f32 t, bool b);
 
 // 00130B60
 f32 mgAngleInterpolate(f32 f1, f32 f2, f32 f3, bool b);
