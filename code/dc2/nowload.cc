@@ -183,6 +183,8 @@ void PauseEnd()
 // 00309DE0
 bool PauseLoop()
 {
+  using enum mgCDrawPrim::Primitive;
+
   log_trace("{}()", __func__);
 
   if (!PauseFlag)
@@ -239,7 +241,7 @@ bool PauseLoop()
   draw_prim.Bilinear(false);
   draw_prim.ZMask(-1);
   draw_prim.TextureMapEnable(true);
-  draw_prim.Begin(6);
+  draw_prim.Begin(Sprite);
   draw_prim.Texture(pause_work);
   u8 rgb = sv_config_option.m_pause_display ? 0x80 : 0x40;
   draw_prim.Color(rgb, rgb, rgb, 0x80);
@@ -257,7 +259,7 @@ bool PauseLoop()
     int y = (mgScreenHeight / 2) - (t / 2);
 
     draw_prim.AlphaBlendEnable(true);
-    draw_prim.Begin(6);
+    draw_prim.Begin(Sprite);
     draw_prim.Texture(skip_texture);
     draw_prim.Color(0x80, 0x80, 0x80, 0x80);
     draw_prim.TextureCrd(0, 0);
