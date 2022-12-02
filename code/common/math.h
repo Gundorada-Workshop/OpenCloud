@@ -63,6 +63,62 @@ namespace common::math
     return glm::dot<size, type>(a, b);
   }
 
+  // check if any respective component of a is greater than the components of b
+  template<usize size, typename type>
+  inline bool vector_any_greater_than(const vec<type, size>& a, const vec<type, size>& b)
+  {
+    return glm::any(glm::greaterThan<size, type>(a, b));
+  }
+
+  // check if any respective component of a is less than the components of b
+  template<usize size, typename type>
+  inline bool vector_any_less_than(const vec<type, size>& a, const vec<type, size>& b)
+  {
+    return glm::any(glm::lessThan<size, type>(a, b));
+  }
+
+  // check if any respective component of a is greater than or equal to the components of b
+  template<usize size, typename type>
+  inline bool vector_any_greater_than_equal(const vec<type, size>& a, const vec<type, size>& b)
+  {
+    return glm::any(glm::greaterThanEqual<size, type>(a, b));
+  }
+
+  // check if any respective component of a is less than or equal to the components of b
+  template<usize size, typename type>
+  inline bool vector_any_less_than_equal(const vec<type, size>& a, const vec<type, size>& b)
+  {
+    return glm::any(glm::lessThanEqual<size, type>(a, b));
+  }
+
+  // check if all respective components of a are greater than the components of b
+  template<usize size, typename type>
+  inline bool vector_all_greater_than(const vec<type, size>& a, const vec<type, size>& b)
+  {
+    return glm::all(glm::greaterThan<size, type>(a, b));
+  }
+
+  // check if all respective components of a are less than the components of b
+  template<usize size, typename type>
+  inline bool vector_all_less_than(const vec<type, size>& a, const vec<type, size>& b)
+  {
+    return glm::all(glm::lessThan<size, type>(a, b));
+  }
+
+  // check if all respective components of a are greater than or equal to the components of b
+  template<usize size, typename type>
+  inline bool vector_all_greater_than_equal(const vec<type, size>& a, const vec<type, size>& b)
+  {
+    return glm::all(glm::greaterThanEqual<size, type>(a, b));
+  }
+
+  // check if all respective components of a are less than or equal to the components of b
+  template<usize size, typename type>
+  inline bool vector_all_less_than_equal(const vec<type, size>& a, const vec<type, size>& b)
+  {
+    return glm::all(glm::lessThanEqual<size, type>(a, b));
+  }
+
   constexpr vec3 vector_outer_product(const vec3& a, const vec3& b)
   {
     return {
