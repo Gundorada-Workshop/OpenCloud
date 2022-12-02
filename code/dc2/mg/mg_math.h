@@ -216,7 +216,7 @@ void mgApplyMatrixN(vec4* vecs_dest, const matrix4& mat, const vec4* vecs, usize
 void mgApplyMatrixN_MaxMin(vec4* vecs_dest, const matrix4& mat, const vec4* vecs, usize n, vec4& max_dest, vec4& min_dest);
 
 // 00130980
-void mgVectorMinMaxN(vec4* max_dest, vec4* min_dest, vec4* vecs, usize n);
+void mgVectorMinMaxN(vec4& max_dest, vec4& min_dest, const vec4* vecs, usize n);
 
 // 001309E0
 void mgApplyMatrix(vec4& max_dest, vec4& min_dest, const matrix4& mat, const vec4& c1, const vec4& c2);

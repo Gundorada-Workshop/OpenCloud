@@ -619,7 +619,8 @@ void mgApplyMatrixN_MaxMin(vec4* vecs_dest, const matrix4& mat, const vec4* vecs
 {
   log_trace("{}({}, {}, {}, {}, {})", __func__, fmt::ptr(vecs_dest), fmt::ptr(&mat), fmt::ptr(vecs), n, fmt::ptr(&max_dest), fmt::ptr(&min_dest));
 
-  vecs_dest[0] = mat * vecs[0];
+  assert_msg(n != 0, "{}(n = 0) is invalid", __func__);
+
   vec4 max = vec4{ common::constants::f32_min };
   vec4 min = vec4{ common::constants::f32_max };
 
@@ -635,11 +636,23 @@ void mgApplyMatrixN_MaxMin(vec4* vecs_dest, const matrix4& mat, const vec4* vecs
 }
 
 // 00130980
-void mgVectorMinMaxN(vec4* max_dest, vec4* min_dest, vec4* vecs, usize n)
+void mgVectorMinMaxN(vec4& max_dest, vec4& min_dest, const vec4* vecs, usize n)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(max_dest), fmt::ptr(min_dest), fmt::ptr(vecs), n);
+  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&max_dest), fmt::ptr(&min_dest), fmt::ptr(vecs), n);
 
-  todo;
+  assert_msg(n != 0, "{}(n = 0) is invalid", __func__);
+
+  vec4 max = vec4{ common::constants::f32_min };
+  vec4 min = vec4{ common::constants::f32_max };
+
+  for (usize i = 0; i < n; ++i)
+  {
+    max = glm::max(max, vecs[i]);
+    min = glm::min(min, vecs[i]);
+  }
+
+  max_dest = max;
+  min_dest = min;
 }
 
 // 001309E0
