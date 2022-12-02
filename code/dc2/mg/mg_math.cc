@@ -453,8 +453,33 @@ matrix4 mgInverseMatrix(const matrix4& mat)
 {
   log_trace("{}({})", __func__, fmt::ptr(&mat));
 
-  todo;
-  return matrix4{ 1.0f };
+  // Hopefully this is right - Souzooka
+
+  // First, we want a matrix of the 3x3 submatrix of mat from (0, 0) until (3, 3)
+  matrix3 inverse = glm::inverse(
+    matrix3 {
+      mat[0].xyz,
+      mat[1].xyz,
+      mat[2].xyz 
+    }
+  );
+  
+  // Now, we have to convert our inverse into a 4x4 matrix. For the first three rows,
+  // 0 will be used for the w component. But what's going to be in the fourth row?
+  // According to game code, it should be something like this.
+  auto temp = inverse[0] * mat[3].x;
+  temp += inverse[1] * mat[3].y;
+  temp += inverse[2] * mat[3].z;
+  temp = -temp;
+  // NOTE: The w component of the fourth row is always 1.0f
+
+  // Now mix it all together
+  return {
+    vec4{ inverse[0], 0.0f },
+    vec4{ inverse[1], 0.0f },
+    vec4{ inverse[2], 0.0f },
+    vec4{ temp, 1.0f }
+  };
 }
 
 // 001303D0
