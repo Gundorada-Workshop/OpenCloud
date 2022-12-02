@@ -608,7 +608,10 @@ void mgApplyMatrixN(vec4* vecs_dest, const matrix4& mat, const vec4* vecs, usize
 {
   log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(vecs_dest), fmt::ptr(&mat), fmt::ptr(vecs), n);
 
-  todo;
+  for (usize i = 0; i < n; ++i)
+  {
+    vecs_dest[i] = mat * vecs[i];
+  }
 }
 
 // 001308F0
@@ -616,7 +619,19 @@ void mgApplyMatrixN_MaxMin(vec4* vecs_dest, const matrix4& mat, const vec4* vecs
 {
   log_trace("{}({}, {}, {}, {}, {})", __func__, fmt::ptr(vecs_dest), fmt::ptr(&mat), fmt::ptr(vecs), n, fmt::ptr(&max_dest), fmt::ptr(&min_dest));
 
-  todo;
+  vecs_dest[0] = mat * vecs[0];
+  vec4 max = vec4{ common::constants::f32_min };
+  vec4 min = vec4{ common::constants::f32_max };
+
+  for (usize i = 0; i < n; ++i)
+  {
+    vecs_dest[i] = mat * vecs[i];
+    max = glm::max(max, vecs_dest[i]);
+    min = glm::min(min, vecs_dest[i]);
+  }
+
+  max_dest = vec4{ max.xyz, 1.0f };
+  min_dest = vec4{ min.xyz, 1.0f };
 }
 
 // 00130980
