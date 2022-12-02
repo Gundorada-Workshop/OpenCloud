@@ -595,7 +595,7 @@ void mgCDrawPrim::Coord(sint i)
 }
 
 // 00135140
-void mgCDrawPrim::GetOffset(int* i1, int*i2)
+void mgCDrawPrim::GetOffset(sint* i1, sint* i2)
 {
   log_trace("mgCDrawPrim::{}({}, {})", __func__, fmt::ptr(i1), fmt::ptr(i2));
 
@@ -645,7 +645,7 @@ void mgCObject::SetPosition(const vec4& v)
 }
 
 // 00136220
-void mgCObject::SetPosition(float x, float y, float z)
+void mgCObject::SetPosition(f32 x, f32 y, f32 z)
 {
   log_trace("mgCObject::SetPosition({}, {}, {})", x, y, z);
 
@@ -678,7 +678,7 @@ void mgCObject::SetRotation(const vec4& v)
 }
 
 // 001362F0
-void mgCObject::SetRotation(float x, float y, float z)
+void mgCObject::SetRotation(f32 x, f32 y, f32 z)
 {
   log_trace("mgCObject::SetRotation({}, {}, {})", x, y, z);
 
@@ -711,7 +711,7 @@ void mgCObject::SetScale(const vec4& v)
 }
 
 // 001363C0
-void mgCObject::SetScale(float x, float y, float z)
+void mgCObject::SetScale(f32 x, f32 y, f32 z)
 {
   log_trace("mgCObject::SetScale({}, {}, {})", x, y, z);
 
@@ -825,7 +825,10 @@ void mgCFrame::SetTransMatrix(glm::fquat& quat)
 
   m_unk_field_40 = true;
   vec4 w = m_trans_matrix[3];
+
+  // TODO: replace
   m_trans_matrix = glm::mat4_cast(quat);
+
   m_trans_matrix[3] = w;
 }
 
@@ -903,7 +906,7 @@ void mgCFrame::GetBBox(mgVu0FBOX& box) const
 }
 
 // 00136760
-void mgCFrame::SetBSphere(vec4& origin, float radius)
+void mgCFrame::SetBSphere(vec4& origin, f32 radius)
 {
   log_trace("mgCFrame::{}(({}, {}, {}), {})", __func__,
     origin.x, origin.y, origin.z, origin.x, radius);
@@ -1153,14 +1156,17 @@ matrix4 mgCFrame::GetLocalMatrix()
   {
     if (m_rotation.x != 0.0f)
     {
+      // TODO: replace
       result = glm::rotate(result, m_rotation.x, { 1, 0, 0 });
     }
     if (m_rotation.y != 0.0f)
     {
+      // TODO: replace
       result = glm::rotate(result, m_rotation.y, { 0, 1, 0 });
     }
     if (m_rotation.z != 0.0f)
     {
+      // TODO: replace
       result = glm::rotate(result, m_rotation.z, { 0, 0, 1 });
     }
   }

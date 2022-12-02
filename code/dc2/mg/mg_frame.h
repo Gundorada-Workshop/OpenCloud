@@ -1,8 +1,6 @@
 #pragma once
 #include <array>
 
-#include <glm/glm.hpp>
-
 #include "common/debug.h"
 #include "common/types.h"
 
