@@ -207,7 +207,7 @@ matrix4 mgCreateMatrixPY(const vec4& v, f32 f);
 matrix4 mgLookAtMatrixZ(const vec4& v);
 
 // 00130690
-matrix4 mgShadowMatrix(const vec4& v1, const vec4& v2, const vec4& v3);
+matrix4 mgShadowMatrix(const vec3& v1, const vec3& v2, const vec3& v3);
 
 // 001308A0
 void mgApplyMatrixN(vec4* vecs_dest, const matrix4& mat, const vec4* vecs, usize n);
@@ -216,13 +216,13 @@ void mgApplyMatrixN(vec4* vecs_dest, const matrix4& mat, const vec4* vecs, usize
 void mgApplyMatrixN_MaxMin(vec4* vecs_dest, const matrix4& mat, const vec4* vecs, usize n, vec4& max_dest, vec4& min_dest);
 
 // 00130980
-void mgVectorMinMaxN(vec4* max_dest, vec4* min_dest, vec4* vecs, usize n);
+void mgVectorMinMaxN(vec4& max_dest, vec4& min_dest, const vec4* vecs, usize n);
 
 // 001309E0
 void mgApplyMatrix(vec4& max_dest, vec4& min_dest, const matrix4& mat, const vec4& c1, const vec4& c2);
 
 // 00130A50
-vec4 mgVectorInterpolate(const vec4& lhs, const vec4& rhs, f32 t, bool b);
+vec3 mgVectorInterpolate(const vec3& lhs, const vec3& rhs, f32 t, bool b);
 
 // 00130B60
 f32 mgAngleInterpolate(f32 f1, f32 f2, f32 f3, bool b);

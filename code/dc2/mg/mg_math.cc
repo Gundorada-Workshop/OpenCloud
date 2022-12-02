@@ -453,8 +453,33 @@ matrix4 mgInverseMatrix(const matrix4& mat)
 {
   log_trace("{}({})", __func__, fmt::ptr(&mat));
 
-  todo;
-  return matrix4{ 1.0f };
+  // Hopefully this is right - Souzooka
+
+  // First, we want a matrix of the 3x3 submatrix of mat from (0, 0) until (3, 3)
+  matrix3 inverse = glm::inverse(
+    matrix3 {
+      mat[0].xyz,
+      mat[1].xyz,
+      mat[2].xyz 
+    }
+  );
+  
+  // Now, we have to convert our inverse into a 4x4 matrix. For the first three rows,
+  // 0 will be used for the w component. But what's going to be in the fourth row?
+  // According to game code, it should be something like this.
+  auto temp = inverse[0] * mat[3].x;
+  temp += inverse[1] * mat[3].y;
+  temp += inverse[2] * mat[3].z;
+  temp = -temp;
+  // NOTE: The w component of the fourth row is always 1.0f
+
+  // Now mix it all together
+  return {
+    vec4{ inverse[0], 0.0f },
+    vec4{ inverse[1], 0.0f },
+    vec4{ inverse[2], 0.0f },
+    vec4{ temp, 1.0f }
+  };
 }
 
 // 001303D0
@@ -537,19 +562,87 @@ matrix4 mgCreateMatrixPY(const vec4& v, f32 f)
 // 001305B0
 matrix4 mgLookAtMatrixZ(const vec4& v)
 {
-  log_trace("{}({})", __func__, fmt::ptr(&v));
+  log_trace("{}({})", __func__, v);
 
-  todo;
-  return matrix4{ 1.0f };
+  auto var_60 = mgUnitMatrix();
+  auto var_A0 = var_60;
+  auto var_20 = math::vector_normalize(v);
+  auto var_10 = var_20;
+  var_10.y = 0.0f;
+  f32 f0 = mgDistVector(var_10);
+  f32 f1 = 1.0f;
+  f32 f2 = 0.0f;
+
+  if (f0 == 0.0f)
+  {
+    var_A0[1].y = 1.0f;
+  }
+  else
+  {
+    f2 /= f0;
+    f1 /= f0;
+    var_A0[1].y = f0;
+  }
+
+  var_A0[2].z = f0;
+  var_60[0].z = -f2;
+  var_60[2].x = f2;
+  var_60[0].x = f1;
+  var_60[2].z = f1;
+  var_A0[2].y = var_20.y;
+  var_A0[1].z = -var_20.y;
+  return mgMulMatrix(var_60, var_A0);
 }
 
 // 00130690
-matrix4 mgShadowMatrix(const vec4& v1, const vec4& v2, const vec4& v3)
+matrix4 mgShadowMatrix(const vec3& v1, const vec3& v2, const vec3& v3)
 {
-  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3));
+  log_trace("{}({}, {}, {})", __func__, v1, v2, v3);
 
-  todo;
-  return matrix4{ 1.0f };
+  vec3 var_10{ v3 };
+  vec3 var_20{ v2 };
+  vec3 var_30{ v1 };
+  matrix4 result;
+
+  f32 f0 = math::vector_dot_product(var_10, var_20);
+  if (f0 == 0.0f)
+  {
+    var_20.x *= 0.9f;
+    var_20.y *= 0.9f;
+    var_20.z *= 0.9f;
+    f0 = math::vector_dot_product(var_10, var_20);
+  }
+
+  f0 = 1.0f / f0;
+  f32 f20 = var_10.x * f0;
+  f32 f21 = var_10.y * f0;
+  f32 f22 = var_10.z * f0;
+  var_30 = math::vector_normalize(var_30);
+
+  f32 f1 = (f20 * var_30.x) + (f21 * var_30.y) + (f22 * var_30.z);
+  f32 f8 = -1.0f / f1;
+
+  result[0].x = f8 * ((f20 * var_30.x) - f1);
+  result[0].y = f8 * f20 * var_30.y;
+  result[0].z = f8 * f20 * var_30.z;
+  result[0].w = 0.0f;
+
+  result[1].x = f8 * f21 * var_30.x;
+  result[1].y = f8 * ((f21 * var_30.y) - f1);
+  result[1].z = f8 * f21 * var_30.z;
+  result[1].w = 0.0f;
+
+  result[2].x = f8 * f22 * var_30.x;
+  result[2].y = f8 * f22 * var_30.y;
+  result[2].z = f8 * ((f22 * var_30.z) - f1);
+  result[2].w = 0.0f;
+  
+  result[3].x = f8 * -var_30.x;
+  result[3].y = f8 * -var_30.y;
+  result[3].z = f8 * -var_30.z;
+  result[3].w = f8 * -f1;
+  
+  return result;
 }
 
 // 001308A0
@@ -557,7 +650,10 @@ void mgApplyMatrixN(vec4* vecs_dest, const matrix4& mat, const vec4* vecs, usize
 {
   log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(vecs_dest), fmt::ptr(&mat), fmt::ptr(vecs), n);
 
-  todo;
+  for (usize i = 0; i < n; ++i)
+  {
+    vecs_dest[i] = mat * vecs[i];
+  }
 }
 
 // 001308F0
@@ -565,32 +661,75 @@ void mgApplyMatrixN_MaxMin(vec4* vecs_dest, const matrix4& mat, const vec4* vecs
 {
   log_trace("{}({}, {}, {}, {}, {})", __func__, fmt::ptr(vecs_dest), fmt::ptr(&mat), fmt::ptr(vecs), n, fmt::ptr(&max_dest), fmt::ptr(&min_dest));
 
-  todo;
+  assert_msg(n != 0, "{}(n = 0) is invalid", __func__);
+
+  vec4 max = vec4{ common::constants::f32_min };
+  vec4 min = vec4{ common::constants::f32_max };
+
+  for (usize i = 0; i < n; ++i)
+  {
+    vecs_dest[i] = mat * vecs[i];
+    max = glm::max(max, vecs_dest[i]);
+    min = glm::min(min, vecs_dest[i]);
+  }
+
+  max_dest = vec4{ max.xyz, 1.0f };
+  min_dest = vec4{ min.xyz, 1.0f };
 }
 
 // 00130980
-void mgVectorMinMaxN(vec4* max_dest, vec4* min_dest, vec4* vecs, usize n)
+void mgVectorMinMaxN(vec4& max_dest, vec4& min_dest, const vec4* vecs, usize n)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(max_dest), fmt::ptr(min_dest), fmt::ptr(vecs), n);
+  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&max_dest), fmt::ptr(&min_dest), fmt::ptr(vecs), n);
 
-  todo;
+  assert_msg(n != 0, "{}(n = 0) is invalid", __func__);
+
+  vec4 max = vec4{ common::constants::f32_min };
+  vec4 min = vec4{ common::constants::f32_max };
+
+  for (usize i = 0; i < n; ++i)
+  {
+    max = glm::max(max, vecs[i]);
+    min = glm::min(min, vecs[i]);
+  }
+
+  max_dest = max;
+  min_dest = min;
 }
 
 // 001309E0
 void mgApplyMatrix(vec4& max_dest, vec4& min_dest, const matrix4& mat, const vec4& c1, const vec4& c2)
 {
-  log_trace("{}({}, {}, {}, {}, {})", __func__, fmt::ptr(&max_dest), fmt::ptr(&min_dest), fmt::ptr(&mat), fmt::ptr(&c1), fmt::ptr(&c2));
+  log_trace("{}({}, {}, {}, {}, {})", __func__, fmt::ptr(&max_dest), fmt::ptr(&min_dest), fmt::ptr(&mat), c1, c2);
 
-  todo;
+  auto var_80 = mgCreateBox8(c1, c2);
+  mgApplyMatrixN_MaxMin(var_80.vertices.data(), mat, var_80.vertices.data(), var_80.vertices.size(), max_dest, min_dest);
 }
 
 // 00130A50
-vec4 mgVectorInterpolate(const vec4& lhs, const vec4& rhs, f32 t, bool b)
+vec3 mgVectorInterpolate(const vec3& lhs, const vec3& rhs, f32 t, bool b)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&lhs), fmt::ptr(&rhs), t, b);
+  log_trace("{}({}, {}, {}, {})", __func__, lhs, rhs, t, b);
 
-  todo;
-  return vec4{ 0, 0, 0, 1 };
+  auto delta = rhs - lhs;
+  if (b)
+  {
+    // NOTE: apparently this is dead code, nothing calls this fn with true
+    return { 
+      lhs.x + (delta.x / t),
+      lhs.y + (delta.y / t),
+      lhs.z + (delta.z / t)
+    };
+  }
+
+  if (mgDistVector(delta) < t)
+  {
+    return rhs;
+  }
+
+  delta = math::vector_normalize(delta);
+  delta *= t;
+  return lhs + delta;
 }
 
 // 00130B60
