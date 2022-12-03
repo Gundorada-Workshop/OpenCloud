@@ -68,7 +68,11 @@ bool mgClipBoxVertex(const vec4& p, const vec4& a1, const vec4& a2)
   // NOTE: Status & 0x0080 is the signed sticky flag; should be set if the vsub op results in any negative components
   log_trace("{}({}, {}, {})", __func__, p, a1, a2);
 
-  return !(math::vector_any_less_than(a1.xyz - p.xyz, constants::vec3_zero) || math::vector_any_less_than(p.xyz - a2.xyz, constants::vec3_zero));
+  auto t1 = a1 - p;
+  auto t2 = p - a2;
+
+  return t1.x >= 0.0f && t1.y >= 0.0f && t1.z >= 0.0f &&
+    t2.x >= 0.0f && t2.y >= 0.0f && t2.z >= 0.0f;
 }
 
 bool mgClipBoxVertex(const vec4& point, const mgVu0FBOX& box)
@@ -81,7 +85,11 @@ bool mgClipBox(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2)
 {
   log_trace("{}({}, {}, {}, {})", __func__, a1, a2, b1, b2);
 
-  return !(math::vector_any_less_than(a1.xyz - b2.xyz, constants::vec3_zero) || math::vector_any_less_than(b1.xyz - a2.xyz, constants::vec3_zero));
+  auto t1 = a1 - b2;
+  auto t2 = b1 - a2;
+
+  return t1.x >= 0.0f && t1.y >= 0.0f && t1.z >= 0.0f &&
+    t2.x >= 0.0f && t2.y >= 0.0f && t2.z >= 0.0f;
 }
 
 bool mgClipBox(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
@@ -94,7 +102,11 @@ bool mgClipBoxW(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2)
 {
   log_trace("{}({}, {}, {}, {})", __func__, a1, a2, b1, b2);
 
-  return !(math::vector_any_less_than(a1.xyw - b2.xyw, constants::vec3_zero) || math::vector_any_less_than(b1.xyw - a2.xyw, constants::vec3_zero));
+  auto t1 = a1 - b2;
+  auto t2 = b1 - a2;
+
+  return t1.x >= 0.0f && t1.y >= 0.0f && t1.w >= 0.0f &&
+    t2.x >= 0.0f && t2.y >= 0.0f && t2.w >= 0.0f;
 }
 
 bool mgClipBoxW(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
@@ -107,7 +119,11 @@ bool mgClipInBox(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2)
 {
   log_trace("{}({}, {}, {}, {})", __func__, a1, a2, b1, b2);
 
-  return !(math::vector_any_less_than(b1.xyz - a1.xyz, constants::vec3_zero) || math::vector_any_less_than(a2.xyz - b2.xyz, constants::vec3_zero));
+  auto t1 = b1 - a1;
+  auto t2 = a2 - b2;
+
+  return t1.x >= 0.0f && t1.y >= 0.0f && t1.z >= 0.0f &&
+    t2.x >= 0.0f && t2.y >= 0.0f && t2.z >= 0.0f;
 }
 
 bool mgClipInBox(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
@@ -120,7 +136,11 @@ bool mgClipInBoxW(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2
 {
   log_trace("{}({}, {}, {}, {})", __func__, a1, a2, b1, b2);
 
-  return !(math::vector_any_less_than(b1.xyw - a1.xyw, constants::vec3_zero) || math::vector_any_less_than(a2.xyw - b2.xyw, constants::vec3_zero));
+  auto t1 = b1 - a1;
+  auto t2 = a2 - b2;
+
+  return t1.x >= 0.0f && t1.y >= 0.0f && t1.w >= 0.0f &&
+    t2.x >= 0.0f && t2.y >= 0.0f && t2.w >= 0.0f;
 }
 
 bool mgClipInBoxW(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
