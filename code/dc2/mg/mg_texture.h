@@ -122,7 +122,7 @@ public:
   // 4
   u16 m_height;
   // 6
-  u16 m_bytes_per_pixel;
+  u16 m_bits_per_pixel;
   // 8
   std::array<char, 0x20> m_name;
   // 28
@@ -140,9 +140,16 @@ public:
   // 48
   s64 m_unk_field_48;
   // 50
-  std::array<f32, 4> m_unk_field_50;
+  // I'm not 100% sure what this is.
+  // it's some sort of picture data relating to taking photos
+  // 
+  // the buffer this points to is 0x2000 bytes copied out of the last field of USER_PICTURE_INFO
+  // USER_PICTURE_INFO gets it from DrawTakePhoto which calls mgStoreImage.
+  u128 m_unk_field_50;
   // 60
-  unk32 m_unk_field_60;
+  // either 4 qwords when bpp is 4 or 64 qwords when bpp is 8
+  // null for all other values
+  u128* m_clut_data;
   // 64
   unk32 m_unk_field_64;
   // 68
