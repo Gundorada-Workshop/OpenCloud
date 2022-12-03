@@ -63,12 +63,17 @@ mgVu0FBOX8 mgCreateBox8(const vec3& c1, const vec3& c2)
 }
 
 // 0012F250
-bool mgClipBoxVertex(const vec4& v1, const vec4& v2, const vec4& v3)
+bool mgClipBoxVertex(const vec4& p, const vec4& a1, const vec4& a2)
 {
   // NOTE: Status & 0x0080 is the signed sticky flag; should be set if the vsub op results in any negative components
-  log_trace("{}({}, {}, {})", __func__, v1, v2, v3);
+  log_trace("{}({}, {}, {})", __func__, p, a1, a2);
 
-  return !(math::vector_any_less_than(v2.xyz - v1.xyz, constants::vec3_zero) || math::vector_any_less_than(v1.xyz - v3.xyz, constants::vec3_zero));
+  return !(math::vector_any_less_than(a1.xyz - p.xyz, constants::vec3_zero) || math::vector_any_less_than(p.xyz - a2.xyz, constants::vec3_zero));
+}
+
+bool mgClipBoxVertex(const vec4& point, const mgVu0FBOX& box)
+{
+  return mgClipBoxVertex(point, box.corners[0], box.corners[1]);
 }
 
 // 0012F290

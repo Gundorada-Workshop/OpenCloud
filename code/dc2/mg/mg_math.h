@@ -62,7 +62,9 @@ inline void mgZeroVectorW(vec4& v)
 }
 
 // 0012F250
-bool mgClipBoxVertex(const vec4& v1, const vec4& v2, const vec4& v3);
+// Tests if a point is contained within a box (testing X, Y, Z)
+bool mgClipBoxVertex(const vec4& p, const vec4& a1, const vec4& a2);
+bool mgClipBoxVertex(const vec4& point, const mgVu0FBOX& box);
 
 // 0012F290
 // Tests if two 3D boxes overlap (checking X, Y, Z)

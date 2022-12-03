@@ -58,7 +58,36 @@ TEST(mgMathTest, mgCreateBox8)
   }
 }
 
-// TODO: mgClipBoxVertex test
+TEST(mgMathTest, mgClipBoxVertex)
+{
+  vec4 c1;
+  vec4 c2;
+  vec4 p;
+  c1 = { 20.0f, 40.0f, 60.0f, 1.0f };
+  c2 = { -20.0f, -40.0f, -60.0f, 1.0f };
+  p = { 10.0f, 30.0f, 50.0f, 1.0f };
+  EXPECT_TRUE(mgClipBoxVertex(p, c1, c2));
+
+  c1 = { 20.0f, 40.0f, 60.0f, 1.0f };
+  c2 = { -20.0f, -40.0f, -60.0f, 1.0f };
+  p = { -10.0f, -30.0f, -50.0f, 1.0f };
+  EXPECT_TRUE(mgClipBoxVertex(p, c1, c2));
+
+  c1 = { 20.0f, 40.0f, 60.0f, 1.0f };
+  c2 = { -20.0f, -40.0f, -60.0f, 1.0f };
+  p = { 30.0f, 30.0f, 50.0f, 1.0f };
+  EXPECT_FALSE(mgClipBoxVertex(p, c1, c2));
+
+  c1 = { 20.0f, 40.0f, 60.0f, 1.0f };
+  c2 = { -20.0f, -40.0f, -60.0f, 1.0f };
+  p = { 10.0f, 50.0f, 50.0f, 1.0f };
+  EXPECT_FALSE(mgClipBoxVertex(p, c1, c2));
+
+  c1 = { 20.0f, 40.0f, 60.0f, 1.0f };
+  c2 = { -20.0f, -40.0f, -60.0f, 1.0f };
+  p = { 10.0f, 30.0f, 70.0f, 1.0f };
+  EXPECT_FALSE(mgClipBoxVertex(p, c1, c2));
+}
 
 TEST(mgMathTest, mgClipBox)
 {
@@ -66,6 +95,12 @@ TEST(mgMathTest, mgClipBox)
   vec4 c2;
   vec4 c3;
   vec4 c4;
+  c1 = { 480.0f, 400.0f, 3360.0f, 1.0f };
+  c2 = { 160.0f, -20.0f, 3040.0f, 1.0f };
+  c3 = { 469.797f, 40.0f, 3219.31f, 1.0f };
+  c4 = { 389.797f, -40.0f, 3139.31f, 1.0f };
+  EXPECT_TRUE(mgClipBox(c1, c2, c3, c4));
+
   c1 = { 480.0f, 400.0f, 3360.0f, 1.0f };
   c2 = { 160.0f, -20.0f, 3040.0f, 1.0f };
   c3 = { 469.797f, 40.0f, 3219.31f, 1.0f };
@@ -224,6 +259,26 @@ TEST(mgMathTest, mgClipInBoxW)
   c3 = { 2047.0f, 2047.0f, 1.0f, 50000.0f };
   c4 = { -2047.0f, -2047.0f, 1.0f, 5.0f };
   EXPECT_FALSE(mgClipInBoxW(c1, c2, c3, c4));
+}
+
+TEST(mgMathTest, mgAddVector)
+{
+  vec4 v1{ 1, 2, 3, 4 };
+  vec4 v2{ 2, 4, 6, 8 };
+  vec4 expected{ 3, 6, 9, 12 };
+
+  mgAddVector(v1, v2);
+  EXPECT_EQ(v1, expected);
+}
+
+TEST(mgMathTest, mgSubVector)
+{
+  vec4 v1{ 2, 4, 6, 8 };
+  vec4 v2{ 1, 2, 3, 4 };
+  vec4 expected{ 1, 2, 3, 4 };
+
+  mgSubVector(v1, v2);
+  EXPECT_EQ(v1, expected);
 }
 
 TEST(mgMathTest, mgAngleInterpolate)
