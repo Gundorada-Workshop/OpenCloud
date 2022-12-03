@@ -162,7 +162,7 @@ void mgBoxMaxMin(mgVu0FBOX& lhs, const mgVu0FBOX& rhs)
   log_trace("{}({}, {})", __func__, fmt::ptr(&lhs), fmt::ptr(&rhs));
 
   lhs.corners[0] = glm::max(lhs.corners[0], glm::max(lhs.corners[1], glm::max(rhs.corners[0], rhs.corners[1])));
-  lhs.corners[0] = glm::min(lhs.corners[0], glm::min(lhs.corners[1], glm::min(rhs.corners[0], rhs.corners[1])));
+  lhs.corners[1] = glm::min(lhs.corners[0], glm::min(lhs.corners[1], glm::min(rhs.corners[0], rhs.corners[1])));
 }
 
 // 0012F580

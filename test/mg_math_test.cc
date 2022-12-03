@@ -409,6 +409,35 @@ TEST(mgMathTest, mgVectorMaxMin)
   }
 }
 
+TEST(mgMathTest, mgBoxMaxMin)
+{
+  mgVu0FBOX b1;
+  mgVu0FBOX b2;
+  mgVu0FBOX expected;
+
+  b1 = {
+    3, 4, 5, 6,
+    2, 3, 4, 5
+  };
+  b2 = {
+    4, 3, 2, 1,
+    3, 2, 1, 0
+  };
+  expected = {
+    4, 4, 5, 6,
+    2, 2, 1, 0
+  };
+  mgBoxMaxMin(b1, b2);
+  for (usize i = 0; i < b1.corners.size(); ++i)
+  {
+    for (usize j = 0; j < 4; ++j)
+    {
+      EXPECT_FLOAT_EQ(b1.corners[i][j], expected.corners[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i, j, b1.corners[i][j], expected.corners[i][j]) << std::endl;
+    }
+  }
+}
+
 TEST(mgMathTest, mgAngleInterpolate)
 {
   EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.078987f, 2.387641f, 0.3f, false), 0.221013f);

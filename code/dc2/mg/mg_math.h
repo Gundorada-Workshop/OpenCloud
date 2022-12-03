@@ -16,6 +16,20 @@ struct mgVu0FBOX
 {
   // Represents the "top left" and "bottom right" corners of a 3D rectangle
   std::array<vec4, 2> corners;
+
+  mgVu0FBOX() = default;
+
+  mgVu0FBOX(vec4 c1, vec4 c2)
+  {
+    corners[0] = c1;
+    corners[1] = c2;
+  }
+
+  mgVu0FBOX(f32 ax, f32 ay, f32 az, f32 aw, f32 bx, f32 by, f32 bz, f32 bw)
+  {
+    corners[0] = { ax, ay, az, aw };
+    corners[1] = { bx, by, bz, bw };
+  }
 };
 
 struct mgVu0FBOX8
