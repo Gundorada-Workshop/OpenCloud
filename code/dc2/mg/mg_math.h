@@ -65,10 +65,14 @@ inline void mgZeroVectorW(vec4& v)
 bool mgClipBoxVertex(const vec4& v1, const vec4& v2, const vec4& v3);
 
 // 0012F290
-bool mgClipBox(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4);
+// Tests if two 3D boxes overlap (checking X, Y, Z)
+bool mgClipBox(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2);
+bool mgClipBox(const mgVu0FBOX& box1, const mgVu0FBOX& box2);
 
 // 0012F2E0
-bool mgClipBoxW(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4);
+// Tests if two 3D boxes overlap (checking X, Y, W (?))
+bool mgClipBoxW(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2);
+bool mgClipBoxW(const mgVu0FBOX& box1, const mgVu0FBOX& box2);
 
 // 0012F330
 bool mgClipInBox(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4);

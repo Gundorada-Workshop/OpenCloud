@@ -72,19 +72,29 @@ bool mgClipBoxVertex(const vec4& v1, const vec4& v2, const vec4& v3)
 }
 
 // 0012F290
-bool mgClipBox(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
+bool mgClipBox(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
+  log_trace("{}({}, {}, {}, {})", __func__, a1, a2, b1, b2);
 
-  return !(math::vector_any_less_than(v1.xyz - v4.xyz, constants::vec3_zero) || math::vector_any_less_than(v3.xyz - v2.xyz, constants::vec3_zero));
+  return !(math::vector_any_less_than(a1.xyz - b2.xyz, constants::vec3_zero) || math::vector_any_less_than(b1.xyz - a2.xyz, constants::vec3_zero));
+}
+
+bool mgClipBox(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
+{
+  return mgClipBox(box1.corners[0], box1.corners[1], box2.corners[0], box2.corners[1]);
 }
 
 // 0012F2E0
-bool mgClipBoxW(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
+bool mgClipBoxW(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
+  log_trace("{}({}, {}, {}, {})", __func__, a1, a2, b1, b2);
 
-  return !(math::vector_any_less_than(v1.xyw - v4.xyw, constants::vec3_zero) || math::vector_any_less_than(v3.xyw - v2.xyw, constants::vec3_zero));
+  return !(math::vector_any_less_than(a1.xyw - b2.xyw, constants::vec3_zero) || math::vector_any_less_than(b1.xyw - a2.xyw, constants::vec3_zero));
+}
+
+bool mgClipBoxW(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
+{
+  return mgClipBoxW(box1.corners[0], box1.corners[1], box2.corners[0], box2.corners[1]);
 }
 
 // 0012F330
