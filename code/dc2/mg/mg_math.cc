@@ -149,7 +149,7 @@ bool mgClipInBoxW(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
 }
 
 // 0012F410
-vec4 mgNormalizeVector(const vec4& v, f32 scale)
+vec3 mgNormalizeVector(const vec3& v, f32 scale)
 {
   log_trace("{}({}, {})", __func__, fmt::ptr(&v), scale);
 

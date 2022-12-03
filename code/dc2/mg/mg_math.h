@@ -99,7 +99,7 @@ inline void mgSubVector(vec4& lhs, const vec4& rhs)
 }
 
 // 0012F410
-vec4 mgNormalizeVector(const vec4& v, f32 scale);
+vec3 mgNormalizeVector(const vec3& v, f32 scale);
 
 // 0012F460
 inline vec4 mgVectorMin(const vec4& lhs, const vec4& rhs)

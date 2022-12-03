@@ -281,6 +281,34 @@ TEST(mgMathTest, mgSubVector)
   EXPECT_EQ(v1, expected);
 }
 
+TEST(mgMathTest, mgNormalizeVector)
+{
+  vec3 v1;
+  f32 scalar;
+  vec3 expected;
+  vec3 actual;
+
+  v1 = { 10, 0, 0 };
+  scalar = 2;
+  expected = { 2, 0, 0 };
+  actual = mgNormalizeVector(v1, scalar);
+  for (usize i = 0; i < 3; ++i)
+  {
+    EXPECT_FLOAT_EQ(actual[i], expected[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, actual[i], expected[i]) << std::endl;
+  }
+
+  v1 = { 5, 5, 5 };
+  scalar = 6;
+  expected = { 0.5773502691896257 * scalar, 0.5773502691896257 * scalar, 0.5773502691896257 * scalar };
+  actual = mgNormalizeVector(v1, scalar);
+  for (usize i = 0; i < 3; ++i)
+  {
+    EXPECT_FLOAT_EQ(actual[i], expected[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, actual[i], expected[i]) << std::endl;
+  }
+}
+
 TEST(mgMathTest, mgAngleInterpolate)
 {
   EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.078987f, 2.387641f, 0.3f, false), 0.221013f);
