@@ -343,6 +343,72 @@ TEST(mgMathTest, mgVectorMin)
   }
 }
 
+TEST(mgMathTest, mgVectorMaxMin)
+{
+  vec4 v1;
+  vec4 v2;
+  vec4 v3;
+  vec4 v4;
+  vec4 expected_max;
+  vec4 expected_min;
+  vec4 actual_max;
+  vec4 actual_min;
+
+  // 2 vectors
+  v1 = { 1, 2, 3, 4 };
+  v2 = { 4, 3, 2, 1 };
+  expected_max = { 4, 3, 3, 4 };
+  expected_min = { 1, 2, 2, 1 };
+  mgVectorMaxMin(actual_max, actual_min, v1, v2);
+  for (usize i = 0; i < 4; ++i)
+  {
+    EXPECT_FLOAT_EQ(actual_max[i], expected_max[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, actual_max[i], expected_max[i]) << std::endl;
+  }
+  for (usize i = 0; i < 4; ++i)
+  {
+    EXPECT_FLOAT_EQ(actual_min[i], expected_min[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, actual_min[i], expected_min[i]) << std::endl;
+  }
+
+  // 3 vectors
+  v1 = { 1, 5, 9, 11 };
+  v2 = { 11, 9, 5, 1 };
+  v3 = { 2, 4, 8, 10 };
+  expected_max = { 11, 9, 9, 11 };
+  expected_min = { 1, 4, 5, 1 };
+  mgVectorMaxMin(actual_max, actual_min, v1, v2, v3);
+  for (usize i = 0; i < 4; ++i)
+  {
+    EXPECT_FLOAT_EQ(actual_max[i], expected_max[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, actual_max[i], expected_max[i]) << std::endl;
+  }
+  for (usize i = 0; i < 4; ++i)
+  {
+    EXPECT_FLOAT_EQ(actual_min[i], expected_min[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, actual_min[i], expected_min[i]) << std::endl;
+  }
+
+  // 4 vectors
+  v1 = { 1, 5, 9, 11 };
+  v2 = { 11, 9, 5, 1 };
+  v3 = { 2, 4, 8, 10 };
+  v4 = { 10, 8, 4, 2 };
+  expected_max = { 11, 9, 9, 11 };
+  expected_min = { 1, 4, 4, 1 };
+  mgVectorMaxMin(actual_max, actual_min, v1, v2, v3, v4);
+  for (usize i = 0; i < 4; ++i)
+  {
+    EXPECT_FLOAT_EQ(actual_max[i], expected_max[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, actual_max[i], expected_max[i]) << std::endl;
+  }
+  for (usize i = 0; i < 4; ++i)
+  {
+    EXPECT_FLOAT_EQ(actual_min[i], expected_min[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, actual_min[i], expected_min[i]) << std::endl;
+  }
+}
+
 TEST(mgMathTest, mgAngleInterpolate)
 {
   EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.078987f, 2.387641f, 0.3f, false), 0.221013f);
