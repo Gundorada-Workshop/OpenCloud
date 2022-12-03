@@ -21,7 +21,40 @@ TEST(mgMathTest, mgFtoI4)
   for (usize i = 0; i < 4; ++i)
   {
     EXPECT_EQ(actual[i], expected[i]) <<
-      common::strings::format("Component {}: Expected: {}, Actual: {}", i, expected[i], actual[i]) << std::endl;
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, actual[i], expected[i]) << std::endl;
+  }
+}
+
+TEST(mgMathTest, mgCreateBox8)
+{
+  vec3 corner1;
+  vec3 corner2;
+  mgVu0FBOX8 expected;
+  mgVu0FBOX8 actual;
+
+  corner1 = { 160.0f, 400.0f, 160.0f };
+  corner2 = { -160.0f, -20.0f, -160.0f };
+  expected = {
+    vec4{ -160.0f, -20.0f, -160.0f, 1.0f },
+    vec4{ 160.0f, -20.0f, -160.0f, 1.0f },
+    vec4{ -160.0f, 400.0f, -160.0f, 1.0f },
+    vec4{ 160.0f, 400.0f, -160.0f, 1.0f },
+    vec4{ -160.0f, -20.0f, 160.0f, 1.0f },
+    vec4{ 160.0f, -20.0f, 160.0f, 1.0f },
+    vec4{ -160.0f, 400.0f, 160.0f, 1.0f },
+    vec4{ 160.0f, 400.0f, 160.0f, 1.0f },
+  };
+  actual = mgCreateBox8(corner1, corner2);
+
+  for (int i = 0; i < 8; ++i)
+  {
+    for (int j = 0; j < 4; ++j)
+    {
+      EXPECT_FLOAT_EQ(actual.vertices[i][j], expected.vertices[i][j]) <<
+        common::strings::format(
+          "Component {},{}: Actual: {}, Expected: {}", i, j, actual.vertices[i][j], expected.vertices[i][j]
+        ) << std::endl;
+    }
   }
 }
 

@@ -29,6 +29,9 @@ ivec4 mgFtoI4(const vec4& v);
 
 // 0012F1D0
 mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec4& c2);
+mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec3& c2);
+mgVu0FBOX8 mgCreateBox8(const vec3& c1, const vec4& c2);
+mgVu0FBOX8 mgCreateBox8(const vec3& c1, const vec3& c2);
 
 // Clamps an angle to (-pi, +pi] radians.
 // (Only valid for f32s within (-2pi, +2pi].

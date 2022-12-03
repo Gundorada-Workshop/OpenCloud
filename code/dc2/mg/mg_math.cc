@@ -31,27 +31,35 @@ ivec4 mgFtoI4(const vec4& v)
 // 0012F1D0
 mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec4& c2)
 {
-  log_trace("{}({}, {})", __func__, fmt::ptr(&c1), fmt::ptr(&c2));
+  log_trace("{}({}, {})", __func__, c1, c2);
 
-  // TODO: Check if this produces better code with swizzling.
   mgVu0FBOX8 result;
 
-  result.vertices[0] = c2;
-  result.vertices[1] = c2;
-  result.vertices[2] = c2;
-  result.vertices[3] = c2;
-  result.vertices[4] = c1;
-  result.vertices[5] = c1;
-  result.vertices[6] = c1;
-  result.vertices[7] = c1;
+  return {
+    vec4{ c2.x, c2.y, c2.z, 1.0f },
+    vec4{ c1.x, c2.y, c2.z, 1.0f },
+    vec4{ c2.x, c1.y, c2.z, 1.0f },
+    vec4{ c1.x, c1.y, c2.z, 1.0f },
+    vec4{ c2.x, c2.y, c1.z, 1.0f },
+    vec4{ c1.x, c2.y, c1.z, 1.0f },
+    vec4{ c2.x, c1.y, c1.z, 1.0f },
+    vec4{ c1.x, c1.y, c1.z, 1.0f },
+  };
+}
 
-  result.vertices[1].x = c1.x;
-  result.vertices[2].y = c1.y;
-  result.vertices[3].z = c1.z;
-  result.vertices[4].x = c2.x;
-  result.vertices[5].y = c2.y;
-  result.vertices[6].z = c2.z;
-  return result;
+mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec3& c2)
+{
+  return mgCreateBox8(vec3{ c1 }, vec3{ c2 });
+}
+
+mgVu0FBOX8 mgCreateBox8(const vec3& c1, const vec4& c2)
+{
+  return mgCreateBox8(vec3{ c1 }, vec3{ c2 });
+}
+
+mgVu0FBOX8 mgCreateBox8(const vec3& c1, const vec3& c2)
+{
+  return mgCreateBox8(vec4{ c1, 1.0f }, vec4{ c2, 1.0f });
 }
 
 // 0012F250
