@@ -309,6 +309,40 @@ TEST(mgMathTest, mgNormalizeVector)
   }
 }
 
+TEST(mgMathTest, mgVectorMin)
+{
+  vec4 v1;
+  vec4 v2;
+  vec4 v3;
+  vec4 v4;
+  vec4 expected;
+  vec4 actual;
+
+  // 2 vectors
+  v1 = { 1, 2, 3, 4 };
+  v2 = { 4, 3, 2, 1 };
+  expected = { 1, 2, 2, 1 };
+  actual = mgVectorMin(v1, v2);
+  for (usize i = 0; i < 4; ++i)
+  {
+    EXPECT_FLOAT_EQ(actual[i], expected[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, actual[i], expected[i]) << std::endl;
+  }
+
+  // 4 vectors
+  v1 = { 1, 5, 9, 11 };
+  v2 = { 11, 9, 5, 1 };
+  v3 = { 2, 4, 8, 10 };
+  v4 = { 10, 8, 4, 2 };
+  expected = { 1, 4, 4, 1 };
+  actual = mgVectorMin(v1, v2, v3, v4);
+  for (usize i = 0; i < 4; ++i)
+  {
+    EXPECT_FLOAT_EQ(actual[i], expected[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, actual[i], expected[i]) << std::endl;
+  }
+}
+
 TEST(mgMathTest, mgAngleInterpolate)
 {
   EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.078987f, 2.387641f, 0.3f, false), 0.221013f);
