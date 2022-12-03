@@ -438,6 +438,32 @@ TEST(mgMathTest, mgBoxMaxMin)
   }
 }
 
+TEST(mgMathTest, mgPlaneNormal)
+{
+  vec3 v1;
+  vec3 v2;
+  vec3 v3;
+  vec3 expected;
+  vec3 actual;
+
+  // TODO: Find and confirm better values to test here
+  // approx. (float converter not accurate enough :()
+  // v1 = { 3167.05f, 435.044f, -1.12291f };
+  // v2 = { 3178.58f, 444.944f, -1.12291f };
+  // v3 = { 3178.58f, 444.944f, 14.1226f };
+  // expected = { 150.935f, -175.837f, 0.0f };
+  v1 = { std::bit_cast<f32>(0x4545F0C7), std::bit_cast<f32>(0x43D9859F), std::bit_cast<f32>(0xBF8FBB9A) };
+  v2 = { std::bit_cast<f32>(0x4546A951), std::bit_cast<f32>(0x43DE78DB), std::bit_cast<f32>(0xBF8FBB9A) };
+  v3 = { std::bit_cast<f32>(0x4546A951), std::bit_cast<f32>(0x43DE78DB), std::bit_cast<f32>(0x4161F651) };
+  expected = { std::bit_cast<f32>(0x4316EF5D), std::bit_cast<f32>(0xC32FD663), 0.0f };
+  actual = mgPlaneNormal(v1, v2, v3);
+  for (usize i = 0; i < 3; ++i)
+  {
+    EXPECT_FLOAT_EQ(actual[i], expected[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, actual[i], expected[i]) << std::endl;
+  }
+}
+
 TEST(mgMathTest, mgAngleInterpolate)
 {
   EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.078987f, 2.387641f, 0.3f, false), 0.221013f);
