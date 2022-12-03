@@ -58,6 +58,39 @@ TEST(mgMathTest, mgCreateBox8)
   }
 }
 
+// TODO: mgClipBoxVertex test
+
+TEST(mgMathTest, mgClipBox)
+{
+  vec4 c1;
+  vec4 c2;
+  vec4 c3;
+  vec4 c4;
+  c1 = { 480.0f, 400.0f, 3360.0f, 1.0f };
+  c2 = { 160.0f, -20.0f, 3040.0f, 1.0f };
+  c3 = { 469.797f, 40.0f, 3219.31f, 1.0f };
+  c4 = { 389.797f, -40.0f, 3139.31f, 1.0f };
+  EXPECT_TRUE(mgClipBox(c1, c2, c3, c4));
+
+  c1 = { 800.0f, 400.f, 3360.0f, 1.0f };
+  c2 = { 480.0f, -20.0f, 3040.0f, 1.0f };
+  c3 = { 468.422f, 40.0f, 3219.31f, 1.0f };
+  c4 = { 389.797f, -40.0f, 3139.31f, 1.0f };
+  EXPECT_FALSE(mgClipBox(c1, c2, c3, c4));
+
+  c1 = { 800.0f, 400.f, 3360.0f, 1.0f };
+  c2 = { 460.0f, 60.0f, 3040.0f, 1.0f };
+  c3 = { 468.422f, 40.0f, 3219.31f, 1.0f };
+  c4 = { 389.797f, -40.0f, 3139.31f, 1.0f };
+  EXPECT_FALSE(mgClipBox(c1, c2, c3, c4));
+
+  c1 = { 800.0f, 400.f, 3360.0f, 1.0f };
+  c2 = { 460.0f, -20.0f, 3340.0f, 1.0f };
+  c3 = { 468.422f, 40.0f, 3219.31f, 1.0f };
+  c4 = { 389.797f, -40.0f, 3139.31f, 1.0f };
+  EXPECT_FALSE(mgClipBox(c1, c2, c3, c4));
+}
+
 TEST(mgMathTest, mgAngleInterpolate)
 {
   EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.078987f, 2.387641f, 0.3f, false), 0.221013f);
