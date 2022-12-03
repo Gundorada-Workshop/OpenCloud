@@ -25,10 +25,7 @@ struct mgVu0FBOX8
 };
 
 // 0012F1C0
-inline ivec4 mgFtoI4(const vec4& v)
-{
-  return glm::floatBitsToInt(v);
-}
+ivec4 mgFtoI4(const vec4& v);
 
 // 0012F1D0
 mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec4& c2);

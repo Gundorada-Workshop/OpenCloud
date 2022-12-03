@@ -17,6 +17,17 @@ static std::array<f32, 1024> SinTable{};
 // 00376504
 constexpr static f32 sin_table_unit_1 = static_cast<f32>(SinTable.size()) / math::pi2();
 
+// 0012F1C0
+ivec4 mgFtoI4(const vec4& v)
+{
+  ivec4 result;
+  for (usize i = 0; i < 4; ++i)
+  {
+    result[i] = static_cast<s32>(v[i] * 16.0f);
+  }
+  return result;
+}
+
 // 0012F1D0
 mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec4& c2)
 {

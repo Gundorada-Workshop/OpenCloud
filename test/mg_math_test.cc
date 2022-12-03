@@ -1,8 +1,29 @@
 #include <gtest/gtest.h>
 
 #include "common/math.h"
+#include "common/strings.h"
+#include "common/types.h"
 
 #include "dc2/mg/mg_math.h"
+
+TEST(mgMathTest, mgFtoI4)
+{
+  vec4 input;
+  ivec4 expected;
+  ivec4 actual;
+
+  input = { 274.067f, 251.886f, std::bit_cast<f32>(0x4c9ee441), 130.923f };
+
+  // NOTE: These are actually fixed point 28,4 numbers
+  expected = { 4385, 4030, 1332879488, 2094 };
+  actual = mgFtoI4(input);
+
+  for (usize i = 0; i < 4; ++i)
+  {
+    EXPECT_EQ(actual[i], expected[i]) <<
+      common::strings::format("Component {}: Expected: {}, Actual: {}", i, expected[i], actual[i]) << std::endl;
+  }
+}
 
 TEST(mgMathTest, mgAngleInterpolate)
 {
