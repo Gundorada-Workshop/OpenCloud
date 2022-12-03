@@ -98,19 +98,29 @@ bool mgClipBoxW(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
 }
 
 // 0012F330
-bool mgClipInBox(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
+bool mgClipInBox(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
+  log_trace("{}({}, {}, {}, {})", __func__, a1, a2, b1, b2);
 
-  return !(math::vector_any_less_than(v3.xyz - v1.xyz, constants::vec3_zero) || math::vector_any_less_than(v2.xyz - v4.xyz, constants::vec3_zero));
+  return !(math::vector_any_less_than(b1.xyz - a1.xyz, constants::vec3_zero) || math::vector_any_less_than(a2.xyz - b2.xyz, constants::vec3_zero));
+}
+
+bool mgClipInBox(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
+{
+  return mgClipInBox(box1.corners[0], box1.corners[1], box2.corners[0], box2.corners[1]);
 }
 
 // 0012F380
-bool mgClipInBoxW(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
+bool mgClipInBoxW(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
+  log_trace("{}({}, {}, {}, {})", __func__, a1, a2, b1, b2);
 
-  return !(math::vector_any_less_than(v3.xyw - v1.xyw, constants::vec3_zero) || math::vector_any_less_than(v2.xyw - v4.xyw, constants::vec3_zero));
+  return !(math::vector_any_less_than(b1.xyw - a1.xyw, constants::vec3_zero) || math::vector_any_less_than(a2.xyw - b2.xyw, constants::vec3_zero));
+}
+
+bool mgClipInBoxW(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
+{
+  return mgClipInBoxW(box1.corners[0], box1.corners[1], box2.corners[0], box2.corners[1]);
 }
 
 // 0012F410

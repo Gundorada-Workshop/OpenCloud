@@ -75,10 +75,14 @@ bool mgClipBoxW(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2);
 bool mgClipBoxW(const mgVu0FBOX& box1, const mgVu0FBOX& box2);
 
 // 0012F330
-bool mgClipInBox(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4);
+// Tests if the first 3D box completely contains the second 3D box (checking X, Y, Z)
+bool mgClipInBox(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2);
+bool mgClipInBox(const mgVu0FBOX& box1, const mgVu0FBOX& box2);
 
 // 0012F380
-bool mgClipInBoxW(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4);
+// Tests if the first 3D box completely contains the second 3D box (checking X, Y, W (?))
+bool mgClipInBoxW(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2);
+bool mgClipInBoxW(const mgVu0FBOX& box1, const mgVu0FBOX& box2);
 
 // 0012F3D0
 inline void mgAddVector(vec4& lhs, const vec4& rhs)
