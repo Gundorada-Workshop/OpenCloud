@@ -2,6 +2,7 @@
 #include "common/types.h"
 #include "common/bits.h"
 #include "common/rectangle.h"
+#include "common/data_stream.h"
 #include "common/window_handle.h"
 
 #include "host/pad_handler.h"
@@ -32,6 +33,9 @@ namespace host
     virtual common::native_window_handle_type window_handle() = 0;
 
   public:
+    // buffer, size
+    using cached_file = std::pair<std::shared_ptr<u8[]>, usize>;
+
     // sample the left stick axis
     vec2 sample_pad_left_stick_xy();
 
@@ -43,6 +47,8 @@ namespace host
 
     // end an in-game frame
     void end_game_frame();
+
+    cached_file open_game_file_cached(std::string_view data_relative_path);
 
   public:
     inline void set_frame_divider(uint divider)
@@ -167,6 +173,8 @@ namespace host
     }
 
   protected:
+    using file_cache = std::unordered_map<std::string, cached_file>;
+
     // name of the window
     std::string m_window_title{ };
 
@@ -193,6 +201,8 @@ namespace host
 
     // frame divider
     uint m_frame_divider{ 1 };
+
+    file_cache m_file_cache{ };
   };
 }
 

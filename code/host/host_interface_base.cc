@@ -5,12 +5,56 @@
 
 set_log_channel("host");
 
+using namespace common;
+
 std::unique_ptr<host::host_interface_base> g_host_interface{ nullptr };
 
 namespace host
 {
   host_interface_base::host_interface_base() = default;
   host_interface_base::~host_interface_base() = default;
+
+  host_interface_base::cached_file host_interface_base::open_game_file_cached(std::string_view data_relative_file)
+  {
+    log_info("Opening game file: {}", data_relative_file);
+
+    const auto key = std::string{ data_relative_file };
+
+    const auto itr = m_file_cache.find(key);
+
+    if (itr != m_file_cache.end())
+    {
+      log_debug("File cache hit: {}", data_relative_file);
+
+      return itr->second;
+    }
+
+    log_debug("File cache miss: {}", data_relative_file);
+
+    // cache miss
+    const auto path = file_helpers::append(file_helpers::get_data_directory(), data_relative_file);
+
+    auto file_stream = file_stream::open(path, "rb");
+    if (!file_stream)
+      return { };
+
+    const auto file_size = file_stream->size();
+
+    auto buff = std::make_shared<u8[]>(file_size);
+
+    if (!buff || !file_size)
+      return { };
+
+    if (!file_stream->read_buffer_checked(buff.get(), file_size))
+      return { };
+
+    // this shouldn't matter since the cache hit check prevents a duplicate insert
+    // but just in case someone changes that condition, make sure we return the item in the map
+    // and not the one that was potentially blocked from insertion
+    auto [insert_itr, inserted] = m_file_cache.insert({key, std::make_pair(buff, file_size)});
+
+    return insert_itr->second;
+  }
 
   vec2 host_interface_base::sample_pad_left_stick_xy()
   {
