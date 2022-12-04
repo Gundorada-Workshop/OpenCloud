@@ -5,6 +5,7 @@
       <PreprocessorDefinitions>GLM_FORCE_SWIZZLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions>GLM_FORCE_SIZE_T_LENGTH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions>GLM_FORCE_SILENT_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLM_FORCE_INTRINSICS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)external\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
