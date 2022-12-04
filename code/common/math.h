@@ -119,7 +119,7 @@ namespace common::math
     return glm::all(glm::lessThanEqual<size, type>(a, b));
   }
 
-  constexpr vec3 vector_outer_product(const vec3& a, const vec3& b)
+  inline vec3 vector_outer_product(const vec3& a, const vec3& b)
   {
     return {
       a.y * b.z - b.y * a.z,
