@@ -17,75 +17,139 @@ static std::array<f32, 1024> SinTable{};
 // 00376504
 constexpr static f32 sin_table_unit_1 = static_cast<f32>(SinTable.size()) / math::pi2();
 
-// 0012F1D0
-mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec4& c2)
+// 0012F1C0
+ivec4 mgFtoI4(const vec4& v)
 {
-  log_trace("{}({}, {})", __func__, fmt::ptr(&c1), fmt::ptr(&c2));
-
-  // TODO: Check if this produces better code with swizzling.
-  mgVu0FBOX8 result;
-
-  result.vertices[0] = c2;
-  result.vertices[1] = c2;
-  result.vertices[2] = c2;
-  result.vertices[3] = c2;
-  result.vertices[4] = c1;
-  result.vertices[5] = c1;
-  result.vertices[6] = c1;
-  result.vertices[7] = c1;
-
-  result.vertices[1].x = c1.x;
-  result.vertices[2].y = c1.y;
-  result.vertices[3].z = c1.z;
-  result.vertices[4].x = c2.x;
-  result.vertices[5].y = c2.y;
-  result.vertices[6].z = c2.z;
+  ivec4 result;
+  for (usize i = 0; i < 4; ++i)
+  {
+    result[i] = static_cast<s32>(v[i] * 16.0f);
+  }
   return result;
 }
 
+// 0012F1D0
+mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec4& c2)
+{
+  log_trace("{}({}, {})", __func__, c1, c2);
+
+  mgVu0FBOX8 result;
+
+  return {
+    vec4{ c2.x, c2.y, c2.z, 1.0f },
+    vec4{ c1.x, c2.y, c2.z, 1.0f },
+    vec4{ c2.x, c1.y, c2.z, 1.0f },
+    vec4{ c1.x, c1.y, c2.z, 1.0f },
+    vec4{ c2.x, c2.y, c1.z, 1.0f },
+    vec4{ c1.x, c2.y, c1.z, 1.0f },
+    vec4{ c2.x, c1.y, c1.z, 1.0f },
+    vec4{ c1.x, c1.y, c1.z, 1.0f },
+  };
+}
+
+mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec3& c2)
+{
+  return mgCreateBox8(vec3{ c1 }, vec3{ c2 });
+}
+
+mgVu0FBOX8 mgCreateBox8(const vec3& c1, const vec4& c2)
+{
+  return mgCreateBox8(vec3{ c1 }, vec3{ c2 });
+}
+
+mgVu0FBOX8 mgCreateBox8(const vec3& c1, const vec3& c2)
+{
+  return mgCreateBox8(vec4{ c1, 1.0f }, vec4{ c2, 1.0f });
+}
+
 // 0012F250
-bool mgClipBoxVertex(const vec4& v1, const vec4& v2, const vec4& v3)
+bool mgClipBoxVertex(const vec4& p, const vec4& a1, const vec4& a2)
 {
   // NOTE: Status & 0x0080 is the signed sticky flag; should be set if the vsub op results in any negative components
-  log_trace("{}({}, {}, {})", __func__, v1, v2, v3);
+  log_trace("{}({}, {}, {})", __func__, p, a1, a2);
 
-  return !(math::vector_any_less_than(v2.xyz - v1.xyz, constants::vec3_zero) || math::vector_any_less_than(v1.xyz - v3.xyz, constants::vec3_zero));
+  auto t1 = a1 - p;
+  auto t2 = p - a2;
+
+  return t1.x >= 0.0f && t1.y >= 0.0f && t1.z >= 0.0f &&
+    t2.x >= 0.0f && t2.y >= 0.0f && t2.z >= 0.0f;
+}
+
+bool mgClipBoxVertex(const vec4& point, const mgVu0FBOX& box)
+{
+  return mgClipBoxVertex(point, box.corners[0], box.corners[1]);
 }
 
 // 0012F290
-bool mgClipBox(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
+bool mgClipBox(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
+  log_trace("{}({}, {}, {}, {})", __func__, a1, a2, b1, b2);
 
-  return !(math::vector_any_less_than(v1.xyz - v4.xyz, constants::vec3_zero) || math::vector_any_less_than(v3.xyz - v2.xyz, constants::vec3_zero));
+  auto t1 = a1 - b2;
+  auto t2 = b1 - a2;
+
+  return t1.x >= 0.0f && t1.y >= 0.0f && t1.z >= 0.0f &&
+    t2.x >= 0.0f && t2.y >= 0.0f && t2.z >= 0.0f;
+}
+
+bool mgClipBox(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
+{
+  return mgClipBox(box1.corners[0], box1.corners[1], box2.corners[0], box2.corners[1]);
 }
 
 // 0012F2E0
-bool mgClipBoxW(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
+bool mgClipBoxW(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
+  log_trace("{}({}, {}, {}, {})", __func__, a1, a2, b1, b2);
 
-  return !(math::vector_any_less_than(v1.xyw - v4.xyw, constants::vec3_zero) || math::vector_any_less_than(v3.xyw - v2.xyw, constants::vec3_zero));
+  auto t1 = a1 - b2;
+  auto t2 = b1 - a2;
+
+  return t1.x >= 0.0f && t1.y >= 0.0f && t1.w >= 0.0f &&
+    t2.x >= 0.0f && t2.y >= 0.0f && t2.w >= 0.0f;
+}
+
+bool mgClipBoxW(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
+{
+  return mgClipBoxW(box1.corners[0], box1.corners[1], box2.corners[0], box2.corners[1]);
 }
 
 // 0012F330
-bool mgClipInBox(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
+bool mgClipInBox(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
+  log_trace("{}({}, {}, {}, {})", __func__, a1, a2, b1, b2);
 
-  return !(math::vector_any_less_than(v3.xyz - v1.xyz, constants::vec3_zero) || math::vector_any_less_than(v2.xyz - v4.xyz, constants::vec3_zero));
+  auto t1 = b1 - a1;
+  auto t2 = a2 - b2;
+
+  return t1.x >= 0.0f && t1.y >= 0.0f && t1.z >= 0.0f &&
+    t2.x >= 0.0f && t2.y >= 0.0f && t2.z >= 0.0f;
+}
+
+bool mgClipInBox(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
+{
+  return mgClipInBox(box1.corners[0], box1.corners[1], box2.corners[0], box2.corners[1]);
 }
 
 // 0012F380
-bool mgClipInBoxW(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4)
+bool mgClipInBoxW(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, v1, v2, v3, v4);
+  log_trace("{}({}, {}, {}, {})", __func__, a1, a2, b1, b2);
 
-  return !(math::vector_any_less_than(v3.xyw - v1.xyw, constants::vec3_zero) || math::vector_any_less_than(v2.xyw - v4.xyw, constants::vec3_zero));
+  auto t1 = b1 - a1;
+  auto t2 = a2 - b2;
+
+  return t1.x >= 0.0f && t1.y >= 0.0f && t1.w >= 0.0f &&
+    t2.x >= 0.0f && t2.y >= 0.0f && t2.w >= 0.0f;
+}
+
+bool mgClipInBoxW(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
+{
+  return mgClipInBoxW(box1.corners[0], box1.corners[1], box2.corners[0], box2.corners[1]);
 }
 
 // 0012F410
-vec4 mgNormalizeVector(const vec4& v, f32 scale)
+vec3 mgNormalizeVector(const vec3& v, f32 scale)
 {
   log_trace("{}({}, {})", __func__, fmt::ptr(&v), scale);
 
@@ -98,7 +162,7 @@ void mgBoxMaxMin(mgVu0FBOX& lhs, const mgVu0FBOX& rhs)
   log_trace("{}({}, {})", __func__, fmt::ptr(&lhs), fmt::ptr(&rhs));
 
   lhs.corners[0] = glm::max(lhs.corners[0], glm::max(lhs.corners[1], glm::max(rhs.corners[0], rhs.corners[1])));
-  lhs.corners[0] = glm::min(lhs.corners[0], glm::min(lhs.corners[1], glm::min(rhs.corners[0], rhs.corners[1])));
+  lhs.corners[1] = glm::min(lhs.corners[0], glm::min(lhs.corners[1], glm::min(rhs.corners[0], rhs.corners[1])));
 }
 
 // 0012F580

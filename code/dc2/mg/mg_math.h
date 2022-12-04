@@ -16,6 +16,20 @@ struct mgVu0FBOX
 {
   // Represents the "top left" and "bottom right" corners of a 3D rectangle
   std::array<vec4, 2> corners;
+
+  mgVu0FBOX() = default;
+
+  mgVu0FBOX(vec4 c1, vec4 c2)
+  {
+    corners[0] = c1;
+    corners[1] = c2;
+  }
+
+  mgVu0FBOX(f32 ax, f32 ay, f32 az, f32 aw, f32 bx, f32 by, f32 bz, f32 bw)
+  {
+    corners[0] = { ax, ay, az, aw };
+    corners[1] = { bx, by, bz, bw };
+  }
 };
 
 struct mgVu0FBOX8
@@ -25,13 +39,13 @@ struct mgVu0FBOX8
 };
 
 // 0012F1C0
-inline ivec4 mgFtoI4(const vec4& v)
-{
-  return glm::floatBitsToInt(v);
-}
+ivec4 mgFtoI4(const vec4& v);
 
 // 0012F1D0
 mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec4& c2);
+mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec3& c2);
+mgVu0FBOX8 mgCreateBox8(const vec3& c1, const vec4& c2);
+mgVu0FBOX8 mgCreateBox8(const vec3& c1, const vec3& c2);
 
 // Clamps an angle to (-pi, +pi] radians.
 // (Only valid for f32s within (-2pi, +2pi].
@@ -62,19 +76,34 @@ inline void mgZeroVectorW(vec4& v)
 }
 
 // 0012F250
-bool mgClipBoxVertex(const vec4& v1, const vec4& v2, const vec4& v3);
+// Tests if a point is contained within a box (testing X, Y, Z)
+// NOTE: the corners need to be (max, min)
+bool mgClipBoxVertex(const vec4& p, const vec4& a1, const vec4& a2);
+bool mgClipBoxVertex(const vec4& point, const mgVu0FBOX& box);
 
 // 0012F290
-bool mgClipBox(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4);
+// Tests if two 3D boxes overlap (checking X, Y, Z)
+// NOTE: the corners need to be (max, min)
+bool mgClipBox(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2);
+bool mgClipBox(const mgVu0FBOX& box1, const mgVu0FBOX& box2);
 
 // 0012F2E0
-bool mgClipBoxW(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4);
+// Tests if two 3D boxes overlap (checking X, Y, W (?))
+// NOTE: the corners need to be (max, min)
+bool mgClipBoxW(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2);
+bool mgClipBoxW(const mgVu0FBOX& box1, const mgVu0FBOX& box2);
 
 // 0012F330
-bool mgClipInBox(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4);
+// Tests if the first 3D box completely contains the second 3D box (checking X, Y, Z)
+// NOTE: the corners need to be (max, min)
+bool mgClipInBox(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2);
+bool mgClipInBox(const mgVu0FBOX& box1, const mgVu0FBOX& box2);
 
 // 0012F380
-bool mgClipInBoxW(const vec4& v1, const vec4& v2, const vec4& v3, const vec4& v4);
+// Tests if the first 3D box completely contains the second 3D box (checking X, Y, W (?))
+// NOTE: the corners need to be (max, min)
+bool mgClipInBoxW(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2);
+bool mgClipInBoxW(const mgVu0FBOX& box1, const mgVu0FBOX& box2);
 
 // 0012F3D0
 inline void mgAddVector(vec4& lhs, const vec4& rhs)
@@ -89,7 +118,7 @@ inline void mgSubVector(vec4& lhs, const vec4& rhs)
 }
 
 // 0012F410
-vec4 mgNormalizeVector(const vec4& v, f32 scale);
+vec3 mgNormalizeVector(const vec3& v, f32 scale);
 
 // 0012F460
 inline vec4 mgVectorMin(const vec4& lhs, const vec4& rhs)
