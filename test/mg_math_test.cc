@@ -464,6 +464,32 @@ TEST(mgMathTest, mgPlaneNormal)
   }
 }
 
+// TODO: mgDistPlanePoint test
+
+TEST(mgMathTest, mgDistLinePoint)
+{
+  vec3 v1;
+  vec3 v2;
+  vec3 v3;
+  vec3 v4_actual;
+  vec3 v4_expected;
+  f32 f_actual;
+  f32 f_expected;
+
+  v1 = { 383.5f, 55.75f, 3293.0f };
+  v2 = { 429.75f, 0.00012207f, 3179.0f };
+  v3 = { 429.75f, 16.0f, 3179.0f };
+  v4_expected = { 429.75f, 16.0f, 3179.0f };
+  f_expected = 129.286972f;
+  f_actual = mgDistLinePoint(v1, v2, v3, v4_actual);
+  EXPECT_FLOAT_EQ(f_actual, f_expected);
+  for (usize i = 0; i < 3; ++i)
+  {
+    EXPECT_FLOAT_EQ(v4_actual[i], v4_expected[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, v4_actual[i], v4_expected[i]) << std::endl;
+  }
+}
+
 TEST(mgMathTest, mgAngleInterpolate)
 {
   EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.078987f, 2.387641f, 0.3f, false), 0.221013f);
