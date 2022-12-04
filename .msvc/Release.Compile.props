@@ -12,7 +12,7 @@
       <!-- Don't enable WPO it's too slow for local building -->
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <!-- Set NDEBUG as STL expects -->
-      <PreprocessorDefinitions>_NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
 </Project>
