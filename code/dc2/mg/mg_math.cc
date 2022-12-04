@@ -63,16 +63,17 @@ mgVu0FBOX8 mgCreateBox8(const vec3& c1, const vec3& c2)
 }
 
 // 0012F250
-bool mgClipBoxVertex(const vec4& p, const vec4& a1, const vec4& a2)
+bool mgClipBoxVertex(const vec4& p, const vec4& max_corner, const vec4& min_corner)
 {
-  // NOTE: Status & 0x0080 is the signed sticky flag; should be set if the vsub op results in any negative components
-  log_trace("{}({}, {}, {})", __func__, p, a1, a2);
+  log_trace("{}({}, {}, {})", __func__, p, max_corner, min_corner);
 
-  auto t1 = a1 - p;
-  auto t2 = p - a2;
-
-  return t1.x >= 0.0f && t1.y >= 0.0f && t1.z >= 0.0f &&
-    t2.x >= 0.0f && t2.y >= 0.0f && t2.z >= 0.0f;
+  return
+    p.x <= max_corner.x &&
+    p.y <= max_corner.y &&
+    p.z <= max_corner.z &&
+    p.x >= min_corner.x &&
+    p.y >= min_corner.y &&
+    p.z >= min_corner.z;
 }
 
 bool mgClipBoxVertex(const vec4& point, const mgVu0FBOX& box)
@@ -81,15 +82,17 @@ bool mgClipBoxVertex(const vec4& point, const mgVu0FBOX& box)
 }
 
 // 0012F290
-bool mgClipBox(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2)
+bool mgClipBox(const vec4& max_corner1, const vec4& min_corner1, const vec4& max_corner2, const vec4& min_corner2)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, a1, a2, b1, b2);
+  log_trace("{}({}, {}, {}, {})", __func__, max_corner1, min_corner1, max_corner2, min_corner2);
 
-  auto t1 = a1 - b2;
-  auto t2 = b1 - a2;
-
-  return t1.x >= 0.0f && t1.y >= 0.0f && t1.z >= 0.0f &&
-    t2.x >= 0.0f && t2.y >= 0.0f && t2.z >= 0.0f;
+  return
+    min_corner1.x <= max_corner2.x &&
+    min_corner1.y <= max_corner2.y &&
+    min_corner1.z <= max_corner2.z &&
+    max_corner1.x >= min_corner2.x &&
+    max_corner1.y >= min_corner2.y &&
+    max_corner1.z >= min_corner2.z;
 }
 
 bool mgClipBox(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
@@ -98,15 +101,17 @@ bool mgClipBox(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
 }
 
 // 0012F2E0
-bool mgClipBoxW(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2)
+bool mgClipBoxW(const vec4& max_corner1, const vec4& min_corner1, const vec4& max_corner2, const vec4& min_corner2)
 {
   log_trace("{}({}, {}, {}, {})", __func__, a1, a2, b1, b2);
 
-  auto t1 = a1 - b2;
-  auto t2 = b1 - a2;
-
-  return t1.x >= 0.0f && t1.y >= 0.0f && t1.w >= 0.0f &&
-    t2.x >= 0.0f && t2.y >= 0.0f && t2.w >= 0.0f;
+  return
+    min_corner1.x <= max_corner2.x &&
+    min_corner1.y <= max_corner2.y &&
+    min_corner1.w <= max_corner2.w &&
+    max_corner1.x >= min_corner2.x &&
+    max_corner1.y >= min_corner2.y &&
+    max_corner1.w >= min_corner2.w;
 }
 
 bool mgClipBoxW(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
@@ -115,15 +120,17 @@ bool mgClipBoxW(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
 }
 
 // 0012F330
-bool mgClipInBox(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2)
+bool mgClipInBox(const vec4& max_corner1, const vec4& min_corner1, const vec4& max_corner2, const vec4& min_corner2)
 {
   log_trace("{}({}, {}, {}, {})", __func__, a1, a2, b1, b2);
 
-  auto t1 = b1 - a1;
-  auto t2 = a2 - b2;
-
-  return t1.x >= 0.0f && t1.y >= 0.0f && t1.z >= 0.0f &&
-    t2.x >= 0.0f && t2.y >= 0.0f && t2.z >= 0.0f;
+    return 
+      min_corner1.x >= min_corner2.x &&
+      min_corner1.y >= min_corner2.y &&
+      min_corner1.z >= min_corner2.z &&
+      max_corner1.x <= max_corner2.x &&
+      max_corner1.y <= max_corner2.y &&
+      max_corner1.z <= max_corner2.z;
 }
 
 bool mgClipInBox(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
@@ -132,15 +139,17 @@ bool mgClipInBox(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
 }
 
 // 0012F380
-bool mgClipInBoxW(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2)
+bool mgClipInBoxW(const vec4& max_corner1, const vec4& min_corner1, const vec4& max_corner2, const vec4& min_corner2)
 {
   log_trace("{}({}, {}, {}, {})", __func__, a1, a2, b1, b2);
 
-  auto t1 = b1 - a1;
-  auto t2 = a2 - b2;
-
-  return t1.x >= 0.0f && t1.y >= 0.0f && t1.w >= 0.0f &&
-    t2.x >= 0.0f && t2.y >= 0.0f && t2.w >= 0.0f;
+  return
+    min_corner1.x >= min_corner2.x &&
+    min_corner1.y >= min_corner2.y &&
+    min_corner1.w >= min_corner2.w &&
+    max_corner1.x <= max_corner2.x &&
+    max_corner1.y <= max_corner2.y &&
+    max_corner1.w <= max_corner2.w;
 }
 
 bool mgClipInBoxW(const mgVu0FBOX& box1, const mgVu0FBOX& box2)

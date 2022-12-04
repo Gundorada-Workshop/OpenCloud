@@ -78,31 +78,31 @@ inline void mgZeroVectorW(vec4& v)
 // 0012F250
 // Tests if a point is contained within a box (testing X, Y, Z)
 // NOTE: the corners need to be (max, min)
-bool mgClipBoxVertex(const vec4& p, const vec4& a1, const vec4& a2);
+bool mgClipBoxVertex(const vec4& p, const vec4& max_corner, const vec4& min_corner);
 bool mgClipBoxVertex(const vec4& point, const mgVu0FBOX& box);
 
 // 0012F290
 // Tests if two 3D boxes overlap (checking X, Y, Z)
 // NOTE: the corners need to be (max, min)
-bool mgClipBox(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2);
+bool mgClipBox(const vec4& max_corner1, const vec4& min_corner1, const vec4& max_corner2, const vec4& min_corner2);
 bool mgClipBox(const mgVu0FBOX& box1, const mgVu0FBOX& box2);
 
 // 0012F2E0
 // Tests if two 3D boxes overlap (checking X, Y, W (?))
 // NOTE: the corners need to be (max, min)
-bool mgClipBoxW(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2);
+bool mgClipBoxW(const vec4& max_corner1, const vec4& min_corner1, const vec4& max_corner2, const vec4& min_corner2);
 bool mgClipBoxW(const mgVu0FBOX& box1, const mgVu0FBOX& box2);
 
 // 0012F330
 // Tests if the first 3D box completely contains the second 3D box (checking X, Y, Z)
 // NOTE: the corners need to be (max, min)
-bool mgClipInBox(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2);
+bool mgClipInBox(const vec4& max_corner1, const vec4& min_corner1, const vec4& max_corner2, const vec4& min_corner2);
 bool mgClipInBox(const mgVu0FBOX& box1, const mgVu0FBOX& box2);
 
 // 0012F380
 // Tests if the first 3D box completely contains the second 3D box (checking X, Y, W (?))
 // NOTE: the corners need to be (max, min)
-bool mgClipInBoxW(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2);
+bool mgClipInBoxW(const vec4& max_corner1, const vec4& min_corner1, const vec4& max_corner2, const vec4& min_corner2);
 bool mgClipInBoxW(const mgVu0FBOX& box1, const mgVu0FBOX& box2);
 
 // 0012F3D0
