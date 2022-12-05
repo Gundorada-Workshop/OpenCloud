@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="clock.cc" />
+    <ClCompile Include="console.cc" />
+    <ClCompile Include="console_logger.cpp" />
+    <ClCompile Include="data_stream.cc" />
+    <ClCompile Include="debug.cc" />
+    <ClCompile Include="dynamic_library.cc" />
+    <ClCompile Include="file_helpers.cc" />
+    <ClCompile Include="log.cc" />
+    <ClCompile Include="strings.cc" />
+    <ClCompile Include="synchro.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bits.h" />
+    <ClInclude Include="clock.h" />
+    <ClInclude Include="console.h" />
+    <ClInclude Include="console_logger.h" />
+    <ClInclude Include="data_stream.h" />
+    <ClInclude Include="debug.h" />
+    <ClInclude Include="dynamic_library.h" />
+    <ClInclude Include="file_helpers.h" />
+    <ClInclude Include="log.h" />
+    <ClInclude Include="math.h" />
+    <ClInclude Include="platform.h" />
+    <ClInclude Include="rectangle.h" />
+    <ClInclude Include="scoped_function.h" />
+    <ClInclude Include="strings.h" />
+    <ClInclude Include="synchro.h" />
+    <ClInclude Include="types.h" />
+    <ClInclude Include="window_handle.h" />
+    <ClInclude Include="math\_vector_sse.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\_matrix.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\_vector.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\_vector_cxp.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\_vector_common.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="constants.h" />
+    <ClInclude Include="math\_vector_math.h">
+      <Filter>math</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="common.exports.props" />
+    <None Include="math\_vector_swizzle2.inl">
+      <Filter>math</Filter>
+    </None>
+    <None Include="math\_vector_swizzle3.inl">
+      <Filter>math</Filter>
+    </None>
+    <None Include="math\_vector_swizzle4.inl">
+      <Filter>math</Filter>
+    </None>
+    <None Include="math\_vector_swizzle.inl">
+      <Filter>math</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="math">
+      <UniqueIdentifier>{036d1d30-a990-4859-b96b-8b167e589d03}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

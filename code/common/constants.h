@@ -1,7 +1,8 @@
 #pragma once
+#pragma once
 #include <limits>
 
-#include "types.h"
+#include "common/types.h"
 
 namespace common::constants
 {
