@@ -514,12 +514,7 @@ matrix4 mgMulMatrix(const matrix4& lhs, const matrix4& rhs)
 {
   log_trace("{}({}, {})", __func__, fmt::ptr(&lhs), fmt::ptr(&rhs));
 
-  matrix4 result;
-  result[0] = lhs * rhs[0];
-  result[1] = lhs * rhs[1];
-  result[2] = lhs * rhs[2];
-  result[3] = lhs * rhs[3];
-  return result;
+  return lhs * rhs;
 }
 
 // 001302D0

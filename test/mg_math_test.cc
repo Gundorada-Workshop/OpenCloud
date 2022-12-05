@@ -551,6 +551,42 @@ TEST(mgMathTest, mgDistVectorXZ2)
   EXPECT_FLOAT_EQ(mgDistVectorXZ2({ -2.0f, 2.0f, 5.0f }, { 20.0f, 20.0f, 20.0f }), 709.0f);
 }
 
+TEST(mgMathTest, mgMulMatrix)
+{
+  matrix4 m1;
+  matrix4 m2;
+  matrix4 expected;
+  matrix4 actual;
+  m1 = {
+    1, 2, 3, 4,
+    5, 6, 7, 8,
+    9, 10, 11, 12,
+    13, 14, 15, 16
+  };
+  m2 = {
+    17, 18, 19, 20,
+    21, 22, 23, 24,
+    25, 26, 27, 28,
+    29, 30, 31, 32
+  };
+  expected = {
+    538, 612, 686, 760,
+    650, 740, 830, 920,
+    762, 868, 974, 1080,
+    874, 996, 1118, 1240
+  };
+  actual = mgMulMatrix(m1, m2);
+
+  for (int i = 0; i < 4; ++i)
+  {
+    for (int j = 0; j < 4; ++j)
+    {
+      EXPECT_FLOAT_EQ(actual[i][j], expected[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i, j, actual[i][j], expected[i][j]) << std::endl;
+    }
+  }
+}
+
 TEST(mgMathTest, mgAngleInterpolate)
 {
   EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.078987f, 2.387641f, 0.3f, false), 0.221013f);
