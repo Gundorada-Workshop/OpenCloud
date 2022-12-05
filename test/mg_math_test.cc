@@ -490,6 +490,45 @@ TEST(mgMathTest, mgDistLinePoint)
   }
 }
 
+// TODO: mgReflectionPlane
+
+TEST(mgMathTest, mgIntersectionSphereLine)
+{
+  vec4 sphere;
+  vec3 line_start;
+  vec3 line_end;
+  vec3 intersections_expected[2];
+  vec3 intersections_actual[2];
+  usize n_intersections_expected;
+  usize n_intersections_actual;
+
+  // 0 intersections
+  sphere = { 731.094f, 0.0f, 3859.55f, 4.0f };
+  line_start = { 480.0f, 0.0f, 3680.0f };
+  line_end = { 480.0f, 0.0f, 3920.0f };
+  n_intersections_expected = 0;
+  n_intersections_actual = mgIntersectionSphereLine(sphere, line_start, line_end, intersections_actual);
+  EXPECT_EQ(n_intersections_actual, n_intersections_expected);
+
+  // 2 intersections
+  sphere = { 2118.67f, 0.0f, 10.0f, 4.0f };
+  line_start = { 2117.42f, 0.0f, 14.1226f };
+  line_end = { 2118.67f, 0.0f, -1.12291f };
+  n_intersections_expected = 2;
+  intersections_expected[0] = vec3 { 2117.42f, 0.0f, 13.799f };
+  intersections_expected[1] = vec3 { 2117.42f, 0.0f, 6.20098f };
+  n_intersections_actual = mgIntersectionSphereLine(sphere, line_start, line_end, intersections_actual);
+  EXPECT_EQ(n_intersections_actual, n_intersections_expected);
+  for (usize i = 0; i < 2; ++i)
+  {
+    for (usize j = 0; j < 3; ++j)
+    {
+      EXPECT_FLOAT_EQ(intersections_actual[i][j], intersections_expected[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i,j, intersections_actual[i][j], intersections_expected[i][j]) << std::endl;
+    }
+  }
+}
+
 TEST(mgMathTest, mgAngleInterpolate)
 {
   EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.078987f, 2.387641f, 0.3f, false), 0.221013f);

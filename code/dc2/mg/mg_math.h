@@ -172,11 +172,8 @@ f32 mgDistLinePoint(const vec3& v1, const vec3& v2, const vec3& v3, vec3& v4_des
 // 0012F760
 f32 mgReflectionPlane(const vec3& v1, const vec3& v2, const vec3& v3, vec3& v4_dest);
 
-// 0012F7F0
-usize mgIntersectionSphereLine0(const vec4& start, const vec4& end, vec4* intersections, f32 radius);
-
 // 0012F990
-usize mgIntersectionSphereLine(const vec4& sphere, const vec4& start, const vec4& end, vec4* intersections);
+usize mgIntersectionSphereLine(const vec4& sphere, const vec3& line_start, const vec3& line_end, vec3* intersections);
 
 // 0012FA50
 bool mgIntersectionPoint_line_poly3(const vec3& v1, const vec3& v2, const vec3& v3, const vec3& v4, const vec3& v5, const vec3& v6, vec3& v7_dest);

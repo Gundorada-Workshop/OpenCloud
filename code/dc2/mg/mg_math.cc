@@ -240,18 +240,21 @@ f32 mgReflectionPlane(const vec3& v1, const vec3& v2, const vec3& v3, vec3& v4_d
 }
 
 // 0012F7F0
-usize mgIntersectionSphereLine0(const vec4& start, const vec4& end, vec4* intersections, f32 radius)
+usize mgIntersectionSphereLine0(const vec3& line_start, const vec3& line_end, vec3* intersections, f32 radius)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, start, end, fmt::ptr(intersections), radius);
+  log_trace("{}({}, {}, {}, {})", __func__, line_start, line_end, fmt::ptr(intersections), radius);
+
+  // We take in a normalized line, such that sphere's origin is at 0,0,0, relative to the lines.
+  // The line is normalized in mgIntersectionSphereLine.
 
   // 0012F7F0 - 0012F828
-  auto distance = end - start;
+  auto distance = line_end - line_start;
   // 0012F828 - 0012F834
   f32 f20 = mgDistVector2(distance);
   // 0012F834 - 0012F844
-  f32 f21 = math::vector_dot_product(vec3{ distance }, vec3{ start });
+  f32 f21 = math::vector_dot_product(distance, line_start);
   // 0012F844 - 0012F854
-  f32 f0 = mgDistVector2(start) - (radius * radius);
+  f32 f0 = mgDistVector2(line_start) - (radius * radius);
 
   // 0012F854 - 0012F85C
   // NOTE: another way of thinking about these 2 instructions:
@@ -278,13 +281,13 @@ usize mgIntersectionSphereLine0(const vec4& start, const vec4& end, vec4* inters
   f20 = (f0 + f2) / f20;
 
   // 0012F8A0 - 0012F8D0
-  vec4 intersection_dist;
+  vec3 intersection_dist;
   if (f12 >= 0.0f && f12 <= 1.0f)
   {
     // 0012F8D0 - 0012F8D8
     intersection_dist = distance * f12;
     // 0012F8D8 - 0012F8E8
-    intersections[0] = start + intersection_dist;
+    intersections[0] = line_start + intersection_dist;
     // 0012F8E8 - 0012F8EC
     ++n_intersections;
   }
@@ -304,7 +307,7 @@ usize mgIntersectionSphereLine0(const vec4& start, const vec4& end, vec4* inters
   // 0012F938 - 0012F944
   intersection_dist = distance * f20;
   // 0012F948 - 0012F958
-  intersections[n_intersections] = start + intersection_dist;
+  intersections[n_intersections] = line_start + intersection_dist;
   // 0012F958 - 0012F95C
   ++n_intersections;
 
@@ -313,20 +316,22 @@ usize mgIntersectionSphereLine0(const vec4& start, const vec4& end, vec4* inters
 }
 
 // 0012F990
-usize mgIntersectionSphereLine(const vec4& sphere, const vec4& start, const vec4& end, vec4* intersections)
+usize mgIntersectionSphereLine(const vec4& sphere, const vec3& line_start, const vec3& line_end, vec3* intersections)
 {
-  log_trace("{}({}, {}, {})", __func__, start, end, fmt::ptr(intersections));
+  log_trace("{}({}, {}, {})", __func__, line_start, line_end, fmt::ptr(intersections));
+
+  // NOTE: Sphere is a vec4 with xyz representing its 3D origin, and w representing its radius)
 
   float radius = sphere.w;
 
-  auto start_normal = start - sphere;
-  auto end_normal = end - sphere;
+  auto start_normal = line_start - sphere.xyz;
+  auto end_normal = line_end - sphere.xyz;
 
   usize n_intersections = mgIntersectionSphereLine0(start_normal, end_normal, intersections, radius);
 
   for (int i = 0; i < n_intersections; ++i)
   {
-    intersections[i] += sphere;
+    intersections[i] += vec3{ sphere.xyz };
   }
   return n_intersections;
 }
@@ -451,7 +456,7 @@ f32 mgDistVectorXZ(const vec3& v, const vec3& other)
 {
   log_trace("{}({})", __func__, v, other);
 
-  return math::vector_distance(vec2{ v.xz }, vec2{ other.xz });
+  return math::vector_distance<2, f32>(v.xz, other.xz);
 }
 
 // 001300E0
@@ -459,9 +464,7 @@ f32 mgDistVector2(const vec3& v, const vec3& other)
 {
   log_trace("{}({})", __func__, v, other);
 
-  auto temp = v - other;
-  temp *= temp;
-  return temp.x + temp.y + temp.z;
+  return powf(math::vector_distance(v, other), 2);
 }
 
 // 00130110
@@ -469,9 +472,7 @@ f32 mgDistVectorXZ2(const vec3& v, const vec3& other)
 {
   log_trace("{}({})", __func__, v, other);
 
-  auto temp = v - other;
-  temp *= temp;
-  return temp.x + temp.z;
+  return powf(math::vector_distance<2, f32>(v.xz, other.xz), 2);
 }
 
 // 00130140
