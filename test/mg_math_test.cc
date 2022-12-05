@@ -529,6 +529,28 @@ TEST(mgMathTest, mgIntersectionSphereLine)
   }
 }
 
+TEST(mgMathTest, mgDistVector)
+{
+  EXPECT_FLOAT_EQ(mgDistVector({ -2.0f, 2.0f, 5.0f }), 5.744563f);
+  EXPECT_FLOAT_EQ(mgDistVector({ -2.0f, 2.0f, 5.0f }, { 20.0f, 20.0f, 20.0f }), 32.140316f);
+}
+
+TEST(mgMathTest, mgDistVectorXZ)
+{
+  EXPECT_FLOAT_EQ(mgDistVectorXZ({ -2.0f, 2.0f, 5.0f }), 5.385165f);
+}
+
+TEST(mgMathTest, mgDistVector2)
+{
+  EXPECT_FLOAT_EQ(mgDistVector2({ -2.0f, 2.0f, 5.0f }), 33.0f);
+  EXPECT_FLOAT_EQ(mgDistVector2({ -2.0f, 2.0f, 5.0f }, { 20.0f, 20.0f, 20.0f }), 1032.9999f);
+}
+
+TEST(mgMathTest, mgDistVectorXZ2)
+{
+  EXPECT_FLOAT_EQ(mgDistVectorXZ2({ -2.0f, 2.0f, 5.0f }, { 20.0f, 20.0f, 20.0f }), 709.0f);
+}
+
 TEST(mgMathTest, mgAngleInterpolate)
 {
   EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.078987f, 2.387641f, 0.3f, false), 0.221013f);
