@@ -615,6 +615,90 @@ TEST(mgMathTest, mgInverseMatrix)
   }
 }
 
+TEST(mgMathTest, mgRotMatrixX)
+{
+  f32 scalar = common::math::deg_to_rad(60.0f);
+  matrix4 expected = {
+    1, 0, 0, 0,
+    0, 0.5, 0.86602545f, 0,
+    0, -0.86602545f, 0.5, 0,
+    0, 0, 0, 1
+  };
+  auto actual = mgRotMatrixX(scalar);
+
+  for (int i = 0; i < 4; ++i)
+  {
+    for (int j = 0; j < 4; ++j)
+    {
+      EXPECT_FLOAT_EQ(actual[i][j], expected[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i, j, actual[i][j], expected[i][j]) << std::endl;
+    }
+  }
+}
+
+TEST(mgMathTest, mgRotMatrixY)
+{
+  f32 scalar = common::math::deg_to_rad(60.0f);
+  matrix4 expected = {
+    0.5, 0, -0.86602545f, 0,
+    0, 1, 0, 0,
+    0.86602545f, 0, 0.5, 0,
+    0, 0, 0, 1
+  };
+  auto actual = mgRotMatrixY(scalar);
+
+  for (int i = 0; i < 4; ++i)
+  {
+    for (int j = 0; j < 4; ++j)
+    {
+      EXPECT_FLOAT_EQ(actual[i][j], expected[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i, j, actual[i][j], expected[i][j]) << std::endl;
+    }
+  }
+}
+
+TEST(mgMathTest, mgRotMatrixZ)
+{
+  f32 scalar = common::math::deg_to_rad(60.0f);
+  matrix4 expected = {
+    0.5, 0.86602545f, 0, 0,
+    -0.86602545f, 0.5, 0, 0,
+    0, 0, 1, 0,
+    0, 0, 0, 1
+  };
+  auto actual = mgRotMatrixZ(scalar);
+
+  for (int i = 0; i < 4; ++i)
+  {
+    for (int j = 0; j < 4; ++j)
+    {
+      EXPECT_FLOAT_EQ(actual[i][j], expected[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i, j, actual[i][j], expected[i][j]) << std::endl;
+    }
+  }
+}
+
+TEST(mgMathTest, mgRotMatrixXYZ)
+{
+  vec3 rot = { common::math::deg_to_rad(60.0f), common::math::deg_to_rad(60.0f), common::math::deg_to_rad(60.0f) };
+  matrix4 expected = {
+    0.25, 0.43301269f, -0.86602545f, 0,
+    -0.058012694f, 0.8995191f, 0.4330127f, 0,
+    0.96650636f, -0.058012694f, 0.25, 0,
+    0, 0, 0, 1
+  };
+  auto actual = mgRotMatrixXYZ(rot);
+
+  for (int i = 0; i < 4; ++i)
+  {
+    for (int j = 0; j < 4; ++j)
+    {
+      EXPECT_FLOAT_EQ(actual[i][j], expected[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i, j, actual[i][j], expected[i][j]) << std::endl;
+    }
+  }
+}
+
 TEST(mgMathTest, mgAngleInterpolate)
 {
   EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.078987f, 2.387641f, 0.3f, false), 0.221013f);
