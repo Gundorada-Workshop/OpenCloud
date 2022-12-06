@@ -742,6 +742,29 @@ TEST(mgMathTest, mgLookAtMatrixZ)
   }
 }
 
+TEST(mgMathTest, mgShadowMatrix)
+{
+  vec3 v1 = { 10, 20, 30 };
+  vec3 v2 = { 40, 50, 60 };
+  vec3 v3 = { 0, 1, 0 };
+  matrix4 expected = {
+    1, 0, 0, 0,
+    -0.5, 0, -1.5, 0,
+    0, 0, 1, 0,
+    25, 50, 75, 1
+  };
+  auto actual = mgShadowMatrix(v1, v2, v3);
+
+  for (int i = 0; i < 4; ++i)
+  {
+    for (int j = 0; j < 4; ++j)
+    {
+      EXPECT_FLOAT_EQ(actual[i][j], expected[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i, j, actual[i][j], expected[i][j]) << std::endl;
+    }
+  }
+}
+
 TEST(mgMathTest, mgAngleInterpolate)
 {
   EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.078987f, 2.387641f, 0.3f, false), 0.221013f);
