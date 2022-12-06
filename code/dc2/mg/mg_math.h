@@ -230,7 +230,7 @@ matrix4 mgRotMatrixXYZ(const vec3& rotation);
 matrix4 mgCreateMatrixPY(const vec4& v, f32 f);
 
 // 001305B0
-matrix4 mgLookAtMatrixZ(const vec4& v);
+matrix4 mgLookAtMatrixZ(const vec3& v);
 
 // 00130690
 matrix4 mgShadowMatrix(const vec3& v1, const vec3& v2, const vec3& v3);

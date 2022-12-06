@@ -612,13 +612,13 @@ matrix4 mgCreateMatrixPY(const vec4& v, f32 f)
 }
 
 // 001305B0
-matrix4 mgLookAtMatrixZ(const vec4& v)
+matrix4 mgLookAtMatrixZ(const vec3& v)
 {
   log_trace("{}({})", __func__, v);
 
   auto var_60 = mgUnitMatrix();
   auto var_A0 = var_60;
-  auto var_20 = math::vector_normalize(v);
+  auto var_20 = common::math::vector_normalize(v);
   auto var_10 = var_20;
   var_10.y = 0.0f;
   f32 f0 = mgDistVector(var_10);
@@ -631,8 +631,8 @@ matrix4 mgLookAtMatrixZ(const vec4& v)
   }
   else
   {
-    f2 /= f0;
-    f1 /= f0;
+    f2 = var_20.x / f0;
+    f1 = var_20.z / f0;
     var_A0[1].y = f0;
   }
 

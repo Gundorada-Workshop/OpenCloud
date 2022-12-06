@@ -721,6 +721,27 @@ TEST(mgMathTest, mgCreateMatrixPY)
   }
 }
 
+TEST(mgMathTest, mgLookAtMatrixZ)
+{
+  vec3 look_at = { 10, 20, 30 };
+  matrix4 expected = {
+    0.948683, 0, -0.31622773, 0,
+    -0.16903083, 0.84515429, -0.50709254, 0,
+    0.26726124, 0.53452247, 0.801784, 0,
+    0, 0, 0, 1
+  };
+  auto actual = mgLookAtMatrixZ(look_at);
+
+  for (int i = 0; i < 4; ++i)
+  {
+    for (int j = 0; j < 4; ++j)
+    {
+      EXPECT_FLOAT_EQ(actual[i][j], expected[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i, j, actual[i][j], expected[i][j]) << std::endl;
+    }
+  }
+}
+
 TEST(mgMathTest, mgAngleInterpolate)
 {
   EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.078987f, 2.387641f, 0.3f, false), 0.221013f);
