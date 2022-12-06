@@ -587,6 +587,32 @@ TEST(mgMathTest, mgMulMatrix)
   }
 }
 
+TEST(mgMathTest, mgInverseMatrix)
+{
+  matrix4 m1 = {
+    2, -2, 2, 2,
+    0.5, 2, 2, 2,
+    -2, 1, 1, 2,
+    1, 2, -2, -2
+  };
+  matrix4 expected = {
+    0, 8/36.0f, -16/36.0f, 0,
+    -9/36.0f, 12/36.0f, -6/36.0f, 0,
+    9/36.0f, 4/36.0f, 10/36.0f, 0,
+    1.0f, -24/36.0f, 48/36.0f, 1
+  };
+  auto actual = mgInverseMatrix(m1);
+
+  for (int i = 0; i < 4; ++i)
+  {
+    for (int j = 0; j < 4; ++j)
+    {
+      EXPECT_FLOAT_EQ(actual[i][j], expected[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i, j, actual[i][j], expected[i][j]) << std::endl;
+    }
+  }
+}
+
 TEST(mgMathTest, mgAngleInterpolate)
 {
   EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.078987f, 2.387641f, 0.3f, false), 0.221013f);
