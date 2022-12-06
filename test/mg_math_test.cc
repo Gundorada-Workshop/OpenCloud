@@ -464,6 +464,307 @@ TEST(mgMathTest, mgPlaneNormal)
   }
 }
 
+// TODO: mgDistPlanePoint test
+
+TEST(mgMathTest, mgDistLinePoint)
+{
+  vec3 v1;
+  vec3 v2;
+  vec3 v3;
+  vec3 v4_actual;
+  vec3 v4_expected;
+  f32 f_actual;
+  f32 f_expected;
+
+  v1 = { 383.5f, 55.75f, 3293.0f };
+  v2 = { 429.75f, 0.00012207f, 3179.0f };
+  v3 = { 429.75f, 16.0f, 3179.0f };
+  v4_expected = { 429.75f, 16.0f, 3179.0f };
+  f_expected = 129.286972f;
+  f_actual = mgDistLinePoint(v1, v2, v3, v4_actual);
+  EXPECT_FLOAT_EQ(f_actual, f_expected);
+  for (usize i = 0; i < 3; ++i)
+  {
+    EXPECT_FLOAT_EQ(v4_actual[i], v4_expected[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, v4_actual[i], v4_expected[i]) << std::endl;
+  }
+}
+
+// TODO: mgReflectionPlane
+
+/* TODO: Fix this test
+TEST(mgMathTest, mgIntersectionSphereLine)
+{
+  vec4 sphere;
+  vec3 line_start;
+  vec3 line_end;
+  vec3 intersections_expected[2];
+  vec3 intersections_actual[2];
+  usize n_intersections_expected;
+  usize n_intersections_actual;
+
+  // 0 intersections
+  sphere = { 731.094f, 0.0f, 3859.55f, 4.0f };
+  line_start = { 480.0f, 0.0f, 3680.0f };
+  line_end = { 480.0f, 0.0f, 3920.0f };
+  n_intersections_expected = 0;
+  n_intersections_actual = mgIntersectionSphereLine(sphere, line_start, line_end, intersections_actual);
+  EXPECT_EQ(n_intersections_actual, n_intersections_expected);
+
+  // 2 intersections
+  sphere = { 2118.67f, 0.0f, 10.0f, 4.0f };
+  line_start = { 2117.42f, 0.0f, 14.1226f };
+  line_end = { 2118.67f, 0.0f, -1.12291f };
+  n_intersections_expected = 2;
+  intersections_expected[0] = vec3 { 2117.42f, 0.0f, 13.799f };
+  intersections_expected[1] = vec3 { 2117.42f, 0.0f, 6.20098f };
+  n_intersections_actual = mgIntersectionSphereLine(sphere, line_start, line_end, intersections_actual);
+  EXPECT_EQ(n_intersections_actual, n_intersections_expected);
+  for (usize i = 0; i < 2; ++i)
+  {
+    for (usize j = 0; j < 3; ++j)
+    {
+      EXPECT_FLOAT_EQ(intersections_actual[i][j], intersections_expected[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i,j, intersections_actual[i][j], intersections_expected[i][j]) << std::endl;
+    }
+  }
+}
+*/
+
+TEST(mgMathTest, mgDistVector)
+{
+  EXPECT_FLOAT_EQ(mgDistVector({ -2.0f, 2.0f, 5.0f }), 5.744563f);
+  EXPECT_FLOAT_EQ(mgDistVector({ -2.0f, 2.0f, 5.0f }, { 20.0f, 20.0f, 20.0f }), 32.140316f);
+}
+
+TEST(mgMathTest, mgDistVectorXZ)
+{
+  EXPECT_FLOAT_EQ(mgDistVectorXZ({ -2.0f, 2.0f, 5.0f }), 5.385165f);
+}
+
+TEST(mgMathTest, mgDistVector2)
+{
+  EXPECT_FLOAT_EQ(mgDistVector2({ -2.0f, 2.0f, 5.0f }), 33.0f);
+  EXPECT_FLOAT_EQ(mgDistVector2({ -2.0f, 2.0f, 5.0f }, { 20.0f, 20.0f, 20.0f }), 1032.9999f);
+}
+
+TEST(mgMathTest, mgDistVectorXZ2)
+{
+  EXPECT_FLOAT_EQ(mgDistVectorXZ2({ -2.0f, 2.0f, 5.0f }, { 20.0f, 20.0f, 20.0f }), 709.0f);
+}
+
+TEST(mgMathTest, mgMulMatrix)
+{
+  matrix4 m1;
+  matrix4 m2;
+  matrix4 expected;
+  matrix4 actual;
+  m1 = {
+    1, 2, 3, 4,
+    5, 6, 7, 8,
+    9, 10, 11, 12,
+    13, 14, 15, 16
+  };
+  m2 = {
+    17, 18, 19, 20,
+    21, 22, 23, 24,
+    25, 26, 27, 28,
+    29, 30, 31, 32
+  };
+  expected = {
+    538, 612, 686, 760,
+    650, 740, 830, 920,
+    762, 868, 974, 1080,
+    874, 996, 1118, 1240
+  };
+  actual = mgMulMatrix(m1, m2);
+
+  for (int i = 0; i < 4; ++i)
+  {
+    for (int j = 0; j < 4; ++j)
+    {
+      EXPECT_FLOAT_EQ(actual[i][j], expected[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i, j, actual[i][j], expected[i][j]) << std::endl;
+    }
+  }
+}
+
+TEST(mgMathTest, mgInverseMatrix)
+{
+  matrix4 m1 = {
+    2, -2, 2, 2,
+    0.5, 2, 2, 2,
+    -2, 1, 1, 2,
+    1, 2, -2, -2
+  };
+  matrix4 expected = {
+    0, 8/36.0f, -16/36.0f, 0,
+    -9/36.0f, 12/36.0f, -6/36.0f, 0,
+    9/36.0f, 4/36.0f, 10/36.0f, 0,
+    1.0f, -24/36.0f, 48/36.0f, 1
+  };
+  auto actual = mgInverseMatrix(m1);
+
+  for (int i = 0; i < 4; ++i)
+  {
+    for (int j = 0; j < 4; ++j)
+    {
+      EXPECT_FLOAT_EQ(actual[i][j], expected[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i, j, actual[i][j], expected[i][j]) << std::endl;
+    }
+  }
+}
+
+TEST(mgMathTest, mgRotMatrixX)
+{
+  f32 scalar = common::math::deg_to_rad(60.0f);
+  matrix4 expected = {
+    1, 0, 0, 0,
+    0, 0.5, 0.86602545f, 0,
+    0, -0.86602545f, 0.5, 0,
+    0, 0, 0, 1
+  };
+  auto actual = mgRotMatrixX(scalar);
+
+  for (int i = 0; i < 4; ++i)
+  {
+    for (int j = 0; j < 4; ++j)
+    {
+      EXPECT_FLOAT_EQ(actual[i][j], expected[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i, j, actual[i][j], expected[i][j]) << std::endl;
+    }
+  }
+}
+
+TEST(mgMathTest, mgRotMatrixY)
+{
+  f32 scalar = common::math::deg_to_rad(60.0f);
+  matrix4 expected = {
+    0.5, 0, -0.86602545f, 0,
+    0, 1, 0, 0,
+    0.86602545f, 0, 0.5, 0,
+    0, 0, 0, 1
+  };
+  auto actual = mgRotMatrixY(scalar);
+
+  for (int i = 0; i < 4; ++i)
+  {
+    for (int j = 0; j < 4; ++j)
+    {
+      EXPECT_FLOAT_EQ(actual[i][j], expected[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i, j, actual[i][j], expected[i][j]) << std::endl;
+    }
+  }
+}
+
+TEST(mgMathTest, mgRotMatrixZ)
+{
+  f32 scalar = common::math::deg_to_rad(60.0f);
+  matrix4 expected = {
+    0.5, 0.86602545f, 0, 0,
+    -0.86602545f, 0.5, 0, 0,
+    0, 0, 1, 0,
+    0, 0, 0, 1
+  };
+  auto actual = mgRotMatrixZ(scalar);
+
+  for (int i = 0; i < 4; ++i)
+  {
+    for (int j = 0; j < 4; ++j)
+    {
+      EXPECT_FLOAT_EQ(actual[i][j], expected[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i, j, actual[i][j], expected[i][j]) << std::endl;
+    }
+  }
+}
+
+TEST(mgMathTest, mgRotMatrixXYZ)
+{
+  vec3 rot = { common::math::deg_to_rad(60.0f), common::math::deg_to_rad(60.0f), common::math::deg_to_rad(60.0f) };
+  matrix4 expected = {
+    0.25, 0.43301269f, -0.86602545f, 0,
+    -0.058012694f, 0.8995191f, 0.4330127f, 0,
+    0.96650636f, -0.058012694f, 0.25, 0,
+    0, 0, 0, 1
+  };
+  auto actual = mgRotMatrixXYZ(rot);
+
+  for (int i = 0; i < 4; ++i)
+  {
+    for (int j = 0; j < 4; ++j)
+    {
+      EXPECT_FLOAT_EQ(actual[i][j], expected[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i, j, actual[i][j], expected[i][j]) << std::endl;
+    }
+  }
+}
+
+TEST(mgMathTest, mgCreateMatrixPY)
+{
+  f32 rot = common::math::deg_to_rad(60.0f);
+  vec4 w = { 2.0, 3.0, 4.0, 5.0 };
+  matrix4 expected = {
+    0.5, 0, -0.86602545, 0,
+    0, 1, 0, 0,
+    0.86602545, 0, 0.5, 0,
+    2, 3, 4, 1
+  };
+  auto actual = mgCreateMatrixPY(w, rot);
+
+  for (int i = 0; i < 4; ++i)
+  {
+    for (int j = 0; j < 4; ++j)
+    {
+      EXPECT_FLOAT_EQ(actual[i][j], expected[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i, j, actual[i][j], expected[i][j]) << std::endl;
+    }
+  }
+}
+
+TEST(mgMathTest, mgLookAtMatrixZ)
+{
+  vec3 look_at = { 10, 20, 30 };
+  matrix4 expected = {
+    0.948683, 0, -0.31622773, 0,
+    -0.16903083, 0.84515429, -0.50709254, 0,
+    0.26726124, 0.53452247, 0.801784, 0,
+    0, 0, 0, 1
+  };
+  auto actual = mgLookAtMatrixZ(look_at);
+
+  for (int i = 0; i < 4; ++i)
+  {
+    for (int j = 0; j < 4; ++j)
+    {
+      EXPECT_FLOAT_EQ(actual[i][j], expected[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i, j, actual[i][j], expected[i][j]) << std::endl;
+    }
+  }
+}
+
+TEST(mgMathTest, mgShadowMatrix)
+{
+  vec3 v1 = { 10, 20, 30 };
+  vec3 v2 = { 40, 50, 60 };
+  vec3 v3 = { 0, 1, 0 };
+  matrix4 expected = {
+    1, 0, 0, 0,
+    -0.5, 0, -1.5, 0,
+    0, 0, 1, 0,
+    25, 50, 75, 1
+  };
+  auto actual = mgShadowMatrix(v1, v2, v3);
+
+  for (int i = 0; i < 4; ++i)
+  {
+    for (int j = 0; j < 4; ++j)
+    {
+      EXPECT_FLOAT_EQ(actual[i][j], expected[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i, j, actual[i][j], expected[i][j]) << std::endl;
+    }
+  }
+}
+
 TEST(mgMathTest, mgAngleInterpolate)
 {
   EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.078987f, 2.387641f, 0.3f, false), 0.221013f);

@@ -78,31 +78,31 @@ inline void mgZeroVectorW(vec4& v)
 // 0012F250
 // Tests if a point is contained within a box (testing X, Y, Z)
 // NOTE: the corners need to be (max, min)
-bool mgClipBoxVertex(const vec4& p, const vec4& a1, const vec4& a2);
+bool mgClipBoxVertex(const vec4& p, const vec4& max_corner, const vec4& min_corner);
 bool mgClipBoxVertex(const vec4& point, const mgVu0FBOX& box);
 
 // 0012F290
 // Tests if two 3D boxes overlap (checking X, Y, Z)
 // NOTE: the corners need to be (max, min)
-bool mgClipBox(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2);
+bool mgClipBox(const vec4& max_corner1, const vec4& min_corner1, const vec4& max_corner2, const vec4& min_corner2);
 bool mgClipBox(const mgVu0FBOX& box1, const mgVu0FBOX& box2);
 
 // 0012F2E0
 // Tests if two 3D boxes overlap (checking X, Y, W (?))
 // NOTE: the corners need to be (max, min)
-bool mgClipBoxW(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2);
+bool mgClipBoxW(const vec4& max_corner1, const vec4& min_corner1, const vec4& max_corner2, const vec4& min_corner2);
 bool mgClipBoxW(const mgVu0FBOX& box1, const mgVu0FBOX& box2);
 
 // 0012F330
 // Tests if the first 3D box completely contains the second 3D box (checking X, Y, Z)
 // NOTE: the corners need to be (max, min)
-bool mgClipInBox(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2);
+bool mgClipInBox(const vec4& max_corner1, const vec4& min_corner1, const vec4& max_corner2, const vec4& min_corner2);
 bool mgClipInBox(const mgVu0FBOX& box1, const mgVu0FBOX& box2);
 
 // 0012F380
 // Tests if the first 3D box completely contains the second 3D box (checking X, Y, W (?))
 // NOTE: the corners need to be (max, min)
-bool mgClipInBoxW(const vec4& a1, const vec4& a2, const vec4& b1, const vec4& b2);
+bool mgClipInBoxW(const vec4& max_corner1, const vec4& min_corner1, const vec4& max_corner2, const vec4& min_corner2);
 bool mgClipInBoxW(const mgVu0FBOX& box1, const mgVu0FBOX& box2);
 
 // 0012F3D0
@@ -172,11 +172,8 @@ f32 mgDistLinePoint(const vec3& v1, const vec3& v2, const vec3& v3, vec3& v4_des
 // 0012F760
 f32 mgReflectionPlane(const vec3& v1, const vec3& v2, const vec3& v3, vec3& v4_dest);
 
-// 0012F7F0
-usize mgIntersectionSphereLine0(const vec4& start, const vec4& end, vec4* intersections, f32 radius);
-
 // 0012F990
-usize mgIntersectionSphereLine(const vec4& sphere, const vec4& start, const vec4& end, vec4* intersections);
+usize mgIntersectionSphereLine(const vec4& sphere, const vec3& line_start, const vec3& line_end, vec3* intersections);
 
 // 0012FA50
 bool mgIntersectionPoint_line_poly3(const vec3& v1, const vec3& v2, const vec3& v3, const vec3& v4, const vec3& v5, const vec3& v6, vec3& v7_dest);
@@ -233,7 +230,7 @@ matrix4 mgRotMatrixXYZ(const vec3& rotation);
 matrix4 mgCreateMatrixPY(const vec4& v, f32 f);
 
 // 001305B0
-matrix4 mgLookAtMatrixZ(const vec4& v);
+matrix4 mgLookAtMatrixZ(const vec3& v);
 
 // 00130690
 matrix4 mgShadowMatrix(const vec3& v1, const vec3& v2, const vec3& v3);
