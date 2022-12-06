@@ -103,7 +103,7 @@ bool mgClipBox(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
 // 0012F2E0
 bool mgClipBoxW(const vec4& max_corner1, const vec4& min_corner1, const vec4& max_corner2, const vec4& min_corner2)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, a1, a2, b1, b2);
+  log_trace("{}({}, {}, {}, {})", __func__, max_corner1, min_corner1, max_corner2, min_corner2);
 
   return
     min_corner1.x <= max_corner2.x &&
@@ -122,7 +122,7 @@ bool mgClipBoxW(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
 // 0012F330
 bool mgClipInBox(const vec4& max_corner1, const vec4& min_corner1, const vec4& max_corner2, const vec4& min_corner2)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, a1, a2, b1, b2);
+  log_trace("{}({}, {}, {}, {})", __func__, max_corner1, min_corner1, max_corner2, min_corner2);
 
     return 
       min_corner1.x >= min_corner2.x &&
@@ -141,7 +141,7 @@ bool mgClipInBox(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
 // 0012F380
 bool mgClipInBoxW(const vec4& max_corner1, const vec4& min_corner1, const vec4& max_corner2, const vec4& min_corner2)
 {
-  log_trace("{}({}, {}, {}, {})", __func__, a1, a2, b1, b2);
+  log_trace("{}({}, {}, {}, {})", __func__, max_corner1, min_corner1, max_corner2, min_corner2);
 
   return
     min_corner1.x >= min_corner2.x &&
@@ -496,7 +496,17 @@ matrix4 MulMatrix3(const matrix4& m1, const matrix4& m2, const matrix4& m3)
 {
   log_trace("{}({}, {}, {})", __func__, fmt::ptr(&m1), fmt::ptr(&m2), fmt::ptr(&m3));
 
-  return m1 * m2 * m3;
+  matrix4 temp;
+  temp[0] = m1 * m2[0];
+  temp[1] = m1 * m2[1];
+  temp[2] = m1 * m2[2];
+  temp[3] = m1 * m2[3];
+  matrix4 result;
+  result[0] = temp * m3[0];
+  result[1] = temp * m3[1];
+  result[2] = temp * m3[2];
+  result[3] = temp * m3[3];
+  return result;
 }
 
 // 00130250
@@ -601,8 +611,7 @@ matrix4 mgRotMatrixXYZ(const vec3& rotation)
   matrix4 rotY = mgRotMatrixY(rotation.y);
   matrix4 rotZ = mgRotMatrixZ(rotation.z);
 
-  MulMatrix3(rotZ, rotY, rotX);
-  return rotZ;
+  return MulMatrix3(rotZ, rotY, rotX);
 }
 
 // 00130550
