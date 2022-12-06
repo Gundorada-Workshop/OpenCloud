@@ -699,6 +699,28 @@ TEST(mgMathTest, mgRotMatrixXYZ)
   }
 }
 
+TEST(mgMathTest, mgCreateMatrixPY)
+{
+  f32 rot = common::math::deg_to_rad(60.0f);
+  vec4 w = { 2.0, 3.0, 4.0, 5.0 };
+  matrix4 expected = {
+    0.5, 0, -0.86602545, 0,
+    0, 1, 0, 0,
+    0.86602545, 0, 0.5, 0,
+    2, 3, 4, 1
+  };
+  auto actual = mgCreateMatrixPY(w, rot);
+
+  for (int i = 0; i < 4; ++i)
+  {
+    for (int j = 0; j < 4; ++j)
+    {
+      EXPECT_FLOAT_EQ(actual[i][j], expected[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i, j, actual[i][j], expected[i][j]) << std::endl;
+    }
+  }
+}
+
 TEST(mgMathTest, mgAngleInterpolate)
 {
   EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.078987f, 2.387641f, 0.3f, false), 0.221013f);
