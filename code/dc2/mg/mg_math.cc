@@ -525,19 +525,13 @@ matrix4 mgInverseMatrix(const matrix4& mat)
   
   // Now, we have to convert our inverse into a 4x4 matrix. For the first three rows,
   // 0 will be used for the w component. But what's going to be in the fourth row?
-  // According to game code, it should be something like this.
-  auto temp = inverse[0] * mat[3].x;
-  temp += inverse[1] * mat[3].y;
-  temp += inverse[2] * mat[3].z;
-  temp = -temp;
+  // According to game code, the final result should end up being something like this.
   // NOTE: The w component of the fourth row is always 1.0f
-
-  // Now mix it all together
   return {
     vec4{ inverse[0], 0.0f },
     vec4{ inverse[1], 0.0f },
     vec4{ inverse[2], 0.0f },
-    vec4{ temp, 1.0f }
+    vec4{ -(inverse * mat[3]), 1.0f}
   };
 }
 
