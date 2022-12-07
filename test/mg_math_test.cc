@@ -765,6 +765,36 @@ TEST(mgMathTest, mgShadowMatrix)
   }
 }
 
+TEST(mgMathTest, mgApplyMatrixN)
+{
+  vec4 v[] = {
+    vec4 {1, 2, 3, 4},
+    vec4 {5, 6, 7, 8}
+  };
+  matrix4 m = {
+    1, 2, 3, 4,
+    5, 6, 7, 8,
+    9, 10, 11, 12,
+    13, 14, 15, 16
+  };
+  vec4 v_actual[std::size(v)];
+  vec4 v_expected[] = {
+    vec4 {90.0f, 100.0f, 110.0f, 120.0f},
+    vec4 {202.0f, 228.0f, 254.0f, 280.0f},
+  };
+
+  mgApplyMatrixN(v_actual, m, v, std::size(v));
+
+  for (usize i = 0; i < std::size(v); ++i)
+  {
+    for (int j = 0; j < 4; ++j)
+    {
+      EXPECT_FLOAT_EQ(v_actual[i][j], v_expected[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i, j, v_actual[i][j], v_expected[i][j]) << std::endl;
+    }
+  }
+}
+
 TEST(mgMathTest, mgAngleInterpolate)
 {
   EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.078987f, 2.387641f, 0.3f, false), 0.221013f);
