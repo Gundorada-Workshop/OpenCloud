@@ -504,7 +504,30 @@ TEST(mgMathTest, mgDistLinePoint)
   }
 }
 
-// TODO: mgReflectionPlane
+TEST(mgMathTest, mgReflectionPlane)
+{
+  vec3 v1;
+  vec3 v2;
+  vec3 v3;
+  vec3 v4_actual;
+  vec3 v4_expected;
+  f32 f_actual;
+  f32 f_expected;
+
+  v1 = { 1, 2, 3 };
+  v2 = { 30, 20, 10 };
+  v3 = { 5, 6, 7 };
+  v4_expected = { -99, -234, -369 };
+  f_expected = -124.0f;
+  f_actual = mgReflectionPlane(v1, v2, v3, v4_actual);
+  EXPECT_FLOAT_EQ(f_actual, f_expected);
+  for (usize i = 0; i < 3; ++i)
+  {
+    EXPECT_FLOAT_EQ(v4_actual[i], v4_expected[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, v4_actual[i], v4_expected[i]) << std::endl;
+  }
+}
+
 
 /* TODO: Fix this test
 TEST(mgMathTest, mgIntersectionSphereLine)
