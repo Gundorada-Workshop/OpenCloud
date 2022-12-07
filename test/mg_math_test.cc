@@ -464,7 +464,21 @@ TEST(mgMathTest, mgPlaneNormal)
   }
 }
 
-// TODO: mgDistPlanePoint test
+TEST(mgMathTest, mgDistPlanePoint)
+{
+  vec3 v1;
+  vec3 v2;
+  vec3 v3;
+  f32 f_actual;
+  f32 f_expected;
+
+  v1 = { 1, 2, 3 };
+  v2 = { 30, 20, 10 };
+  v3 = { 5, 6, 7 };
+  f_expected = -62.0f;
+  f_actual = mgDistPlanePoint(v1, v2, v3);
+  EXPECT_FLOAT_EQ(f_actual, f_expected);
+}
 
 TEST(mgMathTest, mgDistLinePoint)
 {
