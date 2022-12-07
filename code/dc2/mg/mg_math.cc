@@ -410,7 +410,7 @@ uint Check_Point_Poly3(f32 aa, f32 ab, f32 ba, f32 bb, f32 ca, f32 cb, f32 da, f
     return 0;
   }
 
-  if (ab > std::max({ ba, ca, da }))
+  if (ab > std::max({ bb, cb, db }))
   {
     return 0;
   }

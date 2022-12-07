@@ -568,6 +568,44 @@ TEST(mgMathTest, mgIntersectionSphereLine)
 }
 */
 
+TEST(mgMathTest, mgCheckPointPoly3_XZ)
+{
+  vec3 v1;
+  vec3 v2;
+  vec3 v3;
+  vec3 v4;
+
+  v1 = { 0, 0, 229.5 };
+  v2 = { 40, 0, 240.0 };
+  v3 = { 320, 0, -320 };
+  v4 = { 0, 0, -320 };
+  EXPECT_EQ(mgCheckPointPoly3_XZ(v1, v2, v3, v4), 0);
+
+  v1 = { 3.57794, 0, 223.712f };
+  v2 = { -320, 0, -320 };
+  v3 = { -40, 0, 240 };
+  v4 = { 40, 0, 240 };
+  EXPECT_EQ(mgCheckPointPoly3_XZ(v1, v2, v3, v4), 1);
+
+  v1 = { -7.19, 0, -161.47f };
+  v2 = { -21.84, 0, -165.73 };
+  v3 = { -21.84, 0, -165.73 };
+  v4 = { -1.71, 0, -113.71 };
+  EXPECT_EQ(mgCheckPointPoly3_XZ(v1, v2, v3, v4), 2);
+
+  v1 = { -7.19, 0, -161.47f };
+  v2 = { -1.71, 0, -113.71 };
+  v3 = { -21.84, 0, -165.73 };
+  v4 = { -21.84, 0, -165.73 };
+  EXPECT_EQ(mgCheckPointPoly3_XZ(v1, v2, v3, v4), 3);
+
+  v1 = { -7.19, 0, -161.47f };
+  v2 = { -1.71, 0, -113.71 };
+  v3 = { -21.84, 0, -165.73 };
+  v4 = { -1.71, 0, -113.71 };
+  EXPECT_EQ(mgCheckPointPoly3_XZ(v1, v2, v3, v4), 4);
+}
+
 TEST(mgMathTest, mgDistVector)
 {
   EXPECT_FLOAT_EQ(mgDistVector({ -2.0f, 2.0f, 5.0f }), 5.744563f);
