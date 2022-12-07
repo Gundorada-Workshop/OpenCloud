@@ -848,6 +848,21 @@ TEST(mgMathTest, mgApplyMatrixN)
   }
 }
 
+TEST(mgMathTest, mgVectorInterpolate)
+{
+  vec3 lhs = { 10, 20, 30 };
+  vec3 rhs = { 50, 50, 50 };
+  f32 t = 0.75f;
+  vec3 expected = { 10.557086f, 20.417814f, 30.278543f };
+  vec3 actual = mgVectorInterpolate(lhs, rhs, t, false);
+
+  for (usize i = 0; i < 3; ++i)
+  {
+    EXPECT_FLOAT_EQ(actual[i], expected[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, actual[i], expected[i]) << std::endl;
+  }
+}
+
 TEST(mgMathTest, mgAngleInterpolate)
 {
   EXPECT_FLOAT_EQ(mgAngleInterpolate(-0.078987f, 2.387641f, 0.3f, false), 0.221013f);
