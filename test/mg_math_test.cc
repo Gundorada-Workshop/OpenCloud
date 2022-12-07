@@ -765,6 +765,59 @@ TEST(mgMathTest, mgShadowMatrix)
   }
 }
 
+TEST(mgMathTest, mgVectorMinMaxN)
+{
+  vec4 v[] = {
+    vec4{ 1, 2, 3, 4 },
+    vec4{ 4, 3, 2, 1 },
+  };
+  vec4 max_expected = { 4, 3, 3, 4 };
+  vec4 min_expected = { 1, 2, 2, 1 };
+  vec4 max_actual;
+  vec4 min_actual;
+  mgVectorMinMaxN(max_actual, min_actual, v, std::size(v));
+
+  for (usize i = 0; i < 4; ++i)
+  {
+    EXPECT_FLOAT_EQ(max_actual[i], max_expected[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, max_actual[i], max_expected[i]) << std::endl;
+  }
+  for (usize i = 0; i < 4; ++i)
+  {
+    EXPECT_FLOAT_EQ(min_actual[i], min_expected[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, min_actual[i], min_expected[i]) << std::endl;
+  }
+}
+
+TEST(mgMathTest, mgApplyMatrix)
+{
+  vec4 min_corner = { 10, 20, 30, 1 };
+  vec4 max_corner = { 40, 50, 60, 1 };
+  matrix4 m = {
+    1, 2, 3, 4,
+    5, 6, 7, 8,
+    9, 10, 11, 12,
+    13, 14, 15, 16
+  };
+  vec4 max_expected = { 843, 994, 1145, 1296 };
+  vec4 min_expected = { 393, 454, 515, 576 };
+  vec4 max_actual;
+  vec4 min_actual;
+
+  mgApplyMatrix(max_actual, min_actual, m, max_corner, min_corner);
+
+  for (usize i = 0; i < 4; ++i)
+  {
+    EXPECT_FLOAT_EQ(max_actual[i], max_expected[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, max_actual[i], max_expected[i]) << std::endl;
+  }
+  for (usize i = 0; i < 4; ++i)
+  {
+    EXPECT_FLOAT_EQ(min_actual[i], min_expected[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, min_actual[i], min_expected[i]) << std::endl;
+  }
+}
+
 TEST(mgMathTest, mgApplyMatrixN)
 {
   vec4 v[] = {

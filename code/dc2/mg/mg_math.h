@@ -42,10 +42,10 @@ struct mgVu0FBOX8
 ivec4 mgFtoI4(const vec4& v);
 
 // 0012F1D0
-mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec4& c2);
-mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec3& c2);
-mgVu0FBOX8 mgCreateBox8(const vec3& c1, const vec4& c2);
-mgVu0FBOX8 mgCreateBox8(const vec3& c1, const vec3& c2);
+mgVu0FBOX8 mgCreateBox8(const vec4& max_corner, const vec4& min_corner);
+mgVu0FBOX8 mgCreateBox8(const vec4& max_corner, const vec3& min_corner);
+mgVu0FBOX8 mgCreateBox8(const vec3& max_corner, const vec4& min_corner);
+mgVu0FBOX8 mgCreateBox8(const vec3& max_corner, const vec3& min_corner);
 
 // Clamps an angle to (-pi, +pi] radians.
 // (Only valid for f32s within (-2pi, +2pi].
@@ -245,7 +245,7 @@ void mgApplyMatrixN_MaxMin(vec4* vecs_dest, const matrix4& mat, const vec4* vecs
 void mgVectorMinMaxN(vec4& max_dest, vec4& min_dest, const vec4* vecs, usize n);
 
 // 001309E0
-void mgApplyMatrix(vec4& max_dest, vec4& min_dest, const matrix4& mat, const vec4& c1, const vec4& c2);
+void mgApplyMatrix(vec4& max_dest, vec4& min_dest, const matrix4& mat, const vec4& max_corner, const vec4& min_corner);
 
 // 00130A50
 vec3 mgVectorInterpolate(const vec3& lhs, const vec3& rhs, f32 t, bool b);
