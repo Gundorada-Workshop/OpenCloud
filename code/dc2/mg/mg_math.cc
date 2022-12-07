@@ -29,13 +29,14 @@ ivec4 mgFtoI4(const vec4& v)
 }
 
 // 0012F1D0
-mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec4& c2)
+mgVu0FBOX8 mgCreateBox8(const vec4& max_corner, const vec4& min_corner)
 {
-  log_trace("{}({}, {})", __func__, c1, c2);
+  log_trace("{}({}, {})", __func__, max_corner, min_corner);
 
-  mgVu0FBOX8 result;
+  auto& c1 = max_corner;
+  auto& c2 = min_corner;
 
-  return {
+  return mgVu0FBOX8 {
     vec4{ c2.x, c2.y, c2.z, 1.0f },
     vec4{ c1.x, c2.y, c2.z, 1.0f },
     vec4{ c2.x, c1.y, c2.z, 1.0f },
@@ -47,19 +48,19 @@ mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec4& c2)
   };
 }
 
-mgVu0FBOX8 mgCreateBox8(const vec4& c1, const vec3& c2)
+mgVu0FBOX8 mgCreateBox8(const vec4& max_corner, const vec3& min_corner)
 {
-  return mgCreateBox8(vec3{ c1 }, vec3{ c2 });
+  return mgCreateBox8(max_corner.xyz, min_corner.xyz);
 }
 
-mgVu0FBOX8 mgCreateBox8(const vec3& c1, const vec4& c2)
+mgVu0FBOX8 mgCreateBox8(const vec3& max_corner, const vec4& min_corner)
 {
-  return mgCreateBox8(vec3{ c1 }, vec3{ c2 });
+  return mgCreateBox8(max_corner, min_corner.xyz);
 }
 
-mgVu0FBOX8 mgCreateBox8(const vec3& c1, const vec3& c2)
+mgVu0FBOX8 mgCreateBox8(const vec3& max_corner, const vec3& min_corner)
 {
-  return mgCreateBox8(vec4{ c1, 1.0f }, vec4{ c2, 1.0f });
+  return mgCreateBox8(vec4{ max_corner, 1.0f }, vec4{ min_corner.xyz, 1.0f });
 }
 
 // 0012F250
@@ -720,13 +721,13 @@ void mgApplyMatrixN_MaxMin(vec4* vecs_dest, const matrix4& mat, const vec4* vecs
 
   for (usize i = 0; i < n; ++i)
   {
-    vecs_dest[i] = mat * vecs[i];
+    vecs_dest[i] = mat * vec4{ vecs[i].xyz, 1.0f };
     max = glm::max(max, vecs_dest[i]);
     min = glm::min(min, vecs_dest[i]);
   }
 
-  max_dest = vec4{ max.xyz, 1.0f };
-  min_dest = vec4{ min.xyz, 1.0f };
+  max_dest = max;
+  min_dest = min;
 }
 
 // 00130980
@@ -750,11 +751,11 @@ void mgVectorMinMaxN(vec4& max_dest, vec4& min_dest, const vec4* vecs, usize n)
 }
 
 // 001309E0
-void mgApplyMatrix(vec4& max_dest, vec4& min_dest, const matrix4& mat, const vec4& c1, const vec4& c2)
+void mgApplyMatrix(vec4& max_dest, vec4& min_dest, const matrix4& mat, const vec4& max_corner, const vec4& min_corner)
 {
-  log_trace("{}({}, {}, {}, {}, {})", __func__, fmt::ptr(&max_dest), fmt::ptr(&min_dest), fmt::ptr(&mat), c1, c2);
+  log_trace("{}({}, {}, {}, {}, {})", __func__, fmt::ptr(&max_dest), fmt::ptr(&min_dest), fmt::ptr(&mat), max_corner, min_corner);
 
-  auto var_80 = mgCreateBox8(c1, c2);
+  auto var_80 = mgCreateBox8(max_corner, min_corner);
   mgApplyMatrixN_MaxMin(var_80.vertices.data(), mat, var_80.vertices.data(), var_80.vertices.size(), max_dest, min_dest);
 }
 

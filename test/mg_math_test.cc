@@ -464,7 +464,21 @@ TEST(mgMathTest, mgPlaneNormal)
   }
 }
 
-// TODO: mgDistPlanePoint test
+TEST(mgMathTest, mgDistPlanePoint)
+{
+  vec3 v1;
+  vec3 v2;
+  vec3 v3;
+  f32 f_actual;
+  f32 f_expected;
+
+  v1 = { 1, 2, 3 };
+  v2 = { 30, 20, 10 };
+  v3 = { 5, 6, 7 };
+  f_expected = -62.0f;
+  f_actual = mgDistPlanePoint(v1, v2, v3);
+  EXPECT_FLOAT_EQ(f_actual, f_expected);
+}
 
 TEST(mgMathTest, mgDistLinePoint)
 {
@@ -490,7 +504,30 @@ TEST(mgMathTest, mgDistLinePoint)
   }
 }
 
-// TODO: mgReflectionPlane
+TEST(mgMathTest, mgReflectionPlane)
+{
+  vec3 v1;
+  vec3 v2;
+  vec3 v3;
+  vec3 v4_actual;
+  vec3 v4_expected;
+  f32 f_actual;
+  f32 f_expected;
+
+  v1 = { 1, 2, 3 };
+  v2 = { 30, 20, 10 };
+  v3 = { 5, 6, 7 };
+  v4_expected = { -99, -234, -369 };
+  f_expected = -124.0f;
+  f_actual = mgReflectionPlane(v1, v2, v3, v4_actual);
+  EXPECT_FLOAT_EQ(f_actual, f_expected);
+  for (usize i = 0; i < 3; ++i)
+  {
+    EXPECT_FLOAT_EQ(v4_actual[i], v4_expected[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, v4_actual[i], v4_expected[i]) << std::endl;
+  }
+}
+
 
 /* TODO: Fix this test
 TEST(mgMathTest, mgIntersectionSphereLine)
@@ -762,6 +799,104 @@ TEST(mgMathTest, mgShadowMatrix)
       EXPECT_FLOAT_EQ(actual[i][j], expected[i][j]) <<
         common::strings::format("Component {},{}: Actual: {}, Expected: {}", i, j, actual[i][j], expected[i][j]) << std::endl;
     }
+  }
+}
+
+TEST(mgMathTest, mgVectorMinMaxN)
+{
+  vec4 v[] = {
+    vec4{ 1, 2, 3, 4 },
+    vec4{ 4, 3, 2, 1 },
+  };
+  vec4 max_expected = { 4, 3, 3, 4 };
+  vec4 min_expected = { 1, 2, 2, 1 };
+  vec4 max_actual;
+  vec4 min_actual;
+  mgVectorMinMaxN(max_actual, min_actual, v, std::size(v));
+
+  for (usize i = 0; i < 4; ++i)
+  {
+    EXPECT_FLOAT_EQ(max_actual[i], max_expected[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, max_actual[i], max_expected[i]) << std::endl;
+  }
+  for (usize i = 0; i < 4; ++i)
+  {
+    EXPECT_FLOAT_EQ(min_actual[i], min_expected[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, min_actual[i], min_expected[i]) << std::endl;
+  }
+}
+
+TEST(mgMathTest, mgApplyMatrix)
+{
+  vec4 min_corner = { 10, 20, 30, 1 };
+  vec4 max_corner = { 40, 50, 60, 1 };
+  matrix4 m = {
+    1, 2, 3, 4,
+    5, 6, 7, 8,
+    9, 10, 11, 12,
+    13, 14, 15, 16
+  };
+  vec4 max_expected = { 843, 994, 1145, 1296 };
+  vec4 min_expected = { 393, 454, 515, 576 };
+  vec4 max_actual;
+  vec4 min_actual;
+
+  mgApplyMatrix(max_actual, min_actual, m, max_corner, min_corner);
+
+  for (usize i = 0; i < 4; ++i)
+  {
+    EXPECT_FLOAT_EQ(max_actual[i], max_expected[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, max_actual[i], max_expected[i]) << std::endl;
+  }
+  for (usize i = 0; i < 4; ++i)
+  {
+    EXPECT_FLOAT_EQ(min_actual[i], min_expected[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, min_actual[i], min_expected[i]) << std::endl;
+  }
+}
+
+TEST(mgMathTest, mgApplyMatrixN)
+{
+  vec4 v[] = {
+    vec4 {1, 2, 3, 4},
+    vec4 {5, 6, 7, 8}
+  };
+  matrix4 m = {
+    1, 2, 3, 4,
+    5, 6, 7, 8,
+    9, 10, 11, 12,
+    13, 14, 15, 16
+  };
+  vec4 v_actual[std::size(v)];
+  vec4 v_expected[] = {
+    vec4 {90.0f, 100.0f, 110.0f, 120.0f},
+    vec4 {202.0f, 228.0f, 254.0f, 280.0f},
+  };
+
+  mgApplyMatrixN(v_actual, m, v, std::size(v));
+
+  for (usize i = 0; i < std::size(v); ++i)
+  {
+    for (int j = 0; j < 4; ++j)
+    {
+      EXPECT_FLOAT_EQ(v_actual[i][j], v_expected[i][j]) <<
+        common::strings::format("Component {},{}: Actual: {}, Expected: {}", i, j, v_actual[i][j], v_expected[i][j]) << std::endl;
+    }
+  }
+}
+
+TEST(mgMathTest, mgVectorInterpolate)
+{
+  vec3 lhs = { 10, 20, 30 };
+  vec3 rhs = { 50, 50, 50 };
+  f32 t = 0.75f;
+  vec3 expected = { 10.557086f, 20.417814f, 30.278543f };
+  vec3 actual = mgVectorInterpolate(lhs, rhs, t, false);
+
+  for (usize i = 0; i < 3; ++i)
+  {
+    EXPECT_FLOAT_EQ(actual[i], expected[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, actual[i], expected[i]) << std::endl;
   }
 }
 
