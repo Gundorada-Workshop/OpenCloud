@@ -346,15 +346,15 @@ bool mgIntersectionPoint_line_poly3(const vec3& v1, const vec3& v2, const vec3& 
   auto var_30 = v3 - v1;
   auto var_20 = v4 - v1;
   auto var_10 = v5 - v1;
-  f32 f1 = math::vector_dot_product(v5, var_30);
-  f32 f0 = math::vector_dot_product(v5, var_40);
+  f32 f1 = math::vector_dot_product(v6, var_30);
+  f32 f0 = math::vector_dot_product(v6, var_40);
 
   if (f0 == 0.0f)
   {
     return false;
   }
 
-  v7_dest = var_40 * (f1 / f0) * 2.0f;
+  v7_dest = var_40 * (f1 / f0) + v1;
   return mgCheckPointPoly3_XYZ(v7_dest, v3, v4, v5, v6);
 }
 

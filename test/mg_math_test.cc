@@ -568,6 +568,46 @@ TEST(mgMathTest, mgIntersectionSphereLine)
 }
 */
 
+TEST(mgMathTest, mgIntersectionPoint_line_poly3)
+{
+  vec3 v1;
+  vec3 v2;
+  vec3 v3;
+  vec3 v4;
+  vec3 v5;
+  vec3 v6;
+  vec3 v7_actual;
+  vec3 v7_expected;
+  bool result_expected;
+  bool result_actual;
+
+  v1 = { -34.91, 137.98, 159.12 };
+  v2 = { -34.91, 103.98, 159.12 };
+  v3 = { -0.43, 104.20, 159.78 };
+  v4 = { 60.26, 104.20, 148.0 };
+  v5 = { -61, 104.2, -147.7 };
+  v6 = { 0, 19372.44, 0 };
+  result_expected = false;
+  result_actual = mgIntersectionPoint_line_poly3(v1, v2, v3, v4, v5, v6, v7_actual);
+  EXPECT_EQ(result_actual, result_expected);
+
+  v1 = { -39.55, 138.2, 150.26 };
+  v2 = { -39.55, 104.20, 150.26 };
+  v3 = { -60.74, 104.2, 148.27 };
+  v4 = { -0.43, 104.2, 159.78 };
+  v5 = { -112.92, 104.2, -113.57 };
+  v6 = { 0, 15193.65, 0 };
+  v7_expected = { -39.55, 104.2, 150.26 };
+  result_expected = true;
+  result_actual = mgIntersectionPoint_line_poly3(v1, v2, v3, v4, v5, v6, v7_actual);
+  EXPECT_EQ(result_actual, result_expected);
+  for (usize i = 0; i < 3; ++i)
+  {
+    EXPECT_FLOAT_EQ(v7_actual[i], v7_expected[i]) <<
+      common::strings::format("Component {}: Actual: {}, Expected: {}", i, v7_actual[i], v7_expected[i]) << std::endl;
+  }
+}
+
 TEST(mgMathTest, mgCheckPointPoly3_XYZ)
 {
   vec3 v1;
