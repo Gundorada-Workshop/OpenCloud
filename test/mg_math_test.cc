@@ -568,6 +568,29 @@ TEST(mgMathTest, mgIntersectionSphereLine)
 }
 */
 
+TEST(mgMathTest, mgCheckPointPoly3_XYZ)
+{
+  vec3 v1;
+  vec3 v2;
+  vec3 v3;
+  vec3 v4;
+  vec3 v5;
+
+  v1 = { -21, 104.2, 157.75 };
+  v2 = { -0.43, 104.2, 159.78 };
+  v3 = { 60.26, 104.2, 148.0 };
+  v4 = { -61, 104.2, -147.7 };
+  v5 = { 0, 19372.44, 0 };
+  EXPECT_EQ(mgCheckPointPoly3_XYZ(v1, v2, v3, v4, v5), 0);
+
+  v1 = { -93.30, 109, 220.76 };
+  v2 = { -169.71, 180, 169.71 };
+  v3 = { -91.84, 180, 221.73 };
+  v4 = { -91.84, 104, 221.73 };
+  v5 = { 3953.93, 0, -5917.48 };
+  EXPECT_EQ(mgCheckPointPoly3_XYZ(v1, v2, v3, v4, v5), 1);
+}
+
 TEST(mgMathTest, mgCheckPointPoly3_XZ)
 {
   vec3 v1;
