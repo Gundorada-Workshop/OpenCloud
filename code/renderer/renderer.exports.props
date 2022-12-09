@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ItemGroup>
+    <ProjectReference Include="$(SolutionDir)renderer\renderer.vcxproj">
+      <Project>{321F2C50-1086-4E2D-8B27-D52DA68CCDF4}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(SolutionDir)external\wil.exports.props" />
+</Project>
