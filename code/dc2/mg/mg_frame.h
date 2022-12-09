@@ -429,7 +429,8 @@ public:
   // 84
   unk32 m_unk_field_84{ 0 };
   
-  // ?
+  // 88
+  unk32 m_unk_field_88{ 0 };
 
   // 8C
   unk32 m_unk_field_8C{ 0 };
@@ -468,7 +469,7 @@ public:
   virtual void Initialize();
 
   // 40 00136890
-  virtual mgVu0FBOX GetWorldBBox();
+  virtual std::optional<mgVu0FBOX> GetWorldBBox();
 
   // 44 00137E10
   virtual void Draw(unkptr p);
@@ -608,7 +609,7 @@ public:
   BoundInfo* m_bound_info{ nullptr };
 
   // F4
-  unk32 m_unk_field_F4{ 0 };
+  mgCFrameAttr* m_unk_field_F4{ nullptr };
 
   // F8
   mgCVisual* m_visual{ nullptr };
