@@ -339,6 +339,8 @@ public:
   ssize SetGiftBoxItem(ECommonItemData item_id, ssize index = -1);
   // 00199920
   ECommonItemData GetGiftBoxItemNo(ssize index) const;
+  // 00199960
+  usize GetGiftBoxSameItemNum(ECommonItemData item_id) const;
   // 00199A50
   bool CopyDataWeapon(ECommonItemData item_id);
 
