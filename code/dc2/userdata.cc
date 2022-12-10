@@ -1182,14 +1182,16 @@ void CGameDataUsed::CheckParamLimit()
         &as.fish.m_breed_fish.m_unk_field_2E,
       };
 
-      // There was a loop here which checked if any particular param value was above 500,
-      // and if so replace the pointer to it in p_params with nullptr (presumably to cause a crash???)
-      // it's gone now.
-      auto fish_param = as.fish.m_breed_fish.CalcBreedFishParam();
-      if (fish_param > 500)
+
+      for (auto p_param : p_params)
       {
-        panicf("Woah dude, your fish parameters are way too high!! They cannot be redistributed fairly!!");
+        if (*p_param > 500)
+        {
+          panicf("Woah dude, your fish parameters are way too high!!!");
+        }
       }
+
+      auto fish_param = as.fish.m_breed_fish.CalcBreedFishParam();
 
       while (fish_param > 400)
       {
