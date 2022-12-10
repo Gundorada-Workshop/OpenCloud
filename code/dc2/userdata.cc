@@ -1267,6 +1267,35 @@ ssize CGameDataUsed::GetGiftBoxItemNum() const
   return static_cast<ssize>(i);
 }
 
+// 001998B0
+ssize CGameDataUsed::SetGiftBoxItem(ECommonItemData item_id, ssize index)
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  if (m_type != EUsedItemType::Gift_Box)
+  {
+    return -1;
+  }
+
+  if (index >= 0)
+  {
+    as.gift_box.m_contents[index] = item_id;
+  }
+  else
+  {
+    for (usize i = 0; i < as.gift_box.m_contents.size(); ++i)
+    {
+      if (as.gift_box.m_contents[i] != ECommonItemData::Invalid)
+      {
+        as.gift_box.m_contents[i] = item_id;
+        return i;
+      }
+    }
+  }
+
+  return -1;
+}
+
 // 001993B0
 std::optional<u8> CGameDataUsed::GetModelNo() const
 {

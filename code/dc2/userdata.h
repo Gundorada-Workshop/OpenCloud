@@ -335,6 +335,8 @@ public:
   void TimeCheck(s32 delta);
   // 00199860
   ssize GetGiftBoxItemNum() const;
+  // 001998B0
+  ssize SetGiftBoxItem(ECommonItemData item_id, ssize index = -1);
   // 00199A50
   bool CopyDataWeapon(ECommonItemData item_id);
 

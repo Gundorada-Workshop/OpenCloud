@@ -490,7 +490,7 @@ enum class EUsedItemType
   Clothing = 4,
   Robopart = 5,
   Fish = 6,
-  Item_Gift = 7,
+  Gift_Box = 7,
   Item_8 = 8,
 };
 
