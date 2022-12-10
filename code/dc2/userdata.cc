@@ -795,14 +795,14 @@ bool CGameDataUsed::IsEnableUseRepair(ECommonItemData item_id) const
 }
 
 // 00198390
-sint CGameDataUsed::GetRoboInfoType() const
+std::optional<WeaponAttackType> CGameDataUsed::GetRoboInfoType() const
 {
   log_trace("CGameDataUsed::{}()", __func__);
 
   auto robo_data = GetRoboPartInfoData(m_common_index);
   if (robo_data == nullptr)
   {
-    return -1;
+    return std::nullopt;
   }
 
   switch (m_item_data_type)
@@ -812,7 +812,7 @@ sint CGameDataUsed::GetRoboInfoType() const
     case ECommonItemDataType::Ridepod_Leg:
       return robo_data->m_unk_field_20;
     default:
-      return -1;
+      return std::nullopt;
   }
 }
 
@@ -1045,6 +1045,37 @@ bool CGameDataUsed::IsFishingRod() const
 
   return m_common_index == ECommonItemData::Fishing_Rod || \
     m_common_index == ECommonItemData::Lure_Rod;
+}
+
+// 001992E0
+std::optional<usize> CGameDataUsed::GetActiveElem() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  if (m_type != EUsedItemType::Weapon)
+  {
+    return std::nullopt;
+  }
+
+  using namespace std::ranges;
+  auto result = max_element(m_sub_data.m_weapon.m_elements.data.begin(), m_sub_data.m_weapon.m_elements.data.end());
+  return distance(m_sub_data.m_weapon.m_elements.data.begin(), result);
+}
+
+// 00199340
+std::optional<WeaponAttackType> CGameDataUsed::GetAttackType() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  switch (m_type)
+  {
+    case EUsedItemType::Weapon:
+      return GetWeaponInfoData(m_common_index)->m_attack_type;
+    case EUsedItemType::Robopart:
+      return GetRoboInfoType();
+    default:
+      return std::nullopt;
+  }
 }
 
 // 00199830

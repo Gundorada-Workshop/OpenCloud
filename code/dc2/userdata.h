@@ -300,7 +300,7 @@ public:
   // 00198360
   bool IsEnableUseRepair(ECommonItemData item_id) const;
   // 00198390
-  sint GetRoboInfoType() const;
+  std::optional<WeaponAttackType> GetRoboInfoType() const;
   // 00198400
   std::string GetRoboJointName() const;
   // 001984B0
@@ -319,6 +319,10 @@ public:
   uint IsBuildUp(uint* total_possible_dest, ECommonItemData* buildup_item_ids_dest, bool* can_build_up_dest) const;
   // 001992B0
   bool IsFishingRod() const;
+  // 001992E0
+  std::optional<usize> GetActiveElem() const;
+  // 00199340
+  std::optional<WeaponAttackType> GetAttackType() const;
   // 00199830
   void TimeCheck(s32 delta);
   // 00199A50
