@@ -1330,6 +1330,42 @@ usize CGameDataUsed::GetGiftBoxSameItemNum(ECommonItemData item_id) const
   return count;
 }
 
+// 001999B0
+void CGameDataUsed::CopyGameData(CGameDataUsed* other)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, fmt::ptr(other));
+
+  if (other == nullptr)
+  {
+    return;
+  }
+
+  // Thanks Level-5 very cool
+  memcpy(this, other, sizeof(this));
+
+  auto user_man = GetUserDataMan();
+  if (user_man == nullptr)
+  {
+    return;
+  }
+
+  auto robo_data = user_man->m_robo_data;
+
+  // Probably checking that this is the robot energy core or not?
+  if (this == &robo_data.m_part_data[2])
+  {
+    auto hp = truncf(robo_data.m_chara_hp_gage.m_max);
+    robo_data.m_chara_hp_gage.m_max = as.robopart.m_battery_gage.m_max;
+
+    if (hp <= 0.0f)
+    {
+      robo_data.m_chara_hp_gage.m_current = robo_data.m_chara_hp_gage.m_max;
+    }
+
+    robo_data.m_chara_hp_gage.m_current = std::min(robo_data.m_chara_hp_gage.m_current, robo_data.m_chara_hp_gage.m_max);
+  }
+}
+
 // 001993B0
 std::optional<u8> CGameDataUsed::GetModelNo() const
 {

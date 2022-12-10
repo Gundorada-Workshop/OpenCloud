@@ -341,6 +341,8 @@ public:
   ECommonItemData GetGiftBoxItemNo(ssize index) const;
   // 00199960
   usize GetGiftBoxSameItemNum(ECommonItemData item_id) const;
+  // 001999B0
+  void CopyGameData(CGameDataUsed* other);
   // 00199A50
   bool CopyDataWeapon(ECommonItemData item_id);
 
