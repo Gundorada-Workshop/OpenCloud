@@ -741,6 +741,12 @@ ECommonItemData SearchItemByName(const std::string name);
 // 00196630
 ECommonItemData GetRidePodCore(ssize index);
 
+// 00196BE0
+CUserDataManager* GetUserDataMan();
+
+// 001993F0
+std::optional<std::string> GetMainCharaModelName(ECharacterID chara_id, bool b);
+
 // 0019A890
 MOS_HENGE_PARAM* GetMonsterHengeParam(EMonsterID index);
 

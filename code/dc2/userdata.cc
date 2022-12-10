@@ -5,6 +5,7 @@
 #include "common/types.h"
 
 #include "dc2/gamedata.h"
+#include "dc2/mainloop.h"
 #include "dc2/menumain.h"
 #include "dc2/userdata.h"
 
@@ -268,6 +269,15 @@ ECommonItemData GetRidePodCore(ssize index)
   }
 
   return table[index];
+}
+
+// 00196BE0
+CUserDataManager* GetUserDataMan()
+{
+  log_trace("{}()", __func__);
+
+  auto save_data = GetSaveData();
+  return save_data != nullptr ? &save_data->m_user_data_manager : nullptr;
 }
 
 // 00196C90
@@ -1089,6 +1099,54 @@ std::optional<u8> CGameDataUsed::GetModelNo() const
       return GetWeaponInfoData(m_common_index)->m_model_no;
     default:
       return std::nullopt;
+  }
+}
+
+// 001993F0
+std::optional<std::string> GetMainCharaModelName(ECharacterID chara_id, bool b)
+{
+  log_trace("{}({}, {})", __func__, std::to_underlying(chara_id), b);
+
+  auto user_man = GetUserDataMan();
+
+  if (user_man == nullptr)
+  {
+    return std::nullopt;
+  }
+
+  auto chara_data = user_man->GetCharaDataPtr(chara_id);
+
+  if (chara_data == nullptr)
+  {
+    return std::nullopt;
+  }
+
+  auto model_no_opt = chara_data->m_equip_table[0].GetModelNo();
+  u8 model_no = 0;
+
+  if (model_no_opt.has_value()) [[likely]]
+  {
+    model_no = std::clamp<u8>(model_no_opt.value(), 0, 3);
+  }
+
+  if (chara_id == ECharacterID::Max)
+  {
+    model_no += 2;
+  }
+
+  constexpr std::array<const char*, 2> base_model_names
+  {
+    "c01_base", // Max
+    "c02_base"  // Monica
+  };
+
+  if (b)
+  {
+    return common::strings::format("{}.chr", base_model_names[std::to_underlying(chara_id)]);
+  }
+  else
+  {
+    return common::strings::format("{}{}.chr", base_model_names[std::to_underlying(chara_id)], model_no);
   }
 }
 
