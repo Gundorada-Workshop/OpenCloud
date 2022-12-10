@@ -100,6 +100,16 @@ struct unks
   std::array<u8, size> data;
 };
 
+union uint128_t
+{
+  u8  _8[16];
+  u16 _u16[8];
+  u32 _u32[4];
+  u64 _u64[2];
+};
+
+using u128 = uint128_t;
+
 // wrapper for glm vectors
 template<typename type, usize size>
 using vec = glm::vec<size, type>;

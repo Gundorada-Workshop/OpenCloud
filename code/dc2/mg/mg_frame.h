@@ -676,6 +676,18 @@ public:
 class mgCDrawPrim
 {
 public:
+  enum class Primitive : u8
+  {
+    Point = 0,
+    Line,
+    LineStrip,
+    Triangle,
+    TriangleStrip,
+    TriangleFan,
+    Sprite,
+    Max
+  };
+
   // 001343a0
   // Current member initialization should generate correct default constructor
   //mgCDrawPrim();
@@ -686,7 +698,7 @@ public:
   mgCDrawPrim() = default;
 
   // 001344a0
-  void Begin(sint i);
+  void Begin(Primitive prim);
 
   // 00134530
   void BeginDma();

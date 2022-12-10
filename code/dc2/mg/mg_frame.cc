@@ -273,9 +273,9 @@ mgCDrawPrim::mgCDrawPrim(mgCMemory* memory, sceVif1Packet* vif1_packet)
 }
 
 // 001344A0
-void mgCDrawPrim::Begin(sint i)
+void mgCDrawPrim::Begin(Primitive prim)
 {
-  log_trace("mgCDrawPrim::{}({})", __func__, i);
+  log_trace("mgCDrawPrim::{}(prim: {})", __func__, std::to_underlying(prim));
 
   todo;
 }
