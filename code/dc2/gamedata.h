@@ -562,6 +562,29 @@ enum class WeaponAttackType : s8
 
 };
 
+enum class WeaponProperty : s16
+{
+  // NOTE: Attack and Durability are stored as their own attributes
+
+  // Elements
+  ELEMENTS_START = 0,
+  Flame = ELEMENTS_START,
+  Chill = ELEMENTS_START + 1,
+  Lightning = ELEMENTS_START + 2,
+  Cyclone = ELEMENTS_START + 3,
+  ELEMENTS_END = ELEMENTS_START + 4,
+
+  // Affinities
+  AFFINITIES_START = ELEMENTS_END,
+  Smash = AFFINITIES_START,
+  Exorcism = AFFINITIES_START + 1,
+  Beast = AFFINITIES_START + 2,
+  Scale = AFFINITIES_START + 3,
+  AFFINITIES_END = AFFINITIES_START + 4,
+
+  COUNT = AFFINITIES_END,
+};
+
 class CDataWeapon
 {
 public:
@@ -575,45 +598,13 @@ public:
   // 6
   s16 m_durable{ 0 };
   // 8
-  s16 m_unk_field_8{ 0 };
+  s16 m_attack_max{ 0 };
   // A
-  s16 m_unk_field_A{ 0 };
+  s16 m_durable_max{ 0 };
   // C
-  union
-  {
-    // C
-    std::array<s16, 4> data{ 0 };
-    struct
-    {
-      // C
-      s16 flame;
-      // E
-      s16 chill;
-      // 10
-      s16 lightning;
-      // 12
-      s16 cyclone;
-    };
-  } m_elements;
-  // 14
-  union
-  {
-    // 14
-    std::array<s16, 4> data{ 0 };
-    struct
-    {
-      // 14
-      s16 smash;
-      // 16
-      s16 exorcism;
-      // 18
-      s16 beast;
-      // 1A
-      s16 scale;
-    };
-  } m_affinities;
+  std::array<s16, std::to_underlying(WeaponProperty::COUNT)> m_properties{ 0 };
   // 1C
-  std::array<s16, 8> m_unk_field_1C{ 0 };
+  std::array<s16, std::to_underlying(WeaponProperty::COUNT)> m_properties_max{ 0 };
   
   // ?
 

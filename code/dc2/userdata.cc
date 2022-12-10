@@ -1,5 +1,6 @@
 ﻿#include <string>
 
+#include "common/constants.h"
 #include "common/debug.h"
 #include "common/log.h"
 #include "common/types.h"
@@ -335,6 +336,19 @@ f32 GetCommonGageRate(COMMON_GAGE* gage)
     return 0.0f;
   }
   return gage->GetRate();
+}
+
+// 00196DE0
+u32 BREEDFISH_USED::CalcBreedFishParam()
+{
+  log_trace("{}()", __func__);
+
+  return
+    m_unk_field_26 +
+    m_unk_field_28 +
+    m_unk_field_2A +
+    m_unk_field_2C +
+    m_unk_field_2E;
 }
 
 // 0019a160
@@ -965,6 +979,8 @@ uint CGameDataUsed::IsBuildUp(uint* total_possible_dest, ECommonItemData* buildu
 {
   log_trace("CGameDataUsed::{}({}, {}, {})", __func__, fmt::ptr(total_possible_dest), fmt::ptr(buildup_item_ids_dest), fmt::ptr(can_build_up_dest));
 
+  using enum WeaponProperty;
+
   if (m_type != EUsedItemType::Weapon)
   {
     return 0;
@@ -979,14 +995,14 @@ uint CGameDataUsed::IsBuildUp(uint* total_possible_dest, ECommonItemData* buildu
   s16 now_param[9];
 
   now_param[0] = m_sub_data.m_weapon.m_attack;
-  now_param[1] = m_sub_data.m_weapon.m_elements.flame;
-  now_param[2] = m_sub_data.m_weapon.m_elements.chill;
-  now_param[3] = m_sub_data.m_weapon.m_elements.lightning;
-  now_param[4] = m_sub_data.m_weapon.m_elements.cyclone;
-  now_param[5] = m_sub_data.m_weapon.m_affinities.smash;
-  now_param[6] = m_sub_data.m_weapon.m_affinities.exorcism;
-  now_param[7] = m_sub_data.m_weapon.m_affinities.beast;
-  now_param[8] = m_sub_data.m_weapon.m_affinities.scale;
+  now_param[1] = m_sub_data.m_weapon.m_properties[std::to_underlying(Flame)];
+  now_param[2] = m_sub_data.m_weapon.m_properties[std::to_underlying(Chill)];
+  now_param[3] = m_sub_data.m_weapon.m_properties[std::to_underlying(Lightning)];
+  now_param[4] = m_sub_data.m_weapon.m_properties[std::to_underlying(Cyclone)];
+  now_param[5] = m_sub_data.m_weapon.m_properties[std::to_underlying(Smash)];
+  now_param[6] = m_sub_data.m_weapon.m_properties[std::to_underlying(Exorcism)];
+  now_param[7] = m_sub_data.m_weapon.m_properties[std::to_underlying(Beast)];
+  now_param[8] = m_sub_data.m_weapon.m_properties[std::to_underlying(Scale)];
 
   uint total_possible = 0;
   uint total_can_build_up = 0;
@@ -1004,14 +1020,14 @@ uint CGameDataUsed::IsBuildUp(uint* total_possible_dest, ECommonItemData* buildu
     s16 goal_param[std::size(now_param)];
 
     goal_param[0] = goal_wep_data->m_attack;
-    goal_param[1] = goal_wep_data->m_elements.flame;
-    goal_param[2] = goal_wep_data->m_elements.chill;
-    goal_param[3] = goal_wep_data->m_elements.lightning;
-    goal_param[4] = goal_wep_data->m_elements.cyclone;
-    goal_param[5] = goal_wep_data->m_affinities.smash;
-    goal_param[6] = goal_wep_data->m_affinities.exorcism;
-    goal_param[7] = goal_wep_data->m_affinities.beast;
-    goal_param[8] = goal_wep_data->m_affinities.scale;
+    goal_param[1] = goal_wep_data->m_properties[std::to_underlying(Flame)];
+    goal_param[2] = goal_wep_data->m_properties[std::to_underlying(Chill)];
+    goal_param[3] = goal_wep_data->m_properties[std::to_underlying(Lightning)];
+    goal_param[4] = goal_wep_data->m_properties[std::to_underlying(Cyclone)];
+    goal_param[5] = goal_wep_data->m_properties[std::to_underlying(Smash)];
+    goal_param[6] = goal_wep_data->m_properties[std::to_underlying(Exorcism)];
+    goal_param[7] = goal_wep_data->m_properties[std::to_underlying(Beast)];
+    goal_param[8] = goal_wep_data->m_properties[std::to_underlying(Scale)];
 
     bool goal_reached = true;
 
@@ -1067,9 +1083,17 @@ std::optional<usize> CGameDataUsed::GetActiveElem() const
     return std::nullopt;
   }
 
-  using namespace std::ranges;
-  auto result = max_element(m_sub_data.m_weapon.m_elements.data.begin(), m_sub_data.m_weapon.m_elements.data.end());
-  return distance(m_sub_data.m_weapon.m_elements.data.begin(), result);
+  auto max_index = std::to_underlying(WeaponProperty::ELEMENTS_START);
+
+  for (auto i = max_index + 1; i < std::to_underlying(WeaponProperty::ELEMENTS_END); ++i)
+  {
+    if (m_sub_data.m_weapon.m_properties[i] > m_sub_data.m_weapon.m_properties[max_index])
+    {
+      max_index = i;
+    }
+  }
+
+  return max_index;
 }
 
 // 00199340
@@ -1086,6 +1110,40 @@ std::optional<WeaponAttackType> CGameDataUsed::GetAttackType() const
     default:
       return std::nullopt;
   }
+}
+
+// 001994E0
+void CGameDataUsed::CheckParamLimit()
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  using namespace common;
+  using enum EUsedItemType;
+
+  switch (m_type)
+  {
+    case Weapon:
+    {
+      auto wep_data = GetWeaponInfoData(m_common_index);
+      if (wep_data == nullptr)
+      {
+        return;
+      }
+
+      // Clamp weapon max WHP
+      m_sub_data.m_weapon.m_whp_gage.m_max = std::min(m_sub_data.m_weapon.m_whp_gage.m_max, static_cast<f32>(constants::u8_max));
+
+      // Clamp weapon max attack
+      m_sub_data.m_weapon.m_attack = std::min(m_sub_data.m_weapon.m_attack, wep_data->m_attack_max);
+
+      // Clamp weapon max durability
+      m_sub_data.m_weapon.m_attack = std::min(m_sub_data.m_weapon.m_durable, wep_data->m_durable_max);
+
+      todo;
+    }
+  }
+
+  todo;
 }
 
 // 001993B0
@@ -1175,6 +1233,8 @@ bool CGameDataUsed::CopyDataWeapon(ECommonItemData item_id)
     return false;
   }
 
+  using enum WeaponProperty;
+
   m_type = EUsedItemType::Weapon;
   m_common_index = item_id;
   m_item_data_type = GetItemDataType(item_id);
@@ -1190,15 +1250,15 @@ bool CGameDataUsed::CopyDataWeapon(ECommonItemData item_id)
   m_sub_data.m_weapon.m_attack = weapon_data->m_attack;
   m_sub_data.m_weapon.m_durable = weapon_data->m_durable;
 
-  m_sub_data.m_weapon.m_elements.flame = weapon_data->m_elements.flame;
-  m_sub_data.m_weapon.m_elements.chill = weapon_data->m_elements.chill;
-  m_sub_data.m_weapon.m_elements.lightning = weapon_data->m_elements.lightning;
-  m_sub_data.m_weapon.m_elements.cyclone = weapon_data->m_elements.cyclone;
+  m_sub_data.m_weapon.m_properties[std::to_underlying(Flame)] = weapon_data->m_properties[std::to_underlying(Flame)];
+  m_sub_data.m_weapon.m_properties[std::to_underlying(Chill)] = weapon_data->m_properties[std::to_underlying(Chill)];
+  m_sub_data.m_weapon.m_properties[std::to_underlying(Lightning)]  = weapon_data->m_properties[std::to_underlying(Lightning)];
+  m_sub_data.m_weapon.m_properties[std::to_underlying(Cyclone)] = weapon_data->m_properties[std::to_underlying(Cyclone)];
 
-  m_sub_data.m_weapon.m_affinities.smash = weapon_data->m_affinities.smash;
-  m_sub_data.m_weapon.m_affinities.exorcism = weapon_data->m_affinities.exorcism;
-  m_sub_data.m_weapon.m_affinities.beast = weapon_data->m_affinities.beast;
-  m_sub_data.m_weapon.m_affinities.scale = weapon_data->m_affinities.scale;
+  m_sub_data.m_weapon.m_properties[std::to_underlying(Smash)] = weapon_data->m_properties[std::to_underlying(Smash)];
+  m_sub_data.m_weapon.m_properties[std::to_underlying(Exorcism)] = weapon_data->m_properties[std::to_underlying(Exorcism)];
+  m_sub_data.m_weapon.m_properties[std::to_underlying(Beast)] = weapon_data->m_properties[std::to_underlying(Beast)];
+  m_sub_data.m_weapon.m_properties[std::to_underlying(Scale)] = weapon_data->m_properties[std::to_underlying(Scale)];
 
   m_sub_data.m_weapon.m_fusion_point = weapon_data->m_fusion_point;
   m_sub_data.m_weapon.m_unk_field_28 = weapon_data->m_unk_field_2C;

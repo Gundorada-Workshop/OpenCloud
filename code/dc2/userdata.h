@@ -121,6 +121,24 @@ struct COMMON_GAGE
 // 00196DB0
 f32 GetCommonGageRate(COMMON_GAGE* gage);
 
+struct BREEDFISH_USED
+{
+public:
+  // 26
+  u16 m_unk_field_26;
+  // 28
+  u16 m_unk_field_28;
+  // 2A
+  u16 m_unk_field_2A;
+  // 2C
+  u16 m_unk_field_2C;
+  // 2E
+  u16 m_unk_field_2E;
+
+  // 00196DE0
+  u32 CalcBreedFishParam();
+};
+
 enum class EUsedItemType;
 
 enum class ECommonItemData;
@@ -165,39 +183,7 @@ struct SGameDataUsedWeaponSub
   // 14
   s16 m_durable{};
   // 16
-  union
-  {
-    // 16
-    std::array<s16, 4> data{ 0 };
-    struct
-    {
-      // 16
-      s16 flame;
-      // 18
-      s16 chill;
-      // 1A
-      s16 lightning;
-      // 1C
-      s16 cyclone;
-    };
-  } m_elements;
-  // 1E
-  union
-  {
-    // 1E
-    std::array<s16, 4> data{ 0 };
-    struct
-    {
-      // 1E
-      s16 smash;
-      // 20
-      s16 exorcism;
-      // 22
-      s16 beast;
-      // 24
-      s16 scale;
-    };
-  } m_affinities;
+  std::array<s16, std::to_underlying(WeaponProperty::COUNT)> m_properties{};
   // 28
   s32 m_unk_field_28{};
   // 2C
@@ -325,6 +311,8 @@ public:
   std::optional<usize> GetActiveElem() const;
   // 00199340
   std::optional<WeaponAttackType> GetAttackType() const;
+  // 001994E0
+  void CheckParamLimit();
   // 00199830
   void TimeCheck(s32 delta);
   // 00199A50

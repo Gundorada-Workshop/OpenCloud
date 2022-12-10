@@ -176,8 +176,8 @@ static bool _DATAWEP_ST_L(SPI_STACK* stack, int stack_count)
     return false;
   }
 
-  SpiWeaponPt->m_unk_field_8 = spiGetStackInt(stack++);
-  SpiWeaponPt->m_unk_field_A = spiGetStackInt(stack++);
+  SpiWeaponPt->m_attack_max = spiGetStackInt(stack++);
+  SpiWeaponPt->m_durable_max = spiGetStackInt(stack++);
 
   return true;
 }
@@ -194,14 +194,16 @@ static bool _DATAWEP2_ST(SPI_STACK* stack, int stack_count)
     return false;
   }
 
-  SpiWeaponPt->m_elements.flame = spiGetStackInt(stack++);
-  SpiWeaponPt->m_elements.chill = spiGetStackInt(stack++);
-  SpiWeaponPt->m_elements.lightning = spiGetStackInt(stack++);
-  SpiWeaponPt->m_elements.cyclone = spiGetStackInt(stack++);
-  SpiWeaponPt->m_affinities.smash = spiGetStackInt(stack++);
-  SpiWeaponPt->m_affinities.exorcism = spiGetStackInt(stack++);
-  SpiWeaponPt->m_affinities.beast = spiGetStackInt(stack++);
-  SpiWeaponPt->m_affinities.scale = spiGetStackInt(stack++);
+  using enum WeaponProperty;
+
+  SpiWeaponPt->m_properties[std::to_underlying(Flame)] = spiGetStackInt(stack++);
+  SpiWeaponPt->m_properties[std::to_underlying(Chill)] = spiGetStackInt(stack++);
+  SpiWeaponPt->m_properties[std::to_underlying(Lightning)] = spiGetStackInt(stack++);
+  SpiWeaponPt->m_properties[std::to_underlying(Cyclone)] = spiGetStackInt(stack++);
+  SpiWeaponPt->m_properties[std::to_underlying(Smash)] = spiGetStackInt(stack++);
+  SpiWeaponPt->m_properties[std::to_underlying(Exorcism)] = spiGetStackInt(stack++);
+  SpiWeaponPt->m_properties[std::to_underlying(Beast)] = spiGetStackInt(stack++);
+  SpiWeaponPt->m_properties[std::to_underlying(Scale)] = spiGetStackInt(stack++);
 
   return true;
 }
@@ -218,9 +220,11 @@ static bool _DATAWEP2_ST_L(SPI_STACK* stack, int stack_count)
     return false;
   }
 
-  for (int i = 0; i < 8; ++i)
+  assert_msg(SpiWeaponPt->m_properties_max.size() == 8, "not gonna read out the scripts properly if this somehow changes :^)");
+
+  for (int i = 0; i < SpiWeaponPt->m_properties_max.size(); ++i)
   {
-    SpiWeaponPt->m_unk_field_1C[i] = spiGetStackInt(stack++);
+    SpiWeaponPt->m_properties_max[i] = spiGetStackInt(stack++);
   }
 
   return true;
