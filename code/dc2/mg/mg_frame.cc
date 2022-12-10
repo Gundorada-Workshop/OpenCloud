@@ -786,12 +786,61 @@ unkptr mgCFrame::Draw()
 }
 
 // 00136890
-mgVu0FBOX mgCFrame::GetWorldBBox()
+std::optional<mgVu0FBOX> mgCFrame::GetWorldBBox()
 {
   log_trace("mgCFrame::GetWorldBBox()");
 
-  todo;
-  return mgVu0FBOX{};
+  bool have_box = false;
+  mgVu0FBOX result;
+
+  if (m_visual != nullptr && m_bound_info != nullptr)
+  {
+    auto lw_mat = GetLWMatrix();
+    have_box = true;
+
+    mgApplyMatrix(result.corners[0], result.corners[1], lw_mat, m_bound_info->m_box.corners[0], m_bound_info->m_box.corners[1]);
+
+    if (m_unk_field_F4 != nullptr && m_unk_field_F4->m_unk_field_88)
+    {
+      mgVu0FBOX var_40;
+      var_40.corners[0] = result.corners[0] + result.corners[1];
+      var_40.corners[0] *= 0.5f;
+      var_40.corners[1] = result.corners[0] - var_40.corners[0];
+
+      var_40.corners[1].z = std::min({ var_40.corners[1].x, var_40.corners[1].y, var_40.corners[1].z });
+
+      var_40.corners[1] = vec4{ var_40.corners[1].zzz, 0};
+
+      var_40.corners[0] += var_40.corners[1];
+      result.corners[1] = var_40.corners[0] - var_40.corners[1];
+    }
+  }
+
+  for (auto child = m_child; child != nullptr; child = child->m_next_brother)
+  {
+    auto box_opt = child->GetWorldBBox();
+    if (!box_opt.has_value())
+    {
+      continue;
+    }
+    auto box = box_opt.value();
+
+    if (have_box)
+    {
+      mgVectorMaxMin(result.corners[0], result.corners[1], result.corners[0], result.corners[1], box.corners[0], box.corners[1]);
+    }
+    else
+    {
+      result = box;
+    }
+    have_box = true;
+  }
+
+  if (!have_box)
+  {
+    return std::nullopt;
+  }
+  return result;
 }
 
 // 00137E10

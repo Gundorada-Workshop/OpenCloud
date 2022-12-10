@@ -1,10 +1,12 @@
 ﻿#include <string>
 
+#include "common/constants.h"
 #include "common/debug.h"
 #include "common/log.h"
 #include "common/types.h"
 
 #include "dc2/gamedata.h"
+#include "dc2/mainloop.h"
 #include "dc2/menumain.h"
 #include "dc2/userdata.h"
 
@@ -270,6 +272,15 @@ ECommonItemData GetRidePodCore(ssize index)
   return table[index];
 }
 
+// 00196BE0
+CUserDataManager* GetUserDataMan()
+{
+  log_trace("{}()", __func__);
+
+  auto save_data = GetSaveData();
+  return save_data != nullptr ? &save_data->m_user_data_manager : nullptr;
+}
+
 // 00196C90
 bool COMMON_GAGE::CheckFill() const
 {
@@ -325,6 +336,19 @@ f32 GetCommonGageRate(COMMON_GAGE* gage)
     return 0.0f;
   }
   return gage->GetRate();
+}
+
+// 00196DE0
+u32 BREEDFISH_USED::CalcBreedFishParam()
+{
+  log_trace("{}()", __func__);
+
+  return
+    m_unk_field_26 +
+    m_unk_field_28 +
+    m_unk_field_2A +
+    m_unk_field_2C +
+    m_unk_field_2E;
 }
 
 // 0019a160
@@ -442,9 +466,9 @@ s16 CGameDataUsed::GetLevel() const
   switch (m_type)
   {
     case EUsedItemType::Weapon:
-      return m_sub_data.m_weapon.m_level;
+      return as.weapon.m_level;
     case EUsedItemType::Attach:
-      return m_sub_data.m_attach.m_level;
+      return as.attach.m_level;
     default:
       return 0;
   }
@@ -479,7 +503,7 @@ ECommonItemData CGameDataUsed::GetSpectrumNo() const
     return ECommonItemData::Invalid;
   }
 
-  return m_sub_data.m_attach.m_spectrumized_item_id;
+  return as.attach.m_spectrumized_item_id;
 }
 
 // 00197270
@@ -514,9 +538,9 @@ sint CGameDataUsed::GetNum() const
   switch (m_type)
   {
     case EUsedItemType::Item_Misc:
-      return m_sub_data.m_item_misc.m_stack_num;
+      return as.item_misc.m_stack_num;
     case EUsedItemType::Clothing:
-      return m_sub_data.m_clothing.m_stack_num;
+      return as.clothing.m_stack_num;
     case EUsedItemType::Attach:
       if (m_item_data_type == ECommonItemDataType::Spectrumized_Item)
       {
@@ -526,7 +550,7 @@ sint CGameDataUsed::GetNum() const
       {
         return true;
       }
-      return m_sub_data.m_attach.m_stack_num;
+      return as.attach.m_stack_num;
   }
 }
 
@@ -551,11 +575,11 @@ s16 CGameDataUsed::AddNum(sint delta, bool reset_if_empty)
   s16 stack_num;
   if (m_type == EUsedItemType::Item_Misc)
   {
-    stack_num = std::clamp<s16>(m_sub_data.m_item_misc.m_stack_num + delta, 0, com_data->m_stack_max_A);
+    stack_num = std::clamp<s16>(as.item_misc.m_stack_num + delta, 0, com_data->m_stack_max_A);
   }
   else if (m_type == EUsedItemType::Attach)
   {
-    stack_num = std::clamp<s16>(m_sub_data.m_attach.m_stack_num + delta, 0, com_data->m_stack_max_A);
+    stack_num = std::clamp<s16>(as.attach.m_stack_num + delta, 0, com_data->m_stack_max_A);
   }
   else
   {
@@ -596,8 +620,8 @@ s16 CGameDataUsed::AddFishHp(s16 delta)
     return 0;
   }
 
-  m_sub_data.m_fish.m_hp = std::clamp(m_sub_data.m_fish.m_hp + delta, 0, 100);
-  return m_sub_data.m_fish.m_hp;
+  as.fish.m_breed_fish.m_hp = std::clamp(as.fish.m_breed_fish.m_hp + delta, 0, 100);
+  return as.fish.m_breed_fish.m_hp;
 }
 
 // 00197600
@@ -624,16 +648,16 @@ void CGameDataUsed::SetName(const char* name)
   switch (m_type)
   {
     case EUsedItemType::Attach:
-      name_buf = &m_sub_data.m_fish.m_name;
+      name_buf = &as.attach.m_name;
       break;
     case EUsedItemType::Weapon:
-      name_buf = &m_sub_data.m_weapon.m_name;
+      name_buf = &as.weapon.m_name;
       break;
     case EUsedItemType::Robopart:
-      name_buf = &m_sub_data.m_robopart.m_name;
+      name_buf = &as.robopart.m_name;
       break;
     case EUsedItemType::Fish:
-      name_buf = &m_sub_data.m_fish.m_name;
+      name_buf = &as.fish.m_breed_fish.m_name;
       break;
   }
 
@@ -656,7 +680,7 @@ sint CGameDataUsed::RemainFusion() const
 {
   log_trace("CGameDataUsed::{}()", __func__);
 
-  return m_type == EUsedItemType::Weapon ? m_sub_data.m_weapon.m_fusion_point : 0;
+  return m_type == EUsedItemType::Weapon ? as.weapon.m_fusion_point : 0;
 }
 
 // 00197DE0
@@ -669,7 +693,7 @@ sint CGameDataUsed::AddFusionPoint(sint delta)
     return 0;
   }
 
-  s16 fusion_point = std::max<s16>(m_sub_data.m_weapon.m_fusion_point + delta, 0);
+  s16 fusion_point = std::max<s16>(as.weapon.m_fusion_point + delta, 0);
 
   if (IsFishingRod())
   {
@@ -680,7 +704,7 @@ sint CGameDataUsed::AddFusionPoint(sint delta)
     fusion_point = std::min<s16>(fusion_point, 999);
   }
 
-  m_sub_data.m_weapon.m_fusion_point = fusion_point;
+  as.weapon.m_fusion_point = fusion_point;
   return fusion_point;
 }
 
@@ -690,16 +714,16 @@ COMMON_GAGE* CGameDataUsed::GetWHpGage()
   {
     if (m_item_data_type == ECommonItemDataType::Ridepod_Arm)
     {
-      return &m_sub_data.m_robopart.m_whp_gage;
+      return &as.robopart.m_whp_gage;
     }
     else if (m_item_data_type == ECommonItemDataType::Ridepod_Battery)
     {
-      return &m_sub_data.m_robopart.m_battery_gage;
+      return &as.robopart.m_battery_gage;
     }
   }
   else if (m_type == EUsedItemType::Weapon)
   {
-    return &m_sub_data.m_weapon.m_whp_gage;
+    return &as.weapon.m_whp_gage;
   }
 
   return nullptr;
@@ -795,14 +819,14 @@ bool CGameDataUsed::IsEnableUseRepair(ECommonItemData item_id) const
 }
 
 // 00198390
-sint CGameDataUsed::GetRoboInfoType() const
+std::optional<WeaponAttackType> CGameDataUsed::GetRoboInfoType() const
 {
   log_trace("CGameDataUsed::{}()", __func__);
 
   auto robo_data = GetRoboPartInfoData(m_common_index);
   if (robo_data == nullptr)
   {
-    return -1;
+    return std::nullopt;
   }
 
   switch (m_item_data_type)
@@ -812,7 +836,7 @@ sint CGameDataUsed::GetRoboInfoType() const
     case ECommonItemDataType::Ridepod_Leg:
       return robo_data->m_unk_field_20;
     default:
-      return -1;
+      return std::nullopt;
   }
 }
 
@@ -889,13 +913,13 @@ bool CGameDataUsed::IsLevelUp() const
     return false;
   }
 
-  if (m_sub_data.m_weapon.m_level >= 99)
+  if (as.weapon.m_level >= 99)
   {
     return false;
   }
 
-  return static_cast<f32>(GetDispVolumeForFloat(m_sub_data.m_weapon.m_abs_gage.m_current)) >=
-    m_sub_data.m_weapon.m_abs_gage.m_max;
+  return static_cast<f32>(GetDispVolumeForFloat(as.weapon.m_abs_gage.m_current)) >=
+    as.weapon.m_abs_gage.m_max;
 }
 
 // 00198620
@@ -925,7 +949,7 @@ bool CGameDataUsed::IsTrush() const
 
   if (m_type == EUsedItemType::Fish)
   {
-    if ((m_sub_data.m_fish.m_unk_field_38 & 2) != 0)
+    if ((as.fish.m_unk_field_38 & 2) != 0)
     {
       result = false;
     }
@@ -955,6 +979,8 @@ uint CGameDataUsed::IsBuildUp(uint* total_possible_dest, ECommonItemData* buildu
 {
   log_trace("CGameDataUsed::{}({}, {}, {})", __func__, fmt::ptr(total_possible_dest), fmt::ptr(buildup_item_ids_dest), fmt::ptr(can_build_up_dest));
 
+  using enum WeaponProperty;
+
   if (m_type != EUsedItemType::Weapon)
   {
     return 0;
@@ -968,15 +994,15 @@ uint CGameDataUsed::IsBuildUp(uint* total_possible_dest, ECommonItemData* buildu
 
   s16 now_param[9];
 
-  now_param[0] = m_sub_data.m_weapon.m_attack;
-  now_param[1] = m_sub_data.m_weapon.m_flame;
-  now_param[2] = m_sub_data.m_weapon.m_chill;
-  now_param[3] = m_sub_data.m_weapon.m_lightning;
-  now_param[4] = m_sub_data.m_weapon.m_cyclone;
-  now_param[5] = m_sub_data.m_weapon.m_smash;
-  now_param[6] = m_sub_data.m_weapon.m_exorcism;
-  now_param[7] = m_sub_data.m_weapon.m_beast;
-  now_param[8] = m_sub_data.m_weapon.m_scale;
+  now_param[0] = as.weapon.m_attack;
+  now_param[1] = as.weapon.m_properties[std::to_underlying(Flame)];
+  now_param[2] = as.weapon.m_properties[std::to_underlying(Chill)];
+  now_param[3] = as.weapon.m_properties[std::to_underlying(Lightning)];
+  now_param[4] = as.weapon.m_properties[std::to_underlying(Cyclone)];
+  now_param[5] = as.weapon.m_properties[std::to_underlying(Smash)];
+  now_param[6] = as.weapon.m_properties[std::to_underlying(Exorcism)];
+  now_param[7] = as.weapon.m_properties[std::to_underlying(Beast)];
+  now_param[8] = as.weapon.m_properties[std::to_underlying(Scale)];
 
   uint total_possible = 0;
   uint total_can_build_up = 0;
@@ -994,14 +1020,14 @@ uint CGameDataUsed::IsBuildUp(uint* total_possible_dest, ECommonItemData* buildu
     s16 goal_param[std::size(now_param)];
 
     goal_param[0] = goal_wep_data->m_attack;
-    goal_param[1] = goal_wep_data->m_flame;
-    goal_param[2] = goal_wep_data->m_chill;
-    goal_param[3] = goal_wep_data->m_lightning;
-    goal_param[4] = goal_wep_data->m_cyclone;
-    goal_param[5] = goal_wep_data->m_smash;
-    goal_param[6] = goal_wep_data->m_exorcism;
-    goal_param[7] = goal_wep_data->m_beast;
-    goal_param[8] = goal_wep_data->m_scale;
+    goal_param[1] = goal_wep_data->m_properties[std::to_underlying(Flame)];
+    goal_param[2] = goal_wep_data->m_properties[std::to_underlying(Chill)];
+    goal_param[3] = goal_wep_data->m_properties[std::to_underlying(Lightning)];
+    goal_param[4] = goal_wep_data->m_properties[std::to_underlying(Cyclone)];
+    goal_param[5] = goal_wep_data->m_properties[std::to_underlying(Smash)];
+    goal_param[6] = goal_wep_data->m_properties[std::to_underlying(Exorcism)];
+    goal_param[7] = goal_wep_data->m_properties[std::to_underlying(Beast)];
+    goal_param[8] = goal_wep_data->m_properties[std::to_underlying(Scale)];
 
     bool goal_reached = true;
 
@@ -1047,6 +1073,246 @@ bool CGameDataUsed::IsFishingRod() const
     m_common_index == ECommonItemData::Lure_Rod;
 }
 
+// 001992E0
+std::optional<usize> CGameDataUsed::GetActiveElem() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  if (m_type != EUsedItemType::Weapon)
+  {
+    return std::nullopt;
+  }
+
+  auto max_index = std::to_underlying(WeaponProperty::ELEMENTS_START);
+
+  for (auto i = max_index + 1; i < std::to_underlying(WeaponProperty::ELEMENTS_END); ++i)
+  {
+    if (as.weapon.m_properties[i] > as.weapon.m_properties[max_index])
+    {
+      max_index = i;
+    }
+  }
+
+  return max_index;
+}
+
+// 00199340
+std::optional<WeaponAttackType> CGameDataUsed::GetAttackType() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  switch (m_type)
+  {
+    case EUsedItemType::Weapon:
+      return GetWeaponInfoData(m_common_index)->m_attack_type;
+    case EUsedItemType::Robopart:
+      return GetRoboInfoType();
+    default:
+      return std::nullopt;
+  }
+}
+
+// 001994E0
+void CGameDataUsed::CheckParamLimit()
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  using namespace common;
+  using enum EUsedItemType;
+
+  switch (m_type)
+  {
+    case Weapon:
+    {
+      auto wep_data = GetWeaponInfoData(m_common_index);
+      if (wep_data == nullptr)
+      {
+        return;
+      }
+
+      // Clamp weapon max WHP
+      as.weapon.m_whp_gage.m_max = std::min(as.weapon.m_whp_gage.m_max, static_cast<f32>(constants::u8_max));
+
+      // Clamp weapon max attack
+      as.weapon.m_attack = std::min(as.weapon.m_attack, wep_data->m_attack_max);
+
+      // Clamp weapon max durability
+      as.weapon.m_durable = std::min(as.weapon.m_durable, wep_data->m_durable_max);
+
+      // Clamp the rest of the weapon properties
+      for (auto i = 0; i < as.weapon.m_properties.size(); ++i)
+      {
+        as.weapon.m_properties[i] = std::min(as.weapon.m_properties[i], wep_data->m_properties_max[i]);
+      }
+
+      // This function will clamp our fusion points.
+      AddFusionPoint(0);
+
+      // Clamp weapon max ABS
+      as.weapon.m_abs_gage.m_max = std::min(as.weapon.m_abs_gage.m_max, static_cast<f32>(constants::u8_max));
+
+      // If our current ABS is *somehow* gte the max ABS, guess we need to level up.
+      if (as.weapon.m_abs_gage.m_current >= as.weapon.m_abs_gage.m_max)
+      {
+        // Ding!
+        LevelUp();
+      }
+
+      break;
+    }
+    case Attach:
+    {
+      as.attach.m_unk_field_2 = std::min<s16>(as.attach.m_unk_field_2, 999);
+      as.attach.m_unk_field_4 = std::min<s16>(as.attach.m_unk_field_4, 999);
+
+      for (auto i = 0; i < as.attach.m_unk_field_6.size(); ++i)
+      {
+        as.attach.m_unk_field_6[i] = std::min<s16>(as.attach.m_unk_field_6[i], 999);
+      }
+
+      break;
+    }
+    case Fish:
+    {
+      u16* p_params[] = {
+        &as.fish.m_breed_fish.m_unk_field_26,
+        &as.fish.m_breed_fish.m_unk_field_28,
+        &as.fish.m_breed_fish.m_unk_field_2A,
+        &as.fish.m_breed_fish.m_unk_field_2C,
+        &as.fish.m_breed_fish.m_unk_field_2E,
+      };
+
+      // There was a loop here which checked if any particular param value was above 500,
+      // and if so replace the pointer to it in p_params with nullptr (presumably to cause a crash???)
+      // it's gone now.
+      auto fish_param = as.fish.m_breed_fish.CalcBreedFishParam();
+      if (fish_param > 500)
+      {
+        panicf("Woah dude, your fish parameters are way too high!! They cannot be redistributed fairly!!");
+      }
+
+      while (fish_param > 400)
+      {
+        auto rand_index = GetRandI(std::size(p_params));
+
+        if (*p_params[rand_index] > 0)
+        {
+          *p_params[rand_index] -= 1;
+          fish_param -= 1;
+        }
+      }
+      
+      for (usize i = 0; i < 4; ++i) // a1
+      {
+        bool clean = true; // a2
+        usize j; // a3, t3
+        while (true) 
+        {
+          auto p_curr = p_params[j]; // t4
+          if (*p_curr <= 100)
+          {
+            ++j;
+            if (j >= std::size(p_params))
+            {
+              break;
+            }
+          }
+
+          u16* p_min = p_params[0]; // t0
+          clean = false;
+          
+          // ugh why
+          for (usize k = 0; k < std::size(p_params); ++k) // t1, t2
+          {
+            if (p_curr == p_params[k])
+            {
+              continue;
+            }
+
+            if (*p_params[k] >= *p_min)
+            {
+              p_min = p_params[k];
+            }
+          }
+
+          *p_min -= 1;
+          *p_curr += 1;
+        }
+
+        if (clean)
+        {
+          return;
+        }
+      }
+      break;
+    }
+    default:
+      break;
+  }
+}
+
+// 001993B0
+std::optional<u8> CGameDataUsed::GetModelNo() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  switch (m_type)
+  {
+    case EUsedItemType::Weapon:
+      return GetWeaponInfoData(m_common_index)->m_model_no;
+    default:
+      return std::nullopt;
+  }
+}
+
+// 001993F0
+std::optional<std::string> GetMainCharaModelName(ECharacterID chara_id, bool b)
+{
+  log_trace("{}({}, {})", __func__, std::to_underlying(chara_id), b);
+
+  auto user_man = GetUserDataMan();
+
+  if (user_man == nullptr)
+  {
+    return std::nullopt;
+  }
+
+  auto chara_data = user_man->GetCharaDataPtr(chara_id);
+
+  if (chara_data == nullptr)
+  {
+    return std::nullopt;
+  }
+
+  auto model_no_opt = chara_data->m_equip_table[0].GetModelNo();
+  u8 model_no = 0;
+
+  if (model_no_opt.has_value()) [[likely]]
+  {
+    model_no = std::clamp<u8>(model_no_opt.value(), 0, 3);
+  }
+
+  if (chara_id == ECharacterID::Max)
+  {
+    model_no += 2;
+  }
+
+  constexpr std::array<const char*, 2> base_model_names
+  {
+    "c01_base", // Max
+    "c02_base"  // Monica
+  };
+
+  if (b)
+  {
+    return common::strings::format("{}.chr", base_model_names[std::to_underlying(chara_id)]);
+  }
+  else
+  {
+    return common::strings::format("{}{}.chr", base_model_names[std::to_underlying(chara_id)], model_no);
+  }
+}
+
 // 00199830
 void CGameDataUsed::TimeCheck(s32 delta)
 {
@@ -1057,7 +1323,7 @@ void CGameDataUsed::TimeCheck(s32 delta)
     return;
   }
 
-  m_sub_data.m_fish.m_unk_field_30 = std::max(m_sub_data.m_fish.m_unk_field_30 - delta, 0);
+  as.fish.m_unk_field_30 = std::max(as.fish.m_unk_field_30 - delta, 0);
 }
 
 // 00199A50
@@ -1072,39 +1338,42 @@ bool CGameDataUsed::CopyDataWeapon(ECommonItemData item_id)
     return false;
   }
 
+  using enum WeaponProperty;
+
   m_type = EUsedItemType::Weapon;
   m_common_index = item_id;
   m_item_data_type = GetItemDataType(item_id);
 
-  m_sub_data.m_weapon.m_level = 0;
+  as.weapon.m_level = 0;
 
-  m_sub_data.m_weapon.m_whp_gage.m_max = static_cast<f32>(weapon_data->m_whp_max);
-  m_sub_data.m_weapon.m_whp_gage.m_current = static_cast<f32>(weapon_data->m_whp_max);
+  as.weapon.m_whp_gage.m_max = static_cast<f32>(weapon_data->m_whp_max);
+  as.weapon.m_whp_gage.m_current = static_cast<f32>(weapon_data->m_whp_max);
 
-  m_sub_data.m_weapon.m_abs_gage.m_max = static_cast<f32>(weapon_data->m_abs_max);
-  m_sub_data.m_weapon.m_abs_gage.m_current = 0.0f;
+  as.weapon.m_abs_gage.m_max = static_cast<f32>(weapon_data->m_abs_max);
+  as.weapon.m_abs_gage.m_current = 0.0f;
 
-  m_sub_data.m_weapon.m_attack = weapon_data->m_attack;
-  m_sub_data.m_weapon.m_durable = weapon_data->m_durable;
+  as.weapon.m_attack = weapon_data->m_attack;
+  as.weapon.m_durable = weapon_data->m_durable;
 
-  m_sub_data.m_weapon.m_flame = weapon_data->m_flame;
-  m_sub_data.m_weapon.m_chill = weapon_data->m_chill;
-  m_sub_data.m_weapon.m_lightning = weapon_data->m_lightning;
-  m_sub_data.m_weapon.m_cyclone = weapon_data->m_cyclone;
-  m_sub_data.m_weapon.m_smash = weapon_data->m_smash;
-  m_sub_data.m_weapon.m_exorcism = weapon_data->m_exorcism;
-  m_sub_data.m_weapon.m_beast = weapon_data->m_beast;
-  m_sub_data.m_weapon.m_scale = weapon_data->m_scale;
+  as.weapon.m_properties[std::to_underlying(Flame)] = weapon_data->m_properties[std::to_underlying(Flame)];
+  as.weapon.m_properties[std::to_underlying(Chill)] = weapon_data->m_properties[std::to_underlying(Chill)];
+  as.weapon.m_properties[std::to_underlying(Lightning)]  = weapon_data->m_properties[std::to_underlying(Lightning)];
+  as.weapon.m_properties[std::to_underlying(Cyclone)] = weapon_data->m_properties[std::to_underlying(Cyclone)];
 
-  m_sub_data.m_weapon.m_fusion_point = weapon_data->m_fusion_point;
-  m_sub_data.m_weapon.m_unk_field_28 = weapon_data->m_unk_field_2C;
+  as.weapon.m_properties[std::to_underlying(Smash)] = weapon_data->m_properties[std::to_underlying(Smash)];
+  as.weapon.m_properties[std::to_underlying(Exorcism)] = weapon_data->m_properties[std::to_underlying(Exorcism)];
+  as.weapon.m_properties[std::to_underlying(Beast)] = weapon_data->m_properties[std::to_underlying(Beast)];
+  as.weapon.m_properties[std::to_underlying(Scale)] = weapon_data->m_properties[std::to_underlying(Scale)];
 
-  m_sub_data.m_weapon.m_unk_field_2E = 0;
-  m_sub_data.m_weapon.m_unk_field_30 = 0;
+  as.weapon.m_fusion_point = weapon_data->m_fusion_point;
+  as.weapon.m_unk_field_28 = weapon_data->m_unk_field_2C;
+
+  as.weapon.m_unk_field_2E = 0;
+  as.weapon.m_unk_field_30 = 0;
 
   strcpy_s(
-    m_sub_data.m_weapon.m_name.data(),
-    m_sub_data.m_weapon.m_name.size(),
+    as.weapon.m_name.data(),
+    as.weapon.m_name.size(),
     GetItemMessage(item_id).c_str()
   );
 
@@ -1263,12 +1532,12 @@ COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_inde
   switch (chara_id)
   {
     case ECharacterID::Ridepod:
-      return &m_robo_data.m_part_data[0].m_sub_data.m_robopart.m_whp_gage;
+      return &m_robo_data.m_part_data[0].as.robopart.m_whp_gage;
     case ECharacterID::Monster:
       return &m_monster_box.GetMonsterBadgeData(m_monster_id)->m_whp_gage;
     case ECharacterID::Max:
     case ECharacterID::Monica:
-      return &m_chara_data[std::to_underlying(chara_id)].m_equip_table[gage_index].m_sub_data.m_weapon.m_whp_gage;
+      return &m_chara_data[std::to_underlying(chara_id)].m_equip_table[gage_index].as.weapon.m_whp_gage;
     default:
       return nullptr;
   }
@@ -1579,7 +1848,7 @@ COMMON_GAGE* CBattleCharaInfo::GetNowAccessWHp(usize weapon_index) const
     case EBattleCharaType::Human:
       if (m_equip_table != nullptr)
       {
-        return &m_equip_table[weapon_index].m_sub_data.m_weapon.m_whp_gage;
+        return &m_equip_table[weapon_index].as.weapon.m_whp_gage;
       }
       return nullptr;
     case EBattleCharaType::MonsterTransform:
@@ -1605,7 +1874,7 @@ COMMON_GAGE* CBattleCharaInfo::GetNowAccessAbs(usize weapon_index) const
     case EBattleCharaType::Human:
       if (m_equip_table != nullptr)
       {
-        return &m_equip_table[weapon_index].m_sub_data.m_weapon.m_abs_gage;
+        return &m_equip_table[weapon_index].as.weapon.m_abs_gage;
       }
       return nullptr;
     case EBattleCharaType::MonsterTransform:

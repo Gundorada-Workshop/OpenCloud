@@ -121,6 +121,30 @@ struct COMMON_GAGE
 // 00196DB0
 f32 GetCommonGageRate(COMMON_GAGE* gage);
 
+struct BREEDFISH_USED
+{
+public:
+  // 0
+  // BUG: Seems to be 20 decimal (14h) chars instead of 20h chars in original game
+  std::array<char, 0x20> m_name{ 0 };
+  // 20
+  s32 m_hp{ 0 };
+
+  // 26
+  u16 m_unk_field_26;
+  // 28
+  u16 m_unk_field_28;
+  // 2A
+  u16 m_unk_field_2A;
+  // 2C
+  u16 m_unk_field_2C;
+  // 2E
+  u16 m_unk_field_2E;
+
+  // 00196DE0
+  u32 CalcBreedFishParam();
+};
+
 enum class EUsedItemType;
 
 enum class ECommonItemData;
@@ -139,8 +163,16 @@ struct SGameDataUsedClothingSub
 
 struct SGameDataUsedAttachSub
 {
-  // 8
-  COMMON_GAGE m_unk_field_8;
+  // 0
+  s8 m_unk_field_0;
+  // 1
+  s8 m_unk_field_1;
+  // 2
+  s16 m_unk_field_2;
+  // 4
+  s16 m_unk_field_4;
+  // 6
+  std::array<s16, 8> m_unk_field_6;
   // 16
   ECommonItemData m_spectrumized_item_id;
   // 18
@@ -165,21 +197,7 @@ struct SGameDataUsedWeaponSub
   // 14
   s16 m_durable{};
   // 16
-  s16 m_flame{};
-  // 18
-  s16 m_chill{};
-  // 1A
-  s16 m_lightning{};
-  // 1C
-  s16 m_cyclone{};
-  // 1E
-  s16 m_smash{};
-  // 20
-  s16 m_exorcism{};
-  // 22
-  s16 m_beast{};
-  // 24
-  s16 m_scale{};
+  std::array<s16, std::to_underlying(WeaponProperty::COUNT)> m_properties{};
   // 28
   s32 m_unk_field_28{};
   // 2C
@@ -205,10 +223,7 @@ struct SGameDataUsedRobopartSub
 struct SGameDataUsedFishSub
 {
   // 0
-  // BUG: Seems to be 20 decimal (14h) chars instead of 20h chars in original game
-  std::array<char, 0x20> m_name{ 0 };
-  // 20
-  s32 m_hp{ 0 };
+  BREEDFISH_USED m_breed_fish{};
 
   // ?
 
@@ -221,12 +236,12 @@ struct SGameDataUsedFishSub
 
 union UGameDataUsedSub
 {
-  SGameDataUsedItem_MiscSub m_item_misc;
-  SGameDataUsedClothingSub m_clothing;
-  SGameDataUsedAttachSub m_attach;
-  SGameDataUsedWeaponSub m_weapon;
-  SGameDataUsedRobopartSub m_robopart;
-  SGameDataUsedFishSub m_fish;
+  SGameDataUsedItem_MiscSub item_misc;
+  SGameDataUsedClothingSub clothing;
+  SGameDataUsedAttachSub attach;
+  SGameDataUsedWeaponSub weapon;
+  SGameDataUsedRobopartSub robopart;
+  SGameDataUsedFishSub fish;
 };
 
 class CGameDataUsed
@@ -282,7 +297,9 @@ public:
   // 00198360
   bool IsEnableUseRepair(ECommonItemData item_id) const;
   // 00198390
-  sint GetRoboInfoType() const;
+  std::optional<WeaponAttackType> GetRoboInfoType() const;
+  // 001993B0
+  std::optional<u8> GetModelNo() const;
   // 00198400
   std::string GetRoboJointName() const;
   // 001984B0
@@ -301,6 +318,12 @@ public:
   uint IsBuildUp(uint* total_possible_dest, ECommonItemData* buildup_item_ids_dest, bool* can_build_up_dest) const;
   // 001992B0
   bool IsFishingRod() const;
+  // 001992E0
+  std::optional<usize> GetActiveElem() const;
+  // 00199340
+  std::optional<WeaponAttackType> GetAttackType() const;
+  // 001994E0
+  void CheckParamLimit();
   // 00199830
   void TimeCheck(s32 delta);
   // 00199A50
@@ -316,7 +339,7 @@ public:
   bool m_unk_field_5{};
 
   // 10
-  UGameDataUsedSub m_sub_data = {};
+  UGameDataUsedSub as = {};
 
   // SIZE 0x6C, all initialized to 0
 };
@@ -716,6 +739,12 @@ ECommonItemData SearchItemByName(const std::string name);
 
 // 00196630
 ECommonItemData GetRidePodCore(ssize index);
+
+// 00196BE0
+CUserDataManager* GetUserDataMan();
+
+// 001993F0
+std::optional<std::string> GetMainCharaModelName(ECharacterID chara_id, bool b);
 
 // 0019A890
 MOS_HENGE_PARAM* GetMonsterHengeParam(EMonsterID index);

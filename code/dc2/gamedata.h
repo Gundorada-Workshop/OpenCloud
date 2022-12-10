@@ -557,6 +557,34 @@ public:
   // SIZE 0x18
 };
 
+enum class WeaponAttackType : s8
+{
+
+};
+
+enum class WeaponProperty : s16
+{
+  // NOTE: Attack and Durability are stored as their own attributes
+
+  // Elements
+  ELEMENTS_START = 0,
+  Flame = ELEMENTS_START,
+  Chill = ELEMENTS_START + 1,
+  Lightning = ELEMENTS_START + 2,
+  Cyclone = ELEMENTS_START + 3,
+  ELEMENTS_END = ELEMENTS_START + 4,
+
+  // Affinities
+  AFFINITIES_START = ELEMENTS_END,
+  Smash = AFFINITIES_START,
+  Exorcism = AFFINITIES_START + 1,
+  Beast = AFFINITIES_START + 2,
+  Scale = AFFINITIES_START + 3,
+  AFFINITIES_END = AFFINITIES_START + 4,
+
+  COUNT = AFFINITIES_END,
+};
+
 class CDataWeapon
 {
 public:
@@ -570,27 +598,13 @@ public:
   // 6
   s16 m_durable{ 0 };
   // 8
-  s16 m_unk_field_8{ 0 };
+  s16 m_attack_max{ 0 };
   // A
-  s16 m_unk_field_A{ 0 };
+  s16 m_durable_max{ 0 };
   // C
-  s16 m_flame{ 0 };
-  // E
-  s16 m_chill{ 0 };
-  // 10
-  s16 m_lightning{ 0 };
-  // 12
-  s16 m_cyclone{ 0 };
-  // 14
-  s16 m_smash{ 0 };
-  // 16
-  s16 m_exorcism{ 0 };
-  // 18
-  s16 m_beast{ 0 };
-  // 1A
-  s16 m_scale{ 0 };
+  std::array<s16, std::to_underlying(WeaponProperty::COUNT)> m_properties{ 0 };
   // 1C
-  std::array<s16, 8> m_unk_field_1C{ 0 };
+  std::array<s16, std::to_underlying(WeaponProperty::COUNT)> m_properties_max{ 0 };
   
   // ?
 
@@ -616,9 +630,9 @@ public:
   // 47
   s8 m_unk_field_47{ 0 };
   // 48
-  s8 m_unk_field_48{ 0 };
+  WeaponAttackType m_attack_type{};
   // 49
-  s8 m_unk_field_49{ 0 };
+  s8 m_model_no{ 0 };
 
   // SIZE 0x4C
 };
@@ -646,9 +660,9 @@ public:
   // 1C
   s16 m_unk_field_1C{ 0 };
   // 1E
-  s16 m_unk_field_1E{ 0 };
+  WeaponAttackType m_unk_field_1E{};
   // 20
-  s16 m_unk_field_20{ 0 };
+  WeaponAttackType m_unk_field_20{};
   // 22
   s8 m_offset_no{ 0 };
   // 23
