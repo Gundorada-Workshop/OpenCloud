@@ -301,6 +301,8 @@ public:
   bool IsEnableUseRepair(ECommonItemData item_id) const;
   // 00198390
   std::optional<WeaponAttackType> GetRoboInfoType() const;
+  // 001993B0
+  std::optional<u8> GetModelNo() const;
   // 00198400
   std::string GetRoboJointName() const;
   // 001984B0

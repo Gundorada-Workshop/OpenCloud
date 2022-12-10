@@ -1078,6 +1078,20 @@ std::optional<WeaponAttackType> CGameDataUsed::GetAttackType() const
   }
 }
 
+// 001993B0
+std::optional<u8> CGameDataUsed::GetModelNo() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  switch (m_type)
+  {
+    case EUsedItemType::Weapon:
+      return GetWeaponInfoData(m_common_index)->m_model_no;
+    default:
+      return std::nullopt;
+  }
+}
+
 // 00199830
 void CGameDataUsed::TimeCheck(s32 delta)
 {
