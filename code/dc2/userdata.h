@@ -225,12 +225,12 @@ struct SGameDataUsedFishSub
 
 union UGameDataUsedSub
 {
-  SGameDataUsedItem_MiscSub m_item_misc;
-  SGameDataUsedClothingSub m_clothing;
-  SGameDataUsedAttachSub m_attach;
-  SGameDataUsedWeaponSub m_weapon;
-  SGameDataUsedRobopartSub m_robopart;
-  SGameDataUsedFishSub m_fish;
+  SGameDataUsedItem_MiscSub item_misc;
+  SGameDataUsedClothingSub clothing;
+  SGameDataUsedAttachSub attach;
+  SGameDataUsedWeaponSub weapon;
+  SGameDataUsedRobopartSub robopart;
+  SGameDataUsedFishSub fish;
 };
 
 class CGameDataUsed
@@ -328,7 +328,7 @@ public:
   bool m_unk_field_5{};
 
   // 10
-  UGameDataUsedSub m_sub_data = {};
+  UGameDataUsedSub as = {};
 
   // SIZE 0x6C, all initialized to 0
 };
