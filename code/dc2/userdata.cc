@@ -969,14 +969,14 @@ uint CGameDataUsed::IsBuildUp(uint* total_possible_dest, ECommonItemData* buildu
   s16 now_param[9];
 
   now_param[0] = m_sub_data.m_weapon.m_attack;
-  now_param[1] = m_sub_data.m_weapon.m_flame;
-  now_param[2] = m_sub_data.m_weapon.m_chill;
-  now_param[3] = m_sub_data.m_weapon.m_lightning;
-  now_param[4] = m_sub_data.m_weapon.m_cyclone;
-  now_param[5] = m_sub_data.m_weapon.m_smash;
-  now_param[6] = m_sub_data.m_weapon.m_exorcism;
-  now_param[7] = m_sub_data.m_weapon.m_beast;
-  now_param[8] = m_sub_data.m_weapon.m_scale;
+  now_param[1] = m_sub_data.m_weapon.m_elements.flame;
+  now_param[2] = m_sub_data.m_weapon.m_elements.chill;
+  now_param[3] = m_sub_data.m_weapon.m_elements.lightning;
+  now_param[4] = m_sub_data.m_weapon.m_elements.cyclone;
+  now_param[5] = m_sub_data.m_weapon.m_affinities.smash;
+  now_param[6] = m_sub_data.m_weapon.m_affinities.exorcism;
+  now_param[7] = m_sub_data.m_weapon.m_affinities.beast;
+  now_param[8] = m_sub_data.m_weapon.m_affinities.scale;
 
   uint total_possible = 0;
   uint total_can_build_up = 0;
@@ -994,14 +994,14 @@ uint CGameDataUsed::IsBuildUp(uint* total_possible_dest, ECommonItemData* buildu
     s16 goal_param[std::size(now_param)];
 
     goal_param[0] = goal_wep_data->m_attack;
-    goal_param[1] = goal_wep_data->m_flame;
-    goal_param[2] = goal_wep_data->m_chill;
-    goal_param[3] = goal_wep_data->m_lightning;
-    goal_param[4] = goal_wep_data->m_cyclone;
-    goal_param[5] = goal_wep_data->m_smash;
-    goal_param[6] = goal_wep_data->m_exorcism;
-    goal_param[7] = goal_wep_data->m_beast;
-    goal_param[8] = goal_wep_data->m_scale;
+    goal_param[1] = goal_wep_data->m_elements.flame;
+    goal_param[2] = goal_wep_data->m_elements.chill;
+    goal_param[3] = goal_wep_data->m_elements.lightning;
+    goal_param[4] = goal_wep_data->m_elements.cyclone;
+    goal_param[5] = goal_wep_data->m_affinities.smash;
+    goal_param[6] = goal_wep_data->m_affinities.exorcism;
+    goal_param[7] = goal_wep_data->m_affinities.beast;
+    goal_param[8] = goal_wep_data->m_affinities.scale;
 
     bool goal_reached = true;
 
@@ -1087,14 +1087,15 @@ bool CGameDataUsed::CopyDataWeapon(ECommonItemData item_id)
   m_sub_data.m_weapon.m_attack = weapon_data->m_attack;
   m_sub_data.m_weapon.m_durable = weapon_data->m_durable;
 
-  m_sub_data.m_weapon.m_flame = weapon_data->m_flame;
-  m_sub_data.m_weapon.m_chill = weapon_data->m_chill;
-  m_sub_data.m_weapon.m_lightning = weapon_data->m_lightning;
-  m_sub_data.m_weapon.m_cyclone = weapon_data->m_cyclone;
-  m_sub_data.m_weapon.m_smash = weapon_data->m_smash;
-  m_sub_data.m_weapon.m_exorcism = weapon_data->m_exorcism;
-  m_sub_data.m_weapon.m_beast = weapon_data->m_beast;
-  m_sub_data.m_weapon.m_scale = weapon_data->m_scale;
+  m_sub_data.m_weapon.m_elements.flame = weapon_data->m_elements.flame;
+  m_sub_data.m_weapon.m_elements.chill = weapon_data->m_elements.chill;
+  m_sub_data.m_weapon.m_elements.lightning = weapon_data->m_elements.lightning;
+  m_sub_data.m_weapon.m_elements.cyclone = weapon_data->m_elements.cyclone;
+
+  m_sub_data.m_weapon.m_affinities.smash = weapon_data->m_affinities.smash;
+  m_sub_data.m_weapon.m_affinities.exorcism = weapon_data->m_affinities.exorcism;
+  m_sub_data.m_weapon.m_affinities.beast = weapon_data->m_affinities.beast;
+  m_sub_data.m_weapon.m_affinities.scale = weapon_data->m_affinities.scale;
 
   m_sub_data.m_weapon.m_fusion_point = weapon_data->m_fusion_point;
   m_sub_data.m_weapon.m_unk_field_28 = weapon_data->m_unk_field_2C;

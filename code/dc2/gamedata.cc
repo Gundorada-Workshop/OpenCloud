@@ -194,14 +194,14 @@ static bool _DATAWEP2_ST(SPI_STACK* stack, int stack_count)
     return false;
   }
 
-  SpiWeaponPt->m_flame = spiGetStackInt(stack++);
-  SpiWeaponPt->m_chill = spiGetStackInt(stack++);
-  SpiWeaponPt->m_lightning = spiGetStackInt(stack++);
-  SpiWeaponPt->m_cyclone = spiGetStackInt(stack++);
-  SpiWeaponPt->m_smash = spiGetStackInt(stack++);
-  SpiWeaponPt->m_exorcism = spiGetStackInt(stack++);
-  SpiWeaponPt->m_beast = spiGetStackInt(stack++);
-  SpiWeaponPt->m_scale = spiGetStackInt(stack++);
+  SpiWeaponPt->m_elements.flame = spiGetStackInt(stack++);
+  SpiWeaponPt->m_elements.chill = spiGetStackInt(stack++);
+  SpiWeaponPt->m_elements.lightning = spiGetStackInt(stack++);
+  SpiWeaponPt->m_elements.cyclone = spiGetStackInt(stack++);
+  SpiWeaponPt->m_affinities.smash = spiGetStackInt(stack++);
+  SpiWeaponPt->m_affinities.exorcism = spiGetStackInt(stack++);
+  SpiWeaponPt->m_affinities.beast = spiGetStackInt(stack++);
+  SpiWeaponPt->m_affinities.scale = spiGetStackInt(stack++);
 
   return true;
 }

@@ -165,21 +165,39 @@ struct SGameDataUsedWeaponSub
   // 14
   s16 m_durable{};
   // 16
-  s16 m_flame{};
-  // 18
-  s16 m_chill{};
-  // 1A
-  s16 m_lightning{};
-  // 1C
-  s16 m_cyclone{};
+  union
+  {
+    // 16
+    std::array<s16, 4> data{ 0 };
+    struct
+    {
+      // 16
+      s16 flame;
+      // 18
+      s16 chill;
+      // 1A
+      s16 lightning;
+      // 1C
+      s16 cyclone;
+    };
+  } m_elements;
   // 1E
-  s16 m_smash{};
-  // 20
-  s16 m_exorcism{};
-  // 22
-  s16 m_beast{};
-  // 24
-  s16 m_scale{};
+  union
+  {
+    // 1E
+    std::array<s16, 4> data{ 0 };
+    struct
+    {
+      // 1E
+      s16 smash;
+      // 20
+      s16 exorcism;
+      // 22
+      s16 beast;
+      // 24
+      s16 scale;
+    };
+  } m_affinities;
   // 28
   s32 m_unk_field_28{};
   // 2C

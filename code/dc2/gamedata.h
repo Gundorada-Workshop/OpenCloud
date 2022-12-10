@@ -574,21 +574,39 @@ public:
   // A
   s16 m_unk_field_A{ 0 };
   // C
-  s16 m_flame{ 0 };
-  // E
-  s16 m_chill{ 0 };
-  // 10
-  s16 m_lightning{ 0 };
-  // 12
-  s16 m_cyclone{ 0 };
+  union
+  {
+    // C
+    std::array<s16, 4> data{ 0 };
+    struct
+    {
+      // C
+      s16 flame;
+      // E
+      s16 chill;
+      // 10
+      s16 lightning;
+      // 12
+      s16 cyclone;
+    };
+  } m_elements;
   // 14
-  s16 m_smash{ 0 };
-  // 16
-  s16 m_exorcism{ 0 };
-  // 18
-  s16 m_beast{ 0 };
-  // 1A
-  s16 m_scale{ 0 };
+  union
+  {
+    // 14
+    std::array<s16, 4> data{ 0 };
+    struct
+    {
+      // 14
+      s16 smash;
+      // 16
+      s16 exorcism;
+      // 18
+      s16 beast;
+      // 1A
+      s16 scale;
+    };
+  } m_affinities;
   // 1C
   std::array<s16, 8> m_unk_field_1C{ 0 };
   
