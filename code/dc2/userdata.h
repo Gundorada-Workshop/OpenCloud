@@ -124,6 +124,12 @@ f32 GetCommonGageRate(COMMON_GAGE* gage);
 struct BREEDFISH_USED
 {
 public:
+  // 0
+  // BUG: Seems to be 20 decimal (14h) chars instead of 20h chars in original game
+  std::array<char, 0x20> m_name{ 0 };
+  // 20
+  s32 m_hp{ 0 };
+
   // 26
   u16 m_unk_field_26;
   // 28
@@ -157,8 +163,16 @@ struct SGameDataUsedClothingSub
 
 struct SGameDataUsedAttachSub
 {
-  // 8
-  COMMON_GAGE m_unk_field_8;
+  // 0
+  s8 m_unk_field_0;
+  // 1
+  s8 m_unk_field_1;
+  // 2
+  s16 m_unk_field_2;
+  // 4
+  s16 m_unk_field_4;
+  // 6
+  std::array<s16, 8> m_unk_field_6;
   // 16
   ECommonItemData m_spectrumized_item_id;
   // 18
@@ -209,10 +223,7 @@ struct SGameDataUsedRobopartSub
 struct SGameDataUsedFishSub
 {
   // 0
-  // BUG: Seems to be 20 decimal (14h) chars instead of 20h chars in original game
-  std::array<char, 0x20> m_name{ 0 };
-  // 20
-  s32 m_hp{ 0 };
+  BREEDFISH_USED m_breed_fish{};
 
   // ?
 

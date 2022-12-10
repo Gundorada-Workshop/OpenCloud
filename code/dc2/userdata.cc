@@ -620,8 +620,8 @@ s16 CGameDataUsed::AddFishHp(s16 delta)
     return 0;
   }
 
-  as.fish.m_hp = std::clamp(as.fish.m_hp + delta, 0, 100);
-  return as.fish.m_hp;
+  as.fish.m_breed_fish.m_hp = std::clamp(as.fish.m_breed_fish.m_hp + delta, 0, 100);
+  return as.fish.m_breed_fish.m_hp;
 }
 
 // 00197600
@@ -648,7 +648,7 @@ void CGameDataUsed::SetName(const char* name)
   switch (m_type)
   {
     case EUsedItemType::Attach:
-      name_buf = &as.fish.m_name;
+      name_buf = &as.attach.m_name;
       break;
     case EUsedItemType::Weapon:
       name_buf = &as.weapon.m_name;
@@ -657,7 +657,7 @@ void CGameDataUsed::SetName(const char* name)
       name_buf = &as.robopart.m_name;
       break;
     case EUsedItemType::Fish:
-      name_buf = &as.fish.m_name;
+      name_buf = &as.fish.m_breed_fish.m_name;
       break;
   }
 
@@ -1137,13 +1137,118 @@ void CGameDataUsed::CheckParamLimit()
       as.weapon.m_attack = std::min(as.weapon.m_attack, wep_data->m_attack_max);
 
       // Clamp weapon max durability
-      as.weapon.m_attack = std::min(as.weapon.m_durable, wep_data->m_durable_max);
+      as.weapon.m_durable = std::min(as.weapon.m_durable, wep_data->m_durable_max);
 
-      todo;
+      // Clamp the rest of the weapon properties
+      for (auto i = 0; i < as.weapon.m_properties.size(); ++i)
+      {
+        as.weapon.m_properties[i] = std::min(as.weapon.m_properties[i], wep_data->m_properties_max[i]);
+      }
+
+      // This function will clamp our fusion points.
+      AddFusionPoint(0);
+
+      // Clamp weapon max ABS
+      as.weapon.m_abs_gage.m_max = std::min(as.weapon.m_abs_gage.m_max, static_cast<f32>(constants::u8_max));
+
+      // If our current ABS is *somehow* gte the max ABS, guess we need to level up.
+      if (as.weapon.m_abs_gage.m_current >= as.weapon.m_abs_gage.m_max)
+      {
+        // Ding!
+        LevelUp();
+      }
+
+      break;
     }
-  }
+    case Attach:
+    {
+      as.attach.m_unk_field_2 = std::min<s16>(as.attach.m_unk_field_2, 999);
+      as.attach.m_unk_field_4 = std::min<s16>(as.attach.m_unk_field_4, 999);
 
-  todo;
+      for (auto i = 0; i < as.attach.m_unk_field_6.size(); ++i)
+      {
+        as.attach.m_unk_field_6[i] = std::min<s16>(as.attach.m_unk_field_6[i], 999);
+      }
+
+      break;
+    }
+    case Fish:
+    {
+      u16* p_params[] = {
+        &as.fish.m_breed_fish.m_unk_field_26,
+        &as.fish.m_breed_fish.m_unk_field_28,
+        &as.fish.m_breed_fish.m_unk_field_2A,
+        &as.fish.m_breed_fish.m_unk_field_2C,
+        &as.fish.m_breed_fish.m_unk_field_2E,
+      };
+
+      // There was a loop here which checked if any particular param value was above 500,
+      // and if so replace the pointer to it in p_params with nullptr (presumably to cause a crash???)
+      // it's gone now.
+      auto fish_param = as.fish.m_breed_fish.CalcBreedFishParam();
+      if (fish_param > 500)
+      {
+        panicf("Woah dude, your fish parameters are way too high!! They cannot be redistributed fairly!!");
+      }
+
+      while (fish_param > 400)
+      {
+        auto rand_index = GetRandI(std::size(p_params));
+
+        if (*p_params[rand_index] > 0)
+        {
+          *p_params[rand_index] -= 1;
+          fish_param -= 1;
+        }
+      }
+      
+      for (usize i = 0; i < 4; ++i) // a1
+      {
+        bool clean = true; // a2
+        usize j; // a3, t3
+        while (true) 
+        {
+          auto p_curr = p_params[j]; // t4
+          if (*p_curr <= 100)
+          {
+            ++j;
+            if (j >= std::size(p_params))
+            {
+              break;
+            }
+          }
+
+          u16* p_min = p_params[0]; // t0
+          clean = false;
+          
+          // ugh why
+          for (usize k = 0; k < std::size(p_params); ++k) // t1, t2
+          {
+            if (p_curr == p_params[k])
+            {
+              continue;
+            }
+
+            if (*p_params[k] >= *p_min)
+            {
+              p_min = p_params[k];
+            }
+          }
+
+          *p_min -= 1;
+          *p_curr += 1;
+        }
+
+        if (clean)
+        {
+          return;
+        }
+      }
+      break;
+    }
+    default:
+      break;
+  }
 }
 
 // 001993B0
