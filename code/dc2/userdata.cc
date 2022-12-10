@@ -1251,6 +1251,22 @@ void CGameDataUsed::CheckParamLimit()
   }
 }
 
+// 00199860
+ssize CGameDataUsed::GetGiftBoxItemNum() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  usize i = 0;
+  for (; i < as.gift_box.m_contents.size(); ++i)
+  {
+    if (as.gift_box.m_contents[i] == ECommonItemData::Invalid)
+    {
+      break;
+    }
+  }
+  return static_cast<ssize>(i);
+}
+
 // 001993B0
 std::optional<u8> CGameDataUsed::GetModelNo() const
 {

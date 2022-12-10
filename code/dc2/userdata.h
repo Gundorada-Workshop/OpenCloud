@@ -234,6 +234,12 @@ struct SGameDataUsedFishSub
   u16 m_unk_field_38{};
 };
 
+struct SGameDataUsedGiftBoxSub
+{
+  // 0
+  std::array<ECommonItemData, 3> m_contents{ ECommonItemData::Invalid };
+};
+
 union UGameDataUsedSub
 {
   SGameDataUsedItem_MiscSub item_misc;
@@ -242,6 +248,7 @@ union UGameDataUsedSub
   SGameDataUsedWeaponSub weapon;
   SGameDataUsedRobopartSub robopart;
   SGameDataUsedFishSub fish;
+  SGameDataUsedGiftBoxSub gift_box;
 };
 
 class CGameDataUsed
@@ -326,6 +333,8 @@ public:
   void CheckParamLimit();
   // 00199830
   void TimeCheck(s32 delta);
+  // 00199860
+  ssize GetGiftBoxItemNum() const;
   // 00199A50
   bool CopyDataWeapon(ECommonItemData item_id);
 
