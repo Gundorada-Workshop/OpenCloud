@@ -1270,7 +1270,7 @@ ssize CGameDataUsed::GetGiftBoxItemNum() const
 // 001998B0
 ssize CGameDataUsed::SetGiftBoxItem(ECommonItemData item_id, ssize index)
 {
-  log_trace("CGameDataUsed::{}()", __func__);
+  log_trace("CGameDataUsed::{}({}, {})", __func__, std::to_underlying(item_id), index);
 
   if (m_type != EUsedItemType::Gift_Box)
   {
@@ -1294,6 +1294,19 @@ ssize CGameDataUsed::SetGiftBoxItem(ECommonItemData item_id, ssize index)
   }
 
   return -1;
+}
+
+// 00199920
+ECommonItemData CGameDataUsed::GetGiftBoxItemNo(ssize index) const
+{
+  log_trace("CGameDataUsed::{}({})", __func__, index);
+
+  if (m_type != EUsedItemType::Gift_Box || index < 0 || index >= as.gift_box.m_contents.size())
+  {
+    return ECommonItemData::Invalid;
+  }
+
+  return as.gift_box.m_contents[index];
 }
 
 // 001993B0
