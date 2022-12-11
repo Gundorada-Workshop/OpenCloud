@@ -1,4 +1,6 @@
 #pragma once
+#include "common/types.h"
+
 #include "dc2/mg/mg_memory.h"
 #include "dc2/object.h"
 
@@ -39,3 +41,14 @@ class CMapParts : public CObject
 public:
   // TODO
 };
+
+enum class TimeOfDay : uint
+{
+  Midday = 0,
+  Evening = 1,
+  Night = 2,
+  Morning = 3
+};
+
+// 00160C70
+TimeOfDay GetTimeBand(f32);

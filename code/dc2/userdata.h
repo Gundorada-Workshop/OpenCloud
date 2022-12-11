@@ -168,11 +168,11 @@ struct SGameDataUsedAttachSub
   // 1
   s8 m_unk_field_1;
   // 2
-  s16 m_unk_field_2;
+  s16 m_attack;
   // 4
-  s16 m_unk_field_4;
+  s16 m_durable;
   // 6
-  std::array<s16, 8> m_unk_field_6;
+  std::array<s16, std::to_underlying(WeaponProperty::COUNT)> m_properties{};
   // 16
   ECommonItemData m_spectrumized_item_id;
   // 18
@@ -216,6 +216,12 @@ struct SGameDataUsedRobopartSub
   COMMON_GAGE m_battery_gage{};
   // 8
   COMMON_GAGE m_whp_gage{};
+  // 10
+  s16 m_attack{};
+  // 12
+  s16 m_durable{};
+  // 14
+  std::array<s16, std::to_underlying(WeaponProperty::COUNT)> m_properties{};
   // 2C
   std::array<char, 0x20> m_name{ 0 };
 };
@@ -321,6 +327,10 @@ public:
   bool IsTrush() const;
   // 001989D0
   bool IsSpectolTrans() const;
+  // 00198E10
+  void GetStatusParam(s16* param_dest);
+  // 00198E10
+  void GetStatusParam(s16* param_dest, f32 time_of_day);
   // 00198FC0
   uint IsBuildUp(uint* total_possible_dest, ECommonItemData* buildup_item_ids_dest, bool* can_build_up_dest) const;
   // 001992B0

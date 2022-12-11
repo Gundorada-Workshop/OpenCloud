@@ -1,5 +1,9 @@
+#include "common/log.h"
+
 #include "dc2/map.h"
 #include "dc2/script_interpreter.h"
+
+set_log_channel("map");
 
 // 00164520
 static bool cfgDRAW_OFF_RECT(SPI_STACK* stack, int)
@@ -489,3 +493,35 @@ static const std::array<SPI_TAG_PARAM, 3> add_mapinfo_tag =
   "PCP", amapPCP,
   NULL, nullptr
 };
+
+// 00160C70
+TimeOfDay GetTimeBand(f32 time)
+{
+  log_trace("{}({})", __func__, time);
+
+  using enum TimeOfDay;
+
+  if (time < 6.0f || time >= 21.0f)
+  {
+    // 9 PM until 6 AM
+    return Night;
+  }
+
+  if (time < 9.0f)
+  {
+    // 6 AM to 9 AM
+    return Morning;
+  }
+
+  if (time < 17.0f)
+  {
+    // 9 AM to 5 PM
+    return Midday;
+  }
+
+  if (time < 21.0f)
+  {
+    // 5 PM to 9 PM
+    return Evening;
+  }
+}

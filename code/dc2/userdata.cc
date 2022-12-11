@@ -7,6 +7,7 @@
 
 #include "dc2/gamedata.h"
 #include "dc2/mainloop.h"
+#include "dc2/map.h"
 #include "dc2/menumain.h"
 #include "dc2/userdata.h"
 
@@ -974,6 +975,80 @@ bool CGameDataUsed::IsSpectolTrans() const
   return (com_data->m_attribute & 2) != 0;
 }
 
+// 00198E10
+void CGameDataUsed::GetStatusParam(s16* param_dest)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, fmt::ptr(param_dest));
+
+  using enum EUsedItemType;
+  using enum WeaponProperty;
+
+  switch (m_type)
+  {
+    case Weapon:
+      param_dest[0] = as.weapon.m_attack;
+      param_dest[1] = as.weapon.m_durable;
+      param_dest[2] = as.weapon.m_properties[std::to_underlying(Flame)];
+      param_dest[3] = as.weapon.m_properties[std::to_underlying(Chill)];
+      param_dest[4] = as.weapon.m_properties[std::to_underlying(Lightning)];
+      param_dest[5] = as.weapon.m_properties[std::to_underlying(Cyclone)];
+      param_dest[6] = as.weapon.m_properties[std::to_underlying(Smash)];
+      param_dest[7] = as.weapon.m_properties[std::to_underlying(Exorcism)];
+      param_dest[8] = as.weapon.m_properties[std::to_underlying(Beast)];
+      param_dest[9] = as.weapon.m_properties[std::to_underlying(Scale)];
+      break;
+    case Attach:
+      param_dest[0] = as.attach.m_attack;
+      param_dest[1] = as.attach.m_durable;
+      param_dest[2] = as.attach.m_properties[std::to_underlying(Flame)];
+      param_dest[3] = as.attach.m_properties[std::to_underlying(Chill)];
+      param_dest[4] = as.attach.m_properties[std::to_underlying(Lightning)];
+      param_dest[5] = as.attach.m_properties[std::to_underlying(Cyclone)];
+      param_dest[6] = as.attach.m_properties[std::to_underlying(Smash)];
+      param_dest[7] = as.attach.m_properties[std::to_underlying(Exorcism)];
+      param_dest[8] = as.attach.m_properties[std::to_underlying(Beast)];
+      param_dest[9] = as.attach.m_properties[std::to_underlying(Scale)];
+      break;
+    case Robopart:
+      param_dest[0] = as.robopart.m_attack;
+      param_dest[1] = as.robopart.m_durable;
+      param_dest[2] = as.robopart.m_properties[std::to_underlying(Flame)];
+      param_dest[3] = as.robopart.m_properties[std::to_underlying(Chill)];
+      param_dest[4] = as.robopart.m_properties[std::to_underlying(Lightning)];
+      param_dest[5] = as.robopart.m_properties[std::to_underlying(Cyclone)];
+      param_dest[6] = as.robopart.m_properties[std::to_underlying(Smash)];
+      param_dest[7] = as.robopart.m_properties[std::to_underlying(Exorcism)];
+      param_dest[8] = as.robopart.m_properties[std::to_underlying(Beast)];
+      param_dest[9] = as.robopart.m_properties[std::to_underlying(Scale)];
+      break;
+    default:
+      break;
+  }
+}
+
+// 00198E10
+void CGameDataUsed::GetStatusParam(s16* param_dest, f32 time_of_day)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, fmt::ptr(param_dest), time_of_day);
+
+  GetStatusParam(param_dest);
+
+  if (m_common_index == ECommonItemData::Lambs_Sword)
+  {
+    // The Lambs Sword is stronger at night, but weaker every other time of day.
+    if (GetTimeBand(time_of_day) == TimeOfDay::Night)
+    {
+      // 150% attack
+      param_dest[0] += param_dest[0] / 2;
+    }
+    else
+    {
+      // 50% attack
+      param_dest[0] /= 2;
+    }
+  }
+}
+
 // 00198FC0
 uint CGameDataUsed::IsBuildUp(uint* total_possible_dest, ECommonItemData* buildup_item_ids_dest, bool* can_build_up_dest) const
 {
@@ -1162,12 +1237,16 @@ void CGameDataUsed::CheckParamLimit()
     }
     case Attach:
     {
-      as.attach.m_unk_field_2 = std::min<s16>(as.attach.m_unk_field_2, 999);
-      as.attach.m_unk_field_4 = std::min<s16>(as.attach.m_unk_field_4, 999);
+      // Clamp attack
+      as.attach.m_attack = std::min<s16>(as.attach.m_attack, 999);
 
-      for (auto i = 0; i < as.attach.m_unk_field_6.size(); ++i)
+      // Clamp durability
+      as.attach.m_durable = std::min<s16>(as.attach.m_durable, 999);
+
+      // Clamp properties
+      for (auto i = 0; i < as.attach.m_properties.size(); ++i)
       {
-        as.attach.m_unk_field_6[i] = std::min<s16>(as.attach.m_unk_field_6[i], 999);
+        as.attach.m_properties[i] = std::min<s16>(as.attach.m_properties[i], 999);
       }
 
       break;
