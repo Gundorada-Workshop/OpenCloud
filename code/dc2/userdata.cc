@@ -1,4 +1,5 @@
 ﻿#include <string>
+#include <unordered_map>
 
 #include "common/constants.h"
 #include "common/debug.h"
@@ -19,7 +20,263 @@ static CBattleCharaInfo BattleParameter{};
 // 001960C0
 void SetItemSpectolPoint(ECommonItemData item_id, ATTACH_USED* attach, sint stack_num)
 {
-  todo;
+  using enum ECommonItemData;
+
+  if (item_id == Invalid || attach == nullptr)
+  {
+    return;
+  }
+
+  enum class SpectolCategory : u8
+  {
+    Flame = std::to_underlying(WeaponProperty::Flame), // 0
+    Chill = std::to_underlying(WeaponProperty::Chill), // 1
+    Lightning = std::to_underlying(WeaponProperty::Lightning), // 2
+    Cyclone = std::to_underlying(WeaponProperty::Cyclone), // 3
+    Smash = std::to_underlying(WeaponProperty::Smash), // 4
+    Exorcism = std::to_underlying(WeaponProperty::Exorcism), // 5
+    Beast = std::to_underlying(WeaponProperty::Beast), // 6
+    Scale = std::to_underlying(WeaponProperty::Scale), // 7
+    
+    Attack = 10,
+    Durable = 11,
+  };
+
+  using enum SpectolCategory;
+
+  // 00335640 (skipping 1, 1 pairs)
+  static const std::unordered_map<ECommonItemData, std::pair<SpectolCategory, u8>> etcitem_spectol_table
+  {
+    {Hunting_Cap,          {Durable,   2}},
+    {Fashionable_Cap,      {Durable,   2}},
+    {Two_Tone_Beret,       {Durable,   2}},
+    {Maintenance_Cap,      {Flame,     2}},
+    {Explorers_Helmet,     {Durable,   2}},
+    {Clown_Hat,            {Durable,   2}},
+    {Leather_Shoes,        {Beast,     2}},
+    {Wing_Shoes,           {Cyclone,   2}},
+    {Work_Shoes,           {Lightning, 2}},
+    {Dragon_Shoes,         {Beast,     2}},
+    {Clown_Shoes,          {Durable,   2}},
+    {Explorers_Shoes,      {Exorcism,  2}},
+    {Yellow_Ribbon,        {Lightning, 2}},
+    {Stripe_Ribbon,        {Chill,     2}},
+    {Zipangu_Comb,         {Exorcism,  2}},
+    {Shallowtail,          {Chill,     2}},
+    {Princess_Orb,         {Durable,   2}},
+    {Kitty_Bell,           {Durable,   2}},
+    {Knight_Boots,         {Attack,    2}},
+    {Metal_Boots,          {Smash,     2}},
+    {Wing_Boots,           {Cyclone,   2}},
+    {Spike_Boots,          {Flame,     2}},
+    {Princess_Boots,       {Lightning, 2}},
+    {Panther_Boots,        {Smash,     2}},
+    {Drum_Can_Body,        {Flame,     2}},
+    {Milk_Can_Body,        {Chill,     2}},
+    {Refrigerator_Body,    {Chill,     2}},
+    {Wooden_Box_Body,      {Smash,     2}},
+    {Clown_Body,           {Durable,   2}},
+    {Samurai_Body,         {Attack,    2}},
+    {Super_Alloy_Body,     {Smash,     2}},
+    {Sun_And_Moon_Armor,   {Exorcism,  2}},
+    {Cannonball_Arm,       {Smash,     2}},
+    {Barrel_Cannon,        {Flame,     2}},
+    {Drill_Arm,            {Smash,     2}},
+    {Missile_Pod_Arm,      {Attack,    2}},
+    {Hammer_Arm,           {Attack,    2}},
+    {Machine_Gun_Arm,      {Lightning, 2}},
+    {Clown_Hand,           {Cyclone,   2}},
+    {Samurai_Arm,          {Exorcism,  2}},
+    {Laser_Arm,            {Flame,     2}},
+    {Nova_Cannon,          {Flame,     2}},
+    {Iron_Leg,             {Smash,     2}},
+    {Caterpillar,          {Smash,     2}},
+    {Bucket_Leg,           {Chill,     2}},
+    {Roller_Foot,          {Smash,     2}},
+    {Buggy,                {Cyclone,   2}},
+    {Propeller_Leg,        {Cyclone,   2}},
+    {Multi_Feet,           {Beast,     2}},
+    {Jet_Hover,            {Cyclone,   2}},
+    {Clown_Foot,           {Durable,   2}},
+    {Energy_Pack,          {Flame,     2}},
+    {Energy_Pack_Barrel,   {Flame,     2}},
+    {Bucket_Pack,          {Flame,     2}},
+    {Cleaner_Pack,         {Cyclone,   2}},
+    {Energy_Pack_Urn,      {Smash,     2}},
+    {Triple_Urn_Pack,      {Smash,     2}},
+    {Seal_Breaking_Scroll, {Cyclone,   2}},
+    {Rolling_Log,          {Smash,     2}},
+    {Sturdy_Rock,          {Smash,     2}},
+    {Rough_Rock,           {Smash,     2}},
+    {Bundle_Of_Hay,        {Cyclone,   2}},
+    {Sturdy_Cloth,         {Beast,     2}},
+    {Gunpowder,            {Flame,     2}},
+    {Glass_Material,       {Chill,     2}},
+    {Unknown_Bone,         {Exorcism,  2}},
+    {Sticky_Clay,          {Durable,   2}},
+    {Flour,                {Exorcism,  2}},
+    {Sugar_Cane,           {Flame,     2}},
+    {Super_Hot_Pepper,     {Flame,     2}},
+    {Poison,               {Lightning, 2}},
+    {Forest_Dew,           {Cyclone,   2}},
+    {Scrap_Of_Metal,       {Lightning, 2}},
+    {Gold_Bar,             {Lightning, 2}},
+    {Silver_Ball,          {Lightning, 2}},
+    {Hunk_Of_Copper,       {Lightning, 2}},
+    {Light_Element,        {Exorcism,  2}},
+    {Holy_Element,         {Exorcism,  2}},
+    {Earth_Element,        {Smash,     2}},
+    {Water_Element,        {Chill,     2}},
+    {Chill_Element,        {Chill,     2}},
+    {Thunder_Element,      {Lightning, 2}},
+    {Wind_Element,         {Cyclone,   2}},
+    {Fire_Element,         {Flame,     2}},
+    {Life_Element,         {Durable,   2}},
+    {Thick_Hide,           {Beast,     2}},
+    {Anti_Petrify_Amulet,  {Durable,   2}},
+    {Non_Stop_Amulet,      {Durable,   2}},
+    {Anti_Curse_Amulet,    {Durable,   2}},
+    {Anti_Goo_Amulet,      {Durable,   2}},
+    {Antidote_Amulet,      {Durable,   2}},
+    {Green_Overalls,       {Durable,   2}},
+    {Red_Vest,             {Durable,   2}},
+    {Denim_Overalls,       {Durable,   2}},
+    {Explorers_Outfit,     {Durable,   2}},
+    {Clown_Suit,           {Durable,   2}},
+    {Pumpkin_Shorts,       {Durable,   2}},
+    {Striped_Dress,        {Durable,   2}},
+    {Star_Leotard,         {Durable,   2}},
+    {Princess_Dress,       {Durable,   2}},
+    {Panther_Ensemble,     {Durable,   2}},
+    {Bread,                {Flame,     2}},
+    {Cheese,               {Beast,     2}},
+    {Premium_Chicken,      {Beast,     2}},
+    {Double_Pudding,       {Chill,     2}},
+    {Plum_Rice_Ball,       {Flame,     2}},
+    {Resurrection_Powder,  {Durable,   2}},
+    {Stamina_Drink,        {Attack,    1}},
+    {Antidote_Drink,       {Scale,     2}},
+    {Holy_Water,           {Exorcism,  2}},
+    {Soap,                 {Chill,     2}},
+    {Medusas_Tear,         {Scale,     2}},
+    {Mighty_Healing,       {Durable,   2}},
+    {Bomb,                 {Flame,     2}},
+    {Stone,                {Smash,     2}},
+    {Flame_Stone,          {Flame,     2}},
+    {Chill_Stone,          {Chill,     2}},
+    {Lightning_Stone,      {Lightning, 2}},
+    {Wind_Stone,           {Cyclone,   2}},
+    {Holy_Stone,           {Exorcism,  2}},
+    {Heart_Throb_Cherry,   {Scale,     2}},
+    {Stone_Berry,          {Smash,     2}},
+    {Gooey_Peach,          {Beast,     2}},
+    {Bomb_Nut,             {Flame,     2}},
+    {Poison_Apple,         {Attack,    0}}, // guess you get no stats for this one, so sad
+    {Mellow_Banana,        {Durable,   2}},
+    {Escape_Powder,        {Exorcism,  2}},
+    {Repair_Powder,        {Durable,   2}},
+    {Level_Up_Powder,      {Attack,    1}},
+    {Fruit_Of_Eden,        {Durable,   2}},
+    {Treasure_Chest_Key,   {Beast,     2}},
+    {Gun_Repair_Powder,    {Durable,   2}},
+    {Crunchy_Bread,        {Durable,   2}},
+    {Crunchy_Bread2,       {Durable,   2}},
+    {Roasted_Chestnut,     {Cyclone,   2}},
+    {Lightspeed,           {Flame,     2}},
+    {Priscleen,            {Scale,     2}},
+    {Prickly,              {Beast,     2}},
+    {Mimi,                 {Beast,     2}},
+    {Evy,                  {Scale,     2}},
+    {Carrot,               {Smash,     2}},
+    {Potato_Cake,          {Flame,     2}},
+    {Minon,                {Beast,     2}},
+    {Battan,               {Beast,     2}},
+    {Petite_Fish,          {Scale,     2}},
+    {Bobo,                 {Scale,     2}},
+    {Gobbler,              {Scale,     2}},
+    {Nonky,                {Scale,     2}},
+    {Kaji,                 {Scale,     2}},
+    {Baku_Baku,            {Scale,     2}},
+    {Mardan_Garayan_Fish,  {Scale,     2}},
+    {Gummy,                {Scale,     2}},
+    {Niler,                {Scale,     2}},
+    {Umadakara,            {Scale,     2}},
+    {Tarton,               {Scale,     2}},
+    {Piccoly,              {Scale,     2}},
+    {Bon,                  {Scale,     2}},
+    {Hama_Hama,            {Scale,     2}},
+    {Negie,                {Scale,     2}},
+    {Den,                  {Scale,     2}},
+    {Heela,                {Scale,     2}},
+    {Baron_Garayan,        {Scale,     2}},
+    {Gold_Paint,           {Lightning, 2}},
+    {Spinner,              {Scale,     2}},
+    {Frog,                 {Scale,     2}},
+    {Minnow,               {Scale,     2}},
+    {Fork,                 {Scale,     2}},
+    {Ridepod_Fuel,         {Flame,     2}},
+    {Improved_Bomb,        {Flame,     2}},
+    {Final_Bomb,           {Flame,     3}},
+    {Cannonball_Arm_II,    {Smash,     2}},
+    {Cannonball_Arm_III,   {Smash,     2}},
+    {Cannonball_Arm_IV,    {Smash,     2}},
+    {Barrel_Cannon_II,     {Flame,     2}},
+    {Barrel_Cannon_III,    {Flame,     2}},
+    {Barrel_Cannon_IV,     {Flame,     2}},
+    {Drill_Arm_II,         {Smash,     2}},
+    {Drill_Arm_III,        {Smash,     2}},
+    {Drill_Arm_IV,         {Smash,     2}},
+    {Missile_Pod_Arm_II,   {Attack,    2}},
+    {Missile_Pod_Arm_III,  {Attack,    2}},
+    {Missile_Pod_Arm_IV,   {Attack,    2}},
+    {Hammer_Arm_II,        {Attack,    2}},
+    {Hammer_Arm_III,       {Attack,    2}},
+    {Hammer_Arm_IV,        {Attack,    2}},
+    {Machine_Gun_Arm_II,   {Lightning, 2}},
+    {Machine_Gun_Arm_III,  {Lightning, 2}},
+    {Machine_Gun_Arm_IV,   {Lightning, 2}},
+    {Clown_Hand_II,        {Cyclone,   2}},
+    {Clown_Hand_III,       {Cyclone,   2}},
+    {Clown_Hand_IV,        {Cyclone,   2}},
+    {Samurai_Arm_II,       {Exorcism,  2}},
+    {Samurai_Arm_III,      {Exorcism,  2}},
+    {Samurai_Arm_IV,       {Exorcism,  2}},
+    {Laser_Arm_II,         {Flame,     2}},
+    {Laser_Arm_III,        {Flame,     2}},
+    {Laser_Arm_IV,         {Flame,     2}},
+    {Nova_Cannon_II,       {Flame,     2}},
+    {Nova_Cannon_III,      {Flame,     2}},
+    {Nova_Cannon_IV,       {Flame,     2}},
+    {Voice_Unit,           {Chill,     1}},
+    {Shield_Kit,           {Chill,     1}},
+    {Himarra_Badge,        {Chill,     1}},
+    {Tasty_Water,          {Chill,     2}},
+    {Sun_Badge,            {Flame,     0}},
+    {Moon_Badge,           {Flame,     0}},
+  };
+
+  auto param_category = Chill;
+  auto param_amount = 1;
+
+  if (etcitem_spectol_table.contains(item_id))
+  {
+    auto pair = etcitem_spectol_table.at(item_id);
+    param_category = pair.first;
+    param_amount = pair.second;
+  }
+
+  switch (param_category)
+  {
+    case Attack:
+      attach->m_attack = param_amount * stack_num;
+      break;
+    case Durable:
+      attach->m_durable = param_amount * stack_num;
+      break;
+    default:
+      attach->m_properties[std::to_underlying(param_category)] = param_amount * stack_num;
+      break;
+  }
 }
 
 // 00196130
