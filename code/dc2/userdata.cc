@@ -1,4 +1,5 @@
 ﻿#include <string>
+#include <unordered_map>
 
 #include "common/constants.h"
 #include "common/debug.h"
@@ -7,6 +8,7 @@
 
 #include "dc2/gamedata.h"
 #include "dc2/mainloop.h"
+#include "dc2/map.h"
 #include "dc2/menumain.h"
 #include "dc2/userdata.h"
 
@@ -14,6 +16,268 @@ set_log_channel("userdata");
 
 // 01E9B130
 static CBattleCharaInfo BattleParameter{};
+
+// 001960C0
+void SetItemSpectolPoint(ECommonItemData item_id, ATTACH_USED* attach, sint stack_num)
+{
+  using enum ECommonItemData;
+
+  if (item_id == Invalid || attach == nullptr)
+  {
+    return;
+  }
+
+  enum class SpectolCategory : u8
+  {
+    Flame = std::to_underlying(WeaponProperty::Flame), // 0
+    Chill = std::to_underlying(WeaponProperty::Chill), // 1
+    Lightning = std::to_underlying(WeaponProperty::Lightning), // 2
+    Cyclone = std::to_underlying(WeaponProperty::Cyclone), // 3
+    Smash = std::to_underlying(WeaponProperty::Smash), // 4
+    Exorcism = std::to_underlying(WeaponProperty::Exorcism), // 5
+    Beast = std::to_underlying(WeaponProperty::Beast), // 6
+    Scale = std::to_underlying(WeaponProperty::Scale), // 7
+    
+    Attack = 10,
+    Durable = 11,
+  };
+
+  using enum SpectolCategory;
+
+  // 00335640 (skipping 1, 1 pairs)
+  static const std::unordered_map<ECommonItemData, std::pair<SpectolCategory, u8>> etcitem_spectol_table
+  {
+    {Hunting_Cap,          {Durable,   2}},
+    {Fashionable_Cap,      {Durable,   2}},
+    {Two_Tone_Beret,       {Durable,   2}},
+    {Maintenance_Cap,      {Flame,     2}},
+    {Explorers_Helmet,     {Durable,   2}},
+    {Clown_Hat,            {Durable,   2}},
+    {Leather_Shoes,        {Beast,     2}},
+    {Wing_Shoes,           {Cyclone,   2}},
+    {Work_Shoes,           {Lightning, 2}},
+    {Dragon_Shoes,         {Beast,     2}},
+    {Clown_Shoes,          {Durable,   2}},
+    {Explorers_Shoes,      {Exorcism,  2}},
+    {Yellow_Ribbon,        {Lightning, 2}},
+    {Stripe_Ribbon,        {Chill,     2}},
+    {Zipangu_Comb,         {Exorcism,  2}},
+    {Shallowtail,          {Chill,     2}},
+    {Princess_Orb,         {Durable,   2}},
+    {Kitty_Bell,           {Durable,   2}},
+    {Knight_Boots,         {Attack,    2}},
+    {Metal_Boots,          {Smash,     2}},
+    {Wing_Boots,           {Cyclone,   2}},
+    {Spike_Boots,          {Flame,     2}},
+    {Princess_Boots,       {Lightning, 2}},
+    {Panther_Boots,        {Smash,     2}},
+    {Drum_Can_Body,        {Flame,     2}},
+    {Milk_Can_Body,        {Chill,     2}},
+    {Refrigerator_Body,    {Chill,     2}},
+    {Wooden_Box_Body,      {Smash,     2}},
+    {Clown_Body,           {Durable,   2}},
+    {Samurai_Body,         {Attack,    2}},
+    {Super_Alloy_Body,     {Smash,     2}},
+    {Sun_And_Moon_Armor,   {Exorcism,  2}},
+    {Cannonball_Arm,       {Smash,     2}},
+    {Barrel_Cannon,        {Flame,     2}},
+    {Drill_Arm,            {Smash,     2}},
+    {Missile_Pod_Arm,      {Attack,    2}},
+    {Hammer_Arm,           {Attack,    2}},
+    {Machine_Gun_Arm,      {Lightning, 2}},
+    {Clown_Hand,           {Cyclone,   2}},
+    {Samurai_Arm,          {Exorcism,  2}},
+    {Laser_Arm,            {Flame,     2}},
+    {Nova_Cannon,          {Flame,     2}},
+    {Iron_Leg,             {Smash,     2}},
+    {Caterpillar,          {Smash,     2}},
+    {Bucket_Leg,           {Chill,     2}},
+    {Roller_Foot,          {Smash,     2}},
+    {Buggy,                {Cyclone,   2}},
+    {Propeller_Leg,        {Cyclone,   2}},
+    {Multi_Feet,           {Beast,     2}},
+    {Jet_Hover,            {Cyclone,   2}},
+    {Clown_Foot,           {Durable,   2}},
+    {Energy_Pack,          {Flame,     2}},
+    {Energy_Pack_Barrel,   {Flame,     2}},
+    {Bucket_Pack,          {Flame,     2}},
+    {Cleaner_Pack,         {Cyclone,   2}},
+    {Energy_Pack_Urn,      {Smash,     2}},
+    {Triple_Urn_Pack,      {Smash,     2}},
+    {Seal_Breaking_Scroll, {Cyclone,   2}},
+    {Rolling_Log,          {Smash,     2}},
+    {Sturdy_Rock,          {Smash,     2}},
+    {Rough_Rock,           {Smash,     2}},
+    {Bundle_Of_Hay,        {Cyclone,   2}},
+    {Sturdy_Cloth,         {Beast,     2}},
+    {Gunpowder,            {Flame,     2}},
+    {Glass_Material,       {Chill,     2}},
+    {Unknown_Bone,         {Exorcism,  2}},
+    {Sticky_Clay,          {Durable,   2}},
+    {Flour,                {Exorcism,  2}},
+    {Sugar_Cane,           {Flame,     2}},
+    {Super_Hot_Pepper,     {Flame,     2}},
+    {Poison,               {Lightning, 2}},
+    {Forest_Dew,           {Cyclone,   2}},
+    {Scrap_Of_Metal,       {Lightning, 2}},
+    {Gold_Bar,             {Lightning, 2}},
+    {Silver_Ball,          {Lightning, 2}},
+    {Hunk_Of_Copper,       {Lightning, 2}},
+    {Light_Element,        {Exorcism,  2}},
+    {Holy_Element,         {Exorcism,  2}},
+    {Earth_Element,        {Smash,     2}},
+    {Water_Element,        {Chill,     2}},
+    {Chill_Element,        {Chill,     2}},
+    {Thunder_Element,      {Lightning, 2}},
+    {Wind_Element,         {Cyclone,   2}},
+    {Fire_Element,         {Flame,     2}},
+    {Life_Element,         {Durable,   2}},
+    {Thick_Hide,           {Beast,     2}},
+    {Anti_Petrify_Amulet,  {Durable,   2}},
+    {Non_Stop_Amulet,      {Durable,   2}},
+    {Anti_Curse_Amulet,    {Durable,   2}},
+    {Anti_Goo_Amulet,      {Durable,   2}},
+    {Antidote_Amulet,      {Durable,   2}},
+    {Green_Overalls,       {Durable,   2}},
+    {Red_Vest,             {Durable,   2}},
+    {Denim_Overalls,       {Durable,   2}},
+    {Explorers_Outfit,     {Durable,   2}},
+    {Clown_Suit,           {Durable,   2}},
+    {Pumpkin_Shorts,       {Durable,   2}},
+    {Striped_Dress,        {Durable,   2}},
+    {Star_Leotard,         {Durable,   2}},
+    {Princess_Dress,       {Durable,   2}},
+    {Panther_Ensemble,     {Durable,   2}},
+    {Bread,                {Flame,     2}},
+    {Cheese,               {Beast,     2}},
+    {Premium_Chicken,      {Beast,     2}},
+    {Double_Pudding,       {Chill,     2}},
+    {Plum_Rice_Ball,       {Flame,     2}},
+    {Resurrection_Powder,  {Durable,   2}},
+    {Stamina_Drink,        {Attack,    1}},
+    {Antidote_Drink,       {Scale,     2}},
+    {Holy_Water,           {Exorcism,  2}},
+    {Soap,                 {Chill,     2}},
+    {Medusas_Tear,         {Scale,     2}},
+    {Mighty_Healing,       {Durable,   2}},
+    {Bomb,                 {Flame,     2}},
+    {Stone,                {Smash,     2}},
+    {Flame_Stone,          {Flame,     2}},
+    {Chill_Stone,          {Chill,     2}},
+    {Lightning_Stone,      {Lightning, 2}},
+    {Wind_Stone,           {Cyclone,   2}},
+    {Holy_Stone,           {Exorcism,  2}},
+    {Heart_Throb_Cherry,   {Scale,     2}},
+    {Stone_Berry,          {Smash,     2}},
+    {Gooey_Peach,          {Beast,     2}},
+    {Bomb_Nut,             {Flame,     2}},
+    {Poison_Apple,         {Attack,    0}}, // guess you get no stats for this one, so sad
+    {Mellow_Banana,        {Durable,   2}},
+    {Escape_Powder,        {Exorcism,  2}},
+    {Repair_Powder,        {Durable,   2}},
+    {Level_Up_Powder,      {Attack,    1}},
+    {Fruit_Of_Eden,        {Durable,   2}},
+    {Treasure_Chest_Key,   {Beast,     2}},
+    {Gun_Repair_Powder,    {Durable,   2}},
+    {Crunchy_Bread,        {Durable,   2}},
+    {Crunchy_Bread2,       {Durable,   2}},
+    {Roasted_Chestnut,     {Cyclone,   2}},
+    {Lightspeed,           {Flame,     2}},
+    {Priscleen,            {Scale,     2}},
+    {Prickly,              {Beast,     2}},
+    {Mimi,                 {Beast,     2}},
+    {Evy,                  {Scale,     2}},
+    {Carrot,               {Smash,     2}},
+    {Potato_Cake,          {Flame,     2}},
+    {Minon,                {Beast,     2}},
+    {Battan,               {Beast,     2}},
+    {Petite_Fish,          {Scale,     2}},
+    {Bobo,                 {Scale,     2}},
+    {Gobbler,              {Scale,     2}},
+    {Nonky,                {Scale,     2}},
+    {Kaji,                 {Scale,     2}},
+    {Baku_Baku,            {Scale,     2}},
+    {Mardan_Garayan_Fish,  {Scale,     2}},
+    {Gummy,                {Scale,     2}},
+    {Niler,                {Scale,     2}},
+    {Umadakara,            {Scale,     2}},
+    {Tarton,               {Scale,     2}},
+    {Piccoly,              {Scale,     2}},
+    {Bon,                  {Scale,     2}},
+    {Hama_Hama,            {Scale,     2}},
+    {Negie,                {Scale,     2}},
+    {Den,                  {Scale,     2}},
+    {Heela,                {Scale,     2}},
+    {Baron_Garayan,        {Scale,     2}},
+    {Gold_Paint,           {Lightning, 2}},
+    {Spinner,              {Scale,     2}},
+    {Frog,                 {Scale,     2}},
+    {Minnow,               {Scale,     2}},
+    {Fork,                 {Scale,     2}},
+    {Ridepod_Fuel,         {Flame,     2}},
+    {Improved_Bomb,        {Flame,     2}},
+    {Final_Bomb,           {Flame,     3}},
+    {Cannonball_Arm_II,    {Smash,     2}},
+    {Cannonball_Arm_III,   {Smash,     2}},
+    {Cannonball_Arm_IV,    {Smash,     2}},
+    {Barrel_Cannon_II,     {Flame,     2}},
+    {Barrel_Cannon_III,    {Flame,     2}},
+    {Barrel_Cannon_IV,     {Flame,     2}},
+    {Drill_Arm_II,         {Smash,     2}},
+    {Drill_Arm_III,        {Smash,     2}},
+    {Drill_Arm_IV,         {Smash,     2}},
+    {Missile_Pod_Arm_II,   {Attack,    2}},
+    {Missile_Pod_Arm_III,  {Attack,    2}},
+    {Missile_Pod_Arm_IV,   {Attack,    2}},
+    {Hammer_Arm_II,        {Attack,    2}},
+    {Hammer_Arm_III,       {Attack,    2}},
+    {Hammer_Arm_IV,        {Attack,    2}},
+    {Machine_Gun_Arm_II,   {Lightning, 2}},
+    {Machine_Gun_Arm_III,  {Lightning, 2}},
+    {Machine_Gun_Arm_IV,   {Lightning, 2}},
+    {Clown_Hand_II,        {Cyclone,   2}},
+    {Clown_Hand_III,       {Cyclone,   2}},
+    {Clown_Hand_IV,        {Cyclone,   2}},
+    {Samurai_Arm_II,       {Exorcism,  2}},
+    {Samurai_Arm_III,      {Exorcism,  2}},
+    {Samurai_Arm_IV,       {Exorcism,  2}},
+    {Laser_Arm_II,         {Flame,     2}},
+    {Laser_Arm_III,        {Flame,     2}},
+    {Laser_Arm_IV,         {Flame,     2}},
+    {Nova_Cannon_II,       {Flame,     2}},
+    {Nova_Cannon_III,      {Flame,     2}},
+    {Nova_Cannon_IV,       {Flame,     2}},
+    {Voice_Unit,           {Chill,     1}},
+    {Shield_Kit,           {Chill,     1}},
+    {Himarra_Badge,        {Chill,     1}},
+    {Tasty_Water,          {Chill,     2}},
+    {Sun_Badge,            {Flame,     0}},
+    {Moon_Badge,           {Flame,     0}},
+  };
+
+  auto param_category = Chill;
+  auto param_amount = 1;
+
+  if (etcitem_spectol_table.contains(item_id))
+  {
+    auto pair = etcitem_spectol_table.at(item_id);
+    param_category = pair.first;
+    param_amount = pair.second;
+  }
+
+  switch (param_category)
+  {
+    case Attack:
+      attach->m_attack = param_amount * stack_num;
+      break;
+    case Durable:
+      attach->m_durable = param_amount * stack_num;
+      break;
+    default:
+      attach->m_properties[std::to_underlying(param_category)] = param_amount * stack_num;
+      break;
+  }
+}
 
 // 00196130
 usize ItemCmdMsgSet(EItemCmd cmd, s32* dest)
@@ -620,8 +884,8 @@ s16 CGameDataUsed::AddFishHp(s16 delta)
     return 0;
   }
 
-  as.fish.m_breed_fish.m_hp = std::clamp(as.fish.m_breed_fish.m_hp + delta, 0, 100);
-  return as.fish.m_breed_fish.m_hp;
+  as.fish.m_hp = std::clamp(as.fish.m_hp + delta, 0, 100);
+  return as.fish.m_hp;
 }
 
 // 00197600
@@ -657,7 +921,7 @@ void CGameDataUsed::SetName(const char* name)
       name_buf = &as.robopart.m_name;
       break;
     case EUsedItemType::Fish:
-      name_buf = &as.fish.m_breed_fish.m_name;
+      name_buf = &as.fish.m_name;
       break;
   }
 
@@ -673,6 +937,15 @@ void CGameDataUsed::SetName(const char* name)
 
   strcpy_s(name_buf->data(), name_buf->size(), name);
   m_unk_field_5 = strcmp(GetItemMessage(m_common_index).data(), name_buf->data()) != 0;
+}
+
+// 00197700
+const char* CGameDataUsed::GetName() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  todo;
+  return nullptr;
 }
 
 // 00197DC0
@@ -974,6 +1247,191 @@ bool CGameDataUsed::IsSpectolTrans() const
   return (com_data->m_attribute & 2) != 0;
 }
 
+// 00198A10
+void CGameDataUsed::ToSpectolTrans(CGameDataUsed* spectrumized_item_dest, usize amount) const
+{
+  log_trace("CGameDataUsed::{}({}, {})", __func__, fmt::ptr(spectrumized_item_dest), amount);
+
+  if (spectrumized_item_dest == nullptr)
+  {
+    return;
+  }
+
+  auto spec = spectrumized_item_dest;
+
+  spec->Initialize();
+
+  if (amount == 0)
+  {
+    amount = GetNum();
+  }
+
+  spec->as.attach.m_spectrumized_item_id = m_common_index;
+  auto name = GetName();
+  auto level = GetLevel();
+
+  using enum EUsedItemType;
+  using enum WeaponProperty;
+
+  switch (m_type)
+  {
+    case Fish:
+      spec->as.attach.m_level = 0;
+      spec->as.attach.m_properties[std::to_underlying(Scale)] = 2;
+      spec->as.attach.m_unk_field_1C = 0;
+      spec->as.attach.m_unk_field_0 = 4;
+      spec->as.attach.m_unk_field_1 = 1;
+      break;
+    case Attach:
+      spec->as.attach.m_level = 0;
+      spec->as.attach.m_attack = as.attach.m_attack * amount;
+      spec->as.attach.m_durable = as.attach.m_durable * amount;
+
+      for (usize i = 0; i < as.attach.m_properties.size(); ++i)
+      {
+        spec->as.attach.m_properties[i] = as.attach.m_properties[i] * amount;
+      }
+
+      spec->as.attach.m_unk_field_0 = 2;
+      spec->as.attach.m_unk_field_1 = amount;
+
+      if (m_common_index == ECommonItemData::Monster_Drop)
+      {
+        spec->as.attach.m_unk_field_1 = as.attach.m_unk_field_1;
+      }
+      break;
+    case Weapon:
+    {
+      if (level < 5)
+      {
+        // unstable spectrum :(
+        spec->as.attach.m_unk_field_0 = 3;
+        spec->as.attach.m_unk_field_1 = GetRandI(4) + 1;
+
+        // Assign a random parameter to a random value from 1 to 4.
+        auto param_amount = GetRandI(4) + 1;
+        auto param_index = GetRandI(10);
+
+        switch (param_index)
+        {
+          case 8:
+            spec->as.attach.m_attack = param_amount;
+            break;
+          case 9:
+            spec->as.attach.m_durable = param_amount;
+            break;
+          default:
+            spec->as.attach.m_properties[param_index] = param_amount;
+        }
+
+        spec->as.attach.m_unk_field_1C = 0;
+      }
+      else
+      {
+        // Nice, not unstable
+
+        spec->as.attach.m_unk_field_0 = 1;
+        spec->as.attach.m_unk_field_1 = std::min<s8>(as.weapon.m_level, 20);
+
+        spec->as.attach.m_attack = as.weapon.m_attack;
+        spec->as.attach.m_durable = static_cast<s16>(static_cast<f32>(as.weapon.m_durable) * 0.6f);
+
+        for (usize i = 0; i < as.weapon.m_properties.size(); ++i)
+        {
+          spec->as.attach.m_properties[i] = static_cast<s16>(static_cast<f32>(as.weapon.m_properties[i]) * 0.6f);
+        }
+      }
+    }
+    default:
+      SetItemSpectolPoint(spec->as.attach.m_spectrumized_item_id, &spec->as.attach, amount);
+      spec->as.attach.m_unk_field_1C = 0;
+      spec->as.attach.m_unk_field_0 = 4;
+      spec->as.attach.m_unk_field_1 = amount;
+  }
+
+  spec->as.attach.m_level = level;
+  spec->m_item_data_type = GameItemDataManage.GetDataType(ECommonItemData::Spectrumized_Item);
+  spec->m_type = EUsedItemType::Attach;
+  spec->m_common_index = ECommonItemData::Spectrumized_Item;
+  spec->as.attach.m_stack_num = 1;
+
+  spec->CheckParamLimit();
+}
+
+// 00198E10
+void CGameDataUsed::GetStatusParam(s16* param_dest)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, fmt::ptr(param_dest));
+
+  using enum EUsedItemType;
+  using enum WeaponProperty;
+
+  switch (m_type)
+  {
+    case Weapon:
+      param_dest[0] = as.weapon.m_attack;
+      param_dest[1] = as.weapon.m_durable;
+      param_dest[2] = as.weapon.m_properties[std::to_underlying(Flame)];
+      param_dest[3] = as.weapon.m_properties[std::to_underlying(Chill)];
+      param_dest[4] = as.weapon.m_properties[std::to_underlying(Lightning)];
+      param_dest[5] = as.weapon.m_properties[std::to_underlying(Cyclone)];
+      param_dest[6] = as.weapon.m_properties[std::to_underlying(Smash)];
+      param_dest[7] = as.weapon.m_properties[std::to_underlying(Exorcism)];
+      param_dest[8] = as.weapon.m_properties[std::to_underlying(Beast)];
+      param_dest[9] = as.weapon.m_properties[std::to_underlying(Scale)];
+      break;
+    case Attach:
+      param_dest[0] = as.attach.m_attack;
+      param_dest[1] = as.attach.m_durable;
+      param_dest[2] = as.attach.m_properties[std::to_underlying(Flame)];
+      param_dest[3] = as.attach.m_properties[std::to_underlying(Chill)];
+      param_dest[4] = as.attach.m_properties[std::to_underlying(Lightning)];
+      param_dest[5] = as.attach.m_properties[std::to_underlying(Cyclone)];
+      param_dest[6] = as.attach.m_properties[std::to_underlying(Smash)];
+      param_dest[7] = as.attach.m_properties[std::to_underlying(Exorcism)];
+      param_dest[8] = as.attach.m_properties[std::to_underlying(Beast)];
+      param_dest[9] = as.attach.m_properties[std::to_underlying(Scale)];
+      break;
+    case Robopart:
+      param_dest[0] = as.robopart.m_attack;
+      param_dest[1] = as.robopart.m_durable;
+      param_dest[2] = as.robopart.m_properties[std::to_underlying(Flame)];
+      param_dest[3] = as.robopart.m_properties[std::to_underlying(Chill)];
+      param_dest[4] = as.robopart.m_properties[std::to_underlying(Lightning)];
+      param_dest[5] = as.robopart.m_properties[std::to_underlying(Cyclone)];
+      param_dest[6] = as.robopart.m_properties[std::to_underlying(Smash)];
+      param_dest[7] = as.robopart.m_properties[std::to_underlying(Exorcism)];
+      param_dest[8] = as.robopart.m_properties[std::to_underlying(Beast)];
+      param_dest[9] = as.robopart.m_properties[std::to_underlying(Scale)];
+      break;
+    default:
+      break;
+  }
+}
+
+// 00198E10
+void CGameDataUsed::GetStatusParam(s16* param_dest, f32 time_of_day)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, fmt::ptr(param_dest), time_of_day);
+
+  GetStatusParam(param_dest);
+
+  if (m_common_index == ECommonItemData::Lambs_Sword)
+  {
+    // The Lambs Sword is stronger at night, but weaker every other time of day.
+    if (GetTimeBand(time_of_day) == TimeOfDay::Night)
+    {
+      // 150% attack
+      param_dest[0] += param_dest[0] / 2;
+    }
+    else
+    {
+      // 50% attack
+      param_dest[0] /= 2;
+    }
+  }
+}
+
 // 00198FC0
 uint CGameDataUsed::IsBuildUp(uint* total_possible_dest, ECommonItemData* buildup_item_ids_dest, bool* can_build_up_dest) const
 {
@@ -1162,12 +1620,16 @@ void CGameDataUsed::CheckParamLimit()
     }
     case Attach:
     {
-      as.attach.m_unk_field_2 = std::min<s16>(as.attach.m_unk_field_2, 999);
-      as.attach.m_unk_field_4 = std::min<s16>(as.attach.m_unk_field_4, 999);
+      // Clamp attack
+      as.attach.m_attack = std::min<s16>(as.attach.m_attack, 999);
 
-      for (auto i = 0; i < as.attach.m_unk_field_6.size(); ++i)
+      // Clamp durability
+      as.attach.m_durable = std::min<s16>(as.attach.m_durable, 999);
+
+      // Clamp properties
+      for (auto i = 0; i < as.attach.m_properties.size(); ++i)
       {
-        as.attach.m_unk_field_6[i] = std::min<s16>(as.attach.m_unk_field_6[i], 999);
+        as.attach.m_properties[i] = std::min<s16>(as.attach.m_properties[i], 999);
       }
 
       break;
@@ -1175,21 +1637,23 @@ void CGameDataUsed::CheckParamLimit()
     case Fish:
     {
       u16* p_params[] = {
-        &as.fish.m_breed_fish.m_unk_field_26,
-        &as.fish.m_breed_fish.m_unk_field_28,
-        &as.fish.m_breed_fish.m_unk_field_2A,
-        &as.fish.m_breed_fish.m_unk_field_2C,
-        &as.fish.m_breed_fish.m_unk_field_2E,
+        &as.fish.m_unk_field_26,
+        &as.fish.m_unk_field_28,
+        &as.fish.m_unk_field_2A,
+        &as.fish.m_unk_field_2C,
+        &as.fish.m_unk_field_2E,
       };
 
-      // There was a loop here which checked if any particular param value was above 500,
-      // and if so replace the pointer to it in p_params with nullptr (presumably to cause a crash???)
-      // it's gone now.
-      auto fish_param = as.fish.m_breed_fish.CalcBreedFishParam();
-      if (fish_param > 500)
+
+      for (auto p_param : p_params)
       {
-        panicf("Woah dude, your fish parameters are way too high!! They cannot be redistributed fairly!!");
+        if (*p_param > 500)
+        {
+          panicf("Woah dude, your fish parameters are way too high!!!");
+        }
       }
+
+      auto fish_param = as.fish.CalcBreedFishParam();
 
       while (fish_param > 400)
       {
@@ -1248,6 +1712,121 @@ void CGameDataUsed::CheckParamLimit()
     }
     default:
       break;
+  }
+}
+
+// 00199860
+ssize CGameDataUsed::GetGiftBoxItemNum() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  usize i = 0;
+  for (; i < as.gift_box.m_contents.size(); ++i)
+  {
+    if (as.gift_box.m_contents[i] == ECommonItemData::Invalid)
+    {
+      break;
+    }
+  }
+  return static_cast<ssize>(i);
+}
+
+// 001998B0
+ssize CGameDataUsed::SetGiftBoxItem(ECommonItemData item_id, ssize index)
+{
+  log_trace("CGameDataUsed::{}({}, {})", __func__, std::to_underlying(item_id), index);
+
+  if (m_type != EUsedItemType::Gift_Box)
+  {
+    return -1;
+  }
+
+  if (index >= 0)
+  {
+    as.gift_box.m_contents[index] = item_id;
+  }
+  else
+  {
+    for (usize i = 0; i < as.gift_box.m_contents.size(); ++i)
+    {
+      if (as.gift_box.m_contents[i] != ECommonItemData::Invalid)
+      {
+        as.gift_box.m_contents[i] = item_id;
+        return i;
+      }
+    }
+  }
+
+  return -1;
+}
+
+// 00199920
+ECommonItemData CGameDataUsed::GetGiftBoxItemNo(ssize index) const
+{
+  log_trace("CGameDataUsed::{}({})", __func__, index);
+
+  if (m_type != EUsedItemType::Gift_Box || index < 0 || index >= as.gift_box.m_contents.size())
+  {
+    return ECommonItemData::Invalid;
+  }
+
+  return as.gift_box.m_contents[index];
+}
+
+// 00199960
+usize CGameDataUsed::GetGiftBoxSameItemNum(ECommonItemData item_id) const
+{
+  log_trace("CGameDataUsed::{}({})", __func__, std::to_underlying(item_id));
+
+  if (m_type != EUsedItemType::Gift_Box)
+  {
+    return 0;
+  }
+
+  usize count = 0;
+  for (usize i = 0; i < as.gift_box.m_contents.size(); ++i)
+  {
+    if (as.gift_box.m_contents[i] == item_id)
+    {
+      ++count;
+    }
+  }
+  return count;
+}
+
+// 001999B0
+void CGameDataUsed::CopyGameData(CGameDataUsed* other)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, fmt::ptr(other));
+
+  if (other == nullptr)
+  {
+    return;
+  }
+
+  // Thanks Level-5 very cool
+  memcpy(this, other, sizeof(this));
+
+  auto user_man = GetUserDataMan();
+  if (user_man == nullptr)
+  {
+    return;
+  }
+
+  auto robo_data = user_man->m_robo_data;
+
+  // Probably checking that this is the robot energy core or not?
+  if (this == &robo_data.m_part_data[2])
+  {
+    auto hp = truncf(robo_data.m_chara_hp_gage.m_max);
+    robo_data.m_chara_hp_gage.m_max = as.robopart.m_battery_gage.m_max;
+
+    if (hp <= 0.0f)
+    {
+      robo_data.m_chara_hp_gage.m_current = robo_data.m_chara_hp_gage.m_max;
+    }
+
+    robo_data.m_chara_hp_gage.m_current = std::min(robo_data.m_chara_hp_gage.m_current, robo_data.m_chara_hp_gage.m_max);
   }
 }
 

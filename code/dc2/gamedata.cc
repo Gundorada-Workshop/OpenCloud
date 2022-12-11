@@ -747,7 +747,7 @@ CDataItem* CGameData::GetItemData(ECommonItemData index)
   }
 
   auto type = ConvertUsedItemType(common_data->m_type);
-  if (type == UsedType::Item_Gift || type == UsedType::Item_8 || type == UsedType::Item_Misc)
+  if (type == UsedType::Gift_Box || type == UsedType::Item_8 || type == UsedType::Item_Misc)
   {
     return &m_itemdata[common_data->m_category_id];
   }
@@ -1028,7 +1028,7 @@ UsedType ConvertUsedItemType(ComType type)
     {ComType::Amulet, UsedType::Item_Misc},
     {ComType::Dungeon_Key, UsedType::Item_Misc},
     {ComType::Story_Item, UsedType::Item_Misc},
-    {ComType::Gift_Capsule, UsedType::Item_Gift},
+    {ComType::Gift_Capsule, UsedType::Gift_Box},
     {ComType::Aquarium, UsedType::Item_Misc},
     {ComType::Fish, UsedType::Fish},
     {ComType::_31, UsedType::Item_Misc},

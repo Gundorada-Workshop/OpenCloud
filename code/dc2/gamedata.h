@@ -272,7 +272,7 @@ enum class ECommonItemData
   Flour = 219,
   Sugar_Cane = 220,
   Super_Hot_Pepper = 221,
-  Posion = 222,
+  Poison = 222,
   Forest_Dew = 223,
   Scrap_Of_Metal = 224,
   Gold_Bar = 225,
@@ -490,13 +490,8 @@ enum class EUsedItemType
   Clothing = 4,
   Robopart = 5,
   Fish = 6,
-  Item_Gift = 7,
+  Gift_Box = 7,
   Item_8 = 8,
-};
-
-struct ATTACH_USED
-{
-  
 };
 
 struct SDataItemCommon

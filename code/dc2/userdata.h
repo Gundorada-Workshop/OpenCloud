@@ -121,62 +121,40 @@ struct COMMON_GAGE
 // 00196DB0
 f32 GetCommonGageRate(COMMON_GAGE* gage);
 
-struct BREEDFISH_USED
-{
-public:
-  // 0
-  // BUG: Seems to be 20 decimal (14h) chars instead of 20h chars in original game
-  std::array<char, 0x20> m_name{ 0 };
-  // 20
-  s32 m_hp{ 0 };
-
-  // 26
-  u16 m_unk_field_26;
-  // 28
-  u16 m_unk_field_28;
-  // 2A
-  u16 m_unk_field_2A;
-  // 2C
-  u16 m_unk_field_2C;
-  // 2E
-  u16 m_unk_field_2E;
-
-  // 00196DE0
-  u32 CalcBreedFishParam();
-};
-
 enum class EUsedItemType;
 
 enum class ECommonItemData;
 
-struct SGameDataUsedItem_MiscSub
+struct ITEM_MISC_USED
 {
   // 0
   s16 m_stack_num{};
 };
 
-struct SGameDataUsedClothingSub
+struct CLOTHING_USED
 {
   // 0
   s16 m_stack_num{};
 };
 
-struct SGameDataUsedAttachSub
+struct ATTACH_USED
 {
   // 0
   s8 m_unk_field_0;
   // 1
   s8 m_unk_field_1;
   // 2
-  s16 m_unk_field_2;
+  s16 m_attack;
   // 4
-  s16 m_unk_field_4;
+  s16 m_durable;
   // 6
-  std::array<s16, 8> m_unk_field_6;
+  std::array<s16, std::to_underlying(WeaponProperty::COUNT)> m_properties{};
   // 16
   ECommonItemData m_spectrumized_item_id;
   // 18
   s16 m_level{ 0 };
+  // 1C
+  s16 m_unk_field_1C;
   // 20
   std::array<char, 0x20> m_name{ 0 };
 
@@ -184,7 +162,7 @@ struct SGameDataUsedAttachSub
   s16 m_stack_num{};
 };
 
-struct SGameDataUsedWeaponSub
+struct WEAPON_USED
 {
   // 0
   COMMON_GAGE m_whp_gage{};
@@ -210,20 +188,40 @@ struct SGameDataUsedWeaponSub
   std::array<char, 0x20> m_name{ 0 };
 };
 
-struct SGameDataUsedRobopartSub
+struct ROBOPART_USED
 {
   // 0
   COMMON_GAGE m_battery_gage{};
   // 8
   COMMON_GAGE m_whp_gage{};
+  // 10
+  s16 m_attack{};
+  // 12
+  s16 m_durable{};
+  // 14
+  std::array<s16, std::to_underlying(WeaponProperty::COUNT)> m_properties{};
   // 2C
   std::array<char, 0x20> m_name{ 0 };
 };
 
-struct SGameDataUsedFishSub
+struct BREEDFISH_USED
 {
   // 0
-  BREEDFISH_USED m_breed_fish{};
+  // BUG: Seems to be 20 decimal (14h) chars instead of 20h chars in original game
+  std::array<char, 0x20> m_name{ 0 };
+  // 20
+  s32 m_hp{ 0 };
+
+  // 26
+  u16 m_unk_field_26;
+  // 28
+  u16 m_unk_field_28;
+  // 2A
+  u16 m_unk_field_2A;
+  // 2C
+  u16 m_unk_field_2C;
+  // 2E
+  u16 m_unk_field_2E;
 
   // ?
 
@@ -232,16 +230,26 @@ struct SGameDataUsedFishSub
 
   // 38
   u16 m_unk_field_38{};
+
+  // 00196DE0
+  u32 CalcBreedFishParam();
 };
 
-union UGameDataUsedSub
+struct GIFTBOX_USED
 {
-  SGameDataUsedItem_MiscSub item_misc;
-  SGameDataUsedClothingSub clothing;
-  SGameDataUsedAttachSub attach;
-  SGameDataUsedWeaponSub weapon;
-  SGameDataUsedRobopartSub robopart;
-  SGameDataUsedFishSub fish;
+  // 0
+  std::array<ECommonItemData, 3> m_contents{ ECommonItemData::Invalid };
+};
+
+union UGAME_DATA_USED
+{
+  ITEM_MISC_USED item_misc;
+  CLOTHING_USED clothing;
+  ATTACH_USED attach;
+  WEAPON_USED weapon;
+  ROBOPART_USED robopart;
+  BREEDFISH_USED fish;
+  GIFTBOX_USED gift_box;
 };
 
 class CGameDataUsed
@@ -281,6 +289,8 @@ public:
   u8 IsActiveSet() const;
   // 00197630
   void SetName(const char* name);
+  // 00197700
+  const char* GetName() const;
   // 00197DC0
   sint RemainFusion() const;
   // 00197DE0
@@ -314,6 +324,12 @@ public:
   bool IsTrush() const;
   // 001989D0
   bool IsSpectolTrans() const;
+  // 00198A10
+  void ToSpectolTrans(CGameDataUsed* spectrumized_item_dest, usize amount = 0) const;
+  // 00198E10
+  void GetStatusParam(s16* param_dest);
+  // 00198E10
+  void GetStatusParam(s16* param_dest, f32 time_of_day);
   // 00198FC0
   uint IsBuildUp(uint* total_possible_dest, ECommonItemData* buildup_item_ids_dest, bool* can_build_up_dest) const;
   // 001992B0
@@ -326,6 +342,16 @@ public:
   void CheckParamLimit();
   // 00199830
   void TimeCheck(s32 delta);
+  // 00199860
+  ssize GetGiftBoxItemNum() const;
+  // 001998B0
+  ssize SetGiftBoxItem(ECommonItemData item_id, ssize index = -1);
+  // 00199920
+  ECommonItemData GetGiftBoxItemNo(ssize index) const;
+  // 00199960
+  usize GetGiftBoxSameItemNum(ECommonItemData item_id) const;
+  // 001999B0
+  void CopyGameData(CGameDataUsed* other);
   // 00199A50
   bool CopyDataWeapon(ECommonItemData item_id);
 
@@ -339,7 +365,7 @@ public:
   bool m_unk_field_5{};
 
   // 10
-  UGameDataUsedSub as = {};
+  UGAME_DATA_USED as = {};
 
   // SIZE 0x6C, all initialized to 0
 };
@@ -724,6 +750,9 @@ public:
 
   // Size 0x90
 };
+
+// 001960C0
+void SetItemSpectolPoint(ECommonItemData item_id, ATTACH_USED* attach, sint stack_num);
 
 // 00196130
 usize ItemCmdMsgSet(EItemCmd cmd, s32* dest);
