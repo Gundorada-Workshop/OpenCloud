@@ -16,6 +16,12 @@ set_log_channel("userdata");
 // 01E9B130
 static CBattleCharaInfo BattleParameter{};
 
+// 001960C0
+void SetItemSpectolPoint(ECommonItemData item_id, ATTACH_USED* attach, sint stack_num)
+{
+  todo;
+}
+
 // 00196130
 usize ItemCmdMsgSet(EItemCmd cmd, s32* dest)
 {
@@ -621,8 +627,8 @@ s16 CGameDataUsed::AddFishHp(s16 delta)
     return 0;
   }
 
-  as.fish.m_breed_fish.m_hp = std::clamp(as.fish.m_breed_fish.m_hp + delta, 0, 100);
-  return as.fish.m_breed_fish.m_hp;
+  as.fish.m_hp = std::clamp(as.fish.m_hp + delta, 0, 100);
+  return as.fish.m_hp;
 }
 
 // 00197600
@@ -658,7 +664,7 @@ void CGameDataUsed::SetName(const char* name)
       name_buf = &as.robopart.m_name;
       break;
     case EUsedItemType::Fish:
-      name_buf = &as.fish.m_breed_fish.m_name;
+      name_buf = &as.fish.m_name;
       break;
   }
 
@@ -674,6 +680,15 @@ void CGameDataUsed::SetName(const char* name)
 
   strcpy_s(name_buf->data(), name_buf->size(), name);
   m_unk_field_5 = strcmp(GetItemMessage(m_common_index).data(), name_buf->data()) != 0;
+}
+
+// 00197700
+const char* CGameDataUsed::GetName() const
+{
+  log_trace("CGameDataUsed::{}()", __func__);
+
+  todo;
+  return nullptr;
 }
 
 // 00197DC0
@@ -975,6 +990,117 @@ bool CGameDataUsed::IsSpectolTrans() const
   return (com_data->m_attribute & 2) != 0;
 }
 
+// 00198A10
+void CGameDataUsed::ToSpectolTrans(CGameDataUsed* spectrumized_item_dest, usize amount) const
+{
+  log_trace("CGameDataUsed::{}({}, {})", __func__, fmt::ptr(spectrumized_item_dest), amount);
+
+  if (spectrumized_item_dest == nullptr)
+  {
+    return;
+  }
+
+  auto spec = spectrumized_item_dest;
+
+  spec->Initialize();
+
+  if (amount == 0)
+  {
+    amount = GetNum();
+  }
+
+  spec->as.attach.m_spectrumized_item_id = m_common_index;
+  auto name = GetName();
+  auto level = GetLevel();
+
+  using enum EUsedItemType;
+  using enum WeaponProperty;
+
+  switch (m_type)
+  {
+    case Fish:
+      spec->as.attach.m_level = 0;
+      spec->as.attach.m_properties[std::to_underlying(Scale)] = 2;
+      spec->as.attach.m_unk_field_1C = 0;
+      spec->as.attach.m_unk_field_0 = 4;
+      spec->as.attach.m_unk_field_1 = 1;
+      break;
+    case Attach:
+      spec->as.attach.m_level = 0;
+      spec->as.attach.m_attack = as.attach.m_attack * amount;
+      spec->as.attach.m_durable = as.attach.m_durable * amount;
+
+      for (usize i = 0; i < as.attach.m_properties.size(); ++i)
+      {
+        spec->as.attach.m_properties[i] = as.attach.m_properties[i] * amount;
+      }
+
+      spec->as.attach.m_unk_field_0 = 2;
+      spec->as.attach.m_unk_field_1 = amount;
+
+      if (m_common_index == ECommonItemData::Monster_Drop)
+      {
+        spec->as.attach.m_unk_field_1 = as.attach.m_unk_field_1;
+      }
+      break;
+    case Weapon:
+    {
+      if (level < 5)
+      {
+        // unstable spectrum :(
+        spec->as.attach.m_unk_field_0 = 3;
+        spec->as.attach.m_unk_field_1 = GetRandI(4) + 1;
+
+        // Assign a random parameter to a random value from 1 to 4.
+        auto param_amount = GetRandI(4) + 1;
+        auto param_index = GetRandI(10);
+
+        switch (param_index)
+        {
+          case 8:
+            spec->as.attach.m_attack = param_amount;
+            break;
+          case 9:
+            spec->as.attach.m_durable = param_amount;
+            break;
+          default:
+            spec->as.attach.m_properties[param_index] = param_amount;
+        }
+
+        spec->as.attach.m_unk_field_1C = 0;
+      }
+      else
+      {
+        // Nice, not unstable
+
+        spec->as.attach.m_unk_field_0 = 1;
+        spec->as.attach.m_unk_field_1 = std::min<s8>(as.weapon.m_level, 20);
+
+        spec->as.attach.m_attack = as.weapon.m_attack;
+        spec->as.attach.m_durable = static_cast<s16>(static_cast<f32>(as.weapon.m_durable) * 0.6f);
+
+        for (usize i = 0; i < as.weapon.m_properties.size(); ++i)
+        {
+          spec->as.attach.m_properties[i] = static_cast<s16>(static_cast<f32>(as.weapon.m_properties[i]) * 0.6f);
+        }
+      }
+    }
+    default:
+      SetItemSpectolPoint(spec->as.attach.m_spectrumized_item_id, &spec->as.attach, amount);
+      spec->as.attach.m_unk_field_1C = 0;
+      spec->as.attach.m_unk_field_0 = 4;
+      spec->as.attach.m_unk_field_1 = amount;
+  }
+
+  spec->as.attach.m_level = level;
+  spec->m_item_data_type = GameItemDataManage.GetDataType(ECommonItemData::Spectrumized_Item);
+  spec->m_type = EUsedItemType::Attach;
+  spec->m_common_index = ECommonItemData::Spectrumized_Item;
+  spec->as.attach.m_stack_num = 1;
+
+  spec->CheckParamLimit();
+}
+
 // 00198E10
 void CGameDataUsed::GetStatusParam(s16* param_dest)
 {
@@ -1254,11 +1380,11 @@ void CGameDataUsed::CheckParamLimit()
     case Fish:
     {
       u16* p_params[] = {
-        &as.fish.m_breed_fish.m_unk_field_26,
-        &as.fish.m_breed_fish.m_unk_field_28,
-        &as.fish.m_breed_fish.m_unk_field_2A,
-        &as.fish.m_breed_fish.m_unk_field_2C,
-        &as.fish.m_breed_fish.m_unk_field_2E,
+        &as.fish.m_unk_field_26,
+        &as.fish.m_unk_field_28,
+        &as.fish.m_unk_field_2A,
+        &as.fish.m_unk_field_2C,
+        &as.fish.m_unk_field_2E,
       };
 
 
@@ -1270,7 +1396,7 @@ void CGameDataUsed::CheckParamLimit()
         }
       }
 
-      auto fish_param = as.fish.m_breed_fish.CalcBreedFishParam();
+      auto fish_param = as.fish.CalcBreedFishParam();
 
       while (fish_param > 400)
       {

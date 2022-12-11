@@ -494,11 +494,6 @@ enum class EUsedItemType
   Item_8 = 8,
 };
 
-struct ATTACH_USED
-{
-  
-};
-
 struct SDataItemCommon
 {
   // 0
