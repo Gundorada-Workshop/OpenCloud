@@ -501,6 +501,9 @@ struct SCharaData
 
 struct ROBO_DATA
 {
+  // 0019A830
+  f32 AddPoint(f32 delta);
+
   // ?
 
   // 20

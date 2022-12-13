@@ -2363,6 +2363,15 @@ s32 CUserDataManager::AddMoney(s32 delta)
   return m_money;
 }
 
+// 0019A830
+f32 ROBO_DATA::AddPoint(f32 delta)
+{
+  log_trace("ROBO_DATA::{}({})", __func__, delta);
+
+  m_chara_hp_gage.AddPoint(delta);
+  return m_chara_hp_gage.GetRate();
+}
+
 // 0019A890
 MOS_HENGE_PARAM* GetMonsterHengeParam(ssize index)
 {
