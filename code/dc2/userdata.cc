@@ -2203,6 +2203,25 @@ float CUserDataManager::GetRoboAbs()
   return m_robo_data.m_abs;
 }
 
+// 0019C930
+EPartyCharacterID CUserDataManager::NowPartyCharaID()
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  using enum EPartyCharacterStatus;
+  using enum EPartyCharacterID;
+
+  for (usize i = 0; i < m_party_chara_status.size(); ++i)
+  {
+    if ((m_party_chara_status[i].m_status & Active) != ZERO)
+    {
+      return m_party_chara_status[i].m_party_chara_id;
+    }
+  }
+
+  return Invalid;
+}
+
 // 0019B160
 void CUserDataManager::Initialize()
 {

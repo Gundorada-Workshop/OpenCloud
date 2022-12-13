@@ -87,6 +87,56 @@ enum class ECharaStatusAttribute : u16
 
 };
 
+enum class EPartyCharacterID : u16
+{
+  Invalid = -1,
+  // 0 is unused?
+  Cedric = 1,
+  Borneo = 2,
+  Gordon = 3,
+  Donny = 4,
+  Parn = 5,
+  Dr_Dell = 6,
+  Ferdinand = 7,
+  Claire = 8,
+  Pau = 9,
+  Stewart = 10,
+  Adel = 11,
+  Aunt_Polly = 12,
+  Erik = 13,
+  Sheriff_Blinkhorn = 14,
+  Milane = 15,
+  Gerald = 16,
+  Mayor_Need = 17,
+  Priest_Bruno = 18,
+  Rufio = 19,
+  Fabio = 20,
+  Olivie = 21,
+  Julia = 22,
+  Mina = 23,
+  Corinne = 24,
+  Granny_Rosa = 25,
+  Lin = 26,
+};
+
+enum class EPartyCharacterStatus : u16
+{
+  ZERO = 0,
+  Active = 1
+};
+
+IMPLEMENT_ENUM_CLASS_BITWISE_OPERATORS(EPartyCharacterStatus);
+
+struct PARTY_CHARA
+{
+  // 0
+  EPartyCharacterID m_party_chara_id;
+  // 2
+  EPartyCharacterStatus m_status;
+
+  // size 0xC
+};
+
 struct MOS_HENGE_PARAM
 {
   // 0
@@ -524,6 +574,9 @@ public:
   // 0019C560
   float GetRoboAbs();
 
+  // 0019C930
+  EPartyCharacterID NowPartyCharaID();
+
   // 0019EAF0
   s32 AddMoney(s32 delta);
 
@@ -542,9 +595,8 @@ public:
 
   // 4EB0
   CMonsterBox m_monster_box{};
-
-  // ??
-
+  // 7DB0
+  std::array<PARTY_CHARA, 0x20> m_party_chara_status;
   // 7F30
   CInventUserData m_invent_user_data{};
 
