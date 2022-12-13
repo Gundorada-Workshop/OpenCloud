@@ -1200,7 +1200,129 @@ void CGameDataUsed::LevelUp()
 {
   log_trace("CGameDataUsed::{}()", __func__);
 
-  todo;
+  auto user_man = GetUserDataMan();
+  auto weapon_data = GetWeaponInfoData(m_common_index);
+
+  if (user_man == nullptr || weapon_data == nullptr)
+  {
+    return;
+  }
+
+  auto& weapon_used = as.weapon;
+  f32 whp_rate = weapon_used.m_whp_gage.GetRate();
+
+  // Upgrade the weapon's max HP
+  const static std::array<f32, 10> hp_tbl{ 1, 1, 1, 1, 1, 2, 2, 2, 3, 3 };
+
+  weapon_used.m_whp_gage.m_max = std::min(
+    weapon_used.m_whp_gage.m_max + hp_tbl[GetRandI(hp_tbl.size())],
+    static_cast<f32>(common::constants::u8_max)
+  );
+
+  weapon_used.m_whp_gage.m_current = std::max(
+    weapon_used.m_whp_gage.m_current,
+    weapon_used.m_whp_gage.m_max * whp_rate
+  );
+
+  // Upgrade the weapon's attack
+  if (weapon_used.m_level < 5)
+  {
+    // If the level is under 5, give the weapon a small additional boost
+    if (weapon_used.m_attack >= 100)
+    {
+      weapon_used.m_attack += 3;
+    }
+    else
+    {
+      weapon_used.m_attack += 2;
+    }
+  }
+  else
+  {
+    // The level is 5 or more, just an incremental bump
+    weapon_used.m_attack += 1;
+  }
+
+  // Upgrade the weapon's durability
+  weapon_used.m_durable += 1;
+
+  // Clear weapon XP
+  weapon_used.m_abs_gage.m_current = 0.0f;
+
+  // Set the weapon's new XP target
+  auto abs_max = weapon_data->m_abs_max;
+  auto level = weapon_used.m_level;
+  weapon_used.m_abs_gage.m_max = static_cast<f32>(abs_max + (level * (abs_max / 2)));
+
+  // Add new synthesis points
+  AddFusionPoint(weapon_data->m_level_up_fusion_point);
+
+  // If we have particular party members and this is a particular type of weapon, we want
+  // to add another bonus stat point to this weapon.
+  using PChara = EPartyCharacterID;
+  using enum ECommonItemDataType;
+
+  auto party_chara_id = user_man->NowPartyCharaID();
+
+  bool has_bonus_point = false;
+
+  switch (party_chara_id)
+  {
+    case PChara::Cedric:
+      has_bonus_point = m_item_data_type == Melee_Max;
+      break;
+    case PChara::Milane:
+      has_bonus_point = m_item_data_type == Melee_Monica;
+      break;
+    case PChara::Gerald:
+      has_bonus_point = m_item_data_type == Ranged_Max;
+      break;
+    case PChara::Lin:
+      has_bonus_point = m_item_data_type == Ranged_Monica;
+      break;
+    default:
+      break;
+  }
+
+  if (has_bonus_point)
+  {
+    AddFusionPoint(1);
+    CheckParamLimit();
+
+    // Add a point to a random property
+    // TODO: Should choose from all valid properties, not all properties
+    uint sanity = 128;
+
+    for (uint i = 0; i < sanity; ++i)
+    {
+      // BUG: Here (like in the game), GetRandI rolls a number [0..16] and modulo's it by 8, the amount of properties.
+      // This gives flame a 1.5x chance to be picked as compared to any other additional property, as a result
+      // of 0, 8, or 16 will increment it.
+      auto param_index = GetRandI(weapon_used.m_properties.size() * 2 + 1) % weapon_used.m_properties.size();
+
+      if (weapon_used.m_properties[param_index] < weapon_data->m_properties_max[param_index])
+      {
+        ++weapon_used.m_properties[param_index];
+        break;
+      }
+    }
+
+    // Add a point to the first valid property. Is this correct? Weird way of doing it
+    for (usize i = 0; i < weapon_used.m_properties.size(); ++i)
+    {
+      if (weapon_used.m_properties[i] < weapon_data->m_properties_max[i])
+      {
+        ++weapon_used.m_properties[i];
+        break;
+      }
+    }
+  }
+
+  // Increment the weapon's level
+  weapon_used.m_level = std::min(weapon_used.m_level + 1, 99);
+
+  // Make sure our weapon parameters are sane and we're done!
+  CheckParamLimit();
 }
 
 // 00198950
