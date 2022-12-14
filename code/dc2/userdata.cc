@@ -2366,6 +2366,27 @@ std::string CUserDataManager::GetRoboName() const
   return m_robo_data.m_name;
 }
 
+// 0019C440
+std::string CUserDataManager::GetRoboNameDefault() const
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  using enum Language;
+
+  static const std::unordered_map<Language, const char*> robo_nametable
+  {
+    {Japanese, "ライドポッド"},
+    {English, "Ridepod"}
+  };
+
+  if (!robo_nametable.contains(LanguageCode)) [[unlikely]]
+  {
+    panicf("No default robo name for language {}", std::to_underlying(LanguageCode));
+  }
+
+  return robo_nametable.at(LanguageCode);
+}
+
 // 0019C500
 float CUserDataManager::AddRoboAbs(f32 delta)
 {

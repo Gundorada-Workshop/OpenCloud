@@ -601,7 +601,7 @@ public:
   std::string GetRoboName() const;
 
   // 0019c450
-  const char* GetRoboNameDefault() const;
+  std::string GetRoboNameDefault() const;
 
   // 0019C500
   float AddRoboAbs(f32 delta);
