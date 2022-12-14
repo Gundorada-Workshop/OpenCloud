@@ -20,10 +20,10 @@
 #include "dc2/nowload.h"
 #include "dc2/pot.h"
 #include "dc2/robopart.h"
+#include "dc2/userdata.h"
+#include "dc2/weapon.h"
 
 set_log_channel("dng_main");
-
-using namespace common;
 
 // 01E9F230
 std::array<mgCMemory, 2> BuffPacketList{ };
@@ -304,4 +304,78 @@ void CLockOnModel::DrawMes(sint i)
   log_trace("CLockOnModel::DrawMes({})", i);
 
   todo;
+}
+
+// 001E8630
+void calcWeaponParamWhp(const CActiveMonster& monster, const CColPrim& collision)
+{
+  log_trace("{}({}, {})", __func__, fmt::ptr(&monster), fmt::ptr(&collision));
+  
+  auto chara_info = GetBattleCharaInfo();
+  auto i = collision.m_damage_param->m_unk_field_18;
+
+  using enum EDAMAGE_PARAMUnk;
+
+  if (i != _4 && i != _0 && i != _11 && i != _12)
+  {
+    return;
+  }
+
+  // NOTE: There's an impossible branch here @ 001E86A0, possibly dead code from DC1
+  f32 whp_penalty = static_cast<f32>(monster.m_melee_whp_penalty) * 0.5f;
+  f32 wep_durability = static_cast<f32>(chara_info->m_param.m_weapons[0].m_durable) * 0.005f;
+
+  whp_penalty -= whp_penalty * wep_durability;
+
+  using enum ESpecialStatus;
+
+  if ((collision.m_unk_field_A0 & _20h) != None)
+  {
+    whp_penalty *= 1.3f;
+  }
+  if ((collision.m_unk_field_A0 & _40h) != None)
+  {
+    whp_penalty *= 0.8f;
+  }
+
+  f32 old_whp = static_cast<f32>(chara_info->GetWhpNowVol(0));
+  f32 now_whp = chara_info->AddWhp(0, -whp_penalty);
+
+  if (now_whp <= 0.0f && old_whp > 0.0f)
+  {
+    // The weapon broke, remove some ABS
+    chara_info->AddAbsRate(0, -0.1f, nullptr);
+  }
+}
+
+// 001E87E0
+void calcWeaponParam2(sint penalty_divisor)
+{
+  log_trace("{}({})", __func__, penalty_divisor);
+
+  auto chara_info = GetBattleCharaInfo();
+  auto special_status = chara_info->GetSpecialStatus(1);
+  
+
+  f32 whp_penalty = 1.0f - chara_info->m_param.m_weapons[1].m_durable * 0.002f;
+
+  using enum ESpecialStatus;
+
+  if ((special_status & _20h) != None)
+  {
+    whp_penalty *= 1.3f;
+  }
+  if ((special_status & _40h) != None)
+  {
+    whp_penalty *= 0.8f;
+  }
+
+  f32 old_whp = chara_info->GetWhpNowVol(1);
+  f32 new_whp = chara_info->AddWhp(1, -(whp_penalty / penalty_divisor));
+
+  if (new_whp <= 0.0f && old_whp > 0.0f)
+  {
+    // The weapon broke, remove some ABS
+    chara_info->AddAbsRate(1, -0.1f, nullptr);
+  }
 }

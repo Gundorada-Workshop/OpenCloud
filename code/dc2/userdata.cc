@@ -1200,7 +1200,129 @@ void CGameDataUsed::LevelUp()
 {
   log_trace("CGameDataUsed::{}()", __func__);
 
-  todo;
+  auto user_man = GetUserDataMan();
+  auto weapon_data = GetWeaponInfoData(m_common_index);
+
+  if (user_man == nullptr || weapon_data == nullptr)
+  {
+    return;
+  }
+
+  auto& weapon_used = as.weapon;
+  f32 whp_rate = weapon_used.m_whp_gage.GetRate();
+
+  // Upgrade the weapon's max HP
+  const static std::array<f32, 10> hp_tbl{ 1, 1, 1, 1, 1, 2, 2, 2, 3, 3 };
+
+  weapon_used.m_whp_gage.m_max = std::min(
+    weapon_used.m_whp_gage.m_max + hp_tbl[GetRandI(hp_tbl.size())],
+    static_cast<f32>(common::constants::u8_max)
+  );
+
+  weapon_used.m_whp_gage.m_current = std::max(
+    weapon_used.m_whp_gage.m_current,
+    weapon_used.m_whp_gage.m_max * whp_rate
+  );
+
+  // Upgrade the weapon's attack
+  if (weapon_used.m_level < 5)
+  {
+    // If the level is under 5, give the weapon a small additional boost
+    if (weapon_used.m_attack >= 100)
+    {
+      weapon_used.m_attack += 3;
+    }
+    else
+    {
+      weapon_used.m_attack += 2;
+    }
+  }
+  else
+  {
+    // The level is 5 or more, just an incremental bump
+    weapon_used.m_attack += 1;
+  }
+
+  // Upgrade the weapon's durability
+  weapon_used.m_durable += 1;
+
+  // Clear weapon XP
+  weapon_used.m_abs_gage.m_current = 0.0f;
+
+  // Set the weapon's new XP target
+  auto abs_max = weapon_data->m_abs_max;
+  auto level = weapon_used.m_level;
+  weapon_used.m_abs_gage.m_max = static_cast<f32>(abs_max + (level * (abs_max / 2)));
+
+  // Add new synthesis points
+  AddFusionPoint(weapon_data->m_level_up_fusion_point);
+
+  // If we have particular party members and this is a particular type of weapon, we want
+  // to add another bonus stat point to this weapon.
+  using PChara = EPartyCharacterID;
+  using enum ECommonItemDataType;
+
+  auto party_chara_id = user_man->NowPartyCharaID();
+
+  bool has_bonus_point = false;
+
+  switch (party_chara_id)
+  {
+    case PChara::Cedric:
+      has_bonus_point = m_item_data_type == Melee_Max;
+      break;
+    case PChara::Milane:
+      has_bonus_point = m_item_data_type == Melee_Monica;
+      break;
+    case PChara::Gerald:
+      has_bonus_point = m_item_data_type == Ranged_Max;
+      break;
+    case PChara::Lin:
+      has_bonus_point = m_item_data_type == Ranged_Monica;
+      break;
+    default:
+      break;
+  }
+
+  if (has_bonus_point)
+  {
+    AddFusionPoint(1);
+    CheckParamLimit();
+
+    // Add a point to a random property
+    // TODO: Should choose from all valid properties, not all properties
+    uint sanity = 128;
+
+    for (uint i = 0; i < sanity; ++i)
+    {
+      // BUG: Here (like in the game), GetRandI rolls a number [0..16] and modulo's it by 8, the amount of properties.
+      // This gives flame a 1.5x chance to be picked as compared to any other additional property, as a result
+      // of 0, 8, or 16 will increment it.
+      auto param_index = GetRandI(weapon_used.m_properties.size() * 2 + 1) % weapon_used.m_properties.size();
+
+      if (weapon_used.m_properties[param_index] < weapon_data->m_properties_max[param_index])
+      {
+        ++weapon_used.m_properties[param_index];
+        break;
+      }
+    }
+
+    // Add a point to the first valid property. Is this correct? Weird way of doing it
+    for (usize i = 0; i < weapon_used.m_properties.size(); ++i)
+    {
+      if (weapon_used.m_properties[i] < weapon_data->m_properties_max[i])
+      {
+        ++weapon_used.m_properties[i];
+        break;
+      }
+    }
+  }
+
+  // Increment the weapon's level
+  weapon_used.m_level = std::min(weapon_used.m_level + 1, 99);
+
+  // Make sure our weapon parameters are sane and we're done!
+  CheckParamLimit();
 }
 
 // 00198950
@@ -1341,6 +1463,8 @@ void CGameDataUsed::ToSpectolTrans(CGameDataUsed* spectrumized_item_dest, usize 
           spec->as.attach.m_properties[i] = static_cast<s16>(static_cast<f32>(as.weapon.m_properties[i]) * 0.6f);
         }
       }
+      
+      break;
     }
     default:
       SetItemSpectolPoint(spec->as.attach.m_spectrumized_item_id, &spec->as.attach, amount);
@@ -1815,8 +1939,7 @@ void CGameDataUsed::CopyGameData(CGameDataUsed* other)
 
   auto robo_data = user_man->m_robo_data;
 
-  // Probably checking that this is the robot energy core or not?
-  if (this == &robo_data.m_part_data[2])
+  if (this == &robo_data.m_parts.battery)
   {
     auto hp = truncf(robo_data.m_chara_hp_gage.m_max);
     robo_data.m_chara_hp_gage.m_max = as.robopart.m_battery_gage.m_max;
@@ -1999,7 +2122,7 @@ CUserDataManager::CUserDataManager()
     }
   }
 
-  for (auto& game_data_used : m_robo_data.m_part_data)
+  for (auto& game_data_used : m_robo_data.m_parts.data)
   {
     new (&game_data_used) CGameDataUsed;
   }
@@ -2028,6 +2151,19 @@ CUserDataManager::CUserDataManager()
   m_invent_user_data.Initialize();
   m_fishing_tournament.Initialize();
   new (&m_fishing_record) CFishingRecord;
+}
+
+// 0019B450
+CGameDataUsed* CUserDataManager::GetUsedDataPtr(ssize index)
+{
+  log_trace("CUserDataManager::{}({})", __func__, index);
+
+  if (index < 0 || index >= m_inventory.size())
+  {
+    return nullptr;
+  }
+
+  return &m_inventory[index];
 }
 
 // 0019B490
@@ -2108,14 +2244,23 @@ COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_inde
 {
   log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), gage_index);
 
+  using enum ECharacterID;
+
   switch (chara_id)
   {
-    case ECharacterID::Ridepod:
-      return &m_robo_data.m_part_data[0].as.robopart.m_whp_gage;
-    case ECharacterID::Monster:
-      return &m_monster_box.GetMonsterBadgeData(m_monster_id)->m_whp_gage;
-    case ECharacterID::Max:
-    case ECharacterID::Monica:
+    case Ridepod:
+      return &m_robo_data.m_parts.weapon.as.robopart.m_whp_gage;
+    case Monster:
+    {
+      auto badge_data = m_monster_box.GetMonsterBadgeData(m_monster_id);
+      if (badge_data == nullptr)
+      {
+        return nullptr;
+      }
+      return &badge_data->m_whp_gage;
+    }
+    case Max:
+    case Monica:
       return &m_chara_data[std::to_underlying(chara_id)].m_equip_table[gage_index].as.weapon.m_whp_gage;
     default:
       return nullptr;
@@ -2127,8 +2272,27 @@ COMMON_GAGE* CUserDataManager::GetAbsGage(ECharacterID chara_id, ssize gage_inde
 {
   log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), gage_index);
 
-  todo;
-  return nullptr;
+  using enum ECharacterID;
+
+  switch (chara_id)
+  {
+    case Ridepod:
+      return &m_robo_data.m_abs_gage;
+    case Monster:
+    {
+      auto badge_data = m_monster_box.GetMonsterBadgeData(m_monster_id);
+      if (badge_data == nullptr)
+      {
+        return nullptr;
+      }
+      return &badge_data->m_abs_gage;
+    }
+    case Max:
+    case Monica:
+      return &m_chara_data[std::to_underlying(chara_id)].m_equip_table[gage_index].as.weapon.m_abs_gage;
+    default:
+      return nullptr;
+  }
 }
 
 // 0019B7C0
@@ -2186,21 +2350,111 @@ s32 CUserDataManager::AddAbs(ECharacterID chara_id, ssize gage_index, s32 delta)
   return static_cast<s32>(gage->m_current);
 }
 
+// 0019c420
+void CUserDataManager::SetRoboName(std::string name)
+{
+  log_trace("CUserDataManager::{}({})", __func__, name);
+
+  m_robo_data.m_name = name;
+}
+
+// 0019C440
+std::string CUserDataManager::GetRoboName() const
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  return m_robo_data.m_name;
+}
+
+// 0019C440
+std::string CUserDataManager::GetRoboNameDefault() const
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  using enum Language;
+
+  static const std::unordered_map<Language, const char*> robo_nametable
+  {
+    {Japanese, "ライドポッド"},
+    {English, "Ridepod"}
+  };
+
+  if (!robo_nametable.contains(LanguageCode)) [[unlikely]]
+  {
+    panicf("No default robo name for language {}", std::to_underlying(LanguageCode));
+  }
+
+  return robo_nametable.at(LanguageCode);
+}
+
+// 0019C490
+void CUserDataManager::SetVoiceUnit(ERoboVoiceUnit voice_unit)
+{
+  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(voice_unit));
+
+  m_robo_data.m_voice_unit = voice_unit;
+
+  SetRoboVoiceFlag(voice_unit != ERoboVoiceUnit::None);
+}
+
+// 0019C4C0
+ERoboVoiceUnit CUserDataManager::CheckVoiceUnit() const
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  return m_robo_data.m_voice_unit;
+}
+
+// 0019C4D0
+void CUserDataManager::SetRoboVoiceFlag(bool flag)
+{
+  log_trace("CUserDataManager::{}({})", __func__, flag);
+
+  m_robo_data.m_voice_flag = flag;
+}
+
+// 0019C4E0
+bool CUserDataManager::CheckRoboVoiceUnit() const
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  return m_robo_data.m_voice_unit != ERoboVoiceUnit::None && m_robo_data.m_voice_flag;
+}
+
 // 0019C500
 float CUserDataManager::AddRoboAbs(f32 delta)
 {
   log_trace("CUserDataManager::{}({})", __func__, delta);
 
-  m_robo_data.m_abs = std::clamp(m_robo_data.m_abs + delta, 0.0f, 99999.0f);
-  return m_robo_data.m_abs;
+  m_robo_data.m_abs_gage.m_current = std::clamp(m_robo_data.m_abs_gage.m_current + delta, 0.0f, 99999.0f);
+  return m_robo_data.m_abs_gage.m_current;
 }
 
 // 0019C560
-float CUserDataManager::GetRoboAbs()
+float CUserDataManager::GetRoboAbs() const
 {
   log_trace("CUserDataManager::{}()", __func__);
 
-  return m_robo_data.m_abs;
+  return m_robo_data.m_abs_gage.m_current;
+}
+
+// 0019C930
+EPartyCharacterID CUserDataManager::NowPartyCharaID() const
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  using enum EPartyCharacterStatus;
+  using enum EPartyCharacterID;
+
+  for (usize i = 0; i < m_party_chara_status.size(); ++i)
+  {
+    if ((m_party_chara_status[i].m_status & Active) != None)
+    {
+      return m_party_chara_status[i].m_party_chara_id;
+    }
+  }
+
+  return Invalid;
 }
 
 // 0019B160
@@ -2220,6 +2474,51 @@ s32 CUserDataManager::AddMoney(s32 delta)
 
   m_money = std::clamp(m_money + delta, 0, 999'999);
   return m_money;
+}
+
+// 0019A800
+u8 GetShieldKitLimit(ECommonItemData item_id)
+{
+  log_trace("{}({})", __func__, std::to_underlying(item_id));
+
+  using enum ECommonItemData;
+
+  std::unordered_map<ECommonItemData, u8> use_limit_table
+  {
+    {Core, 3},
+    {Improved_Core, 6},
+    {Core_II, 9},
+    {Core_III, 12},
+    {Super_Core, 15},
+    {Hyper_Core, 18},
+    {Master_Grade_Core, 21},
+  };
+
+  u8 limit = use_limit_table.at(Master_Grade_Core);
+
+  if (use_limit_table.contains(item_id))
+  {
+    limit = use_limit_table.at(item_id);
+  }
+  
+  return limit;
+}
+
+// 0019A860
+s16 ROBO_DATA::GetDefenceVol()
+{
+  log_trace("ROBO_DATA::{}()", __func__);
+
+  return m_parts.body.as.robopart.m_defence + m_n_shield_kits * 4;
+}
+
+// 0019A830
+f32 ROBO_DATA::AddPoint(f32 delta)
+{
+  log_trace("ROBO_DATA::{}({})", __func__, delta);
+
+  m_chara_hp_gage.AddPoint(delta);
+  return m_chara_hp_gage.GetRate();
 }
 
 // 0019A890
@@ -2347,8 +2646,14 @@ EMonsterID CBattleCharaInfo::GetMonsterID()
 {
   log_trace("CBattleCharaInfo::{}()", __func__);
 
-  todo;
-  return static_cast<EMonsterID>(0);
+  auto user_man = GetUserDataMan();
+
+  if (user_man == nullptr)
+  {
+    return EMonsterID::Invalid;
+  }
+
+  return user_man->m_monster_id;
 }
 
 // 0019F250

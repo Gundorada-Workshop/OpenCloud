@@ -59,13 +59,17 @@ enum class ENPCID : s16;
 
 enum class EMonsterID : s16
 {
-
+  Invalid = 0,
 };
 
 enum class ESpecialStatus : s32
 {
-
+  None = 0,
+  _20h = 0x20,
+  _40h = 0x40,
 };
+
+IMPLEMENT_ENUM_CLASS_BITWISE_OPERATORS(ESpecialStatus);
 
 enum class EMagicSwordElement : s16
 {
@@ -85,6 +89,56 @@ enum class EBattleCharaType : s16
 enum class ECharaStatusAttribute : u16
 {
 
+};
+
+enum class EPartyCharacterID : u16
+{
+  Invalid = -1,
+  // 0 is unused?
+  Cedric = 1,
+  Borneo = 2,
+  Gordon = 3,
+  Donny = 4,
+  Parn = 5,
+  Dr_Dell = 6,
+  Ferdinand = 7,
+  Claire = 8,
+  Pau = 9,
+  Stewart = 10,
+  Adel = 11,
+  Aunt_Polly = 12,
+  Erik = 13,
+  Sheriff_Blinkhorn = 14,
+  Milane = 15,
+  Gerald = 16,
+  Mayor_Need = 17,
+  Priest_Bruno = 18,
+  Rufio = 19,
+  Fabio = 20,
+  Olivie = 21,
+  Julia = 22,
+  Mina = 23,
+  Corinne = 24,
+  Granny_Rosa = 25,
+  Lin = 26,
+};
+
+enum class EPartyCharacterStatus : u16
+{
+  None = 0,
+  Active = 1
+};
+
+IMPLEMENT_ENUM_CLASS_BITWISE_OPERATORS(EPartyCharacterStatus);
+
+struct PARTY_CHARA
+{
+  // 0
+  EPartyCharacterID m_party_chara_id;
+  // 2
+  EPartyCharacterStatus m_status;
+
+  // size 0xC
 };
 
 struct MOS_HENGE_PARAM
@@ -200,6 +254,8 @@ struct ROBOPART_USED
   s16 m_durable{};
   // 14
   std::array<s16, std::to_underlying(WeaponProperty::COUNT)> m_properties{};
+  // 24
+  s16 m_defence{};
   // 2C
   std::array<char, 0x20> m_name{ 0 };
 };
@@ -414,7 +470,10 @@ public:
 
 struct SMonsterBadgeData
 {
+  // C
   COMMON_GAGE m_whp_gage;
+  // 14
+  COMMON_GAGE m_abs_gage;
 
   // SIZE 0xBC
 };
@@ -449,20 +508,54 @@ struct SCharaData
   // SIZE 0x38C
 };
 
+enum class ERoboVoiceUnit : s8
+{
+  None = 0,
+  Steve = 1
+};
+
 struct ROBO_DATA
 {
+  // 0019A860
+  s16 GetDefenceVol();
+  // 0019A830
+  f32 AddPoint(f32 delta);
+
   // ?
 
+  // 2
+  std::string m_name{};
+
+  // ?
+
+  // 1C
+  ERoboVoiceUnit m_voice_unit{};
+  // 1D
+  bool m_voice_flag{};
   // 20
   COMMON_GAGE m_chara_hp_gage{};
-  
-  // ?
-  // 2C
-  f32 m_abs{};
-  // 30
-  std::array<CGameDataUsed, 4> m_part_data{};
+  // 28
+  COMMON_GAGE m_abs_gage{};
+  union
+  {
+    std::array<CGameDataUsed, 4> data;
+    struct
+    {
+      // 30
+      CGameDataUsed weapon; // ROBOPART_USED
+      // 9C
+      CGameDataUsed body; // ROBOPART_USED
+      // 108
+      CGameDataUsed battery; // ROBOPART_USED
+      // 174
+      CGameDataUsed legs; // ROBOPART_USED
+    };
+  } m_parts;
 
   // ?
+
+  // 1E8
+  u16 m_n_shield_kits;
 
   // SIZE 0x220
 };
@@ -475,6 +568,9 @@ public:
 
   // 0019b160
   void Initialize();
+
+  // 0019B450
+  CGameDataUsed* GetUsedDataPtr(ssize index);
 
   // 0019B490
   SCharaData* GetCharaDataPtr(ECharacterID chara_id);
@@ -513,16 +609,34 @@ public:
   void EnableCharaChange(s32 chara);
 
   // 0019c420
-  void SetRoboName(const char* name);
+  void SetRoboName(std::string name);
+
+  // 0019C440
+  std::string GetRoboName() const;
 
   // 0019c450
-  const char* GetRoboNameDefault();
+  std::string GetRoboNameDefault() const;
+
+  // 0019C490
+  void SetVoiceUnit(ERoboVoiceUnit voice_unit);
+
+  // 0019C4C0
+  ERoboVoiceUnit CheckVoiceUnit() const;
+
+  // 0019C4D0
+  void SetRoboVoiceFlag(bool flag);
+
+  // 0019C4E0
+  bool CheckRoboVoiceUnit() const;
 
   // 0019C500
   float AddRoboAbs(f32 delta);
 
   // 0019C560
-  float GetRoboAbs();
+  float GetRoboAbs() const;
+
+  // 0019C930
+  EPartyCharacterID NowPartyCharaID() const;
 
   // 0019EAF0
   s32 AddMoney(s32 delta);
@@ -542,9 +656,8 @@ public:
 
   // 4EB0
   CMonsterBox m_monster_box{};
-
-  // ??
-
+  // 7DB0
+  std::array<PARTY_CHARA, 0x20> m_party_chara_status;
   // 7F30
   CInventUserData m_invent_user_data{};
 
@@ -577,12 +690,12 @@ public:
   // SIZE 0x457A0
 };
 
-struct SBattleCharaInfoParamUnk1
+struct SBattleCharaWeapon
 {
   // 0
-  s16 m_unk_field_0{};
+  s16 m_attack{};
   // 2
-  // ?
+  s16 m_durable{};
   // 4
   s16 m_unk_field_4{};
 
@@ -600,7 +713,7 @@ struct SBattleCharaInfoParam
 {
 public:
   // 0
-  std::array<SBattleCharaInfoParamUnk1, 2> m_unk_field_0{};
+  std::array<SBattleCharaWeapon, 2> m_weapons{};
   // 38
   s16 m_defence_vol{};
 
@@ -750,6 +863,9 @@ public:
 
   // Size 0x90
 };
+
+// 0019A800
+u8 GetShieldKitLimit(ECommonItemData item_id);
 
 // 001960C0
 void SetItemSpectolPoint(ECommonItemData item_id, ATTACH_USED* attach, sint stack_num);
