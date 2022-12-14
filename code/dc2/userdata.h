@@ -64,8 +64,12 @@ enum class EMonsterID : s16
 
 enum class ESpecialStatus : s32
 {
-
+  None = 0,
+  _20h = 0x20,
+  _40h = 0x40,
 };
+
+IMPLEMENT_ENUM_CLASS_BITWISE_OPERATORS(ESpecialStatus);
 
 enum class EMagicSwordElement : s16
 {

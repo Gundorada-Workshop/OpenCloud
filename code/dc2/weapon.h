@@ -3,6 +3,9 @@
 
 // ~001B5FD0 - 001BAA30
 
+enum class ESpecialStatus;
+
+
 enum class EDAMAGE_PARAMUnk :s8
 {
   _0 = 0,
@@ -17,15 +20,6 @@ struct DAMAGE_PARAM
   EDAMAGE_PARAMUnk m_unk_field_18{};
 };
 
-enum class ECColPrimUnk
-{
-  None = 0,
-  _20h = 0x20,
-  _40h = 0x40,
-};
-
-IMPLEMENT_ENUM_CLASS_BITWISE_OPERATORS(ECColPrimUnk);
-
 // NOTE: These are probably just primitives only used for weapons
 class CColPrim
 {
@@ -36,7 +30,7 @@ public:
   // ?
 
   // A0
-  ECColPrimUnk m_unk_field_A0{};
+  ESpecialStatus m_unk_field_A0{};
 };
 
 class CColPrimMan
