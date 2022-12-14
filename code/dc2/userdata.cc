@@ -2360,7 +2360,7 @@ float CUserDataManager::AddRoboAbs(f32 delta)
 }
 
 // 0019C560
-float CUserDataManager::GetRoboAbs()
+float CUserDataManager::GetRoboAbs() const
 {
   log_trace("CUserDataManager::{}()", __func__);
 
@@ -2368,7 +2368,7 @@ float CUserDataManager::GetRoboAbs()
 }
 
 // 0019C930
-EPartyCharacterID CUserDataManager::NowPartyCharaID()
+EPartyCharacterID CUserDataManager::NowPartyCharaID() const
 {
   log_trace("CUserDataManager::{}()", __func__);
 
@@ -2377,7 +2377,7 @@ EPartyCharacterID CUserDataManager::NowPartyCharaID()
 
   for (usize i = 0; i < m_party_chara_status.size(); ++i)
   {
-    if ((m_party_chara_status[i].m_status & Active) != ZERO)
+    if ((m_party_chara_status[i].m_status & Active) != None)
     {
       return m_party_chara_status[i].m_party_chara_id;
     }

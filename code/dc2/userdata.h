@@ -121,7 +121,7 @@ enum class EPartyCharacterID : u16
 
 enum class EPartyCharacterStatus : u16
 {
-  ZERO = 0,
+  None = 0,
   Active = 1
 };
 
@@ -593,16 +593,16 @@ public:
   void SetRoboName(const char* name);
 
   // 0019c450
-  const char* GetRoboNameDefault();
+  const char* GetRoboNameDefault() const;
 
   // 0019C500
   float AddRoboAbs(f32 delta);
 
   // 0019C560
-  float GetRoboAbs();
+  float GetRoboAbs() const;
 
   // 0019C930
-  EPartyCharacterID NowPartyCharaID();
+  EPartyCharacterID NowPartyCharaID() const;
 
   // 0019EAF0
   s32 AddMoney(s32 delta);
