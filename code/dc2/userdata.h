@@ -59,7 +59,7 @@ enum class ENPCID : s16;
 
 enum class EMonsterID : s16
 {
-
+  Invalid = 0,
 };
 
 enum class ESpecialStatus : s32

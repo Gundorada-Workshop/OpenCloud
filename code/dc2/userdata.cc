@@ -2646,8 +2646,14 @@ EMonsterID CBattleCharaInfo::GetMonsterID()
 {
   log_trace("CBattleCharaInfo::{}()", __func__);
 
-  todo;
-  return static_cast<EMonsterID>(0);
+  auto user_man = GetUserDataMan();
+
+  if (user_man == nullptr)
+  {
+    return EMonsterID::Invalid;
+  }
+
+  return user_man->m_monster_id;
 }
 
 // 0019F250
