@@ -2364,12 +2364,40 @@ s32 CUserDataManager::AddMoney(s32 delta)
   return m_money;
 }
 
+// 0019A800
+u8 GetShieldKitLimit(ECommonItemData item_id)
+{
+  log_trace("{}({})", __func__, std::to_underlying(item_id));
+
+  using enum ECommonItemData;
+
+  std::unordered_map<ECommonItemData, u8> use_limit_table
+  {
+    {Core, 3},
+    {Improved_Core, 6},
+    {Core_II, 9},
+    {Core_III, 12},
+    {Super_Core, 15},
+    {Hyper_Core, 18},
+    {Master_Grade_Core, 21},
+  };
+
+  u8 limit = use_limit_table.at(Master_Grade_Core);
+
+  if (use_limit_table.contains(item_id))
+  {
+    limit = use_limit_table.at(item_id);
+  }
+  
+  return limit;
+}
+
 // 0019A860
 s16 ROBO_DATA::GetDefenceVol()
 {
   log_trace("ROBO_DATA::{}()", __func__);
 
-  return m_parts.body.as.robopart.m_defence + m_unk_field_1E8 * 4;
+  return m_parts.body.as.robopart.m_defence + m_n_shield_kits * 4;
 }
 
 // 0019A830

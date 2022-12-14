@@ -536,7 +536,7 @@ struct ROBO_DATA
   // ?
 
   // 1E8
-  u16 m_unk_field_1E8;
+  u16 m_n_shield_kits;
 
   // SIZE 0x220
 };
@@ -826,6 +826,9 @@ public:
 
   // Size 0x90
 };
+
+// 0019A800
+u8 GetShieldKitLimit(ECommonItemData item_id);
 
 // 001960C0
 void SetItemSpectolPoint(ECommonItemData item_id, ATTACH_USED* attach, sint stack_num);
