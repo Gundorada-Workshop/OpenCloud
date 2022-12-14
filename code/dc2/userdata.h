@@ -550,6 +550,9 @@ public:
   // 0019b160
   void Initialize();
 
+  // 0019B450
+  CGameDataUsed* GetUsedDataPtr(ssize index);
+
   // 0019B490
   SCharaData* GetCharaDataPtr(ECharacterID chara_id);
 

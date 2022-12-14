@@ -2153,6 +2153,19 @@ CUserDataManager::CUserDataManager()
   new (&m_fishing_record) CFishingRecord;
 }
 
+// 0019B450
+CGameDataUsed* CUserDataManager::GetUsedDataPtr(ssize index)
+{
+  log_trace("CUserDataManager::{}({})", __func__, index);
+
+  if (index < 0 || index >= m_inventory.size())
+  {
+    return nullptr;
+  }
+
+  return &m_inventory[index];
+}
+
 // 0019B490
 SCharaData* CUserDataManager::GetCharaDataPtr(ECharacterID chara_id)
 {
