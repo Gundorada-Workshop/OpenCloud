@@ -597,6 +597,9 @@ public:
   // 0019c420
   void SetRoboName(std::string name);
 
+  // 0019C440
+  std::string GetRoboName() const;
+
   // 0019c450
   const char* GetRoboNameDefault() const;
 

@@ -2358,6 +2358,14 @@ void CUserDataManager::SetRoboName(std::string name)
   m_robo_data.m_name = name;
 }
 
+// 0019C440
+std::string CUserDataManager::GetRoboName() const
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  return m_robo_data.m_name;
+}
+
 // 0019C500
 float CUserDataManager::AddRoboAbs(f32 delta)
 {
