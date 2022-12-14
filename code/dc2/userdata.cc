@@ -1463,6 +1463,8 @@ void CGameDataUsed::ToSpectolTrans(CGameDataUsed* spectrumized_item_dest, usize 
           spec->as.attach.m_properties[i] = static_cast<s16>(static_cast<f32>(as.weapon.m_properties[i]) * 0.6f);
         }
       }
+      
+      break;
     }
     default:
       SetItemSpectolPoint(spec->as.attach.m_spectrumized_item_id, &spec->as.attach, amount);
