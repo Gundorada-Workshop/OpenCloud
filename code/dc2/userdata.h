@@ -513,6 +513,11 @@ struct ROBO_DATA
 
   // ?
 
+  // 2
+  std::string m_name;
+
+  // ?
+
   // 20
   COMMON_GAGE m_chara_hp_gage{};
   // 28
@@ -590,7 +595,7 @@ public:
   void EnableCharaChange(s32 chara);
 
   // 0019c420
-  void SetRoboName(const char* name);
+  void SetRoboName(std::string name);
 
   // 0019c450
   const char* GetRoboNameDefault() const;

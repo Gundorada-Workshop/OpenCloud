@@ -2350,6 +2350,14 @@ s32 CUserDataManager::AddAbs(ECharacterID chara_id, ssize gage_index, s32 delta)
   return static_cast<s32>(gage->m_current);
 }
 
+// 0019c420
+void CUserDataManager::SetRoboName(std::string name)
+{
+  log_trace("CUserDataManager::{}({})", __func__, name);
+
+  m_robo_data.m_name = name;
+}
+
 // 0019C500
 float CUserDataManager::AddRoboAbs(f32 delta)
 {
