@@ -466,7 +466,10 @@ public:
 
 struct SMonsterBadgeData
 {
+  // C
   COMMON_GAGE m_whp_gage;
+  // 14
+  COMMON_GAGE m_abs_gage;
 
   // SIZE 0xBC
 };
@@ -512,11 +515,8 @@ struct ROBO_DATA
 
   // 20
   COMMON_GAGE m_chara_hp_gage{};
-  
-  // ?
-  // 2C
-  f32 m_abs{};
-
+  // 28
+  COMMON_GAGE m_abs_gage{};
   union
   {
     std::array<CGameDataUsed, 4> data;

@@ -2244,14 +2244,23 @@ COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_inde
 {
   log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), gage_index);
 
+  using enum ECharacterID;
+
   switch (chara_id)
   {
-    case ECharacterID::Ridepod:
+    case Ridepod:
       return &m_robo_data.m_parts.weapon.as.robopart.m_whp_gage;
-    case ECharacterID::Monster:
-      return &m_monster_box.GetMonsterBadgeData(m_monster_id)->m_whp_gage;
-    case ECharacterID::Max:
-    case ECharacterID::Monica:
+    case Monster:
+    {
+      auto badge_data = m_monster_box.GetMonsterBadgeData(m_monster_id);
+      if (badge_data == nullptr)
+      {
+        return nullptr;
+      }
+      return &badge_data->m_whp_gage;
+    }
+    case Max:
+    case Monica:
       return &m_chara_data[std::to_underlying(chara_id)].m_equip_table[gage_index].as.weapon.m_whp_gage;
     default:
       return nullptr;
@@ -2263,8 +2272,27 @@ COMMON_GAGE* CUserDataManager::GetAbsGage(ECharacterID chara_id, ssize gage_inde
 {
   log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), gage_index);
 
-  todo;
-  return nullptr;
+  using enum ECharacterID;
+
+  switch (chara_id)
+  {
+    case Ridepod:
+      return &m_robo_data.m_abs_gage;
+    case Monster:
+    {
+      auto badge_data = m_monster_box.GetMonsterBadgeData(m_monster_id);
+      if (badge_data == nullptr)
+      {
+        return nullptr;
+      }
+      return &badge_data->m_abs_gage;
+    }
+    case Max:
+    case Monica:
+      return &m_chara_data[std::to_underlying(chara_id)].m_equip_table[gage_index].as.weapon.m_abs_gage;
+    default:
+      return nullptr;
+  }
 }
 
 // 0019B7C0
@@ -2327,8 +2355,8 @@ float CUserDataManager::AddRoboAbs(f32 delta)
 {
   log_trace("CUserDataManager::{}({})", __func__, delta);
 
-  m_robo_data.m_abs = std::clamp(m_robo_data.m_abs + delta, 0.0f, 99999.0f);
-  return m_robo_data.m_abs;
+  m_robo_data.m_abs_gage.m_current = std::clamp(m_robo_data.m_abs_gage.m_current + delta, 0.0f, 99999.0f);
+  return m_robo_data.m_abs_gage.m_current;
 }
 
 // 0019C560
@@ -2336,7 +2364,7 @@ float CUserDataManager::GetRoboAbs()
 {
   log_trace("CUserDataManager::{}()", __func__);
 
-  return m_robo_data.m_abs;
+  return m_robo_data.m_abs_gage.m_current;
 }
 
 // 0019C930
