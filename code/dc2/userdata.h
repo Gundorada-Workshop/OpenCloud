@@ -686,12 +686,12 @@ public:
   // SIZE 0x457A0
 };
 
-struct SBattleCharaInfoParamUnk1
+struct SBattleCharaWeapon
 {
   // 0
-  s16 m_unk_field_0{};
+  s16 m_attack{};
   // 2
-  // ?
+  s16 m_durable{};
   // 4
   s16 m_unk_field_4{};
 
@@ -709,7 +709,7 @@ struct SBattleCharaInfoParam
 {
 public:
   // 0
-  std::array<SBattleCharaInfoParamUnk1, 2> m_unk_field_0{};
+  std::array<SBattleCharaWeapon, 2> m_weapons{};
   // 38
   s16 m_defence_vol{};
 

@@ -14,6 +14,9 @@
 
 // ~ 001BE6F0 - 001EA760
 
+class CColPrim;
+
+
 // TODO THIS FILE
 class CTornado
 {
@@ -95,8 +98,12 @@ class CHealingPoint
 {
 };
 
-class CActiveMonster
+class CActiveMonster : CActionChara
 {
+public:
+  // 1324
+  // Baseline HP damage to take when striking this monster with a melee weapon
+  u16 m_melee_whp_penalty{ 1 };
 };
 
 class CMonsterLocateInfo
@@ -472,3 +479,7 @@ class CLockOnModel : CObjectFrame
 
   // SIZE 0xB0
 };
+
+// 001E8630
+// Calculate weapon health for melee weapons on hit
+void calcWeaponParamWhp(const CActiveMonster& monster, const CColPrim& collision);
