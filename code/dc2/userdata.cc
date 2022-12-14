@@ -17,6 +17,11 @@ set_log_channel("userdata");
 // 01E9B130
 static CBattleCharaInfo BattleParameter{};
 
+// 00377070
+static f32 BattleParameter_Time{};
+// 00377074
+static TimeOfDay BattleParameter_TimeBand{};
+
 // 001960C0
 void SetItemSpectolPoint(ECommonItemData item_id, ATTACH_USED* attach, sint stack_num)
 {
@@ -2068,7 +2073,7 @@ bool CGameDataUsed::CopyDataWeapon(ECommonItemData item_id)
   as.weapon.m_properties[std::to_underlying(Scale)] = weapon_data->m_properties[std::to_underlying(Scale)];
 
   as.weapon.m_fusion_point = weapon_data->m_fusion_point;
-  as.weapon.m_unk_field_28 = weapon_data->m_unk_field_2C;
+  as.weapon.m_special_status = weapon_data->m_special_status;
 
   as.weapon.m_unk_field_2E = 0;
   as.weapon.m_unk_field_30 = 0;
@@ -2954,12 +2959,32 @@ s32 CBattleCharaInfo::GetDefenceVol() const
 }
 
 // 001A00B0
-f32 CBattleCharaInfo::AddHp_Point(f32 f1, f32 f2)
+f32 CBattleCharaInfo::AddHp_Point(f32 delta, f32 divisor)
 {
-  log_trace("CBattleCharaInfo::{}({}, {})", __func__, f1, f2);
+  log_trace("CBattleCharaInfo::{}({}, {})", __func__, delta, divisor);
 
-  todo;
-  return 0.0f;
+  if (m_hp_gage == nullptr)
+  {
+    return 0.0f;
+  }
+
+  m_unk_field_78 = divisor;
+  if (divisor > 1.0f)
+  {
+    // this is dead code I think
+    m_unk_field_7C = delta / divisor;
+  }
+  else
+  {
+    m_unk_field_7C = delta;
+  }
+
+  m_unk_field_8C = m_hp_gage->m_current;
+  m_unk_field_84 = m_hp_gage->m_current;
+  m_hp_gage->m_current = std::clamp(m_hp_gage->m_current + delta, 0.0f, m_hp_gage->m_max);
+
+  // Return the HP percentage
+  return m_hp_gage->GetRate();
 }
 
 // 001A01B0
