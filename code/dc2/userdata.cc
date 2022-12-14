@@ -1937,8 +1937,7 @@ void CGameDataUsed::CopyGameData(CGameDataUsed* other)
 
   auto robo_data = user_man->m_robo_data;
 
-  // Probably checking that this is the robot energy core or not?
-  if (this == &robo_data.m_part_data[2])
+  if (this == &robo_data.m_parts.battery)
   {
     auto hp = truncf(robo_data.m_chara_hp_gage.m_max);
     robo_data.m_chara_hp_gage.m_max = as.robopart.m_battery_gage.m_max;
@@ -2121,7 +2120,7 @@ CUserDataManager::CUserDataManager()
     }
   }
 
-  for (auto& game_data_used : m_robo_data.m_part_data)
+  for (auto& game_data_used : m_robo_data.m_parts.data)
   {
     new (&game_data_used) CGameDataUsed;
   }
@@ -2233,7 +2232,7 @@ COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_inde
   switch (chara_id)
   {
     case ECharacterID::Ridepod:
-      return &m_robo_data.m_part_data[0].as.robopart.m_whp_gage;
+      return &m_robo_data.m_parts.weapon.as.robopart.m_whp_gage;
     case ECharacterID::Monster:
       return &m_monster_box.GetMonsterBadgeData(m_monster_id)->m_whp_gage;
     case ECharacterID::Max:
@@ -2361,6 +2360,14 @@ s32 CUserDataManager::AddMoney(s32 delta)
 
   m_money = std::clamp(m_money + delta, 0, 999'999);
   return m_money;
+}
+
+// 0019A860
+s16 ROBO_DATA::GetDefenceVol()
+{
+  log_trace("ROBO_DATA::{}()", __func__);
+
+  return m_parts.body.as.robopart.m_defence + m_unk_field_1E8 * 4;
 }
 
 // 0019A830

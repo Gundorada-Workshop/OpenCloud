@@ -250,6 +250,8 @@ struct ROBOPART_USED
   s16 m_durable{};
   // 14
   std::array<s16, std::to_underlying(WeaponProperty::COUNT)> m_properties{};
+  // 24
+  s16 m_defence{};
   // 2C
   std::array<char, 0x20> m_name{ 0 };
 };
@@ -501,6 +503,8 @@ struct SCharaData
 
 struct ROBO_DATA
 {
+  // 0019A860
+  s16 GetDefenceVol();
   // 0019A830
   f32 AddPoint(f32 delta);
 
@@ -512,10 +516,27 @@ struct ROBO_DATA
   // ?
   // 2C
   f32 m_abs{};
-  // 30
-  std::array<CGameDataUsed, 4> m_part_data{};
+
+  union
+  {
+    std::array<CGameDataUsed, 4> data;
+    struct
+    {
+      // 30
+      CGameDataUsed weapon; // ROBOPART_USED
+      // 9C
+      CGameDataUsed body; // ROBOPART_USED
+      // 108
+      CGameDataUsed battery; // ROBOPART_USED
+      // 174
+      CGameDataUsed legs; // ROBOPART_USED
+    };
+  } m_parts;
 
   // ?
+
+  // 1E8
+  u16 m_unk_field_1E8;
 
   // SIZE 0x220
 };
