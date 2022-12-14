@@ -504,6 +504,12 @@ struct SCharaData
   // SIZE 0x38C
 };
 
+enum class ERoboVoiceUnit : s8
+{
+  None = 0,
+  Steve = 1
+};
+
 struct ROBO_DATA
 {
   // 0019A860
@@ -514,10 +520,14 @@ struct ROBO_DATA
   // ?
 
   // 2
-  std::string m_name;
+  std::string m_name{};
 
   // ?
 
+  // 1C
+  ERoboVoiceUnit m_voice_unit{};
+  // 1D
+  bool m_voice_flag{};
   // 20
   COMMON_GAGE m_chara_hp_gage{};
   // 28
@@ -602,6 +612,18 @@ public:
 
   // 0019c450
   std::string GetRoboNameDefault() const;
+
+  // 0019C490
+  void SetVoiceUnit(ERoboVoiceUnit voice_unit);
+
+  // 0019C4C0
+  ERoboVoiceUnit CheckVoiceUnit() const;
+
+  // 0019C4D0
+  void SetRoboVoiceFlag(bool flag);
+
+  // 0019C4E0
+  bool CheckRoboVoiceUnit() const;
 
   // 0019C500
   float AddRoboAbs(f32 delta);

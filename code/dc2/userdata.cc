@@ -2387,6 +2387,40 @@ std::string CUserDataManager::GetRoboNameDefault() const
   return robo_nametable.at(LanguageCode);
 }
 
+// 0019C490
+void CUserDataManager::SetVoiceUnit(ERoboVoiceUnit voice_unit)
+{
+  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(voice_unit));
+
+  m_robo_data.m_voice_unit = voice_unit;
+
+  SetRoboVoiceFlag(voice_unit != ERoboVoiceUnit::None);
+}
+
+// 0019C4C0
+ERoboVoiceUnit CUserDataManager::CheckVoiceUnit() const
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  return m_robo_data.m_voice_unit;
+}
+
+// 0019C4D0
+void CUserDataManager::SetRoboVoiceFlag(bool flag)
+{
+  log_trace("CUserDataManager::{}({})", __func__, flag);
+
+  m_robo_data.m_voice_flag = flag;
+}
+
+// 0019C4E0
+bool CUserDataManager::CheckRoboVoiceUnit() const
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  return m_robo_data.m_voice_unit != ERoboVoiceUnit::None && m_robo_data.m_voice_flag;
+}
+
 // 0019C500
 float CUserDataManager::AddRoboAbs(f32 delta)
 {
