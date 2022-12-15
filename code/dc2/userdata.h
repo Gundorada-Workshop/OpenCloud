@@ -633,6 +633,9 @@ public:
   // 0019C930
   EPartyCharacterID NowPartyCharaID() const;
 
+  // 0019D840
+  s32 SearchSpaceUsedData() const;
+
   // 0019EAF0
   s32 AddMoney(s32 delta);
 

@@ -2472,6 +2472,15 @@ void CUserDataManager::Initialize()
   todo;
 }
 
+// 0019D840
+s32 CUserDataManager::SearchSpaceUsedData() const
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+  return -1;
+}
+
 // 0019EAF0
 s32 CUserDataManager::AddMoney(s32 delta)
 {

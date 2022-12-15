@@ -11,6 +11,7 @@
 #include "dc2/event_edit.h"
 #include "dc2/event_func.h"
 #include "dc2/gamedata.h"
+#include "dc2/mainloop.h"
 #include "dc2/run_script.h"
 #include "dc2/scene.h"
 #include "dc2/mg/mg_lib.h"
@@ -591,7 +592,14 @@ static bool _GET_ITEM_SPACE(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack, save_data->m_user_data_manager.SearchSpaceUsedData());
   return true;
 }
 
