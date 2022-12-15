@@ -7,6 +7,7 @@
 #include "dc2/dng_event.h"
 #include "dc2/dngmenu.h"
 #include "dc2/effect.h"
+#include "dc2/event_edit.h"
 #include "dc2/event_func.h"
 #include "dc2/run_script.h"
 #include "dc2/mg/mg_lib.h"
@@ -126,7 +127,12 @@ static bool _GOTO_INTERIOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EdEventInfo.m_unk_field_64 = GetStackInt(stack++);
+  EdEventInfo.m_unk_field_68 = GetStackString(stack++);
+  EdEventInfo.m_unk_field_88 = (stack_count >= 3 ? GetStackInt(stack++): 100);
+  EdEventInfo.m_unk_field_1CC = (stack_count >= 4 ? GetStackInt(stack++) : 0);
+  EdEventInfo.m_unk_field_CC = 4;
+
   return true;
 }
 

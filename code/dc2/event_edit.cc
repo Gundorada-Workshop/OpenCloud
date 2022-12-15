@@ -6,6 +6,9 @@
 
 set_log_channel("event_edit");
 
+// 01ECE430
+EDIT_EVENT_INFO EdEventInfo{};
+
 // 01F04200
 CCameraPas g_cmr_pas{ };
 // 01F04B50
