@@ -379,6 +379,14 @@ void CCharacter2::SetMotionPara(char* c, sint i1, s32 i2)
   todo;
 }
 
+// 00174C70
+void CCharacter2::DeleteExtMotion()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+}
+
 // 00177f20
 static bool _SKIN_IMG(SPI_STACK* stack, sint stack_count)
 {

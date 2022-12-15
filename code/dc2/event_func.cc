@@ -366,7 +366,14 @@ static bool _DEL_EXT_MOTION(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto chara = EventScene->GetCharacter(GetStackInt(stack++));
+
+  if (chara == nullptr)
+  {
+    return false;
+  }
+
+  chara->DeleteExtMotion();
   return true;
 }
 
