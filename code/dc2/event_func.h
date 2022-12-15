@@ -490,7 +490,7 @@ class CRain
 {
 public:
   // 0
-  unk32 m_unk_field_0{ 0 };
+  bool m_unk_field_0{ 0 };
   // 4
   unk32 m_unk_field_4{ 0 };
   // 10
@@ -501,6 +501,12 @@ public:
   std::array<CParticle, 100> m_particles{};
   // 8670
   std::array<CRipple, 200> m_ripples{};
+
+  // 002822D0
+  void Stop();
+
+  // 002822E0
+  void Start();
 };
 
 class CMarker

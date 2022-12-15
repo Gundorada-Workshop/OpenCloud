@@ -16,6 +16,53 @@
 
 set_log_channel("event_func");
 
+// 00377CD4
+static CMarker EventMarker{};
+// 01ECE880
+static CEohMother EventObjHandleMother{};
+// 01ECEA80
+static CEventSpriteMother esMother{};
+// 01ECEEC0
+static std::array<u32, 0x40> EventLocalFlag{};
+// 01ECEFC0
+static std::array<u32, 0x40> EventLocalCnt{};
+// 01ECF0C0
+static CRain EventRain{};
+// 01EE00B0
+static std::array<CHitEffectImage, 5> HitEffect{};
+// 01EE0290
+static std::array<char, 0x40> PakuAnimName{};
+// 01EE02D0
+static std::array<char, 0x40> PakuAnimName2{};
+// 01EE0310
+static std::array<char, 0x40> PakuMotionName{};
+// 01EE0350
+static std::array<char, 0x40> PakuMotionName2{};
+// 01EE0390
+static std::array<char, 0x8010> alignas(16) event_snd_buff {};
+// 01EE83A0
+static mgCMemory BuffEventSnd{};
+// 01EE83D0
+static std::array<char, 0x1410> alignas(16) event_snd2_buff {};
+// 01EE97E0
+static mgCMemory BuffEventSnd2{};
+// 01EE9810
+static CDngFreeMap EventDngMap{};
+// 01EE9920
+static std::array<_SEN_CMR_SEQ, 0x100> cmr_seq_tbl{};
+// 01EEF920
+static CSceneCmrSeq CameraSeq{};
+// 01EF0430
+static std::array<_SEN_OBJ_SEQ, 0x100> obj_seq_tbl{};
+// 01EF5430
+static std::array<CSceneObjSeq, 0x20> ObjectSeq{};
+// 01F01230
+static std::array<CEventSprite2, 0x30> EventSprite2{};
+// 01F02A30
+static CEventScriptArg EventScriptArg{};
+// 01F02A40
+static CScreenEffect EventScreenEffect{};
+
 // 0025F860
 static sint GetStackInt(RS_STACKDATA* stack)
 {
@@ -301,7 +348,17 @@ static bool _SET_RAIN(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  bool active = GetStackInt(stack++);
+
+  if (active)
+  {
+    EventRain.Start();
+  }
+  else
+  {
+    EventRain.Stop();
+  }
+
   return true;
 }
 
@@ -6408,53 +6465,6 @@ static RS_TAG_PARAM ext_func[]
   nullptr,                        -1
 };
 
-// 00377CD4
-static CMarker EventMarker{};
-// 01ECE880
-static CEohMother EventObjHandleMother{};
-// 01ECEA80
-static CEventSpriteMother esMother{};
-// 01ECEEC0
-static std::array<u32, 0x40> EventLocalFlag{};
-// 01ECEFC0
-static std::array<u32, 0x40> EventLocalCnt{};
-// 01ECF0C0
-static CRain EventRain{};
-// 01EE00B0
-static std::array<CHitEffectImage, 5> HitEffect{};
-// 01EE0290
-static std::array<char, 0x40> PakuAnimName{};
-// 01EE02D0
-static std::array<char, 0x40> PakuAnimName2{};
-// 01EE0310
-static std::array<char, 0x40> PakuMotionName{};
-// 01EE0350
-static std::array<char, 0x40> PakuMotionName2{};
-// 01EE0390
-static std::array<char, 0x8010> alignas(16) event_snd_buff {};
-// 01EE83A0
-static mgCMemory BuffEventSnd{};
-// 01EE83D0
-static std::array<char, 0x1410> alignas(16) event_snd2_buff {};
-// 01EE97E0
-static mgCMemory BuffEventSnd2{};
-// 01EE9810
-static CDngFreeMap EventDngMap{};
-// 01EE9920
-static std::array<_SEN_CMR_SEQ, 0x100> cmr_seq_tbl{};
-// 01EEF920
-static CSceneCmrSeq CameraSeq{};
-// 01EF0430
-static std::array<_SEN_OBJ_SEQ, 0x100> obj_seq_tbl{};
-// 01EF5430
-static std::array<CSceneObjSeq, 0x20> ObjectSeq{};
-// 01F01230
-static std::array<CEventSprite2, 0x30> EventSprite2{};
-// 01F02A30
-static CEventScriptArg EventScriptArg{};
-// 01F02A40
-static CScreenEffect EventScreenEffect{};
-
 // 00255B80
 void SPLINE_KEY::Initialize()
 {
@@ -6768,6 +6778,22 @@ CRainDrop::CRainDrop()
 
   m_unk_field_90 = vec4(0, 0, 0, 1);
   m_color = glm::u8vec4(128, 128, 128, 128);
+}
+
+// 002822D0
+void CRain::Stop()
+{
+  log_trace("CRain::{}()", __func__);
+
+  m_unk_field_0 = false;
+}
+
+// 002822E0
+void CRain::Start()
+{
+  log_trace("CRain::{}()", __func__);
+
+  todo;
 }
 
 // 002901F0
