@@ -14,6 +14,8 @@ set_log_channel("dng_event");
 
 using namespace common;
 
+// 01EA4B20
+CRandomCircle RandomCircle{ };
 // 01F052C0
 static MapJumpInfo MainMapInfo{ };
 

@@ -112,9 +112,6 @@ CAutoMapGen AutoMapGen{ };
 // 01EA0710
 CColPrimMan ColPrimMan{ };
 
-// 01EA4B20
-CRandomCircle RandomCircle{ };
-
 // 01EA51C0
 CGeoStone GeoStone{ };
 

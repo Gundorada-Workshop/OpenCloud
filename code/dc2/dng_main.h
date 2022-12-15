@@ -6,6 +6,7 @@
 #include "common/debug.h"
 #include "common/types.h"
 
+#include "dc2/character.h"
 #include "dc2/map.h"
 #include "dc2/mg/mg_frame.h"
 #include "dc2/mg/mg_memory.h"
