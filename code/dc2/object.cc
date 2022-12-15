@@ -235,7 +235,7 @@ unkptr CObjectFrame::Draw()
 
   if (PreDraw())
   {
-    mgDraw(m_unk_field_70);
+    mgDraw(m_frame);
   }
   
   return nullptr;
@@ -248,7 +248,7 @@ unkptr CObjectFrame::DrawDirect()
 
   if (PreDraw())
   {
-    mgDrawDirect(m_unk_field_70);
+    mgDrawDirect(m_frame);
   }
 
   return nullptr;
@@ -285,14 +285,14 @@ void CObjectFrame::UpdatePosition()
 {
   log_trace("CObjectFrame::UpdatePosition()");
 
-  if (m_unk_field_70 == nullptr)
+  if (m_frame == nullptr)
   {
     return;
   }
 
-  m_unk_field_70->SetPosition(m_position);
-  m_unk_field_70->SetRotation(m_rotation);
-  m_unk_field_70->SetScale(m_scale);
+  m_frame->SetPosition(m_position);
+  m_frame->SetRotation(m_rotation);
+  m_frame->SetScale(m_scale);
 }
 
 // 0016A050

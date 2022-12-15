@@ -80,7 +80,7 @@ public:
 	void Copy(CObjectFrame& other, mgCMemory* mem); // nice try we'll get em next time
 
 	// 70
-	mgCFrame* m_unk_field_70{ nullptr };
+	mgCFrame* m_frame{ nullptr };
 
 	// SIZE 0x74
 };

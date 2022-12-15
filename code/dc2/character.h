@@ -152,6 +152,9 @@ public:
   // 00173A40
   void SetMotionPara(char* c, sint i1, s32 i2);
 
+  // 00174C70
+  void DeleteExtMotion();
+
   // 80
   f32 m_unk_field_80{ 0.0f };
 

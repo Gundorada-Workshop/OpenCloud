@@ -5,6 +5,7 @@
 #include "common/types.h"
 
 #include "dc2/userdata.h"
+#include "dc2/mg/mg_lib.h"
 
 // ~ 0022D3B0 - 002518A0 (?)
 
@@ -102,6 +103,9 @@ sint GetRandI(sint n);
 
 // 00250700
 f32 GetRandF(f32 n);
+
+// 002507D0
+f32 MenuAdjustPolygonScale(mgCFrame* frame, f32 scale);
 
 // 002516C0
 // Returns number of digits in a number

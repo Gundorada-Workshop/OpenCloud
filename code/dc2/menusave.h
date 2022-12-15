@@ -1,6 +1,7 @@
 #pragma once
 #include <array>
 
+#include "dc2/dng_main.h"
 #include "dc2/editdata.h"
 #include "dc2/quest.h"
 #include "dc2/userdata.h"
@@ -60,6 +61,13 @@ class CSaveDataDungeon
 public:
   // 0019b160
   void Initialize();
+
+  // 002F73F0
+  void SetFloorID(sint floor);
+
+  EDungeonID m_now_dungeon_id{};
+  std::array<sint, static_cast<usize>(EDungeonID::COUNT)> m_now_floors{};
+  std::array<sint, static_cast<usize>(EDungeonID::COUNT)> m_old_floors{};
 };
 
 class CMenuSystemData
@@ -86,10 +94,12 @@ public:
   std::array<CEditData, 5> m_edit_data{};
   // 1C574
   SV_CONFIG_OPTION m_sv_config_option{};
+  // 1C5B4
+  CSaveDataDungeon m_save_data_dungeon{};
   // 1D2A0
   CUserDataManager m_user_data_manager{};
   // 62A40
-  CQuestData m_quest_data;
+  CQuestData m_quest_data{};
   // 65930
-  CMenuSystemData m_menu_system_data;
+  CMenuSystemData m_menu_system_data{};
 };

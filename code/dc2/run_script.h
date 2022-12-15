@@ -48,6 +48,12 @@ namespace ECompare
 
 struct RS_STACKDATA;
 
+struct RS_TAG_PARAM
+{
+  std::function<bool(RS_STACKDATA*, int)> m_func;
+  s32 m_id;
+};
+
 union stackdata_t
 {
   s32 i;

@@ -86,3 +86,5 @@ public:
   CCharacter2 m_character{};
   // SIZE 0x6A0
 };
+
+extern CRandomCircle RandomCircle;

@@ -6,6 +6,7 @@
 #include "common/debug.h"
 #include "common/types.h"
 
+#include "dc2/character.h"
 #include "dc2/map.h"
 #include "dc2/mg/mg_frame.h"
 #include "dc2/mg/mg_memory.h"
@@ -128,6 +129,18 @@ class CAutoMapGen;
 
 // 01EA0480
 extern CAutoMapGen AutoMapGen;
+
+enum class EDungeonID : s32
+{
+  UndergroundWaterChannel = 0,
+  RainbowButterflyWood = 1,
+  StarlightCanyon = 2,
+  OceanRoarCave = 3,
+  MountGundor = 4,
+  MoonFlowerPalace = 5,
+  ZelmiteMine = 6,
+  COUNT = 7,
+};
 
 struct SDungeonStatus
 {

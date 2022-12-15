@@ -7,6 +7,8 @@
 
 // ~ 00196130 - 001A2080
 
+enum class ESpecialStatus;
+
 // TODO THIS FILE
 struct MOS_CHANGE_PARAM {};
 
@@ -62,13 +64,6 @@ enum class EMonsterID : s16
   Invalid = 0,
 };
 
-enum class ESpecialStatus : s32
-{
-  None = 0,
-  _20h = 0x20,
-  _40h = 0x40,
-};
-
 IMPLEMENT_ENUM_CLASS_BITWISE_OPERATORS(ESpecialStatus);
 
 enum class EMagicSwordElement : s16
@@ -82,8 +77,8 @@ enum class EBattleCharaType : s16
 {
   Uninitialized = -1,
   Human = 0,
-  MonsterTransform = 1,
-  Ridepod = 2,
+  Ridepod = 1,
+  MonsterTransform = 2,
 };
 
 enum class ECharaStatusAttribute : u16
@@ -231,7 +226,7 @@ struct WEAPON_USED
   // 16
   std::array<s16, std::to_underlying(WeaponProperty::COUNT)> m_properties{};
   // 28
-  s32 m_unk_field_28{};
+  ESpecialStatus m_special_status{};
   // 2C
   s16 m_fusion_point{};
   // 2E
@@ -638,8 +633,14 @@ public:
   // 0019C930
   EPartyCharacterID NowPartyCharaID() const;
 
+  // 0019D840
+  s32 SearchSpaceUsedData() const;
+
   // 0019EAF0
   s32 AddMoney(s32 delta);
+
+  // 0019C3D0
+  void SetActiveChrNo(ECharacterID chara_id);
 
   // 0
   std::array<CGameDataUsed, 150> m_inventory{};
@@ -670,7 +671,7 @@ public:
   // 44D94
   s16 m_unk_field_44D94{};
   // 44D96
-  s16 m_unk_field_44D96{};
+  ECharacterID m_active_chara_no{};
   // 44D98
   EMonsterID m_monster_id{};
   // 44D9A
@@ -728,7 +729,11 @@ private:
   // 6
   EBattleCharaType m_battle_chara_type{ EBattleCharaType::Uninitialized };
   // 8
-  SCharaData* m_chara_data{ nullptr };
+  union {
+    SCharaData* human{ nullptr };
+    ROBO_DATA* robot;
+    MOS_CHANGE_PARAM* monster;
+  } m_chara_data_as;
   // C
   f32 m_unk_field_C{};
   // 10
@@ -828,7 +833,7 @@ public:
   // 001A00A0
   s32 GetDefenceVol() const;
   // 001A00B0
-  f32 AddHp_Point(f32 f1, f32 f2);
+  f32 AddHp_Point(f32 delta, f32 divisor = 0.0f);
   // 001A01B0
   f32 AddHp_Rate(f32 f1, s32 i1, f32 f2);
   // 001A0370
@@ -860,7 +865,8 @@ public:
   CGameDataUsed* m_equip_table{ nullptr };
   // 34
   SBattleCharaInfoParam m_param{};
-
+  // 74
+  
   // Size 0x90
 };
 

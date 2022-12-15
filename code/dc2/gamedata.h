@@ -494,6 +494,13 @@ enum class EUsedItemType
   Item_8 = 8,
 };
 
+enum class ESpecialStatus : s32
+{
+  None = 0,
+  _20h = 0x20,
+  _40h = 0x40,
+};
+
 struct SDataItemCommon
 {
   // 0
@@ -604,7 +611,7 @@ public:
   // ?
 
   // 2C
-  s32 m_unk_field_2C{ 0 };
+  ESpecialStatus m_special_status{ ESpecialStatus::None };
 
   // ?
 
