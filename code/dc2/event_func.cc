@@ -11,6 +11,7 @@
 #include "dc2/event_edit.h"
 #include "dc2/event_func.h"
 #include "dc2/run_script.h"
+#include "dc2/scene.h"
 #include "dc2/mg/mg_lib.h"
 
 set_log_channel("event_func");
@@ -186,8 +187,34 @@ static bool _CHARA_ACTIVE(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  switch (stack_count)
+  {
+    case 2:
+    {
+      bool active = GetStackInt(stack++);
+      auto chara_id = GetStackInt(stack++);
+
+      if (active)
+      {
+        EventScene->SetActive(ESceneDataType::Character, chara_id);
+      }
+      else
+      {
+        EventScene->ResetActive(ESceneDataType::Character, chara_id);
+      }
+
+      return true;
+    }
+    case 1:
+    {
+      auto chara_id = GetStackInt(stack++);
+      EventScene->SetActive(ESceneDataType::Character, chara_id);
+
+      return true;
+    }
+    default:
+      return false;
+  }
 }
 
 static bool _CLEAR_STACK(RS_STACKDATA* stack, int stack_count)
