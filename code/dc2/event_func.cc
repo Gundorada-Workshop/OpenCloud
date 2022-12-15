@@ -735,7 +735,14 @@ static bool _DNG_SET_FLOOR_ID(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  save_data->m_save_data_dungeon.SetFloorID(GetStackInt(stack++));
   return true;
 }
 
@@ -743,7 +750,15 @@ static bool _DNG_GET_FLOOR_ID(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  auto floor_index = static_cast<s32>(save_data->m_save_data_dungeon.m_now_dungeon_id);
+  SetStack(stack, save_data->m_save_data_dungeon.m_now_floors[floor_index]);
   return true;
 }
 
