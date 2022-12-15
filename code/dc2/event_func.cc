@@ -18,6 +18,8 @@ set_log_channel("event_func");
 
 // 00377CD4
 static CMarker EventMarker{};
+// 00377CE4
+static bool SetWorldCoordFlg{};
 // 01ECE880
 static CEohMother EventObjHandleMother{};
 // 01ECEA80
@@ -138,6 +140,16 @@ static void SetStack(RS_STACKDATA* stack, f32 value)
   }
 
   stack->m_data.p->m_data.f = value;
+}
+
+// 00260F70
+void InitWorldCoord()
+{
+  log_trace("{}()", __func__);
+  
+  EdEventInfo.m_unk_field_0 = { 0, 0, 0, 0 };
+  EdEventInfo.m_unk_field_10 = { 0, 0, 0, 0 };
+  SetWorldCoordFlg = false;
 }
 
 // 002614F0
@@ -381,7 +393,6 @@ static bool _SET_MARKER(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
   return true;
 }
 
@@ -389,8 +400,30 @@ static bool _SET_WORLD_COORD(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  switch (stack_count)
+  {
+    case 4:
+      EdEventInfo.m_unk_field_0 = {
+        GetStackFloat(stack++),
+        GetStackFloat(stack++),
+        GetStackFloat(stack++),
+        1.0f
+      };
+      EdEventInfo.m_unk_field_10 = {
+        0.0f,
+        GetStackFloat(stack++),
+        0.0f,
+        0.0f
+      };
+
+      SetWorldCoordFlg = true;
+      return true;
+    case 1:
+      InitWorldCoord();
+      return true;
+    default:
+      return false;
+  }
 }
 
 static bool _FINISH(RS_STACKDATA* stack, int stack_count)

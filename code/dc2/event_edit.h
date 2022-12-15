@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 
+#include "common/constants.h"
 #include "common/debug.h"
 #include "common/types.h"
 
@@ -10,6 +11,11 @@
 
 struct EDIT_EVENT_INFO
 {
+  // 0
+  vec4 m_unk_field_0{};
+  // 10
+  vec4 m_unk_field_10{};
+
   // 64
   s32 m_unk_field_64{};
   // 68 (buf size 0x20)
