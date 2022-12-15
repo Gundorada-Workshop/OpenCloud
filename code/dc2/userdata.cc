@@ -2490,6 +2490,21 @@ s32 CUserDataManager::AddMoney(s32 delta)
   return m_money;
 }
 
+// 0019F010
+void SetActiveChrNo(ECharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(chara_id));
+
+  auto chara_info = GetBattleCharaInfo();
+
+  if (chara_info == nullptr)
+  {
+    return;
+  }
+
+  chara_info->SetChrNo(chara_id);
+}
+
 // 0019A800
 u8 GetShieldKitLimit(ECommonItemData item_id)
 {

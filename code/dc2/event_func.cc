@@ -705,7 +705,14 @@ static bool _GET_ACTIVE_CHR_NO(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack, static_cast<s32>(save_data->m_user_data_manager.m_active_chara_no));
   return true;
 }
 
@@ -713,7 +720,14 @@ static bool _SET_ACTIVE_CHR_NO(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  save_data->m_user_data_manager.SetActiveChrNo(static_cast<ECharacterID>(GetStackInt(stack++)));
   return true;
 }
 

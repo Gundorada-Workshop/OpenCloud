@@ -639,6 +639,9 @@ public:
   // 0019EAF0
   s32 AddMoney(s32 delta);
 
+  // 0019C3D0
+  void SetActiveChrNo(ECharacterID chara_id);
+
   // 0
   std::array<CGameDataUsed, 150> m_inventory{};
   // 3F48
@@ -668,7 +671,7 @@ public:
   // 44D94
   s16 m_unk_field_44D94{};
   // 44D96
-  s16 m_unk_field_44D96{};
+  ECharacterID m_active_chara_no{};
   // 44D98
   EMonsterID m_monster_id{};
   // 44D9A
