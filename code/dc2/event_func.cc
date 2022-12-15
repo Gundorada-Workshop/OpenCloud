@@ -12,6 +12,7 @@
 #include "dc2/event_func.h"
 #include "dc2/gamedata.h"
 #include "dc2/mainloop.h"
+#include "dc2/menumain.h"
 #include "dc2/run_script.h"
 #include "dc2/scene.h"
 #include "dc2/mg/mg_lib.h"
@@ -607,7 +608,24 @@ static bool _GET_ADJUST_POLYGON_SCALE(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto chara_id = GetStackInt(stack++);
+  f32 scale = GetStackFloat(stack++);
+
+  auto chara = GetCharacter(chara_id);
+
+  if (chara == nullptr)
+  {
+    return false;
+  }
+
+  auto frame = chara->m_frame;
+
+  if (frame == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack, MenuAdjustPolygonScale(frame, scale));
   return true;
 }
 

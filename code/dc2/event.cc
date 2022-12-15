@@ -30,3 +30,16 @@ mgCCamera* GetActiveCamera()
 
   return EventScene->GetCamera(EventScene->m_unk_field_2E54);
 }
+
+// 00255B50
+CCharacter2* GetCharacter(ssize chara_id)
+{
+  log_trace("{}({})", __func__, chara_id);
+
+  if (EventScene == nullptr)
+  {
+    return nullptr;
+  }
+
+  return EventScene->GetCharacter(chara_id);
+}

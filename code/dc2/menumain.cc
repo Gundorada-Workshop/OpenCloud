@@ -55,6 +55,15 @@ f32 GetRandF(f32 n)
   return mgRnd() * n;
 }
 
+// 002507D0
+f32 MenuAdjustPolygonScale(mgCFrame* frame, f32 scale)
+{
+  log_trace("{}({}, {})", __func__, fmt::ptr(frame), scale);
+
+  todo;
+  return 0.0f;
+}
+
 // 002516C0
 // Returns number of digits in a number
 u32 GetNumberKeta(s32 n)
