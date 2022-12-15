@@ -160,6 +160,15 @@ void EdEventInit()
   todo;
 }
 
+// 002620A0
+bool EdEventFinish()
+{
+  log_trace("{}()", __func__);
+
+  todo;
+  return false;
+}
+
 static bool _GET_PADON(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
@@ -430,8 +439,7 @@ static bool _FINISH(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  return EdEventFinish();
 }
 
 static bool _GET_DUN_WORLD_COORD(RS_STACKDATA* stack, int stack_count)
