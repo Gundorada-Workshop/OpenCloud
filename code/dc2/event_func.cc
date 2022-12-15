@@ -7,6 +7,7 @@
 #include "dc2/dng_event.h"
 #include "dc2/dngmenu.h"
 #include "dc2/effect.h"
+#include "dc2/event.h"
 #include "dc2/event_edit.h"
 #include "dc2/event_func.h"
 #include "dc2/run_script.h"
@@ -91,6 +92,14 @@ static void SetStack(RS_STACKDATA* stack, f32 value)
   stack->m_data.p->m_data.f = value;
 }
 
+// 002614F0
+void EdEventInit()
+{
+  log_trace("{}()", __func__);
+
+  todo;
+}
+
 static bool _GET_PADON(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
@@ -140,7 +149,16 @@ static bool _INITIALIZE(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EdEventInit();
+
+  auto camera = dynamic_cast<mgCCameraFollow*>(GetActiveCamera());
+
+  if (camera == nullptr)
+  {
+    return false;
+  }
+
+  camera->FollowOff();
   return true;
 }
 

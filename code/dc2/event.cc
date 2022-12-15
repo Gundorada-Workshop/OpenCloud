@@ -5,6 +5,9 @@
 
 set_log_channel("event");
 
+// 00377CCC
+CScene* EventScene{ nullptr };
+
 static CRunScript EventScript{ };
 
 // 002554C0
@@ -13,4 +16,17 @@ void SkipEventStart()
   log_trace("{}()", __func__);
 
   todo;
+}
+
+// 00255B20
+mgCCamera* GetActiveCamera()
+{
+  log_trace("{}()", __func__);
+
+  if (EventScene == nullptr)
+  {
+    return nullptr;
+  }
+
+  return EventScene->GetCamera(EventScene->m_unk_field_2E54);
 }
