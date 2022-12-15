@@ -657,7 +657,7 @@ static bool _SET_TIME(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventScene->SetTime(GetStackFloat(stack++));
   return true;
 }
 
