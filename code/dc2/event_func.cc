@@ -10,6 +10,7 @@
 #include "dc2/event.h"
 #include "dc2/event_edit.h"
 #include "dc2/event_func.h"
+#include "dc2/gamedata.h"
 #include "dc2/run_script.h"
 #include "dc2/scene.h"
 #include "dc2/mg/mg_lib.h"
@@ -470,7 +471,10 @@ static bool _SET_DNG_MAP(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  // Dummy?
+  GetStackInt(stack++);
+  GetStackInt(stack++);
+
   return true;
 }
 
@@ -534,8 +538,7 @@ static bool _GET_TB_ITEMNO(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  return false;
 }
 
 static bool _SET_TB_STATUS(RS_STACKDATA* stack, int stack_count)
@@ -566,7 +569,21 @@ static bool _GET_ITEM_TYPE(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  ECommonItemDataType item_type = static_cast<ECommonItemDataType>(GetStackInt(stack++));
+
+  using enum ECommonItemDataType;
+
+  if (item_type == Invalid)
+  {
+    return false;
+  }
+
+  if (item_type != Ranged_Monica && item_type != Melee_Monica && item_type != Ranged_Max && item_type != Melee_Max)
+  {
+    item_type = Invalid;
+  }
+
+  SetStack(stack, static_cast<s32>(item_type));
   return true;
 }
 
