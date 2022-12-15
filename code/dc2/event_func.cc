@@ -221,7 +221,7 @@ static bool _CLEAR_STACK(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventScene->ClearStack(GetStackInt(stack++));
   return true;
 }
 
@@ -229,7 +229,7 @@ static bool _ASSIGN_STACK(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventScene->AssignStack(GetStackInt(stack++));
   return true;
 }
 
