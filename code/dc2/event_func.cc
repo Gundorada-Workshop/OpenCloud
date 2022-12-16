@@ -2780,7 +2780,7 @@ static bool _DNGMAP_ONOFF(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventDngMap.m_unk_field_8 = bool(GetStackInt(stack++));
   return true;
 }
 
