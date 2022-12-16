@@ -2646,8 +2646,7 @@ static bool _GET_PERSON_STATUS(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  return false;
 }
 
 static bool _GET_CONTROL_CHRID(RS_STACKDATA* stack, int stack_count)
