@@ -1123,7 +1123,9 @@ static bool _MOVE_INTERIOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EdEventInfo.m_unk_field_64 = GetStackInt(stack++);
+  EdEventInfo.m_unk_field_68 = GetStackString(stack++);
+  EdEventInfo.m_unk_field_88 = (stack_count >= 3 ? GetStackInt(stack++) : 100);
   return true;
 }
 
