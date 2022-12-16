@@ -658,7 +658,8 @@ public:
   // 2CA8
   SCN_LOADMAP_INFO2 m_scn_loadmap_info;
   // 2E50
-  s32 m_unk_field_2E50;
+  // TODO: enum?
+  s32 m_control_chrid;
   // 2E54
   s32 m_unk_field_2E54;
   // 2E58

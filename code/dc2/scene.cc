@@ -240,7 +240,7 @@ CScene::CScene()
 
 	m_loop_se_manager.Initialize();
 
-	m_unk_field_2E50 = -1;
+	m_control_chrid = -1;
 	m_unk_field_2E54 = -1;
 	m_unk_field_2E58 = -1;
 	m_unk_field_2E5C = -1;

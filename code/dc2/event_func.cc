@@ -2653,7 +2653,7 @@ static bool _GET_CONTROL_CHRID(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack++, s32(EventScene->m_control_chrid));
   return true;
 }
 
