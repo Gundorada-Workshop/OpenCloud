@@ -828,8 +828,17 @@ static bool _GOTO_EDIT(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  if (!EdEventFinish())
+  {
+    return false;
+  }
+
+  INIT_LOOP_ARG init_arg{};
+  init_arg.m_unk_field_0 = GetStackInt(stack++);
+  init_arg.m_unk_field_48 = (stack_count >= 2 ? GetStackInt(stack++) : -1);
+
+  NextLoop(ELoopID::Edit, init_arg);
+  EdEventInfo.m_unk_field_CC = 3; // FIXME: MAGIC
 }
 
 static bool _GET_MENU_PARAM(RS_STACKDATA* stack, int stack_count)

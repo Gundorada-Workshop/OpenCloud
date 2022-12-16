@@ -28,6 +28,7 @@ extern s32 MasterDebugCode;
 
 enum class ELoopID
 {
+	Edit = 1,
 	Dungeon = 2,
 };
 
