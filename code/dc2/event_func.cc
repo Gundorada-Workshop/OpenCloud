@@ -2740,7 +2740,7 @@ static bool _SET_ACTIVE_CMRID(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack++, EventScene->m_active_cmrid);
   return true;
 }
 
@@ -2748,7 +2748,7 @@ static bool _SET_BEFORE_CMRID(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack++, EventScene->m_before_cmrid);
   return true;
 }
 

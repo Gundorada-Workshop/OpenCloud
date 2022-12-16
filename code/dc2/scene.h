@@ -661,9 +661,9 @@ public:
   // TODO: enum?
   s32 m_control_chrid;
   // 2E54
-  s32 m_unk_field_2E54;
+  s32 m_active_cmrid;
   // 2E58
-  s32 m_unk_field_2E58;
+  s32 m_before_cmrid;
   // 2E5C
   s32 m_unk_field_2E5C;
   // 2E60

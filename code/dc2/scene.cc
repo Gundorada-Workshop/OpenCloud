@@ -241,8 +241,8 @@ CScene::CScene()
 	m_loop_se_manager.Initialize();
 
 	m_control_chrid = -1;
-	m_unk_field_2E54 = -1;
-	m_unk_field_2E58 = -1;
+	m_active_cmrid = -1;
+	m_before_cmrid = -1;
 	m_unk_field_2E5C = -1;
 
 	m_unk_field_2E70 = 0;
@@ -515,9 +515,9 @@ s32 CScene::AssignCamera(ssize camera_index, mgCCamera* camera, const char* name
 		name = "no_name";
 	}
 
-	if (m_unk_field_2E54 < 0)
+	if (m_active_cmrid < 0)
 	{
-		m_unk_field_2E54 = camera_index;
+		m_active_cmrid = camera_index;
 	}
 
 	bool result = scene_camera->AssignData(camera, name);
