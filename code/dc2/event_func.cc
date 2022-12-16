@@ -1193,7 +1193,7 @@ static bool _SET_RAIN_CHARA_NO(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventRain.SetCharNo(GetStackInt(stack++));
   return true;
 }
 
@@ -2621,7 +2621,6 @@ static bool _GET_CONTENTS_POS(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
   return true;
 }
 
@@ -7120,6 +7119,24 @@ CRainDrop::CRainDrop()
 
   m_unk_field_90 = vec4(0, 0, 0, 1);
   m_color = glm::u8vec4(128, 128, 128, 128);
+}
+
+// 00282180
+void CRain::SetCharNo(sint char_no)
+{
+  log_trace("CRain::{}({})", __func__, char_no);
+
+  m_char_no = char_no;
+
+  if (char_no == -1)
+  {
+    return;
+  }
+
+  for (CParticle particle : m_particles)
+  {
+    new (&particle) CParticle;
+  }
 }
 
 // 002822D0
