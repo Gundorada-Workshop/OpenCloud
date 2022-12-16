@@ -112,7 +112,7 @@ void mgSetPkMoveImage(sceGsTex0* tex1, irect* rect, sceGsTex0* tex2, sint i1, si
 }
 
 // 00145B20
-f32 mgGetDistFromCamera(vec4& point)
+f32 mgGetDistFromCamera(vec3& point)
 {
   log_trace("mgGetDistFromCamera({})", fmt::ptr(&point));
 

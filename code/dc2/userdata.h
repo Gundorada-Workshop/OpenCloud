@@ -116,6 +116,8 @@ enum class EPartyCharacterID : u16
   Corinne = 24,
   Granny_Rosa = 25,
   Lin = 26,
+
+  COUNT = 32,
 };
 
 enum class EPartyCharacterStatus : u16
@@ -629,6 +631,12 @@ public:
 
   // 0019C560
   float GetRoboAbs() const;
+
+  // 0019C750
+  void SetPartyCharaStatus(EPartyCharacterID chara_id, EPartyCharacterStatus status) const;
+
+  // 0019C8F0
+  EPartyCharacterStatus GetPartyCharaStatus(EPartyCharacterID chara_id) const;
 
   // 0019C930
   EPartyCharacterID NowPartyCharaID() const;

@@ -36,7 +36,7 @@ public:
 
 public:
   // 10  00172DE0
-  virtual void SetPosition(vec4& v);
+  virtual void SetPosition(vec3& v);
 
   // 14  00172DE0
   virtual void SetPosition(f32 x, f32 y, f32 z);

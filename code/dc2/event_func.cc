@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "common/log.h"
 #include "common/math.h"
 #include "common/constants.h"
@@ -21,6 +23,8 @@ set_log_channel("event_func");
 
 // 00377CD4
 static CMarker EventMarker{};
+// 00377CD8
+static std::unique_ptr<CSwordAfterImage> SwordEffect{ nullptr };
 // 00377CE4
 static bool SetWorldCoordFlg{};
 // 01ECE880
@@ -99,15 +103,14 @@ static f32 GetStackFloat(RS_STACKDATA* stack)
 }
 
 // 0025F8D0
-static vec4 GetStackVector(RS_STACKDATA* stack)
+static vec3 GetStackVector(RS_STACKDATA* stack)
 {
   log_trace("{}()", __func__, fmt::ptr(stack));
 
   return {
-    GetStackFloat(stack++),
-    GetStackFloat(stack++),
-    GetStackFloat(stack++),
-    1.0f
+    GetStackFloat(&stack[0]),
+    GetStackFloat(&stack[1]),
+    GetStackFloat(&stack[2]),
   };
 }
 
@@ -223,7 +226,7 @@ static bool _INITIALIZE(RS_STACKDATA* stack, int stack_count)
 
   EdEventInit();
 
-  auto camera = dynamic_cast<mgCCameraFollow*>(GetActiveCamera());
+  auto camera = static_cast<mgCCameraFollow*>(GetActiveCamera());
 
   if (camera == nullptr)
   {
@@ -415,21 +418,23 @@ static bool _SET_WORLD_COORD(RS_STACKDATA* stack, int stack_count)
   switch (stack_count)
   {
     case 4:
+    {
       EdEventInfo.m_unk_field_0 = {
-        GetStackFloat(stack++),
-        GetStackFloat(stack++),
-        GetStackFloat(stack++),
+        GetStackFloat(&stack[0]),
+        GetStackFloat(&stack[1]),
+        GetStackFloat(&stack[2]),
         1.0f
       };
       EdEventInfo.m_unk_field_10 = {
         0.0f,
-        GetStackFloat(stack++),
+        GetStackFloat(&stack[3]),
         0.0f,
         0.0f
       };
 
       SetWorldCoordFlg = true;
       return true;
+    }
     case 1:
       InitWorldCoord();
       return true;
@@ -806,16 +811,35 @@ static bool _GOTO_DNG(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  if (!EdEventFinish())
+  {
+    return false;
+  }
+
+  INIT_LOOP_ARG init_arg{};
+  init_arg.m_unk_field_0 = GetStackInt(stack++);
+  init_arg.m_unk_field_44 = (stack_count >= 2 ? GetStackInt(stack++) : -1);
+  init_arg.m_unk_field_48 = (stack_count >= 3 ? GetStackInt(stack++) : -1);
+
+  NextLoop(ELoopID::Dungeon, init_arg);
+  EdEventInfo.m_unk_field_CC = 3; // FIXME: MAGIC
 }
 
 static bool _GOTO_EDIT(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  if (!EdEventFinish())
+  {
+    return false;
+  }
+
+  INIT_LOOP_ARG init_arg{};
+  init_arg.m_unk_field_0 = GetStackInt(stack++);
+  init_arg.m_unk_field_48 = (stack_count >= 2 ? GetStackInt(stack++) : -1);
+
+  NextLoop(ELoopID::Edit, init_arg);
+  EdEventInfo.m_unk_field_CC = 3; // FIXME: MAGIC
 }
 
 static bool _GET_MENU_PARAM(RS_STACKDATA* stack, int stack_count)
@@ -838,7 +862,24 @@ static bool _AUTO_SET_TREASURE_BOX(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  // NOTE: game checks < 2, but that's probably just a bug
+  if (stack_count < 5)
+  {
+    AutoSetTreasureBox();
+  }
+  else
+  {
+    AutoSetTreasureBox(
+      GetStackInt(&stack[0]),
+      vec3{
+        GetStackFloat(&stack[1]),
+        GetStackFloat(&stack[2]),
+        GetStackFloat(&stack[3])
+      },
+      GetStackFloat(&stack[4])
+    );
+  }
+
   return true;
 }
 
@@ -870,7 +911,21 @@ static bool _GET_NPC_STATUS(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  s32 chara_index = GetStackInt(stack++);
+
+  if (chara_index < 0 || chara_index >= s32(EPartyCharacterID::COUNT))
+  {
+    return false;
+  }
+
+  auto save_data = GetSaveData();
+
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack, s32(save_data->m_user_data_manager.GetPartyCharaStatus(EPartyCharacterID(chara_index))));
   return true;
 }
 
@@ -878,15 +933,35 @@ static bool _SET_NPC_STATUS(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  s32 chara_index = GetStackInt(stack++);
+  s32 status = GetStackInt(stack++);
+
+  if (chara_index < 0 || chara_index >= s32(EPartyCharacterID::COUNT))
+  {
+    return false;
+  }
+
+  auto save_data = GetSaveData();
+
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  save_data->m_user_data_manager.SetPartyCharaStatus(EPartyCharacterID(chara_index), EPartyCharacterStatus(status));
   return true;
 }
 
 static bool _GET_NOW_PARTY_CHARA(RS_STACKDATA* stack, int stack_count)
 {
-  trace_script_call(stack, stack_count);
+  auto save_data = GetSaveData();
 
-  todo;
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack, s32(save_data->m_user_data_manager.NowPartyCharaID()));
   return true;
 }
 
@@ -966,7 +1041,7 @@ static bool _DNG_DEBUG_COMMAND(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  ScriptDebugCommand(bool(GetStackInt(stack)));
   return true;
 }
 
@@ -982,7 +1057,7 @@ static bool _GET_ROT_LOOK_POS(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, atan2f(GetStackFloat(&stack[0]), GetStackFloat(&stack[1])));
   return true;
 }
 
@@ -990,7 +1065,7 @@ static bool _SET_MOTION_BLUR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventScene->m_fade_in_out.m_motion_blur = bool(GetStackInt(stack));
   return true;
 }
 
@@ -998,7 +1073,17 @@ static bool _LOAD_SCRIPT(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  const char* script_name = GetStackString(stack++);
+  s32 i = GetStackInt(stack++);
+
+  if (script_name == nullptr)
+  {
+    return false;
+  }
+
+  EdEventInfo.m_unk_field_8C = script_name;
+  EdEventInfo.m_unk_field_88 = i;
+  EdEventInfo.m_unk_field_CC = 15; // FIXME: MAGIC
   return true;
 }
 
@@ -1030,7 +1115,7 @@ static bool _GET_START_BUTTON(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, EdEventInfo.m_unk_field_F0);
   return true;
 }
 
@@ -1038,7 +1123,9 @@ static bool _MOVE_INTERIOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EdEventInfo.m_unk_field_64 = GetStackInt(stack++);
+  EdEventInfo.m_unk_field_68 = GetStackString(stack++);
+  EdEventInfo.m_unk_field_88 = (stack_count >= 3 ? GetStackInt(stack++) : 100);
   return true;
 }
 
@@ -1046,8 +1133,20 @@ static bool _GET_MONSTER_TALK_DATA(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  switch (stack_count)
+  {
+    case 2:
+      SetStack(stack++, EdEventInfo.m_unk_field_1BC);
+      SetStack(stack++, EdEventInfo.m_unk_field_1C4);
+      return true;
+    case 3:
+      SetStack(stack++, EdEventInfo.m_unk_field_1BC);
+      SetStack(stack++, EdEventInfo.m_unk_field_1C0);
+      SetStack(stack++, EdEventInfo.m_unk_field_1C4);
+      return true;
+    default:
+      return false;
+  }
 }
 
 static bool _FUNC_POINT_SHOW(RS_STACKDATA* stack, int stack_count)
@@ -1062,7 +1161,7 @@ static bool _GET_NOW_MAP_NO(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, EventScene->m_now_map_no);
   return true;
 }
 
@@ -1070,7 +1169,7 @@ static bool _GET_NOW_SUBMAP_NO(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, EventScene->m_now_submap_no);
   return true;
 }
 
@@ -1078,7 +1177,7 @@ static bool _GET_OLD_MAP_NO(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, EventScene->m_old_map_no);
   return true;
 }
 
@@ -1086,7 +1185,7 @@ static bool _GET_OLD_SUBMAP_NO(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, EventScene->m_old_submap_no);
   return true;
 }
 
@@ -1094,7 +1193,7 @@ static bool _SET_RAIN_CHARA_NO(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventRain.SetCharNo(GetStackInt(stack++));
   return true;
 }
 
@@ -2522,7 +2621,6 @@ static bool _GET_CONTENTS_POS(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
   return true;
 }
 
@@ -2530,7 +2628,9 @@ static bool _GET_BPOT_POS(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack++, BTpot.m_position.x);
+  SetStack(stack++, BTpot.m_position.y);
+  SetStack(stack++, BTpot.m_position.z);
   return true;
 }
 
@@ -2538,7 +2638,7 @@ static bool _GET_BPOT_STATUS(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack++, s32(BTpot.m_status));
   return true;
 }
 
@@ -2546,15 +2646,14 @@ static bool _GET_PERSON_STATUS(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  return false;
 }
 
 static bool _GET_CONTROL_CHRID(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack++, s32(EventScene->m_control_chrid));
   return true;
 }
 
@@ -2594,8 +2693,7 @@ static bool _GET_MENU_STATUS(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  return false;
 }
 
 static bool _LOAD_EQUIP(RS_STACKDATA* stack, int stack_count)
@@ -2642,7 +2740,7 @@ static bool _SET_ACTIVE_CMRID(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack++, EventScene->m_active_cmrid);
   return true;
 }
 
@@ -2650,7 +2748,7 @@ static bool _SET_BEFORE_CMRID(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack++, EventScene->m_before_cmrid);
   return true;
 }
 
@@ -4362,7 +4460,9 @@ static bool _ZERO_VECTOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack++, 0.0f);
+  SetStack(stack++, 0.0f);
+  SetStack(stack++, 0.0f);
   return true;
 }
 
@@ -4370,7 +4470,19 @@ static bool _NORMAL_VECTOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  vec3 v
+  {
+    GetStackFloat(&stack[0]),
+    GetStackFloat(&stack[1]),
+    GetStackFloat(&stack[2]),
+  };
+
+  v = glm::normalize(v);
+
+  SetStack(&stack[0], v.x);
+  SetStack(&stack[1], v.y);
+  SetStack(&stack[2], v.z);
+
   return true;
 }
 
@@ -4378,7 +4490,12 @@ static bool _COPY_VECTOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  vec3 v = GetStackVector(&stack[3]);
+
+  SetStack(&stack[0], v.x);
+  SetStack(&stack[1], v.y);
+  SetStack(&stack[2], v.z);
+
   return true;
 }
 
@@ -4386,7 +4503,14 @@ static bool _ADD_VECTOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  vec3 lhs = GetStackVector(&stack[0]);
+  vec3 rhs = GetStackVector(&stack[3]);
+  lhs += rhs;
+
+  SetStack(&stack[0], lhs.x);
+  SetStack(&stack[1], lhs.y);
+  SetStack(&stack[2], lhs.z);
+
   return true;
 }
 
@@ -4394,7 +4518,14 @@ static bool _SUB_VECTOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  vec3 lhs = GetStackVector(&stack[0]);
+  vec3 rhs = GetStackVector(&stack[3]);
+  lhs += rhs;
+
+  SetStack(&stack[0], lhs.x);
+  SetStack(&stack[1], lhs.y);
+  SetStack(&stack[2], lhs.z);
+
   return true;
 }
 
@@ -4402,7 +4533,14 @@ static bool _SCALE_VECTOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  vec3 lhs = GetStackVector(&stack[0]);
+  vec3 rhs = GetStackVector(&stack[3]);
+  lhs *= rhs;
+
+  SetStack(&stack[0], lhs.x);
+  SetStack(&stack[1], lhs.y);
+  SetStack(&stack[2], lhs.z);
+
   return true;
 }
 
@@ -4410,7 +4548,23 @@ static bool _DIV_VECTOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  // Check for division by zero
+  f32 divisor = GetStackFloat(&stack[3]);
+
+  if (divisor == 0.0f)
+  {
+    return false;
+  }
+
+  // The division proper
+  vec3 lhs = GetStackVector(&stack[0]);
+  
+  lhs /= divisor;
+
+  SetStack(&stack[0], lhs.x);
+  SetStack(&stack[1], lhs.y);
+  SetStack(&stack[2], lhs.z);
+
   return true;
 }
 
@@ -4418,7 +4572,7 @@ static bool _DIST_VECTOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, mgDistVector(GetStackVector(stack).xyz));
   return true;
 }
 
@@ -4426,7 +4580,7 @@ static bool _DIST_VECTOR2(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, mgDistVector2(GetStackVector(stack).xyz));
   return true;
 }
 
@@ -4434,7 +4588,7 @@ static bool _SQRT(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, sqrtf(GetStackFloat(stack)));
   return true;
 }
 
@@ -4442,7 +4596,7 @@ static bool _ATAN2F(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, atan2f(GetStackFloat(&stack[0]), GetStackFloat(&stack[1])));
   return true;
 }
 
@@ -4450,7 +4604,7 @@ static bool _ANGLE_CMP(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, mgAngleCmp(GetStackFloat(&stack[0]), GetStackFloat(&stack[1]), GetStackFloat(&stack[2])));
   return true;
 }
 
@@ -4458,7 +4612,7 @@ static bool _ANGLE_LIMIT(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, mgAngleLimit(GetStackFloat(stack)));
   return true;
 }
 
@@ -4466,7 +4620,17 @@ static bool _GET_RAND(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  if ((stack++)->m_data_type == EStackDataType::Float)
+  {
+    f32 n = GetStackFloat(stack++);
+    SetStack(stack, rand() / f32(common::constants::s32_max) * n);
+  }
+  else
+  {
+    s32 n = GetStackInt(stack++);
+    SetStack(stack, s32(rand() / f32(common::constants::s32_max) * f32(n)));
+  }
+
   return true;
 }
 
@@ -4474,15 +4638,49 @@ static bool _LINE_POINT_DIST(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  vec3 start = GetStackVector(&stack[0]);
+  vec3 end = GetStackVector(&stack[3]);
+  vec3 point = GetStackVector(&stack[6]);
+  RS_STACKDATA* dist_dest = &stack[9];
+
+  f32 dist = mgDistVector(start, end);
+
+  vec3 v1 = point - start;
+  vec3 dir = glm::normalize(end - start);
+
+  f32 inner_product = glm::dot(v1, dir);
+
+  if (inner_product < 0.0f || inner_product > dist)
+  {
+    SetStack(dist_dest, -1.0f);
+    return true;
+  }
+  else
+  {
+    dir *= inner_product;
+    dir += start;
+    SetStack(dist_dest, mgDistVector(point, dir));
+    return true;
+  }
 }
 
 static bool _CREATE_SWORD_EFFECT(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  s32 stack_id = GetStackInt(stack++); // unused
+  s32 i1 = GetStackInt(stack++);
+  s32 i2 = GetStackInt(stack++);
+
+  SwordEffect = std::make_unique<CSwordAfterImage>();
+
+  if (SwordEffect == nullptr)
+  {
+    // panicf likely will not work with OOM
+    common::debug::panic("_CREATE_SWORD_EFFECT: Out Of Memory");
+  }
+
+  SwordEffect->Initialize(EventScene->GetStack(stack_id), i1, i2);
   return true;
 }
 
@@ -4490,7 +4688,7 @@ static bool _DELETE_SWORD_EFFECT(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SwordEffect.reset();
   return true;
 }
 
@@ -4514,7 +4712,17 @@ static bool _ADD_CHARA_POS(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  s32 chara_id = GetStackInt(stack++);
+  vec3 delta = GetStackVector(stack).xyz();
+
+  auto chara = GetCharacter(chara_id);
+  if (chara == nullptr)
+  {
+    return false;
+  }
+
+  vec3 pos = chara->GetPosition() + delta;
+  chara->SetPosition(pos);
   return true;
 }
 
@@ -4522,7 +4730,20 @@ static bool _ADD_CHARA_ROT(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  s32 chara_id = GetStackInt(stack++);
+  vec3 delta = GetStackVector(stack).xyz();
+
+  auto chara = GetCharacter(chara_id);
+  if (chara == nullptr)
+  {
+    return false;
+  }
+
+  vec3 rot = chara->GetRotation() + delta;
+  rot.x = mgAngleLimit(rot.x);
+  rot.y = mgAngleLimit(rot.y);
+  rot.z = mgAngleLimit(rot.z);
+  chara->SetRotation(rot);
   return true;
 }
 
@@ -6898,6 +7119,24 @@ CRainDrop::CRainDrop()
 
   m_unk_field_90 = vec4(0, 0, 0, 1);
   m_color = glm::u8vec4(128, 128, 128, 128);
+}
+
+// 00282180
+void CRain::SetCharNo(sint char_no)
+{
+  log_trace("CRain::{}({})", __func__, char_no);
+
+  m_char_no = char_no;
+
+  if (char_no == -1)
+  {
+    return;
+  }
+
+  for (CParticle particle : m_particles)
+  {
+    new (&particle) CParticle;
+  }
 }
 
 // 002822D0

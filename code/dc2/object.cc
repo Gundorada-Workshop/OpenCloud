@@ -37,7 +37,7 @@ bool CObject::PreDraw()
 }
 
 // 00169C10
-float CObject::GetCameraDist()
+f32 CObject::GetCameraDist()
 {
   log_trace("CObject::{}()", __func__);
 
@@ -115,7 +115,7 @@ bool CObject::DrawStep()
 {
   log_trace("CObject::{}()", __func__);
 
-  float fp;
+  f32 fp;
   return FarClip(GetCameraDist(), &fp);
 }
 // 00169D60
@@ -198,7 +198,7 @@ bool CObject::CheckDraw()
     return false;
   }
 
-  float camera_dist = GetCameraDist();
+  f32 camera_dist = GetCameraDist();
 
   if (m_far_dist > 0.0f && camera_dist > m_far_dist)
   {
@@ -264,7 +264,7 @@ bool CObjectFrame::PreDraw()
 }
 
 // 00169F00
-float CObjectFrame::GetCameraDist()
+f32 CObjectFrame::GetCameraDist()
 {
   log_trace("CObjectFrame::GetCameraDist()");
 

@@ -492,7 +492,7 @@ public:
   // 0
   bool m_unk_field_0{ 0 };
   // 4
-  unk32 m_unk_field_4{ 0 };
+  s32 m_char_no{ 0 };
   // 10
   std::array<CRainDrop, 100> m_unk_field_10{};
   // 44D0
@@ -501,6 +501,9 @@ public:
   std::array<CParticle, 100> m_particles{};
   // 8670
   std::array<CRipple, 200> m_ripples{};
+
+  // 00282180
+  void SetCharNo(sint char_no);
 
   // 002822D0
   void Stop();

@@ -65,11 +65,12 @@ public:
   CPot();
 
   // 0
-  unk32 m_unk_field_0;
+  // TODO: probably enum
+  s32 m_status;
   // 4
   unk32 m_unk_field_4;
   // 10
-  vec4 m_unk_field_10;
+  vec3 m_position;
   // 20
   vec4 m_unk_field_20;
   // 30

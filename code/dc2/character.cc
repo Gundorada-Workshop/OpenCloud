@@ -8,7 +8,7 @@
 set_log_channel("character")
 
 // 00172DE0
-void CCharacter2::SetPosition(vec4& v)
+void CCharacter2::SetPosition(vec3& v)
 {
   log_trace("CCharacter2::{}({})", __func__, fmt::ptr(&v));
 
@@ -20,7 +20,7 @@ void CCharacter2::SetPosition(f32 x, f32 y, f32 z)
 {
   log_trace("CCharacter2::{}({}, {}, {})", __func__, x, y, z);
 
-  mgCObject::SetPosition({ x, y, z, 1.0f });
+  mgCObject::SetPosition({ x, y, z });
 }
 
 // 00172F60

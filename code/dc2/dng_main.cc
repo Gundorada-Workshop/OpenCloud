@@ -187,6 +187,14 @@ std::array<CChillAfterHit, 6> chillAfterHit{ };
 // 01EC50E0
 std::array<CFireAfterHit, 6> fireAfterHit{ };
 
+// 001C2240
+void CSwordAfterImage::Initialize(mgCMemory* stack, sint i1, sint i2)
+{
+  log_trace("CSwordAfterImage::{}({}, {}, {})", __func__, fmt::ptr(stack), i1, i2);
+
+  todo;
+}
+
 // 001D4850
 CFireAfterHit::CFireAfterHit()
 {
@@ -230,7 +238,7 @@ void CChillAfterHit::Initialize()
 }
 
 // 001D4C40
-void CMiniMapSymbol::DrawSymbol(vec4& pos, EMiniMapSymbol::EMiniMapSymbol symbol_type)
+void CMiniMapSymbol::DrawSymbol(vec3& pos, EMiniMapSymbol::EMiniMapSymbol symbol_type)
 {
   // 0033D8A0
   static std::array<MINIMAP_SYMBOL_DATA, EMiniMapSymbol::COUNT + 1> symbol_table

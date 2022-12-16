@@ -28,7 +28,7 @@ mgCCamera* GetActiveCamera()
     return nullptr;
   }
 
-  return EventScene->GetCamera(EventScene->m_unk_field_2E54);
+  return EventScene->GetCamera(EventScene->m_active_cmrid);
 }
 
 // 00255B50

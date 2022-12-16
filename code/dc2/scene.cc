@@ -227,7 +227,7 @@ CScene::CScene()
 	}
 
 	m_mds_list_set.Initialize();
-	m_fade_in_out.Initialize();
+	//m_fade_in_out.Initialize();
 	m_scn_loadmap_info.Initialize();
 	new (&m_scene_event_data) CSceneEventData();
 
@@ -240,9 +240,9 @@ CScene::CScene()
 
 	m_loop_se_manager.Initialize();
 
-	m_unk_field_2E50 = -1;
-	m_unk_field_2E54 = -1;
-	m_unk_field_2E58 = -1;
+	m_control_chrid = -1;
+	m_active_cmrid = -1;
+	m_before_cmrid = -1;
 	m_unk_field_2E5C = -1;
 
 	m_unk_field_2E70 = 0;
@@ -276,9 +276,9 @@ CScene::CScene()
 	m_unk_field_2F68 = 0;
 	m_unk_field_3040 = 0;
 	m_now_map_no = -1;
-	m_now_sub_map_no = -1;
-	m_last_map_no = -1;
-	m_last_sub_map_no = -1;
+	m_now_submap_no = -1;
+	m_old_map_no = -1;
+	m_old_submap_no = -1;
 	m_unk_field_3038 = 0;
 	m_unk_field_303C = 0;
 }
@@ -515,9 +515,9 @@ s32 CScene::AssignCamera(ssize camera_index, mgCCamera* camera, const char* name
 		name = "no_name";
 	}
 
-	if (m_unk_field_2E54 < 0)
+	if (m_active_cmrid < 0)
 	{
-		m_unk_field_2E54 = camera_index;
+		m_active_cmrid = camera_index;
 	}
 
 	bool result = scene_camera->AssignData(camera, name);
@@ -833,7 +833,7 @@ ssize CScene::GetMainMapNo()
 	}
 	else
 	{
-		return m_now_sub_map_no;
+		return m_now_submap_no;
 	}
 }
 
@@ -1214,21 +1214,21 @@ void CScene::SetNowMapNo(s32 now_map_no)
 
 	if (m_now_map_no != now_map_no)
 	{
-		m_last_map_no = m_now_map_no;
+		m_old_map_no = m_now_map_no;
 	}
 	m_now_map_no = now_map_no;
 }
 
 // 00284B80
-void CScene::SetNowSubMapNo(s32 now_sub_map_no)
+void CScene::SetNowSubMapNo(s32 now_submap_no)
 {
-	log_trace("CScene::{}({})", __func__, now_sub_map_no);
+	log_trace("CScene::{}({})", __func__, now_submap_no);
 
-	if (m_now_sub_map_no != now_sub_map_no)
+	if (m_now_submap_no != now_submap_no)
 	{
-		m_last_sub_map_no = m_now_map_no;
+		m_old_submap_no = m_now_map_no;
 	}
-	m_now_sub_map_no = now_sub_map_no;
+	m_now_submap_no = now_submap_no;
 }
 
 // 00284BA0

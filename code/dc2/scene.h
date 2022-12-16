@@ -365,7 +365,7 @@ public:
   // 00284B60
   void SetNowMapNo(s32 now_map_no);
   // 00284B80
-  void SetNowSubMapNo(s32 now_sub_map_no);
+  void SetNowSubMapNo(s32 now_submap_no);
   // 00284BA0
   void LoadChara(unk i1, unkptr p1, unkptr p2, mgCMemory& m1, mgCMemory& m2, mgCMemory& m3, unk i2, unk i3);
   // 002853B0
@@ -652,27 +652,28 @@ public:
   // 2AB0
   std::array<CSceneEffect, 8> m_effects;
   // 2C70
-  CFadeInOut m_fade_in_out;
+  CFadeInOut m_fade_in_out{};
   // 2CA0
   unk m_unk_field_2CA0;
   // 2CA8
   SCN_LOADMAP_INFO2 m_scn_loadmap_info;
   // 2E50
-  s32 m_unk_field_2E50;
+  // TODO: enum?
+  s32 m_control_chrid;
   // 2E54
-  s32 m_unk_field_2E54;
+  s32 m_active_cmrid;
   // 2E58
-  s32 m_unk_field_2E58;
+  s32 m_before_cmrid;
   // 2E5C
   s32 m_unk_field_2E5C;
   // 2E60
-  s32 m_now_map_no;
+  s32 m_now_map_no{ -1 };
   // 2E64
-  s32 m_now_sub_map_no;
+  s32 m_now_submap_no{ -1 };
   // 2E68
-  s32 m_last_map_no;
+  s32 m_old_map_no{ -1 };
   // 2E6C
-  s32 m_last_sub_map_no;
+  s32 m_old_submap_no{ -1 };
   // 2E70
   unk m_unk_field_2E70;
   // 2E74
