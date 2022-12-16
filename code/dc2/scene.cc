@@ -227,7 +227,7 @@ CScene::CScene()
 	}
 
 	m_mds_list_set.Initialize();
-	m_fade_in_out.Initialize();
+	//m_fade_in_out.Initialize();
 	m_scn_loadmap_info.Initialize();
 	new (&m_scene_event_data) CSceneEventData();
 

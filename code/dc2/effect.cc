@@ -12,25 +12,6 @@ set_log_channel("effect");
 // this is prob a global but im just leaving it like this for now
 static CEffectManager* g_tmp_effm{ nullptr };
 
-// 0017D750
-void CFadeInOut::Initialize()
-{
-  log_trace("CFadeInOut::Initialize()");
-
-  m_unk_field_0 = 0.0f;
-  m_unk_field_4 = 0.0f;
-  m_unk_field_8 = 0.0f;
-  m_unk_field_C = 0.0f;
-  m_unk_field_10 = 0;
-  m_unk_field_14 = false;
-  m_unk_field_18 = 0.0f;
-  m_unk_field_1C = 0;
-  m_unk_field_20 = false;
-  m_unk_field_24 = 0.0f;
-  m_unk_field_28 = nullptr;
-  m_unk_field_2C = 0;
-}
-
 // 00181490
 static bool __BUFFER_SIZE(SPI_STACK* stack, sint stack_count)
 {

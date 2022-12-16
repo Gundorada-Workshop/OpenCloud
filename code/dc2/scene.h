@@ -652,7 +652,7 @@ public:
   // 2AB0
   std::array<CSceneEffect, 8> m_effects;
   // 2C70
-  CFadeInOut m_fade_in_out;
+  CFadeInOut m_fade_in_out{};
   // 2CA0
   unk m_unk_field_2CA0;
   // 2CA8

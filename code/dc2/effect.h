@@ -60,33 +60,30 @@ public:
 class CFadeInOut
 {
 public:
-  // 0017D750
-  void Initialize();
-
   // 0
-  f32 m_unk_field_0;
+  f32 m_unk_field_0{};
   // 4
-  f32 m_unk_field_4;
+  f32 m_unk_field_4{};
   // 8
-  f32 m_unk_field_8;
+  f32 m_unk_field_8{};
   // C
-  f32 m_unk_field_C;
+  f32 m_unk_field_C{};
   // 10
-  s32 m_unk_field_10;
+  s32 m_unk_field_10{};
   // 14
-  bool m_unk_field_14;
+  bool m_unk_field_14{};
   // 18
-  f32 m_unk_field_18;
+  f32 m_unk_field_18{};
   // 1C
-  unk m_unk_field_1C;
+  unk m_unk_field_1C{};
   // 20
-  bool m_unk_field_20;
+  bool m_unk_field_20{};
   // 24
-  f32 m_unk_field_24;
+  f32 m_unk_field_24{};
   // 28
-  mgCTexture* m_unk_field_28;
+  mgCTexture* m_unk_field_28{ nullptr };
   // 2C
-  unk m_unk_field_2C;
+  bool m_motion_blur{};
 };
 
 class CFireRaster : public mgCTexture

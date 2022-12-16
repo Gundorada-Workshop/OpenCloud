@@ -1066,7 +1066,7 @@ static bool _SET_MOTION_BLUR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventScene->m_fade_in_out.m_motion_blur = bool(GetStackInt(stack));
   return true;
 }
 
