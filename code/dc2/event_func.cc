@@ -108,9 +108,9 @@ static vec4 GetStackVector(RS_STACKDATA* stack)
   log_trace("{}()", __func__, fmt::ptr(stack));
 
   return {
-    GetStackFloat(stack++),
-    GetStackFloat(stack++),
-    GetStackFloat(stack++),
+    GetStackFloat(&stack[0]),
+    GetStackFloat(&stack[1]),
+    GetStackFloat(&stack[2]),
     1.0f
   };
 }
@@ -419,21 +419,23 @@ static bool _SET_WORLD_COORD(RS_STACKDATA* stack, int stack_count)
   switch (stack_count)
   {
     case 4:
+    {
       EdEventInfo.m_unk_field_0 = {
-        GetStackFloat(stack++),
-        GetStackFloat(stack++),
-        GetStackFloat(stack++),
+        GetStackFloat(&stack[0]),
+        GetStackFloat(&stack[1]),
+        GetStackFloat(&stack[2]),
         1.0f
       };
       EdEventInfo.m_unk_field_10 = {
         0.0f,
-        GetStackFloat(stack++),
+        GetStackFloat(&stack[3]),
         0.0f,
         0.0f
       };
 
       SetWorldCoordFlg = true;
       return true;
+    }
     case 1:
       InitWorldCoord();
       return true;
@@ -869,14 +871,13 @@ static bool _AUTO_SET_TREASURE_BOX(RS_STACKDATA* stack, int stack_count)
   else
   {
     AutoSetTreasureBox(
-      GetStackInt(stack++),
-      vec3
-      { 
-        GetStackFloat(stack++), 
-        GetStackFloat(stack++), 
-        GetStackFloat(stack++) 
+      GetStackInt(&stack[0]),
+      vec3{
+        GetStackFloat(&stack[1]),
+        GetStackFloat(&stack[2]),
+        GetStackFloat(&stack[3])
       },
-      GetStackFloat(stack++)
+      GetStackFloat(&stack[4])
     );
   }
 
@@ -1057,7 +1058,7 @@ static bool _GET_ROT_LOOK_POS(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  SetStack(stack, atan2f(GetStackFloat(stack++), GetStackFloat(stack++)));
+  SetStack(stack, atan2f(GetStackFloat(&stack[0]), GetStackFloat(&stack[1])));
   return true;
 }
 
@@ -4573,7 +4574,7 @@ static bool _ATAN2F(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  SetStack(stack, atan2f(GetStackFloat(stack++), GetStackFloat(stack++)));
+  SetStack(stack, atan2f(GetStackFloat(&stack[0]), GetStackFloat(&stack[1])));
   return true;
 }
 
@@ -4581,7 +4582,7 @@ static bool _ANGLE_CMP(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  SetStack(stack, mgAngleCmp(GetStackFloat(stack++), GetStackFloat(stack++), GetStackFloat(stack++)));
+  SetStack(stack, mgAngleCmp(GetStackFloat(&stack[0]), GetStackFloat(&stack[1]), GetStackFloat(&stack[2])));
   return true;
 }
 
