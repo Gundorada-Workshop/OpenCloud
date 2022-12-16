@@ -861,7 +861,25 @@ static bool _AUTO_SET_TREASURE_BOX(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  // NOTE: game checks < 2, but that's probably just a bug
+  if (stack_count < 5)
+  {
+    AutoSetTreasureBox();
+  }
+  else
+  {
+    AutoSetTreasureBox(
+      GetStackInt(stack++),
+      vec3
+      { 
+        GetStackFloat(stack++), 
+        GetStackFloat(stack++), 
+        GetStackFloat(stack++) 
+      },
+      GetStackFloat(stack++)
+    );
+  }
+
   return true;
 }
 

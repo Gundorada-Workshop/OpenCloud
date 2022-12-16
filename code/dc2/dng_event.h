@@ -22,10 +22,15 @@ class CRedMarkModel
 
 class CTreasureBox
 {
+
+  // SIZE 0x70
 };
 
 class CTreasureBoxManager
 {
+
+  // 10
+  std::array<CTreasureBox, 24> m_treasure_boxes{};
 };
 
 class CGeoStone : public CCharacter2
@@ -88,3 +93,9 @@ public:
 };
 
 extern CRandomCircle RandomCircle;
+
+// 0028E480
+void AutoSetTreasureBox(sint i, const vec3& position, f32 rotY);
+
+// 0028E4B0
+void AutoSetTreasureBox();

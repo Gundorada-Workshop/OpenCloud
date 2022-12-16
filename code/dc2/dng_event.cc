@@ -273,3 +273,19 @@ void CRandomCircle::Clear()
 
   m_unk_field_3C = -1;
 }
+
+// 0028E480
+void AutoSetTreasureBox(sint i, const vec3& position, f32 rotY)
+{
+  log_trace("{}({}, {}, {})", __func__, i, position, rotY);
+
+  todo;
+}
+
+// 0028E4B0
+void AutoSetTreasureBox()
+{
+  log_trace("{}()", __func__);
+
+  todo;
+}
