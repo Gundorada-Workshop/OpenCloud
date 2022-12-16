@@ -2693,8 +2693,7 @@ static bool _GET_MENU_STATUS(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  return false;
 }
 
 static bool _LOAD_EQUIP(RS_STACKDATA* stack, int stack_count)
