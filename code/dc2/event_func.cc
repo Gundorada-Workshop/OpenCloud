@@ -1133,8 +1133,20 @@ static bool _GET_MONSTER_TALK_DATA(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  switch (stack_count)
+  {
+    case 2:
+      SetStack(stack++, EdEventInfo.m_unk_field_1BC);
+      SetStack(stack++, EdEventInfo.m_unk_field_1C4);
+      return true;
+    case 3:
+      SetStack(stack++, EdEventInfo.m_unk_field_1BC);
+      SetStack(stack++, EdEventInfo.m_unk_field_1C0);
+      SetStack(stack++, EdEventInfo.m_unk_field_1C4);
+      return true;
+    default:
+      return false;
+  }
 }
 
 static bool _FUNC_POINT_SHOW(RS_STACKDATA* stack, int stack_count)
@@ -1149,7 +1161,7 @@ static bool _GET_NOW_MAP_NO(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, EventScene->m_now_map_no);
   return true;
 }
 
@@ -1157,7 +1169,7 @@ static bool _GET_NOW_SUBMAP_NO(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, EventScene->m_now_submap_no);
   return true;
 }
 
@@ -1165,7 +1177,7 @@ static bool _GET_OLD_MAP_NO(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, EventScene->m_old_map_no);
   return true;
 }
 
@@ -1173,7 +1185,7 @@ static bool _GET_OLD_SUBMAP_NO(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, EventScene->m_old_submap_no);
   return true;
 }
 

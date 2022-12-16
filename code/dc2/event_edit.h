@@ -33,6 +33,14 @@ struct EDIT_EVENT_INFO
 
   // ?
 
+  // 1BC
+  s32 m_unk_field_1BC{};
+  // 1C0
+  s32 m_unk_field_1C0{};
+  // 1C4
+  s32 m_unk_field_1C4{};
+  // 1C8
+  s32 m_unk_field_1C8{};
   // 1CC
   s32 m_unk_field_1CC{};
 

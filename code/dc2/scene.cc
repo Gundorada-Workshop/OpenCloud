@@ -276,9 +276,9 @@ CScene::CScene()
 	m_unk_field_2F68 = 0;
 	m_unk_field_3040 = 0;
 	m_now_map_no = -1;
-	m_now_sub_map_no = -1;
-	m_last_map_no = -1;
-	m_last_sub_map_no = -1;
+	m_now_submap_no = -1;
+	m_old_map_no = -1;
+	m_old_submap_no = -1;
 	m_unk_field_3038 = 0;
 	m_unk_field_303C = 0;
 }
@@ -833,7 +833,7 @@ ssize CScene::GetMainMapNo()
 	}
 	else
 	{
-		return m_now_sub_map_no;
+		return m_now_submap_no;
 	}
 }
 
@@ -1214,21 +1214,21 @@ void CScene::SetNowMapNo(s32 now_map_no)
 
 	if (m_now_map_no != now_map_no)
 	{
-		m_last_map_no = m_now_map_no;
+		m_old_map_no = m_now_map_no;
 	}
 	m_now_map_no = now_map_no;
 }
 
 // 00284B80
-void CScene::SetNowSubMapNo(s32 now_sub_map_no)
+void CScene::SetNowSubMapNo(s32 now_submap_no)
 {
-	log_trace("CScene::{}({})", __func__, now_sub_map_no);
+	log_trace("CScene::{}({})", __func__, now_submap_no);
 
-	if (m_now_sub_map_no != now_sub_map_no)
+	if (m_now_submap_no != now_submap_no)
 	{
-		m_last_sub_map_no = m_now_map_no;
+		m_old_submap_no = m_now_map_no;
 	}
-	m_now_sub_map_no = now_sub_map_no;
+	m_now_submap_no = now_submap_no;
 }
 
 // 00284BA0
