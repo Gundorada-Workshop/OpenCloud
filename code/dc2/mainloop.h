@@ -26,9 +26,24 @@ extern bool OmakeFlag;
 // 00376FC8
 extern s32 MasterDebugCode;
 
+enum class ELoopID
+{
+	Dungeon = 2,
+};
+
 struct INIT_LOOP_ARG
 {
+	// 0
+	s32 m_unk_field_0{};
 
+	// 44
+	s32 m_unk_field_44{};
+	// 48
+	s32 m_unk_field_48{};
+	// 4C
+	s32 m_unk_field_4C{};
+
+	// SIZE 0x50
 };
 
 struct SDebugInfo
@@ -43,20 +58,6 @@ struct SDebugInfo
 	bool m_unk_field_C{ false };
 	// 10
 	s32 m_unk_field_10{ -1 };
-};
-
-struct SInitArg
-{
-	// 0
-	unk m_unk_field_0{ 0 };
-	// 4
-	unks<0x40> m_unk_field_4{ };
-	// 44
-	unk m_unk_field_44{ 0 };
-	// 48
-	unk m_unk_field_48{ 0 };
-	// 4C
-	unk m_unk_field_4C{ 0 };
 };
 
 namespace MainLoop_SInit
@@ -75,6 +76,9 @@ CSaveData* GetSaveData();
 
 // 001908F0
 mgCMemory* GetMainStack();
+
+// 00190900
+void NextLoop(ELoopID next_loop_id, const INIT_LOOP_ARG& init_arg);
 
 // 00190BE0
 void PlayTimeCount(bool flag);

@@ -28,6 +28,12 @@ u32 DefStartEventNo{};
 Language LanguageCode{ Language::English };
 // 00376FC4
 bool OmakeFlag{};
+// 00376FCC
+ELoopID LoopNo{};
+// 00376FD0
+ELoopID NextLoopNo{};
+// 00376FD4
+ELoopID PrevLoopNo{};
 // 00376FC8
 s32 MasterDebugCode{};
 
@@ -42,11 +48,11 @@ static SDebugInfo DebugInfo{};
 // 003D8090
 static CFont Font{};
 // 003D8140
-static SInitArg InitArg{};
+static INIT_LOOP_ARG InitArg{};
 // 003D8190
-static SInitArg NextInitArg{};
+static INIT_LOOP_ARG NextInitArg{};
 // 003D81E0
-static SInitArg PrevInitArg{};
+static INIT_LOOP_ARG PrevInitArg{};
 // 003D8230
 // FIXME: 0x1A000000 bytes (26MB) in PS2. Might need to adjust slightly for windows.
 // Bumped up to 40MB (0x28000000) on Windows (to adjust for slightly bigger datatypes)
@@ -96,6 +102,15 @@ mgCMemory* GetMainStack()
   log_trace("{}()", __func__);
 
   return &MainBuffer;
+}
+
+// 00190900
+void NextLoop(ELoopID next_loop_id, const INIT_LOOP_ARG& init_arg)
+{
+  log_trace("{}()", __func__, std::to_underlying(next_loop_id), fmt::ptr(&init_arg));
+
+  NextLoopNo = next_loop_id;
+  NextInitArg = init_arg;
 }
 
 // 00190BE0
