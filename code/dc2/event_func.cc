@@ -1074,7 +1074,17 @@ static bool _LOAD_SCRIPT(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  const char* script_name = GetStackString(stack++);
+  s32 i = GetStackInt(stack++);
+
+  if (script_name == nullptr)
+  {
+    return false;
+  }
+
+  EdEventInfo.m_unk_field_8C = script_name;
+  EdEventInfo.m_unk_field_88 = i;
+  EdEventInfo.m_unk_field_CC = 15; // FIXME: MAGIC
   return true;
 }
 

@@ -22,9 +22,8 @@ struct EDIT_EVENT_INFO
   std::string m_unk_field_68{};
   // 88
   s32 m_unk_field_88{};
-
-  // ?
-  
+  // 8C (buf size 0x40)
+  std::string m_unk_field_8C{};
   // CC
   s32 m_unk_field_CC{};
 
