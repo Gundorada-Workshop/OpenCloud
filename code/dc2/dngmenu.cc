@@ -25,41 +25,7 @@ CDngFreeMap::CDngFreeMap()
 {
   log_trace("CDngFreeMap::CDngFreeMap()");
 
-  m_unk_field_8 = true;
-  m_unk_field_9 = 0;
-  m_unk_field_A = 0;
-  m_unk_field_4 = 0;
-  m_unk_field_0 = 0;
-  m_unk_field_C = 0;
-
-  m_unk_field_20 = rect::from_extent(120, 138, 420, 286);
-
-  for (auto& rect : m_unk_field_40)
-  {
-    rect = rect::from_extent(0, 0, 0, 0);
-  }
-
-  m_unk_field_30 = 0;
-  m_unk_field_C2 = -1;
-  m_unk_field_C0 = -1;
-  m_unk_field_10 = 0;
-  m_unk_field_104 = 0;
-  m_unk_field_100 = 0;
-  m_unk_field_108 = 200.0f;
-  m_unk_field_10C = 200.0f;
-  m_unk_field_CC = 0;
-
   InitializeTexture();
-
-  m_unk_field_F0 = 128.0f;
-  m_unk_field_C4 = 0;
-  m_unk_field_C8 = 0;
-  m_unk_field_E8 = 0;
-  m_unk_field_E4 = 0;
-  m_unk_field_EC = 0;
-  m_unk_field_FC = -1;
-  m_unk_field_F4 = -1;
-  m_unk_field_F8 = 0;
 }
 
 // 001EA830
@@ -67,9 +33,24 @@ void CDngFreeMap::InitializeTexture()
 {
   log_trace("CDngFreeMap::InitializeTexture()");
 
-  m_unk_field_D8 = 0;
-  m_unk_field_DC = 0;
-  m_unk_field_E0 = 0;
-  m_unk_field_D4 = 0;
-  m_unk_field_D0 = -1;
+  m_unk_field_D8 = nullptr;
+  m_unk_field_DC = nullptr;
+  m_unk_field_E0 = nullptr;
+  m_unk_field_D4 = nullptr;
+  m_texb = -1;
+}
+
+// 001EE840
+// "SetKomaMove"
+void CDngFreeMap::SetPieceMove(s16 i)
+{
+  log_trace("CDngFreeMap::{}({})", __func__, i);
+
+  m_unk_field_EC = i;
+  m_unk_field_E8 = m_unk_field_E4;
+
+  if (m_unk_field_E8 != nullptr)
+  {
+    m_unk_field_E8 = m_unk_field_E8->m_next;
+  }
 }

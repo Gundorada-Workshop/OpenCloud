@@ -266,7 +266,7 @@ void CDngFloorManager::Initialize()
   log_trace("CDngFloorManager::Initialize()");
 
   m_map_id = 0;
-  m_unk_field_4 = 0;
+  m_glid_info = nullptr;
   m_unk_field_8 = 0;
   m_unk_field_C = 0;
   m_unk_field_E = 0;

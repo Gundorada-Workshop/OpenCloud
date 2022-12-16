@@ -2772,7 +2772,7 @@ static bool _DNGMAP_MOVE_PIECE(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventDngMap.SetPieceMove(GetStackInt(stack++));
   return true;
 }
 
