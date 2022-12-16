@@ -2628,7 +2628,9 @@ static bool _GET_BPOT_POS(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack++, BTpot.m_position.x);
+  SetStack(stack++, BTpot.m_position.y);
+  SetStack(stack++, BTpot.m_position.z);
   return true;
 }
 

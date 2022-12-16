@@ -47,7 +47,7 @@ CPot::CPot(bool b)
 
   m_unk_field_0 = 0;
   m_unk_field_4 = 0;
-  m_unk_field_10 = vec4(0, 0, 0, 1);
+  m_position = vec3(0, 0, 0);
   if (b) m_unk_field_20 = vec4(0, 0, 0, 1);
   m_unk_field_30 = vec4(0, 0, 0, 1);
   m_unk_field_40 = vec4(0, 0, 0, 1);

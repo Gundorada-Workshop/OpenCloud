@@ -12,6 +12,7 @@
 #include "dc2/mg/mg_memory.h"
 #include "dc2/ls_mes.h"
 #include "dc2/object.h"
+#include "dc2/pot.h"
 
 // ~ 001BE6F0 - 001EA760
 
@@ -512,3 +513,9 @@ void calcWeaponParamWhp(const CActiveMonster& monster, const CColPrim& collision
 // is return early if the argument isn't 1 or 5, and all Max attacks pass in a literal 1
 // and all Monica attacks pass in a literal 5. There's nothing which doesn't pass a 1/5 literal.
 void calcWeaponParam2(sint penalty_divisor);
+
+// 01EAF3B0
+extern CPot BTpot;
+
+// 01EAF430
+extern CBPot BTpot2;
