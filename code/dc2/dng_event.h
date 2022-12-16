@@ -94,6 +94,9 @@ public:
 
 extern CRandomCircle RandomCircle;
 
+// 0028D1E0
+void ScriptDebugCommand(bool dummy);
+
 // 0028E480
 void AutoSetTreasureBox(sint i, const vec3& position, f32 rotY);
 

@@ -8,6 +8,7 @@
 #include "dc2/dng_event.h"
 #include "dc2/dng_main.h"
 #include "dc2/mapjump.h"
+#include "dc2/userdata.h"
 #include "dc2/mg/mg_lib.h"
 
 set_log_channel("dng_event");
@@ -272,6 +273,20 @@ void CRandomCircle::Clear()
   }
 
   m_unk_field_3C = -1;
+}
+
+// 0028D1E0
+void ScriptDebugCommand(bool dummy)
+{
+  log_trace("{}({})", __func__, dummy);
+
+  auto chara_info = GetBattleCharaInfo();
+
+  if (!dummy)
+  {
+    chara_info->AddHp_Point(512.0f, -1.0f);
+    chara_info->ForceSet();
+  }
 }
 
 // 0028E480

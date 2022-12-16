@@ -1041,7 +1041,7 @@ static bool _DNG_DEBUG_COMMAND(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  ScriptDebugCommand(bool(GetStackInt(stack)));
   return true;
 }
 
