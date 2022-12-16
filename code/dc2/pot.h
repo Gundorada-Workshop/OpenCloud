@@ -65,7 +65,8 @@ public:
   CPot();
 
   // 0
-  unk32 m_unk_field_0;
+  // TODO: probably enum
+  s32 m_status;
   // 4
   unk32 m_unk_field_4;
   // 10

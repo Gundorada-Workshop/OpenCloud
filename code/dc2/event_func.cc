@@ -2638,7 +2638,7 @@ static bool _GET_BPOT_STATUS(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack++, s32(BTpot.m_status));
   return true;
 }
 
