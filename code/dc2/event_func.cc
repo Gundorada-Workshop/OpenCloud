@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "common/log.h"
 #include "common/math.h"
 #include "common/constants.h"
@@ -4362,7 +4364,9 @@ static bool _ZERO_VECTOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack++, 0.0f);
+  SetStack(stack++, 0.0f);
+  SetStack(stack++, 0.0f);
   return true;
 }
 
@@ -4370,7 +4374,19 @@ static bool _NORMAL_VECTOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  vec3 v
+  {
+    GetStackFloat(&stack[0]),
+    GetStackFloat(&stack[1]),
+    GetStackFloat(&stack[2]),
+  };
+
+  v = glm::normalize(v);
+
+  SetStack(&stack[0], v.x);
+  SetStack(&stack[1], v.y);
+  SetStack(&stack[2], v.z);
+
   return true;
 }
 
@@ -4378,7 +4394,12 @@ static bool _COPY_VECTOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  vec4 v = GetStackVector(&stack[3]);
+
+  SetStack(&stack[0], v.x);
+  SetStack(&stack[1], v.y);
+  SetStack(&stack[2], v.z);
+
   return true;
 }
 
@@ -4386,7 +4407,14 @@ static bool _ADD_VECTOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  vec4 lhs = GetStackVector(&stack[0]);
+  vec4 rhs = GetStackVector(&stack[3]);
+  lhs += rhs;
+
+  SetStack(&stack[0], lhs.x);
+  SetStack(&stack[1], lhs.y);
+  SetStack(&stack[2], lhs.z);
+
   return true;
 }
 
@@ -4394,7 +4422,14 @@ static bool _SUB_VECTOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  vec4 lhs = GetStackVector(&stack[0]);
+  vec4 rhs = GetStackVector(&stack[3]);
+  lhs += rhs;
+
+  SetStack(&stack[0], lhs.x);
+  SetStack(&stack[1], lhs.y);
+  SetStack(&stack[2], lhs.z);
+
   return true;
 }
 
@@ -4402,7 +4437,14 @@ static bool _SCALE_VECTOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  vec4 lhs = GetStackVector(&stack[0]);
+  vec4 rhs = GetStackVector(&stack[3]);
+  lhs *= rhs;
+
+  SetStack(&stack[0], lhs.x);
+  SetStack(&stack[1], lhs.y);
+  SetStack(&stack[2], lhs.z);
+
   return true;
 }
 
@@ -4410,7 +4452,23 @@ static bool _DIV_VECTOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  // Check for division by zero
+  f32 divisor = GetStackFloat(&stack[3]);
+
+  if (divisor == 0.0f)
+  {
+    return false;
+  }
+
+  // The division proper
+  vec4 lhs = GetStackVector(&stack[0]);
+  
+  lhs /= divisor;
+
+  SetStack(&stack[0], lhs.x);
+  SetStack(&stack[1], lhs.y);
+  SetStack(&stack[2], lhs.z);
+
   return true;
 }
 
@@ -4418,7 +4476,7 @@ static bool _DIST_VECTOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, mgDistVector(GetStackVector(stack).xyz));
   return true;
 }
 
@@ -4426,7 +4484,7 @@ static bool _DIST_VECTOR2(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, mgDistVector2(GetStackVector(stack).xyz));
   return true;
 }
 
@@ -4434,7 +4492,7 @@ static bool _SQRT(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, sqrtf(GetStackFloat(stack)));
   return true;
 }
 
@@ -4442,7 +4500,7 @@ static bool _ATAN2F(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, atan2f(GetStackFloat(stack++), GetStackFloat(stack++)));
   return true;
 }
 
@@ -4450,7 +4508,7 @@ static bool _ANGLE_CMP(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, mgAngleCmp(GetStackFloat(stack++), GetStackFloat(stack++), GetStackFloat(stack++)));
   return true;
 }
 
@@ -4458,7 +4516,7 @@ static bool _ANGLE_LIMIT(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, mgAngleLimit(GetStackFloat(stack)));
   return true;
 }
 
@@ -4466,7 +4524,17 @@ static bool _GET_RAND(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  if ((stack++)->m_data_type == EStackDataType::Float)
+  {
+    f32 n = GetStackFloat(stack++);
+    SetStack(stack, rand() / f32(common::constants::s32_max) * n);
+  }
+  else
+  {
+    s32 n = GetStackInt(stack++);
+    SetStack(stack, s32(rand() / f32(common::constants::s32_max) * f32(n)));
+  }
+
   return true;
 }
 
@@ -4474,8 +4542,30 @@ static bool _LINE_POINT_DIST(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  vec4 start = GetStackVector(&stack[0]);
+  vec4 end = GetStackVector(&stack[3]);
+  vec4 point = GetStackVector(&stack[6]);
+  RS_STACKDATA* dist_dest = &stack[9];
+
+  f32 dist = mgDistVector(start, end);
+
+  vec4 v1 = point - start;
+  vec4 dir = glm::normalize(end - start);
+
+  f32 inner_product = glm::dot(v1, dir);
+
+  if (inner_product < 0.0f || inner_product > dist)
+  {
+    SetStack(dist_dest, -1.0f);
+    return true;
+  }
+  else
+  {
+    dir *= inner_product;
+    dir += start;
+    SetStack(dist_dest, mgDistVector(point, dir));
+    return true;
+  }
 }
 
 static bool _CREATE_SWORD_EFFECT(RS_STACKDATA* stack, int stack_count)
