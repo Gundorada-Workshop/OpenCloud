@@ -227,7 +227,7 @@ static bool _INITIALIZE(RS_STACKDATA* stack, int stack_count)
 
   EdEventInit();
 
-  auto camera = dynamic_cast<mgCCameraFollow*>(GetActiveCamera());
+  auto camera = static_cast<mgCCameraFollow*>(GetActiveCamera());
 
   if (camera == nullptr)
   {
