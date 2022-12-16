@@ -45,6 +45,15 @@ class CSwordLuminous
 
 class CSwordAfterImage
 {
+public:
+  // 001C2240
+  void Initialize(mgCMemory* stack, sint i1, sint i2);
+
+  // these are probably colors
+  // 20
+  ivec4 m_unk_field_20{ 0x80, 0x80, 0x80, 0x80 };
+  // 30
+  ivec4 m_unk_field_30{ 0x80, 0x80, 0x80, 0x80 };
 };
 
 class CFlushEffect

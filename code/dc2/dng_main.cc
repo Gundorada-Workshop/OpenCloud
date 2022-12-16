@@ -187,6 +187,14 @@ std::array<CChillAfterHit, 6> chillAfterHit{ };
 // 01EC50E0
 std::array<CFireAfterHit, 6> fireAfterHit{ };
 
+// 001C2240
+void CSwordAfterImage::Initialize(mgCMemory* stack, sint i1, sint i2)
+{
+  log_trace("CSwordAfterImage::{}({}, {}, {})", __func__, fmt::ptr(stack), i1, i2);
+
+  todo;
+}
+
 // 001D4850
 CFireAfterHit::CFireAfterHit()
 {

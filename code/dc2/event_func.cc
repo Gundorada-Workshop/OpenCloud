@@ -23,6 +23,8 @@ set_log_channel("event_func");
 
 // 00377CD4
 static CMarker EventMarker{};
+// 00377CD8
+static std::unique_ptr<CSwordAfterImage> SwordEffect{ nullptr };
 // 00377CE4
 static bool SetWorldCoordFlg{};
 // 01ECE880
@@ -4572,15 +4574,26 @@ static bool _CREATE_SWORD_EFFECT(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  s32 stack_id = GetStackInt(stack++); // unused
+  s32 i1 = GetStackInt(stack++);
+  s32 i2 = GetStackInt(stack++);
+
+  SwordEffect = std::make_unique<CSwordAfterImage>();
+
+  if (SwordEffect == nullptr)
+  {
+    // panicf likely will not work with OOM
+    common::debug::panic("_CREATE_SWORD_EFFECT: Out Of Memory");
+  }
+
+  SwordEffect->Initialize(EventScene->GetStack(stack_id), i1, i2);
 }
 
 static bool _DELETE_SWORD_EFFECT(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SwordEffect.reset();
   return true;
 }
 
