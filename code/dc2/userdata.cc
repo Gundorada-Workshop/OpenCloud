@@ -2443,6 +2443,22 @@ float CUserDataManager::GetRoboAbs() const
   return m_robo_data.m_abs_gage.m_current;
 }
 
+// 0019C750
+void CUserDataManager::SetPartyCharaStatus(EPartyCharacterID chara_id, EPartyCharacterStatus status) const
+{
+  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), std::to_underlying(status));
+
+  todo;
+}
+
+// 0019C8F0
+EPartyCharacterStatus CUserDataManager::GetPartyCharaStatus(EPartyCharacterID chara_id) const
+{
+  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(chara_id));
+
+  return m_party_chara_status[usize(chara_id)].m_status;
+}
+
 // 0019C930
 EPartyCharacterID CUserDataManager::NowPartyCharaID() const
 {

@@ -911,7 +911,21 @@ static bool _GET_NPC_STATUS(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  s32 chara_index = GetStackInt(stack++);
+
+  if (chara_index < 0 || chara_index >= s32(EPartyCharacterID::COUNT))
+  {
+    return false;
+  }
+
+  auto save_data = GetSaveData();
+
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack, s32(save_data->m_user_data_manager.GetPartyCharaStatus(EPartyCharacterID(chara_index))));
   return true;
 }
 
@@ -919,7 +933,22 @@ static bool _SET_NPC_STATUS(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  s32 chara_index = GetStackInt(stack++);
+  s32 status = GetStackInt(stack++);
+
+  if (chara_index < 0 || chara_index >= s32(EPartyCharacterID::COUNT))
+  {
+    return false;
+  }
+
+  auto save_data = GetSaveData();
+
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  save_data->m_user_data_manager.SetPartyCharaStatus(EPartyCharacterID(chara_index), EPartyCharacterStatus(status));
   return true;
 }
 
