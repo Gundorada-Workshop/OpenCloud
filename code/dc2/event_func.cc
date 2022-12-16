@@ -954,9 +954,14 @@ static bool _SET_NPC_STATUS(RS_STACKDATA* stack, int stack_count)
 
 static bool _GET_NOW_PARTY_CHARA(RS_STACKDATA* stack, int stack_count)
 {
-  trace_script_call(stack, stack_count);
+  auto save_data = GetSaveData();
 
-  todo;
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack, s32(save_data->m_user_data_manager.NowPartyCharaID()));
   return true;
 }
 
