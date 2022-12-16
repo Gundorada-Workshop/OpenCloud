@@ -1057,7 +1057,7 @@ static bool _GET_ROT_LOOK_POS(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, atan2f(GetStackFloat(stack++), GetStackFloat(stack++)));
   return true;
 }
 
