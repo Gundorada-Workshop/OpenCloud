@@ -103,7 +103,7 @@ static f32 GetStackFloat(RS_STACKDATA* stack)
 }
 
 // 0025F8D0
-static vec4 GetStackVector(RS_STACKDATA* stack)
+static vec3 GetStackVector(RS_STACKDATA* stack)
 {
   log_trace("{}()", __func__, fmt::ptr(stack));
 
@@ -111,7 +111,6 @@ static vec4 GetStackVector(RS_STACKDATA* stack)
     GetStackFloat(&stack[0]),
     GetStackFloat(&stack[1]),
     GetStackFloat(&stack[2]),
-    1.0f
   };
 }
 
@@ -1116,7 +1115,7 @@ static bool _GET_START_BUTTON(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, EdEventInfo.m_unk_field_F0);
   return true;
 }
 
@@ -4478,7 +4477,7 @@ static bool _COPY_VECTOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  vec4 v = GetStackVector(&stack[3]);
+  vec3 v = GetStackVector(&stack[3]);
 
   SetStack(&stack[0], v.x);
   SetStack(&stack[1], v.y);
@@ -4491,8 +4490,8 @@ static bool _ADD_VECTOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  vec4 lhs = GetStackVector(&stack[0]);
-  vec4 rhs = GetStackVector(&stack[3]);
+  vec3 lhs = GetStackVector(&stack[0]);
+  vec3 rhs = GetStackVector(&stack[3]);
   lhs += rhs;
 
   SetStack(&stack[0], lhs.x);
@@ -4506,8 +4505,8 @@ static bool _SUB_VECTOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  vec4 lhs = GetStackVector(&stack[0]);
-  vec4 rhs = GetStackVector(&stack[3]);
+  vec3 lhs = GetStackVector(&stack[0]);
+  vec3 rhs = GetStackVector(&stack[3]);
   lhs += rhs;
 
   SetStack(&stack[0], lhs.x);
@@ -4521,8 +4520,8 @@ static bool _SCALE_VECTOR(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  vec4 lhs = GetStackVector(&stack[0]);
-  vec4 rhs = GetStackVector(&stack[3]);
+  vec3 lhs = GetStackVector(&stack[0]);
+  vec3 rhs = GetStackVector(&stack[3]);
   lhs *= rhs;
 
   SetStack(&stack[0], lhs.x);
@@ -4545,7 +4544,7 @@ static bool _DIV_VECTOR(RS_STACKDATA* stack, int stack_count)
   }
 
   // The division proper
-  vec4 lhs = GetStackVector(&stack[0]);
+  vec3 lhs = GetStackVector(&stack[0]);
   
   lhs /= divisor;
 
@@ -4626,15 +4625,15 @@ static bool _LINE_POINT_DIST(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  vec4 start = GetStackVector(&stack[0]);
-  vec4 end = GetStackVector(&stack[3]);
-  vec4 point = GetStackVector(&stack[6]);
+  vec3 start = GetStackVector(&stack[0]);
+  vec3 end = GetStackVector(&stack[3]);
+  vec3 point = GetStackVector(&stack[6]);
   RS_STACKDATA* dist_dest = &stack[9];
 
   f32 dist = mgDistVector(start, end);
 
-  vec4 v1 = point - start;
-  vec4 dir = glm::normalize(end - start);
+  vec3 v1 = point - start;
+  vec3 dir = glm::normalize(end - start);
 
   f32 inner_product = glm::dot(v1, dir);
 
