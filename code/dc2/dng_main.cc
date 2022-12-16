@@ -238,7 +238,7 @@ void CChillAfterHit::Initialize()
 }
 
 // 001D4C40
-void CMiniMapSymbol::DrawSymbol(vec4& pos, EMiniMapSymbol::EMiniMapSymbol symbol_type)
+void CMiniMapSymbol::DrawSymbol(vec3& pos, EMiniMapSymbol::EMiniMapSymbol symbol_type)
 {
   // 0033D8A0
   static std::array<MINIMAP_SYMBOL_DATA, EMiniMapSymbol::COUNT + 1> symbol_table

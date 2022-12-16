@@ -629,18 +629,17 @@ void mgCObject::UseParam()
 }
 
 // 00136190
-void mgCObject::SetPosition(const vec4& v)
+void mgCObject::SetPosition(const vec3& v)
 {
   log_trace("mgCObject::SetPosition({}) (x, y, z = {}, {}, {})", fmt::ptr(&v), v.x, v.y, v.z);
 
-  if (static_cast<vec3>(v) == static_cast<vec3>(m_position))
+  if (v == m_position)
   {
     return;
   }
 
   m_unk_field_44 = true;
   m_position = v;
-  m_position.w = 1.0f;
   m_unk_field_40 = true;
 }
 
@@ -649,12 +648,12 @@ void mgCObject::SetPosition(f32 x, f32 y, f32 z)
 {
   log_trace("mgCObject::SetPosition({}, {}, {})", x, y, z);
 
-  vec4 pos = vec4(x, y, z, 1.0f);
+  vec3 pos = { x, y, z };
   SetPosition(pos);
 }
 
 // 00136260
-vec4 mgCObject::GetPosition()
+vec3 mgCObject::GetPosition()
 {
   log_trace("mgCObject::GetPosition()");
 
@@ -662,18 +661,17 @@ vec4 mgCObject::GetPosition()
 }
 
 // 00136270
-void mgCObject::SetRotation(const vec4& v)
+void mgCObject::SetRotation(const vec3& v)
 {
   log_trace("mgCObject::SetRotation({}) (x, y, z = {}, {}, {})", fmt::ptr(&v), v.x, v.y, v.z);
 
-  if (static_cast<vec3>(v) == static_cast<vec3>(m_rotation))
+  if (m_rotation == v)
   {
     return;
   }
 
   m_unk_field_44 = true;
   m_rotation = v;
-  m_rotation.w = 0.0f;
   m_unk_field_40 = true;
 }
 
@@ -682,12 +680,11 @@ void mgCObject::SetRotation(f32 x, f32 y, f32 z)
 {
   log_trace("mgCObject::SetRotation({}, {}, {})", x, y, z);
 
-  vec4 rot = vec4(x, y, z, 0.0f);
-  SetPosition(rot);
+  SetPosition(vec3{x, y, z});
 }
 
 // 00136330
-vec4 mgCObject::GetRotation()
+vec3 mgCObject::GetRotation()
 {
   log_trace("mgCObject::GetRotation()");
 
@@ -695,7 +692,7 @@ vec4 mgCObject::GetRotation()
 }
 
 // 00136340
-void mgCObject::SetScale(const vec4& v)
+void mgCObject::SetScale(const vec3& v)
 {
   log_trace("mgCObject::SetScale({}) (x, y, z = {}, {}, {})", fmt::ptr(&v), v.x, v.y, v.z);
 
@@ -706,7 +703,6 @@ void mgCObject::SetScale(const vec4& v)
 
   m_unk_field_44 = true;
   m_scale = v;
-  m_scale.w = 0.0f;
   m_unk_field_40 = true;
 }
 
@@ -715,12 +711,11 @@ void mgCObject::SetScale(f32 x, f32 y, f32 z)
 {
   log_trace("mgCObject::SetScale({}, {}, {})", x, y, z);
 
-  vec4 scale = vec4(x, y, z, 0.0f);
-  SetScale(scale);
+  SetScale(vec3{ x, y, z });
 }
 
 // 00136400
-vec4 mgCObject::GetScale()
+vec3 mgCObject::GetScale()
 {
   log_trace("mgCObject::GetScale()");
 
@@ -1189,9 +1184,10 @@ matrix4 mgCFrame::GetLocalMatrix()
   }
 
   matrix4 result;
-  result[0] = m_trans_matrix[0] * m_scale;
-  result[1] = m_trans_matrix[1] * m_scale;
-  result[2] = m_trans_matrix[2] * m_scale;
+  vec4 scale = { m_scale.xyz, 1.0f };
+  result[0] = m_trans_matrix[0] * scale;
+  result[1] = m_trans_matrix[1] * scale;
+  result[2] = m_trans_matrix[2] * scale;
   result[3] = m_trans_matrix[3];
 
   vec4 v;
@@ -1222,13 +1218,11 @@ matrix4 mgCFrame::GetLocalMatrix()
 
   if (m_unk_field_100 & 2)
   {
-    result[3] += v;
-    result[3].w = 1.0f;
+    result[3] = vec4{ (result[3] + v).xyz, 1.0f };
   }
   else
   {
-    result[3] += m_position;
-    result[3].w = 1.0f;
+    result[3] = vec4{ (result[3].xyz + m_position), 1.0f };
   }
 }
 

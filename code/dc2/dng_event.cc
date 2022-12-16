@@ -27,7 +27,7 @@ void CGeoStone::Initialize()
 }
 
 // 0028BCA0
-bool CGeoStone::CheckEvent(vec4& position)
+bool CGeoStone::CheckEvent(vec3& position)
 {
   log_trace("CGeoStone::{}({})", __func__, fmt::ptr(&position));
 
@@ -36,13 +36,13 @@ bool CGeoStone::CheckEvent(vec4& position)
     return false;
   }
 
-  vec4 stone_position = GetPosition();
+  vec3 stone_position = GetPosition();
 
   return math::vector_distance(stone_position, position) <= 30.0f;
 }
 
 // 0028BA80
-void CGeoStone::GeoDraw(vec4& position)
+void CGeoStone::GeoDraw(vec3& position)
 {
   log_trace("CGeoStone::{}({})", __func__, fmt::ptr(&position));
 
@@ -51,8 +51,8 @@ void CGeoStone::GeoDraw(vec4& position)
     return;
   }
 
-  vec4 orig_pos = GetPosition();
-  vec4 draw_pos{ orig_pos };
+  vec3 orig_pos = GetPosition();
+  vec3 draw_pos{ orig_pos };
 
   if (math::vector_distance(draw_pos, position) < 1000.0f || !m_unk_field_668)
   {
@@ -78,7 +78,7 @@ void CGeoStone::DrawMiniMapSymbol(CMiniMapSymbol* mini_map_symbol)
 
   if (!m_flag)
   {
-    vec4 stone_position = GetPosition();
+    vec3 stone_position = GetPosition();
     mini_map_symbol->DrawSymbol(stone_position, EMiniMapSymbol::GeoStone);
   }
 }
@@ -99,7 +99,7 @@ void CGeoStone::SetFlag(bool flag)
     return;
   }
 
-  AutoMapGen.m_map_parts->SetPosition({ 0.0f, -99999.0f, 0.0f, 1.0f });
+  AutoMapGen.m_map_parts->SetPosition({ 0.0f, -99999.0f, 0.0f });
 }
 
 // 0028BC20
@@ -124,7 +124,7 @@ void CGeoStone::GeoStep()
 }
 
 // 0028BD50
-void CRandomCircle::Draw(vec4* v)
+void CRandomCircle::Draw(vec3* v)
 {
   log_trace("CRandomCircle::{}()", __func__);
 
@@ -169,7 +169,7 @@ void CRandomCircle::DrawSymbol(CMiniMapSymbol* mini_map_symbol)
 }
 
 // 0028BEF0
-bool CRandomCircle::CheckArea(vec4* v, f32 f)
+bool CRandomCircle::CheckArea(vec3* v, f32 f)
 {
   log_trace("CRandomCircle::{}({}, {})", __func__, fmt::ptr(v), f);
 
@@ -190,7 +190,7 @@ bool CRandomCircle::CheckArea(vec4* v, f32 f)
 }
 
 // 0028BFA0
-bool CRandomCircle::GetPosition(vec4* dest, ssize i)
+bool CRandomCircle::GetPosition(vec3* dest, ssize i)
 {
   log_trace("CRandomCircle::{}({}, {})", __func__, fmt::ptr(dest), i);
 
@@ -219,7 +219,7 @@ bool CRandomCircle::GetPosition(vec4* dest, ssize i)
 }
 
 // 0028C020
-ssize CRandomCircle::CheckEvent(vec4* v)
+ssize CRandomCircle::CheckEvent(vec3* v)
 {
   log_trace("CRandomCircle::{}(({}, {}, {}))", __func__, v->x, v->y, v->z);
 
@@ -243,7 +243,7 @@ ssize CRandomCircle::CheckEvent(vec4* v)
 }
 
 // 0028C0D0
-ssize CRandomCircle::SetCircle(vec4* v)
+ssize CRandomCircle::SetCircle(vec3* v)
 {
   log_trace("CRandomCircle::{}(({}, {}, {}))", __func__, v->x, v->y, v->z);
 

@@ -17,7 +17,7 @@ public:
 	// 40 00169DB0
 	virtual bool PreDraw();
 	// 44 00169C10
-	virtual float GetCameraDist();
+	virtual f32 GetCameraDist();
 	// 48 00169AC0
 	virtual bool FarClip(float distance, float* alpha_result);
 	// 4C 00169D10
@@ -71,7 +71,7 @@ public:
 	// 40 00169F30
 	virtual bool PreDraw();
 	// 44 00169F00
-	virtual float GetCameraDist();
+	virtual f32 GetCameraDist();
 	// 4C 00169EF0
 	virtual bool DrawStep();
 	// 74 00169E80

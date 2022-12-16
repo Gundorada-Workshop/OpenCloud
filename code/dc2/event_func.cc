@@ -4587,6 +4587,7 @@ static bool _CREATE_SWORD_EFFECT(RS_STACKDATA* stack, int stack_count)
   }
 
   SwordEffect->Initialize(EventScene->GetStack(stack_id), i1, i2);
+  return true;
 }
 
 static bool _DELETE_SWORD_EFFECT(RS_STACKDATA* stack, int stack_count)
@@ -4617,7 +4618,17 @@ static bool _ADD_CHARA_POS(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  s32 chara_id = GetStackInt(stack++);
+  vec3 delta = GetStackVector(stack).xyz();
+
+  auto chara = GetCharacter(chara_id);
+  if (chara == nullptr)
+  {
+    return false;
+  }
+
+  vec3 pos = chara->GetPosition() + delta;
+  chara->SetPosition(pos);
   return true;
 }
 
@@ -4625,7 +4636,20 @@ static bool _ADD_CHARA_ROT(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  s32 chara_id = GetStackInt(stack++);
+  vec3 delta = GetStackVector(stack).xyz();
+
+  auto chara = GetCharacter(chara_id);
+  if (chara == nullptr)
+  {
+    return false;
+  }
+
+  vec3 rot = chara->GetRotation() + delta;
+  rot.x = mgAngleLimit(rot.x);
+  rot.y = mgAngleLimit(rot.y);
+  rot.z = mgAngleLimit(rot.z);
+  chara->SetRotation(rot);
   return true;
 }
 

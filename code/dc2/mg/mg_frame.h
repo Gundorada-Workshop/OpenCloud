@@ -302,31 +302,31 @@ public:
   virtual void UseParam();
 
   // 10 00136190
-  virtual void SetPosition(const vec4&);
+  virtual void SetPosition(const vec3&);
 
   // 14 00136220
   virtual void SetPosition(f32 x, f32 y, f32 z);
 
   // 18 00136260
-  virtual vec4 GetPosition();
+  virtual vec3 GetPosition();
 
   // 1C 00136270
-  virtual void SetRotation(const vec4&);
+  virtual void SetRotation(const vec3&);
 
   // 20 001362F0
   virtual void SetRotation(f32 x, f32 y, f32 z);
 
   // 24 00136330
-  virtual vec4 GetRotation();
+  virtual vec3 GetRotation();
 
   // 28 00136340
-  virtual void SetScale(const vec4&);
+  virtual void SetScale(const vec3&);
 
   // 2C 001363C0
   virtual void SetScale(f32 x, f32 y, f32 z);
 
   // 30 00136400
-  virtual vec4 GetScale();
+  virtual vec3 GetScale();
 
   // 34 00138840
   virtual unkptr Draw();
@@ -351,13 +351,13 @@ public:
   unk32 m_unk_field_C;
 
   // 10
-  vec4 m_position;
+  vec3 m_position;
 
   // 20
-  vec4 m_rotation;
+  vec3 m_rotation;
 
   // 30
-  vec4 m_scale;
+  vec3 m_scale;
 
   // 40
   bool m_unk_field_40;
@@ -917,7 +917,7 @@ public:
   void SetFogParam(f32 f1, f32 f2, u8 i1, u8 i2, u8 i3, f32 f3, f32 f4);
 
   // 3A0
-  vec4 camera_pos{0};
+  vec3 camera_pos{0};
 
   // F20
   std::array<mgCDrawEnv, 2> m_unk_field_F20{};

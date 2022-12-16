@@ -354,7 +354,7 @@ class CMiniMapSymbol
 {
 public:
   // 001D4C40
-  void DrawSymbol(vec4& pos, EMiniMapSymbol::EMiniMapSymbol symbol_type);
+  void DrawSymbol(vec3& pos, EMiniMapSymbol::EMiniMapSymbol symbol_type);
 };
 
 class CDngFloorManager
