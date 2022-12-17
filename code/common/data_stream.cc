@@ -1,8 +1,11 @@
 #include "common/log.h"
 #include "common/debug.h"
+#include "common/macros.h"
 #include "common/data_stream.h"
 
 set_log_channel("data_stream");
+
+FILE_DISABLE_WARNING(WARNING_ID_ASSIGNMENT_WITHIN_CONDITIONAL_STATEMENT);
 
 namespace common
 {
