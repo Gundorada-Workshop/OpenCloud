@@ -70,6 +70,13 @@ struct GRID_PIECE
   GRID_PIECE* m_next{};
 };
 
+enum class EDngFreeMapFadeStatus : s32
+{
+  None = -1,
+  FadeIn = 0,
+  FadeOut = 1,
+};
+
 class CDngFreeMap
 {
 private:
@@ -79,6 +86,13 @@ private:
 public:
   // 001EA760
   CDngFreeMap();
+
+  // 001EE790
+  void FadeIn(s32 duration);
+
+  // 001EE7D0
+  void FadeOut(s32 duration);
+
   // 001EE840
   // "SetKomaMove"
   void SetPieceMove(s16 i);
@@ -156,13 +170,13 @@ public:
   f32 m_unk_field_F0{ 128.0f };
 
   // F4
-  s32 m_unk_field_F4{ -1 };
+  s32 m_fade_duration{ -1 }; // not read anywhere?
 
   // F8
-  f32 m_unk_field_F8{ 0.0f };
+  f32 m_fade_alpha{ 0.0f };
 
   // FC
-  s32 m_unk_field_FC{ -1 };
+  EDngFreeMapFadeStatus m_fade_status{ EDngFreeMapFadeStatus::None };
 
   // 100
   f32 m_unk_field_100{ 0.0f };

@@ -2788,7 +2788,18 @@ static bool _DNGMAP_SET_FADE(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  bool fade_in = bool(GetStackInt(stack++));
+  s32 duration = GetStackInt(stack++);
+
+  if (fade_in)
+  {
+    EventDngMap.FadeIn(duration);
+  }
+  else
+  {
+    EventDngMap.FadeOut(duration);
+  }
+
   return true;
 }
 

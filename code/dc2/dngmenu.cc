@@ -40,6 +40,37 @@ void CDngFreeMap::InitializeTexture()
   m_texb = -1;
 }
 
+// 001EE790
+void CDngFreeMap::FadeIn(s32 duration)
+{
+  log_trace("CDngFreeMap::{}({})", __func__, duration);
+
+  m_fade_status = EDngFreeMapFadeStatus::FadeIn;
+  m_fade_duration = duration;
+  m_fade_alpha = 128.0f; // Max alpha FIXME: set correct value for PC
+
+  if (duration != 0)
+  {
+    m_fade_alpha /= static_cast<f32>(duration);
+  }
+
+  m_unk_field_F0 = 0;
+}
+
+// 001EE7D0
+void CDngFreeMap::FadeOut(s32 duration)
+{
+  log_trace("CDngFreeMap::{}({})", __func__, duration);
+  m_fade_status = EDngFreeMapFadeStatus::FadeOut;
+  m_fade_duration = duration;
+  m_fade_alpha = -128.0f; // Min alpha FIXME: set correct value for PC
+
+  if (duration != 0)
+  {
+    m_fade_alpha /= static_cast<f32>(duration);
+  }
+}
+
 // 001EE840
 // "SetKomaMove"
 void CDngFreeMap::SetPieceMove(s16 i)
