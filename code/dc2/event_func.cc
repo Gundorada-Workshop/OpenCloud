@@ -3429,7 +3429,14 @@ static bool _GET_CHAPTER(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack, GetNowChapter(save_data));
   return true;
 }
 

@@ -9,6 +9,9 @@
 
 // ~ 0022D3B0 - 002518A0 (?)
 
+// forward declare
+class CSaveData;
+
 // TODO THIS FILE
 class CRepairEffect {};
 class CRepairManager {};
@@ -106,6 +109,9 @@ f32 GetRandF(f32 n);
 
 // 002507D0
 f32 MenuAdjustPolygonScale(mgCFrame* frame, f32 scale);
+
+// 00251050
+sint GetNowChapter(CSaveData* save_data);
 
 // 002516C0
 // Returns number of digits in a number
