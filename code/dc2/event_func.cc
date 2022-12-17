@@ -3460,7 +3460,7 @@ static bool _EYE_VIEW_DRAW_ON_OFF(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventScene->EyeViewDrawOnOff(bool(GetStackInt(stack)));
   return true;
 }
 
