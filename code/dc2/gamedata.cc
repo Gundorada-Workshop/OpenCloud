@@ -6,6 +6,7 @@
 #include "common/debug.h"
 #include "common/log.h"
 #include "common/types.h"
+#include "common/macros.h"
 
 #include "dc2/gamedata.h"
 #include "dc2/script_interpreter.h"
@@ -56,7 +57,7 @@ static std::array<CDataGuard, 20> local_guarddata{};
 static std::array<s16, 0x200> local_itemdatano_converttable{ -1 };
 
 // 00194750
-static bool _DATACOMINIT(SPI_STACK* stack, int stack_count)
+static bool _DATACOMINIT(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "COMINIT"
   trace_script_call(stack, stack_count);
@@ -75,7 +76,7 @@ static bool _DATACOMINIT(SPI_STACK* stack, int stack_count)
 }
 
 // 001947a0
-static bool _DATACOM(SPI_STACK* stack, int stack_count)
+static bool _DATACOM(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "COM"
   trace_script_call(stack, stack_count);
@@ -117,7 +118,7 @@ static bool _DATACOM(SPI_STACK* stack, int stack_count)
 }
 
 // 001949c0
-static bool _DATAWEPNUM(SPI_STACK* stack, int stack_count)
+static bool _DATAWEPNUM(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "WEPNUM"
   trace_script_call(stack, stack_count);
@@ -129,7 +130,7 @@ static bool _DATAWEPNUM(SPI_STACK* stack, int stack_count)
 }
 
 // 00194a00
-static bool _DATAWEP(SPI_STACK* stack, int stack_count)
+static bool _DATAWEP(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "WEP"
   trace_script_call(stack, stack_count);
@@ -147,7 +148,7 @@ static bool _DATAWEP(SPI_STACK* stack, int stack_count)
 }
 
 // 00194a60
-static bool _DATAWEP_ST(SPI_STACK* stack, int stack_count)
+static bool _DATAWEP_ST(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "WEP_ST"
   trace_script_call(stack, stack_count);
@@ -165,7 +166,7 @@ static bool _DATAWEP_ST(SPI_STACK* stack, int stack_count)
 }
 
 // 00194ac0
-static bool _DATAWEP_ST_L(SPI_STACK* stack, int stack_count)
+static bool _DATAWEP_ST_L(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "WEP_ST_L"
   trace_script_call(stack, stack_count);
@@ -183,7 +184,7 @@ static bool _DATAWEP_ST_L(SPI_STACK* stack, int stack_count)
 }
 
 // 00194b20
-static bool _DATAWEP2_ST(SPI_STACK* stack, int stack_count)
+static bool _DATAWEP2_ST(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "WEP_ST2"
   trace_script_call(stack, stack_count);
@@ -209,7 +210,7 @@ static bool _DATAWEP2_ST(SPI_STACK* stack, int stack_count)
 }
 
 // 00194ba0
-static bool _DATAWEP2_ST_L(SPI_STACK* stack, int stack_count)
+static bool _DATAWEP2_ST_L(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "WEP_ST2_L"
   trace_script_call(stack, stack_count);
@@ -231,7 +232,7 @@ static bool _DATAWEP2_ST_L(SPI_STACK* stack, int stack_count)
 }
 
 // 00194c20
-static bool _DATAWEP_SPE(SPI_STACK* stack, int stack_count)
+static bool _DATAWEP_SPE(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "WEP_SPE"
   trace_script_call(stack, stack_count);
@@ -254,7 +255,7 @@ static bool _DATAWEP_SPE(SPI_STACK* stack, int stack_count)
 }
 
 // 00194d10
-static bool _DATAWEP_BUILDUP(SPI_STACK* stack, int stack_count)
+static bool _DATAWEP_BUILDUP(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "WEP_BUILD"
   trace_script_call(stack, stack_count);
@@ -282,7 +283,7 @@ static bool _DATAWEP_BUILDUP(SPI_STACK* stack, int stack_count)
 }
 
 // 00194dc0
-static bool _DATAITEMINIT(SPI_STACK* stack, int stack_count)
+static bool _DATAITEMINIT(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "ITEMINIT"
   trace_script_call(stack, stack_count);
@@ -294,7 +295,7 @@ static bool _DATAITEMINIT(SPI_STACK* stack, int stack_count)
 }
 
 // 00194e00
-static bool _DATAITEM(SPI_STACK* stack, int stack_count)
+static bool _DATAITEM(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "ITEM"
   trace_script_call(stack, stack_count);
@@ -327,7 +328,7 @@ static bool _DATAITEM(SPI_STACK* stack, int stack_count)
 }
 
 // 00194ee0
-static bool _DATAATTACHINIT(SPI_STACK* stack, int stack_count)
+static bool _DATAATTACHINIT(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "AT_INIT"
   trace_script_call(stack, stack_count);
@@ -339,7 +340,7 @@ static bool _DATAATTACHINIT(SPI_STACK* stack, int stack_count)
 }
 
 // 00194f20
-static bool _DATAATTACH_ST(SPI_STACK* stack, int stack_count)
+static bool _DATAATTACH_ST(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "AT_ST"
   trace_script_call(stack, stack_count);
@@ -359,7 +360,7 @@ static bool _DATAATTACH_ST(SPI_STACK* stack, int stack_count)
 }
 
 // 00194fa0
-static bool _DATAATTACH_ST2(SPI_STACK* stack, int stack_count)
+static bool _DATAATTACH_ST2(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "AT_ST2"
   trace_script_call(stack, stack_count);
@@ -379,7 +380,7 @@ static bool _DATAATTACH_ST2(SPI_STACK* stack, int stack_count)
 }
 
 // 00195020
-static bool _DATAATTACH_ST_SP(SPI_STACK* stack, int stack_count)
+static bool _DATAATTACH_ST_SP(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "AT_ST_SP"
   trace_script_call(stack, stack_count);
@@ -397,7 +398,7 @@ static bool _DATAATTACH_ST_SP(SPI_STACK* stack, int stack_count)
 }
 
 // 00195070
-static bool _DATAROBOINIT(SPI_STACK* stack, int stack_count)
+static bool _DATAROBOINIT(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "ROBOINIT"
   trace_script_call(stack, stack_count);
@@ -409,7 +410,7 @@ static bool _DATAROBOINIT(SPI_STACK* stack, int stack_count)
 }
 
 // 001950b0
-static bool _DATAROBO_ANALYZE(SPI_STACK* stack, int stack_count)
+static bool _DATAROBO_ANALYZE(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "RB_PARTS"
   trace_script_call(stack, stack_count);
@@ -459,7 +460,7 @@ static bool _DATAROBO_ANALYZE(SPI_STACK* stack, int stack_count)
 }
 
 // 001953a0
-static bool _DATAGUARDNUM(SPI_STACK* stack, int stack_count)
+static bool _DATAGUARDNUM(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "GRDNUM"
   trace_script_call(stack, stack_count);
@@ -470,7 +471,7 @@ static bool _DATAGUARDNUM(SPI_STACK* stack, int stack_count)
 }
 
 // 001953d0
-static bool _DATAGUARD(SPI_STACK* stack, int stack_count)
+static bool _DATAGUARD(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "GRD"
   trace_script_call(stack, stack_count);
@@ -488,7 +489,7 @@ static bool _DATAGUARD(SPI_STACK* stack, int stack_count)
   return true;
 }
 
-static bool _DATAFISHINIT(SPI_STACK* stack, int stack_count)
+static bool _DATAFISHINIT(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "FISHINIT"
   trace_script_call(stack, stack_count);
@@ -500,7 +501,7 @@ static bool _DATAFISHINIT(SPI_STACK* stack, int stack_count)
 }
 
 // 001952a0
-static bool _DATAFISH(SPI_STACK* stack, int stack_count)
+static bool _DATAFISH(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "FISH"
   trace_script_call(stack, stack_count);
@@ -530,7 +531,7 @@ static bool _DATAFISH(SPI_STACK* stack, int stack_count)
   return true;
 }
 
-static bool _MES_SYS(SPI_STACK* stack, int stack_count)
+static bool _MES_SYS(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "MES_SYS"
   trace_script_call(stack, stack_count);
@@ -548,7 +549,7 @@ static bool _MES_SYS(SPI_STACK* stack, int stack_count)
   return true;
 }
 
-static bool _MES_SYS_SPECTOL(SPI_STACK* stack, int stack_count)
+static bool _MES_SYS_SPECTOL(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "MES_SYSSPE"
   trace_script_call(stack, stack_count);
@@ -958,7 +959,7 @@ CDataBreedFish* GetBreedFishInfoData(ECommonItemData index)
 }
 
 // 00195C70
-std::string GetItemFileName(ECommonItemData item_id, int i)
+std::string GetItemFileName(MAYBE_UNUSED ECommonItemData item_id, MAYBE_UNUSED sint i)
 {
   log_trace("{}({}, {})", __func__, std::to_underlying(item_id), i);
 
@@ -967,7 +968,7 @@ std::string GetItemFileName(ECommonItemData item_id, int i)
 }
 
 // 00195C70
-std::string GetItemFilePath(ECommonItemData item_id, int i)
+std::string GetItemFilePath(MAYBE_UNUSED ECommonItemData item_id, MAYBE_UNUSED sint i)
 {
   log_trace("{}({})", __func__, std::to_underlying(item_id), i);
 
