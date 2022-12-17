@@ -3181,7 +3181,14 @@ static bool _GET_MONEY(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack, save_data->m_user_data_manager.m_money);
   return true;
 }
 
