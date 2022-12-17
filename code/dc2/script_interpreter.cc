@@ -67,7 +67,7 @@ bool input_str::GetLine(std::string& line_dest, const std::string line_sep)
     line_dest += c;
   }
 
-  m_position += line_sep.size();
+  m_position += static_cast<s32>(line_sep.size());
   return true;
 }
 
@@ -198,7 +198,7 @@ static void PreProcess(input_str& str)
     auto utf8 = common::strings::sjis_to_utf8(str.m_string);
 
     str.m_string = std::move(*utf8);
-    str.m_length = str.m_string.length();
+    str.m_length = static_cast<s32>(str.m_string.length());
   }
 }
 
@@ -273,7 +273,7 @@ sint CScriptInterpreter::GetNextTAG(bool execute)
         }
       }
     }
-    return command_index;
+    return static_cast<s32>(command_index);
   }
 }
 
@@ -342,7 +342,7 @@ void CScriptInterpreter::SetTag(const SPI_TAG_PARAM* param)
 
   m_p_hash_list = nullptr;
 
-  if (m_n_tag_param >= m_hash_buff.size())
+  if (m_n_tag_param >= static_cast<ssize>(m_hash_buff.size()))
   {
     return;
   }
@@ -386,7 +386,7 @@ void CScriptInterpreter::SetScript(char* script, usize script_len)
   log_trace("CScriptInterpreter::{}({}, {})", __func__, script, script_len);
 
   m_input_str.m_string = script;
-  m_input_str.m_length = script_len;
+  m_input_str.m_length = static_cast<s32>(script_len);
   m_input_str.m_position = 0;
 
   m_stack_curr = 0;
@@ -396,7 +396,7 @@ void CScriptInterpreter::SetScript(char* script, usize script_len)
 
   if (m_binary_script)
   {
-    m_input_str.m_position += std::size(bin_prefix);
+    m_input_str.m_position += static_cast<s32>(std::size(bin_prefix));
   }
   else
   {
@@ -572,7 +572,7 @@ sint CScriptInterpreter::GetArgs()
       // 146F50
       case SPI_DATA_TYPE_STR:
       {
-        uint str_len = strlen(&arg_buf[1]);
+        usize str_len = strlen(&arg_buf[1]);
 
         if (m_string_buff_curr + str_len + 1 >= m_string_buff + m_n_string_buff)
         {
