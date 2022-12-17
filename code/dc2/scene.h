@@ -200,7 +200,11 @@ public:
 class CSceneEventData
 {
 public:
+  // 0
+  u32 m_unk_field_0{};
 
+  // 18
+  std::string m_unk_field_18{};
 };
 
 class CScene

@@ -3133,7 +3133,29 @@ static bool _FUNCTION_MAP_JUMP(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto& event_data = EventScene->m_scene_event_data;
+
+  // FIXME: MAGIC
+  if ((event_data.m_unk_field_0 & 0x10A) == 0)
+  {
+    return false;
+  }
+
+  EdEventInfo.m_unk_field_64 = -1;
+  EdEventInfo.m_unk_field_88 = 100;
+
+  if (event_data.m_unk_field_18 == "exit")
+  {
+    // FIXME: MAGIC
+    EdEventInfo.m_unk_field_CC = 7;
+  }
+  else
+  {
+    EdEventInfo.m_unk_field_68 = event_data.m_unk_field_18;
+    // FIXME: MAGIC
+    EdEventInfo.m_unk_field_CC = 4;
+  }
+
   return true;
 }
 
