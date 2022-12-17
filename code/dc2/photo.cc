@@ -3,6 +3,7 @@
 
 #include "common/debug.h"
 #include "common/log.h"
+#include "common/macros.h"
 
 #include "dc2/font.h"
 #include "dc2/mainloop.h"
@@ -101,7 +102,7 @@ const char* GetMesTxt(ssize index)
 	return mes_txt[language_index][index];
 }
 
-float PhotoAddProjection()
+f32 PhotoAddProjection()
 {
 	log_trace("PhotoAddProjection()");
 
@@ -135,7 +136,7 @@ void InitTakePhoto()
 	ShowLevelUpCnt = 0;
 }
 
-void LoadTakePhoto(int unk, mgCMemory& unused)
+void LoadTakePhoto(MAYBE_UNUSED sint unk, MAYBE_UNUSED mgCMemory& unused)
 {
 	todo;
 }
@@ -183,22 +184,22 @@ bool GhostPhotoTiming()
 	return TakePhotoMode == 5 || TakePhotoMode == 3;
 }
 
-void LoopTakePhoto(CPadControl& padControl, CInventUserData& invest_user_data)
+void LoopTakePhoto(MAYBE_UNUSED CPadControl& padControl, MAYBE_UNUSED CInventUserData& invest_user_data)
 {
 	todo;
 }
 
-void DrawTakePhoto(USER_PICTURE_INFO& picture_info, float* fp)
+void DrawTakePhoto(MAYBE_UNUSED USER_PICTURE_INFO& picture_info, MAYBE_UNUSED f32* fp)
 {
 	todo;
 }
 
-void SetTookPhotoData(USER_PICTURE_INFO& picture_info)
+void SetTookPhotoData(MAYBE_UNUSED USER_PICTURE_INFO& picture_info)
 {
 	todo;
 }
 
-void DrawTakePhotoSystem(s32 i1, CInventUserData& invent_user_data)
+void DrawTakePhotoSystem(MAYBE_UNUSED s32 i1, MAYBE_UNUSED CInventUserData& invent_user_data)
 {
 	todo;
 }
