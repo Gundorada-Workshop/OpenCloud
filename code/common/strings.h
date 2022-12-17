@@ -6,7 +6,10 @@
 #include <fmt/core.h>
 #include <fmt/chrono.h>
 
-#include "types.h"
+#include "common/types.h"
+#include "common/macros.h"
+
+FILE_DISABLE_WARNING(WARNING_ID_CONDITIONAL_EXPRESSION_IS_CONSTANT);
 
 namespace common::strings
 {

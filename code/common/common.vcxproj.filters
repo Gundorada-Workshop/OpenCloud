@@ -50,6 +50,7 @@
       <Filter>math</Filter>
     </ClInclude>
     <ClInclude Include="aligned_allocator.h" />
+    <ClInclude Include="macros.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="common.exports.props" />

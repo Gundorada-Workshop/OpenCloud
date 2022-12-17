@@ -90,7 +90,10 @@ void CCharacter2::LoadPackNoLine(void* file_buf, char* file_name, mgCMemory* mem
   LoadChrFile(file_buf, file_name, mem1, mem2, mem3, i, character2, false);
 }
 // 00175230
-void CCharacter2::LoadChrFile(void* file_buf, char* file_name, mgCMemory* mem1, mgCMemory* mem2, mgCMemory* mem3, unk32 i, CCharacter2* character2, bool b)
+void CCharacter2::LoadChrFile(MAYBE_UNUSED void* file_buf, MAYBE_UNUSED char* file_name,
+  MAYBE_UNUSED mgCMemory* mem1, MAYBE_UNUSED mgCMemory* mem2,
+  MAYBE_UNUSED mgCMemory* mem3, MAYBE_UNUSED unk32 i,
+  MAYBE_UNUSED CCharacter2* character2, MAYBE_UNUSED bool b)
 {
   log_trace("CCharacter2::{}({}, {}, {}, {}, {}, {}, {}, {})", __func__, fmt::ptr(file_buf), file_name, fmt::ptr(mem1), fmt::ptr(mem2), fmt::ptr(mem3), i, fmt::ptr(character2), b);
 
@@ -183,7 +186,7 @@ f32 CCharacter2::GetNowFrame()
 }
 
 // 00175160
-f32 CCharacter2::GetWaitToFrame(const char* c, f32 f)
+f32 CCharacter2::GetWaitToFrame(MAYBE_UNUSED const char* c, MAYBE_UNUSED f32 f)
 {
   log_trace("CCharacter2::{}({}, {})", __func__, c, f);
 
@@ -192,7 +195,7 @@ f32 CCharacter2::GetWaitToFrame(const char* c, f32 f)
 }
 
 // 00173930
-void CCharacter2::SetMotion(unk32 i1, unk32 i2)
+void CCharacter2::SetMotion(MAYBE_UNUSED unk32 i1, MAYBE_UNUSED unk32 i2)
 {
   log_trace("CCharacter2::{}({}, {})", __func__, i1, i2);
 
@@ -332,7 +335,7 @@ void CCharacter2::ResetWind()
 }
 
 // 001744A0
-void CCharacter2::SetFloor(f32 floor)
+void CCharacter2::SetFloor(MAYBE_UNUSED f32 floor)
 {
   log_trace("CCharacter2::{}({})", __func__, floor);
 
@@ -348,7 +351,7 @@ void CCharacter2::ResetFloor()
 }
 
 // 00178C70
-void CCharacter2::Copy(CCharacter2& other, mgCMemory* memory)
+void CCharacter2::Copy(MAYBE_UNUSED CCharacter2& other, MAYBE_UNUSED mgCMemory* memory)
 {
   log_trace("CCharacter2::{}({}, {})", __func__, fmt::ptr(&other), fmt::ptr(memory));
 
@@ -372,7 +375,7 @@ void CCharacter2::DrawEffect()
 }
 
 // 00173A40
-void CCharacter2::SetMotionPara(char* c, sint i1, s32 i2)
+void CCharacter2::SetMotionPara(MAYBE_UNUSED char* c, MAYBE_UNUSED sint i1, MAYBE_UNUSED s32 i2)
 {
   log_trace("CCharacter2::{}({}, {}, {})", __func__, c, i1, i2);
 
@@ -388,7 +391,7 @@ void CCharacter2::DeleteExtMotion()
 }
 
 // 00177f20
-static bool _SKIN_IMG(SPI_STACK* stack, sint stack_count)
+static bool _SKIN_IMG(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -398,7 +401,7 @@ static bool _SKIN_IMG(SPI_STACK* stack, sint stack_count)
 }
 
 // 00177f80
-static bool _SKIN_IMG_END(SPI_STACK* stack, sint stack_count)
+static bool _SKIN_IMG_END(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -408,7 +411,7 @@ static bool _SKIN_IMG_END(SPI_STACK* stack, sint stack_count)
 }
 
 // 00177f90
-static bool _SKIN_MODEL(SPI_STACK* stack, sint stack_count)
+static bool _SKIN_MODEL(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -418,7 +421,7 @@ static bool _SKIN_MODEL(SPI_STACK* stack, sint stack_count)
 }
 
 // 00178170
-static bool _SKIN_MOTION(SPI_STACK* stack, sint stack_count)
+static bool _SKIN_MOTION(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -441,7 +444,7 @@ CDynamicAnime* dynNowDA{ nullptr };
 mgCMemory* dynStack{ nullptr };
 
 // 0017b160
-static bool dynFRAME_START(SPI_STACK* stack, sint stack_count)
+static bool dynFRAME_START(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -451,7 +454,7 @@ static bool dynFRAME_START(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017b190
-static bool dynFRAME(SPI_STACK* stack, sint stack_count)
+static bool dynFRAME(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -461,7 +464,7 @@ static bool dynFRAME(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017b210
-static bool dynFRAME_END(SPI_STACK* stack, sint stack_count)
+static bool dynFRAME_END(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -470,7 +473,7 @@ static bool dynFRAME_END(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017b220
-static bool dynVERTEX_START(SPI_STACK* stack, sint stack_count)
+static bool dynVERTEX_START(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -481,7 +484,7 @@ static bool dynVERTEX_START(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017b300
-static bool dynVERTEX_L(SPI_STACK* stack, sint stack_count)
+static bool dynVERTEX_L(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -498,7 +501,7 @@ static bool dynVERTEX_L(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017b390
-static bool dynVERTEX_END(SPI_STACK* stack, sint stack_count)
+static bool dynVERTEX_END(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -508,7 +511,7 @@ static bool dynVERTEX_END(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017b410
-static bool dynFIX_VERTEX_START(SPI_STACK* stack, sint stack_count)
+static bool dynFIX_VERTEX_START(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -518,7 +521,7 @@ static bool dynFIX_VERTEX_START(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017b530
-static bool dynFIX_VERTEX(SPI_STACK* stack, sint stack_count)
+static bool dynFIX_VERTEX(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -528,7 +531,7 @@ static bool dynFIX_VERTEX(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017b5c0
-static bool dynFIX_VERTEX_C(SPI_STACK* stack, sint stack_count)
+static bool dynFIX_VERTEX_C(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -538,7 +541,7 @@ static bool dynFIX_VERTEX_C(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017b650
-static bool dynFIX_VERTEX_S(SPI_STACK* stack, sint stack_count)
+static bool dynFIX_VERTEX_S(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -548,7 +551,7 @@ static bool dynFIX_VERTEX_S(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017b6e0
-static bool dynFIX_VERTEX_END(SPI_STACK* stack, sint stack_count)
+static bool dynFIX_VERTEX_END(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -558,7 +561,7 @@ static bool dynFIX_VERTEX_END(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017b8b0
-static bool dynFRAME_POSE(SPI_STACK* stack, sint stack_count)
+static bool dynFRAME_POSE(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -568,7 +571,7 @@ static bool dynFRAME_POSE(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017b8b0
-static bool dynFRAME_POSE_L(SPI_STACK* stack, sint stack_count)
+static bool dynFRAME_POSE_L(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -578,7 +581,7 @@ static bool dynFRAME_POSE_L(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017b970
-static bool dynDRAW_FRAME(SPI_STACK* stack, sint stack_count)
+static bool dynDRAW_FRAME(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -588,7 +591,7 @@ static bool dynDRAW_FRAME(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017b9f0
-static bool dynBIND_VERTEX_START(SPI_STACK* stack, sint stack_count)
+static bool dynBIND_VERTEX_START(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -598,7 +601,7 @@ static bool dynBIND_VERTEX_START(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017ba20
-static bool dynBIND_VERTEX(SPI_STACK* stack, sint stack_count)
+static bool dynBIND_VERTEX(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -608,7 +611,7 @@ static bool dynBIND_VERTEX(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017bb80
-static bool dynBIND_VERTEX_END(SPI_STACK* stack, sint stack_count)
+static bool dynBIND_VERTEX_END(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -617,7 +620,7 @@ static bool dynBIND_VERTEX_END(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017bb90
-static bool dynBOUNDING_BOX_START(SPI_STACK* stack, sint stack_count)
+static bool dynBOUNDING_BOX_START(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -628,7 +631,7 @@ static bool dynBOUNDING_BOX_START(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017bbc0
-static bool dynBOUNDING_BOX(SPI_STACK* stack, sint stack_count)
+static bool dynBOUNDING_BOX(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -638,7 +641,7 @@ static bool dynBOUNDING_BOX(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017bc70
-static bool dynBOUNDING_BOX_END(SPI_STACK* stack, sint stack_count)
+static bool dynBOUNDING_BOX_END(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -647,7 +650,7 @@ static bool dynBOUNDING_BOX_END(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017bc80
-static bool dynCOLLISION_START(SPI_STACK* stack, sint stack_count)
+static bool dynCOLLISION_START(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -658,7 +661,7 @@ static bool dynCOLLISION_START(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017bcb0
-static bool dynCOLLISION(SPI_STACK* stack, sint stack_count)
+static bool dynCOLLISION(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -668,7 +671,7 @@ static bool dynCOLLISION(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017be60
-static bool dynCOLLISION_END(SPI_STACK* stack, sint stack_count)
+static bool dynCOLLISION_END(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -677,7 +680,7 @@ static bool dynCOLLISION_END(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017be70
-static bool dynGRAVITY(SPI_STACK* stack, sint stack_count)
+static bool dynGRAVITY(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -687,7 +690,7 @@ static bool dynGRAVITY(SPI_STACK* stack, sint stack_count)
 }
 
 // 0017bed0
-static bool dynWIND(SPI_STACK* stack, sint stack_count)
+static bool dynWIND(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -724,28 +727,28 @@ const std::array<SPI_TAG_PARAM, 27> dynmc_tag =
   NULL, nullptr
 };
 
-void CDynamicAnime::Load(const char* script, sint script_size, mgCFrame* frame, mgCMemory* stack)
+void CDynamicAnime::Load(MAYBE_UNUSED const char* script, MAYBE_UNUSED sint script_size, MAYBE_UNUSED mgCFrame* frame, MAYBE_UNUSED mgCMemory* stack)
 {
   log_trace("CDynamicAnime::Load({}, {}, {}, {})", fmt::ptr(script), script_size, fmt::ptr(frame), fmt::ptr(stack));
 
   todo;
 }
 
-void CDynamicAnime::NewVertexTable(sint unk, mgCMemory* stack)
+void CDynamicAnime::NewVertexTable(MAYBE_UNUSED sint unk, MAYBE_UNUSED mgCMemory* stack)
 {
   log_trace("CDynamicAnime::NewVertexTable({}, {})", unk, fmt::ptr(stack));
 
   todo;
 }
 
-void CDynamicAnime::NewBoundingBoxTable(sint unk, mgCMemory* stack)
+void CDynamicAnime::NewBoundingBoxTable(MAYBE_UNUSED sint unk, MAYBE_UNUSED mgCMemory* stack)
 {
   log_trace("CDynamicAnime::NewBoundingBoxTable({}, {})", unk, fmt::ptr(stack));
 
   todo;
 }
 
-void CDynamicAnime::NewCollisionTable(sint unk, mgCMemory* stack)
+void CDynamicAnime::NewCollisionTable(MAYBE_UNUSED sint unk, MAYBE_UNUSED mgCMemory* stack)
 {
   log_trace("CDynamicAnime::NewCollisionTable({}, {})", unk, fmt::ptr(stack));
 

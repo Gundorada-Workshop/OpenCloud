@@ -1394,7 +1394,7 @@ void CGameDataUsed::ToSpectolTrans(CGameDataUsed* spectrumized_item_dest, usize 
   }
 
   spec->as.attach.m_spectrumized_item_id = m_common_index;
-  auto name = GetName();
+  MAYBE_UNUSED auto name = GetName();
   auto level = GetLevel();
 
   using enum EUsedItemType;

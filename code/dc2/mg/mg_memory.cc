@@ -61,8 +61,8 @@ void* mgCMemory::StartStackMode(int i1, int i2)
 	SHeapMemHead* t2 = nullptr;
 	SHeapMemHead* t3 = nullptr;
 	usize t0 = 0;
-	int a2 = 2;
-	int v1 = 3;
+	MAYBE_UNUSED int a2 = 2;
+	MAYBE_UNUSED int v1 = 3;
 
 	do 
 	{

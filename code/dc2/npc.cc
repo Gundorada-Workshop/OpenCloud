@@ -21,7 +21,7 @@ static u8 npc_spi_count_num{};
 static std::array<SPartyNPCData, 180> NpcBaseData{};
 
 // 002AB0E0
-static bool _NPC_NUM(SPI_STACK* stack, int stack_count)
+static bool _NPC_NUM(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "NPC_NUM"
   trace_script_call(stack, stack_count);
@@ -32,7 +32,7 @@ static bool _NPC_NUM(SPI_STACK* stack, int stack_count)
 }
 
 // 002AB110
-static bool _NPC_INFO(SPI_STACK* stack, int stack_count)
+static bool _NPC_INFO(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   // "NPC_INFO"
   trace_script_call(stack, stack_count);

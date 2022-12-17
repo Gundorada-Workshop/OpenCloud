@@ -1,4 +1,5 @@
 #include "common/log.h"
+#include "common/macros.h"
 
 #include "dc2/map.h"
 #include "dc2/script_interpreter.h"
@@ -6,337 +7,337 @@
 set_log_channel("map");
 
 // 00164520
-static bool cfgDRAW_OFF_RECT(SPI_STACK* stack, int)
+static bool cfgDRAW_OFF_RECT(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool cfgOCCLUSION_PLANE(SPI_STACK* stack, int)
+static bool cfgOCCLUSION_PLANE(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool cfgFUNC_DATA(SPI_STACK* stack, int)
+static bool cfgFUNC_DATA(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool cfgFUNC_NAME(SPI_STACK* stack, int)
+static bool cfgFUNC_NAME(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool cfgFUNC_EVENT_DATA(SPI_STACK* stack, int)
+static bool cfgFUNC_EVENT_DATA(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool cfgFUNC_DATA_END(SPI_STACK* stack, int)
+static bool cfgFUNC_DATA_END(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool cfgWATER_SURFACE_NUM(SPI_STACK* stack, int)
+static bool cfgWATER_SURFACE_NUM(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool cfgWATER_SURFACE_START(SPI_STACK* stack, int)
+static bool cfgWATER_SURFACE_START(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool cfgWATER_VERTEX(SPI_STACK* stack, int)
+static bool cfgWATER_VERTEX(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool cfgWATER_POS(SPI_STACK* stack, int)
+static bool cfgWATER_POS(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool cfgWATER_PARAM(SPI_STACK* stack, int)
+static bool cfgWATER_PARAM(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool cfgWATER_SHAKE(SPI_STACK* stack, int)
+static bool cfgWATER_SHAKE(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool cfgWATER_SURFACE_END(SPI_STACK* stack, int)
+static bool cfgWATER_SURFACE_END(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool cfgWATER_DRAW_NUM(SPI_STACK* stack, int)
+static bool cfgWATER_DRAW_NUM(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool cfgWATER_DRAW(SPI_STACK* stack, int)
+static bool cfgWATER_DRAW(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapDummy(SPI_STACK* stack, int)
+static bool mapDummy(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapPARTS(SPI_STACK* stack, int)
+static bool mapPARTS(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapFAR_CLIP(SPI_STACK* stack, int)
+static bool mapFAR_CLIP(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapLIGHT_FLAG(SPI_STACK* stack, int)
+static bool mapLIGHT_FLAG(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapMOVE_FLAG(SPI_STACK* stack, int)
+static bool mapMOVE_FLAG(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapLOD_START(SPI_STACK* stack, int)
+static bool mapLOD_START(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapLOD_BLEND(SPI_STACK* stack, int)
+static bool mapLOD_BLEND(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapLOD_PIECE(SPI_STACK* stack, int)
+static bool mapLOD_PIECE(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapLOD_END(SPI_STACK* stack, int)
+static bool mapLOD_END(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapPIECE(SPI_STACK* stack, int)
+static bool mapPIECE(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapPIECE_POS(SPI_STACK* stack, int)
+static bool mapPIECE_POS(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapPIECE_NAME(SPI_STACK* stack, int)
+static bool mapPIECE_NAME(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapPIECE_ROT(SPI_STACK* stack, int)
+static bool mapPIECE_ROT(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapPIECE_SCALE(SPI_STACK* stack, int)
+static bool mapPIECE_SCALE(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapPIECE_MATERIAL_START(SPI_STACK* stack, int)
+static bool mapPIECE_MATERIAL_START(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapPIECE_MATERIAL(SPI_STACK* stack, int)
+static bool mapPIECE_MATERIAL(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapPIECE_MATERIAL_END(SPI_STACK* stack, int)
+static bool mapPIECE_MATERIAL_END(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapPIECE_COL_TYPE(SPI_STACK* stack, int)
+static bool mapPIECE_COL_TYPE(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapPIECE_TIME(SPI_STACK* stack, int)
+static bool mapPIECE_TIME(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapPIECE_END(SPI_STACK* stack, int)
+static bool mapPIECE_END(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapPARTS_END(SPI_STACK* stack, int)
+static bool mapPARTS_END(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapMAP_PARTS(SPI_STACK* stack, int)
+static bool mapMAP_PARTS(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapMAP_FAR_CLIP(SPI_STACK* stack, int)
+static bool mapMAP_FAR_CLIP(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapPARTS_NAME(SPI_STACK* stack, int)
+static bool mapPARTS_NAME(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapPARTS_GROUP(SPI_STACK* stack, int)
+static bool mapPARTS_GROUP(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapPARTS_POS(SPI_STACK* stack, int)
+static bool mapPARTS_POS(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapPARTS_ROT(SPI_STACK* stack, int)
+static bool mapPARTS_ROT(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapPARTS_SCALE(SPI_STACK* stack, int)
+static bool mapPARTS_SCALE(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapMAP_PARTS_END(SPI_STACK* stack, int)
+static bool mapMAP_PARTS_END(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapMAP_INFO_TOP(SPI_STACK* stack, int)
+static bool mapMAP_INFO_TOP(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapCAMERA_INFO(SPI_STACK* stack, int)
+static bool mapCAMERA_INFO(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapFIX_CAMERA(SPI_STACK* stack, int)
+static bool mapFIX_CAMERA(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapFIX_CAMERA_POS(SPI_STACK* stack, int)
+static bool mapFIX_CAMERA_POS(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapFIX_CAMERA_POS2(SPI_STACK* stack, int)
+static bool mapFIX_CAMERA_POS2(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapFIX_CAMERA_OFF_GROUP(SPI_STACK* stack, int)
+static bool mapFIX_CAMERA_OFF_GROUP(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapFIX_CAMERA_RECT(SPI_STACK* stack, int)
+static bool mapFIX_CAMERA_RECT(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapFIX_CAMERA_END(SPI_STACK* stack, int)
+static bool mapFIX_CAMERA_END(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapCAMERA_INFO_END(SPI_STACK* stack, int)
+static bool mapCAMERA_INFO_END(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapFUNC_POINT(SPI_STACK* stack, int)
+static bool mapFUNC_POINT(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapFUNC_DATA(SPI_STACK* stack, int)
+static bool mapFUNC_DATA(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapFUNC_NAME(SPI_STACK* stack, int)
+static bool mapFUNC_NAME(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapFUNC_FLAG(SPI_STACK* stack, int)
+static bool mapFUNC_FLAG(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapFUNC_FIRE_DATA(SPI_STACK* stack, int)
+static bool mapFUNC_FIRE_DATA(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapFUNC_EFFECT_NAME(SPI_STACK* stack, int)
+static bool mapFUNC_EFFECT_NAME(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapFUNC_PLIGHT_DATA(SPI_STACK* stack, int)
+static bool mapFUNC_PLIGHT_DATA(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapFUNC_ANIME_DATA(SPI_STACK* stack, int)
+static bool mapFUNC_ANIME_DATA(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapFUNC_INVENT_DATA(SPI_STACK* stack, int)
+static bool mapFUNC_INVENT_DATA(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapFUNC_EVENT_DATA(SPI_STACK* stack, int)
+static bool mapFUNC_EVENT_DATA(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapFUNC_POS(SPI_STACK* stack, int)
+static bool mapFUNC_POS(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapFUNC_DATA_END(SPI_STACK* stack, int)
+static bool mapFUNC_DATA_END(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapFUNC_POINT_END(SPI_STACK* stack, int)
+static bool mapFUNC_POINT_END(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool mapFUNC_SOUND_DATA(SPI_STACK* stack, int)
+static bool mapFUNC_SOUND_DATA(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
@@ -476,12 +477,12 @@ void CMap::LoadCfgFile(char* file, int size, mgCMemory* map_stack)
   interpreter.Run();
 }
 
-static bool amapIMG(SPI_STACK* stack, int)
+static bool amapIMG(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
 
-static bool amapPCP(SPI_STACK* stack, int)
+static bool amapPCP(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }

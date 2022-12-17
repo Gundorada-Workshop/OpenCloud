@@ -7,6 +7,7 @@
 #include "common/log.h"
 #include "common/debug.h"
 #include "common/math.h"
+#include "common/macros.h"
 
 #include "dc2/camera.h"
 #include "dc2/character.h"
@@ -188,7 +189,7 @@ std::array<CChillAfterHit, 6> chillAfterHit{ };
 std::array<CFireAfterHit, 6> fireAfterHit{ };
 
 // 001C2240
-void CSwordAfterImage::Initialize(mgCMemory* stack, sint i1, sint i2)
+void CSwordAfterImage::Initialize(MAYBE_UNUSED mgCMemory* stack, MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2)
 {
   log_trace("CSwordAfterImage::{}({}, {}, {})", __func__, fmt::ptr(stack), i1, i2);
 
@@ -238,7 +239,7 @@ void CChillAfterHit::Initialize()
 }
 
 // 001D4C40
-void CMiniMapSymbol::DrawSymbol(vec3& pos, EMiniMapSymbol::EMiniMapSymbol symbol_type)
+void CMiniMapSymbol::DrawSymbol(MAYBE_UNUSED vec3& pos, MAYBE_UNUSED EMiniMapSymbol::EMiniMapSymbol symbol_type)
 {
   // 0033D8A0
   static std::array<MINIMAP_SYMBOL_DATA, EMiniMapSymbol::COUNT + 1> symbol_table
@@ -304,7 +305,7 @@ void CLockOnModel::Initialize(CScene* scene)
 }
 
 // 001CB7B0
-void CLockOnModel::DrawMes(sint i)
+void CLockOnModel::DrawMes(MAYBE_UNUSED sint i)
 {
   log_trace("CLockOnModel::DrawMes({})", i);
 

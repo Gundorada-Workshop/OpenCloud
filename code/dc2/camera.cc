@@ -103,7 +103,7 @@ void CCameraControl::ControlOn()
 }
 
 // 002EC1F0
-void CCameraControl::MoveCamera(const CPadControl* pad_control, const vec3& v, CCPoly* c_poly, usize i)
+void CCameraControl::MoveCamera(MAYBE_UNUSED const CPadControl* pad_control, MAYBE_UNUSED const vec3& v, MAYBE_UNUSED CCPoly* c_poly, MAYBE_UNUSED usize i)
 {
   log_trace("CCameraControl::{}({}, {}, {}, {})", __func__, fmt::ptr(&pad_control), fmt::ptr(&v), fmt::ptr(c_poly), i);
 
@@ -111,7 +111,7 @@ void CCameraControl::MoveCamera(const CPadControl* pad_control, const vec3& v, C
 }
 
 // 002EC370
-void CCameraControl::MoveCamera(const Control& control, const vec3& v, CCPoly* c_poly, usize i)
+void CCameraControl::MoveCamera(MAYBE_UNUSED const Control& control, MAYBE_UNUSED const vec3& v, MAYBE_UNUSED CCPoly* c_poly, MAYBE_UNUSED usize i)
 {
   log_trace("CCameraControl::{}({}, {}, {}, {})", __func__, fmt::ptr(&control), fmt::ptr(&v), fmt::ptr(c_poly), i);
 
@@ -283,7 +283,7 @@ void CCameraControl::SetHeight(f32 height)
 }
 
 // 002EC910
-void CCameraControl::CheckCollision(CCPoly* c_poly, usize i)
+void CCameraControl::CheckCollision(MAYBE_UNUSED CCPoly* c_poly, MAYBE_UNUSED usize i)
 {
   log_trace("CCameraControl::{}({})", __func__, fmt::ptr(c_poly), i);
 
@@ -291,7 +291,7 @@ void CCameraControl::CheckCollision(CCPoly* c_poly, usize i)
 }
 
 // 002ECB60
-void CCameraControl::AutoMove(CCPoly* c_poly, usize i)
+void CCameraControl::AutoMove(MAYBE_UNUSED CCPoly* c_poly, MAYBE_UNUSED usize i)
 {
   log_trace("CCameraControl::{}({})", __func__, fmt::ptr(c_poly), i);
 
@@ -299,7 +299,7 @@ void CCameraControl::AutoMove(CCPoly* c_poly, usize i)
 }
 
 // 002ECE70
-void CCameraControl::CheckGround(CCPoly* c_poly, usize i)
+void CCameraControl::CheckGround(MAYBE_UNUSED CCPoly* c_poly, MAYBE_UNUSED usize i)
 {
   log_trace("CCameraControl::{}({})", __func__, fmt::ptr(c_poly), i);
 
@@ -316,7 +316,7 @@ matrix4 CCameraControl::GetCameraMatrix()
   return matrix4{ 1.0f };
 }
 
-void CCameraControl::CopyParam(CCameraControl& other)
+void CCameraControl::CopyParam(MAYBE_UNUSED CCameraControl& other)
 {
 
 }

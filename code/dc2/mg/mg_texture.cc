@@ -47,84 +47,84 @@ static bool texTEX_ANIME(SPI_STACK* stack, int)
   return true;
 }
 
-static bool texTEX_ANIME_DATA(SPI_STACK* stack, int)
+static bool texTEX_ANIME_DATA(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   todo;
 
   return true;
 }
 
-static bool texSRC_TEX(SPI_STACK* stack, int)
+static bool texSRC_TEX(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   todo;
 
   return true;
 }
 
-static bool texDEST_TEX(SPI_STACK* stack, int)
+static bool texDEST_TEX(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   todo;
 
   return true;
 }
 
-static bool texSCROLL(SPI_STACK* stack, int)
+static bool texSCROLL(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   todo;
 
   return true;
 }
 
-static bool texCLUT_COPY(SPI_STACK* stack, int)
+static bool texCLUT_COPY(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   todo;
 
   return true;
 }
 
-static bool texCOLOR(SPI_STACK* stack, int)
+static bool texCOLOR(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   todo;
 
   return true;
 }
 
-static bool texALPHA_BLEND(SPI_STACK* stack, int)
+static bool texALPHA_BLEND(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   todo;
 
   return true;
 }
 
-static bool texALPHA_TEST(SPI_STACK* stack, int)
+static bool texALPHA_TEST(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   todo;
 
   return true;
 }
 
-static bool texWAIT(SPI_STACK* stack, int)
+static bool texWAIT(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   todo;
 
   return true;
 }
 
-static bool texTEX_ANIME_DATA_END(SPI_STACK* stack, int)
+static bool texTEX_ANIME_DATA_END(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   todo;
 
   return true;
 }
 
-static bool texANIME_END(SPI_STACK* stack, int)
+static bool texANIME_END(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   todo;
 
   return true;
 }
 
-static bool texANIME_BUG_PATCH(SPI_STACK* stack, int)
+static bool texANIME_BUG_PATCH(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   todo;
 
@@ -254,7 +254,7 @@ void mgCTextureManager::SetTableBuffer(int n_textures, int n_blocks, mgCMemory* 
     }
   }
 
-  mgCTexture** p_texture_buf = static_cast<mgCTexture**>(
+  MAYBE_UNUSED mgCTexture** p_texture_buf = static_cast<mgCTexture**>(
     stack->Alloc(
       BYTES_TO_BLOCKS_STRICT(
         sizeof(mgCTexture*) * n_textures
@@ -403,13 +403,8 @@ mgCTexture* mgCTextureManager::SearchHash(const char* name, ssize uuid)
   log_trace("mgCTextureManager::SearchHash({})", name, uuid);
 
   u8 hash_val = hash(name);
-  TextureHash* curr_hash = m_hash_list[hash_val];
 
-  for (
-    TextureHash* curr_hash = m_hash_list[hash_val];
-    curr_hash != nullptr;
-    curr_hash = curr_hash->m_next_hash
-    )
+  for (TextureHash* curr_hash = m_hash_list[hash_val]; curr_hash != nullptr; curr_hash = curr_hash->m_next_hash)
   {
     mgCTexture* texture = curr_hash->m_texture;
 
@@ -438,7 +433,10 @@ mgCTexture* mgCTextureManager::GetTexture(const char* name, ssize i)
 }
 
 // 0012D140
-void mgCTextureManager::EnterTexture(usize texb, const char* name, unkptr p1, s32 width, s32 height, u32 i3, unkptr p2, u64 i4, int i5)
+void mgCTextureManager::EnterTexture(MAYBE_UNUSED usize texb, MAYBE_UNUSED const char* name,
+    MAYBE_UNUSED unkptr p1, MAYBE_UNUSED s32 width,
+    MAYBE_UNUSED s32 height, MAYBE_UNUSED u32 i3,
+    MAYBE_UNUSED unkptr p2, MAYBE_UNUSED u64 i4, MAYBE_UNUSED int i5)
 {
   log_trace(
     "mgCTextureManager::{}({}, {}, {}, {}, {}, {}, {}, {}, {})",
@@ -458,7 +456,7 @@ void mgCTextureManager::EnterTexture(usize texb, const char* name, unkptr p1, s3
 }
 
 // 0012DA90
-void mgCTextureManager::EnterIMGFile(u8* img_file_buff, usize texb, mgCMemory* stack, mgCEnterIMGInfo* enter_info)
+void mgCTextureManager::EnterIMGFile(MAYBE_UNUSED u8* img_file_buff, MAYBE_UNUSED usize texb, MAYBE_UNUSED mgCMemory* stack, MAYBE_UNUSED mgCEnterIMGInfo* enter_info)
 {
   log_trace("mgCTextureManager::{}({}, {}, {}, {})", __func__, fmt::ptr(img_file_buff), texb, fmt::ptr(stack), fmt::ptr(enter_info));
 
@@ -466,7 +464,7 @@ void mgCTextureManager::EnterIMGFile(u8* img_file_buff, usize texb, mgCMemory* s
 }
 
 // 0012E540
-void mgCTextureManager::DeleteBlock(usize texb)
+void mgCTextureManager::DeleteBlock(MAYBE_UNUSED usize texb)
 {
   log_trace("mgCTextureManager::DeleteBlock({})", texb);
 
@@ -474,7 +472,7 @@ void mgCTextureManager::DeleteBlock(usize texb)
 }
 
 // 0012E850
-void mgCTextureManager::ReloadTexture(usize texb, sceVif1Packet* vif1_packet)
+void mgCTextureManager::ReloadTexture(MAYBE_UNUSED usize texb, MAYBE_UNUSED sceVif1Packet* vif1_packet)
 {
   log_trace("mgCTextureManager::ReloadTexture({}, {})", texb, fmt::ptr(vif1_packet));
 

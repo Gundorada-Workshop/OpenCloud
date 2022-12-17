@@ -1,6 +1,7 @@
 #include <array>
 
 #include "common/log.h"
+#include "common/macros.h"
 
 #include "dc2/snd_mngr.h"
 
@@ -115,7 +116,7 @@ sndPortInfo::sndPortInfo()
 }
 
 // 0018D1E0
-void sndSetMasterVol(float volume, int i)
+void sndSetMasterVol(MAYBE_UNUSED f32 volume, MAYBE_UNUSED sint i)
 {
   log_trace("{}({}, {})", __func__, volume, i);
 
@@ -123,7 +124,7 @@ void sndSetMasterVol(float volume, int i)
 }
 
 // 0018D270
-float sndGetMasterVol(int i)
+f32 sndGetMasterVol(MAYBE_UNUSED sint i)
 {
   log_trace("{}({})", __func__, i);
 
@@ -132,7 +133,7 @@ float sndGetMasterVol(int i)
 }
 
 // 0018D2B0
-void sndMasterVolFadeInOut(int i1, int i2, float f1, float f2)
+void sndMasterVolFadeInOut(MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2, MAYBE_UNUSED f32 f1, MAYBE_UNUSED f32 f2)
 {
   log_trace("{}({}, {}, {}, {})", __func__, i1, i2, f1, f2);
 
@@ -140,7 +141,7 @@ void sndMasterVolFadeInOut(int i1, int i2, float f1, float f2)
 }
 
 // 0018D650
-void sndStep(float f)
+void sndStep(MAYBE_UNUSED f32 f)
 {
   log_trace("{}({})", __func__, f);
 
@@ -148,7 +149,7 @@ void sndStep(float f)
 }
 
 // 0018E060
-void sndSePlay(uint u1, int i1, int i2)
+void sndSePlay(MAYBE_UNUSED uint u1, MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2)
 {
   log_trace("{}({}, {}, {})", __func__, u1, i1, i2);
 
@@ -156,7 +157,7 @@ void sndSePlay(uint u1, int i1, int i2)
 }
 
 // 0018E410
-void sndPortSqPause(int port_no)
+void sndPortSqPause(MAYBE_UNUSED sint port_no)
 {
   log_trace("{}({})", __func__, port_no);
 
@@ -164,7 +165,7 @@ void sndPortSqPause(int port_no)
 }
 
 // 0018E460
-void sndPortSqReplay(int port_no)
+void sndPortSqReplay(MAYBE_UNUSED sint port_no)
 {
   log_trace("{}({})", __func__, port_no);
 

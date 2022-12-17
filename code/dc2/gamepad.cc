@@ -1,6 +1,7 @@
 #include <cmath>
 
 #include "common/debug.h"
+#include "common/macros.h"
 #include "common/log.h"
 
 #include "dc2/gamepad.h"
@@ -100,7 +101,7 @@ f32 CGamePad::GetLYf()
 }
 
 // 002ED4E0
-bool CPadControl::Btn(int button)
+bool CPadControl::Btn(MAYBE_UNUSED int button)
 {
   log_trace("CPadControl::Btn({})", button);
 
@@ -109,7 +110,7 @@ bool CPadControl::Btn(int button)
 }
 
 // 002ED550
-void CPadControl::Update(CGamePad* game_pad)
+void CPadControl::Update(MAYBE_UNUSED CGamePad* game_pad)
 {
   log_trace("CPadControl::Update({})", fmt::ptr(game_pad));
 
