@@ -16,6 +16,7 @@
 #include "dc2/gamedata.h"
 #include "dc2/inventmn.h"
 #include "dc2/mainloop.h"
+#include "dc2/mapjump.h"
 #include "dc2/menumain.h"
 #include "dc2/run_script.h"
 #include "dc2/scene.h"
