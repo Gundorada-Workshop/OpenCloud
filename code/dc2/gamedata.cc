@@ -62,7 +62,7 @@ static bool _DATACOMINIT(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
   // "COMINIT"
   trace_script_call(stack, stack_count);
 
-  GameItemDataManage.m_n_com_itemdata = spiGetStackInt(stack);
+  GameItemDataManage.m_n_com_itemdata = static_cast<s16>(spiGetStackInt(stack));
 
   comdatapt_num = 0;
   comdatapt = GameItemDataManage.m_com_itemdata;
@@ -83,10 +83,10 @@ static bool _DATACOM(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 
   comdatapt->m_common_id = static_cast<ECommonItemData>(spiGetStackInt(stack++));
   comdatapt->m_type = static_cast<ECommonItemDataType>(spiGetStackInt(stack++));
-  comdatapt->m_category_id = spiGetStackInt(stack++);
-  comdatapt->m_active_set_num = spiGetStackInt(stack++);
-  comdatapt->m_stack_max_1E = spiGetStackInt(stack++);
-  comdatapt->m_stack_max_A = spiGetStackInt(stack++);
+  comdatapt->m_category_id = static_cast<s16>(spiGetStackInt(stack++));
+  comdatapt->m_active_set_num = static_cast<u8>(spiGetStackInt(stack++));
+  comdatapt->m_stack_max_1E = static_cast<s16>(spiGetStackInt(stack++));
+  comdatapt->m_stack_max_A = static_cast<s16>(spiGetStackInt(stack++));
 
   if (ConvertUsedItemType(comdatapt->m_type) == EUsedItemType::Weapon)
   {
@@ -97,9 +97,9 @@ static bool _DATACOM(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
     }
   }
 
-  comdatapt->m_unk_field_20 = spiGetStackInt(stack++);
-  comdatapt->m_unk_field_6 = spiGetStackInt(stack++);
-  comdatapt->m_unk_field_8 = spiGetStackInt(stack++);
+  comdatapt->m_unk_field_20 = static_cast<s8>(spiGetStackInt(stack++));
+  comdatapt->m_unk_field_6 = static_cast<s16>(spiGetStackInt(stack++));
+  comdatapt->m_unk_field_8 = static_cast<s16>(spiGetStackInt(stack++));
 
   if (auto sprite_name = spiGetStackString(stack++); sprite_name != nullptr)
   {
@@ -109,7 +109,7 @@ static bool _DATACOM(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
   comdatapt->m_attribute = spiGetStackInt(stack++);
   comdatapt->m_name = "";
 
-  local_itemdatano_converttable[std::to_underlying(comdatapt->m_common_id)] = comdatapt_num;
+  local_itemdatano_converttable[std::to_underlying(comdatapt->m_common_id)] = static_cast<s16>(comdatapt_num);
 
   ++comdatapt_num;
   ++comdatapt;
@@ -123,7 +123,7 @@ static bool _DATAWEPNUM(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
   // "WEPNUM"
   trace_script_call(stack, stack_count);
 
-  GameItemDataManage.m_n_weapondata = spiGetStackInt(stack++);
+  GameItemDataManage.m_n_weapondata = static_cast<s16>(spiGetStackInt(stack++));
   SpiWeaponPt = GameItemDataManage.m_weapondata;
 
   return true;
@@ -141,8 +141,8 @@ static bool _DATAWEP(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
     return false;
   }
 
-  SpiWeaponPt->m_whp_max = spiGetStackInt(stack++);
-  SpiWeaponPt->m_abs_max = spiGetStackInt(stack++);
+  SpiWeaponPt->m_whp_max = static_cast<s16>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_abs_max = static_cast<s16>(spiGetStackInt(stack++));
 
   return true;
 }
@@ -159,8 +159,8 @@ static bool _DATAWEP_ST(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
     return false;
   }
 
-  SpiWeaponPt->m_attack = spiGetStackInt(stack++);
-  SpiWeaponPt->m_durable = spiGetStackInt(stack++);
+  SpiWeaponPt->m_attack = static_cast<s16>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_durable = static_cast<s16>(spiGetStackInt(stack++));
 
   return true;
 }
@@ -177,8 +177,8 @@ static bool _DATAWEP_ST_L(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
     return false;
   }
 
-  SpiWeaponPt->m_attack_max = spiGetStackInt(stack++);
-  SpiWeaponPt->m_durable_max = spiGetStackInt(stack++);
+  SpiWeaponPt->m_attack_max = static_cast<s16>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_durable_max = static_cast<s16>(spiGetStackInt(stack++));
 
   return true;
 }
@@ -197,14 +197,14 @@ static bool _DATAWEP2_ST(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 
   using enum WeaponProperty;
 
-  SpiWeaponPt->m_properties[std::to_underlying(Flame)] = spiGetStackInt(stack++);
-  SpiWeaponPt->m_properties[std::to_underlying(Chill)] = spiGetStackInt(stack++);
-  SpiWeaponPt->m_properties[std::to_underlying(Lightning)] = spiGetStackInt(stack++);
-  SpiWeaponPt->m_properties[std::to_underlying(Cyclone)] = spiGetStackInt(stack++);
-  SpiWeaponPt->m_properties[std::to_underlying(Smash)] = spiGetStackInt(stack++);
-  SpiWeaponPt->m_properties[std::to_underlying(Exorcism)] = spiGetStackInt(stack++);
-  SpiWeaponPt->m_properties[std::to_underlying(Beast)] = spiGetStackInt(stack++);
-  SpiWeaponPt->m_properties[std::to_underlying(Scale)] = spiGetStackInt(stack++);
+  SpiWeaponPt->m_properties[std::to_underlying(Flame)] = static_cast<s16>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_properties[std::to_underlying(Chill)] = static_cast<s16>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_properties[std::to_underlying(Lightning)] = static_cast<s16>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_properties[std::to_underlying(Cyclone)] = static_cast<s16>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_properties[std::to_underlying(Smash)] = static_cast<s16>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_properties[std::to_underlying(Exorcism)] = static_cast<s16>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_properties[std::to_underlying(Beast)] = static_cast<s16>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_properties[std::to_underlying(Scale)] = static_cast<s16>(spiGetStackInt(stack++));
 
   return true;
 }
@@ -225,7 +225,7 @@ static bool _DATAWEP2_ST_L(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 
   for (int i = 0; i < SpiWeaponPt->m_properties_max.size(); ++i)
   {
-    SpiWeaponPt->m_properties_max[i] = spiGetStackInt(stack++);
+    SpiWeaponPt->m_properties_max[i] = static_cast<s16>(spiGetStackInt(stack++));
   }
 
   return true;
@@ -244,12 +244,12 @@ static bool _DATAWEP_SPE(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
   }
 
   SpiWeaponPt->m_fusion_point = static_cast<u8>(spiGetStackFloat(stack++));
-  SpiWeaponPt->m_palette_color = spiGetStackInt(stack++);
-  SpiWeaponPt->m_unk_field_47 = spiGetStackInt(stack++);
-  SpiWeaponPt->m_level_up_fusion_point = spiGetStackInt(stack++);
+  SpiWeaponPt->m_palette_color = static_cast<s8>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_unk_field_47 = static_cast<s8>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_level_up_fusion_point = static_cast<s8>(spiGetStackInt(stack++));
   SpiWeaponPt->m_special_status = static_cast<ESpecialStatus>(spiGetStackInt(stack++));
   SpiWeaponPt->m_attack_type = (stack_count >= 6) ? static_cast<WeaponAttackType>(spiGetStackInt(stack++)) : static_cast<WeaponAttackType>(0);
-  SpiWeaponPt->m_model_no = (stack_count >= 7) ? spiGetStackInt(stack++) : 0;
+  SpiWeaponPt->m_model_no = (stack_count >= 7) ? static_cast<s8>(spiGetStackInt(stack++)) : 0;
 
   return true;
 }
@@ -272,9 +272,9 @@ static bool _DATAWEP_BUILDUP(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 
   if (stack_count >= 4)
   {
-    SpiWeaponPt->m_unk_field_40 = spiGetStackInt(stack++);
-    SpiWeaponPt->m_unk_field_42 = spiGetStackInt(stack++);
-    SpiWeaponPt->m_unk_field_44 = spiGetStackInt(stack++);
+    SpiWeaponPt->m_unk_field_40 = static_cast<s16>(spiGetStackInt(stack++));
+    SpiWeaponPt->m_unk_field_42 = static_cast<s16>(spiGetStackInt(stack++));
+    SpiWeaponPt->m_unk_field_44 = static_cast<s16>(spiGetStackInt(stack++));
   }
 
   ++SpiWeaponPt;
@@ -288,7 +288,7 @@ static bool _DATAITEMINIT(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
   // "ITEMINIT"
   trace_script_call(stack, stack_count);
 
-  GameItemDataManage.m_n_itemdata = spiGetStackInt(stack++);
+  GameItemDataManage.m_n_itemdata = static_cast<s16>(spiGetStackInt(stack++));
   SpiItemPt = GameItemDataManage.m_itemdata;
 
   return true;
@@ -319,10 +319,10 @@ static bool _DATAITEM(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 
   SpiItemPt->m_unk_field_4 = i;
   SpiItemPt->m_unk_field_0 = spiGetStackInt(stack++);
-  SpiItemPt->m_unk_field_8 = spiGetStackInt(stack++);
-  SpiItemPt->m_unk_field_A = spiGetStackInt(stack++);
-  SpiItemPt->m_unk_field_C = spiGetStackInt(stack++);
-  SpiItemPt->m_unk_field_E = spiGetStackInt(stack++);
+  SpiItemPt->m_unk_field_8 = static_cast<s16>(spiGetStackInt(stack++));
+  SpiItemPt->m_unk_field_A = static_cast<s16>(spiGetStackInt(stack++));
+  SpiItemPt->m_unk_field_C = static_cast<s16>(spiGetStackInt(stack++));
+  SpiItemPt->m_unk_field_E = static_cast<s16>(spiGetStackInt(stack++));
 
   return true;
 }
@@ -333,7 +333,7 @@ static bool _DATAATTACHINIT(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
   // "AT_INIT"
   trace_script_call(stack, stack_count);
 
-  GameItemDataManage.m_n_attachdata = spiGetStackInt(stack);
+  GameItemDataManage.m_n_attachdata = static_cast<s16>(spiGetStackInt(stack));
   SpiAttach = GameItemDataManage.m_attachdata;
 
   return true;
@@ -353,7 +353,7 @@ static bool _DATAATTACH_ST(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 
   for (int i = 0; i < 2; ++i)
   {
-    SpiAttach->m_unk_field_0[i] = spiGetStackInt(stack++);
+    SpiAttach->m_unk_field_0[i] = static_cast<s16>(spiGetStackInt(stack++));
   }
 
   return true;
@@ -373,7 +373,7 @@ static bool _DATAATTACH_ST2(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 
   for (int i = 0; i < 8; ++i)
   {
-    SpiAttach->m_unk_field_4[i] = spiGetStackInt(stack++);
+    SpiAttach->m_unk_field_4[i] = static_cast<s16>(spiGetStackInt(stack++));
   }
 
   return true;
@@ -403,7 +403,7 @@ static bool _DATAROBOINIT(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
   // "ROBOINIT"
   trace_script_call(stack, stack_count);
 
-  GameItemDataManage.m_n_robodata = spiGetStackInt(stack++);
+  GameItemDataManage.m_n_robodata = static_cast<s16>(spiGetStackInt(stack++));
   SpiRoboPart = GameItemDataManage.m_robodata;
 
   return true;
@@ -425,31 +425,31 @@ static bool _DATAROBO_ANALYZE(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
   }
 
   int mode = spiGetStackInt(stack++);
-  SpiRoboPart->m_use_capacity = spiGetStackInt(stack++);
-  SpiRoboPart->m_offset_no = spiGetStackInt(stack++);
+  SpiRoboPart->m_use_capacity = static_cast<s16>(spiGetStackInt(stack++));
+  SpiRoboPart->m_offset_no = static_cast<s8>(spiGetStackInt(stack++));
 
   switch (mode)
   {
     case 0:
-      SpiRoboPart->m_unk_field_1C = spiGetStackInt(stack++);
+      SpiRoboPart->m_unk_field_1C = static_cast<s16>(spiGetStackInt(stack++));
       break;
     case 1:
-      SpiRoboPart->m_unk_field_6 = spiGetStackInt(stack++);
-      SpiRoboPart->m_unk_field_8 = spiGetStackInt(stack++);
-      SpiRoboPart->m_unk_field_A = spiGetStackInt(stack++);
+      SpiRoboPart->m_unk_field_6 = static_cast<s16>(spiGetStackInt(stack++));
+      SpiRoboPart->m_unk_field_8 = static_cast<s16>(spiGetStackInt(stack++));
+      SpiRoboPart->m_unk_field_A = static_cast<s16>(spiGetStackInt(stack++));
 
       for (int i = 0; i < 8; ++i)
       {
-        SpiRoboPart->m_unk_field_C[i] = spiGetStackInt(stack++);
+        SpiRoboPart->m_unk_field_C[i] = static_cast<s16>(spiGetStackInt(stack++));
       }
       SpiRoboPart->m_unk_field_1E = static_cast<WeaponAttackType>(spiGetStackInt(stack++));
       break;
     case 2:
-      SpiRoboPart->m_unk_field_4 = spiGetStackInt(stack++);
+      SpiRoboPart->m_unk_field_4 = static_cast<s16>(spiGetStackInt(stack++));
       SpiRoboPart->m_unk_field_20 = static_cast<WeaponAttackType>(spiGetStackInt(stack++));
       break;
     case 3:
-      SpiRoboPart->m_unk_field_2 = spiGetStackInt(stack++);
+      SpiRoboPart->m_unk_field_2 = static_cast<s16>(spiGetStackInt(stack++));
       break;
     default:
       break;
@@ -465,7 +465,7 @@ static bool _DATAGUARDNUM(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
   // "GRDNUM"
   trace_script_call(stack, stack_count);
 
-  GameItemDataManage.m_n_guarddata = spiGetStackInt(stack);
+  GameItemDataManage.m_n_guarddata = static_cast<s16>(spiGetStackInt(stack));
 
   return true;
 }
@@ -484,7 +484,7 @@ static bool _DATAGUARD(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
     return false;
   }
 
-  guard_data->m_unk_field_0 = spiGetStackInt(stack++);
+  guard_data->m_unk_field_0 = static_cast<s16>(spiGetStackInt(stack++));
 
   return true;
 }
@@ -494,7 +494,7 @@ static bool _DATAFISHINIT(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
   // "FISHINIT"
   trace_script_call(stack, stack_count);
 
-  GameItemDataManage.m_n_fishdata = spiGetStackInt(stack++);
+  GameItemDataManage.m_n_fishdata = static_cast<s16>(spiGetStackInt(stack++));
   SpiFish = GameItemDataManage.m_fishdata;
 
   return true;
@@ -516,16 +516,16 @@ static bool _DATAFISH(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
   }
 
   SpiFish->m_unk_field_0 = spiGetStackFloat(stack++);
-  SpiFish->m_unk_field_4 = spiGetStackInt(stack++);
-  SpiFish->m_unk_field_6 = spiGetStackInt(stack++);
-  SpiFish->m_unk_field_A = spiGetStackInt(stack++);
-  SpiFish->m_unk_field_C = spiGetStackInt(stack++);
-  SpiFish->m_unk_field_E = spiGetStackInt(stack++);
-  SpiFish->m_unk_field_8 = spiGetStackInt(stack++);
+  SpiFish->m_unk_field_4 = static_cast<s16>(spiGetStackInt(stack++));
+  SpiFish->m_unk_field_6 = static_cast<s16>(spiGetStackInt(stack++));
+  SpiFish->m_unk_field_A = static_cast<s16>(spiGetStackInt(stack++));
+  SpiFish->m_unk_field_C = static_cast<s16>(spiGetStackInt(stack++));
+  SpiFish->m_unk_field_E = static_cast<s16>(spiGetStackInt(stack++));
+  SpiFish->m_unk_field_8 = static_cast<s16>(spiGetStackInt(stack++));
 
   if (stack_count >= 9)
   {
-    SpiFish->m_unk_field_10 = spiGetStackInt(stack++);
+    SpiFish->m_unk_field_10 = static_cast<s16>(spiGetStackInt(stack++));
   }
 
   return true;
@@ -637,7 +637,7 @@ s32 CGameData::LoadData()
   LoadGameDataAnalyze("fishdat.cfg");
   LoadGameDataAnalyze("grddat.cfg");
 
-  m_n_com_itemdata = comdatapt_num;
+  m_n_com_itemdata = static_cast<s16>(comdatapt_num);
   m_unk_field_20 = 0;
 
   for (int i = 0; i < local_itemdatano_converttable.size(); ++i)
