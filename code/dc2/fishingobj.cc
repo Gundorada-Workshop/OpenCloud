@@ -3,6 +3,7 @@
 
 #include "common/debug.h"
 #include "common/log.h"
+#include "common/macros.h"
 
 #include "dc2/fishingobj.h"
 
@@ -91,7 +92,7 @@ void CFishObj::MovePoint()
 }
 
 // 00313140
-void CFishObj::FloatPoint(float f)
+void CFishObj::FloatPoint(MAYBE_UNUSED f32 f)
 {
 	log_trace("FloatPoint({})", f);
 
@@ -107,7 +108,7 @@ void CFishObj::BindStep()
 }
 
 // 00313380
-void CFishObj::Correct(CCPoly& poly, int i, float f)
+void CFishObj::Correct(MAYBE_UNUSED CCPoly& poly, MAYBE_UNUSED sint i, MAYBE_UNUSED f32 f)
 {
 	log_trace("Correct({}, {}, {})", fmt::ptr(&poly), i, f);
 
@@ -115,7 +116,7 @@ void CFishObj::Correct(CCPoly& poly, int i, float f)
 }
 
 // 0030F9B0
-void SetFishingMode(int fishing_mode)
+void SetFishingMode(sint fishing_mode)
 {
 	log_trace("SetFishingMode({})", fishing_mode);
 
@@ -123,7 +124,7 @@ void SetFishingMode(int fishing_mode)
 }
 
 // 0030F9C0
-int GetFishingMode()
+sint GetFishingMode()
 {
 	log_trace("GetFishingMode()");
 
@@ -131,7 +132,7 @@ int GetFishingMode()
 }
 
 // 0030F9D0
-void SetWaterLevel(float water_level)
+void SetWaterLevel(f32 water_level)
 {
 	log_trace("SetWaterLevel({})", water_level);
 
@@ -139,7 +140,7 @@ void SetWaterLevel(float water_level)
 }
 
 // 0030F9E0
-float GetWaterLevel()
+f32 GetWaterLevel()
 {
 	log_trace("GetWaterLevel()");
 
@@ -171,7 +172,7 @@ CFishObj* GetActiveUkiObj()
 }
 
 // 0030FA50
-void ExtendLine(float delta)
+void ExtendLine(MAYBE_UNUSED f32 delta)
 {
 	log_trace("ExtendLine({})", delta);
 
@@ -179,7 +180,7 @@ void ExtendLine(float delta)
 }
 
 // 0030FC10
-float GetNowLineLength()
+f32 GetNowLineLength()
 {
 	log_trace("GetNowLineLength()");
 
@@ -192,7 +193,7 @@ float GetNowLineLength()
 }
 
 // 0030FC60
-float GetMinLineLength()
+f32 GetMinLineLength()
 {
 	log_trace("GetMinLineLength()");
 
@@ -200,7 +201,7 @@ float GetMinLineLength()
 }
 
 // 0030FC70
-void InitRodPoint(mgCFrame& fr1, mgCFrame& fr2)
+void InitRodPoint(MAYBE_UNUSED mgCFrame& fr1, MAYBE_UNUSED mgCFrame& fr2)
 {
 	log_trace("InitRodPoint({}, {})", fmt::ptr(&fr1), fmt::ptr(&fr2));
 
@@ -208,7 +209,7 @@ void InitRodPoint(mgCFrame& fr1, mgCFrame& fr2)
 }
 
 // 00310020
-void GetTriPose(matrix4& m1, matrix4& m2, vec4& v1)
+void GetTriPose(MAYBE_UNUSED matrix4& m1, MAYBE_UNUSED matrix4& m2, MAYBE_UNUSED vec4& v1)
 {
 	log_trace("GetTriPose({}, {}, {})", fmt::ptr(&m1), fmt::ptr(&m2), fmt::ptr(&v1));
 
@@ -234,7 +235,7 @@ void GetUkiPos(vec4& v1, vec4& v2)
 }
 
 // 00310250
-void PullUki(float f)
+void PullUki(f32 f)
 {
 	log_trace("PullUki({})", f);
 
@@ -258,7 +259,7 @@ bool GetShowHari()
 	vec4 v2;
 	GetHariPos(v1, v2);
 
-	float water_level = GetWaterLevel() - 3.0f;
+	f32 water_level = GetWaterLevel() - 3.0f;
 
 	if (v1[1] < water_level)
 	{
@@ -268,7 +269,7 @@ bool GetShowHari()
 }
 
 // 003102E0
-void SetLurePose(mgCFrame& frame)
+void SetLurePose(MAYBE_UNUSED mgCFrame& frame)
 {
 	log_trace("SetLurePose({})", fmt::ptr(&frame));
 
@@ -276,7 +277,7 @@ void SetLurePose(mgCFrame& frame)
 }
 
 // 003103D0
-void SetUkiPose(mgCFrame& fr1, mgCFrame& fr2)
+void SetUkiPose(MAYBE_UNUSED mgCFrame& fr1, MAYBE_UNUSED mgCFrame& fr2)
 {
 	log_trace("SetUkiPose({}, {})", fmt::ptr(&fr1), fmt::ptr(&fr2));
 
@@ -284,7 +285,7 @@ void SetUkiPose(mgCFrame& fr1, mgCFrame& fr2)
 }
 
 // 003105C0
-void CastingLure(vec4& v)
+void CastingLure(MAYBE_UNUSED vec4& v)
 {
 	log_trace("CastingLure({})", fmt::ptr(&v));
 
@@ -302,7 +303,7 @@ void EndCastingLure()
 }
 
 // 00310740
-bool CatchLine(vec4& v, float f)
+bool CatchLine(MAYBE_UNUSED vec4& v, MAYBE_UNUSED f32 f)
 {
 	log_trace("CatchLine({}, {})", fmt::ptr(&v), f);
 
@@ -311,7 +312,7 @@ bool CatchLine(vec4& v, float f)
 }
 
 // 00310890
-void SlowLineVelo(float multiplier)
+void SlowLineVelo(f32 multiplier)
 {
 	log_trace("SlowLineVelo({})", multiplier);
 
@@ -330,7 +331,7 @@ void ResetLineVelo()
 }
 
 // 003109D0
-void ResetLine(vec4& v)
+void ResetLine(MAYBE_UNUSED vec4& v)
 {
 	log_trace("ResetLine({})", fmt::ptr(&v));
 
@@ -338,7 +339,7 @@ void ResetLine(vec4& v)
 }
 
 // 00310B60
-int GetNextChanceCnt()
+sint GetNextChanceCnt()
 {
 	log_trace("GetNextChanceCnt()");
 
@@ -376,7 +377,7 @@ bool EndFishBattle()
 }
 
 // 00310C50
-int CheckRodActionChance(int i, bool& pi)
+sint CheckRodActionChance(sint i, bool& pi)
 {
 	log_trace("CheckRodActionChance({}, {})", i, fmt::ptr(&pi));
 
@@ -409,7 +410,7 @@ int CheckRodActionChance(int i, bool& pi)
 }
 
 // 00310CC0
-void FishBattle(CScene& scene, CCPoly& poly, int i)
+void FishBattle(MAYBE_UNUSED CScene& scene, MAYBE_UNUSED CCPoly& poly, MAYBE_UNUSED sint i)
 {
 	log_trace("FishBattle({}, {}, {})", fmt::ptr(&scene), fmt::ptr(&poly), i);
 
@@ -434,7 +435,7 @@ void BindFishObj()
 }
 
 // 00311290
-void RodStep(CScene& scene, CCPoly& poly)
+void RodStep(MAYBE_UNUSED CScene& scene, MAYBE_UNUSED CCPoly& poly)
 {
 	log_trace("RodStep({}, {})", fmt::ptr(&scene), fmt::ptr(&poly));
 
@@ -442,16 +443,16 @@ void RodStep(CScene& scene, CCPoly& poly)
 }
 
 // 00312200
-void BindPosition(vec4& v1, vec4& v2, float f1, float f2)
+void BindPosition(vec4& v1, vec4& v2, f32 f1, f32 f2)
 {
 	log_trace("BindPosition({}, {}, {}, {})", fmt::ptr(&v1), fmt::ptr(&v2), f1, f2);
 
 	vec4 var_10;
 	vec4 var_20;
 	vec4 var_30 = v1 - v2;
-	float f0 = math::vector_distance(vec3(var_30), vec3(0.0f));
-	float f21 = f0 - f1;
-	float f20 = f0;
+	f32 f0 = math::vector_distance(vec3(var_30), vec3(0.0f));
+	f32 f21 = f0 - f1;
+	f32 f20 = f0;
 	f0 -= f2;
 	f0 *= f21;
 	var_20 = var_30 * (f0 / f20);
@@ -478,7 +479,7 @@ void DrawFishingActionChance()
 }
 
 // 003128E0
-void InitLureObj(int i, mgCFrame& frame)
+void InitLureObj(MAYBE_UNUSED sint i, MAYBE_UNUSED mgCFrame& frame)
 {
 	log_trace("InitLureObj({}, {})", i, fmt::ptr(&frame));
 
@@ -486,7 +487,7 @@ void InitLureObj(int i, mgCFrame& frame)
 }
 
 // 00312D20
-void InitUkiObj(int i, mgCFrame& frame1, mgCFrame& frame2)
+void InitUkiObj(MAYBE_UNUSED sint i, MAYBE_UNUSED mgCFrame& frame1, MAYBE_UNUSED mgCFrame& frame2)
 {
 	log_trace("InitUkiObj({}, {}, {})", i, fmt::ptr(&frame1), fmt::ptr(&frame2));
 
@@ -494,7 +495,7 @@ void InitUkiObj(int i, mgCFrame& frame1, mgCFrame& frame2)
 }
 
 // 00313570
-void ParaBlend(vec4& v1, float f1, vec4& v2, s32 i)
+void ParaBlend(MAYBE_UNUSED vec4& v1, MAYBE_UNUSED f32 f1, MAYBE_UNUSED vec4& v2, MAYBE_UNUSED s32 i)
 {
 	log_trace("ParaBlend({}, {}, {}, {})", fmt::ptr(&v1), f1, fmt::ptr(&v2), i);
 
