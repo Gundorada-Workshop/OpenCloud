@@ -1,4 +1,5 @@
 #include "common/log.h"
+#include "common/macros.h"
 
 #include "dc2/mainloop.h"
 #include "dc2/quest.h"
@@ -42,7 +43,7 @@ std::shared_ptr<QUEST_INFO> CQuestManager::GetQuestInfo(usize quest_id)
   return nullptr;
 }
 
-static bool _quest_NUM(SPI_STACK* stack, sint stack_count)
+static bool _quest_NUM(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -61,7 +62,7 @@ static bool _quest_NUM(SPI_STACK* stack, sint stack_count)
   return true;
 }
 
-static bool _quest_NEW(SPI_STACK* stack, sint stack_count)
+static bool _quest_NEW(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -70,7 +71,7 @@ static bool _quest_NEW(SPI_STACK* stack, sint stack_count)
   return true;
 }
 
-static bool _quest_COMMENT(SPI_STACK* stack, sint stack_count)
+static bool _quest_COMMENT(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -89,7 +90,7 @@ static bool _quest_COMMENT(SPI_STACK* stack, sint stack_count)
   return true;
 }
 
-static bool _quest_END(SPI_STACK* stack, sint stack_count)
+static bool _quest_END(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -177,7 +178,7 @@ void QuestRequestSetFlag(usize index, bool flag)
 }
 
 // 0031AB30
-void QuestRequestClear(usize index, bool flag)
+void QuestRequestClear(usize index, MAYBE_UNUSED bool flag)
 {
   log_trace("CQuestData::{}({}, {})", __func__, index, flag);
 
