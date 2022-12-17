@@ -3003,7 +3003,14 @@ static bool _DNG_SET_STAGE_ID(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  save_data->m_save_data_dungeon.m_now_dungeon_id = EDungeonID(GetStackInt(stack++));
   return true;
 }
 
@@ -3011,7 +3018,14 @@ static bool _DNG_GET_STAGE_ID(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack, s32(save_data->m_save_data_dungeon.m_now_dungeon_id));
   return true;
 }
 
