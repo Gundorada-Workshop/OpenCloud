@@ -174,7 +174,7 @@ f32 GetCommonGageRate(COMMON_GAGE* gage);
 
 enum class EUsedItemType;
 
-enum class ECommonItemData;
+enum class ECommonItemData : s16;
 
 struct ITEM_MISC_USED
 {

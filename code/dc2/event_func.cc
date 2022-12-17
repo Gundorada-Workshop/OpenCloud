@@ -14,6 +14,7 @@
 #include "dc2/event_edit.h"
 #include "dc2/event_func.h"
 #include "dc2/gamedata.h"
+#include "dc2/inventmn.h"
 #include "dc2/mainloop.h"
 #include "dc2/menumain.h"
 #include "dc2/run_script.h"
@@ -3106,7 +3107,25 @@ static bool _GET_INVENTION_ID(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  auto& invent_user_data = save_data->m_user_data_manager.m_invent_user_data;
+
+  SetStack(
+    stack, 
+    sint(
+      invent_user_data.IsAlreadyCreatedItem(
+        ECommonItemData(
+          GetStackInt(stack)
+        )
+      )
+    )
+  );
   return true;
 }
 

@@ -3,6 +3,8 @@
 
 #include "common/debug.h"
 
+#include "dc2/gamedata.h"
+
 // ~ 001FE130 - 0020C910
 
 // TODO THIS FILE
@@ -46,6 +48,19 @@ public:
   // 001fe970
   void ResetAddress();
 
+  // 001FF070
+  void SetCreateItemFlag(usize index, ECommonItemData item_id);
+
+  // 001FF0E0
+  ECommonItemData GetCreateItemId(usize index);
+
+  // 001FF120
+  ssize IsAlreadyCreatedItem(ECommonItemData item_id);
+
+  // 001FF170
+  // "GetHatsumeiNum"
+  uint GetInventionNum();
+
   // 0
   unk m_unk_field_0;
   // 4
@@ -55,7 +70,8 @@ public:
   // 408
   std::array<SInventUserDataUnk1, 30> m_unk_field_408;
   // 6D8
-  std::array<u16, 0x200> m_unk_field_6D8;
+  // This may be array of some sort of struct (ECommonItemData, _WORD?), since each item is packed to 4 bytes
+  std::array<ECommonItemData, 0x100> m_unk_field_6D8{ ECommonItemData::Invalid };
 
   // ?
 
