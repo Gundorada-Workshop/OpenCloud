@@ -3515,7 +3515,7 @@ static bool _GET_OLD_INTERIOR_MAP_NO(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, GetOldInteriorMapNo());
   return true;
 }
 
@@ -3555,7 +3555,13 @@ static bool _SET_CHARA_FAR_DIST(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto character = GetCharacter(GetStackInt(stack++));
+  if (character == nullptr)
+  {
+    return false;
+  }
+
+  character->SetFarDist(GetStackFloat(stack++));
   return true;
 }
 
