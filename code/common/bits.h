@@ -1,8 +1,8 @@
 #pragma once
 #include <type_traits>
+#include <algorithm>
 
 #include "common/types.h"
-#include "common/constants.h"
 
 namespace common::bits
 {
@@ -141,28 +141,28 @@ namespace common::bits
   template<typename type>
   constexpr u8 clamp8(type val)
   {
-    return std::clamp<type>(val, constants::u8_min, constants::u8_max);
+    return std::clamp<type>(val, std::numeric_limits<u8>::min(), std::numeric_limits<u8>::max());
   }
 
   // clamp to 0x0000 -> 0xFFFF
   template<typename type>
   constexpr u16 clamp16(type val)
   {
-    return std::clamp<type>(val, constants::u16_min, constants::u16_max);
+    return std::clamp<type>(val, std::numeric_limits<u16>::min(), std::numeric_limits<u16>::max());
   }
 
   // clamp to 0x00000000 -> 0xFFFFFFFF
   template<typename type>
   constexpr u32 clamp32(type val)
   {
-    return std::clamp<type>(val, constants::u32_min, constants::u32_max);
+    return std::clamp<type>(val, std::numeric_limits<u32>::min(), std::numeric_limits<u32>::max());
   }
 
   // clamp to 0x0000000000000000 -> 0xFFFFFFFFFFFFFFFFF
   template<typename type>
   constexpr u64 clamp64(type val)
   {
-    return std::clamp<type>(val, constants::u64_min, constants::u64_max);
+    return std::clamp<type>(val, std::numeric_limits<u64>::min(), std::numeric_limits<u64>::max());
   }
 
   // truncate a value to 8 bits
