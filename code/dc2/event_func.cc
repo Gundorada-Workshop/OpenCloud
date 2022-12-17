@@ -3421,7 +3421,7 @@ static bool _GOTO_EDITMODE(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EdEventInfo.m_unk_field_CC = 17; // FIXME: MAGIC
   return true;
 }
 
