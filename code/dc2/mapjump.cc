@@ -4,6 +4,7 @@
 
 #include "common/log.h"
 #include "common/types.h"
+#include "common/macros.h"
 
 #include "dc2/mapjump.h"
 #include "dc2/mg/mg_lib.h"
@@ -103,7 +104,7 @@ void PreLoadSync()
 }
 
 // 002DED50
-void MapJump(CScene* scene, SCN_LOADMAP_INFO2* load_map_info, int i)
+void MapJump(MAYBE_UNUSED CScene* scene, MAYBE_UNUSED SCN_LOADMAP_INFO2* load_map_info, MAYBE_UNUSED sint i)
 {
   log_trace("{}({}, {}, {})", __func__, fmt::ptr(scene), fmt::ptr(load_map_info), i);
 
@@ -111,7 +112,7 @@ void MapJump(CScene* scene, SCN_LOADMAP_INFO2* load_map_info, int i)
 }
 
 // 002DEF40
-bool GetLoadMapInfo(SCN_LOADMAP_INFO2* load_map_info, int i)
+bool GetLoadMapInfo(MAYBE_UNUSED SCN_LOADMAP_INFO2* load_map_info, MAYBE_UNUSED sint i)
 {
   log_trace("{}({}, {})", __func__, fmt::ptr(load_map_info), i);
 
@@ -120,7 +121,7 @@ bool GetLoadMapInfo(SCN_LOADMAP_INFO2* load_map_info, int i)
 }
 
 // 002DF1B0
-void LoadSubMap(CScene* scene, int i1, int i2)
+void LoadSubMap(MAYBE_UNUSED CScene* scene, MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2)
 {
   log_trace("{}({}, {}, {})", __func__, fmt::ptr(scene), i1, i2);
 
@@ -128,7 +129,7 @@ void LoadSubMap(CScene* scene, int i1, int i2)
 }
 
 // 002DF370
-void LoadMapScript(const char* file_name)
+void LoadMapScript(MAYBE_UNUSED const char* file_name)
 {
   log_trace("{}({})", __func__, file_name);
 
@@ -144,7 +145,7 @@ void ReloadMapScript()
 }
 
 // 002DF430
-void LoadScript(char* file_name)
+void LoadScript(MAYBE_UNUSED char* file_name)
 {
   log_trace("{}({})", __func__, file_name);
 
@@ -183,7 +184,7 @@ bool InInterior()
 }
 
 // 002DF600
-void SaveBeforeInterior(CScene* scene)
+void SaveBeforeInterior(MAYBE_UNUSED CScene* scene)
 {
   log_trace("{}({})", __func__, fmt::ptr(scene));
 
@@ -191,7 +192,7 @@ void SaveBeforeInterior(CScene* scene)
 }
 
 // 002DF6F0
-void SetInteriorDoorPos(CScene* scene)
+void SetInteriorDoorPos(MAYBE_UNUSED CScene* scene)
 {
   log_trace("{}({})", __func__, fmt::ptr(scene));
 
@@ -199,7 +200,7 @@ void SetInteriorDoorPos(CScene* scene)
 }
 
 // 002DF8D0
-void GoToInterior(CScene* scene, int i)
+void GoToInterior(MAYBE_UNUSED CScene* scene, MAYBE_UNUSED sint i)
 {
   log_trace("{}({}, {})", __func__, fmt::ptr(scene), i);
 
@@ -207,7 +208,7 @@ void GoToInterior(CScene* scene, int i)
 }
 
 // 002DFA30
-void DeleteInterior(CScene* scene, int i)
+void DeleteInterior(MAYBE_UNUSED CScene* scene, MAYBE_UNUSED sint i)
 {
   log_trace("{}({}, {})", __func__, fmt::ptr(scene), i);
 
@@ -215,7 +216,7 @@ void DeleteInterior(CScene* scene, int i)
 }
 
 // 002DFAA0
-void ExitInterior(CScene* scene, int* pi)
+void ExitInterior(MAYBE_UNUSED CScene* scene, MAYBE_UNUSED sint* pi)
 {
   log_trace("{}({}, {})", __func__, fmt::ptr(scene), fmt::ptr(pi));
 
@@ -223,7 +224,7 @@ void ExitInterior(CScene* scene, int* pi)
 }
 
 // 002DFCF0
-void InteriorMapJump(CScene* scene, int i)
+void InteriorMapJump(MAYBE_UNUSED CScene* scene, MAYBE_UNUSED sint i)
 {
   log_trace("{}({}, {})", __func__, fmt::ptr(scene), i);
 
