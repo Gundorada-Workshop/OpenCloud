@@ -19,6 +19,7 @@
 #include "dc2/menumain.h"
 #include "dc2/run_script.h"
 #include "dc2/scene.h"
+#include "dc2/subgame.h"
 #include "dc2/mg/mg_lib.h"
 
 set_log_channel("event_func");
@@ -3300,7 +3301,14 @@ static bool _GOTO_SUBGAME(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto game_id = ESubGameID(GetStackInt(stack++));
+
+  SubGameInfo sub_game_info;
+  sub_game_info.m_scene = EventScene;
+  sub_game_info.m_unk_field_4 = EventScene->m_unk_field_3E68;
+  sub_game_info.m_unk_field_8 = EventScene->m_unk_field_3E6C;
+
+  sgInitSubGame(game_id, &sub_game_info);
   return true;
 }
 

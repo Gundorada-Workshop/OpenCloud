@@ -4,10 +4,12 @@
 
 // ~ 00303E70 - 003048B0
 
+class CScene;
+
 struct SubGameInfo
 {
   // 0
-  unk32 m_unk_field_0{ 0 };
+  CScene* m_scene{ nullptr };
   // 4
   unk32 m_unk_field_4{ 0 };
   // 8
@@ -31,3 +33,11 @@ struct SubGameInfo
   // 2C
   unk32 m_unk_field_2C{ 0 };
 };
+
+enum class ESubGameID
+{
+
+};
+
+// 00303FC0
+void sgInitSubGame(ESubGameID game_id, SubGameInfo* sub_game_info);
