@@ -1572,7 +1572,14 @@ static bool _CAMERA_STEP(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  mgCCamera* camera = GetActiveCamera();
+
+  if (camera == nullptr)
+  {
+    return false;
+  }
+
+  camera->Step(GetStackInt(stack++));
   return true;
 }
 
