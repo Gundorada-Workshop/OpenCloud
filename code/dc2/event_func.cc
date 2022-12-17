@@ -3489,8 +3489,17 @@ static bool _GET_QUEST_ETC(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  sint command = GetStackInt(stack++);
+  uint quest_index = GetStackInt(stack++);
+
+  switch (command)
+  {
+    case 0:
+      SetStack(stack, s32(GetQuestRequestStatus(quest_index)));
+      return true;
+    default:
+      return false;
+  }
 }
 
 static bool _CHK_INTERSECTION_POINT_PIPE(RS_STACKDATA* stack, int stack_count)
