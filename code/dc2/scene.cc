@@ -378,7 +378,7 @@ CSceneMap* CScene::GetSceneMap(ssize map_index)
 {
 	log_trace("CScene::{}({})", __func__, map_index);
 
-	if (map_index < 0 || m_n_maps <= map_index)
+	if (map_index < 0 || static_cast<ssize>(m_n_maps) <= map_index)
 	{
 		return nullptr;
 	}
@@ -417,7 +417,7 @@ CSceneSky* CScene::GetSceneSky(ssize sky_index)
 {
 	log_trace("CScene::{}({})", __func__, sky_index);
 
-	if (sky_index < 0 || m_n_skies <= sky_index)
+	if (sky_index < 0 || static_cast<ssize>(m_n_skies) <= sky_index)
 	{
 		return nullptr;
 	}
@@ -430,7 +430,7 @@ CSceneGameObj* CScene::GetSceneGameObj(ssize gameobj_index)
 {
 	log_trace("CScene::{}({})", __func__, gameobj_index);
 
-	if (gameobj_index < 0 || m_n_gameobjs <= gameobj_index)
+	if (gameobj_index < 0 || static_cast<ssize>(m_n_gameobjs) <= gameobj_index)
 	{
 		return nullptr;
 	}
@@ -443,7 +443,7 @@ CSceneEffect* CScene::GetSceneEffect(ssize effect_index)
 {
 	log_trace("CScene::{}({})", __func__, effect_index);
 
-	if (effect_index < 0 || m_n_effects <= effect_index)
+	if (effect_index < 0 || static_cast<ssize>(m_n_effects) <= effect_index)
 	{
 		return nullptr;
 	}
@@ -517,7 +517,7 @@ s32 CScene::AssignCamera(ssize camera_index, mgCCamera* camera, const char* name
 
 	if (m_active_cmrid < 0)
 	{
-		m_active_cmrid = camera_index;
+		m_active_cmrid = static_cast<s32>(camera_index);
 	}
 
 	bool result = scene_camera->AssignData(camera, name);
@@ -526,7 +526,7 @@ s32 CScene::AssignCamera(ssize camera_index, mgCCamera* camera, const char* name
 		return -1;
 	}
 
-	return camera_index;
+	return static_cast<s32>(camera_index);
 }
 
 // 00283820
@@ -607,7 +607,7 @@ s32 CScene::AssignMessage(ssize message_index, ClsMes* message, const char* name
 		return -1;
 	}
 
-	return message_index;
+	return static_cast<s32>(message_index);
 }
 
 // 002839E0
@@ -658,7 +658,7 @@ s32 CScene::AssignChara(ssize character_index, CCharacter2* character, const cha
 		return -1;
 	}
 
-	return character_index;
+	return static_cast<s32>(character_index);
 }
 
 // 00283B00
@@ -669,7 +669,7 @@ void CScene::SetCharaNo(ssize character_index, ssize character_no)
 	CSceneCharacter* scene_character = GetSceneCharacter(character_index);
 	if (scene_character != nullptr)
 	{
-		scene_character->m_chara_no = character_no;
+		scene_character->m_chara_no = static_cast<s32>(character_no);
 	}
 }
 
@@ -731,7 +731,7 @@ ssize CScene::AssignMap(ssize map_index, CMap* map, const char* name)
 
 	if (m_unk_field_2E5C < 0)
 	{
-		m_unk_field_2E5C = map_index;
+		m_unk_field_2E5C = static_cast<s32>(map_index);
 	}
 
 	bool result = scene_map->AssignData(map, name);

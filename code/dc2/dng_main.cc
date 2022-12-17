@@ -376,7 +376,7 @@ void calcWeaponParam2(sint penalty_divisor)
     whp_penalty *= 0.8f;
   }
 
-  f32 old_whp = chara_info->GetWhpNowVol(1);
+  f32 old_whp = static_cast<f32>(chara_info->GetWhpNowVol(1));
   f32 new_whp = chara_info->AddWhp(1, -(whp_penalty / penalty_divisor));
 
   if (new_whp <= 0.0f && old_whp > 0.0f)

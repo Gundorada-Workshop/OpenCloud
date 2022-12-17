@@ -907,7 +907,7 @@ f32 mgSinf(f32 f)
 {
   log_trace("{}({})", __func__, f);
 
-  f32 sign = copysign(1, f);
+  f32 sign = static_cast<f32>(copysign(1, f));
 
   ssize index = static_cast<ssize>(fabsf(f) * sin_table_unit_1);
   index = abs(index) % SinTable.size();

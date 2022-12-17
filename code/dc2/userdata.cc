@@ -273,13 +273,13 @@ void SetItemSpectolPoint(ECommonItemData item_id, ATTACH_USED* attach, sint stac
   switch (param_category)
   {
     case Attack:
-      attach->m_attack = param_amount * stack_num;
+      attach->m_attack = static_cast<s16>(param_amount * stack_num);
       break;
     case Durable:
-      attach->m_durable = param_amount * stack_num;
+      attach->m_durable = static_cast<s16>(param_amount * stack_num);
       break;
     default:
-      attach->m_properties[std::to_underlying(param_category)] = param_amount * stack_num;
+      attach->m_properties[std::to_underlying(param_category)] = static_cast<s16>(param_amount * stack_num);;
       break;
   }
 }
@@ -533,7 +533,7 @@ ECommonItemData GetRidePodCore(ssize index)
     ECommonItemData::Master_Grade_Core,
   };
 
-  if (index < 0 || index >= std::size(table))
+  if (index < 0 || static_cast<usize>(index) >= std::size(table))
   {
     return ECommonItemData::Invalid;
   }
@@ -821,6 +821,8 @@ sint CGameDataUsed::GetNum() const
       }
       return as.attach.m_stack_num;
   }
+
+  return 0;
 }
 
 // 00197360
@@ -844,16 +846,16 @@ s16 CGameDataUsed::AddNum(sint delta, bool reset_if_empty)
   s16 stack_num;
   if (m_type == EUsedItemType::Item_Misc)
   {
-    stack_num = std::clamp<s16>(as.item_misc.m_stack_num + delta, 0, com_data->m_stack_max_A);
+    stack_num = std::clamp<s16>(static_cast<s16>(as.item_misc.m_stack_num + delta), 0, com_data->m_stack_max_A);
   }
   else if (m_type == EUsedItemType::Attach)
   {
-    stack_num = std::clamp<s16>(as.attach.m_stack_num + delta, 0, com_data->m_stack_max_A);
+    stack_num = std::clamp<s16>(static_cast<s16>(as.attach.m_stack_num + delta), 0, com_data->m_stack_max_A);
   }
   else
   {
     // ?
-    stack_num = delta + 1;
+    stack_num = static_cast<s16>(delta + 1);
   }
 
   if (stack_num <= 0 && reset_if_empty)
@@ -890,7 +892,8 @@ s16 CGameDataUsed::AddFishHp(s16 delta)
   }
 
   as.fish.m_hp = std::clamp(as.fish.m_hp + delta, 0, 100);
-  return as.fish.m_hp;
+
+  return static_cast<s16>(as.fish.m_hp);
 }
 
 // 00197600
@@ -971,7 +974,7 @@ sint CGameDataUsed::AddFusionPoint(sint delta)
     return 0;
   }
 
-  s16 fusion_point = std::max<s16>(as.weapon.m_fusion_point + delta, 0);
+  s16 fusion_point = std::max<s16>(static_cast<s16>(as.weapon.m_fusion_point + delta), 0);
 
   if (IsFishingRod())
   {
@@ -1060,7 +1063,7 @@ bool CGameDataUsed::Repair(sint delta)
 
   if (gage != nullptr)
   {
-    gage->AddPoint(delta);
+    gage->AddPoint(static_cast<f32>(delta));
   }
 
   return true;
@@ -1220,7 +1223,7 @@ void CGameDataUsed::LevelUp()
   const static std::array<f32, 10> hp_tbl{ 1, 1, 1, 1, 1, 2, 2, 2, 3, 3 };
 
   weapon_used.m_whp_gage.m_max = std::min(
-    weapon_used.m_whp_gage.m_max + hp_tbl[GetRandI(hp_tbl.size())],
+    weapon_used.m_whp_gage.m_max + hp_tbl[GetRandI(static_cast<sint>(hp_tbl.size()))],
     static_cast<f32>(common::constants::u8_max)
   );
 
@@ -1303,7 +1306,7 @@ void CGameDataUsed::LevelUp()
       // BUG: Here (like in the game), GetRandI rolls a number [0..16] and modulo's it by 8, the amount of properties.
       // This gives flame a 1.5x chance to be picked as compared to any other additional property, as a result
       // of 0, 8, or 16 will increment it.
-      auto param_index = GetRandI(weapon_used.m_properties.size() * 2 + 1) % weapon_used.m_properties.size();
+      auto param_index = GetRandI(static_cast<sint>(weapon_used.m_properties.size()) * 2 + 1) % static_cast<sint>(weapon_used.m_properties.size());
 
       if (weapon_used.m_properties[param_index] < weapon_data->m_properties_max[param_index])
       {
@@ -1324,7 +1327,7 @@ void CGameDataUsed::LevelUp()
   }
 
   // Increment the weapon's level
-  weapon_used.m_level = std::min(weapon_used.m_level + 1, 99);
+  weapon_used.m_level = std::min<s16>(weapon_used.m_level + 1, 99);
 
   // Make sure our weapon parameters are sane and we're done!
   CheckParamLimit();
@@ -1411,16 +1414,16 @@ void CGameDataUsed::ToSpectolTrans(CGameDataUsed* spectrumized_item_dest, usize 
       break;
     case Attach:
       spec->as.attach.m_level = 0;
-      spec->as.attach.m_attack = as.attach.m_attack * amount;
-      spec->as.attach.m_durable = as.attach.m_durable * amount;
+      spec->as.attach.m_attack = as.attach.m_attack * static_cast<s16>(amount);
+      spec->as.attach.m_durable = as.attach.m_durable * static_cast<s16>(amount);
 
       for (usize i = 0; i < as.attach.m_properties.size(); ++i)
       {
-        spec->as.attach.m_properties[i] = as.attach.m_properties[i] * amount;
+        spec->as.attach.m_properties[i] = as.attach.m_properties[i] * static_cast<s16>(amount);
       }
 
       spec->as.attach.m_unk_field_0 = 2;
-      spec->as.attach.m_unk_field_1 = amount;
+      spec->as.attach.m_unk_field_1 = static_cast<s8>(amount);
 
       if (m_common_index == ECommonItemData::Monster_Drop)
       {
@@ -1433,7 +1436,7 @@ void CGameDataUsed::ToSpectolTrans(CGameDataUsed* spectrumized_item_dest, usize 
       {
         // unstable spectrum :(
         spec->as.attach.m_unk_field_0 = 3;
-        spec->as.attach.m_unk_field_1 = GetRandI(4) + 1;
+        spec->as.attach.m_unk_field_1 = static_cast<s8>(GetRandI(4) + 1);
 
         // Assign a random parameter to a random value from 1 to 4.
         auto param_amount = GetRandI(4) + 1;
@@ -1442,13 +1445,13 @@ void CGameDataUsed::ToSpectolTrans(CGameDataUsed* spectrumized_item_dest, usize 
         switch (param_index)
         {
           case 8:
-            spec->as.attach.m_attack = param_amount;
+            spec->as.attach.m_attack = static_cast<s16>(param_amount);
             break;
           case 9:
-            spec->as.attach.m_durable = param_amount;
+            spec->as.attach.m_durable = static_cast<s16>(param_amount);
             break;
           default:
-            spec->as.attach.m_properties[param_index] = param_amount;
+            spec->as.attach.m_properties[param_index] = static_cast<s16>(param_amount);
         }
 
         spec->as.attach.m_unk_field_1C = 0;
@@ -1458,7 +1461,7 @@ void CGameDataUsed::ToSpectolTrans(CGameDataUsed* spectrumized_item_dest, usize 
         // Nice, not unstable
 
         spec->as.attach.m_unk_field_0 = 1;
-        spec->as.attach.m_unk_field_1 = std::min<s8>(as.weapon.m_level, 20);
+        spec->as.attach.m_unk_field_1 = std::min<s8>(static_cast<s8>(as.weapon.m_level), 20);
 
         spec->as.attach.m_attack = as.weapon.m_attack;
         spec->as.attach.m_durable = static_cast<s16>(static_cast<f32>(as.weapon.m_durable) * 0.6f);
@@ -1472,10 +1475,10 @@ void CGameDataUsed::ToSpectolTrans(CGameDataUsed* spectrumized_item_dest, usize 
       break;
     }
     default:
-      SetItemSpectolPoint(spec->as.attach.m_spectrumized_item_id, &spec->as.attach, amount);
+      SetItemSpectolPoint(spec->as.attach.m_spectrumized_item_id, &spec->as.attach, static_cast<sint>(amount));
       spec->as.attach.m_unk_field_1C = 0;
       spec->as.attach.m_unk_field_0 = 4;
-      spec->as.attach.m_unk_field_1 = amount;
+      spec->as.attach.m_unk_field_1 = static_cast<s8>(amount);
   }
 
   spec->as.attach.m_level = level;
@@ -1618,9 +1621,9 @@ uint CGameDataUsed::IsBuildUp(uint* total_possible_dest, ECommonItemData* buildu
 
     bool goal_reached = true;
 
-    for (int i = 0; i < std::size(now_param); ++i)
+    for (int j = 0; j < std::size(now_param); ++j)
     {
-      if (now_param[i] < goal_param[i] * 0.9f)
+      if (now_param[j] < goal_param[j] * 0.9f)
       {
         goal_reached = false;
         break;
@@ -1676,7 +1679,7 @@ std::optional<usize> CGameDataUsed::GetActiveElem() const
   {
     if (as.weapon.m_properties[i] > as.weapon.m_properties[max_index])
     {
-      max_index = i;
+      max_index = static_cast<s16>(i);
     }
   }
 
@@ -1786,7 +1789,7 @@ void CGameDataUsed::CheckParamLimit()
 
       while (fish_param > 400)
       {
-        auto rand_index = GetRandI(std::size(p_params));
+        auto rand_index = GetRandI(static_cast<sint>(std::size(p_params)));
 
         if (*p_params[rand_index] > 0)
         {
@@ -1798,7 +1801,7 @@ void CGameDataUsed::CheckParamLimit()
       for (usize i = 0; i < 4; ++i) // a1
       {
         bool clean = true; // a2
-        usize j; // a3, t3
+        usize j = 0; // a3, t3
         while (true) 
         {
           auto p_curr = p_params[j]; // t4
@@ -1894,7 +1897,7 @@ ECommonItemData CGameDataUsed::GetGiftBoxItemNo(ssize index) const
 {
   log_trace("CGameDataUsed::{}({})", __func__, index);
 
-  if (m_type != EUsedItemType::Gift_Box || index < 0 || index >= as.gift_box.m_contents.size())
+  if (m_type != EUsedItemType::Gift_Box || index < 0 || index >= static_cast<ssize>(as.gift_box.m_contents.size()))
   {
     return ECommonItemData::Invalid;
   }
@@ -2163,7 +2166,7 @@ CGameDataUsed* CUserDataManager::GetUsedDataPtr(ssize index)
 {
   log_trace("CUserDataManager::{}({})", __func__, index);
 
-  if (index < 0 || index >= m_inventory.size())
+  if (index < 0 || index >= static_cast<ssize>(m_inventory.size()))
   {
     return nullptr;
   }
@@ -2214,7 +2217,7 @@ sint CUserDataManager::AddHp(ECharacterID chara_id, sint delta)
   if (gage == nullptr) 
     return 0;
 
-  gage->AddPoint(delta);
+  gage->AddPoint(static_cast<f32>(delta));
   return static_cast<sint>(gage->m_current);
 }
 
@@ -2351,7 +2354,7 @@ s32 CUserDataManager::AddAbs(ECharacterID chara_id, ssize gage_index, s32 delta)
     return 0;
   }
 
-  gage->AddPoint(delta);
+  gage->AddPoint(static_cast<f32>(delta));
   return static_cast<s32>(gage->m_current);
 }
 

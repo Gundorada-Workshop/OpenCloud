@@ -2,6 +2,7 @@
 #include <string>
 
 #include "common/log.h"
+#include "common/constants.h"
 
 #include "dc2/editdata.h"
 
@@ -49,6 +50,6 @@ void CEditData::InitPlaceData()
 
   for (usize i = 0; i < m_unk_field_4C40.size(); ++i)
   {
-    m_unk_field_4C40[i] = -1;
+    m_unk_field_4C40[i] = common::constants::u8_max;
   }
 }

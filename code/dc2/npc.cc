@@ -53,14 +53,14 @@ static bool _NPC_INFO(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
     npc_info.m_model_name = std::string(model_name);
   }
 
-  npc_info.m_unk_field_31 = spiGetStackInt(stack++);
-  npc_info.m_unk_field_30 = spiGetStackInt(stack++);
-  npc_info.m_unk_field_2F = spiGetStackInt(stack++);
-  npc_info.m_unk_field_32 = spiGetStackInt(stack++);
-  npc_info.m_unk_field_33 = spiGetStackInt(stack++);
-  npc_info.m_unk_field_34 = spiGetStackInt(stack++);
-  npc_info.m_unk_field_35 = spiGetStackInt(stack++);
-  npc_info.m_unk_field_2 = spiGetStackInt(stack++);
+  npc_info.m_unk_field_31 = static_cast<s8>(spiGetStackInt(stack++));
+  npc_info.m_unk_field_30 = static_cast<s8>(spiGetStackInt(stack++));
+  npc_info.m_unk_field_2F = static_cast<s8>(spiGetStackInt(stack++));
+  npc_info.m_unk_field_32 = static_cast<s8>(spiGetStackInt(stack++));
+  npc_info.m_unk_field_33 = static_cast<s8>(spiGetStackInt(stack++));
+  npc_info.m_unk_field_34 = static_cast<s8>(spiGetStackInt(stack++));
+  npc_info.m_unk_field_35 = static_cast<s8>(spiGetStackInt(stack++));
+  npc_info.m_unk_field_2  = static_cast<s8>(spiGetStackInt(stack++));
 
   return true;
 }

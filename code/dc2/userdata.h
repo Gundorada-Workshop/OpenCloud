@@ -1,6 +1,7 @@
 #pragma once
 #include "common/debug.h"
 #include "common/types.h"
+#include "common/constants.h"
 
 #include "dc2/gamedata.h"
 #include "dc2/inventmn.h"
@@ -88,7 +89,7 @@ enum class ECharaStatusAttribute : u16
 
 enum class EPartyCharacterID : u16
 {
-  Invalid = -1,
+  Invalid = common::constants::u16_max,
   // 0 is unused?
   Cedric = 1,
   Borneo = 2,
