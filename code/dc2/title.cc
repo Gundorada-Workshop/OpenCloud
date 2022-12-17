@@ -1,6 +1,7 @@
 #include "common/debug.h"
 #include "common/log.h"
 #include "common/types.h"
+#include "common/macros.h"
 
 #include "host/host_interface_dwm.h"
 
@@ -49,13 +50,13 @@ void SetSoundMode()
 }
 
 // 0029F110
-void InitOmakeEnv(int, INIT_LOOP_ARG*, int*)
+void InitOmakeEnv(MAYBE_UNUSED int unk0, MAYBE_UNUSED INIT_LOOP_ARG* loop_arg, MAYBE_UNUSED int* unk1)
 {
   todo;
 }
 
 // 0029F1F0
-void TitleInit(INIT_LOOP_ARG loop_arg)
+void TitleInit(MAYBE_UNUSED INIT_LOOP_ARG loop_arg)
 {
   todo;
 }

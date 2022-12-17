@@ -86,7 +86,7 @@ struct TITLE_INFO
 // 0029F050
 inline void title_init_rand()
 {
-  srand(time(0));
+  srand(static_cast<uint>(time(0)));
 }
 
 // 0029F080
