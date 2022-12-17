@@ -3163,7 +3163,17 @@ static bool _FUNCTION_DOOR_MODE(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto& event_data = EventScene->m_scene_event_data;
+
+  EdEventInfo.m_unk_field_13C = 0;
+  EdEventInfo.m_unk_field_140 = event_data.m_unk_field_C;
+  EdEventInfo.m_unk_field_144 = event_data.m_unk_field_10;
+  EdEventInfo.m_unk_field_17C = event_data.m_unk_field_A0.x;
+  EdEventInfo.m_unk_field_180 = event_data.m_unk_field_A0.y;
+  EdEventInfo.m_unk_field_184 = event_data.m_unk_field_A0.z;
+  EdEventInfo.m_unk_field_188 = atan2f(event_data.m_unk_field_90.x, event_data.m_unk_field_90.z);
+  EdEventInfo.m_unk_field_D0 = 4; // FIXME: MAGIC
+
   return true;
 }
 

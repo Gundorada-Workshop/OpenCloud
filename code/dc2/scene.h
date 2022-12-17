@@ -203,8 +203,18 @@ public:
   // 0
   u32 m_unk_field_0{};
 
+  // C
+  s32 m_unk_field_C{};
+  // 10
+  s32 m_unk_field_10{};
+
   // 18
   std::string m_unk_field_18{};
+
+  // 90
+  vec3 m_unk_field_90{};
+  // A0
+  vec3 m_unk_field_A0{};
 };
 
 class CScene
