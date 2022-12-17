@@ -2965,7 +2965,14 @@ static bool _SET_FCAMERA_HEIGHT(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera_follow = static_cast<mgCCameraFollow*>(EventScene->GetCamera(EventScene->m_active_cmrid));
+
+  if (camera_follow == nullptr)
+  {
+    return false;
+  }
+
+  camera_follow->SetHeight(GetStackFloat(stack++));
   return true;
 }
 
