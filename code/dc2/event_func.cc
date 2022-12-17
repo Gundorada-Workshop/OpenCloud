@@ -2910,7 +2910,24 @@ static bool _SET_FCAMERA_FOLLOW_FLAG(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera_follow = static_cast<mgCCameraFollow*>(EventScene->GetCamera(EventScene->m_active_cmrid));
+
+  if (camera_follow == nullptr)
+  {
+    return false;
+  }
+
+  bool active = bool(GetStackInt(stack++));
+
+  if (active)
+  {
+    camera_follow->FollowOn();
+  }
+  else
+  {
+    camera_follow->FollowOff();
+  }
+
   return true;
 }
 
