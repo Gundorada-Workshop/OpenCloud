@@ -452,7 +452,7 @@ CSceneEffect* CScene::GetSceneEffect(ssize effect_index)
 }
 
 // 00283500
-bool CScene::CheckIMGName(ssize map_index, const char* img_name)
+bool CScene::CheckIMGName(MAYBE_UNUSED ssize map_index, MAYBE_UNUSED const char* img_name)
 {
 	log_trace("CScene::{}({}, {})", __func__, map_index, img_name);
 
@@ -461,7 +461,7 @@ bool CScene::CheckIMGName(ssize map_index, const char* img_name)
 }
 
 // 002835D0
-bool CScene::CheckMDSName(ssize map_index, const char* mds_name)
+bool CScene::CheckMDSName(MAYBE_UNUSED ssize map_index, MAYBE_UNUSED const char* mds_name)
 {
 	log_trace("CScene::{}({}, {})", __func__, map_index, mds_name);
 
@@ -838,7 +838,7 @@ ssize CScene::GetMainMapNo()
 }
 
 // 00283E30
-unkptr CScene::InScreenFunc(InScreenFuncInfo& func_info)
+unkptr CScene::InScreenFunc(MAYBE_UNUSED InScreenFuncInfo& func_info)
 {
 	log_trace("CScene::{}({})", __func__, fmt::ptr(&func_info));
 
@@ -847,13 +847,13 @@ unkptr CScene::InScreenFunc(InScreenFuncInfo& func_info)
 }
 ;
 // 002842F0
-void CScene::DrawScreenFunc(mgCFrame& frame)
+void CScene::DrawScreenFunc(MAYBE_UNUSED mgCFrame& frame)
 {
 	log_trace("CScene::{}({})", __func__, fmt::ptr(&frame));
 
 	for (int i = 0; i < m_n_maps; ++i)
 	{
-		CMap* map = GetMap(i);
+		MAYBE_UNUSED CMap* map = GetMap(i);
 		if (IsActive(ESceneDataType::Map, i))
 		{
 			todo;
@@ -1106,7 +1106,7 @@ ESceneDataStatus CScene::GetStatus(ESceneDataType data_type, ssize data_index)
 }
 
 // 002847F0
-void CScene::SetType(ESceneDataType data_type, ssize data_index, unk _data_type)
+void CScene::SetType(MAYBE_UNUSED ESceneDataType data_type, MAYBE_UNUSED ssize data_index, MAYBE_UNUSED unk _data_type)
 {
 	log_trace("CScene::{}({}, {}, {})", __func__, data_type, data_index, _data_type);
 
@@ -1114,7 +1114,7 @@ void CScene::SetType(ESceneDataType data_type, ssize data_index, unk _data_type)
 }
 
 // 00284820
-unk CScene::GetType(ESceneDataType data_type, ssize data_index)
+unk CScene::GetType(MAYBE_UNUSED ESceneDataType data_type, MAYBE_UNUSED ssize data_index)
 {
 	log_trace("CScene::{}({}, {})", __func__, data_type, data_index);
 
@@ -1140,7 +1140,7 @@ usize CScene::GetActiveMaps(CMap** maps_dest, usize maps_capacity)
 }
 
 // 00284900
-s32 CScene::GetCharaTexb(ssize character_index)
+s32 CScene::GetCharaTexb(MAYBE_UNUSED ssize character_index)
 {
 	log_trace("CScene::{}({})", __func__, character_index);
 
@@ -1149,7 +1149,7 @@ s32 CScene::GetCharaTexb(ssize character_index)
 }
 
 // 00284900
-void CScene::SetCharaTexb(ssize character_index, s32 texb)
+void CScene::SetCharaTexb(MAYBE_UNUSED ssize character_index, MAYBE_UNUSED s32 texb)
 {
 	log_trace("CScene::{}({}, {})", __func__, character_index, texb);
 
@@ -1157,7 +1157,7 @@ void CScene::SetCharaTexb(ssize character_index, s32 texb)
 }
 
 // 002849C0
-void CScene::SetTime(float time)
+void CScene::SetTime(MAYBE_UNUSED f32 time)
 {
 	log_trace("CScene::{}({})", __func__, time);
 
@@ -1165,7 +1165,7 @@ void CScene::SetTime(float time)
 }
 
 // 00284A60
-void CScene::AddTime(float time)
+void CScene::AddTime(MAYBE_UNUSED f32 time)
 {
 	log_trace("CScene::{}({})", __func__, time);
 
@@ -1173,7 +1173,7 @@ void CScene::AddTime(float time)
 }
 
 // 00284A70
-void CScene::TimeStep(float time)
+void CScene::TimeStep(MAYBE_UNUSED f32 time)
 {
 	log_trace("CScene::{}({})", __func__, time);
 
@@ -1232,7 +1232,10 @@ void CScene::SetNowSubMapNo(s32 now_submap_no)
 }
 
 // 00284BA0
-void CScene::LoadChara(unk i1, unkptr p1, unkptr p2, mgCMemory& m1, mgCMemory& m2, mgCMemory& m3, unk i2, unk i3)
+void CScene::LoadChara(MAYBE_UNUSED unk i1, MAYBE_UNUSED unkptr p1,
+	MAYBE_UNUSED unkptr p2, MAYBE_UNUSED mgCMemory& m1,
+	MAYBE_UNUSED mgCMemory& m2, MAYBE_UNUSED mgCMemory& m3,
+	MAYBE_UNUSED unk i2, MAYBE_UNUSED unk i3)
 {
 	log_trace("CScene::{}({}, {}, {}, {}, {}, {}, {}, {})", __func__, i1, fmt::ptr(p1), fmt::ptr(p2), fmt::ptr(&m1), fmt::ptr(&m2), fmt::ptr(&m3), i2, i3);
 
@@ -1252,7 +1255,7 @@ void CScene::DeleteChara(ssize character_index)
 }
 
 // 002853E0
-void CScene::CopyChara(ssize character_index1, ssize character_index2, mgCMemory& memory)
+void CScene::CopyChara(MAYBE_UNUSED ssize character_index1, MAYBE_UNUSED ssize character_index2, MAYBE_UNUSED mgCMemory& memory)
 {
 	log_trace("CScene::{}({}, {}, {})", __func__, character_index1, character_index2, fmt::ptr(&memory));
 
@@ -1260,7 +1263,7 @@ void CScene::CopyChara(ssize character_index1, ssize character_index2, mgCMemory
 }
 
 // 00285670
-s32 CScene::LoadMapFromMemory(int i, SCN_LOADMAP_INFO2& info)
+s32 CScene::LoadMapFromMemory(MAYBE_UNUSED sint i, MAYBE_UNUSED SCN_LOADMAP_INFO2& info)
 {
 	log_trace("CScene::{}({}, {})", __func__, i, fmt::ptr(&info));
 
@@ -1269,7 +1272,7 @@ s32 CScene::LoadMapFromMemory(int i, SCN_LOADMAP_INFO2& info)
 }
 
 // 002856F0
-s32 CScene::LoadMapFromMemory(int i1, int i2, SCN_LOADMAP_INFO2& info)
+s32 CScene::LoadMapFromMemory(MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2, MAYBE_UNUSED SCN_LOADMAP_INFO2& info)
 {
 	log_trace("CScene::{}({}, {}, {})", __func__, i1, i2, fmt::ptr(&info));
 
@@ -1278,7 +1281,7 @@ s32 CScene::LoadMapFromMemory(int i1, int i2, SCN_LOADMAP_INFO2& info)
 }
 
 // 00285C30
-bool CScene::LoadMapBGStep(SCN_LOADMAP_INFO2& info)
+bool CScene::LoadMapBGStep(MAYBE_UNUSED SCN_LOADMAP_INFO2& info)
 {
 	log_trace("CScene::{}()", __func__);
 
@@ -1287,7 +1290,7 @@ bool CScene::LoadMapBGStep(SCN_LOADMAP_INFO2& info)
 }
 
 // 00285CE0
-s32 CScene::LoadMap(int i1, SCN_LOADMAP_INFO2& info, int i2)
+s32 CScene::LoadMap(MAYBE_UNUSED sint i1, MAYBE_UNUSED SCN_LOADMAP_INFO2& info, MAYBE_UNUSED sint i2)
 {
 	log_trace("CScene::{}({}, {}, {})", __func__, i1, fmt::ptr(&info), i2);
 
@@ -1296,7 +1299,7 @@ s32 CScene::LoadMap(int i1, SCN_LOADMAP_INFO2& info, int i2)
 }
 
 // 00285E70
-bool CScene::DeleteMap(ssize map_index, bool b)
+bool CScene::DeleteMap(MAYBE_UNUSED ssize map_index, MAYBE_UNUSED bool b)
 {
 	log_trace("CScene::{}({}, {})", __func__, map_index, b);
 
@@ -1386,7 +1389,7 @@ CScene::BGM_INFO* CScene::GetActiveBGMInfo()
 }
 
 // 002A6110
-void CScene::PlayBGM(int i1, int i2, float f)
+void CScene::PlayBGM(MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2, MAYBE_UNUSED f32 f)
 {
 	log_trace("CScene::{}({}, {}, {})", __func__, i1, i2, f);
 
@@ -1410,7 +1413,7 @@ void CScene::ReplayBGM()
 }
 
 // 002A6280
-void CScene::StopBGM(int i)
+void CScene::StopBGM(MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -1418,7 +1421,7 @@ void CScene::StopBGM(int i)
 }
 
 // 002A62E0
-void CScene::SetVolBGM(s32 volume)
+void CScene::SetVolBGM(MAYBE_UNUSED s32 volume)
 {
 	log_trace("CScene::{}({})", __func__, volume);
 
@@ -1444,7 +1447,7 @@ s32 CScene::GetBGMState()
 }
 
 // 002A63A0
-void CScene::SetVolfBGM(float volume)
+void CScene::SetVolfBGM(MAYBE_UNUSED f32 volume)
 {
 	log_trace("CScene::{}({})", __func__, volume);
 
@@ -1461,7 +1464,7 @@ float CScene::GetVolfBGM()
 }
 
 // 002A6440
-void CScene::FadeOutBGM(int i)
+void CScene::FadeOutBGM(MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -1469,7 +1472,7 @@ void CScene::FadeOutBGM(int i)
 }
 
 // 002A6480
-void CScene::FadeInBGM(int i)
+void CScene::FadeInBGM(MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -1477,7 +1480,7 @@ void CScene::FadeInBGM(int i)
 }
 
 // 002A64E0
-void CScene::AutoChangeBGMVol(int i)
+void CScene::AutoChangeBGMVol(MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -1485,7 +1488,7 @@ void CScene::AutoChangeBGMVol(int i)
 }
 ;
 // 002A6510
-s32 CScene::GetActiveBGMStatus(BGM_STATUS& status_dest)
+s32 CScene::GetActiveBGMStatus(MAYBE_UNUSED BGM_STATUS& status_dest)
 {
 	log_trace("CScene::{}({})", __func__, fmt::ptr(&status_dest));
 
@@ -1494,7 +1497,7 @@ s32 CScene::GetActiveBGMStatus(BGM_STATUS& status_dest)
 }
 
 // 002A6580
-void CScene::SetActiveBGMStatus(BGM_STATUS& status)
+void CScene::SetActiveBGMStatus(MAYBE_UNUSED BGM_STATUS& status)
 {
 	log_trace("CScene::{}()", __func__, fmt::ptr(&status));
 
@@ -1502,7 +1505,7 @@ void CScene::SetActiveBGMStatus(BGM_STATUS& status)
 }
 
 // 002A6690
-void CScene::PlayEnvBGM(int i, float f)
+void CScene::PlayEnvBGM(MAYBE_UNUSED sint i, MAYBE_UNUSED f32 f)
 {
 	log_trace("CScene::{}({}, {})", __func__, i, f);
 
@@ -1510,7 +1513,7 @@ void CScene::PlayEnvBGM(int i, float f)
 }
 
 // 002A6720
-void CScene::SetEnvBGMVol(float volume)
+void CScene::SetEnvBGMVol(MAYBE_UNUSED f32 volume)
 {
 	log_trace("CScene::{}({})", __func__, volume);
 
@@ -1526,7 +1529,7 @@ void CScene::StopEnvBGMVol()
 }
 
 // 002A6820
-void CScene::AutoChangeEnvBGM(int i)
+void CScene::AutoChangeEnvBGM(MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -1534,7 +1537,7 @@ void CScene::AutoChangeEnvBGM(int i)
 }
 
 // 002A6830
-void CScene::AutoChangeEnvOffset(int i)
+void CScene::AutoChangeEnvOffset(MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -1550,7 +1553,7 @@ void CScene::PlayEnvBGM()
 }
 
 // 002A68F0
-s32 CScene::GetSeSrcID(int i)
+s32 CScene::GetSeSrcID(MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -1559,7 +1562,7 @@ s32 CScene::GetSeSrcID(int i)
 }
 
 // 002A6940
-void CScene::GetNumber3(char* c, int i)
+void CScene::GetNumber3(MAYBE_UNUSED char* c, MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({}, {})", __func__, c, i);
 
@@ -1567,7 +1570,7 @@ void CScene::GetNumber3(char* c, int i)
 }
 
 // 002A69D0
-void CScene::GetBGMFile(char* c, int i)
+void CScene::GetBGMFile(MAYBE_UNUSED char* c, MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({}, {})", __func__, c, i);
 
@@ -1575,7 +1578,7 @@ void CScene::GetBGMFile(char* c, int i)
 }
 
 // 002A6A10
-void CScene::GetSeSrcFile(char* c, int i)
+void CScene::GetSeSrcFile(MAYBE_UNUSED char* c, MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({}, {})", __func__, c, i);
 
@@ -1583,7 +1586,7 @@ void CScene::GetSeSrcFile(char* c, int i)
 }
 
 // 002A6A50
-void CScene::GetSeEnvFile(char* c, int i)
+void CScene::GetSeEnvFile(MAYBE_UNUSED char* c, MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({}, {})", __func__, c, i);
 
@@ -1591,7 +1594,7 @@ void CScene::GetSeEnvFile(char* c, int i)
 }
 
 // 002A6A90
-void CScene::GetSeBaseFile(char* c, int i)
+void CScene::GetSeBaseFile(MAYBE_UNUSED char* c, MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({}, {})", __func__, c, i);
 
@@ -1599,7 +1602,7 @@ void CScene::GetSeBaseFile(char* c, int i)
 }
 
 // 002A6AD0
-void CScene::GetSeBattleFile(char* c, int i)
+void CScene::GetSeBattleFile(MAYBE_UNUSED char* c, MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({}, {})", __func__, c, i);
 
@@ -1607,7 +1610,7 @@ void CScene::GetSeBattleFile(char* c, int i)
 }
 
 // 002A6B10
-bool CScene::CheckLoadBGM(int i)
+bool CScene::CheckLoadBGM(MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -1616,7 +1619,7 @@ bool CScene::CheckLoadBGM(int i)
 }
 
 // 002A6B50
-bool CScene::CheckLoadSeSrc(int i)
+bool CScene::CheckLoadSeSrc(MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -1625,7 +1628,7 @@ bool CScene::CheckLoadSeSrc(int i)
 }
 
 // 002A6BA0
-bool CScene::CheckLoadSeEnv(int i)
+bool CScene::CheckLoadSeEnv(MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -1634,7 +1637,7 @@ bool CScene::CheckLoadSeEnv(int i)
 }
 
 // 002A6BD0
-bool CScene::CheckLoadSeBattle(int i)
+bool CScene::CheckLoadSeBattle(MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -1643,7 +1646,7 @@ bool CScene::CheckLoadSeBattle(int i)
 }
 
 // 002A6C00
-bool CScene::CheckLoadSeBase(int i)
+bool CScene::CheckLoadSeBase(MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -1652,7 +1655,7 @@ bool CScene::CheckLoadSeBase(int i)
 }
 
 // 002A6C30
-unkptr CScene::SearchSndDataID(int i)
+unkptr CScene::SearchSndDataID(MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -1661,7 +1664,7 @@ unkptr CScene::SearchSndDataID(int i)
 }
 
 // 002A6CC0
-s16 CScene::GetDefBGMNo(int i)
+s16 CScene::GetDefBGMNo(MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -1670,7 +1673,7 @@ s16 CScene::GetDefBGMNo(int i)
 }
 
 // 002A6CF0
-bool CScene::GetDefEventSeFile(int i, char* c)
+bool CScene::GetDefEventSeFile(MAYBE_UNUSED sint i, MAYBE_UNUSED char* c)
 {
 	log_trace("CScene::{}({}, {})", __func__, i, c);
 
@@ -1679,7 +1682,7 @@ bool CScene::GetDefEventSeFile(int i, char* c)
 }
 
 // 002A7290
-bool CScene::LoadBGMPack(int i, unkptr p)
+bool CScene::LoadBGMPack(MAYBE_UNUSED sint i, MAYBE_UNUSED unkptr p)
 {
 	log_trace("CScene::{}({}, {})", __func__, i, fmt::ptr(p));
 
@@ -1688,7 +1691,7 @@ bool CScene::LoadBGMPack(int i, unkptr p)
 }
 
 // 002A7340
-bool CScene::LoadSeSrcPack(int i, unkptr p)
+bool CScene::LoadSeSrcPack(MAYBE_UNUSED sint i, MAYBE_UNUSED unkptr p)
 {
 	log_trace("CScene::{}({}, {})", __func__, i, fmt::ptr(p));
 
@@ -1697,7 +1700,7 @@ bool CScene::LoadSeSrcPack(int i, unkptr p)
 }
 
 // 002A7410
-bool CScene::LoadSeEnvPack(int i, unkptr p)
+bool CScene::LoadSeEnvPack(MAYBE_UNUSED sint i, MAYBE_UNUSED unkptr p)
 {
 	log_trace("CScene::{}({}, {})", __func__, i, fmt::ptr(p));
 
@@ -1706,7 +1709,7 @@ bool CScene::LoadSeEnvPack(int i, unkptr p)
 }
 
 // 002A74C0
-bool CScene::LoadSeBattlePack(int i, unkptr p)
+bool CScene::LoadSeBattlePack(MAYBE_UNUSED sint i, MAYBE_UNUSED unkptr p)
 {
 	log_trace("CScene::{}({}, {})", __func__, i, fmt::ptr(p));
 
@@ -1715,7 +1718,7 @@ bool CScene::LoadSeBattlePack(int i, unkptr p)
 }
 
 // 002A7560
-bool CScene::LoadSeBasePack(int i, unkptr p)
+bool CScene::LoadSeBasePack(MAYBE_UNUSED sint i, MAYBE_UNUSED unkptr p)
 {
 	log_trace("CScene::{}({}, {})", __func__, i, fmt::ptr(p));
 
@@ -1732,7 +1735,7 @@ void CScene::PrePlaySeSrc()
 }
 
 // 002A7670
-void CScene::PlaySeSrc(int i, float f1, float f2)
+void CScene::PlaySeSrc(MAYBE_UNUSED sint i, MAYBE_UNUSED f32 f1, MAYBE_UNUSED f32 f2)
 {
 	log_trace("CScene::{}({}, {}, {})", __func__, i, f1, f2);
 
@@ -1740,7 +1743,7 @@ void CScene::PlaySeSrc(int i, float f1, float f2)
 }
 
 // 002A77B0
-s32 CScene::CheckSePlay(int i)
+s32 CScene::CheckSePlay(MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -1782,7 +1785,7 @@ void CScene::PlayMapSeSrc()
 }
 
 // 002A80A0
-void CScene::SePlayOpenDoor(int i, float* unused)
+void CScene::SePlayOpenDoor(MAYBE_UNUSED sint i, MAYBE_UNUSED f32* unused)
 {
 	log_trace("CScene::{}({}, {})", __func__, i, fmt::ptr(unused));
 
@@ -1790,7 +1793,7 @@ void CScene::SePlayOpenDoor(int i, float* unused)
 }
 
 // 002A80C0
-void CScene::SePlayCloseDoor(int i, float* unused)
+void CScene::SePlayCloseDoor(MAYBE_UNUSED sint i, MAYBE_UNUSED f32* unused)
 {
 	log_trace("CScene::{}({}, {})", __func__, i, fmt::ptr(unused));
 
@@ -1798,7 +1801,7 @@ void CScene::SePlayCloseDoor(int i, float* unused)
 }
 
 // 002A80E0
-void CScene::SePlayFoot(int i1, int i2, float* fp)
+void CScene::SePlayFoot(MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2, MAYBE_UNUSED f32* fp)
 {
 	log_trace("CScene::{}({}, {}, {})", __func__, i1, i2, fmt::ptr(fp));
 
@@ -1806,7 +1809,7 @@ void CScene::SePlayFoot(int i1, int i2, float* fp)
 }
 
 // 002A8160
-int CScene::GetLine(unkptr p1, unkptr p2, unkptr p3)
+int CScene::GetLine(MAYBE_UNUSED unkptr p1, MAYBE_UNUSED unkptr p2, MAYBE_UNUSED unkptr p3)
 {
 	log_trace("CScene::{}()", __func__, fmt::ptr(p1), fmt::ptr(p2), fmt::ptr(p3));
 
@@ -1815,7 +1818,7 @@ int CScene::GetLine(unkptr p1, unkptr p2, unkptr p3)
 }
 
 // 002A8300
-void CScene::LoadSndRevInfo(unkptr p1, int i)
+void CScene::LoadSndRevInfo(MAYBE_UNUSED unkptr p1, MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(p1), i);
 
@@ -1823,7 +1826,7 @@ void CScene::LoadSndRevInfo(unkptr p1, int i)
 }
 
 // 002A8320
-void CScene::LoadSndFileInfo(unkptr p1, int i)
+void CScene::LoadSndFileInfo(MAYBE_UNUSED unkptr p1, MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(p1), i);
 
@@ -1839,7 +1842,7 @@ void CScene::UpdateMapInfo()
 }
 
 // 002C7B50
-void CScene::GetColPoly(CCPoly& col_poly, mgVu0FBOX& box, int i)
+void CScene::GetColPoly(MAYBE_UNUSED CCPoly& col_poly, MAYBE_UNUSED mgVu0FBOX& box, MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({}, {}, {})", __func__, fmt::ptr(&col_poly), fmt::ptr(&box), i);
 
@@ -1847,7 +1850,7 @@ void CScene::GetColPoly(CCPoly& col_poly, mgVu0FBOX& box, int i)
 }
 
 // 002C7C20
-void CScene::GetCameraPoly(CCPoly& col_poly, mgVu0FBOX& box, int i)
+void CScene::GetCameraPoly(MAYBE_UNUSED CCPoly& col_poly, MAYBE_UNUSED mgVu0FBOX& box, MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({}, {}, {})", __func__, fmt::ptr(&col_poly), fmt::ptr(&box), i);
 
@@ -1855,7 +1858,7 @@ void CScene::GetCameraPoly(CCPoly& col_poly, mgVu0FBOX& box, int i)
 }
 
 // 002C7CF0
-void CScene::RunEvent(int i, CSceneEventData& event_data)
+void CScene::RunEvent(MAYBE_UNUSED sint i, MAYBE_UNUSED CSceneEventData& event_data)
 {
 	log_trace("CScene::{}({}, {})", __func__, i, fmt::ptr(&event_data));
 
@@ -1863,7 +1866,7 @@ void CScene::RunEvent(int i, CSceneEventData& event_data)
 }
 
 // 002C7E60
-bool CScene::GetMapEvent(vec4& v, int i, CSceneEventData& event_data)
+bool CScene::GetMapEvent(MAYBE_UNUSED vec4& v, MAYBE_UNUSED sint i, MAYBE_UNUSED CSceneEventData& event_data)
 {
 	log_trace("CScene::{}({}, {}, {})", __func__, fmt::ptr(&v), i, fmt::ptr(&event_data));
 
@@ -1872,7 +1875,7 @@ bool CScene::GetMapEvent(vec4& v, int i, CSceneEventData& event_data)
 }
 
 // 002C8070
-bool CScene::GetFixCameraPos(vec4& v1, vec4& v2)
+bool CScene::GetFixCameraPos(MAYBE_UNUSED vec4& v1, MAYBE_UNUSED vec4& v2)
 {
 	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2));
 
@@ -1881,7 +1884,7 @@ bool CScene::GetFixCameraPos(vec4& v1, vec4& v2)
 }
 
 // 002C8120
-void CScene::FixCameraPartsOnOff(vec4& v)
+void CScene::FixCameraPartsOnOff(MAYBE_UNUSED vec4& v)
 {
 	log_trace("CScene::{}({})", __func__, fmt::ptr(&v));
 
@@ -1889,7 +1892,7 @@ void CScene::FixCameraPartsOnOff(vec4& v)
 }
 
 // 002C81A0
-void CScene::EyeViewDrawOnOff(int i)
+void CScene::EyeViewDrawOnOff(MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -1897,7 +1900,7 @@ void CScene::EyeViewDrawOnOff(int i)
 }
 
 // 002C8260
-void CScene::GetSunPosition(vec4& sun_position)
+void CScene::GetSunPosition(MAYBE_UNUSED vec4& sun_position)
 {
 	log_trace("CScene::{}({})", __func__, fmt::ptr(&sun_position));
 
@@ -1905,7 +1908,7 @@ void CScene::GetSunPosition(vec4& sun_position)
 }
 
 // 002C8330
-void CScene::GetMoonPosition(vec4& moon_position)
+void CScene::GetMoonPosition(MAYBE_UNUSED vec4& moon_position)
 {
 	log_trace("CScene::{}({})", __func__, fmt::ptr(&moon_position));
 
@@ -1914,7 +1917,7 @@ void CScene::GetMoonPosition(vec4& moon_position)
 }
 
 // 002C8370
-void CScene::DrawSky(s32 i)
+void CScene::DrawSky(MAYBE_UNUSED s32 i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -1922,7 +1925,7 @@ void CScene::DrawSky(s32 i)
 }
 
 // 002C8520
-void CScene::DrawLensFlare(ssize map_index, unkptr p1, unkptr p2)
+void CScene::DrawLensFlare(MAYBE_UNUSED ssize map_index, MAYBE_UNUSED unkptr p1, MAYBE_UNUSED unkptr p2)
 {
 	log_trace("CScene::{}({}, {}, {})", __func__, map_index, fmt::ptr(p1), fmt::ptr(p2));
 
@@ -1948,7 +1951,7 @@ void CScene::EffectStep()
 }
 
 // 002C8820
-void CScene::DrawEffect(int i)
+void CScene::DrawEffect(MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -1956,7 +1959,7 @@ void CScene::DrawEffect(int i)
 }
 
 // 002C8B70
-bool CScene::CheckDrawChara(ssize character_index)
+bool CScene::CheckDrawChara(MAYBE_UNUSED ssize character_index)
 {
 	log_trace("CScene::{}({})", __func__, character_index);
 
@@ -1965,7 +1968,7 @@ bool CScene::CheckDrawChara(ssize character_index)
 }
 
 // 002C8BF0
-bool CScene::CheckDrawCharaShadow(ssize character_index)
+bool CScene::CheckDrawCharaShadow(MAYBE_UNUSED ssize character_index)
 {
 	log_trace("CScene::{}({})", __func__, character_index);
 
@@ -1974,7 +1977,7 @@ bool CScene::CheckDrawCharaShadow(ssize character_index)
 }
 
 // 002C8C70
-bool CScene::StepChar(ssize character_index)
+bool CScene::StepChar(MAYBE_UNUSED ssize character_index)
 {
 	log_trace("CScene::{}({})", __func__, character_index);
 
@@ -1983,7 +1986,7 @@ bool CScene::StepChar(ssize character_index)
 }
 
 // 002C8D70
-void CScene::GetCharaLighting(matrix4& m, vec4& v)
+void CScene::GetCharaLighting(MAYBE_UNUSED matrix4& m, MAYBE_UNUSED vec4& v)
 {
 	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(&m), fmt::ptr(&v));
 
@@ -1991,7 +1994,7 @@ void CScene::GetCharaLighting(matrix4& m, vec4& v)
 }
 
 // 002C8F80
-bool CScene::DrawChara(ssize character_index, int i)
+bool CScene::DrawChara(MAYBE_UNUSED ssize character_index, MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({}, {})", __func__, character_index, i);
 
@@ -2000,7 +2003,7 @@ bool CScene::DrawChara(ssize character_index, int i)
 }
 
 // 002C9280
-bool CScene::DrawCharaShadow(ssize character_index)
+bool CScene::DrawCharaShadow(MAYBE_UNUSED ssize character_index)
 {
 	log_trace("CScene::{}({})", __func__, character_index);
 
@@ -2009,7 +2012,7 @@ bool CScene::DrawCharaShadow(ssize character_index)
 }
 
 // 002C93D0
-void CScene::DrawExclamationMark(mgCFrame& frame)
+void CScene::DrawExclamationMark(MAYBE_UNUSED mgCFrame& frame)
 {
 	log_trace("CScene::{}({})", __func__, fmt::ptr(&frame));
 
@@ -2017,7 +2020,7 @@ void CScene::DrawExclamationMark(mgCFrame& frame)
 }
 
 // 002C94F0
-s32 CScene::SearchCharaTexb(int i)
+s32 CScene::SearchCharaTexb(MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -2026,7 +2029,7 @@ s32 CScene::SearchCharaTexb(int i)
 }
 
 // 002C9590
-void CScene::PreLoadVillager(ssize villager_index, unkptr p)
+void CScene::PreLoadVillager(MAYBE_UNUSED ssize villager_index, MAYBE_UNUSED unkptr p)
 {
 	log_trace("CScene::{}({}, {})", __func__, villager_index, fmt::ptr(p));
 
@@ -2034,7 +2037,7 @@ void CScene::PreLoadVillager(ssize villager_index, unkptr p)
 }
 
 // 002C9640
-void CScene::DeleteVillager(ssize villager_index)
+void CScene::DeleteVillager(MAYBE_UNUSED ssize villager_index)
 {
 	log_trace("CScene::{}({})", __func__, villager_index);
 
@@ -2058,7 +2061,7 @@ void CScene::DeleteVillager()
 }
 
 // 002C97C0
-s32 CScene::SearchCharaID(int i)
+s32 CScene::SearchCharaID(MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -2076,7 +2079,7 @@ bool CScene::GetNowVillagerTime()
 }
 
 // 002C9880
-usize CScene::GetLoadVillagerList(unk i, unkptr pi, CVillagerPlaceInfo&& place_info)
+usize CScene::GetLoadVillagerList(MAYBE_UNUSED unk i, MAYBE_UNUSED unkptr pi, MAYBE_UNUSED CVillagerPlaceInfo&& place_info)
 {
 	log_trace("CScene::{}({}, {}, {})", __func__, i, fmt::ptr(pi), fmt::ptr(&place_info));
 
@@ -2085,7 +2088,7 @@ usize CScene::GetLoadVillagerList(unk i, unkptr pi, CVillagerPlaceInfo&& place_i
 }
 
 // 002C9980
-s32 CScene::SearchCopyModel(unk i)
+s32 CScene::SearchCopyModel(MAYBE_UNUSED unk i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -2094,7 +2097,7 @@ s32 CScene::SearchCopyModel(unk i)
 }
 
 // 002C9B80
-void CScene::CharaObjectOnOff(ssize character_index, mgCMemory& stack)
+void CScene::CharaObjectOnOff(MAYBE_UNUSED ssize character_index, MAYBE_UNUSED mgCMemory& stack)
 {
 	log_trace("CScene::{}({}, {})", __func__, character_index, fmt::ptr(&stack));
 
@@ -2102,7 +2105,7 @@ void CScene::CharaObjectOnOff(ssize character_index, mgCMemory& stack)
 }
 
 // 002C9D40
-u32 CScene::LoadVillager(int i1, int i2)
+u32 CScene::LoadVillager(MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2)
 {
 	log_trace("CScene::{}({}, {})", __func__, i1, i2);
 
@@ -2111,7 +2114,7 @@ u32 CScene::LoadVillager(int i1, int i2)
 }
 
 // 002CA3D0
-u32 CScene::LoadSubVillager(int i1, int i2)
+u32 CScene::LoadSubVillager(MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2)
 {
 	log_trace("CScene::{}({}, {})", __func__, i1, i2);
 
@@ -2120,7 +2123,7 @@ u32 CScene::LoadSubVillager(int i1, int i2)
 }
 
 // 002CA3D0
-bool CScene::RegisterVillager(int i1, int i2, int i3)
+bool CScene::RegisterVillager(MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2, MAYBE_UNUSED sint i3)
 {
 	log_trace("CScene::{}({}, {}, {})", __func__, i1, i2, i3);
 
@@ -2129,7 +2132,7 @@ bool CScene::RegisterVillager(int i1, int i2, int i3)
 }
 
 // 002CA430
-bool CScene::RegisterVillager(int i1, int i2, CVillagerPlaceInfo& place_info)
+bool CScene::RegisterVillager(MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2, MAYBE_UNUSED CVillagerPlaceInfo& place_info)
 {
 	log_trace("CScene::{}({}, {}, {})", __func__, i1, i2, fmt::ptr(&place_info));
 
@@ -2138,7 +2141,7 @@ bool CScene::RegisterVillager(int i1, int i2, CVillagerPlaceInfo& place_info)
 }
 
 // 002CA450
-bool CScene::RegisterVillager(int i1, int i2, mgCMemory& stack)
+bool CScene::RegisterVillager(MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2, MAYBE_UNUSED mgCMemory& stack)
 {
 	log_trace("CScene::{}({}, {}, {})", __func__, i1, i2, fmt::ptr(&stack));
 
@@ -2147,7 +2150,7 @@ bool CScene::RegisterVillager(int i1, int i2, mgCMemory& stack)
 }
 
 // 002CA540
-bool CScene::GetTalkEvent(vec4& v, CSceneEventData& event_data)
+bool CScene::GetTalkEvent(MAYBE_UNUSED vec4& v, MAYBE_UNUSED CSceneEventData& event_data)
 {
 	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(&v), fmt::ptr(&event_data));
 
@@ -2164,7 +2167,7 @@ void CScene::StepVillager()
 }
 
 // 002CACD0
-void CScene::StayNearVillager(vec4& v, unkptr pi)
+void CScene::StayNearVillager(MAYBE_UNUSED vec4& v, MAYBE_UNUSED unkptr pi)
 {
 	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(&v), fmt::ptr(pi));
 
@@ -2172,7 +2175,7 @@ void CScene::StayNearVillager(vec4& v, unkptr pi)
 }
 
 // 002CAE60
-void CScene::CancelStayVillager(unkptr pi)
+void CScene::CancelStayVillager(MAYBE_UNUSED unkptr pi)
 {
 	log_trace("CScene::{}({})", __func__, fmt::ptr(pi));
 
@@ -2180,7 +2183,7 @@ void CScene::CancelStayVillager(unkptr pi)
 }
 
 // 002CAEE0
-void CScene::StayVillager(int i)
+void CScene::StayVillager(MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -2188,7 +2191,7 @@ void CScene::StayVillager(int i)
 }
 
 // 002CAF20
-void CScene::CancelStayVillager(int i)
+void CScene::CancelStayVillager(MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -2196,7 +2199,7 @@ void CScene::CancelStayVillager(int i)
 }
 
 // 002CAFD0
-void CScene::ExModeVillager(int i)
+void CScene::ExModeVillager(MAYBE_UNUSED sint i)
 {
 	log_trace("CScene::{}({})", __func__, i);
 
@@ -2212,7 +2215,7 @@ void CScene::SetActiveVillager()
 }
 
 // 002CB110
-void CScene::InScreenChara(InScreenCharaInfo& chara_info, float* unused)
+void CScene::InScreenChara(MAYBE_UNUSED InScreenCharaInfo& chara_info, MAYBE_UNUSED f32* unused)
 {
 	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(&chara_info), fmt::ptr(unused));
 
@@ -2220,7 +2223,7 @@ void CScene::InScreenChara(InScreenCharaInfo& chara_info, float* unused)
 }
 
 // 002CB5A0
-void CScene::LoadGameObject(int i1, int i2, mgCMemory& stack)
+void CScene::LoadGameObject(MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2, MAYBE_UNUSED mgCMemory& stack)
 {
 	log_trace("CScene::{}({}, {}, {})", __func__, i1, i2, fmt::ptr(&stack));
 
@@ -2228,7 +2231,7 @@ void CScene::LoadGameObject(int i1, int i2, mgCMemory& stack)
 }
 
 // 002CB900
-s32 CScene::GetGameObjectEvent(vec4& v, CSceneEventData& event_data)
+s32 CScene::GetGameObjectEvent(MAYBE_UNUSED vec4& v, MAYBE_UNUSED CSceneEventData& event_data)
 {
 	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(&v), fmt::ptr(&event_data));
 
@@ -2237,7 +2240,7 @@ s32 CScene::GetGameObjectEvent(vec4& v, CSceneEventData& event_data)
 }
 
 // 002CBAA0
-void CScene::DrawGameObject(ssize gameobj_index)
+void CScene::DrawGameObject(MAYBE_UNUSED ssize gameobj_index)
 {
 	log_trace("CScene::{}()", __func__, gameobj_index);
 
@@ -2245,7 +2248,7 @@ void CScene::DrawGameObject(ssize gameobj_index)
 }
 
 // 00284BA0
-void LoadMapData(SCN_LOADMAP_INFO2& info, bool b)
+void LoadMapData(MAYBE_UNUSED SCN_LOADMAP_INFO2& info, MAYBE_UNUSED bool b)
 {
 	log_trace("{}()", __func__, fmt::ptr(&info), b);
 
