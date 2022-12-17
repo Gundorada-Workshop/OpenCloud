@@ -2807,7 +2807,17 @@ static bool _GET_BEFORE_CAMERA_NEXT_POS(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  mgCCamera* camera = EventScene->GetCamera(EventScene->m_before_cmrid);
+
+  if (camera == nullptr)
+  {
+    return false;
+  }
+
+  vec3 next_pos = camera->GetNextPos();
+  SetStack(stack++, next_pos.x);
+  SetStack(stack++, next_pos.y);
+  SetStack(stack++, next_pos.z);
   return true;
 }
 
