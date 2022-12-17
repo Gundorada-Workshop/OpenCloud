@@ -3285,7 +3285,6 @@ static bool _SET_CONTENTS_ETC(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
   return true;
 }
 
