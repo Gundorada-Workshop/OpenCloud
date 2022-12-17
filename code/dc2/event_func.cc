@@ -3468,8 +3468,21 @@ static bool _SET_QUEST_ETC(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  sint command = GetStackInt(stack++);
+  uint quest_index = GetStackInt(stack++);
+  bool flag = GetStackInt(stack++);
+
+  switch (command)
+  {
+    case 0:
+      QuestRequestSetFlag(quest_index, flag);
+      return true;
+    case 1:
+      QuestRequestClear(quest_index, flag);
+      return true;
+    default:
+      return false;
+  }
 }
 
 static bool _GET_QUEST_ETC(RS_STACKDATA* stack, int stack_count)
