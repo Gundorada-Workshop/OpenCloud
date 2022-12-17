@@ -3396,7 +3396,8 @@ static bool _GET_CHARA_ID(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto chara_id = EventScene->SearchCharaID(GetStackInt(stack++));
+  SetStack(stack, chara_id);
   return true;
 }
 
