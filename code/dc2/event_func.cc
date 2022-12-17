@@ -5,6 +5,7 @@
 #include "common/constants.h"
 #include "common/types.h"
 
+#include "dc2/camera.h"
 #include "dc2/dng_main.h"
 #include "dc2/dng_event.h"
 #include "dc2/dngmenu.h"
@@ -3033,7 +3034,26 @@ static bool _SET_CAMERA_CTRL(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera_control = static_cast<CCameraControl*>(EventScene->GetCamera(EventScene->m_active_cmrid));
+
+  if (camera_control == nullptr)
+  {
+    return false;
+  }
+
+  bool active = bool(GetStackInt(stack++));
+
+  if (active)
+  {
+    camera_control->FollowOn();
+    camera_control->ControlOn();
+  }
+  else
+  {
+    camera_control->FollowOff();
+    camera_control->ControlOff();
+  }
+
   return true;
 }
 
