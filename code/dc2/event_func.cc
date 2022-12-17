@@ -3211,7 +3211,25 @@ static bool _GET_ITEM_NUM(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  auto& user_data = save_data->m_user_data_manager;
+  SetStack(
+    stack,
+    s32(
+      user_data.GetNumSameItem(
+        ECommonItemData(
+          GetStackInt(stack++)
+        )
+      )
+    )
+  );
+
   return true;
 }
 
