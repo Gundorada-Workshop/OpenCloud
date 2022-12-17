@@ -3618,7 +3618,7 @@ static bool _SET_OMAKE_FLAG(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  OmakeFlag = GetStackInt(stack++);
   return true;
 }
 
