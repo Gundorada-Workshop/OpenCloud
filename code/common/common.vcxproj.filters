@@ -49,6 +49,7 @@
     <ClInclude Include="math\_vector_math.h">
       <Filter>math</Filter>
     </ClInclude>
+    <ClInclude Include="aligned_allocator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="common.exports.props" />
