@@ -1557,7 +1557,14 @@ static bool _SET_CAMERA_SPEED(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  mgCCamera* camera = GetActiveCamera();
+
+  if (camera == nullptr)
+  {
+    return false;
+  }
+
+  camera->SetSpeed(GetStackFloat(stack++));
   return true;
 }
 

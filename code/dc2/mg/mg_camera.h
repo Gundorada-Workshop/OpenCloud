@@ -127,6 +127,21 @@ public:
     return m_reference - m_position;
   }
 
+  // 00131590
+  inline void SetSpeed(f32 position_speed, f32 rotation_speed = -1.0f)
+  {
+    m_position_speed = position_speed;
+    
+    if (m_rotation_speed < 0.0f)
+    {
+      m_rotation_speed = m_position_speed;
+    }
+    else
+    {
+      m_rotation_speed = rotation_speed;
+    }
+  }
+
   // 001315C0
   inline void SetRoll(f32 roll)
   {
