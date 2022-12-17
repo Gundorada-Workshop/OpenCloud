@@ -3,6 +3,7 @@
 
 #include "common/debug.h"
 #include "common/log.h"
+#include "common/macros.h"
 
 #include "dc2/character.h"
 #include "dc2/effect_script.h"
@@ -147,7 +148,7 @@ static vec4 BombVelo;
 // 01F5F9A0
 static STRU_1F5F9A0 PolVoice{};
 
-bool sgInitBuggy(SubGameInfo* info)
+bool sgInitBuggy(MAYBE_UNUSED SubGameInfo* info)
 {
 	log_trace("sgInitBuggy({})", fmt::ptr(info));
 
@@ -156,7 +157,7 @@ bool sgInitBuggy(SubGameInfo* info)
 	return false;
 }
 
-bool sgExitBuggy(SubGameInfo* info)
+bool sgExitBuggy(MAYBE_UNUSED SubGameInfo* info)
 {
 	log_trace("sgExitBuggy({})", fmt::ptr(info));
 
@@ -165,7 +166,7 @@ bool sgExitBuggy(SubGameInfo* info)
 	return false;
 }
 
-bool sgLoopBuggy(SubGameInfo* info)
+bool sgLoopBuggy(MAYBE_UNUSED SubGameInfo* info)
 {
 	log_trace("sgLoopBuggy({})", fmt::ptr(info));
 
@@ -174,7 +175,7 @@ bool sgLoopBuggy(SubGameInfo* info)
 	return false;
 }
 
-bool sgDrawBuggy(SubGameInfo* info)
+bool sgDrawBuggy(MAYBE_UNUSED SubGameInfo* info)
 {
 	log_trace("sgDrawBuggy({})", fmt::ptr(info));
 
@@ -183,7 +184,7 @@ bool sgDrawBuggy(SubGameInfo* info)
 	return false;
 }
 
-bool sgEffectDrawBuggy(SubGameInfo* info)
+bool sgEffectDrawBuggy(MAYBE_UNUSED SubGameInfo* info)
 {
 	log_trace("sgEffectDrawBuggy({})", fmt::ptr(info));
 
@@ -192,7 +193,7 @@ bool sgEffectDrawBuggy(SubGameInfo* info)
 	return false;
 }
 
-bool sgSystemDrawBuggy(SubGameInfo* info)
+bool sgSystemDrawBuggy(MAYBE_UNUSED SubGameInfo* info)
 {
 	log_trace("sgSystemDrawBuggy({})", fmt::ptr(info));
 
@@ -201,14 +202,14 @@ bool sgSystemDrawBuggy(SubGameInfo* info)
 	return false;
 }
 
-void CharaControl(SubGameInfo* info, CPadControl* padctrl)
+void CharaControl(MAYBE_UNUSED SubGameInfo* info, MAYBE_UNUSED CPadControl* padctrl)
 {
 	log_trace("CharaControl({}, {})", fmt::ptr(info), fmt::ptr(padctrl));
 
 	todo;
 }
 
-void InitBuggy(CScene* scene)
+void InitBuggy(MAYBE_UNUSED CScene* scene)
 {
 	log_trace("InitBuggy({})", fmt::ptr(scene));
 
@@ -232,7 +233,7 @@ void BuggyDamage(s32 i1)
 	BuggyHP -= 1;
 }
 
-void PlayBuggyLoopSe(CScene* scene)
+void PlayBuggyLoopSe(MAYBE_UNUSED CScene* scene)
 {
 	log_trace("PlayBuggyLoopSe({})", fmt::ptr(scene));
 
@@ -240,14 +241,14 @@ void PlayBuggyLoopSe(CScene* scene)
 }
 
 // 00315510
-void BuggyControl(CScene* scene)
+void BuggyControl(MAYBE_UNUSED CScene* scene)
 {
 	log_trace("BuggyControl({})", fmt::ptr(scene));
 
 	todo;
 }
 
-void InitBomb(CScene* scene)
+void InitBomb(MAYBE_UNUSED CScene* scene)
 {
 	log_trace("InitBomb({})", fmt::ptr(scene));
 
@@ -275,7 +276,7 @@ bool TakeBomb()
 	return true;
 }
 
-bool ThrowBomb(vec4& dir)
+bool ThrowBomb(MAYBE_UNUSED vec4& dir)
 {
 	// todo: need formatter for vec4
 	// log_trace("ThrowBomb({})", dir);
@@ -310,14 +311,14 @@ bool NowPutBomb()
 	return (BombStatus ^ 3) == 0;
 }
 
-void BombControl(CScene* scene)
+void BombControl(MAYBE_UNUSED CScene* scene)
 {
 	log_trace("BombControl({})", fmt::ptr(scene));
 
 	todo;
 }
 
-void BombCheck(CScene* scene)
+void BombCheck(MAYBE_UNUSED CScene* scene)
 {
 	log_trace("BombCheck({})", fmt::ptr(scene));
 
