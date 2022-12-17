@@ -3245,7 +3245,7 @@ static bool _GET_LANGUAGE(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, s32(LanguageCode));
   return true;
 }
 
