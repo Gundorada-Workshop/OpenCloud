@@ -85,7 +85,7 @@ using unk16  = u16;
 using unk32  = u32;
 using unk64  = u64;
 
-using unk = uint;
+using unk = sint;
 using unkptr = void*; //note: ps2 ptr is 32 bit
 
 template<usize size>
