@@ -33,7 +33,7 @@ struct CameraCtrlParam
   // SIZE 0x2C
 };
 
-class CCameraControl : mgCCameraFollow
+class CCameraControl : public mgCCameraFollow
 {
 public:
   // 002EBE80

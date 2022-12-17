@@ -200,7 +200,21 @@ public:
 class CSceneEventData
 {
 public:
+  // 0
+  u32 m_unk_field_0{};
 
+  // C
+  s32 m_unk_field_C{};
+  // 10
+  s32 m_unk_field_10{};
+
+  // 18
+  std::string m_unk_field_18{};
+
+  // 90
+  vec3 m_unk_field_90{};
+  // A0
+  vec3 m_unk_field_A0{};
 };
 
 class CScene
@@ -747,6 +761,10 @@ public:
   unk m_unk_field_3E60;
   // 3E64
   unk m_unk_field_3E64;
+  // 3E68
+  unk32 m_unk_field_3E68{};
+  // 3E6C
+  unk32 m_unk_field_3E6C{};
   // 3E70
   CThunderEffect m_thunder_effect;
 

@@ -2,6 +2,7 @@
 
 #include "dc2/font.h"
 #include "dc2/menumain.h"
+#include "dc2/menusave.h"
 #include "dc2/mg/mg_lib.h"
 
 set_log_channel("menumain");
@@ -62,6 +63,36 @@ f32 MenuAdjustPolygonScale(mgCFrame* frame, f32 scale)
 
   todo;
   return 0.0f;
+}
+
+// 00251050
+sint GetNowChapter(CSaveData* save_data)
+{
+  log_trace("{}({})", __func__, fmt::ptr(save_data));
+
+  if (save_data == nullptr)
+  {
+    return -1;
+  }
+
+  auto i = save_data->m_unk_field_1A08;
+
+  if (i < 2)
+  {
+    return 0;
+  }
+
+  if (i == 2 || i == 3)
+  {
+    return 1;
+  }
+
+  if (i >= 4)
+  {
+    return i - 2;
+  }
+
+  return 1;
 }
 
 // 002516C0

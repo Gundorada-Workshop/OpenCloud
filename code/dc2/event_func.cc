@@ -5,6 +5,7 @@
 #include "common/constants.h"
 #include "common/types.h"
 
+#include "dc2/camera.h"
 #include "dc2/dng_main.h"
 #include "dc2/dng_event.h"
 #include "dc2/dngmenu.h"
@@ -13,10 +14,12 @@
 #include "dc2/event_edit.h"
 #include "dc2/event_func.h"
 #include "dc2/gamedata.h"
+#include "dc2/inventmn.h"
 #include "dc2/mainloop.h"
 #include "dc2/menumain.h"
 #include "dc2/run_script.h"
 #include "dc2/scene.h"
+#include "dc2/subgame.h"
 #include "dc2/mg/mg_lib.h"
 
 set_log_channel("event_func");
@@ -2772,7 +2775,7 @@ static bool _DNGMAP_MOVE_PIECE(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventDngMap.SetPieceMove(GetStackInt(stack++));
   return true;
 }
 
@@ -2780,7 +2783,7 @@ static bool _DNGMAP_ONOFF(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventDngMap.m_unk_field_8 = bool(GetStackInt(stack++));
   return true;
 }
 
@@ -2788,7 +2791,18 @@ static bool _DNGMAP_SET_FADE(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  bool fade_in = bool(GetStackInt(stack++));
+  s32 duration = GetStackInt(stack++);
+
+  if (fade_in)
+  {
+    EventDngMap.FadeIn(duration);
+  }
+  else
+  {
+    EventDngMap.FadeOut(duration);
+  }
+
   return true;
 }
 
@@ -2796,7 +2810,17 @@ static bool _GET_BEFORE_CAMERA_NEXT_POS(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  mgCCamera* camera = EventScene->GetCamera(EventScene->m_before_cmrid);
+
+  if (camera == nullptr)
+  {
+    return false;
+  }
+
+  vec3 next_pos = camera->GetNextPos();
+  SetStack(stack++, next_pos.x);
+  SetStack(stack++, next_pos.y);
+  SetStack(stack++, next_pos.z);
   return true;
 }
 
@@ -2804,7 +2828,17 @@ static bool _GET_BEFORE_CAMERA_NEXT_REF(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  mgCCamera* camera = EventScene->GetCamera(EventScene->m_before_cmrid);
+
+  if (camera == nullptr)
+  {
+    return false;
+  }
+
+  vec3 next_ref = camera->GetNextRef();
+  SetStack(stack++, next_ref.x);
+  SetStack(stack++, next_ref.y);
+  SetStack(stack++, next_ref.z);
   return true;
 }
 
@@ -2828,7 +2862,16 @@ static bool _SET_FCAMERA_FOLLOW(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera_follow = static_cast<mgCCameraFollow*>(EventScene->GetCamera(EventScene->m_active_cmrid));
+
+  if (camera_follow == nullptr)
+  {
+    return false;
+  }
+
+  vec3 follow = GetStackVector(stack).xyz();
+  camera_follow->SetFollow(follow);
+
   return true;
 }
 
@@ -2836,7 +2879,16 @@ static bool _SET_FCAMERA_FOLLOW_A(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera_follow = static_cast<mgCCameraFollow*>(EventScene->GetCamera(EventScene->m_active_cmrid));
+
+  if (camera_follow == nullptr)
+  {
+    return false;
+  }
+
+  vec3 follow = GetStackVector(stack).xyz();
+  camera_follow->SetFollow(follow);
+
   return true;
 }
 
@@ -2844,7 +2896,16 @@ static bool _SET_FCAMERA_FOLLOW_OFS(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera_follow = static_cast<mgCCameraFollow*>(EventScene->GetCamera(EventScene->m_active_cmrid));
+
+  if (camera_follow == nullptr)
+  {
+    return false;
+  }
+
+  vec3 follow_offset = GetStackVector(stack).xyz();
+  camera_follow->SetFollowOffset(follow_offset);
+
   return true;
 }
 
@@ -2852,7 +2913,24 @@ static bool _SET_FCAMERA_FOLLOW_FLAG(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera_follow = static_cast<mgCCameraFollow*>(EventScene->GetCamera(EventScene->m_active_cmrid));
+
+  if (camera_follow == nullptr)
+  {
+    return false;
+  }
+
+  bool active = bool(GetStackInt(stack++));
+
+  if (active)
+  {
+    camera_follow->FollowOn();
+  }
+  else
+  {
+    camera_follow->FollowOff();
+  }
+
   return true;
 }
 
@@ -2860,7 +2938,14 @@ static bool _FCAMERA_STEP(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera_follow = static_cast<mgCCameraFollow*>(EventScene->GetCamera(EventScene->m_active_cmrid));
+
+  if (camera_follow == nullptr)
+  {
+    return false;
+  }
+
+  camera_follow->Step(GetStackInt(stack++));
   return true;
 }
 
@@ -2868,7 +2953,14 @@ static bool _SET_FCAMERA_ANGLE(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera_follow = static_cast<mgCCameraFollow*>(EventScene->GetCamera(EventScene->m_active_cmrid));
+
+  if (camera_follow == nullptr)
+  {
+    return false;
+  }
+
+  camera_follow->SetAngle(GetStackFloat(stack++));
   return true;
 }
 
@@ -2876,7 +2968,14 @@ static bool _SET_FCAMERA_HEIGHT(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera_follow = static_cast<mgCCameraFollow*>(EventScene->GetCamera(EventScene->m_active_cmrid));
+
+  if (camera_follow == nullptr)
+  {
+    return false;
+  }
+
+  camera_follow->SetHeight(GetStackFloat(stack++));
   return true;
 }
 
@@ -2884,7 +2983,14 @@ static bool _SET_FCAMERA_DIST(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera_follow = static_cast<mgCCameraFollow*>(EventScene->GetCamera(EventScene->m_active_cmrid));
+
+  if (camera_follow == nullptr)
+  {
+    return false;
+  }
+
+  camera_follow->SetDistance(GetStackFloat(stack++));
   return true;
 }
 
@@ -2900,7 +3006,14 @@ static bool _DNG_SET_STAGE_ID(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  save_data->m_save_data_dungeon.m_now_dungeon_id = EDungeonID(GetStackInt(stack++));
   return true;
 }
 
@@ -2908,7 +3021,14 @@ static bool _DNG_GET_STAGE_ID(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack, s32(save_data->m_save_data_dungeon.m_now_dungeon_id));
   return true;
 }
 
@@ -2916,7 +3036,26 @@ static bool _SET_CAMERA_CTRL(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera_control = static_cast<CCameraControl*>(EventScene->GetCamera(EventScene->m_active_cmrid));
+
+  if (camera_control == nullptr)
+  {
+    return false;
+  }
+
+  bool active = bool(GetStackInt(stack++));
+
+  if (active)
+  {
+    camera_control->FollowOn();
+    camera_control->ControlOn();
+  }
+  else
+  {
+    camera_control->FollowOff();
+    camera_control->ControlOff();
+  }
+
   return true;
 }
 
@@ -2924,7 +3063,14 @@ static bool _GET_FCAMERA_ANGLE(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera_follow = static_cast<mgCCameraFollow*>(EventScene->GetCamera(EventScene->m_active_cmrid));
+
+  if (camera_follow == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack, camera_follow->GetAngle());
   return true;
 }
 
@@ -2932,7 +3078,14 @@ static bool _GET_FCAMERA_HEIGHT(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera_follow = static_cast<mgCCameraFollow*>(EventScene->GetCamera(EventScene->m_active_cmrid));
+
+  if (camera_follow == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack, camera_follow->GetHeight());
   return true;
 }
 
@@ -2940,7 +3093,14 @@ static bool _GET_FCAMERA_DIST(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera_follow = static_cast<mgCCameraFollow*>(EventScene->GetCamera(EventScene->m_active_cmrid));
+
+  if (camera_follow == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack, camera_follow->GetDistance());
   return true;
 }
 
@@ -2948,7 +3108,25 @@ static bool _GET_INVENTION_ID(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  auto& invent_user_data = save_data->m_user_data_manager.m_invent_user_data;
+
+  SetStack(
+    stack, 
+    sint(
+      invent_user_data.IsAlreadyCreatedItem(
+        ECommonItemData(
+          GetStackInt(stack)
+        )
+      )
+    )
+  );
   return true;
 }
 
@@ -2956,7 +3134,29 @@ static bool _FUNCTION_MAP_JUMP(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto& event_data = EventScene->m_scene_event_data;
+
+  // FIXME: MAGIC
+  if ((event_data.m_unk_field_0 & 0x10A) == 0)
+  {
+    return false;
+  }
+
+  EdEventInfo.m_unk_field_64 = -1;
+  EdEventInfo.m_unk_field_88 = 100;
+
+  if (event_data.m_unk_field_18 == "exit")
+  {
+    // FIXME: MAGIC
+    EdEventInfo.m_unk_field_CC = 7;
+  }
+  else
+  {
+    EdEventInfo.m_unk_field_68 = event_data.m_unk_field_18;
+    // FIXME: MAGIC
+    EdEventInfo.m_unk_field_CC = 4;
+  }
+
   return true;
 }
 
@@ -2964,7 +3164,17 @@ static bool _FUNCTION_DOOR_MODE(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto& event_data = EventScene->m_scene_event_data;
+
+  EdEventInfo.m_unk_field_13C = 0;
+  EdEventInfo.m_unk_field_140 = event_data.m_unk_field_C;
+  EdEventInfo.m_unk_field_144 = event_data.m_unk_field_10;
+  EdEventInfo.m_unk_field_17C = event_data.m_unk_field_A0.x;
+  EdEventInfo.m_unk_field_180 = event_data.m_unk_field_A0.y;
+  EdEventInfo.m_unk_field_184 = event_data.m_unk_field_A0.z;
+  EdEventInfo.m_unk_field_188 = atan2f(event_data.m_unk_field_90.x, event_data.m_unk_field_90.z);
+  EdEventInfo.m_unk_field_D0 = 4; // FIXME: MAGIC
+
   return true;
 }
 
@@ -2972,7 +3182,14 @@ static bool _GET_MONEY(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack, save_data->m_user_data_manager.m_money);
   return true;
 }
 
@@ -2980,7 +3197,14 @@ static bool _ADD_MONEY(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  save_data->m_user_data_manager.m_money += GetStackInt(stack++);
   return true;
 }
 
@@ -2988,7 +3212,25 @@ static bool _GET_ITEM_NUM(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  auto& user_data = save_data->m_user_data_manager;
+  SetStack(
+    stack,
+    s32(
+      user_data.GetNumSameItem(
+        ECommonItemData(
+          GetStackInt(stack++)
+        )
+      )
+    )
+  );
+
   return true;
 }
 
@@ -3004,7 +3246,7 @@ static bool _GET_LANGUAGE(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack, s32(LanguageCode));
   return true;
 }
 
@@ -3044,7 +3286,6 @@ static bool _SET_CONTENTS_ETC(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
   return true;
 }
 
@@ -3060,7 +3301,14 @@ static bool _GOTO_SUBGAME(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto game_id = ESubGameID(GetStackInt(stack++));
+
+  SubGameInfo sub_game_info;
+  sub_game_info.m_scene = EventScene;
+  sub_game_info.m_unk_field_4 = EventScene->m_unk_field_3E68;
+  sub_game_info.m_unk_field_8 = EventScene->m_unk_field_3E6C;
+
+  sgInitSubGame(game_id, &sub_game_info);
   return true;
 }
 
@@ -3148,7 +3396,8 @@ static bool _GET_CHARA_ID(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto chara_id = EventScene->SearchCharaID(GetStackInt(stack++));
+  SetStack(stack, chara_id);
   return true;
 }
 
@@ -3172,7 +3421,7 @@ static bool _GOTO_EDITMODE(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EdEventInfo.m_unk_field_CC = 17; // FIXME: MAGIC
   return true;
 }
 
@@ -3180,7 +3429,14 @@ static bool _GET_CHAPTER(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack, GetNowChapter(save_data));
   return true;
 }
 
@@ -3204,7 +3460,7 @@ static bool _EYE_VIEW_DRAW_ON_OFF(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventScene->EyeViewDrawOnOff(bool(GetStackInt(stack)));
   return true;
 }
 
@@ -3212,16 +3468,38 @@ static bool _SET_QUEST_ETC(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  sint command = GetStackInt(stack++);
+  uint quest_index = GetStackInt(stack++);
+  bool flag = GetStackInt(stack++);
+
+  switch (command)
+  {
+    case 0:
+      QuestRequestSetFlag(quest_index, flag);
+      return true;
+    case 1:
+      QuestRequestClear(quest_index, flag);
+      return true;
+    default:
+      return false;
+  }
 }
 
 static bool _GET_QUEST_ETC(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  sint command = GetStackInt(stack++);
+  uint quest_index = GetStackInt(stack++);
+
+  switch (command)
+  {
+    case 0:
+      SetStack(stack, s32(GetQuestRequestStatus(quest_index)));
+      return true;
+    default:
+      return false;
+  }
 }
 
 static bool _CHK_INTERSECTION_POINT_PIPE(RS_STACKDATA* stack, int stack_count)

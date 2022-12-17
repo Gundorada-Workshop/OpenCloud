@@ -52,7 +52,7 @@ enum class ECommonItemDataType : u8
 };
 
 
-enum class ECommonItemData
+enum class ECommonItemData : s16
 {
   Invalid = 0,
   Battle_Wrench = 1,

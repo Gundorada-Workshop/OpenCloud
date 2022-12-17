@@ -90,6 +90,11 @@ public:
 
   // ?
 
+  // 1A08
+  s32 m_unk_field_1A08{};
+
+  // ?
+
   // 1C24
   std::array<CEditData, 5> m_edit_data{};
   // 1C574

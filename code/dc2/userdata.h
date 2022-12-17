@@ -174,7 +174,7 @@ f32 GetCommonGageRate(COMMON_GAGE* gage);
 
 enum class EUsedItemType;
 
-enum class ECommonItemData;
+enum class ECommonItemData : s16;
 
 struct ITEM_MISC_USED
 {
@@ -649,6 +649,9 @@ public:
 
   // 0019C3D0
   void SetActiveChrNo(ECharacterID chara_id);
+
+  // 0019DDE0
+  usize GetNumSameItem(ECommonItemData item_id);
 
   // 0
   std::array<CGameDataUsed, 150> m_inventory{};

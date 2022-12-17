@@ -131,6 +131,8 @@ class CPreSprite
 
 struct GLID_INFO
 {
+
+  // SIZE 0x70
 };
 
 // Forward declarations
@@ -427,7 +429,7 @@ public:
   // 0
   u8 m_map_id;
   // 4
-  unkptr m_unk_field_4;
+  GLID_INFO* m_glid_info{ nullptr };
   // 8
   s32 m_unk_field_8;
   // C

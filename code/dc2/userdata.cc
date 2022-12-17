@@ -2506,6 +2506,15 @@ s32 CUserDataManager::AddMoney(s32 delta)
   return m_money;
 }
 
+// 0019DDE0
+usize CUserDataManager::GetNumSameItem(ECommonItemData item_id)
+{
+  log_trace("CUserDataManager::{}({})", __func__, s32(item_id));
+
+  todo;
+  return 0;
+}
+
 // 0019F010
 void SetActiveChrNo(ECharacterID chara_id)
 {

@@ -63,3 +63,71 @@ void CInventUserData::ResetAddress()
     m_unk_field_408[i].m_unk_field_14 = &m_unk_field_D60[i];
   }
 }
+
+// 001FF070
+void CInventUserData::SetCreateItemFlag(usize index, ECommonItemData item_id)
+{
+  log_trace("CInventUserData::{}({}, {})", __func__, index, s32(item_id));
+
+  if (index > 0 && m_unk_field_6D8[index] == ECommonItemData::Invalid)
+  {
+    m_unk_field_6D8[index] = item_id;
+    return;
+  }
+
+  for (usize i = 1; i < m_unk_field_6D8.size(); ++i)
+  {
+    if (m_unk_field_6D8[i] == ECommonItemData::Invalid)
+    {
+      m_unk_field_6D8[i] = item_id;
+      return;
+    }
+  }
+}
+
+// 001FF0E0
+ECommonItemData CInventUserData::GetCreateItemId(usize index)
+{
+  log_trace("CInventUserData::{}({})", __func__, index);
+
+  if (index >= m_unk_field_6D8.size())
+  {
+    return ECommonItemData::Invalid;
+  }
+
+  return m_unk_field_6D8[index];
+}
+
+// 001FF120
+ssize CInventUserData::IsAlreadyCreatedItem(ECommonItemData item_id)
+{
+  log_trace("CInventUserData::{}({})", __func__, s32(item_id));
+
+  for (usize i = 0; i < m_unk_field_6D8.size(); ++i)
+  {
+    if (m_unk_field_6D8[i] == item_id)
+    {
+      return i;
+    }
+  }
+
+  return -1;
+}
+
+// 001FF170
+// "GetHatsumeiNum"
+uint CInventUserData::GetInventionNum()
+{
+  log_trace("CInventUserData::{}()", __func__);
+  uint count = 0;
+
+  for (auto item_id : m_unk_field_6D8)
+  {
+    if (item_id != ECommonItemData::Invalid)
+    {
+      ++count;
+    }
+  }
+
+  return count;
+}
