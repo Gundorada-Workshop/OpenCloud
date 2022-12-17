@@ -3061,7 +3061,14 @@ static bool _GET_FCAMERA_ANGLE(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera_follow = static_cast<mgCCameraFollow*>(EventScene->GetCamera(EventScene->m_active_cmrid));
+
+  if (camera_follow == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack, camera_follow->GetAngle());
   return true;
 }
 
@@ -3069,7 +3076,14 @@ static bool _GET_FCAMERA_HEIGHT(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera_follow = static_cast<mgCCameraFollow*>(EventScene->GetCamera(EventScene->m_active_cmrid));
+
+  if (camera_follow == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack, camera_follow->GetHeight());
   return true;
 }
 
@@ -3077,7 +3091,14 @@ static bool _GET_FCAMERA_DIST(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera_follow = static_cast<mgCCameraFollow*>(EventScene->GetCamera(EventScene->m_active_cmrid));
+
+  if (camera_follow == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack, camera_follow->GetDistance());
   return true;
 }
 
