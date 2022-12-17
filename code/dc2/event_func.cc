@@ -3593,7 +3593,24 @@ static bool _SET_WIND(RS_STACKDATA* stack, int stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  f32 wind_vel = GetStackFloat(stack++);
+
+  if (wind_vel < 0.0f)
+  {
+    EventScene->ResetWind();
+  }
+  else
+  {
+    EventScene->SetWind(
+      {
+        GetStackFloat(&stack[0]),
+        GetStackFloat(&stack[1]),
+        GetStackFloat(&stack[2]),
+      },
+      wind_vel
+    );
+  }
+
   return true;
 }
 

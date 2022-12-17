@@ -1181,12 +1181,17 @@ void CScene::TimeStep(float time)
 }
 
 // 00284B30
-void CScene::SetWind(const vec4& wind_direction, float wind_velocity)
+void CScene::SetWind(const vec3& wind_direction, float wind_velocity)
 {
 	log_trace("CScene::{}()", __func__, fmt::ptr(&wind_direction), wind_velocity);
 
 	m_wind_velocity = wind_velocity;
 	m_wind_direction = math::vector_normalize(wind_direction);
+}
+
+void CScene::SetWind(const std::pair<vec3, f32>& wind)
+{
+	SetWind(wind.first, wind.second);
 }
 
 // 00284B40
@@ -1199,12 +1204,11 @@ void CScene::ResetWind()
 
 // 00284B50
 // Stores direction in direction; returns velocity.
-float CScene::GetWind(vec4& direction)
+std::pair<vec3, f32> CScene::GetWind()
 {
-	log_trace("CScene::{}({})", __func__, fmt::ptr(&direction));
+	log_trace("CScene::{}()", __func__);
 
-	direction = m_wind_direction;
-	return m_wind_velocity;
+	return { m_wind_direction, m_wind_velocity };
 }
 
 // 00284B60
