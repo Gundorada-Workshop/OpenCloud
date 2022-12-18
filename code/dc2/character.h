@@ -1,4 +1,7 @@
 #pragma once
+#include "common/debug.h"
+#include "common/types.h"
+
 #include "dc2/mg/mg_lib.h"
 #include "dc2/object.h"
 
@@ -582,6 +585,16 @@ public:
   // SIZE 0x90
 };
 
+enum class EAttackType : s32
+{
+
+};
+
+enum class EMoveType : s32
+{
+
+};
+
 class CActionChara : public CCharacter2
 {
 public:
@@ -589,6 +602,10 @@ public:
   // 0016A220
   void ResetScript();
 
+  // 6A4
+  EAttackType m_attack_type{};
+  // 6A8
+  EMoveType m_move_type{};
   // 712
   s16 m_prog{};
 };

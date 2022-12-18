@@ -121,7 +121,12 @@ static bool _GET_ATTK_TYPE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  if (stack_count != 1)
+  {
+    return false;
+  }
+
+  SetStack(stack++, static_cast<s32>(action_info.m_chara->m_attack_type));
   return true;
 }
 
@@ -129,7 +134,12 @@ static bool _GET_MOVE_TYPE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  if (stack_count != 1)
+  {
+    return false;
+  }
+
+  SetStack(stack++, static_cast<s32>(action_info.m_chara->m_move_type));
   return true;
 }
 
