@@ -559,9 +559,9 @@ public:
   // SIZE 0x18
 };
 
-enum class WeaponAttackType : s8
+enum class EAttackType : s32
 {
-
+  Invalid = -1,
 };
 
 enum class WeaponProperty : s16
@@ -632,7 +632,7 @@ public:
   // 47
   s8 m_unk_field_47{ 0 };
   // 48
-  WeaponAttackType m_attack_type{};
+  EAttackType m_attack_type{};
   // 49
   s8 m_model_no{ 0 };
 
@@ -662,9 +662,9 @@ public:
   // 1C
   s16 m_unk_field_1C{ 0 };
   // 1E
-  WeaponAttackType m_unk_field_1E{};
+  EAttackType m_unk_field_1E{};
   // 20
-  WeaponAttackType m_unk_field_20{};
+  EAttackType m_unk_field_20{};
   // 22
   s8 m_offset_no{ 0 };
   // 23

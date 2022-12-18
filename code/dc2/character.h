@@ -2,6 +2,7 @@
 #include "common/debug.h"
 #include "common/types.h"
 
+#include "dc2/gamedata.h"
 #include "dc2/mg/mg_lib.h"
 #include "dc2/object.h"
 
@@ -583,11 +584,6 @@ public:
   f32 m_floor;
 
   // SIZE 0x90
-};
-
-enum class EAttackType : s32
-{
-
 };
 
 enum class EMoveType : s32

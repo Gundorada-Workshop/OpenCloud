@@ -248,7 +248,7 @@ static bool _DATAWEP_SPE(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
   SpiWeaponPt->m_unk_field_47 = static_cast<s8>(spiGetStackInt(stack++));
   SpiWeaponPt->m_level_up_fusion_point = static_cast<s8>(spiGetStackInt(stack++));
   SpiWeaponPt->m_special_status = static_cast<ESpecialStatus>(spiGetStackInt(stack++));
-  SpiWeaponPt->m_attack_type = (stack_count >= 6) ? static_cast<WeaponAttackType>(spiGetStackInt(stack++)) : static_cast<WeaponAttackType>(0);
+  SpiWeaponPt->m_attack_type = (stack_count >= 6) ? static_cast<EAttackType>(spiGetStackInt(stack++)) : static_cast<EAttackType>(0);
   SpiWeaponPt->m_model_no = (stack_count >= 7) ? static_cast<s8>(spiGetStackInt(stack++)) : 0;
 
   return true;
@@ -442,11 +442,11 @@ static bool _DATAROBO_ANALYZE(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
       {
         SpiRoboPart->m_unk_field_C[i] = static_cast<s16>(spiGetStackInt(stack++));
       }
-      SpiRoboPart->m_unk_field_1E = static_cast<WeaponAttackType>(spiGetStackInt(stack++));
+      SpiRoboPart->m_unk_field_1E = static_cast<EAttackType>(spiGetStackInt(stack++));
       break;
     case 2:
       SpiRoboPart->m_unk_field_4 = static_cast<s16>(spiGetStackInt(stack++));
-      SpiRoboPart->m_unk_field_20 = static_cast<WeaponAttackType>(spiGetStackInt(stack++));
+      SpiRoboPart->m_unk_field_20 = static_cast<EAttackType>(spiGetStackInt(stack++));
       break;
     case 3:
       SpiRoboPart->m_unk_field_2 = static_cast<s16>(spiGetStackInt(stack++));

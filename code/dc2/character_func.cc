@@ -7,6 +7,7 @@
 #include "dc2/monster_func.h"
 #include "dc2/run_script.h"
 #include "dc2/script_interpreter.h"
+#include "dc2/userdata.h"
 
 set_log_channel("character_func");
 
@@ -117,7 +118,7 @@ static bool _PROG_GET(RS_STACKDATA* stack, sint stack_count)
   return true;
 }
 
-static bool _GET_ATTK_TYPE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_ATTK_TYPE(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -130,7 +131,7 @@ static bool _GET_ATTK_TYPE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _GET_MOVE_TYPE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_MOVE_TYPE(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -143,7 +144,7 @@ static bool _GET_MOVE_TYPE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _SET_MOVE_SPEED(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_MOVE_SPEED(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -219,11 +220,18 @@ static bool _SE_LOOP_PLAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
   return true;
 }
 
-static bool _GET_SHOT_TYPE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_SHOT_TYPE(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  if (stack_count != 1)
+  {
+    return false;
+  }
+
+  auto chara_info = GetBattleCharaInfo();
+  SetStack(stack++, static_cast<s32>(chara_info->m_equip_table[1].GetAttackType()));
+
   return true;
 }
 
