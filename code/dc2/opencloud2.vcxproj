@@ -12,6 +12,7 @@
   <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
   <ItemGroup>
     <ClInclude Include="camera.h" />
+    <ClInclude Include="character_func.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effect_script.h" />
     <ClInclude Include="font.h" />
@@ -96,6 +97,7 @@
   <ItemGroup>
     <ClCompile Include="camera.cc" />
     <ClCompile Include="character.cc" />
+    <ClCompile Include="character_func.cc" />
     <ClCompile Include="dbg_font.cc" />
     <ClCompile Include="effect.cc" />
     <ClCompile Include="effect_script.cc" />
