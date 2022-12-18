@@ -146,7 +146,7 @@ unkptr mgCVisualMDT::GetMaterial(MAYBE_UNUSED ssize index)
 }
 
 // 0013EFC0
-bool mgCVisualMDT::CreateBBox(MAYBE_UNUSED vec4& v1, MAYBE_UNUSED vec4& v2, MAYBE_UNUSED matrix4& m1)
+bool mgCVisualMDT::CreateBBox(MAYBE_UNUSED const vec4& v1, MAYBE_UNUSED const vec4& v2, MAYBE_UNUSED const matrix4& m1)
 {
   log_trace("mgCVisualMDT::{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&m1));
 

@@ -42,7 +42,7 @@ static f32 GetStackFloat(RS_STACKDATA* stack)
   }
 }
 
-static vec3 GetStackVector(RS_STACKDATA* stack)
+MAYBE_UNUSED static vec3 GetStackVector(RS_STACKDATA* stack)
 {
   log_trace("{}()", __func__, fmt::ptr(stack));
 
@@ -53,7 +53,7 @@ static vec3 GetStackVector(RS_STACKDATA* stack)
   };
 }
 
-static const char* GetStackString(RS_STACKDATA* stack)
+MAYBE_UNUSED static const char* GetStackString(RS_STACKDATA* stack)
 {
   log_trace("{}()", __func__, fmt::ptr(stack));
 
@@ -72,7 +72,7 @@ static void SetStack(RS_STACKDATA* stack, sint value)
   stack->m_data.p->m_data.i = value;
 }
 
-static void SetStack(RS_STACKDATA* stack, f32 value)
+MAYBE_UNUSED static void SetStack(RS_STACKDATA* stack, f32 value)
 {
   log_trace("{}()", __func__, fmt::ptr(stack));
 

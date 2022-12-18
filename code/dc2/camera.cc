@@ -307,7 +307,7 @@ void CCameraControl::CheckGround(MAYBE_UNUSED CCPoly* c_poly, MAYBE_UNUSED usize
 }
 
 // 002ED250
-matrix4 CCameraControl::GetCameraMatrix()
+matrix4 CCameraControl::GetCameraMatrix() const
 {
   log_trace("CCameraControl::{}()", __func__);
 
@@ -322,7 +322,7 @@ void CCameraControl::CopyParam(MAYBE_UNUSED CCameraControl& other)
 }
 
 // 002ED3D0
-sint CCameraControl::Iam()
+sint CCameraControl::Iam() const
 {
   log_trace("CCameraControl::{}()", __func__);
 

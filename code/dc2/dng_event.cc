@@ -100,7 +100,7 @@ void CGeoStone::SetFlag(bool flag)
     return;
   }
 
-  AutoMapGen.m_map_parts->SetPosition({ 0.0f, -99999.0f, 0.0f });
+  AutoMapGen.m_map_parts->SetPosition(vec3{ 0.0f, -99999.0f, 0.0f });
 }
 
 // 0028BC20

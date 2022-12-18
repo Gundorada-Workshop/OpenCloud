@@ -22,7 +22,7 @@ void CGamePad::Update()
 }
 
 // 0014aef0
-static sint AxisCalibration(sint axis)
+MAYBE_UNUSED static sint AxisCalibration(sint axis)
 {
   log_trace("AxisCalibration({})", axis);
 

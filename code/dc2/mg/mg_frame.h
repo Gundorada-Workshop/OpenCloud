@@ -194,7 +194,7 @@ public:
 
   // 18 00133750 (mgCVisual::Copy)
   // 1C 0013EFC0
-  virtual bool CreateBBox(vec4& v1, vec4& v2, matrix4& m1);
+  virtual bool CreateBBox(const vec4& v1, const vec4& v2, const matrix4& m1) override;
 
   // 20 001404D0
   virtual unkptr CreateRenderInfoPacket(unkptr p, matrix4& m1, mgRENDER_INFO& render_info);
@@ -448,6 +448,9 @@ public:
 
 class mgCFrame : public mgCFrameBase
 {
+public:
+  virtual ~mgCFrame() {};
+
 public:
   struct BoundInfo
   {

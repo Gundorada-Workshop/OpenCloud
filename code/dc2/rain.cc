@@ -29,7 +29,7 @@ inline static f32 frame_step(f32 scale = 1.0f)
 }
 
 // 002813A0
-static f32 RandXYinViewArea(f32 f1, f32 f2, f32 f3, f32* x_dest, f32* y_dest)
+MAYBE_UNUSED static f32 RandXYinViewArea(f32 f1, f32 f2, f32 f3, f32* x_dest, f32* y_dest)
 {
   log_trace("{}({}, {}, {}, {}, {})", __func__, f1, f2, f3, fmt::ptr(x_dest), fmt::ptr(y_dest));
 
@@ -199,7 +199,7 @@ void CRain::Step()
 }
 
 // 002827D0
-static void DrawScreenRain()
+MAYBE_UNUSED static void DrawScreenRain()
 {
   log_trace("{}()", __func__);
 
