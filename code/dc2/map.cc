@@ -12,7 +12,7 @@ static bool cfgDRAW_OFF_RECT(MAYBE_UNUSED SPI_STACK* stack, int)
   return true;
 }
 
-static bool cfgOCCLUSION_PLANE(MAYBE_UNUSED SPI_STACK* stack, int)
+MAYBE_UNUSED static bool cfgOCCLUSION_PLANE(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
@@ -187,7 +187,7 @@ static bool mapPARTS_END(MAYBE_UNUSED SPI_STACK* stack, int)
   return true;
 }
 
-static bool mapMAP_PARTS(MAYBE_UNUSED SPI_STACK* stack, int)
+MAYBE_UNUSED static bool mapMAP_PARTS(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }
@@ -222,7 +222,7 @@ static bool mapPARTS_SCALE(MAYBE_UNUSED SPI_STACK* stack, int)
   return true;
 }
 
-static bool mapMAP_PARTS_END(MAYBE_UNUSED SPI_STACK* stack, int)
+MAYBE_UNUSED static bool mapMAP_PARTS_END(MAYBE_UNUSED SPI_STACK* stack, int)
 {
   return true;
 }

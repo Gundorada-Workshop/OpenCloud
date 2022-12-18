@@ -39,10 +39,10 @@ public:
 
 public:
   // 10  00172DE0
-  virtual void SetPosition(vec3& v);
+  virtual void SetPosition(const vec3& v) override;
 
   // 14  00172DE0
-  virtual void SetPosition(f32 x, f32 y, f32 z);
+  virtual void SetPosition(f32 x, f32 y, f32 z) override;
 
   // 34  00172F60
   virtual unkptr Draw();

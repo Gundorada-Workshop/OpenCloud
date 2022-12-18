@@ -89,7 +89,7 @@ void mgCCamera::Step(sint steps)
       m_position[j] += (m_next_position[j] - m_position[j]) / pos_speed * one_frame;
 
       // Adjust our direction
-      f32 rot_speed = std::max(m_rotation_speed, 1.0f);
+      MAYBE_UNUSED f32 rot_speed = std::max(m_rotation_speed, 1.0f);
       m_reference[j] += (m_next_reference[j] - m_reference[j]) / pos_speed * one_frame;
 
       // Check to see if are close enough to stop adjusting this component

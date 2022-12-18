@@ -8,7 +8,7 @@
 set_log_channel("character")
 
 // 00172DE0
-void CCharacter2::SetPosition(vec3& v)
+void CCharacter2::SetPosition(const vec3& v)
 {
   log_trace("CCharacter2::{}({})", __func__, fmt::ptr(&v));
 
@@ -492,7 +492,7 @@ static bool dynVERTEX_START(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 }
 
 // 0017b300
-static bool dynVERTEX_L(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
+MAYBE_UNUSED static bool dynVERTEX_L(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -679,7 +679,7 @@ static bool dynCOLLISION(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_
 }
 
 // 0017be60
-static bool dynCOLLISION_END(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
+MAYBE_UNUSED static bool dynCOLLISION_END(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 

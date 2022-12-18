@@ -2217,7 +2217,7 @@ static bool _CMRS_AHD_RETURN(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _CMRS_FADE_DELAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+MAYBE_UNUSED static bool _CMRS_FADE_DELAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 

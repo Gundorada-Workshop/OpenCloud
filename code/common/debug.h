@@ -1,7 +1,8 @@
 #pragma once
 #include <array>
-#include "types.h"
-#include "strings.h"
+#include "common/types.h"
+#include "common/macros.h"
+#include "common/strings.h"
 
 namespace common::debug
 {
@@ -13,7 +14,7 @@ namespace common::debug
 
   // panic the application
   // stops everything and dumps a backtrace
-  void panic(std::string_view msg);
+  NO_RETURN void panic(std::string_view msg);
 
   // format assert
   template<typename ...Args>

@@ -47,10 +47,10 @@ public:
   virtual void Step(sint steps = 1);
 
   // 002ED250
-  virtual matrix4 GetCameraMatrix();
+  virtual matrix4 GetCameraMatrix() const override;
 
   // 002ED3D0
-  virtual sint Iam();
+  virtual sint Iam() const override;
 
 
   // 002EBFA0
