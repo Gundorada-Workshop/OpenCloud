@@ -370,12 +370,13 @@ public:
   // 00284A70
   void TimeStep(float time);
   // 00284B30
-  void SetWind(const vec4& wind_dir, float wind_velocity);
+  void SetWind(const vec3& wind_dir, float wind_velocity);
+  void SetWind(const std::pair<vec3, f32>& wind);
   // 00284B40
   void ResetWind();
   // 00284B50
   // Stores direction in direction; returns velocity.
-  float GetWind(vec4& direction);
+  std::pair<vec3, f32> GetWind();
   // 00284B60
   void SetNowMapNo(s32 now_map_no);
   // 00284B80
@@ -715,7 +716,7 @@ public:
   // 2F78
   float m_wind_velocity;
   // 2F80
-  vec4 m_wind_direction;
+  vec3 m_wind_direction;
   // 2F90
   unk m_unk_field_2F90;
   // 2F94
