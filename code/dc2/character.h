@@ -17,7 +17,6 @@ struct SEntryEffect
   unk32 m_unk_field_8;
 };
 
-// probably belongs here; only used by CActionChara
 class CCharacter2;
 
 struct RUN_SCRIPT_ENV
@@ -586,5 +585,7 @@ public:
 class CActionChara : public CCharacter2
 {
 public:
-  // TODO
+  
+  // 0016A220
+  void ResetScript();
 };

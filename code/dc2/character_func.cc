@@ -2,11 +2,16 @@
 #include "common/log.h"
 #include "common/macros.h"
 
+#include "dc2/character.h"
+#include "dc2/character_func.h"
 #include "dc2/monster_func.h"
 #include "dc2/run_script.h"
 #include "dc2/script_interpreter.h"
 
 set_log_channel("character_func");
+
+// 01F0D430
+extern ACTION_INFO action_info{};
 
 static sint GetStackInt(RS_STACKDATA* stack)
 {
@@ -82,7 +87,7 @@ static bool _INIT_SCRIPT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint sta
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  action_info.m_chara->ResetScript();
   return true;
 }
 
