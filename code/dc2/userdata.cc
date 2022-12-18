@@ -1100,14 +1100,14 @@ bool CGameDataUsed::IsEnableUseRepair(ECommonItemData item_id) const
 }
 
 // 00198390
-std::optional<WeaponAttackType> CGameDataUsed::GetRoboInfoType() const
+EAttackType CGameDataUsed::GetRoboInfoType() const
 {
   log_trace("CGameDataUsed::{}()", __func__);
 
   auto robo_data = GetRoboPartInfoData(m_common_index);
   if (robo_data == nullptr)
   {
-    return std::nullopt;
+    return EAttackType::Invalid;
   }
 
   switch (m_item_data_type)
@@ -1117,7 +1117,7 @@ std::optional<WeaponAttackType> CGameDataUsed::GetRoboInfoType() const
     case ECommonItemDataType::Ridepod_Leg:
       return robo_data->m_unk_field_20;
     default:
-      return std::nullopt;
+      return EAttackType::Invalid;
   }
 }
 
@@ -1687,7 +1687,7 @@ std::optional<usize> CGameDataUsed::GetActiveElem() const
 }
 
 // 00199340
-std::optional<WeaponAttackType> CGameDataUsed::GetAttackType() const
+EAttackType CGameDataUsed::GetAttackType() const
 {
   log_trace("CGameDataUsed::{}()", __func__);
 
@@ -1698,7 +1698,7 @@ std::optional<WeaponAttackType> CGameDataUsed::GetAttackType() const
     case EUsedItemType::Robopart:
       return GetRoboInfoType();
     default:
-      return std::nullopt;
+      return EAttackType::Invalid;
   }
 }
 

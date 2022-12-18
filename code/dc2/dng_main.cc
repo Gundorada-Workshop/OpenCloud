@@ -18,6 +18,7 @@
 #include "dc2/effect.h"
 #include "dc2/map.h"
 #include "dc2/mg/mg_lib.h"
+#include "dc2/monster.h"
 #include "dc2/nowload.h"
 #include "dc2/pot.h"
 #include "dc2/robopart.h"

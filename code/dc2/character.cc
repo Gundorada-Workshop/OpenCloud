@@ -390,6 +390,14 @@ void CCharacter2::DeleteExtMotion()
   todo;
 }
 
+// 0016A220
+void CActionChara::ResetScript()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
 // 00177f20
 static bool _SKIN_IMG(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {

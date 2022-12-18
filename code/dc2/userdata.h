@@ -361,7 +361,7 @@ public:
   // 00198360
   bool IsEnableUseRepair(ECommonItemData item_id) const;
   // 00198390
-  std::optional<WeaponAttackType> GetRoboInfoType() const;
+  EAttackType GetRoboInfoType() const;
   // 001993B0
   std::optional<u8> GetModelNo() const;
   // 00198400
@@ -391,7 +391,7 @@ public:
   // 001992E0
   std::optional<usize> GetActiveElem() const;
   // 00199340
-  std::optional<WeaponAttackType> GetAttackType() const;
+  EAttackType GetAttackType() const;
   // 001994E0
   void CheckParamLimit();
   // 00199830

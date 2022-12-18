@@ -12,6 +12,7 @@
   <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
   <ItemGroup>
     <ClInclude Include="camera.h" />
+    <ClInclude Include="character_func.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effect_script.h" />
     <ClInclude Include="font.h" />
@@ -29,6 +30,8 @@
     <ClInclude Include="mg\mg_memory.h" />
     <ClInclude Include="mg\mg_tanime.h" />
     <ClInclude Include="mg\mg_texture.h" />
+    <ClInclude Include="monster.h" />
+    <ClInclude Include="monster_func.h" />
     <ClInclude Include="movie.h" />
     <ClInclude Include="npc.h" />
     <ClInclude Include="pot.h" />
@@ -94,6 +97,7 @@
   <ItemGroup>
     <ClCompile Include="camera.cc" />
     <ClCompile Include="character.cc" />
+    <ClCompile Include="character_func.cc" />
     <ClCompile Include="dbg_font.cc" />
     <ClCompile Include="effect.cc" />
     <ClCompile Include="effect_script.cc" />
@@ -111,6 +115,8 @@
     <ClCompile Include="mg\mg_memory.cc" />
     <ClCompile Include="mg\mg_tanime.cc" />
     <ClCompile Include="mg\mg_texture.cc" />
+    <ClCompile Include="monster.cc" />
+    <ClCompile Include="monster_func.cc" />
     <ClCompile Include="movie.cc" />
     <ClCompile Include="npc.cc" />
     <ClCompile Include="pot.cc" />

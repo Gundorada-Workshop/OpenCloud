@@ -1,4 +1,8 @@
 #pragma once
+#include "common/debug.h"
+#include "common/types.h"
+
+#include "dc2/gamedata.h"
 #include "dc2/mg/mg_lib.h"
 #include "dc2/object.h"
 
@@ -17,7 +21,6 @@ struct SEntryEffect
   unk32 m_unk_field_8;
 };
 
-// probably belongs here; only used by CActionChara
 class CCharacter2;
 
 struct RUN_SCRIPT_ENV
@@ -583,8 +586,26 @@ public:
   // SIZE 0x90
 };
 
+enum class EMoveType : s32
+{
+
+};
+
+constexpr f32 DEFAULT_CHARACTER_MOVE_SPEED = 3.0f;
+
 class CActionChara : public CCharacter2
 {
 public:
-  // TODO
+  
+  // 0016A220
+  void ResetScript();
+
+  // 6A4
+  EAttackType m_attack_type{};
+  // 6A8
+  EMoveType m_move_type{};
+  // 712
+  s16 m_prog{ 0 };
+  // 794
+  f32 m_move_speed{ DEFAULT_CHARACTER_MOVE_SPEED };
 };
