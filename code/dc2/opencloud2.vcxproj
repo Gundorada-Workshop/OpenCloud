@@ -33,6 +33,7 @@
     <ClInclude Include="npc.h" />
     <ClInclude Include="pot.h" />
     <ClInclude Include="quest.h" />
+    <ClInclude Include="rain.h" />
     <ClInclude Include="robopart.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="io.h" />
@@ -114,6 +115,7 @@
     <ClCompile Include="npc.cc" />
     <ClCompile Include="pot.cc" />
     <ClCompile Include="quest.cc" />
+    <ClCompile Include="rain.cc" />
     <ClCompile Include="robopart.cc" />
     <ClCompile Include="run_script.cc" />
     <ClCompile Include="scene.cc" />

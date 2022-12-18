@@ -91,6 +91,7 @@
     <ClCompile Include="mg\mg_texture.cc">
       <Filter>mg</Filter>
     </ClCompile>
+    <ClCompile Include="rain.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
@@ -185,6 +186,7 @@
       <Filter>mg</Filter>
     </ClInclude>
     <ClInclude Include="weapon.h" />
+    <ClInclude Include="rain.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="opencloud2.exports.props" />
