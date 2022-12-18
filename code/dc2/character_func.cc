@@ -4,6 +4,7 @@
 
 #include "dc2/character.h"
 #include "dc2/character_func.h"
+#include "dc2/dng_main.h"
 #include "dc2/monster_func.h"
 #include "dc2/run_script.h"
 #include "dc2/script_interpreter.h"
@@ -235,11 +236,22 @@ static bool _GET_SHOT_TYPE(RS_STACKDATA* stack, sint stack_count)
   return true;
 }
 
-static bool _GET_MONS_ID(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_MONS_ID(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  if (stack_count != 1)
+  {
+    return false;
+  }
+
+  s32 mons_id = -1;
+  if (DngUserData->m_active_chara_no == ECharacterID::Monster)
+  {
+    mons_id = static_cast<s32>(GetBattleCharaInfo()->GetMonsterID());
+  }
+
+  SetStack(stack++, mons_id);
   return true;
 }
 
