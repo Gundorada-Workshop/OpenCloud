@@ -2,6 +2,7 @@
 
 #include "common/log.h"
 #include "common/math.h"
+#include "common/macros.h"
 #include "common/constants.h"
 #include "common/types.h"
 
@@ -180,7 +181,7 @@ bool EdEventFinish()
   return false;
 }
 
-static bool _GET_PADON(RS_STACKDATA* stack, int stack_count)
+static bool _GET_PADON(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -188,7 +189,7 @@ static bool _GET_PADON(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_PADDOWN(RS_STACKDATA* stack, int stack_count)
+static bool _GET_PADDOWN(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -196,7 +197,7 @@ static bool _GET_PADDOWN(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_PADUP(RS_STACKDATA* stack, int stack_count)
+static bool _GET_PADUP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -204,7 +205,7 @@ static bool _GET_PADUP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_APAD(RS_STACKDATA* stack, int stack_count)
+static bool _GET_APAD(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -225,7 +226,7 @@ static bool _GOTO_INTERIOR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _INITIALIZE(RS_STACKDATA* stack, int stack_count)
+static bool _INITIALIZE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -254,7 +255,7 @@ static bool _GOTO_OUTSIDE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_CHARA(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_CHARA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -296,7 +297,7 @@ static bool _CHARA_ACTIVE(RS_STACKDATA* stack, int stack_count)
   }
 }
 
-static bool _CLEAR_STACK(RS_STACKDATA* stack, int stack_count)
+static bool _CLEAR_STACK(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -304,7 +305,7 @@ static bool _CLEAR_STACK(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ASSIGN_STACK(RS_STACKDATA* stack, int stack_count)
+static bool _ASSIGN_STACK(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -312,7 +313,7 @@ static bool _ASSIGN_STACK(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_FLAG(RS_STACKDATA* stack, int stack_count)
+static bool _SET_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -320,7 +321,7 @@ static bool _SET_FLAG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_FLAG(RS_STACKDATA* stack, int stack_count)
+static bool _GET_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -328,7 +329,7 @@ static bool _GET_FLAG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CNT(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CNT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -336,7 +337,7 @@ static bool _SET_CNT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_CNT(RS_STACKDATA* stack, int stack_count)
+static bool _GET_CNT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -344,7 +345,7 @@ static bool _GET_CNT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CURRENT_DIR(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CURRENT_DIR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -352,7 +353,7 @@ static bool _SET_CURRENT_DIR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DELETE_CHARA(RS_STACKDATA* stack, int stack_count)
+static bool _DELETE_CHARA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -360,7 +361,7 @@ static bool _DELETE_CHARA(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_MOTION(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_MOTION(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -368,7 +369,7 @@ static bool _LOAD_MOTION(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _MAP_JUMP(RS_STACKDATA* stack, int stack_count)
+static bool _MAP_JUMP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -376,7 +377,7 @@ static bool _MAP_JUMP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_RAIN(RS_STACKDATA* stack, int stack_count)
+static bool _SET_RAIN(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -394,7 +395,7 @@ static bool _SET_RAIN(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DEL_EXT_MOTION(RS_STACKDATA* stack, int stack_count)
+static bool _DEL_EXT_MOTION(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -409,7 +410,7 @@ static bool _DEL_EXT_MOTION(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MARKER(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MARKER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -448,14 +449,14 @@ static bool _SET_WORLD_COORD(RS_STACKDATA* stack, int stack_count)
   }
 }
 
-static bool _FINISH(RS_STACKDATA* stack, int stack_count)
+static bool _FINISH(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return EdEventFinish();
 }
 
-static bool _GET_DUN_WORLD_COORD(RS_STACKDATA* stack, int stack_count)
+static bool _GET_DUN_WORLD_COORD(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -463,7 +464,7 @@ static bool _GET_DUN_WORLD_COORD(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_IMG(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_IMG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -471,7 +472,7 @@ static bool _LOAD_IMG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DEL_IMG(RS_STACKDATA* stack, int stack_count)
+static bool _DEL_IMG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -479,7 +480,7 @@ static bool _DEL_IMG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_DNG_MAP(RS_STACKDATA* stack, int stack_count)
+static bool _SET_DNG_MAP(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -490,7 +491,7 @@ static bool _SET_DNG_MAP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_ITEM(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_ITEM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -498,7 +499,7 @@ static bool _LOAD_ITEM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GOTO_USE_ITEM(RS_STACKDATA* stack, int stack_count)
+static bool _GOTO_USE_ITEM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -506,7 +507,7 @@ static bool _GOTO_USE_ITEM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_LOCAL_FLAG(RS_STACKDATA* stack, int stack_count)
+static bool _SET_LOCAL_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -514,7 +515,7 @@ static bool _SET_LOCAL_FLAG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_LOCAL_FLAG(RS_STACKDATA* stack, int stack_count)
+static bool _GET_LOCAL_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -522,7 +523,7 @@ static bool _GET_LOCAL_FLAG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GOTO_SELECT_PARTY(RS_STACKDATA* stack, int stack_count)
+static bool _GOTO_SELECT_PARTY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -530,7 +531,7 @@ static bool _GOTO_SELECT_PARTY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_LOADBG_FILE(RS_STACKDATA* stack, int stack_count)
+static bool _SET_LOADBG_FILE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -538,7 +539,7 @@ static bool _SET_LOADBG_FILE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CHECK_LOADBG_FILE(RS_STACKDATA* stack, int stack_count)
+static bool _CHECK_LOADBG_FILE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -546,14 +547,14 @@ static bool _CHECK_LOADBG_FILE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_TB_ITEMNO(RS_STACKDATA* stack, int stack_count)
+static bool _GET_TB_ITEMNO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return false;
 }
 
-static bool _SET_TB_STATUS(RS_STACKDATA* stack, int stack_count)
+static bool _SET_TB_STATUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -561,7 +562,7 @@ static bool _SET_TB_STATUS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_TB_ANGLE(RS_STACKDATA* stack, int stack_count)
+static bool _SET_TB_ANGLE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -569,7 +570,7 @@ static bool _SET_TB_ANGLE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ADD_ITEM(RS_STACKDATA* stack, int stack_count)
+static bool _ADD_ITEM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -577,7 +578,7 @@ static bool _ADD_ITEM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_ITEM_TYPE(RS_STACKDATA* stack, int stack_count)
+static bool _GET_ITEM_TYPE(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -599,7 +600,7 @@ static bool _GET_ITEM_TYPE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_ITEM_SPACE(RS_STACKDATA* stack, int stack_count)
+static bool _GET_ITEM_SPACE(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -614,7 +615,7 @@ static bool _GET_ITEM_SPACE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_ADJUST_POLYGON_SCALE(RS_STACKDATA* stack, int stack_count)
+static bool _GET_ADJUST_POLYGON_SCALE(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -639,7 +640,7 @@ static bool _GET_ADJUST_POLYGON_SCALE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_MOVIE(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_MOVIE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -647,7 +648,7 @@ static bool _LOAD_MOVIE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _INIT_LOCAL_CNT(RS_STACKDATA* stack, int stack_count)
+static bool _INIT_LOCAL_CNT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -655,7 +656,7 @@ static bool _INIT_LOCAL_CNT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CROSSFADE(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CROSSFADE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -663,7 +664,7 @@ static bool _SET_CROSSFADE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_TIME(RS_STACKDATA* stack, int stack_count)
+static bool _SET_TIME(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -671,7 +672,7 @@ static bool _SET_TIME(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_ACTIVE_LIGHT(RS_STACKDATA* stack, int stack_count)
+static bool _SET_ACTIVE_LIGHT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -679,7 +680,7 @@ static bool _SET_ACTIVE_LIGHT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_PAKU_ANIM(RS_STACKDATA* stack, int stack_count)
+static bool _SET_PAKU_ANIM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -687,7 +688,7 @@ static bool _SET_PAKU_ANIM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _RESET_PAKU_ANIM(RS_STACKDATA* stack, int stack_count)
+static bool _RESET_PAKU_ANIM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -695,7 +696,7 @@ static bool _RESET_PAKU_ANIM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _TRG_PAKU_ANIM(RS_STACKDATA* stack, int stack_count)
+static bool _TRG_PAKU_ANIM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -703,7 +704,7 @@ static bool _TRG_PAKU_ANIM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _RESET_CAMERA(RS_STACKDATA* stack, int stack_count)
+static bool _RESET_CAMERA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -711,7 +712,7 @@ static bool _RESET_CAMERA(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_ACTIVE_CHR_NO(RS_STACKDATA* stack, int stack_count)
+static bool _GET_ACTIVE_CHR_NO(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -726,7 +727,7 @@ static bool _GET_ACTIVE_CHR_NO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_ACTIVE_CHR_NO(RS_STACKDATA* stack, int stack_count)
+static bool _SET_ACTIVE_CHR_NO(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -741,7 +742,7 @@ static bool _SET_ACTIVE_CHR_NO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNG_SET_FLOOR_ID(RS_STACKDATA* stack, int stack_count)
+static bool _DNG_SET_FLOOR_ID(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -756,7 +757,7 @@ static bool _DNG_SET_FLOOR_ID(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNG_GET_FLOOR_ID(RS_STACKDATA* stack, int stack_count)
+static bool _DNG_GET_FLOOR_ID(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -772,7 +773,7 @@ static bool _DNG_GET_FLOOR_ID(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_PAKU_MOTION(RS_STACKDATA* stack, int stack_count)
+static bool _SET_PAKU_MOTION(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -780,7 +781,7 @@ static bool _SET_PAKU_MOTION(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _RESET_PAKU_MOTION(RS_STACKDATA* stack, int stack_count)
+static bool _RESET_PAKU_MOTION(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -788,7 +789,7 @@ static bool _RESET_PAKU_MOTION(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _TRG_PAKU_MOTION(RS_STACKDATA* stack, int stack_count)
+static bool _TRG_PAKU_MOTION(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -796,7 +797,7 @@ static bool _TRG_PAKU_MOTION(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_BG_COLOR(RS_STACKDATA* stack, int stack_count)
+static bool _SET_BG_COLOR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -804,7 +805,7 @@ static bool _SET_BG_COLOR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GOTO_DNG_MAP(RS_STACKDATA* stack, int stack_count)
+static bool _GOTO_DNG_MAP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -847,7 +848,7 @@ static bool _GOTO_EDIT(RS_STACKDATA* stack, int stack_count)
   EdEventInfo.m_unk_field_CC = 3; // FIXME: MAGIC
 }
 
-static bool _GET_MENU_PARAM(RS_STACKDATA* stack, int stack_count)
+static bool _GET_MENU_PARAM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -855,7 +856,7 @@ static bool _GET_MENU_PARAM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_CHARA_NPC(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_CHARA_NPC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -888,7 +889,7 @@ static bool _AUTO_SET_TREASURE_BOX(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _AUTO_SET_MONSTER(RS_STACKDATA* stack, int stack_count)
+static bool _AUTO_SET_MONSTER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -896,7 +897,7 @@ static bool _AUTO_SET_MONSTER(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_DUNGEON_MAP_FILE(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_DUNGEON_MAP_FILE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -904,7 +905,7 @@ static bool _LOAD_DUNGEON_MAP_FILE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_MONSTER_FILE(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_MONSTER_FILE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -912,7 +913,7 @@ static bool _LOAD_MONSTER_FILE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_NPC_STATUS(RS_STACKDATA* stack, int stack_count)
+static bool _GET_NPC_STATUS(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -934,7 +935,7 @@ static bool _GET_NPC_STATUS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_NPC_STATUS(RS_STACKDATA* stack, int stack_count)
+static bool _SET_NPC_STATUS(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -957,7 +958,7 @@ static bool _SET_NPC_STATUS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_NOW_PARTY_CHARA(RS_STACKDATA* stack, int stack_count)
+static bool _GET_NOW_PARTY_CHARA(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   auto save_data = GetSaveData();
 
@@ -970,7 +971,7 @@ static bool _GET_NOW_PARTY_CHARA(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_LOCAL_CNT(RS_STACKDATA* stack, int stack_count)
+static bool _SET_LOCAL_CNT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -978,7 +979,7 @@ static bool _SET_LOCAL_CNT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_LOCAL_CNT(RS_STACKDATA* stack, int stack_count)
+static bool _GET_LOCAL_CNT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -986,7 +987,7 @@ static bool _GET_LOCAL_CNT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_LOCAL_CNT2(RS_STACKDATA* stack, int stack_count)
+static bool _GET_LOCAL_CNT2(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -994,7 +995,7 @@ static bool _GET_LOCAL_CNT2(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_TRAIN_NPC_POS(RS_STACKDATA* stack, int stack_count)
+static bool _GET_TRAIN_NPC_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1002,7 +1003,7 @@ static bool _GET_TRAIN_NPC_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GOTO_DRAW_CHAPTER(RS_STACKDATA* stack, int stack_count)
+static bool _GOTO_DRAW_CHAPTER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1010,7 +1011,7 @@ static bool _GOTO_DRAW_CHAPTER(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_PROJECTION(RS_STACKDATA* stack, int stack_count)
+static bool _SET_PROJECTION(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1018,7 +1019,7 @@ static bool _SET_PROJECTION(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_PROJECTION(RS_STACKDATA* stack, int stack_count)
+static bool _GET_PROJECTION(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1026,7 +1027,7 @@ static bool _GET_PROJECTION(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_FADE_IN(RS_STACKDATA* stack, int stack_count)
+static bool _SET_FADE_IN(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1034,7 +1035,7 @@ static bool _SET_FADE_IN(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_FADE_OUT(RS_STACKDATA* stack, int stack_count)
+static bool _SET_FADE_OUT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1042,7 +1043,7 @@ static bool _SET_FADE_OUT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNG_DEBUG_COMMAND(RS_STACKDATA* stack, int stack_count)
+static bool _DNG_DEBUG_COMMAND(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1050,7 +1051,7 @@ static bool _DNG_DEBUG_COMMAND(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CD_SEEK(RS_STACKDATA* stack, int stack_count)
+static bool _CD_SEEK(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1058,7 +1059,7 @@ static bool _CD_SEEK(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_ROT_LOOK_POS(RS_STACKDATA* stack, int stack_count)
+static bool _GET_ROT_LOOK_POS(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1066,7 +1067,7 @@ static bool _GET_ROT_LOOK_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MOTION_BLUR(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MOTION_BLUR(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1074,7 +1075,7 @@ static bool _SET_MOTION_BLUR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_SCRIPT(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_SCRIPT(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1092,7 +1093,7 @@ static bool _LOAD_SCRIPT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_TALK_CAMERA(RS_STACKDATA* stack, int stack_count)
+static bool _SET_TALK_CAMERA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1100,7 +1101,7 @@ static bool _SET_TALK_CAMERA(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _HIT_EFFECT(RS_STACKDATA* stack, int stack_count)
+static bool _HIT_EFFECT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1108,7 +1109,7 @@ static bool _HIT_EFFECT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _COPY_CHARA(RS_STACKDATA* stack, int stack_count)
+static bool _COPY_CHARA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1116,7 +1117,7 @@ static bool _COPY_CHARA(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_START_BUTTON(RS_STACKDATA* stack, int stack_count)
+static bool _GET_START_BUTTON(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1154,7 +1155,7 @@ static bool _GET_MONSTER_TALK_DATA(RS_STACKDATA* stack, int stack_count)
   }
 }
 
-static bool _FUNC_POINT_SHOW(RS_STACKDATA* stack, int stack_count)
+static bool _FUNC_POINT_SHOW(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1162,7 +1163,7 @@ static bool _FUNC_POINT_SHOW(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_NOW_MAP_NO(RS_STACKDATA* stack, int stack_count)
+static bool _GET_NOW_MAP_NO(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1170,7 +1171,7 @@ static bool _GET_NOW_MAP_NO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_NOW_SUBMAP_NO(RS_STACKDATA* stack, int stack_count)
+static bool _GET_NOW_SUBMAP_NO(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1178,7 +1179,7 @@ static bool _GET_NOW_SUBMAP_NO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_OLD_MAP_NO(RS_STACKDATA* stack, int stack_count)
+static bool _GET_OLD_MAP_NO(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1186,7 +1187,7 @@ static bool _GET_OLD_MAP_NO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_OLD_SUBMAP_NO(RS_STACKDATA* stack, int stack_count)
+static bool _GET_OLD_SUBMAP_NO(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1194,7 +1195,7 @@ static bool _GET_OLD_SUBMAP_NO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_RAIN_CHARA_NO(RS_STACKDATA* stack, int stack_count)
+static bool _SET_RAIN_CHARA_NO(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1202,7 +1203,7 @@ static bool _SET_RAIN_CHARA_NO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_EDIT_PARTS_POS(RS_STACKDATA* stack, int stack_count)
+static bool _GET_EDIT_PARTS_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1210,7 +1211,7 @@ static bool _GET_EDIT_PARTS_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_CHARA_POS(RS_STACKDATA* stack, int stack_count)
+static bool _GET_CHARA_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1218,7 +1219,7 @@ static bool _GET_CHARA_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_CHARA_TALK_POS(RS_STACKDATA* stack, int stack_count)
+static bool _GET_CHARA_TALK_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1226,7 +1227,7 @@ static bool _GET_CHARA_TALK_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _TURN_CHARA(RS_STACKDATA* stack, int stack_count)
+static bool _TURN_CHARA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1234,7 +1235,7 @@ static bool _TURN_CHARA(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CHARA_POS(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CHARA_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1242,7 +1243,7 @@ static bool _SET_CHARA_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CHARA_ROT(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CHARA_ROT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1250,7 +1251,7 @@ static bool _SET_CHARA_ROT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_CHARA_ROT(RS_STACKDATA* stack, int stack_count)
+static bool _GET_CHARA_ROT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1258,7 +1259,7 @@ static bool _GET_CHARA_ROT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MOTION(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MOTION(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1266,7 +1267,7 @@ static bool _SET_MOTION(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_STEP(RS_STACKDATA* stack, int stack_count)
+static bool _SET_STEP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1274,7 +1275,7 @@ static bool _SET_STEP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_TEX_ANIM(RS_STACKDATA* stack, int stack_count)
+static bool _SET_TEX_ANIM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1282,7 +1283,7 @@ static bool _SET_TEX_ANIM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_SCALE(RS_STACKDATA* stack, int stack_count)
+static bool _SET_SCALE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1290,7 +1291,7 @@ static bool _SET_SCALE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_REFERENCE(RS_STACKDATA* stack, int stack_count)
+static bool _SET_REFERENCE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1298,7 +1299,7 @@ static bool _SET_REFERENCE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DEL_REFERENCE(RS_STACKDATA* stack, int stack_count)
+static bool _DEL_REFERENCE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1306,7 +1307,7 @@ static bool _DEL_REFERENCE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SHADOW_CLIP_OFF(RS_STACKDATA* stack, int stack_count)
+static bool _SHADOW_CLIP_OFF(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1314,7 +1315,7 @@ static bool _SHADOW_CLIP_OFF(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_COORDINATE_ANGLE(RS_STACKDATA* stack, int stack_count)
+static bool _GET_COORDINATE_ANGLE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1322,7 +1323,7 @@ static bool _GET_COORDINATE_ANGLE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_CHARA_WIDTH(RS_STACKDATA* stack, int stack_count)
+static bool _GET_CHARA_WIDTH(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1330,7 +1331,7 @@ static bool _GET_CHARA_WIDTH(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_CHARA_HEIGHT(RS_STACKDATA* stack, int stack_count)
+static bool _GET_CHARA_HEIGHT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1338,7 +1339,7 @@ static bool _GET_CHARA_HEIGHT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_CHARA_WEIGHT(RS_STACKDATA* stack, int stack_count)
+static bool _GET_CHARA_WEIGHT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1346,7 +1347,7 @@ static bool _GET_CHARA_WEIGHT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CHARA_SHOW(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CHARA_SHOW(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1354,7 +1355,7 @@ static bool _SET_CHARA_SHOW(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_CHARA_SHOW(RS_STACKDATA* stack, int stack_count)
+static bool _GET_CHARA_SHOW(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1362,7 +1363,7 @@ static bool _GET_CHARA_SHOW(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CHARA_DA_ENABLE(RS_STACKDATA* stack, int stack_count)
+static bool _CHARA_DA_ENABLE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1370,7 +1371,7 @@ static bool _CHARA_DA_ENABLE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_MOT_NOW_WAIT(RS_STACKDATA* stack, int stack_count)
+static bool _GET_MOT_NOW_WAIT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1378,7 +1379,7 @@ static bool _GET_MOT_NOW_WAIT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CHECK_MOTION_END(RS_STACKDATA* stack, int stack_count)
+static bool _CHECK_MOTION_END(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1386,7 +1387,7 @@ static bool _CHECK_MOTION_END(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ACTCHR_SET_MOTION(RS_STACKDATA* stack, int stack_count)
+static bool _ACTCHR_SET_MOTION(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1394,7 +1395,7 @@ static bool _ACTCHR_SET_MOTION(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CHARA_EX_SOUNDID(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CHARA_EX_SOUNDID(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1402,7 +1403,7 @@ static bool _SET_CHARA_EX_SOUNDID(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ACTCHR_SOUND_INFO_COPY(RS_STACKDATA* stack, int stack_count)
+static bool _ACTCHR_SOUND_INFO_COPY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1410,7 +1411,7 @@ static bool _ACTCHR_SOUND_INFO_COPY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _MES_MAKE(RS_STACKDATA* stack, int stack_count)
+static bool _MES_MAKE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1418,7 +1419,7 @@ static bool _MES_MAKE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _MES_CLOSE(RS_STACKDATA* stack, int stack_count)
+static bool _MES_CLOSE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1426,7 +1427,7 @@ static bool _MES_CLOSE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _MES_NEXTPAGE(RS_STACKDATA* stack, int stack_count)
+static bool _MES_NEXTPAGE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1434,7 +1435,7 @@ static bool _MES_NEXTPAGE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MES_AUTOSET(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MES_AUTOSET(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1442,7 +1443,7 @@ static bool _SET_MES_AUTOSET(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MES_SHIPPO(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MES_SHIPPO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1450,7 +1451,7 @@ static bool _SET_MES_SHIPPO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MES_POS(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MES_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1458,7 +1459,7 @@ static bool _SET_MES_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MES_DRAWSPEED(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MES_DRAWSPEED(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1466,7 +1467,7 @@ static bool _SET_MES_DRAWSPEED(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MES_CURSOR(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MES_CURSOR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1474,7 +1475,7 @@ static bool _SET_MES_CURSOR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MES_OKURI(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MES_OKURI(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1482,7 +1483,7 @@ static bool _SET_MES_OKURI(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MES_FUKIDASHI(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MES_FUKIDASHI(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1490,7 +1491,7 @@ static bool _SET_MES_FUKIDASHI(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CHECK_MES_COMPLETE(RS_STACKDATA* stack, int stack_count)
+static bool _CHECK_MES_COMPLETE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1498,7 +1499,7 @@ static bool _CHECK_MES_COMPLETE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CHECK_MES_WAIT(RS_STACKDATA* stack, int stack_count)
+static bool _CHECK_MES_WAIT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1506,7 +1507,7 @@ static bool _CHECK_MES_WAIT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CHECK_MES(RS_STACKDATA* stack, int stack_count)
+static bool _CHECK_MES(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1514,7 +1515,7 @@ static bool _CHECK_MES(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MES_WIN_FLAG(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MES_WIN_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1522,7 +1523,7 @@ static bool _SET_MES_WIN_FLAG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CAMERA_POS(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CAMERA_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1530,7 +1531,7 @@ static bool _SET_CAMERA_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_CAMERA_POS(RS_STACKDATA* stack, int stack_count)
+static bool _GET_CAMERA_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1538,7 +1539,7 @@ static bool _GET_CAMERA_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CAMERA_REF(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CAMERA_REF(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1546,7 +1547,7 @@ static bool _SET_CAMERA_REF(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_CAMERA_REF(RS_STACKDATA* stack, int stack_count)
+static bool _GET_CAMERA_REF(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1554,7 +1555,7 @@ static bool _GET_CAMERA_REF(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CAMERA_SPEED(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CAMERA_SPEED(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1569,7 +1570,7 @@ static bool _SET_CAMERA_SPEED(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CAMERA_STEP(RS_STACKDATA* stack, int stack_count)
+static bool _CAMERA_STEP(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1584,7 +1585,7 @@ static bool _CAMERA_STEP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MES_WINDOW_MODE(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MES_WINDOW_MODE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1592,7 +1593,7 @@ static bool _SET_MES_WINDOW_MODE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MES_PRESET(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MES_PRESET(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1600,7 +1601,7 @@ static bool _SET_MES_PRESET(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MES_ITEM_DIRECT(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MES_ITEM_DIRECT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1608,7 +1609,7 @@ static bool _SET_MES_ITEM_DIRECT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MES_ITEM(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MES_ITEM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1616,7 +1617,7 @@ static bool _SET_MES_ITEM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MES_VALUE(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MES_VALUE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1624,7 +1625,7 @@ static bool _SET_MES_VALUE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_MES_STATUS(RS_STACKDATA* stack, int stack_count)
+static bool _GET_MES_STATUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1632,7 +1633,7 @@ static bool _GET_MES_STATUS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_PARTY_CHARA_MES_NO(RS_STACKDATA* stack, int stack_count)
+static bool _GET_PARTY_CHARA_MES_NO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1640,7 +1641,7 @@ static bool _GET_PARTY_CHARA_MES_NO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _MES_SET_BUFF(RS_STACKDATA* stack, int stack_count)
+static bool _MES_SET_BUFF(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1648,7 +1649,7 @@ static bool _MES_SET_BUFF(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_MES_WINDOW_MODE(RS_STACKDATA* stack, int stack_count)
+static bool _GET_MES_WINDOW_MODE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1656,7 +1657,7 @@ static bool _GET_MES_WINDOW_MODE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_MES_VOICE(RS_STACKDATA* stack, int stack_count)
+static bool _GET_MES_VOICE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1664,7 +1665,7 @@ static bool _GET_MES_VOICE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MES_QUESTION_GYOU(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MES_QUESTION_GYOU(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1672,7 +1673,7 @@ static bool _SET_MES_QUESTION_GYOU(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_MES_QUESTION_GYOU(RS_STACKDATA* stack, int stack_count)
+static bool _GET_MES_QUESTION_GYOU(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1680,7 +1681,7 @@ static bool _GET_MES_QUESTION_GYOU(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MES_CLOSE_CNT(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MES_CLOSE_CNT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1688,7 +1689,7 @@ static bool _SET_MES_CLOSE_CNT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MES_ETC(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MES_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1696,7 +1697,7 @@ static bool _SET_MES_ETC(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_MES_ETC(RS_STACKDATA* stack, int stack_count)
+static bool _GET_MES_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1704,7 +1705,7 @@ static bool _GET_MES_ETC(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_MES(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_MES(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1712,7 +1713,7 @@ static bool _LOAD_MES(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _MES_SE_PLAY(RS_STACKDATA* stack, int stack_count)
+static bool _MES_SE_PLAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1720,7 +1721,7 @@ static bool _MES_SE_PLAY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MES_STR(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MES_STR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1728,7 +1729,7 @@ static bool _SET_MES_STR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_MES_OKURI(RS_STACKDATA* stack, int stack_count)
+static bool _GET_MES_OKURI(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1736,147 +1737,147 @@ static bool _GET_MES_OKURI(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ASQ_INIT(RS_STACKDATA* stack, int stack_count)
+static bool _ASQ_INIT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return true;
 }
 
-static bool _ASQ_SYNC_CHARA(RS_STACKDATA* stack, int stack_count)
+static bool _ASQ_SYNC_CHARA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return true;
 }
 
-static bool _ASQ_SET_POS(RS_STACKDATA* stack, int stack_count)
+static bool _ASQ_SET_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return true;
 }
 
-static bool _ASQ_MOVE(RS_STACKDATA* stack, int stack_count)
+static bool _ASQ_MOVE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return true;
 }
 
-static bool _ASQ_MOVE_STEP(RS_STACKDATA* stack, int stack_count)
+static bool _ASQ_MOVE_STEP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return true;
 }
 
-static bool _ASQ_ROT_REF(RS_STACKDATA* stack, int stack_count)
+static bool _ASQ_ROT_REF(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return true;
 }
 
-static bool _ASQ_CLEAR_ROT(RS_STACKDATA* stack, int stack_count)
+static bool _ASQ_CLEAR_ROT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return true;
 }
 
-static bool _ASQ_WAIT_ROT(RS_STACKDATA* stack, int stack_count)
+static bool _ASQ_WAIT_ROT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return true;
 }
 
-static bool _ASQ_ROT_MOVE(RS_STACKDATA* stack, int stack_count)
+static bool _ASQ_ROT_MOVE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return true;
 }
 
-static bool _ASQ_ROT_ANGLE(RS_STACKDATA* stack, int stack_count)
+static bool _ASQ_ROT_ANGLE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return true;
 }
 
-static bool _ASQ_SET_ROT(RS_STACKDATA* stack, int stack_count)
+static bool _ASQ_SET_ROT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return true;
 }
 
-static bool _ASQ_DELAY_ROT(RS_STACKDATA* stack, int stack_count)
+static bool _ASQ_DELAY_ROT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return true;
 }
 
-static bool _ASQ_CHECK(RS_STACKDATA* stack, int stack_count)
+static bool _ASQ_CHECK(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return true;
 }
 
-static bool _ASQ_MOTION_TRG(RS_STACKDATA* stack, int stack_count)
+static bool _ASQ_MOTION_TRG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return true;
 }
 
-static bool _ASQ_MOTION_PLAY(RS_STACKDATA* stack, int stack_count)
+static bool _ASQ_MOTION_PLAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return true;
 }
 
-static bool _ASQ_MOTION_STOP(RS_STACKDATA* stack, int stack_count)
+static bool _ASQ_MOTION_STOP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return true;
 }
 
-static bool _ASQ_MOTION_NEXT(RS_STACKDATA* stack, int stack_count)
+static bool _ASQ_MOTION_NEXT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return true;
 }
 
-static bool _ASQ_ANIME_TRG(RS_STACKDATA* stack, int stack_count)
+static bool _ASQ_ANIME_TRG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return true;
 }
 
-static bool _ASQ_ANIME(RS_STACKDATA* stack, int stack_count)
+static bool _ASQ_ANIME(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return true;
 }
 
-static bool _ASQ_SE_PLAY(RS_STACKDATA* stack, int stack_count)
+static bool _ASQ_SE_PLAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return true;
 }
 
-static bool _IMG_SET_DRAW(RS_STACKDATA* stack, int stack_count)
+static bool _IMG_SET_DRAW(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1884,7 +1885,7 @@ static bool _IMG_SET_DRAW(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _IMG_SET_GET(RS_STACKDATA* stack, int stack_count)
+static bool _IMG_SET_GET(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1892,7 +1893,7 @@ static bool _IMG_SET_GET(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _IMG_SET_PUT(RS_STACKDATA* stack, int stack_count)
+static bool _IMG_SET_PUT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1900,7 +1901,7 @@ static bool _IMG_SET_PUT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _IMG_SET_NAME(RS_STACKDATA* stack, int stack_count)
+static bool _IMG_SET_NAME(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1908,7 +1909,7 @@ static bool _IMG_SET_NAME(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _IMG_SET_MOVE(RS_STACKDATA* stack, int stack_count)
+static bool _IMG_SET_MOVE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1916,7 +1917,7 @@ static bool _IMG_SET_MOVE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _IMG_SET_FADE(RS_STACKDATA* stack, int stack_count)
+static bool _IMG_SET_FADE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1924,7 +1925,7 @@ static bool _IMG_SET_FADE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _IMG_SET_COLOR(RS_STACKDATA* stack, int stack_count)
+static bool _IMG_SET_COLOR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1932,7 +1933,7 @@ static bool _IMG_SET_COLOR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPRITE_INIT(RS_STACKDATA* stack, int stack_count)
+static bool _SPRITE_INIT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1940,7 +1941,7 @@ static bool _SPRITE_INIT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPRITE_SET_DRAW(RS_STACKDATA* stack, int stack_count)
+static bool _SPRITE_SET_DRAW(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1948,7 +1949,7 @@ static bool _SPRITE_SET_DRAW(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPRITE_SET_TYPE(RS_STACKDATA* stack, int stack_count)
+static bool _SPRITE_SET_TYPE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1956,7 +1957,7 @@ static bool _SPRITE_SET_TYPE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPRITE_SET_TEXTURE(RS_STACKDATA* stack, int stack_count)
+static bool _SPRITE_SET_TEXTURE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1964,7 +1965,7 @@ static bool _SPRITE_SET_TEXTURE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPRITE_SET_POS(RS_STACKDATA* stack, int stack_count)
+static bool _SPRITE_SET_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1972,7 +1973,7 @@ static bool _SPRITE_SET_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPRITE_SET_PUTSIZE(RS_STACKDATA* stack, int stack_count)
+static bool _SPRITE_SET_PUTSIZE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1980,7 +1981,7 @@ static bool _SPRITE_SET_PUTSIZE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPRITE_SET_UVSIZE(RS_STACKDATA* stack, int stack_count)
+static bool _SPRITE_SET_UVSIZE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1988,7 +1989,7 @@ static bool _SPRITE_SET_UVSIZE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPRITE_SET_COLOR(RS_STACKDATA* stack, int stack_count)
+static bool _SPRITE_SET_COLOR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1996,7 +1997,7 @@ static bool _SPRITE_SET_COLOR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPRITE_SET_SCALE(RS_STACKDATA* stack, int stack_count)
+static bool _SPRITE_SET_SCALE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2004,7 +2005,7 @@ static bool _SPRITE_SET_SCALE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPRITE_SET_ALPHAB(RS_STACKDATA* stack, int stack_count)
+static bool _SPRITE_SET_ALPHAB(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2012,7 +2013,7 @@ static bool _SPRITE_SET_ALPHAB(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_CHECK(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_CHECK(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2020,7 +2021,7 @@ static bool _CMRS_CHECK(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_INIT(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_INIT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2028,7 +2029,7 @@ static bool _CMRS_INIT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_PRDELAY(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_PRDELAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2036,7 +2037,7 @@ static bool _CMRS_PRDELAY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_SET_POS(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_SET_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2044,7 +2045,7 @@ static bool _CMRS_SET_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_SET_REF(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_SET_REF(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2052,7 +2053,7 @@ static bool _CMRS_SET_REF(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_MOVE(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_MOVE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2060,7 +2061,7 @@ static bool _CMRS_MOVE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_MOVE_REF(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_MOVE_REF(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2068,7 +2069,7 @@ static bool _CMRS_MOVE_REF(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_INIT_PAS(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_INIT_PAS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2076,7 +2077,7 @@ static bool _CMRS_INIT_PAS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_SET_PAS_FRM(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_SET_PAS_FRM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2084,7 +2085,7 @@ static bool _CMRS_SET_PAS_FRM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_ADD_PAS(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_ADD_PAS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2092,7 +2093,7 @@ static bool _CMRS_ADD_PAS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_START_PAS(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_START_PAS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2100,7 +2101,7 @@ static bool _CMRS_START_PAS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_PR_SLOWING(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_PR_SLOWING(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2108,7 +2109,7 @@ static bool _CMRS_PR_SLOWING(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_PR_KEEP(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_PR_KEEP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2116,7 +2117,7 @@ static bool _CMRS_PR_KEEP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_PR_RETURN(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_PR_RETURN(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2124,7 +2125,7 @@ static bool _CMRS_PR_RETURN(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_AHDDELAY(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_AHDDELAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2132,7 +2133,7 @@ static bool _CMRS_AHDDELAY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_SET_ANGLE(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_SET_ANGLE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2140,7 +2141,7 @@ static bool _CMRS_SET_ANGLE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_SET_HEIGHT(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_SET_HEIGHT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2148,7 +2149,7 @@ static bool _CMRS_SET_HEIGHT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_SET_DIST(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_SET_DIST(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2156,7 +2157,7 @@ static bool _CMRS_SET_DIST(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_SET_AHD(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_SET_AHD(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2164,7 +2165,7 @@ static bool _CMRS_SET_AHD(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_MOVE_AHD(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_MOVE_AHD(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2172,7 +2173,7 @@ static bool _CMRS_MOVE_AHD(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_SYNC_OBJ(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_SYNC_OBJ(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2180,7 +2181,7 @@ static bool _CMRS_SYNC_OBJ(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_RELEASE_OBJ(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_RELEASE_OBJ(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2188,7 +2189,7 @@ static bool _CMRS_RELEASE_OBJ(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_AHD_SLOWING(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_AHD_SLOWING(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2196,7 +2197,7 @@ static bool _CMRS_AHD_SLOWING(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_AHD_KEEP(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_AHD_KEEP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2204,7 +2205,7 @@ static bool _CMRS_AHD_KEEP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_AHD_RETURN(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_AHD_RETURN(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2212,7 +2213,7 @@ static bool _CMRS_AHD_RETURN(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_FADE_DELAY(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_FADE_DELAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2220,7 +2221,7 @@ static bool _CMRS_FADE_DELAY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_FADE_INIT(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_FADE_INIT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2228,7 +2229,7 @@ static bool _CMRS_FADE_INIT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_FADE_IN(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_FADE_IN(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2236,7 +2237,7 @@ static bool _CMRS_FADE_IN(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_FADE_OUT(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_FADE_OUT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2244,7 +2245,7 @@ static bool _CMRS_FADE_OUT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_QUAKE_DELAY(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_QUAKE_DELAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2252,7 +2253,7 @@ static bool _CMRS_QUAKE_DELAY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_QUAKE(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_QUAKE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2260,7 +2261,7 @@ static bool _CMRS_QUAKE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_MOVE2(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_MOVE2(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2268,7 +2269,7 @@ static bool _CMRS_MOVE2(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_MOVE_AHD2(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_MOVE_AHD2(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2276,7 +2277,7 @@ static bool _CMRS_MOVE_AHD2(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_CHARA_DELAY(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_CHARA_DELAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2284,7 +2285,7 @@ static bool _CMRS_CHARA_DELAY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_CHARA_ATTACH(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_CHARA_ATTACH(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2292,7 +2293,7 @@ static bool _CMRS_CHARA_ATTACH(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_MOVE_POS(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_MOVE_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2300,7 +2301,7 @@ static bool _CMRS_MOVE_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CMRS_QUAKE2(RS_STACKDATA* stack, int stack_count)
+static bool _CMRS_QUAKE2(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2308,7 +2309,7 @@ static bool _CMRS_QUAKE2(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_CHECK(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_CHECK(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2316,7 +2317,7 @@ static bool _OBJS_CHECK(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_INIT(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_INIT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2324,7 +2325,7 @@ static bool _OBJS_INIT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_SYNC_OBJ(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_SYNC_OBJ(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2332,7 +2333,7 @@ static bool _OBJS_SYNC_OBJ(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_POS_DELAY(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_POS_DELAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2340,7 +2341,7 @@ static bool _OBJS_POS_DELAY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_SET_POS(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_SET_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2348,7 +2349,7 @@ static bool _OBJS_SET_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_MOVE(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_MOVE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2356,7 +2357,7 @@ static bool _OBJS_MOVE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_MOVE2(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_MOVE2(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2364,7 +2365,7 @@ static bool _OBJS_MOVE2(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_INIT_PAS(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_INIT_PAS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2372,7 +2373,7 @@ static bool _OBJS_INIT_PAS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_SET_PAS_FRM(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_SET_PAS_FRM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2380,7 +2381,7 @@ static bool _OBJS_SET_PAS_FRM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_ADD_PAS(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_ADD_PAS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2388,7 +2389,7 @@ static bool _OBJS_ADD_PAS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_START_PAS(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_START_PAS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2396,7 +2397,7 @@ static bool _OBJS_START_PAS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_JUMP(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_JUMP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2404,7 +2405,7 @@ static bool _OBJS_JUMP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_SET_EOH_FRAME_POS(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_SET_EOH_FRAME_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2412,7 +2413,7 @@ static bool _OBJS_SET_EOH_FRAME_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_ADD_POS(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_ADD_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2420,7 +2421,7 @@ static bool _OBJS_ADD_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_ATTACH_CAMERA(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_ATTACH_CAMERA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2428,7 +2429,7 @@ static bool _OBJS_ATTACH_CAMERA(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_ROT_DELAY(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_ROT_DELAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2436,7 +2437,7 @@ static bool _OBJS_ROT_DELAY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_SET_ROT(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_SET_ROT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2444,7 +2445,7 @@ static bool _OBJS_SET_ROT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_ROTATION(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_ROTATION(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2452,7 +2453,7 @@ static bool _OBJS_ROTATION(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_ROTATION2(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_ROTATION2(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2460,7 +2461,7 @@ static bool _OBJS_ROTATION2(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_REFERENCE(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_REFERENCE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2468,7 +2469,7 @@ static bool _OBJS_REFERENCE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_MOTION_DELAY(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_MOTION_DELAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2476,7 +2477,7 @@ static bool _OBJS_MOTION_DELAY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_SET_MOTION(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_SET_MOTION(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2484,7 +2485,7 @@ static bool _OBJS_SET_MOTION(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_NEXT_MOTION(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_NEXT_MOTION(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2492,7 +2493,7 @@ static bool _OBJS_NEXT_MOTION(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_MOTION_WAIT(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_MOTION_WAIT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2500,7 +2501,7 @@ static bool _OBJS_MOTION_WAIT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_SET_STEP(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_SET_STEP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2508,7 +2509,7 @@ static bool _OBJS_SET_STEP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_CHANGE_STEP(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_CHANGE_STEP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2516,7 +2517,7 @@ static bool _OBJS_CHANGE_STEP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_SEQ_MOT_TRG(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_SEQ_MOT_TRG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2524,7 +2525,7 @@ static bool _OBJS_SEQ_MOT_TRG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_SEQ_MOT_TRG_WAIT(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_SEQ_MOT_TRG_WAIT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2532,7 +2533,7 @@ static bool _OBJS_SEQ_MOT_TRG_WAIT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_RESET_MOTION(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_RESET_MOTION(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2540,7 +2541,7 @@ static bool _OBJS_RESET_MOTION(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_SET_MOTION_NOW_TIME(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_SET_MOTION_NOW_TIME(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2548,7 +2549,7 @@ static bool _OBJS_SET_MOTION_NOW_TIME(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_SET_MOTION_WAIT_TIME(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_SET_MOTION_WAIT_TIME(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2556,7 +2557,7 @@ static bool _OBJS_SET_MOTION_WAIT_TIME(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_TEXA_DELAY(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_TEXA_DELAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2564,7 +2565,7 @@ static bool _OBJS_TEXA_DELAY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_TEX_ANIME(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_TEX_ANIME(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2572,7 +2573,7 @@ static bool _OBJS_TEX_ANIME(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_COLOR_DELAY(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_COLOR_DELAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2580,7 +2581,7 @@ static bool _OBJS_COLOR_DELAY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_SET_COLOR(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_SET_COLOR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2588,7 +2589,7 @@ static bool _OBJS_SET_COLOR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_SCALE_DELAY(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_SCALE_DELAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2596,7 +2597,7 @@ static bool _OBJS_SCALE_DELAY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_SET_SCALE(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_SET_SCALE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2604,7 +2605,7 @@ static bool _OBJS_SET_SCALE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_SE_DELAY(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_SE_DELAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2612,7 +2613,7 @@ static bool _OBJS_SE_DELAY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_SE_PLAY(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_SE_PLAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2620,7 +2621,7 @@ static bool _OBJS_SE_PLAY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_RESET_DA_POSITION(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_RESET_DA_POSITION(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2628,7 +2629,7 @@ static bool _OBJS_RESET_DA_POSITION(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _OBJS_NORMAL_DRIVE(RS_STACKDATA* stack, int stack_count)
+static bool _OBJS_NORMAL_DRIVE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2636,14 +2637,14 @@ static bool _OBJS_NORMAL_DRIVE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_CONTENTS_POS(RS_STACKDATA* stack, int stack_count)
+static bool _GET_CONTENTS_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return true;
 }
 
-static bool _GET_BPOT_POS(RS_STACKDATA* stack, int stack_count)
+static bool _GET_BPOT_POS(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2653,7 +2654,7 @@ static bool _GET_BPOT_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_BPOT_STATUS(RS_STACKDATA* stack, int stack_count)
+static bool _GET_BPOT_STATUS(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2661,14 +2662,14 @@ static bool _GET_BPOT_STATUS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_PERSON_STATUS(RS_STACKDATA* stack, int stack_count)
+static bool _GET_PERSON_STATUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return false;
 }
 
-static bool _GET_CONTROL_CHRID(RS_STACKDATA* stack, int stack_count)
+static bool _GET_CONTROL_CHRID(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2676,7 +2677,7 @@ static bool _GET_CONTROL_CHRID(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_BEFORE_CAMERA_POS(RS_STACKDATA* stack, int stack_count)
+static bool _GET_BEFORE_CAMERA_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2684,7 +2685,7 @@ static bool _GET_BEFORE_CAMERA_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_BEFORE_CAMERA_REF(RS_STACKDATA* stack, int stack_count)
+static bool _GET_BEFORE_CAMERA_REF(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2692,7 +2693,7 @@ static bool _GET_BEFORE_CAMERA_REF(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CAMERA_NEXT_REF(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CAMERA_NEXT_REF(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2700,7 +2701,7 @@ static bool _SET_CAMERA_NEXT_REF(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GOTO_MENU(RS_STACKDATA* stack, int stack_count)
+static bool _GOTO_MENU(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2708,14 +2709,14 @@ static bool _GOTO_MENU(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_MENU_STATUS(RS_STACKDATA* stack, int stack_count)
+static bool _GET_MENU_STATUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return false;
 }
 
-static bool _LOAD_EQUIP(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_EQUIP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2723,7 +2724,7 @@ static bool _LOAD_EQUIP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_EQUIP_ITEMNO(RS_STACKDATA* stack, int stack_count)
+static bool _GET_EQUIP_ITEMNO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2731,7 +2732,7 @@ static bool _GET_EQUIP_ITEMNO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_TIME_STEP_ENABLE(RS_STACKDATA* stack, int stack_count)
+static bool _SET_TIME_STEP_ENABLE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2739,7 +2740,7 @@ static bool _SET_TIME_STEP_ENABLE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_DOOR_MATERIAL(RS_STACKDATA* stack, int stack_count)
+static bool _SET_DOOR_MATERIAL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2747,7 +2748,7 @@ static bool _SET_DOOR_MATERIAL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _INIT_DRAMA_SCENE(RS_STACKDATA* stack, int stack_count)
+static bool _INIT_DRAMA_SCENE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2755,7 +2756,7 @@ static bool _INIT_DRAMA_SCENE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_ACTIVE_CMRID(RS_STACKDATA* stack, int stack_count)
+static bool _SET_ACTIVE_CMRID(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2763,7 +2764,7 @@ static bool _SET_ACTIVE_CMRID(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_BEFORE_CMRID(RS_STACKDATA* stack, int stack_count)
+static bool _SET_BEFORE_CMRID(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2771,7 +2772,7 @@ static bool _SET_BEFORE_CMRID(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNGMAP_LOAD(RS_STACKDATA* stack, int stack_count)
+static bool _DNGMAP_LOAD(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2779,7 +2780,7 @@ static bool _DNGMAP_LOAD(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNGMAP_DELETE(RS_STACKDATA* stack, int stack_count)
+static bool _DNGMAP_DELETE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2787,7 +2788,7 @@ static bool _DNGMAP_DELETE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNGMAP_MOVE_PIECE(RS_STACKDATA* stack, int stack_count)
+static bool _DNGMAP_MOVE_PIECE(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2795,7 +2796,7 @@ static bool _DNGMAP_MOVE_PIECE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNGMAP_ONOFF(RS_STACKDATA* stack, int stack_count)
+static bool _DNGMAP_ONOFF(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2803,7 +2804,7 @@ static bool _DNGMAP_ONOFF(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNGMAP_SET_FADE(RS_STACKDATA* stack, int stack_count)
+static bool _DNGMAP_SET_FADE(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2822,7 +2823,7 @@ static bool _DNGMAP_SET_FADE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_BEFORE_CAMERA_NEXT_POS(RS_STACKDATA* stack, int stack_count)
+static bool _GET_BEFORE_CAMERA_NEXT_POS(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2840,7 +2841,7 @@ static bool _GET_BEFORE_CAMERA_NEXT_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_BEFORE_CAMERA_NEXT_REF(RS_STACKDATA* stack, int stack_count)
+static bool _GET_BEFORE_CAMERA_NEXT_REF(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2858,7 +2859,7 @@ static bool _GET_BEFORE_CAMERA_NEXT_REF(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CAMERA_NEXT_POS(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CAMERA_NEXT_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2866,7 +2867,7 @@ static bool _SET_CAMERA_NEXT_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CHK_INTERSECTION_POINT(RS_STACKDATA* stack, int stack_count)
+static bool _CHK_INTERSECTION_POINT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2874,7 +2875,7 @@ static bool _CHK_INTERSECTION_POINT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_FCAMERA_FOLLOW(RS_STACKDATA* stack, int stack_count)
+static bool _SET_FCAMERA_FOLLOW(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2891,7 +2892,7 @@ static bool _SET_FCAMERA_FOLLOW(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_FCAMERA_FOLLOW_A(RS_STACKDATA* stack, int stack_count)
+static bool _SET_FCAMERA_FOLLOW_A(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2908,7 +2909,7 @@ static bool _SET_FCAMERA_FOLLOW_A(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_FCAMERA_FOLLOW_OFS(RS_STACKDATA* stack, int stack_count)
+static bool _SET_FCAMERA_FOLLOW_OFS(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2925,7 +2926,7 @@ static bool _SET_FCAMERA_FOLLOW_OFS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_FCAMERA_FOLLOW_FLAG(RS_STACKDATA* stack, int stack_count)
+static bool _SET_FCAMERA_FOLLOW_FLAG(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2950,7 +2951,7 @@ static bool _SET_FCAMERA_FOLLOW_FLAG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _FCAMERA_STEP(RS_STACKDATA* stack, int stack_count)
+static bool _FCAMERA_STEP(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2965,7 +2966,7 @@ static bool _FCAMERA_STEP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_FCAMERA_ANGLE(RS_STACKDATA* stack, int stack_count)
+static bool _SET_FCAMERA_ANGLE(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2980,7 +2981,7 @@ static bool _SET_FCAMERA_ANGLE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_FCAMERA_HEIGHT(RS_STACKDATA* stack, int stack_count)
+static bool _SET_FCAMERA_HEIGHT(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2995,7 +2996,7 @@ static bool _SET_FCAMERA_HEIGHT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_FCAMERA_DIST(RS_STACKDATA* stack, int stack_count)
+static bool _SET_FCAMERA_DIST(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3010,7 +3011,7 @@ static bool _SET_FCAMERA_DIST(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_REF_ANGLE(RS_STACKDATA* stack, int stack_count)
+static bool _GET_REF_ANGLE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3018,7 +3019,7 @@ static bool _GET_REF_ANGLE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNG_SET_STAGE_ID(RS_STACKDATA* stack, int stack_count)
+static bool _DNG_SET_STAGE_ID(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3033,7 +3034,7 @@ static bool _DNG_SET_STAGE_ID(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNG_GET_STAGE_ID(RS_STACKDATA* stack, int stack_count)
+static bool _DNG_GET_STAGE_ID(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3048,7 +3049,7 @@ static bool _DNG_GET_STAGE_ID(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CAMERA_CTRL(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CAMERA_CTRL(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3075,7 +3076,7 @@ static bool _SET_CAMERA_CTRL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_FCAMERA_ANGLE(RS_STACKDATA* stack, int stack_count)
+static bool _GET_FCAMERA_ANGLE(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3090,7 +3091,7 @@ static bool _GET_FCAMERA_ANGLE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_FCAMERA_HEIGHT(RS_STACKDATA* stack, int stack_count)
+static bool _GET_FCAMERA_HEIGHT(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3105,7 +3106,7 @@ static bool _GET_FCAMERA_HEIGHT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_FCAMERA_DIST(RS_STACKDATA* stack, int stack_count)
+static bool _GET_FCAMERA_DIST(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3120,7 +3121,7 @@ static bool _GET_FCAMERA_DIST(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_INVENTION_ID(RS_STACKDATA* stack, int stack_count)
+static bool _GET_INVENTION_ID(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3146,7 +3147,7 @@ static bool _GET_INVENTION_ID(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _FUNCTION_MAP_JUMP(RS_STACKDATA* stack, int stack_count)
+static bool _FUNCTION_MAP_JUMP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3176,7 +3177,7 @@ static bool _FUNCTION_MAP_JUMP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _FUNCTION_DOOR_MODE(RS_STACKDATA* stack, int stack_count)
+static bool _FUNCTION_DOOR_MODE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3194,7 +3195,7 @@ static bool _FUNCTION_DOOR_MODE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_MONEY(RS_STACKDATA* stack, int stack_count)
+static bool _GET_MONEY(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3209,7 +3210,7 @@ static bool _GET_MONEY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ADD_MONEY(RS_STACKDATA* stack, int stack_count)
+static bool _ADD_MONEY(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3224,7 +3225,7 @@ static bool _ADD_MONEY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_ITEM_NUM(RS_STACKDATA* stack, int stack_count)
+static bool _GET_ITEM_NUM(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3250,7 +3251,7 @@ static bool _GET_ITEM_NUM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CHECK_BUTTON(RS_STACKDATA* stack, int stack_count)
+static bool _CHECK_BUTTON(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3258,7 +3259,7 @@ static bool _CHECK_BUTTON(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_LANGUAGE(RS_STACKDATA* stack, int stack_count)
+static bool _GET_LANGUAGE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3266,7 +3267,7 @@ static bool _GET_LANGUAGE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CHECK_INVENT_ITEM(RS_STACKDATA* stack, int stack_count)
+static bool _CHECK_INVENT_ITEM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3274,7 +3275,7 @@ static bool _CHECK_INVENT_ITEM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_AI(RS_STACKDATA* stack, int stack_count)
+static bool _SET_AI(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3282,7 +3283,7 @@ static bool _SET_AI(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CHECK_INVENT_PHOTO(RS_STACKDATA* stack, int stack_count)
+static bool _CHECK_INVENT_PHOTO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3290,7 +3291,7 @@ static bool _CHECK_INVENT_PHOTO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_PHOTO_NUM(RS_STACKDATA* stack, int stack_count)
+static bool _GET_PHOTO_NUM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3298,14 +3299,14 @@ static bool _GET_PHOTO_NUM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CONTENTS_ETC(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CONTENTS_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return true;
 }
 
-static bool _SET_STATUS(RS_STACKDATA* stack, int stack_count)
+static bool _SET_STATUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3313,7 +3314,7 @@ static bool _SET_STATUS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GOTO_SUBGAME(RS_STACKDATA* stack, int stack_count)
+static bool _GOTO_SUBGAME(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3328,7 +3329,7 @@ static bool _GOTO_SUBGAME(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_GYORACE_ETC(RS_STACKDATA* stack, int stack_count)
+static bool _SET_GYORACE_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3336,7 +3337,7 @@ static bool _SET_GYORACE_ETC(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_GYORACE_ETC(RS_STACKDATA* stack, int stack_count)
+static bool _GET_GYORACE_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3344,7 +3345,7 @@ static bool _GET_GYORACE_ETC(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_SAVEDATA_ETC(RS_STACKDATA* stack, int stack_count)
+static bool _SET_SAVEDATA_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3352,7 +3353,7 @@ static bool _SET_SAVEDATA_ETC(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_SAVEDATA_ETC(RS_STACKDATA* stack, int stack_count)
+static bool _GET_SAVEDATA_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3360,7 +3361,7 @@ static bool _GET_SAVEDATA_ETC(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DEL_MONSTER(RS_STACKDATA* stack, int stack_count)
+static bool _DEL_MONSTER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3368,7 +3369,7 @@ static bool _DEL_MONSTER(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MENU_ETC(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MENU_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3376,7 +3377,7 @@ static bool _SET_MENU_ETC(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_MENU_ETC(RS_STACKDATA* stack, int stack_count)
+static bool _GET_MENU_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3384,7 +3385,7 @@ static bool _GET_MENU_ETC(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_ANALYZE(RS_STACKDATA* stack, int stack_count)
+static bool _GET_ANALYZE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3392,7 +3393,7 @@ static bool _GET_ANALYZE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_DIORAMA_PERCENT(RS_STACKDATA* stack, int stack_count)
+static bool _GET_DIORAMA_PERCENT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3400,7 +3401,7 @@ static bool _GET_DIORAMA_PERCENT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GEORAMA_FUNC(RS_STACKDATA* stack, int stack_count)
+static bool _GEORAMA_FUNC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3408,7 +3409,7 @@ static bool _GEORAMA_FUNC(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_CHARA_ID(RS_STACKDATA* stack, int stack_count)
+static bool _GET_CHARA_ID(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3417,7 +3418,7 @@ static bool _GET_CHARA_ID(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_LOADBG_FILE_MONS_TALK(RS_STACKDATA* stack, int stack_count)
+static bool _SET_LOADBG_FILE_MONS_TALK(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3425,7 +3426,7 @@ static bool _SET_LOADBG_FILE_MONS_TALK(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_MES_MONS_TALK(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_MES_MONS_TALK(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3433,7 +3434,7 @@ static bool _LOAD_MES_MONS_TALK(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GOTO_EDITMODE(RS_STACKDATA* stack, int stack_count)
+static bool _GOTO_EDITMODE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3441,7 +3442,7 @@ static bool _GOTO_EDITMODE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_CHAPTER(RS_STACKDATA* stack, int stack_count)
+static bool _GET_CHAPTER(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3456,7 +3457,7 @@ static bool _GET_CHAPTER(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_NPC_TRAIN_ETC(RS_STACKDATA* stack, int stack_count)
+static bool _GET_NPC_TRAIN_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3464,7 +3465,7 @@ static bool _GET_NPC_TRAIN_ETC(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _REGISTER_VILLAGER(RS_STACKDATA* stack, int stack_count)
+static bool _REGISTER_VILLAGER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3472,7 +3473,7 @@ static bool _REGISTER_VILLAGER(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EYE_VIEW_DRAW_ON_OFF(RS_STACKDATA* stack, int stack_count)
+static bool _EYE_VIEW_DRAW_ON_OFF(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3480,7 +3481,7 @@ static bool _EYE_VIEW_DRAW_ON_OFF(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_QUEST_ETC(RS_STACKDATA* stack, int stack_count)
+static bool _SET_QUEST_ETC(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3501,7 +3502,7 @@ static bool _SET_QUEST_ETC(RS_STACKDATA* stack, int stack_count)
   }
 }
 
-static bool _GET_QUEST_ETC(RS_STACKDATA* stack, int stack_count)
+static bool _GET_QUEST_ETC(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3518,7 +3519,7 @@ static bool _GET_QUEST_ETC(RS_STACKDATA* stack, int stack_count)
   }
 }
 
-static bool _CHK_INTERSECTION_POINT_PIPE(RS_STACKDATA* stack, int stack_count)
+static bool _CHK_INTERSECTION_POINT_PIPE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3526,7 +3527,7 @@ static bool _CHK_INTERSECTION_POINT_PIPE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_OLD_INTERIOR_MAP_NO(RS_STACKDATA* stack, int stack_count)
+static bool _GET_OLD_INTERIOR_MAP_NO(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3534,7 +3535,7 @@ static bool _GET_OLD_INTERIOR_MAP_NO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_EVENT_DATA(RS_STACKDATA* stack, int stack_count)
+static bool _SET_EVENT_DATA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3542,7 +3543,7 @@ static bool _SET_EVENT_DATA(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _STOPWATCH(RS_STACKDATA* stack, int stack_count)
+static bool _STOPWATCH(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3550,7 +3551,7 @@ static bool _STOPWATCH(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_FUNC_ETC(RS_STACKDATA* stack, int stack_count)
+static bool _SET_FUNC_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3558,7 +3559,7 @@ static bool _SET_FUNC_ETC(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_FISHINGTOURNAMENT_ETC(RS_STACKDATA* stack, int stack_count)
+static bool _GET_FISHINGTOURNAMENT_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3566,7 +3567,7 @@ static bool _GET_FISHINGTOURNAMENT_ETC(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CHARA_FAR_DIST(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CHARA_FAR_DIST(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3580,7 +3581,7 @@ static bool _SET_CHARA_FAR_DIST(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MODEL_LIGHT_SWITCH(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MODEL_LIGHT_SWITCH(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3588,7 +3589,7 @@ static bool _SET_MODEL_LIGHT_SWITCH(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MODEL_LIGHT_COLOR(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MODEL_LIGHT_COLOR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3596,7 +3597,7 @@ static bool _SET_MODEL_LIGHT_COLOR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_OMAKE_FLAG(RS_STACKDATA* stack, int stack_count)
+static bool _GET_OMAKE_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3604,7 +3605,7 @@ static bool _GET_OMAKE_FLAG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_WIND(RS_STACKDATA* stack, int stack_count)
+static bool _SET_WIND(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3629,7 +3630,7 @@ static bool _SET_WIND(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_OMAKE_FLAG(RS_STACKDATA* stack, int stack_count)
+static bool _SET_OMAKE_FLAG(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3637,7 +3638,7 @@ static bool _SET_OMAKE_FLAG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SND_INIT_PORT(RS_STACKDATA* stack, int stack_count)
+static bool _SND_INIT_PORT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3645,7 +3646,7 @@ static bool _SND_INIT_PORT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SND_LOAD_SOUND(RS_STACKDATA* stack, int stack_count)
+static bool _SND_LOAD_SOUND(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3653,7 +3654,7 @@ static bool _SND_LOAD_SOUND(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SND_SE_PLAY(RS_STACKDATA* stack, int stack_count)
+static bool _SND_SE_PLAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3661,7 +3662,7 @@ static bool _SND_SE_PLAY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_SND_ID(RS_STACKDATA* stack, int stack_count)
+static bool _GET_SND_ID(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3669,7 +3670,7 @@ static bool _GET_SND_ID(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SND_SE_PAUSE(RS_STACKDATA* stack, int stack_count)
+static bool _SND_SE_PAUSE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3677,7 +3678,7 @@ static bool _SND_SE_PAUSE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SND_SE_STOP(RS_STACKDATA* stack, int stack_count)
+static bool _SND_SE_STOP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3685,7 +3686,7 @@ static bool _SND_SE_STOP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SND_SET_SE_VOL(RS_STACKDATA* stack, int stack_count)
+static bool _SND_SET_SE_VOL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3693,7 +3694,7 @@ static bool _SND_SET_SE_VOL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SND_SET_SE_PAN(RS_STACKDATA* stack, int stack_count)
+static bool _SND_SET_SE_PAN(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3701,7 +3702,7 @@ static bool _SND_SET_SE_PAN(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SND_SET_SE_PITCH(RS_STACKDATA* stack, int stack_count)
+static bool _SND_SET_SE_PITCH(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3709,7 +3710,7 @@ static bool _SND_SET_SE_PITCH(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SND_SE_ALL_STOP(RS_STACKDATA* stack, int stack_count)
+static bool _SND_SE_ALL_STOP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3717,7 +3718,7 @@ static bool _SND_SE_ALL_STOP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_BGM(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_BGM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3725,7 +3726,7 @@ static bool _LOAD_BGM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _PLAY_BGM(RS_STACKDATA* stack, int stack_count)
+static bool _PLAY_BGM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3733,7 +3734,7 @@ static bool _PLAY_BGM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _STOP_BGM(RS_STACKDATA* stack, int stack_count)
+static bool _STOP_BGM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3741,7 +3742,7 @@ static bool _STOP_BGM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _STREAM_OPEN(RS_STACKDATA* stack, int stack_count)
+static bool _STREAM_OPEN(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3749,7 +3750,7 @@ static bool _STREAM_OPEN(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _STREAM_PLAY(RS_STACKDATA* stack, int stack_count)
+static bool _STREAM_PLAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3757,7 +3758,7 @@ static bool _STREAM_PLAY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _STREAM_STOP(RS_STACKDATA* stack, int stack_count)
+static bool _STREAM_STOP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3765,7 +3766,7 @@ static bool _STREAM_STOP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _STREAM_STANDBY(RS_STACKDATA* stack, int stack_count)
+static bool _STREAM_STANDBY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3773,7 +3774,7 @@ static bool _STREAM_STANDBY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _STREAM_GET_STATUS(RS_STACKDATA* stack, int stack_count)
+static bool _STREAM_GET_STATUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3781,7 +3782,7 @@ static bool _STREAM_GET_STATUS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_SYS_SND_ID(RS_STACKDATA* stack, int stack_count)
+static bool _GET_SYS_SND_ID(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3789,7 +3790,7 @@ static bool _GET_SYS_SND_ID(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _STREAM_OPEN_CHECK(RS_STACKDATA* stack, int stack_count)
+static bool _STREAM_OPEN_CHECK(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3797,7 +3798,7 @@ static bool _STREAM_OPEN_CHECK(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_SE_ENV(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_SE_ENV(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3805,7 +3806,7 @@ static bool _LOAD_SE_ENV(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _PLAY_ENV_BGM(RS_STACKDATA* stack, int stack_count)
+static bool _PLAY_ENV_BGM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3813,7 +3814,7 @@ static bool _PLAY_ENV_BGM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SYS_SE_PLAY(RS_STACKDATA* stack, int stack_count)
+static bool _SYS_SE_PLAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3821,7 +3822,7 @@ static bool _SYS_SE_PLAY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _INIT_SE_SRC(RS_STACKDATA* stack, int stack_count)
+static bool _INIT_SE_SRC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3829,7 +3830,7 @@ static bool _INIT_SE_SRC(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _INIT_SE_ENV(RS_STACKDATA* stack, int stack_count)
+static bool _INIT_SE_ENV(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3837,7 +3838,7 @@ static bool _INIT_SE_ENV(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _INIT_SE_BAS(RS_STACKDATA* stack, int stack_count)
+static bool _INIT_SE_BAS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3845,7 +3846,7 @@ static bool _INIT_SE_BAS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_SE_SRC(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_SE_SRC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3853,7 +3854,7 @@ static bool _LOAD_SE_SRC(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_SE_FOOT(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_SE_FOOT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3861,7 +3862,7 @@ static bool _LOAD_SE_FOOT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_SE_DOOR(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_SE_DOOR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3869,7 +3870,7 @@ static bool _LOAD_SE_DOOR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_SE_BOX(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_SE_BOX(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3877,7 +3878,7 @@ static bool _LOAD_SE_BOX(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_SE_BATTLE(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_SE_BATTLE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3885,7 +3886,7 @@ static bool _LOAD_SE_BATTLE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SND_DELETE_PORT(RS_STACKDATA* stack, int stack_count)
+static bool _SND_DELETE_PORT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3893,7 +3894,7 @@ static bool _SND_DELETE_PORT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _STOP_ENV_BGM(RS_STACKDATA* stack, int stack_count)
+static bool _STOP_ENV_BGM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3901,7 +3902,7 @@ static bool _STOP_ENV_BGM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _FADE_IN_BGM(RS_STACKDATA* stack, int stack_count)
+static bool _FADE_IN_BGM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3909,7 +3910,7 @@ static bool _FADE_IN_BGM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _FADE_OUT_BGM(RS_STACKDATA* stack, int stack_count)
+static bool _FADE_OUT_BGM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3917,7 +3918,7 @@ static bool _FADE_OUT_BGM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_BGM_VOL(RS_STACKDATA* stack, int stack_count)
+static bool _SET_BGM_VOL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3925,7 +3926,7 @@ static bool _SET_BGM_VOL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SND_SET_REVERB(RS_STACKDATA* stack, int stack_count)
+static bool _SND_SET_REVERB(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3933,7 +3934,7 @@ static bool _SND_SET_REVERB(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SND_SET_ENV_VOL(RS_STACKDATA* stack, int stack_count)
+static bool _SND_SET_ENV_VOL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3941,7 +3942,7 @@ static bool _SND_SET_ENV_VOL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _STREAM_SILENT_CHECK(RS_STACKDATA* stack, int stack_count)
+static bool _STREAM_SILENT_CHECK(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3949,7 +3950,7 @@ static bool _STREAM_SILENT_CHECK(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _AUTO_CHANGE_ENV(RS_STACKDATA* stack, int stack_count)
+static bool _AUTO_CHANGE_ENV(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3957,7 +3958,7 @@ static bool _AUTO_CHANGE_ENV(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _BGM_LOAD_CANCEL(RS_STACKDATA* stack, int stack_count)
+static bool _BGM_LOAD_CANCEL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3965,7 +3966,7 @@ static bool _BGM_LOAD_CANCEL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SOUND_LOAD_CANCEL(RS_STACKDATA* stack, int stack_count)
+static bool _SOUND_LOAD_CANCEL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3973,7 +3974,7 @@ static bool _SOUND_LOAD_CANCEL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _BGM_LOAD_ENABLE(RS_STACKDATA* stack, int stack_count)
+static bool _BGM_LOAD_ENABLE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3981,7 +3982,7 @@ static bool _BGM_LOAD_ENABLE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SOUND_LOAD_ENABLE(RS_STACKDATA* stack, int stack_count)
+static bool _SOUND_LOAD_ENABLE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3989,7 +3990,7 @@ static bool _SOUND_LOAD_ENABLE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_SE_BASE(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_SE_BASE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3997,7 +3998,7 @@ static bool _LOAD_SE_BASE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_SOUND(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_SOUND(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4005,7 +4006,7 @@ static bool _LOAD_SOUND(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _STREAM_CLOSE(RS_STACKDATA* stack, int stack_count)
+static bool _STREAM_CLOSE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4013,7 +4014,7 @@ static bool _STREAM_CLOSE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _STREAM_OPEN2(RS_STACKDATA* stack, int stack_count)
+static bool _STREAM_OPEN2(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4021,7 +4022,7 @@ static bool _STREAM_OPEN2(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_BGM_PACK(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_BGM_PACK(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4029,7 +4030,7 @@ static bool _LOAD_BGM_PACK(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_BGM_NO(RS_STACKDATA* stack, int stack_count)
+static bool _GET_BGM_NO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4037,7 +4038,7 @@ static bool _GET_BGM_NO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_MASTER_VOL(RS_STACKDATA* stack, int stack_count)
+static bool _GET_MASTER_VOL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4045,7 +4046,7 @@ static bool _GET_MASTER_VOL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MASTER_VOL(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MASTER_VOL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4053,7 +4054,7 @@ static bool _SET_MASTER_VOL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_BTL_BGM_VOL(RS_STACKDATA* stack, int stack_count)
+static bool _GET_BTL_BGM_VOL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4061,7 +4062,7 @@ static bool _GET_BTL_BGM_VOL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_BTL_BGM_VOL(RS_STACKDATA* stack, int stack_count)
+static bool _SET_BTL_BGM_VOL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4069,7 +4070,7 @@ static bool _SET_BTL_BGM_VOL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SND_IN_REVERB(RS_STACKDATA* stack, int stack_count)
+static bool _SND_IN_REVERB(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4077,7 +4078,7 @@ static bool _SND_IN_REVERB(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SND_STOP_SRC(RS_STACKDATA* stack, int stack_count)
+static bool _SND_STOP_SRC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4085,7 +4086,7 @@ static bool _SND_STOP_SRC(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SND_PAUSE_BGM(RS_STACKDATA* stack, int stack_count)
+static bool _SND_PAUSE_BGM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4093,7 +4094,7 @@ static bool _SND_PAUSE_BGM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _STREAM_OPEN3(RS_STACKDATA* stack, int stack_count)
+static bool _STREAM_OPEN3(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4101,7 +4102,7 @@ static bool _STREAM_OPEN3(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_ACTIVE_BGM_STATUS(RS_STACKDATA* stack, int stack_count)
+static bool _GET_ACTIVE_BGM_STATUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4109,7 +4110,7 @@ static bool _GET_ACTIVE_BGM_STATUS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_ACTIVE_BGM_STATUS(RS_STACKDATA* stack, int stack_count)
+static bool _SET_ACTIVE_BGM_STATUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4117,7 +4118,7 @@ static bool _SET_ACTIVE_BGM_STATUS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_BGM_STATUS_NOW_NO(RS_STACKDATA* stack, int stack_count)
+static bool _GET_BGM_STATUS_NOW_NO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4125,7 +4126,7 @@ static bool _GET_BGM_STATUS_NOW_NO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_SE_STATUS(RS_STACKDATA* stack, int stack_count)
+static bool _GET_SE_STATUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4133,7 +4134,7 @@ static bool _GET_SE_STATUS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SE_ALL_STOP(RS_STACKDATA* stack, int stack_count)
+static bool _SE_ALL_STOP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4141,7 +4142,7 @@ static bool _SE_ALL_STOP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SOUND_ALL_STOP(RS_STACKDATA* stack, int stack_count)
+static bool _SOUND_ALL_STOP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4149,7 +4150,7 @@ static bool _SOUND_ALL_STOP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _BGM_PLAY_CANCEL(RS_STACKDATA* stack, int stack_count)
+static bool _BGM_PLAY_CANCEL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4157,7 +4158,7 @@ static bool _BGM_PLAY_CANCEL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _BGM_PLAY_ENABLE(RS_STACKDATA* stack, int stack_count)
+static bool _BGM_PLAY_ENABLE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4165,7 +4166,7 @@ static bool _BGM_PLAY_ENABLE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_DEF_BGM_NO(RS_STACKDATA* stack, int stack_count)
+static bool _GET_DEF_BGM_NO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4173,7 +4174,7 @@ static bool _GET_DEF_BGM_NO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MOVIE_CC(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MOVIE_CC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4181,7 +4182,7 @@ static bool _SET_MOVIE_CC(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _REGISTER_VILLAGER2(RS_STACKDATA* stack, int stack_count)
+static bool _REGISTER_VILLAGER2(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4189,7 +4190,7 @@ static bool _REGISTER_VILLAGER2(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_FISHINGTOURNAMENT_ETC(RS_STACKDATA* stack, int stack_count)
+static bool _SET_FISHINGTOURNAMENT_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4197,7 +4198,7 @@ static bool _SET_FISHINGTOURNAMENT_ETC(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SYNC_CHARA(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SYNC_CHARA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4205,7 +4206,7 @@ static bool _EOH_SYNC_CHARA(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SYNC_OBJ(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SYNC_OBJ(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4213,7 +4214,7 @@ static bool _EOH_SYNC_OBJ(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SET_POS(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SET_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4221,7 +4222,7 @@ static bool _EOH_SET_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SET_ROT(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SET_ROT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4229,7 +4230,7 @@ static bool _EOH_SET_ROT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_GET_POS(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_GET_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4237,7 +4238,7 @@ static bool _EOH_GET_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_GET_ROT(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_GET_ROT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4245,7 +4246,7 @@ static bool _EOH_GET_ROT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SET_MOTION(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SET_MOTION(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4253,7 +4254,7 @@ static bool _EOH_SET_MOTION(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SET_STEP(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SET_STEP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4261,7 +4262,7 @@ static bool _EOH_SET_STEP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SET_TEX_ANIM(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SET_TEX_ANIM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4269,7 +4270,7 @@ static bool _EOH_SET_TEX_ANIM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SET_SCALE(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SET_SCALE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4277,7 +4278,7 @@ static bool _EOH_SET_SCALE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SET_SHOW(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SET_SHOW(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4285,7 +4286,7 @@ static bool _EOH_SET_SHOW(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_GET_SHOW(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_GET_SHOW(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4293,7 +4294,7 @@ static bool _EOH_GET_SHOW(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SET_FRAME_SHOW(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SET_FRAME_SHOW(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4301,7 +4302,7 @@ static bool _EOH_SET_FRAME_SHOW(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SET_SHADOW(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SET_SHADOW(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4309,7 +4310,7 @@ static bool _EOH_SET_SHADOW(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SET_TRANSLATE(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SET_TRANSLATE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4317,7 +4318,7 @@ static bool _EOH_SET_TRANSLATE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SYNC_SPRITE(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SYNC_SPRITE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4325,7 +4326,7 @@ static bool _EOH_SYNC_SPRITE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SET_FOOT_SOUND_ID(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SET_FOOT_SOUND_ID(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4333,7 +4334,7 @@ static bool _EOH_SET_FOOT_SOUND_ID(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SET_FRAME_STATUS(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SET_FRAME_STATUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4341,7 +4342,7 @@ static bool _EOH_SET_FRAME_STATUS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_GET_FRAME_POS(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_GET_FRAME_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4349,7 +4350,7 @@ static bool _EOH_GET_FRAME_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SET_SOUND_ID(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SET_SOUND_ID(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4357,7 +4358,7 @@ static bool _EOH_SET_SOUND_ID(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_GET_FRAME_STATUS(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_GET_FRAME_STATUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4365,7 +4366,7 @@ static bool _EOH_GET_FRAME_STATUS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SYNC_CHROBJ(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SYNC_CHROBJ(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4373,7 +4374,7 @@ static bool _EOH_SYNC_CHROBJ(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SET_FADE_FLAG(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SET_FADE_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4381,7 +4382,7 @@ static bool _EOH_SET_FADE_FLAG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_RESET_DA_POSITION(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_RESET_DA_POSITION(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4389,7 +4390,7 @@ static bool _EOH_RESET_DA_POSITION(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SET_SHADOW_FRAME_STATUS(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SET_SHADOW_FRAME_STATUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4397,7 +4398,7 @@ static bool _EOH_SET_SHADOW_FRAME_STATUS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SYNC_GEOSTONE(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SYNC_GEOSTONE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4405,7 +4406,7 @@ static bool _EOH_SYNC_GEOSTONE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SYNC_SEARCH_CHARA(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SYNC_SEARCH_CHARA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4413,7 +4414,7 @@ static bool _EOH_SYNC_SEARCH_CHARA(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_NORMAL_DRIVE(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_NORMAL_DRIVE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4421,7 +4422,7 @@ static bool _EOH_NORMAL_DRIVE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SYNC_EDIT_OBJ(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SYNC_EDIT_OBJ(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4429,7 +4430,7 @@ static bool _EOH_SYNC_EDIT_OBJ(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SET_FRAME_ALPHA(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SET_FRAME_ALPHA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4437,7 +4438,7 @@ static bool _EOH_SET_FRAME_ALPHA(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SYNC_FUNCP(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SYNC_FUNCP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4445,7 +4446,7 @@ static bool _EOH_SYNC_FUNCP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SET_FOOT_SE_ID(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SET_FOOT_SE_ID(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4453,7 +4454,7 @@ static bool _EOH_SET_FOOT_SE_ID(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _EOH_SYNC_DOOR_PARTS(RS_STACKDATA* stack, int stack_count)
+static bool _EOH_SYNC_DOOR_PARTS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4461,7 +4462,7 @@ static bool _EOH_SYNC_DOOR_PARTS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_INIT(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_INIT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4469,7 +4470,7 @@ static bool _SPHIDA_INIT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_SET_UP(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_SET_UP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4477,7 +4478,7 @@ static bool _SPHIDA_SET_UP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_SET_PLAY_FLAG(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_SET_PLAY_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4485,7 +4486,7 @@ static bool _SPHIDA_SET_PLAY_FLAG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_SET_MINIMAP_FLAG(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_SET_MINIMAP_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4493,7 +4494,7 @@ static bool _SPHIDA_SET_MINIMAP_FLAG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_SET_MM_LINE_FLAG(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_SET_MM_LINE_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4501,7 +4502,7 @@ static bool _SPHIDA_SET_MM_LINE_FLAG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_SET_MM_LINE_POS(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_SET_MM_LINE_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4509,7 +4510,7 @@ static bool _SPHIDA_SET_MM_LINE_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_SET_PIN_POS(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_SET_PIN_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4517,7 +4518,7 @@ static bool _SPHIDA_SET_PIN_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_GET_PIN_POS(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_GET_PIN_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4525,7 +4526,7 @@ static bool _SPHIDA_GET_PIN_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_SET_BALL_POS(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_SET_BALL_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4533,7 +4534,7 @@ static bool _SPHIDA_SET_BALL_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_GET_BALL_POS(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_GET_BALL_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4541,7 +4542,7 @@ static bool _SPHIDA_GET_BALL_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_SET_PIN_COL(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_SET_PIN_COL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4549,7 +4550,7 @@ static bool _SPHIDA_SET_PIN_COL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_GET_PIN_COL(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_GET_PIN_COL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4557,7 +4558,7 @@ static bool _SPHIDA_GET_PIN_COL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_SET_BALL_COL(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_SET_BALL_COL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4565,7 +4566,7 @@ static bool _SPHIDA_SET_BALL_COL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_GET_BALL_COL(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_GET_BALL_COL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4573,7 +4574,7 @@ static bool _SPHIDA_GET_BALL_COL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_SET_PAR_COUNT(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_SET_PAR_COUNT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4581,7 +4582,7 @@ static bool _SPHIDA_SET_PAR_COUNT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_GET_PAR_COUNT(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_GET_PAR_COUNT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4589,7 +4590,7 @@ static bool _SPHIDA_GET_PAR_COUNT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_GET_MINI_LEVEL(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_GET_MINI_LEVEL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4597,7 +4598,7 @@ static bool _SPHIDA_GET_MINI_LEVEL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_GET_TEXB(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_GET_TEXB(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4605,7 +4606,7 @@ static bool _SPHIDA_GET_TEXB(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_SET_STATUS_FLAG(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_SET_STATUS_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4613,7 +4614,7 @@ static bool _SPHIDA_SET_STATUS_FLAG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_RESET_POWGAGE(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_RESET_POWGAGE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4621,7 +4622,7 @@ static bool _SPHIDA_RESET_POWGAGE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_START_POWGAGE(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_START_POWGAGE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4629,7 +4630,7 @@ static bool _SPHIDA_START_POWGAGE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_TRIGGER_POWGAGE(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_TRIGGER_POWGAGE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4637,7 +4638,7 @@ static bool _SPHIDA_TRIGGER_POWGAGE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_GET_SHOT_POW(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_GET_SHOT_POW(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4645,7 +4646,7 @@ static bool _SPHIDA_GET_SHOT_POW(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_GET_POWGAGE_CODE(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_GET_POWGAGE_CODE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4653,7 +4654,7 @@ static bool _SPHIDA_GET_POWGAGE_CODE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_SET_POWGAGE_SAFE_LEVEL(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_SET_POWGAGE_SAFE_LEVEL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4661,7 +4662,7 @@ static bool _SPHIDA_SET_POWGAGE_SAFE_LEVEL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_GET_CLUB_DEF(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_GET_CLUB_DEF(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4669,7 +4670,7 @@ static bool _SPHIDA_GET_CLUB_DEF(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_SET_SPIN_MARK_POS(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_SET_SPIN_MARK_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4677,7 +4678,7 @@ static bool _SPHIDA_SET_SPIN_MARK_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_SET_CLUB_NO(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_SET_CLUB_NO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4685,7 +4686,7 @@ static bool _SPHIDA_SET_CLUB_NO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_CALC_CARRY(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_CALC_CARRY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4693,7 +4694,7 @@ static bool _SPHIDA_CALC_CARRY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_GET_PG_CURSOR_POS(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_GET_PG_CURSOR_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4701,7 +4702,7 @@ static bool _SPHIDA_GET_PG_CURSOR_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_SET_COL_MODEL(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_SET_COL_MODEL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4709,7 +4710,7 @@ static bool _SPHIDA_SET_COL_MODEL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_GET_PRIZE(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_GET_PRIZE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4717,7 +4718,7 @@ static bool _SPHIDA_GET_PRIZE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_SET_LAST_CHALLENGE(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_SET_LAST_CHALLENGE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4725,7 +4726,7 @@ static bool _SPHIDA_SET_LAST_CHALLENGE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_GET_LAST_CHALLENGE(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_GET_LAST_CHALLENGE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4733,7 +4734,7 @@ static bool _SPHIDA_GET_LAST_CHALLENGE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_GET_OMAKE_MODE(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_GET_OMAKE_MODE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4741,7 +4742,7 @@ static bool _SPHIDA_GET_OMAKE_MODE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_SET_NOW_HOLE(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_SET_NOW_HOLE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4749,7 +4750,7 @@ static bool _SPHIDA_SET_NOW_HOLE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_GET_NOW_HOLE(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_GET_NOW_HOLE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4757,7 +4758,7 @@ static bool _SPHIDA_GET_NOW_HOLE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_SET_SCORE(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_SET_SCORE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4765,7 +4766,7 @@ static bool _SPHIDA_SET_SCORE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SPHIDA_GET_SCORE(RS_STACKDATA* stack, int stack_count)
+static bool _SPHIDA_GET_SCORE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4773,7 +4774,7 @@ static bool _SPHIDA_GET_SCORE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ZERO_VECTOR(RS_STACKDATA* stack, int stack_count)
+static bool _ZERO_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4783,7 +4784,7 @@ static bool _ZERO_VECTOR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _NORMAL_VECTOR(RS_STACKDATA* stack, int stack_count)
+static bool _NORMAL_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4803,7 +4804,7 @@ static bool _NORMAL_VECTOR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _COPY_VECTOR(RS_STACKDATA* stack, int stack_count)
+static bool _COPY_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4816,7 +4817,7 @@ static bool _COPY_VECTOR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ADD_VECTOR(RS_STACKDATA* stack, int stack_count)
+static bool _ADD_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4831,7 +4832,7 @@ static bool _ADD_VECTOR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SUB_VECTOR(RS_STACKDATA* stack, int stack_count)
+static bool _SUB_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4846,7 +4847,7 @@ static bool _SUB_VECTOR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SCALE_VECTOR(RS_STACKDATA* stack, int stack_count)
+static bool _SCALE_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4861,7 +4862,7 @@ static bool _SCALE_VECTOR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DIV_VECTOR(RS_STACKDATA* stack, int stack_count)
+static bool _DIV_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4885,7 +4886,7 @@ static bool _DIV_VECTOR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DIST_VECTOR(RS_STACKDATA* stack, int stack_count)
+static bool _DIST_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4893,7 +4894,7 @@ static bool _DIST_VECTOR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DIST_VECTOR2(RS_STACKDATA* stack, int stack_count)
+static bool _DIST_VECTOR2(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4901,7 +4902,7 @@ static bool _DIST_VECTOR2(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SQRT(RS_STACKDATA* stack, int stack_count)
+static bool _SQRT(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4909,7 +4910,7 @@ static bool _SQRT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ATAN2F(RS_STACKDATA* stack, int stack_count)
+static bool _ATAN2F(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4917,7 +4918,7 @@ static bool _ATAN2F(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ANGLE_CMP(RS_STACKDATA* stack, int stack_count)
+static bool _ANGLE_CMP(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4925,7 +4926,7 @@ static bool _ANGLE_CMP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ANGLE_LIMIT(RS_STACKDATA* stack, int stack_count)
+static bool _ANGLE_LIMIT(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4933,7 +4934,7 @@ static bool _ANGLE_LIMIT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_RAND(RS_STACKDATA* stack, int stack_count)
+static bool _GET_RAND(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4951,7 +4952,7 @@ static bool _GET_RAND(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LINE_POINT_DIST(RS_STACKDATA* stack, int stack_count)
+static bool _LINE_POINT_DIST(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -4981,7 +4982,7 @@ static bool _LINE_POINT_DIST(RS_STACKDATA* stack, int stack_count)
   }
 }
 
-static bool _CREATE_SWORD_EFFECT(RS_STACKDATA* stack, int stack_count)
+static bool _CREATE_SWORD_EFFECT(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5001,7 +5002,7 @@ static bool _CREATE_SWORD_EFFECT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DELETE_SWORD_EFFECT(RS_STACKDATA* stack, int stack_count)
+static bool _DELETE_SWORD_EFFECT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5009,7 +5010,7 @@ static bool _DELETE_SWORD_EFFECT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SWORD_EFFECT_COLOR(RS_STACKDATA* stack, int stack_count)
+static bool _SWORD_EFFECT_COLOR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5017,7 +5018,7 @@ static bool _SWORD_EFFECT_COLOR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SWORD_EFFECT_ADD_POINT(RS_STACKDATA* stack, int stack_count)
+static bool _SWORD_EFFECT_ADD_POINT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5025,7 +5026,7 @@ static bool _SWORD_EFFECT_ADD_POINT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ADD_CHARA_POS(RS_STACKDATA* stack, int stack_count)
+static bool _ADD_CHARA_POS(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5043,7 +5044,7 @@ static bool _ADD_CHARA_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ADD_CHARA_ROT(RS_STACKDATA* stack, int stack_count)
+static bool _ADD_CHARA_ROT(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5064,7 +5065,7 @@ static bool _ADD_CHARA_ROT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _POST_TREASURE_BOX(RS_STACKDATA* stack, int stack_count)
+static bool _POST_TREASURE_BOX(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5072,7 +5073,7 @@ static bool _POST_TREASURE_BOX(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_PARTS_ORIGIN(RS_STACKDATA* stack, int stack_count)
+static bool _GET_PARTS_ORIGIN(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5080,7 +5081,7 @@ static bool _GET_PARTS_ORIGIN(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CTRLC_STEP(RS_STACKDATA* stack, int stack_count)
+static bool _CTRLC_STEP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5088,7 +5089,7 @@ static bool _CTRLC_STEP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CTRLC_SET_ROTATE(RS_STACKDATA* stack, int stack_count)
+static bool _CTRLC_SET_ROTATE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5096,7 +5097,7 @@ static bool _CTRLC_SET_ROTATE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CTRLC_MOVE_CAMERA(RS_STACKDATA* stack, int stack_count)
+static bool _CTRLC_MOVE_CAMERA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5104,7 +5105,7 @@ static bool _CTRLC_MOVE_CAMERA(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CTRLC_SET_ROT_CANCEL(RS_STACKDATA* stack, int stack_count)
+static bool _CTRLC_SET_ROT_CANCEL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5112,7 +5113,7 @@ static bool _CTRLC_SET_ROT_CANCEL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CTRLC_MOVE_RANGE(RS_STACKDATA* stack, int stack_count)
+static bool _CTRLC_MOVE_RANGE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5120,7 +5121,7 @@ static bool _CTRLC_MOVE_RANGE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_NEAR_TBOX_POS(RS_STACKDATA* stack, int stack_count)
+static bool _GET_NEAR_TBOX_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5128,7 +5129,7 @@ static bool _GET_NEAR_TBOX_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CONV_CHRNO_S2L(RS_STACKDATA* stack, int stack_count)
+static bool _CONV_CHRNO_S2L(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5136,7 +5137,7 @@ static bool _CONV_CHRNO_S2L(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SWE_INIT(RS_STACKDATA* stack, int stack_count)
+static bool _SWE_INIT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5144,7 +5145,7 @@ static bool _SWE_INIT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SWE_SET_COLOR(RS_STACKDATA* stack, int stack_count)
+static bool _SWE_SET_COLOR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5152,7 +5153,7 @@ static bool _SWE_SET_COLOR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SWE_SET_TEXTURE(RS_STACKDATA* stack, int stack_count)
+static bool _SWE_SET_TEXTURE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5160,7 +5161,7 @@ static bool _SWE_SET_TEXTURE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SWE_START_EFFECT(RS_STACKDATA* stack, int stack_count)
+static bool _SWE_START_EFFECT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5168,7 +5169,7 @@ static bool _SWE_START_EFFECT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CHARA_TYPE(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CHARA_TYPE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5176,7 +5177,7 @@ static bool _SET_CHARA_TYPE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_EVENT_DATA(RS_STACKDATA* stack, int stack_count)
+static bool _GET_EVENT_DATA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5184,7 +5185,7 @@ static bool _GET_EVENT_DATA(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNG_SET_PREV_FLOOR(RS_STACKDATA* stack, int stack_count)
+static bool _DNG_SET_PREV_FLOOR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5192,7 +5193,7 @@ static bool _DNG_SET_PREV_FLOOR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNG_GET_PREV_FLOOR(RS_STACKDATA* stack, int stack_count)
+static bool _DNG_GET_PREV_FLOOR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5200,14 +5201,14 @@ static bool _DNG_GET_PREV_FLOOR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNG_SET_FAST_FLOOR(RS_STACKDATA* stack, int stack_count)
+static bool _DNG_SET_FAST_FLOOR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
   return false;
 }
 
-static bool _SET_FLOOR_INFO(RS_STACKDATA* stack, int stack_count)
+static bool _SET_FLOOR_INFO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5215,7 +5216,7 @@ static bool _SET_FLOOR_INFO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_FLOOR_INFO(RS_STACKDATA* stack, int stack_count)
+static bool _GET_FLOOR_INFO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5223,7 +5224,7 @@ static bool _GET_FLOOR_INFO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_NEXT_FLOOR(RS_STACKDATA* stack, int stack_count)
+static bool _GET_NEXT_FLOOR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5231,7 +5232,7 @@ static bool _GET_NEXT_FLOOR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _PAD_AUTO_REPEAT_OFF(RS_STACKDATA* stack, int stack_count)
+static bool _PAD_AUTO_REPEAT_OFF(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5239,7 +5240,7 @@ static bool _PAD_AUTO_REPEAT_OFF(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _PAD_SET_AUTO_REPEAT(RS_STACKDATA* stack, int stack_count)
+static bool _PAD_SET_AUTO_REPEAT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5247,7 +5248,7 @@ static bool _PAD_SET_AUTO_REPEAT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNG_PAUSE(RS_STACKDATA* stack, int stack_count)
+static bool _DNG_PAUSE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5255,7 +5256,7 @@ static bool _DNG_PAUSE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNG_CHECK_PAUSE(RS_STACKDATA* stack, int stack_count)
+static bool _DNG_CHECK_PAUSE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5263,7 +5264,7 @@ static bool _DNG_CHECK_PAUSE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNG_RESET_TIMER(RS_STACKDATA* stack, int stack_count)
+static bool _DNG_RESET_TIMER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5271,7 +5272,7 @@ static bool _DNG_RESET_TIMER(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNG_GET_TIMER(RS_STACKDATA* stack, int stack_count)
+static bool _DNG_GET_TIMER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5279,7 +5280,7 @@ static bool _DNG_GET_TIMER(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_SKIN(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_SKIN(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5287,7 +5288,7 @@ static bool _LOAD_SKIN(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CHK_CAMERA_COL(RS_STACKDATA* stack, int stack_count)
+static bool _CHK_CAMERA_COL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5295,7 +5296,7 @@ static bool _CHK_CAMERA_COL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_PARTS_FUNC_POS(RS_STACKDATA* stack, int stack_count)
+static bool _GET_PARTS_FUNC_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5303,7 +5304,7 @@ static bool _GET_PARTS_FUNC_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _RANDOM_CIRCLE_GET_POS(RS_STACKDATA* stack, int stack_count)
+static bool _RANDOM_CIRCLE_GET_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5311,7 +5312,7 @@ static bool _RANDOM_CIRCLE_GET_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _RANDOM_CIRCLE_OFF(RS_STACKDATA* stack, int stack_count)
+static bool _RANDOM_CIRCLE_OFF(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5319,7 +5320,7 @@ static bool _RANDOM_CIRCLE_OFF(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNG_XCHG_MAP_LIGHT(RS_STACKDATA* stack, int stack_count)
+static bool _DNG_XCHG_MAP_LIGHT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5327,7 +5328,7 @@ static bool _DNG_XCHG_MAP_LIGHT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GEOSTONE_ANIME_OFF(RS_STACKDATA* stack, int stack_count)
+static bool _GEOSTONE_ANIME_OFF(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5335,7 +5336,7 @@ static bool _GEOSTONE_ANIME_OFF(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GEOSTONE_SET_FLAG(RS_STACKDATA* stack, int stack_count)
+static bool _GEOSTONE_SET_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5343,7 +5344,7 @@ static bool _GEOSTONE_SET_FLAG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GEOSTONE_SET_REFERENCE(RS_STACKDATA* stack, int stack_count)
+static bool _GEOSTONE_SET_REFERENCE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5351,7 +5352,7 @@ static bool _GEOSTONE_SET_REFERENCE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GEOSTONE_DEL_REFERENCE(RS_STACKDATA* stack, int stack_count)
+static bool _GEOSTONE_DEL_REFERENCE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5359,7 +5360,7 @@ static bool _GEOSTONE_DEL_REFERENCE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_ROBO_MOVE_TYPE(RS_STACKDATA* stack, int stack_count)
+static bool _GET_ROBO_MOVE_TYPE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5367,7 +5368,7 @@ static bool _GET_ROBO_MOVE_TYPE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_EXIT_FLAG(RS_STACKDATA* stack, int stack_count)
+static bool _SET_EXIT_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5375,7 +5376,7 @@ static bool _SET_EXIT_FLAG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_EXIT_FLAG(RS_STACKDATA* stack, int stack_count)
+static bool _GET_EXIT_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5383,7 +5384,7 @@ static bool _GET_EXIT_FLAG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_E3_VERSION(RS_STACKDATA* stack, int stack_count)
+static bool _GET_E3_VERSION(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5391,7 +5392,7 @@ static bool _GET_E3_VERSION(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CHK_PAD_CTRL(RS_STACKDATA* stack, int stack_count)
+static bool _CHK_PAD_CTRL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5399,7 +5400,7 @@ static bool _CHK_PAD_CTRL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CTRLC_STAY(RS_STACKDATA* stack, int stack_count)
+static bool _CTRLC_STAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5407,7 +5408,7 @@ static bool _CTRLC_STAY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _BSCN_SET_BLIGHT_RATE(RS_STACKDATA* stack, int stack_count)
+static bool _BSCN_SET_BLIGHT_RATE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5415,7 +5416,7 @@ static bool _BSCN_SET_BLIGHT_RATE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_RND_CIRCLE_TRAPID(RS_STACKDATA* stack, int stack_count)
+static bool _GET_RND_CIRCLE_TRAPID(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5423,7 +5424,7 @@ static bool _GET_RND_CIRCLE_TRAPID(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_RND_CIRCLE_STATUS(RS_STACKDATA* stack, int stack_count)
+static bool _SET_RND_CIRCLE_STATUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5431,7 +5432,7 @@ static bool _SET_RND_CIRCLE_STATUS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_STATUSBAR_SHOW(RS_STACKDATA* stack, int stack_count)
+static bool _SET_STATUSBAR_SHOW(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5439,7 +5440,7 @@ static bool _SET_STATUSBAR_SHOW(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_PULL_ITEM(RS_STACKDATA* stack, int stack_count)
+static bool _SET_PULL_ITEM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5447,7 +5448,7 @@ static bool _SET_PULL_ITEM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _MENU_CHARA_CHANGE(RS_STACKDATA* stack, int stack_count)
+static bool _MENU_CHARA_CHANGE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5455,7 +5456,7 @@ static bool _MENU_CHARA_CHANGE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_EVENT_INFO_SNDID(RS_STACKDATA* stack, int stack_count)
+static bool _GET_EVENT_INFO_SNDID(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5463,7 +5464,7 @@ static bool _GET_EVENT_INFO_SNDID(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_PARTS_POS(RS_STACKDATA* stack, int stack_count)
+static bool _GET_PARTS_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5471,7 +5472,7 @@ static bool _GET_PARTS_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CANCEL_DRAMA_SCENE(RS_STACKDATA* stack, int stack_count)
+static bool _CANCEL_DRAMA_SCENE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5479,7 +5480,7 @@ static bool _CANCEL_DRAMA_SCENE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_RNDC_MOT_NOWT(RS_STACKDATA* stack, int stack_count)
+static bool _GET_RNDC_MOT_NOWT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5487,7 +5488,7 @@ static bool _GET_RNDC_MOT_NOWT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CHARA_MOT_NOWT(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CHARA_MOT_NOWT(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5495,7 +5496,7 @@ static bool _SET_CHARA_MOT_NOWT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CHARA_NORMAL_DRIVE(RS_STACKDATA* stack, int stack_count)
+static bool _CHARA_NORMAL_DRIVE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5503,7 +5504,7 @@ static bool _CHARA_NORMAL_DRIVE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CHARA_RESET_DA(RS_STACKDATA* stack, int stack_count)
+static bool _CHARA_RESET_DA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5511,7 +5512,7 @@ static bool _CHARA_RESET_DA(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNG_SETUP_MAIN_UNIT(RS_STACKDATA* stack, int stack_count)
+static bool _DNG_SETUP_MAIN_UNIT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5519,7 +5520,7 @@ static bool _DNG_SETUP_MAIN_UNIT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _JOIN_PARTY_MEMBER(RS_STACKDATA* stack, int stack_count)
+static bool _JOIN_PARTY_MEMBER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5527,7 +5528,7 @@ static bool _JOIN_PARTY_MEMBER(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CHARA_CHANGE_FLAG(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CHARA_CHANGE_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5535,7 +5536,7 @@ static bool _SET_CHARA_CHANGE_FLAG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CHARA_CHANGE_MASK(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CHARA_CHANGE_MASK(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5543,7 +5544,7 @@ static bool _SET_CHARA_CHANGE_MASK(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CHANGE_DIR(RS_STACKDATA* stack, int stack_count)
+static bool _CHANGE_DIR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5551,7 +5552,7 @@ static bool _CHANGE_DIR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SUB_ITEM(RS_STACKDATA* stack, int stack_count)
+static bool _SUB_ITEM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5559,7 +5560,7 @@ static bool _SUB_ITEM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CHARA_EQUIP(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CHARA_EQUIP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5567,7 +5568,7 @@ static bool _SET_CHARA_EQUIP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_PACK_FILE(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_PACK_FILE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5575,7 +5576,7 @@ static bool _LOAD_PACK_FILE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_BIT_CTRL(RS_STACKDATA* stack, int stack_count)
+static bool _SET_BIT_CTRL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5583,7 +5584,7 @@ static bool _SET_BIT_CTRL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_BIT_CTRL(RS_STACKDATA* stack, int stack_count)
+static bool _GET_BIT_CTRL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5591,7 +5592,7 @@ static bool _GET_BIT_CTRL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LOAD_ARG(RS_STACKDATA* stack, int stack_count)
+static bool _LOAD_ARG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5599,7 +5600,7 @@ static bool _LOAD_ARG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_ITEM_HAVE_NUM(RS_STACKDATA* stack, int stack_count)
+static bool _GET_ITEM_HAVE_NUM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5607,7 +5608,7 @@ static bool _GET_ITEM_HAVE_NUM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_SKIP_BUTTON(RS_STACKDATA* stack, int stack_count)
+static bool _SET_SKIP_BUTTON(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5615,7 +5616,7 @@ static bool _SET_SKIP_BUTTON(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_SKIP_FCOL(RS_STACKDATA* stack, int stack_count)
+static bool _SET_SKIP_FCOL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5623,7 +5624,7 @@ static bool _SET_SKIP_FCOL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_DEBUG_MODE(RS_STACKDATA* stack, int stack_count)
+static bool _GET_DEBUG_MODE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5631,7 +5632,7 @@ static bool _GET_DEBUG_MODE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_MAP_TYPE(RS_STACKDATA* stack, int stack_count)
+static bool _GET_MAP_TYPE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5639,7 +5640,7 @@ static bool _GET_MAP_TYPE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNG_COLLISION_ALL_CLR(RS_STACKDATA* stack, int stack_count)
+static bool _DNG_COLLISION_ALL_CLR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5647,7 +5648,7 @@ static bool _DNG_COLLISION_ALL_CLR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MAP_DRAW(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MAP_DRAW(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5655,7 +5656,7 @@ static bool _SET_MAP_DRAW(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CHECK_MC_LOAD(RS_STACKDATA* stack, int stack_count)
+static bool _CHECK_MC_LOAD(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5663,7 +5664,7 @@ static bool _CHECK_MC_LOAD(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_NOW_MAP_NO(RS_STACKDATA* stack, int stack_count)
+static bool _SET_NOW_MAP_NO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5671,7 +5672,7 @@ static bool _SET_NOW_MAP_NO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_TBOX_PARAM(RS_STACKDATA* stack, int stack_count)
+static bool _GET_TBOX_PARAM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5679,7 +5680,7 @@ static bool _GET_TBOX_PARAM(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CANCEL_LOAD_VILLAGER(RS_STACKDATA* stack, int stack_count)
+static bool _CANCEL_LOAD_VILLAGER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5687,7 +5688,7 @@ static bool _CANCEL_LOAD_VILLAGER(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CANCEL_NOW_LOADING(RS_STACKDATA* stack, int stack_count)
+static bool _CANCEL_NOW_LOADING(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5695,7 +5696,7 @@ static bool _CANCEL_NOW_LOADING(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ESM_INITIALIZE(RS_STACKDATA* stack, int stack_count)
+static bool _ESM_INITIALIZE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5703,7 +5704,7 @@ static bool _ESM_INITIALIZE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ESM_INIT_FIX(RS_STACKDATA* stack, int stack_count)
+static bool _ESM_INIT_FIX(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5711,7 +5712,7 @@ static bool _ESM_INIT_FIX(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ESM_CLEAR(RS_STACKDATA* stack, int stack_count)
+static bool _ESM_CLEAR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5719,7 +5720,7 @@ static bool _ESM_CLEAR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ESM_LOAD_BASE(RS_STACKDATA* stack, int stack_count)
+static bool _ESM_LOAD_BASE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5727,7 +5728,7 @@ static bool _ESM_LOAD_BASE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ESM_CREATE(RS_STACKDATA* stack, int stack_count)
+static bool _ESM_CREATE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5735,7 +5736,7 @@ static bool _ESM_CREATE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ESM_FINISH(RS_STACKDATA* stack, int stack_count)
+static bool _ESM_FINISH(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5743,7 +5744,7 @@ static bool _ESM_FINISH(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ESM_DELETE(RS_STACKDATA* stack, int stack_count)
+static bool _ESM_DELETE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5751,7 +5752,7 @@ static bool _ESM_DELETE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ESM_SET_VECT1(RS_STACKDATA* stack, int stack_count)
+static bool _ESM_SET_VECT1(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5759,7 +5760,7 @@ static bool _ESM_SET_VECT1(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ESM_SET_VECT2(RS_STACKDATA* stack, int stack_count)
+static bool _ESM_SET_VECT2(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5767,7 +5768,7 @@ static bool _ESM_SET_VECT2(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ESM_SET_TARGET_ID(RS_STACKDATA* stack, int stack_count)
+static bool _ESM_SET_TARGET_ID(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5775,7 +5776,7 @@ static bool _ESM_SET_TARGET_ID(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ESM_LOAD_BASE_PACK(RS_STACKDATA* stack, int stack_count)
+static bool _ESM_LOAD_BASE_PACK(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5783,7 +5784,7 @@ static bool _ESM_LOAD_BASE_PACK(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ESM_SET_VALUE(RS_STACKDATA* stack, int stack_count)
+static bool _ESM_SET_VALUE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5791,7 +5792,7 @@ static bool _ESM_SET_VALUE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CHARA_CONDITION(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CHARA_CONDITION(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5799,7 +5800,7 @@ static bool _SET_CHARA_CONDITION(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ADD_WHP(RS_STACKDATA* stack, int stack_count)
+static bool _ADD_WHP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5807,7 +5808,7 @@ static bool _ADD_WHP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ADD_HP_RATE(RS_STACKDATA* stack, int stack_count)
+static bool _ADD_HP_RATE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5815,7 +5816,7 @@ static bool _ADD_HP_RATE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_TIME(RS_STACKDATA* stack, int stack_count)
+static bool _GET_TIME(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5823,7 +5824,7 @@ static bool _GET_TIME(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CHECK_GET_ITEM_LIMIT(RS_STACKDATA* stack, int stack_count)
+static bool _CHECK_GET_ITEM_LIMIT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5831,7 +5832,7 @@ static bool _CHECK_GET_ITEM_LIMIT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CHECK_ITEM_OVER(RS_STACKDATA* stack, int stack_count)
+static bool _CHECK_ITEM_OVER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5839,7 +5840,7 @@ static bool _CHECK_ITEM_OVER(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_NOW_LOOP_NO(RS_STACKDATA* stack, int stack_count)
+static bool _GET_NOW_LOOP_NO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5847,7 +5848,7 @@ static bool _GET_NOW_LOOP_NO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _IS_CLEAR_DESTROY(RS_STACKDATA* stack, int stack_count)
+static bool _IS_CLEAR_DESTROY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5855,7 +5856,7 @@ static bool _IS_CLEAR_DESTROY(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _IS_CLEAR_PRACTICE(RS_STACKDATA* stack, int stack_count)
+static bool _IS_CLEAR_PRACTICE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5863,7 +5864,7 @@ static bool _IS_CLEAR_PRACTICE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _IS_PLAY_SUB_GAME(RS_STACKDATA* stack, int stack_count)
+static bool _IS_PLAY_SUB_GAME(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5871,7 +5872,7 @@ static bool _IS_PLAY_SUB_GAME(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _RESET_SUBJECT_COUNTER(RS_STACKDATA* stack, int stack_count)
+static bool _RESET_SUBJECT_COUNTER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5879,7 +5880,7 @@ static bool _RESET_SUBJECT_COUNTER(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SCR_EFF_INIT_RASTER(RS_STACKDATA* stack, int stack_count)
+static bool _SCR_EFF_INIT_RASTER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5887,7 +5888,7 @@ static bool _SCR_EFF_INIT_RASTER(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SCR_EFF_START_RASTER(RS_STACKDATA* stack, int stack_count)
+static bool _SCR_EFF_START_RASTER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5895,7 +5896,7 @@ static bool _SCR_EFF_START_RASTER(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SCR_EFF_STOP_RASTER(RS_STACKDATA* stack, int stack_count)
+static bool _SCR_EFF_STOP_RASTER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5903,7 +5904,7 @@ static bool _SCR_EFF_STOP_RASTER(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MPCHARA_MOTION(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MPCHARA_MOTION(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5911,7 +5912,7 @@ static bool _SET_MPCHARA_MOTION(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _FUNC_POINT_POS(RS_STACKDATA* stack, int stack_count)
+static bool _FUNC_POINT_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5919,7 +5920,7 @@ static bool _FUNC_POINT_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CTRLC_ROT_BACK(RS_STACKDATA* stack, int stack_count)
+static bool _CTRLC_ROT_BACK(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5927,7 +5928,7 @@ static bool _CTRLC_ROT_BACK(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _PARTS_NAME_STRCMP(RS_STACKDATA* stack, int stack_count)
+static bool _PARTS_NAME_STRCMP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5935,7 +5936,7 @@ static bool _PARTS_NAME_STRCMP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_TRIAL_VERSION(RS_STACKDATA* stack, int stack_count)
+static bool _GET_TRIAL_VERSION(RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5943,7 +5944,7 @@ static bool _GET_TRIAL_VERSION(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_FLOOR_EPISODE(RS_STACKDATA* stack, int stack_count)
+static bool _SET_FLOOR_EPISODE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5951,7 +5952,7 @@ static bool _SET_FLOOR_EPISODE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _FUNC_POINT_GET_POS(RS_STACKDATA* stack, int stack_count)
+static bool _FUNC_POINT_GET_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5959,7 +5960,7 @@ static bool _FUNC_POINT_GET_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _FUNC_POINT_GET_ROT(RS_STACKDATA* stack, int stack_count)
+static bool _FUNC_POINT_GET_ROT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5967,7 +5968,7 @@ static bool _FUNC_POINT_GET_ROT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ACTCHR_SET_DEF_MOTION(RS_STACKDATA* stack, int stack_count)
+static bool _ACTCHR_SET_DEF_MOTION(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5975,7 +5976,7 @@ static bool _ACTCHR_SET_DEF_MOTION(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ADD_FUSION_POINT(RS_STACKDATA* stack, int stack_count)
+static bool _ADD_FUSION_POINT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5983,7 +5984,7 @@ static bool _ADD_FUSION_POINT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_DEBUG_FLAG(RS_STACKDATA* stack, int stack_count)
+static bool _GET_DEBUG_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5991,7 +5992,7 @@ static bool _GET_DEBUG_FLAG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _MINIMAP_DOOR_ENABLE(RS_STACKDATA* stack, int stack_count)
+static bool _MINIMAP_DOOR_ENABLE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5999,7 +6000,7 @@ static bool _MINIMAP_DOOR_ENABLE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNG_CHECK_BOSS_MAP(RS_STACKDATA* stack, int stack_count)
+static bool _DNG_CHECK_BOSS_MAP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6007,7 +6008,7 @@ static bool _DNG_CHECK_BOSS_MAP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNG_RUN_EVENT(RS_STACKDATA* stack, int stack_count)
+static bool _DNG_RUN_EVENT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6015,7 +6016,7 @@ static bool _DNG_RUN_EVENT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CHECK_ENABLE_CHARA_CHANGE(RS_STACKDATA* stack, int stack_count)
+static bool _CHECK_ENABLE_CHARA_CHANGE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6023,7 +6024,7 @@ static bool _CHECK_ENABLE_CHARA_CHANGE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _INIT_SEPIA(RS_STACKDATA* stack, int stack_count)
+static bool _INIT_SEPIA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6031,7 +6032,7 @@ static bool _INIT_SEPIA(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _START_SEPIA(RS_STACKDATA* stack, int stack_count)
+static bool _START_SEPIA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6039,7 +6040,7 @@ static bool _START_SEPIA(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _END_SEPIA(RS_STACKDATA* stack, int stack_count)
+static bool _END_SEPIA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6047,7 +6048,7 @@ static bool _END_SEPIA(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _COPY_MONS2SCNCHR(RS_STACKDATA* stack, int stack_count)
+static bool _COPY_MONS2SCNCHR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6055,7 +6056,7 @@ static bool _COPY_MONS2SCNCHR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _UNLOCK_STACK(RS_STACKDATA* stack, int stack_count)
+static bool _UNLOCK_STACK(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6063,7 +6064,7 @@ static bool _UNLOCK_STACK(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _RESET_EVENT_TRG(RS_STACKDATA* stack, int stack_count)
+static bool _RESET_EVENT_TRG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6071,7 +6072,7 @@ static bool _RESET_EVENT_TRG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CHARA_NO(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CHARA_NO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6079,7 +6080,7 @@ static bool _SET_CHARA_NO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_CHARA_NO(RS_STACKDATA* stack, int stack_count)
+static bool _GET_CHARA_NO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6087,7 +6088,7 @@ static bool _GET_CHARA_NO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SEARCH_CHARA_NO(RS_STACKDATA* stack, int stack_count)
+static bool _SEARCH_CHARA_NO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6095,7 +6096,7 @@ static bool _SEARCH_CHARA_NO(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_NEAR_RANDOM_STONE_POS(RS_STACKDATA* stack, int stack_count)
+static bool _GET_NEAR_RANDOM_STONE_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6103,7 +6104,7 @@ static bool _GET_NEAR_RANDOM_STONE_POS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _INIT_MONO_FLASH(RS_STACKDATA* stack, int stack_count)
+static bool _INIT_MONO_FLASH(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6111,7 +6112,7 @@ static bool _INIT_MONO_FLASH(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _START_MONO_FLASH(RS_STACKDATA* stack, int stack_count)
+static bool _START_MONO_FLASH(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6119,7 +6120,7 @@ static bool _START_MONO_FLASH(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _END_MONO_FLASH(RS_STACKDATA* stack, int stack_count)
+static bool _END_MONO_FLASH(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6127,7 +6128,7 @@ static bool _END_MONO_FLASH(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DELETE_VILLAGER(RS_STACKDATA* stack, int stack_count)
+static bool _DELETE_VILLAGER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6135,7 +6136,7 @@ static bool _DELETE_VILLAGER(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNG_SET_WEATHER(RS_STACKDATA* stack, int stack_count)
+static bool _DNG_SET_WEATHER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6143,7 +6144,7 @@ static bool _DNG_SET_WEATHER(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CHARA_MAXHP(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CHARA_MAXHP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6151,7 +6152,7 @@ static bool _SET_CHARA_MAXHP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_CHARA_DEFENCE(RS_STACKDATA* stack, int stack_count)
+static bool _SET_CHARA_DEFENCE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6159,7 +6160,7 @@ static bool _SET_CHARA_DEFENCE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _PLACE_PARTS_NAME_STRCMP(RS_STACKDATA* stack, int stack_count)
+static bool _PLACE_PARTS_NAME_STRCMP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6167,7 +6168,7 @@ static bool _PLACE_PARTS_NAME_STRCMP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GOTO_USE_ITEM2(RS_STACKDATA* stack, int stack_count)
+static bool _GOTO_USE_ITEM2(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6175,7 +6176,7 @@ static bool _GOTO_USE_ITEM2(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DBG_SET_ANALYZE_FLAG(RS_STACKDATA* stack, int stack_count)
+static bool _DBG_SET_ANALYZE_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6183,7 +6184,7 @@ static bool _DBG_SET_ANALYZE_FLAG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ATRAMIRIA_ON_OFF(RS_STACKDATA* stack, int stack_count)
+static bool _ATRAMIRIA_ON_OFF(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6191,7 +6192,7 @@ static bool _ATRAMIRIA_ON_OFF(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ADD_YARIKOMI_MEDAL(RS_STACKDATA* stack, int stack_count)
+static bool _ADD_YARIKOMI_MEDAL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6199,7 +6200,7 @@ static bool _ADD_YARIKOMI_MEDAL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_MAP_EFFECT_ID(RS_STACKDATA* stack, int stack_count)
+static bool _SET_MAP_EFFECT_ID(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6207,7 +6208,7 @@ static bool _SET_MAP_EFFECT_ID(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_MAP_EFFECT_ID(RS_STACKDATA* stack, int stack_count)
+static bool _GET_MAP_EFFECT_ID(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6215,7 +6216,7 @@ static bool _GET_MAP_EFFECT_ID(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNG_FLOOR_INIT(RS_STACKDATA* stack, int stack_count)
+static bool _DNG_FLOOR_INIT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6223,7 +6224,7 @@ static bool _DNG_FLOOR_INIT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNG_FLOOR_FINISH(RS_STACKDATA* stack, int stack_count)
+static bool _DNG_FLOOR_FINISH(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6231,7 +6232,7 @@ static bool _DNG_FLOOR_FINISH(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CLEAR_RND_STONE(RS_STACKDATA* stack, int stack_count)
+static bool _CLEAR_RND_STONE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6239,7 +6240,7 @@ static bool _CLEAR_RND_STONE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_FLOOR_STATUS(RS_STACKDATA* stack, int stack_count)
+static bool _GET_FLOOR_STATUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6247,7 +6248,7 @@ static bool _GET_FLOOR_STATUS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_FLOOR_STATUS(RS_STACKDATA* stack, int stack_count)
+static bool _SET_FLOOR_STATUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6255,7 +6256,7 @@ static bool _SET_FLOOR_STATUS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _AMG_GET_ATTR_STATUS(RS_STACKDATA* stack, int stack_count)
+static bool _AMG_GET_ATTR_STATUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6263,7 +6264,7 @@ static bool _AMG_GET_ATTR_STATUS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_NEAR_DIST(RS_STACKDATA* stack, int stack_count)
+static bool _SET_NEAR_DIST(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6271,7 +6272,7 @@ static bool _SET_NEAR_DIST(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _SET_KEEP_TIME(RS_STACKDATA* stack, int stack_count)
+static bool _SET_KEEP_TIME(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6279,7 +6280,7 @@ static bool _SET_KEEP_TIME(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_KEEP_TIME(RS_STACKDATA* stack, int stack_count)
+static bool _GET_KEEP_TIME(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6287,7 +6288,7 @@ static bool _GET_KEEP_TIME(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _GET_DOOR_PARTS_ID(RS_STACKDATA* stack, int stack_count)
+static bool _GET_DOOR_PARTS_ID(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6295,7 +6296,7 @@ static bool _GET_DOOR_PARTS_ID(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _CHECK_EQUIP_CHANGE(RS_STACKDATA* stack, int stack_count)
+static bool _CHECK_EQUIP_CHANGE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6303,7 +6304,7 @@ static bool _CHECK_EQUIP_CHANGE(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _ADD_HP_RATE2(RS_STACKDATA* stack, int stack_count)
+static bool _ADD_HP_RATE2(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6311,7 +6312,7 @@ static bool _ADD_HP_RATE2(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNG_EFFECT_ALL_CLEAR(RS_STACKDATA* stack, int stack_count)
+static bool _DNG_EFFECT_ALL_CLEAR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6319,7 +6320,7 @@ static bool _DNG_EFFECT_ALL_CLEAR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _AUTO_CHANGE_BGM_VOL(RS_STACKDATA* stack, int stack_count)
+static bool _AUTO_CHANGE_BGM_VOL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6327,7 +6328,7 @@ static bool _AUTO_CHANGE_BGM_VOL(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _UDATA_GET_WHP(RS_STACKDATA* stack, int stack_count)
+static bool _UDATA_GET_WHP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6335,7 +6336,7 @@ static bool _UDATA_GET_WHP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _UDATA_ADD_WHP(RS_STACKDATA* stack, int stack_count)
+static bool _UDATA_ADD_WHP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6343,7 +6344,7 @@ static bool _UDATA_ADD_WHP(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _UDATA_GET_ABS(RS_STACKDATA* stack, int stack_count)
+static bool _UDATA_GET_ABS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6351,7 +6352,7 @@ static bool _UDATA_GET_ABS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _UDATA_ADD_ABS(RS_STACKDATA* stack, int stack_count)
+static bool _UDATA_ADD_ABS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6359,7 +6360,7 @@ static bool _UDATA_ADD_ABS(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _DNG_CREATE_EFFECT(RS_STACKDATA* stack, int stack_count)
+static bool _DNG_CREATE_EFFECT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6367,7 +6368,7 @@ static bool _DNG_CREATE_EFFECT(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _LEAVE_MONICA_ITEM_CHECK(RS_STACKDATA* stack, int stack_count)
+static bool _LEAVE_MONICA_ITEM_CHECK(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6375,7 +6376,7 @@ static bool _LEAVE_MONICA_ITEM_CHECK(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _PAUSE_ENABLE_FLAG(RS_STACKDATA* stack, int stack_count)
+static bool _PAUSE_ENABLE_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6383,7 +6384,7 @@ static bool _PAUSE_ENABLE_FLAG(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _FORCE_BOOT_TOUR(RS_STACKDATA* stack, int stack_count)
+static bool _FORCE_BOOT_TOUR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6391,7 +6392,7 @@ static bool _FORCE_BOOT_TOUR(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _MT_TEST(RS_STACKDATA* stack, int stack_count)
+static bool _MT_TEST(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6399,7 +6400,7 @@ static bool _MT_TEST(RS_STACKDATA* stack, int stack_count)
   return true;
 }
 
-static bool _TEST(RS_STACKDATA* stack, int stack_count)
+static bool _TEST(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED int stack_count)
 {
   trace_script_call(stack, stack_count);
 
