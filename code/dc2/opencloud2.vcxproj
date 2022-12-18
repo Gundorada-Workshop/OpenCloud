@@ -29,6 +29,7 @@
     <ClInclude Include="mg\mg_memory.h" />
     <ClInclude Include="mg\mg_tanime.h" />
     <ClInclude Include="mg\mg_texture.h" />
+    <ClInclude Include="monster.h" />
     <ClInclude Include="movie.h" />
     <ClInclude Include="npc.h" />
     <ClInclude Include="pot.h" />
@@ -111,6 +112,7 @@
     <ClCompile Include="mg\mg_memory.cc" />
     <ClCompile Include="mg\mg_tanime.cc" />
     <ClCompile Include="mg\mg_texture.cc" />
+    <ClCompile Include="monster.cc" />
     <ClCompile Include="movie.cc" />
     <ClCompile Include="npc.cc" />
     <ClCompile Include="pot.cc" />

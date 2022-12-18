@@ -7,10 +7,11 @@
 #include "common/types.h"
 
 #include "dc2/character.h"
+#include "dc2/ls_mes.h"
 #include "dc2/map.h"
 #include "dc2/mg/mg_frame.h"
 #include "dc2/mg/mg_memory.h"
-#include "dc2/ls_mes.h"
+#include "dc2/monster.h"
 #include "dc2/object.h"
 #include "dc2/pot.h"
 
@@ -106,22 +107,6 @@ class CWarningGauge2
 };
 
 class CHealingPoint
-{
-};
-
-class CActiveMonster : CActionChara
-{
-public:
-  // 1324
-  // Baseline HP damage to take when striking this monster with a melee weapon
-  u16 m_melee_whp_penalty{ 1 };
-};
-
-class CMonsterLocateInfo
-{
-};
-
-class CMonsterMan
 {
 };
 
