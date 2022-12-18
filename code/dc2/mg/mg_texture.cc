@@ -37,7 +37,7 @@ static bool texTEX_ANIME(SPI_STACK* stack, int)
     auto len = strlen(s) + 1;
     auto dest = static_cast<char*>(TexAnimeStack->Alloc(BYTES_TO_BLOCKS_STRICT(len)));
 
-    strcpy(dest, s);
+    strcpy_s(dest, len, s);
 
     group_name = dest;
   }
@@ -307,10 +307,11 @@ void mgCTextureManager::Initialize(void* vram_top, void* vram_bottom)
   m_vram_top = vram_top;
   m_vram_bottom = vram_bottom;
 
-  if (reinterpret_cast<int>(m_vram_bottom) < 0)
-  {
-    m_vram_bottom = reinterpret_cast<void*>(0x3FE0);
-  }
+  // this is dumb don't do this
+  // if (reinterpret_cast<int>(m_vram_bottom) < 0)
+  // {
+  //  m_vram_bottom = reinterpret_cast<void*>(0x3FE0);
+  // }
 
   if (m_vram_blocks == nullptr)
   {
