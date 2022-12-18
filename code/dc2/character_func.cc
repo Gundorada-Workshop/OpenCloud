@@ -91,19 +91,29 @@ static bool _INIT_SCRIPT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint sta
   return true;
 }
 
-static bool _PROG_SET(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _PROG_SET(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  if (stack_count != 1)
+  {
+    return false;
+  }
+
+  action_info.m_chara->m_prog = GetStackInt(stack++);
   return true;
 }
 
-static bool _PROG_GET(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _PROG_GET(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  if (stack_count != 1)
+  {
+    return false;
+  }
+
+  SetStack(stack++, action_info.m_chara->m_prog);
   return true;
 }
 

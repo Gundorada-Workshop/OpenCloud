@@ -588,4 +588,7 @@ public:
   
   // 0016A220
   void ResetScript();
+
+  // 712
+  s16 m_prog{};
 };
