@@ -101,7 +101,7 @@ static bool _PROG_SET(RS_STACKDATA* stack, sint stack_count)
     return false;
   }
 
-  action_info.m_chara->m_prog = GetStackInt(stack++);
+  action_info.m_chara->m_prog = static_cast<s16>(GetStackInt(stack++));
   return true;
 }
 
