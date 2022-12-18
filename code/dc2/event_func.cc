@@ -829,6 +829,8 @@ static bool _GOTO_DNG(RS_STACKDATA* stack, sint stack_count)
 
   NextLoop(ELoopID::Dungeon, init_arg);
   EdEventInfo.m_unk_field_CC = 3; // FIXME: MAGIC
+
+  return true;
 }
 
 static bool _GOTO_EDIT(RS_STACKDATA* stack, sint stack_count)
@@ -846,6 +848,8 @@ static bool _GOTO_EDIT(RS_STACKDATA* stack, sint stack_count)
 
   NextLoop(ELoopID::Edit, init_arg);
   EdEventInfo.m_unk_field_CC = 3; // FIXME: MAGIC
+
+  return true;
 }
 
 static bool _GET_MENU_PARAM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
@@ -2792,7 +2796,7 @@ static bool _DNGMAP_MOVE_PIECE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_coun
 {
   trace_script_call(stack, stack_count);
 
-  EventDngMap.SetPieceMove(GetStackInt(stack++));
+  EventDngMap.SetPieceMove(static_cast<s16>(GetStackInt(stack++)));
   return true;
 }
 
@@ -7406,7 +7410,7 @@ void CSceneObjSeq::Clear()
   m_unk_field_18 = 0;
   m_unk_field_1C = 0;
   m_unk_field_20 = 0;
-  m_unk_field_24 = -1;
+  m_unk_field_24 = constants::u32_max;
   m_unk_field_28 = 0;
   m_unk_field_2C = 0;
   m_unk_field_30 = 0;

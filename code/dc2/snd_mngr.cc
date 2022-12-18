@@ -57,7 +57,7 @@ void sndCSeSeq::Initialize()
   for (int i = 0; i < m_n_unk_field_30; ++i)
   {
     m_unk_field_30[i].Initialize();
-    m_unk_field_30[i].m_unk_field_6 = i + 0x40;
+    m_unk_field_30[i].m_unk_field_6 = static_cast<s8>(i) + 0x40;
   }
 }
 
@@ -69,9 +69,9 @@ sndCSeSeq::sndCSeSeq()
   for (int i = 0; i < m_unk_field_30.size(); ++i)
   {
     // FIXME: not sure how this is implemented, 00190620
-    for (int i = 0; i < m_unk_field_30[i].m_unk_field_C.size(); i += 4)
+    for (int j = 0; j < m_unk_field_30[j].m_unk_field_C.size(); j += 4)
     {
-      m_unk_field_30[i].m_unk_field_C[i] = 0;
+      m_unk_field_30[j].m_unk_field_C[j] = 0;
     }
 
     m_unk_field_30[i].Initialize();
