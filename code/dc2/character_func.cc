@@ -147,7 +147,19 @@ static bool _SET_MOVE_SPEED(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint 
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  if (stack_count != 1)
+  {
+    return false;
+  }
+
+  f32 speed = GetStackFloat(stack++);
+
+  if (speed < 0.0f)
+  {
+    speed = DEFAULT_CHARACTER_MOVE_SPEED;
+  }
+
+  action_info.m_chara->m_move_speed = speed;
   return true;
 }
 
