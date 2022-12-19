@@ -255,11 +255,20 @@ static bool _GET_MONS_ID(RS_STACKDATA* stack, sint stack_count)
   return true;
 }
 
-static bool _GET_FRONT_VEC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_FRONT_VEC(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  if (stack_count != 3)
+  {
+    return false;
+  }
+
+  vec3 front_vec = action_info.m_chara->m_front_vec;
+
+  SetStack(stack++, front_vec.x);
+  SetStack(stack++, front_vec.y);
+  SetStack(stack++, front_vec.z);
   return true;
 }
 

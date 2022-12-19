@@ -600,6 +600,8 @@ public:
   // 0016A220
   void ResetScript();
 
+  // 690
+  vec3 m_front_vec{ 0.0f, 0.0f, 0.0f };
   // 6A4
   EAttackType m_attack_type{};
   // 6A8
