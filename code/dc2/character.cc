@@ -35,10 +35,12 @@ unkptr CCharacter2::Draw()
 
 CCharacter2::CCharacter2()
 {
+  /*
   for (auto& v : m_unk_field_140)
   {
     v = ivec4(0, 0, -1, 0);
   }
+  */
 }
 
 // 001731F0
@@ -82,6 +84,7 @@ void CCharacter2::LoadPack(void* file_buf, char* file_name, mgCMemory* mem1, mgC
 
   LoadChrFile(file_buf, file_name, mem1, mem2, mem3, i, character2, true);
 }
+
 // 00175200
 void CCharacter2::LoadPackNoLine(void* file_buf, char* file_name, mgCMemory* mem1, mgCMemory* mem2, mgCMemory* mem3, unk32 i, CCharacter2* character2)
 {
@@ -101,18 +104,18 @@ void CCharacter2::LoadChrFile(MAYBE_UNUSED void* file_buf, MAYBE_UNUSED char* fi
 }
 
 // 00168410
-sint CCharacter2::GetMotionStatus()
+ECharacterMotionStatus CCharacter2::GetMotionStatus()
 {
   log_trace("CCharacter2::{}()", __func__);
 
   return m_motion_status;
 }
 // 00168420
-unkptr CCharacter2::GetNowMotionName()
+std::string CCharacter2::GetNowMotionName()
 {
   log_trace("CCharacter2::{}()", __func__);
 
-  return m_now_motion_name;
+  return m_now_motion->m_name;
 }
 
 // 001738C0
@@ -120,7 +123,7 @@ bool CCharacter2::CheckMotionEnd()
 {
   log_trace("CCharacter2::{}()", __func__);
 
-  if (m_now_motion_name == nullptr)
+  if (m_now_motion == nullptr)
   {
     return true;
   }
@@ -143,7 +146,7 @@ f32 CCharacter2::GetChgStepWait()
 {
   log_trace("CCharacter2::{}()", __func__);
 
-  if (m_motion_status != 3)
+  if (m_motion_status != ECharacterMotionStatus::_3)
   {
     return -1.0f;
   }
@@ -165,7 +168,7 @@ void CCharacter2::SetNowFrameWeight(f32 weight)
 {
   log_trace("CCharacter2::{}({})", __func__, weight);
 
-  if (m_now_motion_name == nullptr)
+  if (m_now_motion == nullptr)
   {
     return;
   }
@@ -203,11 +206,11 @@ void CCharacter2::SetMotion(MAYBE_UNUSED unk32 i1, MAYBE_UNUSED unk32 i2)
 }
 
 // 001739A0
-void CCharacter2::SetMotion(char* c, sint i)
+void CCharacter2::SetMotion(std::string key_name, sint i)
 {
-  log_trace("CCharacter2::{}({}, {})", __func__, c, i);
+  log_trace("CCharacter2::{}({}, {})", __func__, key_name, i);
 
-  SetMotionPara(c, i, -1);
+  SetMotionPara(key_name, i, -1);
 }
 
 // 00173870
@@ -215,7 +218,7 @@ void CCharacter2::ResetMotion()
 {
   log_trace("CCharacter2::{}()", __func__);
 
-  m_now_motion_name = nullptr;
+  m_now_motion = nullptr;
   m_unk_field_368 = 0;
   m_unk_field_3A8 = 0;
   m_unk_field_3A4 = 0;
@@ -242,7 +245,7 @@ f32 CCharacter2::GetDefaultStep()
 {
   log_trace("CCharacter2::{}()", __func__);
 
-  if (m_now_motion_name == nullptr)
+  if (m_now_motion == nullptr)
   {
     return 0.0f;
   }
@@ -374,18 +377,224 @@ void CCharacter2::DrawEffect()
   todo;
 }
 
-// 00173A40
-void CCharacter2::SetMotionPara(MAYBE_UNUSED char* c, MAYBE_UNUSED sint i1, MAYBE_UNUSED s32 i2)
+// 00172DF0
+void CCharacter2::AddOutLine(const char* frame_name, COutLineDraw* outline)
 {
-  log_trace("CCharacter2::{}({}, {}, {})", __func__, c, i1, i2);
+  log_trace("CCharacter2::{}({}, {})", __func__, frame_name, fmt::ptr(outline));
 
   todo;
+}
+
+// 00172F00
+void CCharacter2::CopyOutLine(CCharacter2* other)
+{
+  log_trace("CCharacter2::{}({})", __func__, fmt::ptr(other));
+
+  todo;
+}
+
+// 00172F60
+void CCharacter2::SetDeformMesh()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+}
+
+// 00173700
+void CCharacter2::UpdatePosition()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+}
+
+// 001737B0
+void CCharacter2::ResetDAPosition()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+}
+
+// 00173A40
+void CCharacter2::SetMotionPara(MAYBE_UNUSED std::string key_name, MAYBE_UNUSED sint i1, MAYBE_UNUSED s32 i2)
+{
+  log_trace("CCharacter2::{}({}, {}, {})", __func__, key_name, i1, i2);
+
+  todo;
+}
+
+// 00173B00
+void CCharacter2::SetDAnimeEnable(bool flag)
+{
+  log_trace("CCharacter2::{}({})", __func__, flag);
+
+  todo;
+}
+
+// 00173B30
+void CCharacter2::GetSoundInfoCopy(mgCMemory* memory)
+{
+  log_trace("CCharacter2::{}({})", __func__, fmt::ptr(memory));
+
+  todo;
+}
+
+// 00173BC0
+s32 CCharacter2::CheckFootEffect()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+  return -1;
+}
+
+// 00173BF0
+void CCharacter2::SePlay()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+}
+
+// 001742E0
+void CCharacter2::StepDA(s32 steps)
+{
+  log_trace("CCharacter2::{}({})", __func__, steps);
+
+  todo;
+}
+
+// 001743C0
+void CCharacter2::SetWind(f32 velocity, const vec3& direction)
+{
+  log_trace("CCharacter2::{}({}, {})", __func__, velocity, direction);
+
+  todo;
+}
+
+// 00174AD0
+CHRINFO_KEY_SET* CCharacter2::GetKeyListPtr(std::string key_name, s32* index_dest)
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+  return nullptr;
 }
 
 // 00174C70
 void CCharacter2::DeleteExtMotion()
 {
   log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+}
+
+// 00174E60
+void CCharacter2::DeleteImage()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+}
+
+// 00174F50
+vec3 CCharacter2::GetEntryObjectPos(usize object_index)
+{
+  log_trace("CCharacter2::{}({})", __func__, object_index);
+
+  todo;
+  return vec3{ 0.0f };
+}
+
+// 00174FE0
+matrix4 CCharacter2::GetEntryObjectPosMatrix(usize object_index)
+{
+  log_trace("CCharacter2::{}({})", __func__, object_index);
+
+  todo;
+  return matrix4{ 1.0f };
+}
+
+// 00175080
+vec3 CCharacter2::GetEntryObjectPos(usize i1, usize i2)
+{
+  log_trace("CCharacter2::{}({}, {})", __func__, i1, i2);
+
+  todo;
+  return vec3{ 0.0f };
+}
+
+// 00175160
+f32 CCharacter2::GetWaitToFrame(std::string key_name, f32 rate)
+{
+  log_trace("CCharacter2::{}({}, {})", __func__, key_name, rate);
+
+  todo;
+  return 0.0f;
+}
+
+// 001751C0
+void CCharacter2::LoadSkin(uint* i1, char* c1, char* c2, mgCMemory* memory, sint i2)
+{
+  log_trace("CCharacter2::{}({}, {}, {}, {}, {})", __func__, fmt::ptr(i1), c1, c2, fmt::ptr(memory), i2);
+
+  todo;
+}
+
+// 001751D0
+void CCharacter2::LoadPack(uint* i1, char* c, mgCMemory* memory1, mgCMemory* memory2, mgCMemory* memory3, sint i2, CCharacter2* chara)
+{
+  log_trace("CCharacter2::{}({}, {}, {}, {}, {}, {}, {})", __func__, fmt::ptr(i1), c, fmt::ptr(memory1), fmt::ptr(memory2), fmt::ptr(memory3), i2, fmt::ptr(chara));
+
+  todo;
+}
+
+// 00175200
+void CCharacter2::LoadPackNoLine(uint* i1, char* c, mgCMemory* memory1, mgCMemory* memory2, mgCMemory* memory3, sint i2, CCharacter2* chara)
+{
+  log_trace("CCharacter2::{}({}, {}, {}, {}, {}, {}, {})", __func__, fmt::ptr(i1), c, fmt::ptr(memory1), fmt::ptr(memory2), fmt::ptr(memory3), i2, fmt::ptr(chara));
+
+  todo;
+}
+
+// 00175230
+void CCharacter2::LoadChrFile(uint* i1, char* c, mgCMemory* memory1, mgCMemory* memory2, mgCMemory* memory3, sint i2, CCharacter2* chara, sint i3)
+{
+  log_trace("CCharacter2::{}({}, {}, {}, {}, {}, {}, {}, {})", __func__, fmt::ptr(i1), c, fmt::ptr(memory1), fmt::ptr(memory2), fmt::ptr(memory3), i2, fmt::ptr(chara), i3);
+
+  todo;
+}
+
+// 00177A30
+void CCharacter2::ExecEntryEffect(CHRINFO_KEY_SET* keys)
+{
+  log_trace("CCharacter2::{}({})", __func__, fmt::ptr(keys));
+
+  todo;
+}
+
+// 00177B30
+void CCharacter2::CtrlEffect()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+}
+
+// 00177C00
+void CCharacter2::StepEffect()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+}
+
+// 00178A60
+void CCharacter2::ChangeLOD(usize lod)
+{
+  log_trace("CCharacter2::{}({})", __func__, lod);
 
   todo;
 }

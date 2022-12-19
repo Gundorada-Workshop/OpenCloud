@@ -2,6 +2,7 @@
 #include "common/debug.h"
 #include "common/types.h"
 
+#include "dc2/effect.h"
 #include "dc2/gamedata.h"
 #include "dc2/mg/mg_lib.h"
 #include "dc2/object.h"
@@ -30,6 +31,28 @@ struct RUN_SCRIPT_ENV
 
   // 4
   s32 m_unk_field_4;
+};
+
+enum class ECharacterMotionStatus : s32
+{
+  _0 = 0,
+  _1 = 1,
+  _2 = 2,
+  _3 = 3,
+  _4 = 4,
+};
+
+struct CHRINFO_KEY_SET
+{
+  // I don't know the actual size of this buffer (it's probably 0x24 ?); this is shift-jis
+  // most times and we probably want to construct this into an converted std::string in reality
+  // 0
+  std::string m_name{};
+};
+
+struct SEQ_HEADER
+{
+
 };
 
 class CCharacter2 : public CObjectFrame
@@ -69,10 +92,10 @@ public:
   virtual void LoadChrFile(void* file_buf, char* file_name, mgCMemory* mem1, mgCMemory* mem2, mgCMemory* mem3, unk32 i, CCharacter2* character2, bool b);
 
   // 88  00168410
-  virtual sint GetMotionStatus();
+  virtual ECharacterMotionStatus GetMotionStatus();
 
   // 8C  00168420
-  virtual unkptr GetNowMotionName();
+  virtual std::string GetNowMotionName();
 
   // 90  001738C0
   virtual bool CheckMotionEnd();
@@ -99,7 +122,7 @@ public:
   virtual void SetMotion(unk32 i1, unk32 i2);
 
   // B0  001739A0
-  virtual void SetMotion(char* c, sint i);
+  virtual void SetMotion(std::string key_name, sint i);
 
   // B4  00173870
   virtual void ResetMotion();
@@ -152,11 +175,86 @@ public:
   // F4  00177CB0
   virtual void DrawEffect();
 
+  // 00172DF0
+  void AddOutLine(const char* frame_name, COutLineDraw* outline);
+
+  // 00172F00
+  void CopyOutLine(CCharacter2* other);
+
+  // 00172F60
+  void SetDeformMesh();
+
+  // 00173700
+  void UpdatePosition();
+
+  // 001737B0
+  void ResetDAPosition();
+
   // 00173A40
-  void SetMotionPara(char* c, sint i1, s32 i2);
+  void SetMotionPara(std::string key_name, sint i1, s32 i2);
+
+  // 00173B00
+  void SetDAnimeEnable(bool flag);
+
+  // 00173B30
+  void GetSoundInfoCopy(mgCMemory* memory);
+
+  // 00173BC0
+  s32 CheckFootEffect();
+
+  // 00173BF0
+  void SePlay();
+
+  // 001742E0
+  void StepDA(s32 steps = 1);
+
+  // 001743C0
+  void SetWind(f32 velocity, const vec3& direction);
+
+  // 00174AD0
+  CHRINFO_KEY_SET* GetKeyListPtr(std::string key_name, s32* index_dest = nullptr);
 
   // 00174C70
   void DeleteExtMotion();
+
+  // 00174E60
+  void DeleteImage();
+
+  // 00174F50
+  vec3 GetEntryObjectPos(usize object_index);
+
+  // 00174FE0
+  matrix4 GetEntryObjectPosMatrix(usize object_index);
+
+  // 00175080
+  vec3 GetEntryObjectPos(usize i1, usize i2);
+
+  // 00175160
+  f32 GetWaitToFrame(std::string key_name, f32 rate);
+
+  // 001751C0
+  void LoadSkin(uint* i1, char* c1, char* c2, mgCMemory* memory, sint i2);
+
+  // 001751D0
+  void LoadPack(uint* i1, char* c, mgCMemory* memory1, mgCMemory* memory2, mgCMemory* memory3, sint i2, CCharacter2* chara);
+
+  // 00175200
+  void LoadPackNoLine(uint* i1, char* c, mgCMemory* memory1, mgCMemory* memory2, mgCMemory* memory3, sint i2, CCharacter2* chara);
+
+  // 00175230
+  void LoadChrFile(uint* i1, char* c, mgCMemory* memory1, mgCMemory* memory2, mgCMemory* memory3, sint i2, CCharacter2* chara, sint i3);
+
+  // 00177A30
+  void ExecEntryEffect(CHRINFO_KEY_SET* keys);
+
+  // 00177B30
+  void CtrlEffect();
+
+  // 00177C00
+  void StepEffect();
+
+  // 00178A60
+  void ChangeLOD(usize lod);
 
   // 80
   f32 m_unk_field_80{ 0.0f };
@@ -234,13 +332,9 @@ public:
   unk32 m_unk_field_134{ 0 };
 
   // 138
-  bool m_unk_field_138{ false };
+  std::array<std::shared_ptr<mgCFrame>, 3> m_entry_objects{};
 
-  // 13C
-  unk32 m_unk_field_13C{ 0 };
-
-  // 140
-  std::array<ivec4, 0x18> m_unk_field_140{};
+  // ?
 
   // 2C0
   mgCFrame* m_unk_field_2C0{ nullptr };
@@ -309,7 +403,7 @@ public:
   usize m_unk_field_370{ 0 };
 
   // 374
-  unkptr m_now_motion_name{ nullptr };
+  CHRINFO_KEY_SET* m_now_motion{ nullptr };
 
   // 378
   bool m_unk_field_378{ false };
@@ -321,8 +415,7 @@ public:
   usize m_unk_field_380{ 0 };
 
   // 384
-  // FIXME: this is an sint, but would an enum type be better?
-  sint m_motion_status{ 0 };
+  ECharacterMotionStatus m_motion_status{};
 
   // 388
   f32 m_now_frame{ 0.0f };
@@ -387,76 +480,13 @@ public:
   f32 m_unk_field_50C{ 0.0f };
 
   // 510
-  unk32 m_unk_field_510{ 0 };
-
-  // 514
-  unk32 m_unk_field_514{ 0 };
-
-  // 518
-  unk32 m_unk_field_518{ 0 };
-
-  // 51C
-  unk32 m_unk_field_51C{ 0 };
-
-  // 520
-  unk32 m_unk_field_520{ 0 };
-
-  // 524
-  unk32 m_unk_field_524{ 0 };
-
-  // 528
-  unk32 m_unk_field_528{ 0 };
-
-  // 52C
-  unk32 m_unk_field_52C{ 0 };
+  std::array<std::vector<std::shared_ptr<CHRINFO_KEY_SET>>, 8> m_CHRINFO_KEY_SETs{};
 
   // 530
-  unk32 m_unk_field_530{ 0 };
-
-  // 534
-  unk32 m_unk_field_534{ 0 };
-
-  // 538
-  unk32 m_unk_field_538{ 0 };
-
-  // 53C
-  unk32 m_unk_field_53C{ 0 };
-
-  // 540
-  unk32 m_unk_field_540{ 0 };
-
-  // 544
-  unk32 m_unk_field_544{ 0 };
-
-  // 548
-  unk32 m_unk_field_548{ 0 };
-
-  // 54C
-  unk32 m_unk_field_54C{ 0 };
+  // std::array<usize, 8> m_n_CHRINFO_KEY_SETs{};
 
   // 550
-  unk32 m_unk_field_550{ 0 };
-
-  // 554
-  unk32 m_unk_field_554{ 0 };
-
-  // 558
-  unk32 m_unk_field_558{ 0 };
-
-  // 55C
-  unk32 m_unk_field_55C{ 0 };
-
-  // 560
-  unk32 m_unk_field_560{ 0 };
-
-  // 564
-  unk32 m_unk_field_564{ 0 };
-
-  // 568
-  unk32 m_unk_field_568{ 0 };
-
-  // 56C
-  unk32 m_unk_field_56C{ 0 };
+  std::array<std::shared_ptr<SEQ_HEADER>, 8> m_seq_headers{};
 
   // 570
   std::array<CSwordAfterEffect*, 3> m_sword_after_effects;
