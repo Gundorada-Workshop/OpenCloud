@@ -448,11 +448,33 @@ static bool _BLOW_START(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stac
   return true;
 }
 
-static bool _RUN_ROBO_MOVE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _RUN_ROBO_MOVE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  sint i = GetStackInt(stack++);
+
+  using enum EMoveType;
+
+  switch (action_info.m_chara->m_move_type)
+  {
+    case RoboWalk1:
+    case RoboWalk4:
+      action_info.m_chara->RoboWalkMoveIF(i);
+      break;
+    case RoboTank2:
+    case RoboTank5:
+      action_info.m_chara->RoboTankMoveIF(i);
+      break;
+    case RoboBike:
+      action_info.m_chara->RoboBikeMoveIF(i);
+      break;
+    case RoboAir6:
+    case RoboAir7:
+      action_info.m_chara->RoboAirMoveIF(1, i);
+      break;
+  }
+
   return true;
 }
 

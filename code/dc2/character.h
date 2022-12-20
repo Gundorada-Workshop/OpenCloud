@@ -592,7 +592,14 @@ public:
 enum class EMoveType : s32
 {
   Human = 0,
+  RoboWalk1 = 1,
+  RoboTank2 = 2,
   Monster = 3,
+  RoboBike = 3,
+  RoboWalk4 = 4,
+  RoboTank5 = 5,
+  RoboAir6 = 6,
+  RoboAir7 = 7,
 };
 
 // this might be from another file but putting them here for now
