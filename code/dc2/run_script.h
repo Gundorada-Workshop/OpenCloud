@@ -69,29 +69,23 @@ struct funcentry
   funcdata* m_funcdata{};
 };
 
-namespace EStackDataType
+enum class EStackDataType : u8
 {
-  enum EStackDataType : u8
-  {
-    Int = 0,
-    Float = 1,
-    String = 2,
-    Pointer = 3
-  };
-}
+  Int = 0,
+  Float = 1,
+  String = 2,
+  Pointer = 3
+};
 
-namespace ECompare
+enum class ECompare : u8
 {
-  enum ECompare : u8
-  {
-    EQ = 0,
-    NE = 1,
-    LT = 2,
-    LTE = 3,
-    GT = 4,
-    GTE = 5
-  };
-}
+  EQ = 0,
+  NE = 1,
+  LT = 2,
+  LTE = 3,
+  GT = 4,
+  GTE = 5
+};
 
 using ext_func_t = std::function<bool(RS_STACKDATA*, int)>;
 
@@ -111,7 +105,7 @@ union stackdata_t
 
 struct RS_STACKDATA
 {
-  EStackDataType::EStackDataType m_data_type;
+  EStackDataType m_data_type;
   stackdata_t m_data;
 };
 

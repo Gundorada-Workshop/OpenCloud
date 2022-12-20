@@ -227,7 +227,7 @@ void CRunScript::exe(vmcode_t* code)
 
   while (true)
   {
-    using Type = EStackDataType::EStackDataType;
+    using enum EStackDataType;
 
     switch (m_vmcode->m_instruction)
     {
@@ -281,19 +281,19 @@ void CRunScript::exe(vmcode_t* code)
         auto rhs = pop();
         auto lhs = pop();
 
-        if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Int)
+        if (lhs.m_data_type == Int && rhs.m_data_type == Int)
         {
           push_int(lhs.m_data.i + rhs.m_data.i);
         }
-        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Float)
+        else if (lhs.m_data_type == Float && rhs.m_data_type == Float)
         {
           push_float(lhs.m_data.f + rhs.m_data.f);
         }
-        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Int)
+        else if (lhs.m_data_type == Float && rhs.m_data_type == Int)
         {
           push_float(lhs.m_data.f + rhs.m_data.i);
         }
-        else if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Float)
+        else if (lhs.m_data_type == Int && rhs.m_data_type == Float)
         {
           push_float(lhs.m_data.i + rhs.m_data.f);
         }
@@ -311,19 +311,19 @@ void CRunScript::exe(vmcode_t* code)
         auto rhs = pop();
         auto lhs = pop();
 
-        if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Int)
+        if (lhs.m_data_type == Int && rhs.m_data_type == Int)
         {
           push_int(lhs.m_data.i - rhs.m_data.i);
         }
-        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Float)
+        else if (lhs.m_data_type == Float && rhs.m_data_type == Float)
         {
           push_float(lhs.m_data.f - rhs.m_data.f);
         }
-        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Int)
+        else if (lhs.m_data_type == Float && rhs.m_data_type == Int)
         {
           push_float(lhs.m_data.f - rhs.m_data.i);
         }
-        else if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Float)
+        else if (lhs.m_data_type == Int && rhs.m_data_type == Float)
         {
           push_float(lhs.m_data.i - rhs.m_data.f);
         }
@@ -341,19 +341,19 @@ void CRunScript::exe(vmcode_t* code)
         auto rhs = pop();
         auto lhs = pop();
 
-        if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Int)
+        if (lhs.m_data_type == Int && rhs.m_data_type == Int)
         {
           push_int(lhs.m_data.i * rhs.m_data.i);
         }
-        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Float)
+        else if (lhs.m_data_type == Float && rhs.m_data_type == Float)
         {
           push_float(lhs.m_data.f * rhs.m_data.f);
         }
-        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Int)
+        else if (lhs.m_data_type == Float && rhs.m_data_type == Int)
         {
           push_float(lhs.m_data.f * rhs.m_data.i);
         }
-        else if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Float)
+        else if (lhs.m_data_type == Int && rhs.m_data_type == Float)
         {
           push_float(lhs.m_data.i * rhs.m_data.f);
         }
@@ -372,19 +372,19 @@ void CRunScript::exe(vmcode_t* code)
         if (rhs.m_data.i == 0) divby0error();
         auto lhs = pop();
 
-        if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Int)
+        if (lhs.m_data_type == Int && rhs.m_data_type == Int)
         {
           push_int(lhs.m_data.i / rhs.m_data.i);
         }
-        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Float)
+        else if (lhs.m_data_type == Float && rhs.m_data_type == Float)
         {
           push_float(lhs.m_data.f / rhs.m_data.f);
         }
-        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Int)
+        else if (lhs.m_data_type == Float && rhs.m_data_type == Int)
         {
           push_float(lhs.m_data.f / rhs.m_data.i);
         }
-        else if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Float)
+        else if (lhs.m_data_type == Int && rhs.m_data_type == Float)
         {
           push_float(lhs.m_data.i / rhs.m_data.f);
         }
@@ -484,7 +484,7 @@ void CRunScript::exe(vmcode_t* code)
           s32 lVal = lhs.m_data.i;
           s32 rVal = rhs.m_data.i;
 
-          switch (code->m_op1)
+          switch (static_cast<ECompare>(code->m_op1))
           {
             case ECompare::EQ:
               push_int(lVal == rVal);
@@ -533,7 +533,7 @@ void CRunScript::exe(vmcode_t* code)
             panicf("RUNTIME ERROR at _CMP: {}: operand is not number\n", m_current_funcdata->m_function_name);
           }
 
-          switch (code->m_op1)
+          switch (static_cast<ECompare>(code->m_op1))
           {
             case ECompare::EQ:
               push_int(lVal == rVal);
@@ -706,11 +706,11 @@ void CRunScript::exe(vmcode_t* code)
         // 00188398
         // _SIN
         auto lhs = pop();
-        if (lhs.m_data_type == Type::Int)
+        if (lhs.m_data_type == Int)
         {
           push_float(sinf(static_cast<f32>(lhs.m_data.i)));
         }
-        else if (lhs.m_data_type == Type::Float)
+        else if (lhs.m_data_type == Float)
         {
           push_float(sinf(lhs.m_data.f));
         }
@@ -725,11 +725,11 @@ void CRunScript::exe(vmcode_t* code)
         // 00188438
         // _COS
         auto lhs = pop();
-        if (lhs.m_data_type == Type::Int)
+        if (lhs.m_data_type == Int)
         {
           push_float(cosf(static_cast<f32>(lhs.m_data.i)));
         }
-        else if (lhs.m_data_type == Type::Float)
+        else if (lhs.m_data_type == Float)
         {
           push_float(cosf(lhs.m_data.f));
         }
