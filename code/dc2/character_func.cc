@@ -12,6 +12,12 @@
 
 set_log_channel("character_func");
 
+#define VERIFY_STACK_COUNT(n) \
+  if (stack_count != n) \
+  { \
+    return false; \
+  }
+
 // 01F0D430
 extern ACTION_INFO action_info{};
 
@@ -384,11 +390,12 @@ static bool _RUN_HOLD_MOVE(RS_STACKDATA* stack, sint stack_count)
   return true;
 }
 
-static bool _SET_MENU_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_MENU_FLAG(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  action_info.m_chara->m_menu_flag = static_cast<bool>(GetStackInt(stack++));
   return true;
 }
 

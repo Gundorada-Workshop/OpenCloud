@@ -821,6 +821,8 @@ public:
   EMoveType m_move_type{};
   // 712
   s16 m_prog{ 0 };
+  // 76C
+  bool m_menu_flag{ false };
   // 794
   f32 m_move_speed{ DEFAULT_CHARACTER_MOVE_SPEED };
   // 7E4
