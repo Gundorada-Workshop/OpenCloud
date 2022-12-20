@@ -997,7 +997,8 @@ void CActionChara::HumanMoveIF()
 }
 
 // 0016D560
-void CActionChara::HumanShrowMoveIF()
+// "HumanShrowMoveIF"
+void CActionChara::HumanThrowMoveIF()
 {
   log_trace("CActionChara::{}()", __func__);
 
@@ -1005,7 +1006,7 @@ void CActionChara::HumanShrowMoveIF()
 }
 
 // 0016D8E0
-void CActionChara::HumanTameMoveIF()
+void CActionChara::HumanChargeUpMoveIF()
 {
   log_trace("CActionChara::{}()", __func__);
 
@@ -1013,9 +1014,9 @@ void CActionChara::HumanTameMoveIF()
 }
 
 // 0016DAA0
-void CActionChara::HumanGunMoveIF()
+void CActionChara::HumanGunMoveIF(std::string key_name1, std::string key_name2)
 {
-  log_trace("CActionChara::{}()", __func__);
+  log_trace("CActionChara::{}({}, {})", __func__, key_name1, key_name2);
 
   todo;
 }

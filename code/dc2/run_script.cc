@@ -25,9 +25,9 @@ void CRunScript::DeleteProgram()
 {
   log_trace("CRunScript::{}()", __func__);
 
-  m_unk_field_3C = false;
-  m_unk_field_40 = false;
-  m_unk_field_44 = nullptr;
+  m_program_terminated = false;
+  m_skip_flag = false;
+  m_prog_header = nullptr;
 }
 
 // 00186D50
@@ -116,13 +116,55 @@ RS_STACKDATA CRunScript::pop()
   return *(m_stack_current + 1);
 }
 
+// 00186F30
+vmcode_t* CRunScript::call_func(funcdata* func, vmcode_t* return_address)
+{
+  log_trace("CRunScript::{}({}, {})", __func__, fmt::ptr(func), fmt::ptr(return_address));
+
+  if (m_calldata_current >= m_calldata_top)
+  {
+    panicf("CRunScript: Function call stack overflow!");
+  }
+
+  // Set up our call information
+  m_calldata_current->m_return_address = return_address;
+  m_calldata_current->m_last_funcdata = m_current_funcdata;
+  m_calldata_current->m_function_stack_frame = m_function_stack_frame;
+  
+  // function stack frame starts before the current stack, if there are any arguments provided to the function
+  m_function_stack_frame = m_stack_current -= func->m_arity;
+
+  // now create space on the stack for the function's variables
+  m_stack_current = m_function_stack_frame + func->m_function_stack_size;
+
+  m_current_funcdata = func;
+
+  // Increment the call stack
+  ++m_calldata_current;
+
+  // Zero-Initialize our function stack frame (but not the arguments!)
+  RS_STACKDATA* locals = m_function_stack_frame + func->m_arity;
+  memset(locals, 0, sizeof(RS_STACKDATA) * (func->m_function_stack_size - func->m_arity));
+
+  // Check for stack overflow
+  check_stack();
+
+  // Now return the address of the start of the function
+  return reinterpret_cast<vmcode_t*>(static_cast<uptr>(m_script_data) + static_cast<uptr>(func->m_vmcode));
+}
+
 // 00187020
 vmcode_t* CRunScript::ret_func()
 {
   log_trace("CRunScript::{}()", __func__);
 
-  todo;
-  return nullptr;
+  // Rewind the call stack
+  --m_calldata_current;
+
+  // Now the current call stack item has all of the information to restore the machine state
+  m_function_stack_frame = m_calldata_current->m_function_stack_frame;
+  m_current_funcdata = m_calldata_current->m_last_funcdata;
+  return m_calldata_current->m_return_address;
 }
 
 // 00187050
@@ -138,7 +180,7 @@ void CRunScript::ext(RS_STACKDATA* stack_data, s32 i)
     return;
   }
 
-  ext_func_t* fn = m_ext_func[call_index];
+  ext_func_t fn = m_ext_func[call_index];
 
   if (fn == nullptr)
   {
@@ -154,8 +196,43 @@ void CRunScript::ext(RS_STACKDATA* stack_data, s32 i)
   return;
 }
 
+// 001870F0
+void CRunScript::load(RS_PROG_HEADER* prog_header, RS_STACKDATA* stack_buf, usize n_stack_buf, RS_CALLDATA* call_stack_buf, usize n_call_stack_buf)
+{
+  log_trace("CRunScript::{}({}, {}, {}, {}, {})", __func__, fmt::ptr(prog_header), fmt::ptr(stack_buf), n_stack_buf, fmt::ptr(call_stack_buf), n_call_stack_buf);
+
+  // Datastack
+  m_stack_bottom = stack_buf;
+  m_n_stack_buf = n_stack_buf;
+
+  // Callstack
+  m_calldata_bottom = call_stack_buf;
+  m_n_calldata = n_call_stack_buf;
+
+  // Tops of stacks
+  m_stack_top = m_stack_bottom + n_stack_buf;
+  m_calldata_top = m_calldata_bottom + m_n_calldata;
+
+  m_prog_header = prog_header;
+  m_script_data = prog_header->m_script_data;
+
+  if (strncmp(m_prog_header->m_tag, "SB2", 3) == 0)
+  {
+    // The 2nd version of a RUN SCRIPT script, so we've got *fancy* global variables!!!
+    m_script_version = 2;
+
+    // Allocate space for global variables; these are variables that "pointer" stack data can directly reference.
+    m_global_variables = m_stack_bottom;
+    m_stack_bottom += prog_header->m_n_global_variables;
+    m_n_stack_buf -= prog_header->m_n_global_variables;
+
+    // Zero-initialize global variables
+    memset(m_global_variables, 0, sizeof(RS_STACKDATA) * prog_header->m_n_global_variables);
+  }
+}
+
 // 001871D0
-void CRunScript::ext_func(ext_func_t** ext_func, usize length)
+void CRunScript::ext_func(ext_func_t* ext_func, usize length)
 {
   log_trace("CRunScript::{}({}, {})", __func__, fmt::ptr(ext_func), length);
 
@@ -174,12 +251,101 @@ void CRunScript::resume()
   }
 }
 
+// 00187210
+sint CRunScript::run(s32 program_id)
+{
+  log_trace("CRunScript::{}({})", __func__, program_id);
+
+  if (m_prog_header == nullptr)
+  {
+    return -1;
+  }
+
+  // Initialize our stacks
+  m_stack_current = m_stack_bottom;
+  m_calldata_current = m_calldata_bottom;
+
+  // And now we'll want to try and find our program
+  m_current_funcdata = nullptr;
+  if (program_id < 0)
+  {
+    // Not sure what this is for? Script version 1 maybe? Doesn't seem valid for SB2...
+    m_current_funcdata = reinterpret_cast<funcdata*>(reinterpret_cast<uptr>(m_prog_header) + static_cast<uptr>(m_prog_header->m_unk_field_4));
+  }
+  else
+  {
+    funcentry* func_list = reinterpret_cast<funcentry*>(reinterpret_cast<uptr>(m_prog_header) + static_cast<uptr>(m_prog_header->m_func_table));
+    for (usize i = 0; i < m_prog_header->m_n_func_table; ++i)
+    {
+      if (func_list[i].m_program_id == program_id)
+      {
+        m_current_funcdata = func_list[i].m_funcdata;
+        break;
+      }
+    }
+  }
+
+  if (m_current_funcdata == nullptr)
+  {
+    log_warn("Couldn't find program {}", program_id);
+    return -1;
+  }
+
+  // Set up our function stacks
+  // First, grab some previously allocated space for any arguments
+  m_function_stack_frame = m_stack_current - m_current_funcdata->m_arity;
+
+  // Then allocate some new space for the rest of the frame
+  m_stack_current = m_function_stack_frame + m_current_funcdata->m_function_stack_size;
+
+  // Check for an overflow
+  check_stack();
+
+  // Memset our function stack frame (but not the arguments)
+  RS_STACKDATA* locals = m_function_stack_frame + m_current_funcdata->m_arity;
+  memset(locals, 0, sizeof(RS_STACKDATA) * (m_current_funcdata->m_function_stack_size - m_current_funcdata->m_arity));
+
+  // Now let's run the program
+  m_program_terminated = false;
+  m_skip_flag = false;
+  m_unk_field_50 = 0;
+  vmcode_t* code = reinterpret_cast<vmcode_t*>( // bet Rust won't let you do this
+    // header
+    reinterpret_cast<uptr>(m_prog_header) + 
+    // data offset
+    static_cast<uptr>(m_prog_header->m_script_data) + 
+    // code
+    static_cast<uptr>(m_current_funcdata->m_vmcode)
+  );
+  exe(code);
+
+  return static_cast<sint>(!m_program_terminated);
+}
+
+// 00187360
+bool CRunScript::check_program(s32 program_id)
+{
+  log_trace("CRunScript::{}({})", __func__, program_id);
+
+  funcentry* func_entries = reinterpret_cast<funcentry*>(reinterpret_cast<uptr>(m_prog_header) + static_cast<uptr>(m_prog_header->m_func_table));
+
+  for (u32 i = 0; i < m_prog_header->m_n_func_table; ++i)
+  {
+    if (func_entries[i].m_program_id == program_id)
+    {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 // 001873B0
 void CRunScript::skip()
 {
   log_trace("CRunScript::{}()", __func__);
 
-  m_unk_field_40 = true;
+  m_skip_flag = true;
   resume();
 }
 
@@ -192,7 +358,7 @@ void CRunScript::exe(vmcode_t* code)
 
   while (true)
   {
-    using Type = EStackDataType::EStackDataType;
+    using enum EStackDataType;
 
     switch (m_vmcode->m_instruction)
     {
@@ -216,7 +382,7 @@ void CRunScript::exe(vmcode_t* code)
             push_float(std::bit_cast<float>(code->m_op2));
             break;
           case 3:
-            push_str(static_cast<char*>(m_unk_field_48) + static_cast<uptr>(code->m_op2));
+            push_str(reinterpret_cast<char*>(static_cast<uptr>(m_script_data) + static_cast<uptr>(code->m_op2)));
             break;
           default:
             break;
@@ -246,19 +412,19 @@ void CRunScript::exe(vmcode_t* code)
         auto rhs = pop();
         auto lhs = pop();
 
-        if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Int)
+        if (lhs.m_data_type == Int && rhs.m_data_type == Int)
         {
           push_int(lhs.m_data.i + rhs.m_data.i);
         }
-        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Float)
+        else if (lhs.m_data_type == Float && rhs.m_data_type == Float)
         {
           push_float(lhs.m_data.f + rhs.m_data.f);
         }
-        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Int)
+        else if (lhs.m_data_type == Float && rhs.m_data_type == Int)
         {
           push_float(lhs.m_data.f + rhs.m_data.i);
         }
-        else if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Float)
+        else if (lhs.m_data_type == Int && rhs.m_data_type == Float)
         {
           push_float(lhs.m_data.i + rhs.m_data.f);
         }
@@ -276,19 +442,19 @@ void CRunScript::exe(vmcode_t* code)
         auto rhs = pop();
         auto lhs = pop();
 
-        if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Int)
+        if (lhs.m_data_type == Int && rhs.m_data_type == Int)
         {
           push_int(lhs.m_data.i - rhs.m_data.i);
         }
-        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Float)
+        else if (lhs.m_data_type == Float && rhs.m_data_type == Float)
         {
           push_float(lhs.m_data.f - rhs.m_data.f);
         }
-        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Int)
+        else if (lhs.m_data_type == Float && rhs.m_data_type == Int)
         {
           push_float(lhs.m_data.f - rhs.m_data.i);
         }
-        else if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Float)
+        else if (lhs.m_data_type == Int && rhs.m_data_type == Float)
         {
           push_float(lhs.m_data.i - rhs.m_data.f);
         }
@@ -306,19 +472,19 @@ void CRunScript::exe(vmcode_t* code)
         auto rhs = pop();
         auto lhs = pop();
 
-        if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Int)
+        if (lhs.m_data_type == Int && rhs.m_data_type == Int)
         {
           push_int(lhs.m_data.i * rhs.m_data.i);
         }
-        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Float)
+        else if (lhs.m_data_type == Float && rhs.m_data_type == Float)
         {
           push_float(lhs.m_data.f * rhs.m_data.f);
         }
-        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Int)
+        else if (lhs.m_data_type == Float && rhs.m_data_type == Int)
         {
           push_float(lhs.m_data.f * rhs.m_data.i);
         }
-        else if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Float)
+        else if (lhs.m_data_type == Int && rhs.m_data_type == Float)
         {
           push_float(lhs.m_data.i * rhs.m_data.f);
         }
@@ -337,19 +503,19 @@ void CRunScript::exe(vmcode_t* code)
         if (rhs.m_data.i == 0) divby0error();
         auto lhs = pop();
 
-        if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Int)
+        if (lhs.m_data_type == Int && rhs.m_data_type == Int)
         {
           push_int(lhs.m_data.i / rhs.m_data.i);
         }
-        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Float)
+        else if (lhs.m_data_type == Float && rhs.m_data_type == Float)
         {
           push_float(lhs.m_data.f / rhs.m_data.f);
         }
-        else if (lhs.m_data_type == Type::Float && rhs.m_data_type == Type::Int)
+        else if (lhs.m_data_type == Float && rhs.m_data_type == Int)
         {
           push_float(lhs.m_data.f / rhs.m_data.i);
         }
-        else if (lhs.m_data_type == Type::Int && rhs.m_data_type == Type::Float)
+        else if (lhs.m_data_type == Int && rhs.m_data_type == Float)
         {
           push_float(lhs.m_data.i / rhs.m_data.f);
         }
@@ -449,7 +615,7 @@ void CRunScript::exe(vmcode_t* code)
           s32 lVal = lhs.m_data.i;
           s32 rVal = rhs.m_data.i;
 
-          switch (code->m_op1)
+          switch (static_cast<ECompare>(code->m_op1))
           {
             case ECompare::EQ:
               push_int(lVal == rVal);
@@ -498,7 +664,7 @@ void CRunScript::exe(vmcode_t* code)
             panicf("RUNTIME ERROR at _CMP: {}: operand is not number\n", m_current_funcdata->m_function_name);
           }
 
-          switch (code->m_op1)
+          switch (static_cast<ECompare>(code->m_op1))
           {
             case ECompare::EQ:
               push_int(lVal == rVal);
@@ -529,15 +695,15 @@ void CRunScript::exe(vmcode_t* code)
         // 0018871C
         auto var_130 = pop();
 
-        if (m_unk_field_28 == m_unk_field_24)
+        if (m_calldata_current == m_calldata_bottom)
         {
           m_unk_field_4C = var_130.m_data;
           push(var_130);
-          m_unk_field_3C = true;
+          m_program_terminated = true;
         }
         else
         {
-          m_stack_current = m_unk_field_30;
+          m_stack_current = m_function_stack_frame;
           m_vmcode = ret_func();
           push(var_130);
         }
@@ -548,10 +714,10 @@ void CRunScript::exe(vmcode_t* code)
       {
         // 00187968
         // _JMP
-        if (!m_unk_field_40)
+        if (!m_skip_flag)
         {
           m_vmcode = reinterpret_cast<vmcode_t*>(
-            reinterpret_cast<uptr>(m_unk_field_48) + code->m_op1
+            static_cast<uptr>(m_script_data) + code->m_op1
           );
           continue;
         }
@@ -560,14 +726,14 @@ void CRunScript::exe(vmcode_t* code)
       case 17:
       {
         // 001879E0
-        if (!m_unk_field_40 || !is_true(pop()))
+        if (!m_skip_flag || !is_true(pop()))
         {
           if (code->m_op2)
           {
             push_int(false);
           }
           m_vmcode = reinterpret_cast<vmcode_t*>(
-            reinterpret_cast<uptr>(m_unk_field_48) + code->m_op1
+            static_cast<uptr>(m_script_data) + code->m_op1
           );
           continue;
         }
@@ -576,14 +742,14 @@ void CRunScript::exe(vmcode_t* code)
       case 18:
       {
         // 00187988
-        if (!m_unk_field_40 || is_true(pop()))
+        if (!m_skip_flag || is_true(pop()))
         {
           if (code->m_op2)
           {
             push_int(true);
           }
           m_vmcode = reinterpret_cast<vmcode_t*>(
-            reinterpret_cast<uptr>(m_unk_field_48) + code->m_op1
+            static_cast<uptr>(m_script_data) + code->m_op1
             );
           continue;
         }
@@ -608,7 +774,7 @@ void CRunScript::exe(vmcode_t* code)
         // _EXT
         m_stack_current -= code->m_op1;
 
-        if (!m_unk_field_40)
+        if (!m_skip_flag)
         {
           ext(m_stack_current, code->m_op1);
         }
@@ -618,7 +784,7 @@ void CRunScript::exe(vmcode_t* code)
       {
         // 001887A8
         // _RET
-        if (!m_unk_field_40)
+        if (!m_skip_flag)
         {
           m_vmcode += 1;
           return;
@@ -653,17 +819,17 @@ void CRunScript::exe(vmcode_t* code)
         break;
       case 27:
         // 001886DC
-        m_unk_field_3C = true;
+        m_program_terminated = true;
         m_vmcode = nullptr;
         return;
       case 28:
         // 001887BC
         ++m_unk_field_50;
-        if (!m_unk_field_40)
+        if (!m_skip_flag)
         {
           break;
         }
-        m_unk_field_40 = false;
+        m_skip_flag = false;
         m_vmcode += 1;
         return;
       case 29:
@@ -671,11 +837,11 @@ void CRunScript::exe(vmcode_t* code)
         // 00188398
         // _SIN
         auto lhs = pop();
-        if (lhs.m_data_type == Type::Int)
+        if (lhs.m_data_type == Int)
         {
           push_float(sinf(static_cast<f32>(lhs.m_data.i)));
         }
-        else if (lhs.m_data_type == Type::Float)
+        else if (lhs.m_data_type == Float)
         {
           push_float(sinf(lhs.m_data.f));
         }
@@ -690,11 +856,11 @@ void CRunScript::exe(vmcode_t* code)
         // 00188438
         // _COS
         auto lhs = pop();
-        if (lhs.m_data_type == Type::Int)
+        if (lhs.m_data_type == Int)
         {
           push_float(cosf(static_cast<f32>(lhs.m_data.i)));
         }
-        else if (lhs.m_data_type == Type::Float)
+        else if (lhs.m_data_type == Float)
         {
           push_float(cosf(lhs.m_data.f));
         }

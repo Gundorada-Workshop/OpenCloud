@@ -591,7 +591,15 @@ public:
 
 enum class EMoveType : s32
 {
-
+  Human = 0,
+  RoboWalk1 = 1,
+  RoboTank2 = 2,
+  Monster = 3,
+  RoboBike = 3,
+  RoboWalk4 = 4,
+  RoboTank5 = 5,
+  RoboAir6 = 6,
+  RoboAir7 = 7,
 };
 
 // this might be from another file but putting them here for now
@@ -759,13 +767,15 @@ public:
   void HumanMoveIF();
 
   // 0016D560
-  void HumanShrowMoveIF();
+  // "HumanShrowMoveIF"
+  void HumanThrowMoveIF();
 
   // 0016D8E0
-  void HumanTameMoveIF();
+  // "HumanTameMoveIF"
+  void HumanChargeUpMoveIF();
 
   // 0016DAA0
-  void HumanGunMoveIF();
+  void HumanGunMoveIF(std::string key_name1, std::string key_name2);
 
   // 0016DD80
   void RoboWalkMoveIF(sint i);
@@ -811,6 +821,8 @@ public:
   EMoveType m_move_type{};
   // 712
   s16 m_prog{ 0 };
+  // 76C
+  bool m_menu_flag{ false };
   // 794
   f32 m_move_speed{ DEFAULT_CHARACTER_MOVE_SPEED };
   // 7E4
