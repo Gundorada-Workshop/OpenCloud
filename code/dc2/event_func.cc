@@ -2217,7 +2217,7 @@ static bool _CMRS_AHD_RETURN(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint
   return true;
 }
 
-MAYBE_UNUSED static bool _CMRS_FADE_DELAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _CMRS_FADE_DELAY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -6643,7 +6643,7 @@ static RS_TAG_PARAM ext_func[]
   _CMRS_AHD_SLOWING,              424,
   _CMRS_AHD_KEEP,                 425,
   _CMRS_AHD_RETURN,               426,
-  _CMRS_AHD_RETURN,               419,
+  _CMRS_FADE_DELAY,               419,
   _CMRS_FADE_INIT,                420,
   _CMRS_FADE_IN,                  421,
   _CMRS_FADE_OUT,                 422,
