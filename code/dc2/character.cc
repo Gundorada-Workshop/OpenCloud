@@ -1014,9 +1014,9 @@ void CActionChara::HumanChargeUpMoveIF()
 }
 
 // 0016DAA0
-void CActionChara::HumanGunMoveIF()
+void CActionChara::HumanGunMoveIF(std::string key_name1, std::string key_name2)
 {
-  log_trace("CActionChara::{}()", __func__);
+  log_trace("CActionChara::{}({}, {})", __func__, key_name1, key_name2);
 
   todo;
 }

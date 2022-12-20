@@ -768,7 +768,7 @@ public:
   void HumanChargeUpMoveIF();
 
   // 0016DAA0
-  void HumanGunMoveIF();
+  void HumanGunMoveIF(std::string key_name1, std::string key_name2);
 
   // 0016DD80
   void RoboWalkMoveIF(sint i);

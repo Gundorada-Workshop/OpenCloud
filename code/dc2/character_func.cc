@@ -359,7 +359,7 @@ static bool _RUN_SHROW_MOVE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint 
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  action_info.m_chara->HumanThrowMoveIF();
   return true;
 }
 
@@ -367,15 +367,20 @@ static bool _RUN_TAME_MOVE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  action_info.m_chara->HumanChargeUpMoveIF();
   return true;
 }
 
-static bool _RUN_HOLD_MOVE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _RUN_HOLD_MOVE(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  if (stack_count != 2)
+  {
+    return false;
+  }
+
+  action_info.m_chara->HumanGunMoveIF(GetStackString(&stack[0]), GetStackString(&stack[1]));
   return true;
 }
 
