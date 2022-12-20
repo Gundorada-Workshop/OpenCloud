@@ -25,9 +25,9 @@ void CRunScript::DeleteProgram()
 {
   log_trace("CRunScript::{}()", __func__);
 
-  m_unk_field_3C = false;
-  m_unk_field_40 = false;
-  m_unk_field_44 = nullptr;
+  m_program_terminated = false;
+  m_skip_flag = false;
+  m_prog_header = nullptr;
 }
 
 // 00186D50
@@ -116,6 +116,15 @@ RS_STACKDATA CRunScript::pop()
   return *(m_stack_current + 1);
 }
 
+// 00186F30
+vmcode_t* CRunScript::call_func(funcdata* func, vmcode_t* return_address)
+{
+  log_trace("CRunScript::{}({}, {})", __func__, fmt::ptr(func), fmt::ptr(return_address));
+
+  todo;
+  return nullptr;
+}
+
 // 00187020
 vmcode_t* CRunScript::ret_func()
 {
@@ -138,7 +147,7 @@ void CRunScript::ext(RS_STACKDATA* stack_data, s32 i)
     return;
   }
 
-  ext_func_t* fn = m_ext_func[call_index];
+  ext_func_t fn = m_ext_func[call_index];
 
   if (fn == nullptr)
   {
@@ -155,7 +164,7 @@ void CRunScript::ext(RS_STACKDATA* stack_data, s32 i)
 }
 
 // 001871D0
-void CRunScript::ext_func(ext_func_t** ext_func, usize length)
+void CRunScript::ext_func(ext_func_t* ext_func, usize length)
 {
   log_trace("CRunScript::{}({}, {})", __func__, fmt::ptr(ext_func), length);
 
@@ -174,12 +183,38 @@ void CRunScript::resume()
   }
 }
 
+// 00187210
+void CRunScript::run(u32 m_program_id)
+{
+  log_trace("CRunScript::{}({})", __func__, m_program_id);
+
+  todo;
+}
+
+// 00187360
+bool CRunScript::check_program(u32 m_program_id)
+{
+  log_trace("CRunScript::{}({})", __func__, m_program_id);
+
+  funcentry* func_entries = reinterpret_cast<funcentry*>(reinterpret_cast<uptr>(m_prog_header) + static_cast<uptr>(m_prog_header->m_func_table));
+
+  for (u32 i = 0; i < m_prog_header->m_n_func_table; ++i)
+  {
+    if (func_entries[i].m_program_id == m_program_id)
+    {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 // 001873B0
 void CRunScript::skip()
 {
   log_trace("CRunScript::{}()", __func__);
 
-  m_unk_field_40 = true;
+  m_skip_flag = true;
   resume();
 }
 
@@ -216,7 +251,7 @@ void CRunScript::exe(vmcode_t* code)
             push_float(std::bit_cast<float>(code->m_op2));
             break;
           case 3:
-            push_str(static_cast<char*>(m_unk_field_48) + static_cast<uptr>(code->m_op2));
+            push_str(static_cast<char*>(m_script_data) + static_cast<uptr>(code->m_op2));
             break;
           default:
             break;
@@ -529,15 +564,15 @@ void CRunScript::exe(vmcode_t* code)
         // 0018871C
         auto var_130 = pop();
 
-        if (m_unk_field_28 == m_unk_field_24)
+        if (m_calldata_current == m_calldata_bottom)
         {
           m_unk_field_4C = var_130.m_data;
           push(var_130);
-          m_unk_field_3C = true;
+          m_program_terminated = true;
         }
         else
         {
-          m_stack_current = m_unk_field_30;
+          m_stack_current = m_function_stack;
           m_vmcode = ret_func();
           push(var_130);
         }
@@ -548,10 +583,10 @@ void CRunScript::exe(vmcode_t* code)
       {
         // 00187968
         // _JMP
-        if (!m_unk_field_40)
+        if (!m_skip_flag)
         {
           m_vmcode = reinterpret_cast<vmcode_t*>(
-            reinterpret_cast<uptr>(m_unk_field_48) + code->m_op1
+            reinterpret_cast<uptr>(m_script_data) + code->m_op1
           );
           continue;
         }
@@ -560,14 +595,14 @@ void CRunScript::exe(vmcode_t* code)
       case 17:
       {
         // 001879E0
-        if (!m_unk_field_40 || !is_true(pop()))
+        if (!m_skip_flag || !is_true(pop()))
         {
           if (code->m_op2)
           {
             push_int(false);
           }
           m_vmcode = reinterpret_cast<vmcode_t*>(
-            reinterpret_cast<uptr>(m_unk_field_48) + code->m_op1
+            reinterpret_cast<uptr>(m_script_data) + code->m_op1
           );
           continue;
         }
@@ -576,14 +611,14 @@ void CRunScript::exe(vmcode_t* code)
       case 18:
       {
         // 00187988
-        if (!m_unk_field_40 || is_true(pop()))
+        if (!m_skip_flag || is_true(pop()))
         {
           if (code->m_op2)
           {
             push_int(true);
           }
           m_vmcode = reinterpret_cast<vmcode_t*>(
-            reinterpret_cast<uptr>(m_unk_field_48) + code->m_op1
+            reinterpret_cast<uptr>(m_script_data) + code->m_op1
             );
           continue;
         }
@@ -608,7 +643,7 @@ void CRunScript::exe(vmcode_t* code)
         // _EXT
         m_stack_current -= code->m_op1;
 
-        if (!m_unk_field_40)
+        if (!m_skip_flag)
         {
           ext(m_stack_current, code->m_op1);
         }
@@ -618,7 +653,7 @@ void CRunScript::exe(vmcode_t* code)
       {
         // 001887A8
         // _RET
-        if (!m_unk_field_40)
+        if (!m_skip_flag)
         {
           m_vmcode += 1;
           return;
@@ -653,17 +688,17 @@ void CRunScript::exe(vmcode_t* code)
         break;
       case 27:
         // 001886DC
-        m_unk_field_3C = true;
+        m_program_terminated = true;
         m_vmcode = nullptr;
         return;
       case 28:
         // 001887BC
         ++m_unk_field_50;
-        if (!m_unk_field_40)
+        if (!m_skip_flag)
         {
           break;
         }
-        m_unk_field_40 = false;
+        m_skip_flag = false;
         m_vmcode += 1;
         return;
       case 29:

@@ -6,20 +6,67 @@
 
 struct vmcode_t
 {
+  // 0
   u32 m_instruction;
+  // 4
   u32 m_op1;
+  // 8
   u32 m_op2;
 };
 
 static_assert(sizeof(vmcode_t) == 0xC, "needs to be 0xC for interpreter to function correctly");
 
-struct RS_CALLDATA {};
-struct RS_PROG_HEADER {};
+struct funcdata;
+struct RS_STACKDATA;
+
+struct RS_CALLDATA 
+{
+  // 0
+  vmcode_t* m_return_address{ nullptr };
+  // 4
+  RS_STACKDATA* m_function_stack_frame{ nullptr };
+  // 8
+  funcdata* m_last_funcdata{ nullptr };
+};
+
+struct RS_PROG_HEADER
+{
+  // 0
+  const char m_tag[4];
+  // 4
+  unk32 m_unk_field_4{};
+  // 8
+  // void*
+  u32 m_data_offset{};
+  // C
+  // funcentry*
+  u32 m_func_table{};
+  // 10
+  u32 m_n_func_table{};
+  // 14
+  unk32 m_unk_field_14{};
+  // 18
+  unk32 m_unk_field_18{};
+};
 
 struct funcdata
 {
+  // 0
+  vmcode_t* m_vmcode{};
   // 4
-  char *m_function_name;
+  const char* m_function_name{};
+  // 8
+  unk32 m_unk_field_8{};
+  // C
+  u32 m_arity{};
+};
+
+struct funcentry
+{
+  // 0
+  u32 m_program_id{};
+  // 4
+  funcdata* m_funcdata{};
 };
 
 namespace EStackDataType
@@ -46,7 +93,7 @@ namespace ECompare
   };
 }
 
-struct RS_STACKDATA;
+using ext_func_t = std::function<bool(RS_STACKDATA*, int)>;
 
 struct RS_TAG_PARAM
 {
@@ -67,8 +114,6 @@ struct RS_STACKDATA
   EStackDataType::EStackDataType m_data_type;
   stackdata_t m_data;
 };
-
-typedef s32(ext_func_t)(RS_STACKDATA*, s32);
 
 template<>
 struct fmt::formatter<RS_STACKDATA> : fmt::formatter<std::string_view>
@@ -94,6 +139,22 @@ struct fmt::formatter<RS_STACKDATA> : fmt::formatter<std::string_view>
 
 class CRunScript
 {
+public:
+  // 00186D40
+  void DeleteProgram();
+  // 001871D0
+  void ext_func(ext_func_t* ext_func, usize length);
+  // 001871E0
+  void resume();
+  // 00187210
+  void run(u32 m_program_id);
+  // 00187360
+  bool check_program(u32 m_program_id);
+  // 001873B0
+  void skip();
+
+  // 3C
+  bool m_program_terminated{ false };
 private:
   // 00186D50
   void check_stack() const;
@@ -109,65 +170,60 @@ private:
   void push_float(float data);
   // 00186F10
   RS_STACKDATA pop();
+  // 00186F30
+  vmcode_t* call_func(funcdata* func, vmcode_t* return_address);
   // 00187020
   vmcode_t* ret_func();
   // 00187050
   void ext(RS_STACKDATA* stack_data, s32 i);
+
+  // 
   // 001873C0
   void exe(vmcode_t* code);
 
   // 0
-  bool m_unk_field_0{ true };
+  s32 m_unk_field_0{ 1 }; // UNUSED?
   // 4
-  usize m_n_ext_func{};
+  usize m_n_ext_func{ 0 };
   // 8
-  ext_func_t** m_ext_func{ nullptr };
+  ext_func_t* m_ext_func{ nullptr };
   // C
-  unk32 m_unk_field_C{};
+  funcentry* m_func_table{ nullptr };
   // 10
-  unk32 m_unk_field_10{};
+  RS_STACKDATA* m_stack_bottom{ nullptr };
   // 14
-  RS_STACKDATA* m_stack_current{};
+  RS_STACKDATA* m_stack_current{ nullptr };
   // 18
-  RS_STACKDATA* m_stack_top{};
+  RS_STACKDATA* m_stack_top{ nullptr };
   // 1C
-  unkptr m_unk_field_1C{};
+  // These are what "pointer" stackdata point to
+  RS_STACKDATA* m_global_variables{ nullptr };
   // 20
-  usize m_unk_field_20{};
+  usize m_n_calldata{}; // UNUSED?
   // 24
-  unkptr m_unk_field_24{};
+  RS_CALLDATA* m_calldata_bottom{ nullptr };
   // 28
-  unkptr m_unk_field_28{};
+  RS_CALLDATA* m_calldata_current{ nullptr };
   // 2C
-  unkptr m_unk_field_2C{};
+  RS_CALLDATA* m_calldata_top{ nullptr };
   // 30
-  RS_STACKDATA* m_unk_field_30{ nullptr };
+  RS_STACKDATA* m_function_stack{ nullptr };
   // 34
   funcdata* m_current_funcdata{ nullptr };
   // 38
   vmcode_t* m_vmcode{ nullptr };
   // 40
-  bool m_unk_field_40{ false };
+  bool m_skip_flag{ false };
   // 44
-  char* m_unk_field_44{ nullptr };
+  RS_PROG_HEADER* m_prog_header{ nullptr };
   // 48
-  void* m_unk_field_48{ nullptr };
+  // pointer to just misc. script data, such as strings, vmcode, etc.; instructions provide
+  // an offset to this address
+  void* m_script_data{ nullptr };
   // 4C
-  stackdata_t m_unk_field_4C{};
+  stackdata_t m_unk_field_4C{}; // UNUSED?
   // 50
-  s32 m_unk_field_50{};
-public:
-  // 00186D40
-  void DeleteProgram();
-  // 001871D0
-  void ext_func(ext_func_t** ext_func, usize length);
-  // 001871E0
-  void resume();
-  // 001873B0
-  void skip();
-
-  // 3C
-  bool m_unk_field_3C{ false };
+  s32 m_unk_field_50{}; // UNUSED? (incremented in exe case 28, but doesn't seem to be used elsewhere)
 };
 
 // 00188820
