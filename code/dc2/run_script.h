@@ -37,7 +37,10 @@ struct RS_PROG_HEADER
   unk32 m_unk_field_4{};
   // 8
   // void*
-  u32 m_data_offset{};
+  // This is the address *AFTER* the function pointer table, and all script offsets also add this value
+  // (e.g. if this is 0x40, then an instruction which loads a string at 0x3700 means the string is located
+  // at 0x3740 within the file)
+  u32 m_script_data{};
   // C
   // funcentry*
   u32 m_func_table{};
@@ -46,7 +49,7 @@ struct RS_PROG_HEADER
   // 14
   unk32 m_unk_field_14{};
   // 18
-  unk32 m_unk_field_18{};
+  u32 m_n_global_variables{};
 };
 
 struct funcdata
@@ -137,6 +140,8 @@ class CRunScript
 public:
   // 00186D40
   void DeleteProgram();
+  // 001870F0
+  void load(RS_PROG_HEADER* prog_header, RS_STACKDATA* stack_buf, usize n_stack_buf, RS_CALLDATA* call_stack_buf, usize n_call_stack_buf);
   // 001871D0
   void ext_func(ext_func_t* ext_func, usize length);
   // 001871E0
@@ -171,19 +176,17 @@ private:
   vmcode_t* ret_func();
   // 00187050
   void ext(RS_STACKDATA* stack_data, s32 i);
-
-  // 
   // 001873C0
   void exe(vmcode_t* code);
 
   // 0
-  s32 m_unk_field_0{ 1 }; // UNUSED?
+  s32 m_script_version{ 1 }; // UNUSED?
   // 4
   usize m_n_ext_func{ 0 };
   // 8
   ext_func_t* m_ext_func{ nullptr };
   // C
-  funcentry* m_func_table{ nullptr };
+  usize m_n_stack_buf{ 0 }; // UNUSED?
   // 10
   RS_STACKDATA* m_stack_bottom{ nullptr };
   // 14
@@ -214,7 +217,7 @@ private:
   // 48
   // pointer to just misc. script data, such as strings, vmcode, etc.; instructions provide
   // an offset to this address
-  void* m_script_data{ nullptr };
+  u32 m_script_data{ 0 };
   // 4C
   stackdata_t m_unk_field_4C{}; // UNUSED?
   // 50

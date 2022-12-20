@@ -150,7 +150,7 @@ vmcode_t* CRunScript::call_func(funcdata* func, vmcode_t* return_address)
   check_stack();
 
   // Now return the address of the start of the function
-  return reinterpret_cast<vmcode_t*>(reinterpret_cast<uptr>(m_script_data) + static_cast<uptr>(func->m_vmcode));
+  return reinterpret_cast<vmcode_t*>(static_cast<uptr>(m_script_data) + static_cast<uptr>(func->m_vmcode));
 }
 
 // 00187020
@@ -194,6 +194,41 @@ void CRunScript::ext(RS_STACKDATA* stack_data, s32 i)
     return;
   }
   return;
+}
+
+// 001870F0
+void CRunScript::load(RS_PROG_HEADER* prog_header, RS_STACKDATA* stack_buf, usize n_stack_buf, RS_CALLDATA* call_stack_buf, usize n_call_stack_buf)
+{
+  log_trace("CRunScript::{}({}, {}, {}, {}, {})", __func__, fmt::ptr(prog_header), fmt::ptr(stack_buf), n_stack_buf, fmt::ptr(call_stack_buf), n_call_stack_buf);
+
+  // Datastack
+  m_stack_bottom = stack_buf;
+  m_n_stack_buf = n_stack_buf;
+
+  // Callstack
+  m_calldata_bottom = call_stack_buf;
+  m_n_calldata = n_call_stack_buf;
+
+  // Tops of stacks
+  m_stack_top = m_stack_bottom + n_stack_buf;
+  m_calldata_top = m_calldata_bottom + m_n_calldata;
+
+  m_prog_header = prog_header;
+  m_script_data = prog_header->m_script_data;
+
+  if (strncmp(m_prog_header->m_tag, "SB2", 3) == 0)
+  {
+    // The 2nd version of a RUN SCRIPT script, so we've got *fancy* global variables!!!
+    m_script_version = 2;
+
+    // Allocate space for global variables; these are variables that "pointer" stack data can directly reference.
+    m_global_variables = m_stack_bottom;
+    m_stack_bottom += prog_header->m_n_global_variables;
+    m_n_stack_buf -= prog_header->m_n_global_variables;
+
+    // Zero-initialize global variables
+    memset(m_global_variables, 0, sizeof(RS_STACKDATA) * prog_header->m_n_global_variables);
+  }
 }
 
 // 001871D0
@@ -284,7 +319,7 @@ void CRunScript::exe(vmcode_t* code)
             push_float(std::bit_cast<float>(code->m_op2));
             break;
           case 3:
-            push_str(static_cast<char*>(m_script_data) + static_cast<uptr>(code->m_op2));
+            push_str(reinterpret_cast<char*>(static_cast<uptr>(m_script_data) + static_cast<uptr>(code->m_op2)));
             break;
           default:
             break;
@@ -619,7 +654,7 @@ void CRunScript::exe(vmcode_t* code)
         if (!m_skip_flag)
         {
           m_vmcode = reinterpret_cast<vmcode_t*>(
-            reinterpret_cast<uptr>(m_script_data) + code->m_op1
+            static_cast<uptr>(m_script_data) + code->m_op1
           );
           continue;
         }
@@ -635,7 +670,7 @@ void CRunScript::exe(vmcode_t* code)
             push_int(false);
           }
           m_vmcode = reinterpret_cast<vmcode_t*>(
-            reinterpret_cast<uptr>(m_script_data) + code->m_op1
+            static_cast<uptr>(m_script_data) + code->m_op1
           );
           continue;
         }
@@ -651,7 +686,7 @@ void CRunScript::exe(vmcode_t* code)
             push_int(true);
           }
           m_vmcode = reinterpret_cast<vmcode_t*>(
-            reinterpret_cast<uptr>(m_script_data) + code->m_op1
+            static_cast<uptr>(m_script_data) + code->m_op1
             );
           continue;
         }
