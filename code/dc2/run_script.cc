@@ -252,23 +252,86 @@ void CRunScript::resume()
 }
 
 // 00187210
-void CRunScript::run(u32 m_program_id)
+sint CRunScript::run(s32 program_id)
 {
-  log_trace("CRunScript::{}({})", __func__, m_program_id);
+  log_trace("CRunScript::{}({})", __func__, program_id);
 
-  todo;
+  if (m_prog_header == nullptr)
+  {
+    return -1;
+  }
+
+  // Initialize our stacks
+  m_stack_current = m_stack_bottom;
+  m_calldata_current = m_calldata_bottom;
+
+  // And now we'll want to try and find our program
+  m_current_funcdata = nullptr;
+  if (program_id < 0)
+  {
+    // Not sure what this is for? Script version 1 maybe? Doesn't seem valid for SB2...
+    m_current_funcdata = reinterpret_cast<funcdata*>(reinterpret_cast<uptr>(m_prog_header) + static_cast<uptr>(m_prog_header->m_unk_field_4));
+  }
+  else
+  {
+    funcentry* func_list = reinterpret_cast<funcentry*>(reinterpret_cast<uptr>(m_prog_header) + static_cast<uptr>(m_prog_header->m_func_table));
+    for (usize i = 0; i < m_prog_header->m_n_func_table; ++i)
+    {
+      if (func_list[i].m_program_id == program_id)
+      {
+        m_current_funcdata = func_list[i].m_funcdata;
+        break;
+      }
+    }
+  }
+
+  if (m_current_funcdata == nullptr)
+  {
+    log_warn("Couldn't find program {}", program_id);
+    return -1;
+  }
+
+  // Set up our function stacks
+  // First, grab some previously allocated space for any arguments
+  m_function_stack_frame = m_stack_current - m_current_funcdata->m_arity;
+
+  // Then allocate some new space for the rest of the frame
+  m_stack_current = m_function_stack_frame + m_current_funcdata->m_function_stack_size;
+
+  // Check for an overflow
+  check_stack();
+
+  // Memset our function stack frame (but not the arguments)
+  RS_STACKDATA* locals = m_function_stack_frame + m_current_funcdata->m_arity;
+  memset(locals, 0, sizeof(RS_STACKDATA) * (m_current_funcdata->m_function_stack_size - m_current_funcdata->m_arity));
+
+  // Now let's run the program
+  m_program_terminated = false;
+  m_skip_flag = false;
+  m_unk_field_50 = 0;
+  vmcode_t* code = reinterpret_cast<vmcode_t*>( // bet Rust won't let you do this
+    // header
+    reinterpret_cast<uptr>(m_prog_header) + 
+    // data offset
+    static_cast<uptr>(m_prog_header->m_script_data) + 
+    // code
+    static_cast<uptr>(m_current_funcdata->m_vmcode)
+  );
+  exe(code);
+
+  return static_cast<sint>(!m_program_terminated);
 }
 
 // 00187360
-bool CRunScript::check_program(u32 m_program_id)
+bool CRunScript::check_program(s32 program_id)
 {
-  log_trace("CRunScript::{}({})", __func__, m_program_id);
+  log_trace("CRunScript::{}({})", __func__, program_id);
 
   funcentry* func_entries = reinterpret_cast<funcentry*>(reinterpret_cast<uptr>(m_prog_header) + static_cast<uptr>(m_prog_header->m_func_table));
 
   for (u32 i = 0; i < m_prog_header->m_n_func_table; ++i)
   {
-    if (func_entries[i].m_program_id == m_program_id)
+    if (func_entries[i].m_program_id == program_id)
     {
       return true;
     }

@@ -34,7 +34,7 @@ struct RS_PROG_HEADER
   // 0
   const char m_tag[4];
   // 4
-  unk32 m_unk_field_4{};
+  unk32 m_unk_field_4{}; // May be used in CRunScript::Run; Hopefully never actually used ???
   // 8
   // void*
   // This is the address *AFTER* the function pointer table, and all script offsets also add this value
@@ -47,10 +47,12 @@ struct RS_PROG_HEADER
   // 10
   u32 m_n_func_table{};
   // 14
-  unk32 m_unk_field_14{};
+  unk32 m_unk_field_14{}; // Appears unused
   // 18
   u32 m_n_global_variables{};
 };
+
+static_assert(sizeof(RS_PROG_HEADER) == 0x1C);
 
 struct funcdata
 {
@@ -147,9 +149,9 @@ public:
   // 001871E0
   void resume();
   // 00187210
-  void run(u32 m_program_id);
+  sint run(s32 program_id);
   // 00187360
-  bool check_program(u32 m_program_id);
+  bool check_program(s32 program_id);
   // 001873B0
   void skip();
 
