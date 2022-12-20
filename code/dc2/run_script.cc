@@ -693,19 +693,22 @@ void CRunScript::exe(vmcode_t* code)
       case 15:
       {
         // 0018871C
-        auto var_130 = pop();
+        // _RET
+        auto return_value = pop();
 
         if (m_calldata_current == m_calldata_bottom)
         {
-          m_unk_field_4C = var_130.m_data;
-          push(var_130);
+          // The callstack has been completely unwound, stop execution.
+          m_last_return_value = return_value.m_data;
+          push(return_value);
           m_program_terminated = true;
         }
         else
         {
+          // Return to the last function on the call stack.
           m_stack_current = m_function_stack_frame;
           m_vmcode = ret_func();
-          push(var_130);
+          push(return_value);
         }
 
         break;
@@ -726,7 +729,7 @@ void CRunScript::exe(vmcode_t* code)
       case 17:
       {
         // 001879E0
-        if (!m_skip_flag || !is_true(pop()))
+        if (!m_skip_flag && !is_true(pop()))
         {
           if (code->m_op2)
           {
@@ -742,7 +745,7 @@ void CRunScript::exe(vmcode_t* code)
       case 18:
       {
         // 00187988
-        if (!m_skip_flag || is_true(pop()))
+        if (!m_skip_flag && is_true(pop()))
         {
           if (code->m_op2)
           {
@@ -750,16 +753,24 @@ void CRunScript::exe(vmcode_t* code)
           }
           m_vmcode = reinterpret_cast<vmcode_t*>(
             static_cast<uptr>(m_script_data) + code->m_op1
-            );
+          );
           continue;
         }
         break;
-        break;
       }
       case 19:
+      {
         // 001886F0
-        todo;
+        // _CALL
+        funcdata* fn = reinterpret_cast<funcdata*>(
+          static_cast<uptr>(m_script_data) + code->m_op2
+        );
+        
+        // call_func returns the address of the code at the start of the function;
+        // we have to decrement it once, since the loop will increment it at the end.
+        m_vmcode = call_func(fn, code) - 1;
         break;
+      }
       case 20:
       {
         // 00188670
@@ -783,7 +794,7 @@ void CRunScript::exe(vmcode_t* code)
       case 23:
       {
         // 001887A8
-        // _RET
+        // _YIELD
         if (!m_skip_flag)
         {
           m_vmcode += 1;

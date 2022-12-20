@@ -9,9 +9,9 @@ struct vmcode_t
   // 0
   u32 m_instruction;
   // 4
-  u32 m_op1;
+  s32 m_op1;
   // 8
-  u32 m_op2;
+  s32 m_op2;
 };
 
 // we're deserializing this structure from file
@@ -247,7 +247,7 @@ private:
   // an offset to this address
   u32 m_script_data{ 0 };
   // 4C
-  stackdata_t m_unk_field_4C{}; // UNUSED?
+  stackdata_t m_last_return_value{}; // UNUSED?
   // 50
   s32 m_unk_field_50{}; // UNUSED? (incremented in exe case 28, but doesn't seem to be used elsewhere)
 };
