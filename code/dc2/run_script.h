@@ -52,11 +52,12 @@ struct RS_PROG_HEADER
 struct funcdata
 {
   // 0
-  vmcode_t* m_vmcode{};
+  // vmcode_t*
+  u32 m_vmcode{};
   // 4
   const char* m_function_name{};
   // 8
-  unk32 m_unk_field_8{};
+  u32 m_function_stack_size{};
   // C
   u32 m_arity{};
 };
@@ -201,7 +202,7 @@ private:
   // 2C
   RS_CALLDATA* m_calldata_top{ nullptr };
   // 30
-  RS_STACKDATA* m_function_stack{ nullptr };
+  RS_STACKDATA* m_function_stack_frame{ nullptr };
   // 34
   funcdata* m_current_funcdata{ nullptr };
   // 38

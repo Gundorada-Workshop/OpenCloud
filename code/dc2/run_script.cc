@@ -121,8 +121,36 @@ vmcode_t* CRunScript::call_func(funcdata* func, vmcode_t* return_address)
 {
   log_trace("CRunScript::{}({}, {})", __func__, fmt::ptr(func), fmt::ptr(return_address));
 
-  todo;
-  return nullptr;
+  if (m_calldata_current >= m_calldata_top)
+  {
+    panicf("CRunScript: Function call stack overflow!");
+  }
+
+  // Set up our call information
+  m_calldata_current->m_return_address = return_address;
+  m_calldata_current->m_last_funcdata = m_current_funcdata;
+  m_calldata_current->m_function_stack_frame = m_function_stack_frame;
+  
+  // function stack frame starts before the current stack, if there are any arguments provided to the function
+  m_function_stack_frame = m_stack_current -= func->m_arity;
+
+  // now create space on the stack for the function's variables
+  m_stack_current = m_function_stack_frame + func->m_function_stack_size;
+
+  m_current_funcdata = func;
+
+  // Increment the call stack
+  ++m_calldata_current;
+
+  // Zero-Initialize our function stack frame (but not the arguments!)
+  RS_STACKDATA* locals = m_function_stack_frame + func->m_arity;
+  memset(locals, 0, sizeof(RS_STACKDATA) * (func->m_function_stack_size - func->m_arity));
+
+  // Check for stack overflow
+  check_stack();
+
+  // Now return the address of the start of the function
+  return reinterpret_cast<vmcode_t*>(reinterpret_cast<uptr>(m_script_data) + static_cast<uptr>(func->m_vmcode));
 }
 
 // 00187020
@@ -572,7 +600,7 @@ void CRunScript::exe(vmcode_t* code)
         }
         else
         {
-          m_stack_current = m_function_stack;
+          m_stack_current = m_function_stack_frame;
           m_vmcode = ret_func();
           push(var_130);
         }
