@@ -279,7 +279,7 @@ sint CRunScript::run(s32 program_id)
     {
       if (func_list[i].m_program_id == program_id)
       {
-        m_current_funcdata = func_list[i].m_funcdata;
+        m_current_funcdata = reinterpret_cast<funcdata*>(static_cast<uptr>(func_list[i].m_funcdata));
         break;
       }
     }
