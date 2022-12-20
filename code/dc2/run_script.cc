@@ -158,8 +158,13 @@ vmcode_t* CRunScript::ret_func()
 {
   log_trace("CRunScript::{}()", __func__);
 
-  todo;
-  return nullptr;
+  // Rewind the call stack
+  --m_calldata_current;
+
+  // Now the current call stack item has all of the information to restore the machine state
+  m_function_stack_frame = m_calldata_current->m_function_stack_frame;
+  m_current_funcdata = m_calldata_current->m_last_funcdata;
+  return m_calldata_current->m_return_address;
 }
 
 // 00187050
