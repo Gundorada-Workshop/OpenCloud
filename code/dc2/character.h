@@ -2,11 +2,15 @@
 #include "common/debug.h"
 #include "common/types.h"
 
+#include "dc2/effect.h"
 #include "dc2/gamedata.h"
 #include "dc2/mg/mg_lib.h"
 #include "dc2/object.h"
 
 // ~ 0016A140 - 0017C240
+
+// forward-declaration
+class CScene;
 
 // TODO THIS FILE
 class CDACollision {};
@@ -32,6 +36,34 @@ struct RUN_SCRIPT_ENV
   s32 m_unk_field_4;
 };
 
+enum class ECharacterMotionStatus : s32
+{
+  _0 = 0,
+  _1 = 1,
+  _2 = 2,
+  _3 = 3,
+  _4 = 4,
+};
+
+struct CHRINFO_KEY_SET
+{
+  // I don't know the actual size of this buffer (it's probably 0x24 ?); this is shift-jis
+  // most times and we probably want to construct this into an converted std::string in reality
+  // 0
+  std::string m_name{};
+};
+
+struct SEQ_HEADER
+{
+
+};
+
+// This might be for another file but putting this here for now
+struct SOUND_INFO
+{
+  // SIZE 0x28
+};
+
 class CCharacter2 : public CObjectFrame
 {
 public:
@@ -45,19 +77,19 @@ public:
   virtual void SetPosition(f32 x, f32 y, f32 z) override;
 
   // 34  00172F60
-  virtual unkptr Draw();
+  virtual unkptr Draw() override;
 
   // 38  001731F0
-  virtual unkptr DrawDirect();
+  virtual unkptr DrawDirect() override;
 
   // 3C  00175340
-  virtual void Initialize();
+  virtual void Initialize() override;
 
   // 44  00173170
-  virtual f32 GetCameraDist();
+  virtual f32 GetCameraDist() override;
 
   // 4C  00173120
-  virtual bool DrawStep();
+  virtual bool DrawStep() override;
 
   // 7C  001751D0
   virtual void LoadPack(void* file_buf, char* file_name, mgCMemory* mem1, mgCMemory* mem2, mgCMemory* mem3, unk32 i, CCharacter2* character2);
@@ -69,10 +101,10 @@ public:
   virtual void LoadChrFile(void* file_buf, char* file_name, mgCMemory* mem1, mgCMemory* mem2, mgCMemory* mem3, unk32 i, CCharacter2* character2, bool b);
 
   // 88  00168410
-  virtual sint GetMotionStatus();
+  virtual ECharacterMotionStatus GetMotionStatus();
 
   // 8C  00168420
-  virtual unkptr GetNowMotionName();
+  virtual std::string GetNowMotionName();
 
   // 90  001738C0
   virtual bool CheckMotionEnd();
@@ -99,7 +131,7 @@ public:
   virtual void SetMotion(unk32 i1, unk32 i2);
 
   // B0  001739A0
-  virtual void SetMotion(char* c, sint i);
+  virtual void SetMotion(std::string key_name, sint i);
 
   // B4  00173870
   virtual void ResetMotion();
@@ -152,11 +184,77 @@ public:
   // F4  00177CB0
   virtual void DrawEffect();
 
+  // 00172DF0
+  void AddOutLine(const char* frame_name, COutLineDraw* outline);
+
+  // 00172F00
+  void CopyOutLine(CCharacter2* other);
+
+  // 00172F60
+  void SetDeformMesh();
+
+  // 00173700
+  void UpdatePosition();
+
+  // 001737B0
+  void ResetDAPosition();
+
   // 00173A40
-  void SetMotionPara(char* c, sint i1, s32 i2);
+  void SetMotionPara(std::string key_name, sint i1, s32 i2);
+
+  // 00173B00
+  void SetDAnimeEnable(bool flag);
+
+  // 00173B30
+  void GetSoundInfoCopy(mgCMemory* memory);
+
+  // 00173BC0
+  s32 CheckFootEffect();
+
+  // 00173BF0
+  void SePlay();
+
+  // 001742E0
+  void StepDA(s32 steps = 1);
+
+  // 001743C0
+  void SetWind(f32 velocity, const vec3& direction);
+
+  // 00174AD0
+  CHRINFO_KEY_SET* GetKeyListPtr(std::string key_name, s32* index_dest = nullptr);
 
   // 00174C70
   void DeleteExtMotion();
+
+  // 00174E60
+  void DeleteImage();
+
+  // 00174F50
+  vec3 GetEntryObjectPos(usize object_index);
+
+  // 00174FE0
+  matrix4 GetEntryObjectPosMatrix(usize object_index);
+
+  // 00175080
+  vec3 GetEntryObjectPos(usize i1, usize i2);
+
+  // 00175160
+  f32 GetWaitToFrame(std::string key_name, f32 rate);
+
+  // 001751C0
+  void LoadSkin(uint* i1, char* c1, char* c2, mgCMemory* memory, sint i2);
+
+  // 00177A30
+  void ExecEntryEffect(CHRINFO_KEY_SET* keys);
+
+  // 00177B30
+  void CtrlEffect();
+
+  // 00177C00
+  void StepEffect();
+
+  // 00178A60
+  void ChangeLOD(usize lod);
 
   // 80
   f32 m_unk_field_80{ 0.0f };
@@ -234,13 +332,9 @@ public:
   unk32 m_unk_field_134{ 0 };
 
   // 138
-  bool m_unk_field_138{ false };
+  std::array<std::shared_ptr<mgCFrame>, 3> m_entry_objects{};
 
-  // 13C
-  unk32 m_unk_field_13C{ 0 };
-
-  // 140
-  std::array<ivec4, 0x18> m_unk_field_140{};
+  // ?
 
   // 2C0
   mgCFrame* m_unk_field_2C0{ nullptr };
@@ -309,7 +403,7 @@ public:
   usize m_unk_field_370{ 0 };
 
   // 374
-  unkptr m_now_motion_name{ nullptr };
+  CHRINFO_KEY_SET* m_now_motion{ nullptr };
 
   // 378
   bool m_unk_field_378{ false };
@@ -321,8 +415,7 @@ public:
   usize m_unk_field_380{ 0 };
 
   // 384
-  // FIXME: this is an sint, but would an enum type be better?
-  sint m_motion_status{ 0 };
+  ECharacterMotionStatus m_motion_status{};
 
   // 388
   f32 m_now_frame{ 0.0f };
@@ -387,109 +480,19 @@ public:
   f32 m_unk_field_50C{ 0.0f };
 
   // 510
-  unk32 m_unk_field_510{ 0 };
-
-  // 514
-  unk32 m_unk_field_514{ 0 };
-
-  // 518
-  unk32 m_unk_field_518{ 0 };
-
-  // 51C
-  unk32 m_unk_field_51C{ 0 };
-
-  // 520
-  unk32 m_unk_field_520{ 0 };
-
-  // 524
-  unk32 m_unk_field_524{ 0 };
-
-  // 528
-  unk32 m_unk_field_528{ 0 };
-
-  // 52C
-  unk32 m_unk_field_52C{ 0 };
+  std::array<std::vector<std::shared_ptr<CHRINFO_KEY_SET>>, 8> m_motion_keys{};
 
   // 530
-  unk32 m_unk_field_530{ 0 };
-
-  // 534
-  unk32 m_unk_field_534{ 0 };
-
-  // 538
-  unk32 m_unk_field_538{ 0 };
-
-  // 53C
-  unk32 m_unk_field_53C{ 0 };
-
-  // 540
-  unk32 m_unk_field_540{ 0 };
-
-  // 544
-  unk32 m_unk_field_544{ 0 };
-
-  // 548
-  unk32 m_unk_field_548{ 0 };
-
-  // 54C
-  unk32 m_unk_field_54C{ 0 };
+  // std::array<usize, 8> m_n_motion_keys{};
 
   // 550
-  unk32 m_unk_field_550{ 0 };
-
-  // 554
-  unk32 m_unk_field_554{ 0 };
-
-  // 558
-  unk32 m_unk_field_558{ 0 };
-
-  // 55C
-  unk32 m_unk_field_55C{ 0 };
-
-  // 560
-  unk32 m_unk_field_560{ 0 };
-
-  // 564
-  unk32 m_unk_field_564{ 0 };
-
-  // 568
-  unk32 m_unk_field_568{ 0 };
-
-  // 56C
-  unk32 m_unk_field_56C{ 0 };
+  std::array<std::shared_ptr<SEQ_HEADER>, 8> m_seq_headers{};
 
   // 570
   std::array<CSwordAfterEffect*, 3> m_sword_after_effects;
 
   // 57C
-  unk32 m_unk_field_57C{ 0 };
-
-  // 580
-  unk32 m_unk_field_580{ 0 };
-
-  // 584
-  unk32 m_unk_field_584{ 0 };
-
-  // 588
-  unk32 m_unk_field_588{ 0 };
-
-  // 58C
-  unk32 m_unk_field_58C{ 0 };
-
-  // 590
-  unk32 m_unk_field_590{ 0 };
-
-  // 594
-  unk32 m_unk_field_594{ 0 };
-
-  // 598
-  unk32 m_unk_field_598{ 0 };
-
-  // 59C
-  unk32 m_unk_field_59C{ 0 };
-
-  // 5A0
-  unk32 m_unk_field_5A0{ 0 };
+  SOUND_INFO m_sound_info{};
 
   // 5A4
   unk32 m_unk_field_5A4{ 0 };
@@ -591,15 +594,217 @@ enum class EMoveType : s32
 
 };
 
+// this might be from another file but putting them here for now
+struct SW_EFFECT
+{
+  // SIZE 0x20
+};
+
 constexpr f32 DEFAULT_CHARACTER_MOVE_SPEED = 3.0f;
 
 class CActionChara : public CCharacter2
 {
 public:
   
+  // 0016B850
+  virtual unkptr Draw() override;
+
+  // 0016B940
+  virtual unkptr DrawDirect() override;
+
+  // 0016AB60
+  virtual f32 GetCameraDist() override;
+
+  // 0016AB00
+  virtual void SetFarDist(f32 far_dist) override;
+
+  // 0016AB30
+  virtual void SetNearDist(f32 near_dist) override;
+
+  //001739A0
+  virtual void SetMotion(std::string key_name, sint i1) override;
+
+  // 0016B800
+  virtual void ResetMotion() override;
+
+  // 0016AAD0
+  virtual void SetFadeFlag(bool flag) override;
+
+  // 0016BA70
+  virtual unkptr DrawShadowDirect() override;
+
+  // 00171E80
+  virtual void Step() override;
+
+  // 00172090
+  virtual void ShadowStep() override;
+
+  // 0016BAC0
+  virtual void DrawEffect() override;
+
+  // 0016ABA0
+  virtual void Show(sint i1, sint i2);
+
+  // 0016ABE0
+  virtual void GetShow(std::string chara_name);
+
+  // 0016B780
+  virtual void SetMotion(std::string key_name, sint i1, sint i2);
+
+  // 0016B5B0
+  virtual ECharacterMotionStatus GetMotionStatus(std::string chara_name);
+
+  // 0016BB00
+  virtual void StepEffect();
+
+  // if you call either of these instead of creating/using a constructor/copy constructor I'll keelhaul you
+  // 001720E0
+  virtual void Initialize(mgCMemory* memory);
+
+  // 00172380
+  virtual void Copy(CActionChara& other, mgCMemory* memory);
+
+  // 0016A140
+  void ResetAccele();
+
+  // 0016A160
+  void ResetAction();
+
   // 0016A220
   void ResetScript();
 
+  // 0016A4C0
+  void CheckRunEvent();
+
+  // 0016A4E0
+  void SetMaskFlag(u32 mask, bool active);
+
+  // 0016A510
+  unkptr EntryObject(std::string frame_name, ssize i);
+
+  // 0016A5C0
+  void CalcCollision();
+
+  // 0016A620
+  unkptr EntryBodyCol(ssize i, f32 f);
+
+  // 0016A6B0
+  unkptr EntryDamage2(std::string s1, std::string s2, std::string s3, f32 f1, std::string s4, f32 f2, f32 f3, std::string s5);
+  
+  // 0016A850
+  unkptr EntryDamage2(mgCFrame* frame1, mgCFrame* frame2, std::string s3, f32 f1, std::string s4, f32 f2, f32 f3, std::string s5);
+
+  // 0016A9B0
+  void AllDeleteDamage();
+
+  // 0016AA30
+  SW_EFFECT* GetSwEffectPtr();
+
+  // 0016AA70
+  void SetSoundInfoCopy();
+
+  // 0016AC60
+  bool CheckKeri(std::string frame_name, bool b);
+
+  // 0016AD30
+  bool CheckEnemyCatch(std::string frame_name);
+
+  // 0016AF40
+  void ThrowItemObject();
+
+  // 0016B020
+  void UsedItemAction();
+
+  // 0016B1C0
+  void EntryThrowItem();
+
+  // 0016B3C0
+  void RemoveThrowItem();
+
+  // 0016B420
+  f32 GetNowFrameWait(std::string chara_name);
+
+  // 0016B4A0
+  f32 GetNowFrame(std::string chara_name);
+
+  // 0016B520
+  void CheckMotionEnd(std::string chara_name);
+
+  // 0016B630
+  f32 GetWaitToFrame(std::string chara_name);
+
+  // 0016BC90
+  CActionChara* SearchChara(std::string chara_name);
+
+  // 0016BCF0
+  mgCFrame* SearchObject(std::string frame_name);
+
+  // 0016BD60
+  void ResetParent();
+
+  // 0016BD90
+  bool SetRef(CActionChara* parent_chara, std::string frame_name);
+
+  // 0016BE50
+  f32 GetTargetDist(CScene* scene);
+
+  // 0016BEE0
+  void CollisionCheck(const vec3& v1, const vec3& v2, const vec3& v3);
+
+  // 0016C7A0
+  // "RockOn"
+  void LockOn();
+
+  // 0016C990
+  void HumanMoveIF();
+
+  // 0016D560
+  void HumanShrowMoveIF();
+
+  // 0016D8E0
+  void HumanTameMoveIF();
+
+  // 0016DAA0
+  void HumanGunMoveIF();
+
+  // 0016DD80
+  void RoboWalkMoveIF(sint i);
+
+  // 0016E2A0
+  void RoboTankMoveIF(sint i);
+
+  // 0016E9F0
+  void RoboBikeMoveIF(sint i);
+
+  // 0016F330
+  void RoboAirMoveIF(sint i1, sint i2);
+
+  // 0016FA30
+  void MonsterMoveIF();
+
+  // 00170730
+  bool CheckDamage();
+
+  // 001710C0
+  void LoadActionFile(char* c, int i, mgCMemory* memory);
+
+  // 00171160
+  void InitScript();
+
+  // 00171210
+  void RunScript(CScene* scene, RUN_SCRIPT_ENV* script_env);
+
+  // 001719C0
+  // "CheckReleaseTimming"
+  s16 CheckReleaseTiming(sint i);
+
+  // 001719F0
+  void StepParam();
+
+  // 678
+  CActionChara* m_chara_parent{};
+  // 690
+  vec3 m_front_vec{ 0.0f, 0.0f, 0.0f };
   // 6A4
   EAttackType m_attack_type{};
   // 6A8
@@ -608,4 +813,6 @@ public:
   s16 m_prog{ 0 };
   // 794
   f32 m_move_speed{ DEFAULT_CHARACTER_MOVE_SPEED };
+  // 7E4
+  std::array<SW_EFFECT, 9> m_unk_field_7E4{};
 };

@@ -35,10 +35,12 @@ unkptr CCharacter2::Draw()
 
 CCharacter2::CCharacter2()
 {
+  /*
   for (auto& v : m_unk_field_140)
   {
     v = ivec4(0, 0, -1, 0);
   }
+  */
 }
 
 // 001731F0
@@ -82,6 +84,7 @@ void CCharacter2::LoadPack(void* file_buf, char* file_name, mgCMemory* mem1, mgC
 
   LoadChrFile(file_buf, file_name, mem1, mem2, mem3, i, character2, true);
 }
+
 // 00175200
 void CCharacter2::LoadPackNoLine(void* file_buf, char* file_name, mgCMemory* mem1, mgCMemory* mem2, mgCMemory* mem3, unk32 i, CCharacter2* character2)
 {
@@ -101,18 +104,18 @@ void CCharacter2::LoadChrFile(MAYBE_UNUSED void* file_buf, MAYBE_UNUSED char* fi
 }
 
 // 00168410
-sint CCharacter2::GetMotionStatus()
+ECharacterMotionStatus CCharacter2::GetMotionStatus()
 {
   log_trace("CCharacter2::{}()", __func__);
 
   return m_motion_status;
 }
 // 00168420
-unkptr CCharacter2::GetNowMotionName()
+std::string CCharacter2::GetNowMotionName()
 {
   log_trace("CCharacter2::{}()", __func__);
 
-  return m_now_motion_name;
+  return m_now_motion->m_name;
 }
 
 // 001738C0
@@ -120,7 +123,7 @@ bool CCharacter2::CheckMotionEnd()
 {
   log_trace("CCharacter2::{}()", __func__);
 
-  if (m_now_motion_name == nullptr)
+  if (m_now_motion == nullptr)
   {
     return true;
   }
@@ -143,7 +146,7 @@ f32 CCharacter2::GetChgStepWait()
 {
   log_trace("CCharacter2::{}()", __func__);
 
-  if (m_motion_status != 3)
+  if (m_motion_status != ECharacterMotionStatus::_3)
   {
     return -1.0f;
   }
@@ -165,7 +168,7 @@ void CCharacter2::SetNowFrameWeight(f32 weight)
 {
   log_trace("CCharacter2::{}({})", __func__, weight);
 
-  if (m_now_motion_name == nullptr)
+  if (m_now_motion == nullptr)
   {
     return;
   }
@@ -203,11 +206,11 @@ void CCharacter2::SetMotion(MAYBE_UNUSED unk32 i1, MAYBE_UNUSED unk32 i2)
 }
 
 // 001739A0
-void CCharacter2::SetMotion(char* c, sint i)
+void CCharacter2::SetMotion(std::string key_name, sint i)
 {
-  log_trace("CCharacter2::{}({}, {})", __func__, c, i);
+  log_trace("CCharacter2::{}({}, {})", __func__, key_name, i);
 
-  SetMotionPara(c, i, -1);
+  SetMotionPara(key_name, i, -1);
 }
 
 // 00173870
@@ -215,7 +218,7 @@ void CCharacter2::ResetMotion()
 {
   log_trace("CCharacter2::{}()", __func__);
 
-  m_now_motion_name = nullptr;
+  m_now_motion = nullptr;
   m_unk_field_368 = 0;
   m_unk_field_3A8 = 0;
   m_unk_field_3A4 = 0;
@@ -242,7 +245,7 @@ f32 CCharacter2::GetDefaultStep()
 {
   log_trace("CCharacter2::{}()", __func__);
 
-  if (m_now_motion_name == nullptr)
+  if (m_now_motion == nullptr)
   {
     return 0.0f;
   }
@@ -374,12 +377,110 @@ void CCharacter2::DrawEffect()
   todo;
 }
 
-// 00173A40
-void CCharacter2::SetMotionPara(MAYBE_UNUSED char* c, MAYBE_UNUSED sint i1, MAYBE_UNUSED s32 i2)
+// 00172DF0
+void CCharacter2::AddOutLine(const char* frame_name, COutLineDraw* outline)
 {
-  log_trace("CCharacter2::{}({}, {}, {})", __func__, c, i1, i2);
+  log_trace("CCharacter2::{}({}, {})", __func__, frame_name, fmt::ptr(outline));
 
   todo;
+}
+
+// 00172F00
+void CCharacter2::CopyOutLine(CCharacter2* other)
+{
+  log_trace("CCharacter2::{}({})", __func__, fmt::ptr(other));
+
+  todo;
+}
+
+// 00172F60
+void CCharacter2::SetDeformMesh()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+}
+
+// 00173700
+void CCharacter2::UpdatePosition()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+}
+
+// 001737B0
+void CCharacter2::ResetDAPosition()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+}
+
+// 00173A40
+void CCharacter2::SetMotionPara(MAYBE_UNUSED std::string key_name, MAYBE_UNUSED sint i1, MAYBE_UNUSED s32 i2)
+{
+  log_trace("CCharacter2::{}({}, {}, {})", __func__, key_name, i1, i2);
+
+  todo;
+}
+
+// 00173B00
+void CCharacter2::SetDAnimeEnable(bool flag)
+{
+  log_trace("CCharacter2::{}({})", __func__, flag);
+
+  todo;
+}
+
+// 00173B30
+void CCharacter2::GetSoundInfoCopy(mgCMemory* memory)
+{
+  log_trace("CCharacter2::{}({})", __func__, fmt::ptr(memory));
+
+  todo;
+}
+
+// 00173BC0
+s32 CCharacter2::CheckFootEffect()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+  return -1;
+}
+
+// 00173BF0
+void CCharacter2::SePlay()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+}
+
+// 001742E0
+void CCharacter2::StepDA(s32 steps)
+{
+  log_trace("CCharacter2::{}({})", __func__, steps);
+
+  todo;
+}
+
+// 001743C0
+void CCharacter2::SetWind(f32 velocity, const vec3& direction)
+{
+  log_trace("CCharacter2::{}({}, {})", __func__, velocity, direction);
+
+  todo;
+}
+
+// 00174AD0
+CHRINFO_KEY_SET* CCharacter2::GetKeyListPtr(std::string key_name, s32* index_dest)
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+  return nullptr;
 }
 
 // 00174C70
@@ -390,8 +491,620 @@ void CCharacter2::DeleteExtMotion()
   todo;
 }
 
+// 00174E60
+void CCharacter2::DeleteImage()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+}
+
+// 00174F50
+vec3 CCharacter2::GetEntryObjectPos(usize object_index)
+{
+  log_trace("CCharacter2::{}({})", __func__, object_index);
+
+  todo;
+  return vec3{ 0.0f };
+}
+
+// 00174FE0
+matrix4 CCharacter2::GetEntryObjectPosMatrix(usize object_index)
+{
+  log_trace("CCharacter2::{}({})", __func__, object_index);
+
+  todo;
+  return matrix4{ 1.0f };
+}
+
+// 00175080
+vec3 CCharacter2::GetEntryObjectPos(usize i1, usize i2)
+{
+  log_trace("CCharacter2::{}({}, {})", __func__, i1, i2);
+
+  todo;
+  return vec3{ 0.0f };
+}
+
+// 00175160
+f32 CCharacter2::GetWaitToFrame(std::string key_name, f32 rate)
+{
+  log_trace("CCharacter2::{}({}, {})", __func__, key_name, rate);
+
+  todo;
+  return 0.0f;
+}
+
+// 001751C0
+void CCharacter2::LoadSkin(uint* i1, char* c1, char* c2, mgCMemory* memory, sint i2)
+{
+  log_trace("CCharacter2::{}({}, {}, {}, {}, {})", __func__, fmt::ptr(i1), c1, c2, fmt::ptr(memory), i2);
+
+  todo;
+}
+
+// 00177A30
+void CCharacter2::ExecEntryEffect(CHRINFO_KEY_SET* keys)
+{
+  log_trace("CCharacter2::{}({})", __func__, fmt::ptr(keys));
+
+  todo;
+}
+
+// 00177B30
+void CCharacter2::CtrlEffect()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+}
+
+// 00177C00
+void CCharacter2::StepEffect()
+{
+  log_trace("CCharacter2::{}()", __func__);
+
+  todo;
+}
+
+// 00178A60
+void CCharacter2::ChangeLOD(usize lod)
+{
+  log_trace("CCharacter2::{}({})", __func__, lod);
+
+  todo;
+}
+
+// 0016B850
+unkptr CActionChara::Draw()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+  return nullptr;
+}
+
+// 0016B940
+unkptr CActionChara::DrawDirect()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+  return nullptr;
+}
+
+// 0016AB60
+f32 CActionChara::GetCameraDist()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+  return 0.0f;
+}
+
+// 0016AB00
+void CActionChara::SetFarDist(f32 far_dist)
+{
+  log_trace("CActionChara::{}({})", __func__, far_dist);
+
+  todo;
+}
+
+// 0016AB30
+void CActionChara::SetNearDist(f32 near_dist)
+{
+  log_trace("CActionChara::{}({})", __func__, near_dist);
+
+  todo;
+}
+
+// 0016B800
+void CActionChara::ResetMotion()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// 0016AAD0
+void CActionChara::SetFadeFlag(bool flag)
+{
+  log_trace("CActionChara::{}({})", __func__, flag);
+
+  todo;
+}
+
+// 0016BA70
+unkptr CActionChara::DrawShadowDirect()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+  return nullptr;
+}
+
+// 00171E80
+void CActionChara::Step()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// 00172090
+void CActionChara::ShadowStep()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// 0016BAC0
+void CActionChara::DrawEffect()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// 0016ABA0
+void CActionChara::Show(sint i1, sint i2)
+{
+  log_trace("CActionChara::{}({}, {})", __func__, i1, i2);
+
+  todo;
+}
+
+// 0016ABE0
+void CActionChara::GetShow(std::string chara_name)
+{
+  log_trace("CActionChara::{}({})", __func__, chara_name);
+
+  todo;
+}
+
+// 0016B780
+void CActionChara::SetMotion(std::string key_name, sint i1)
+{
+  log_trace("CActionChara::{}({}, {})", __func__, key_name, i1);
+
+  todo;
+}
+
+// 0016B780
+void CActionChara::SetMotion(std::string key_name, sint i1, sint i2)
+{
+  log_trace("CActionChara::{}({}, {}, {})", __func__, key_name, i1, i2);
+
+  todo;
+}
+
+// 0016B5B0
+ECharacterMotionStatus CActionChara::GetMotionStatus(std::string chara_name)
+{
+  log_trace("CActionChara::{}({})", __func__, chara_name);
+
+  todo;
+  return ECharacterMotionStatus::_0;
+}
+
+// 0016BB00
+void CActionChara::StepEffect()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// if you call either of these instead of creating/using a constructor/copy constructor I'll keelhaul you
+// 001720E0
+void CActionChara::Initialize(mgCMemory* memory)
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  panicf("please create and use a constructor instead");
+}
+
+// 00172380
+void CActionChara::Copy(CActionChara& other, mgCMemory* memory)
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  panicf("please create and use a copy constructor instead");
+}
+
+// 0016A140
+void CActionChara::ResetAccele()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// 0016A160
+void CActionChara::ResetAction()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
 // 0016A220
 void CActionChara::ResetScript()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// 0016A4C0
+void CActionChara::CheckRunEvent()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// 0016A4E0
+void CActionChara::SetMaskFlag(u32 mask, bool active)
+{
+  log_trace("CActionChara::{}({}, {})", __func__, mask, active);
+
+  todo;
+}
+
+// 0016A510
+unkptr CActionChara::EntryObject(std::string frame_name, ssize i)
+{
+  log_trace("CActionChara::{}({}, {})", __func__, frame_name, i);
+
+  todo;
+  return nullptr;
+}
+
+// 0016A5C0
+void CActionChara::CalcCollision()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// 0016A620
+unkptr CActionChara::EntryBodyCol(ssize i, f32 f)
+{
+  log_trace("CActionChara::{}({}, {})", __func__, i, f);
+
+  todo;
+  return nullptr;
+}
+
+// 0016A6B0
+unkptr CActionChara::EntryDamage2(std::string s1, std::string s2, std::string s3, f32 f1, std::string s4, f32 f2, f32 f3, std::string s5)
+{
+  log_trace("CActionChara::{}({}, {}, {}, {}, {}, {}, {}, {})", __func__, s1, s2, s3, f1, s4, f2, f3, s5);
+
+  todo;
+  return nullptr;
+}
+
+// 0016A850
+unkptr CActionChara::EntryDamage2(mgCFrame* frame1, mgCFrame* frame2, std::string s3, f32 f1, std::string s4, f32 f2, f32 f3, std::string s5)
+{
+  log_trace("CActionChara::{}({}, {}, {}, {}, {}, {}, {}, {})", __func__, fmt::ptr(frame1), fmt::ptr(frame2), s3, f1, s4, f2, f3, s5);
+
+  todo;
+  return nullptr;
+}
+
+// 0016A9B0
+void CActionChara::AllDeleteDamage()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// 0016AA30
+SW_EFFECT* CActionChara::GetSwEffectPtr()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+  return nullptr;
+}
+
+// 0016AA70
+void CActionChara::SetSoundInfoCopy()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// 0016AC60
+bool CActionChara::CheckKeri(std::string frame_name, bool b)
+{
+  log_trace("CActionChara::{}({})", __func__, frame_name, b);
+
+  todo;
+  return false;
+}
+
+// 0016AD30
+bool CActionChara::CheckEnemyCatch(std::string frame_name)
+{
+  log_trace("CActionChara::{}({})", __func__, frame_name);
+
+  todo;
+  return false;
+}
+
+// 0016AF40
+void CActionChara::ThrowItemObject()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// 0016B020
+void CActionChara::UsedItemAction()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// 0016B1C0
+void CActionChara::EntryThrowItem()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// 0016B3C0
+void CActionChara::RemoveThrowItem()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// 0016B420
+f32 CActionChara::GetNowFrameWait(std::string chara_name)
+{
+  log_trace("CActionChara::{}({})", __func__, chara_name);
+
+  todo;
+  return -1.0f;
+}
+
+// 0016B4A0
+f32 CActionChara::GetNowFrame(std::string chara_name)
+{
+  log_trace("CActionChara::{}({})", __func__, chara_name);
+
+  todo;
+  return -1.0f;
+}
+
+// 0016B520
+void CActionChara::CheckMotionEnd(std::string chara_name)
+{
+  log_trace("CActionChara::{}({})", __func__, chara_name);
+
+  todo;
+}
+
+// 0016B630
+f32 CActionChara::GetWaitToFrame(std::string chara_name)
+{
+  log_trace("CActionChara::{}({})", __func__, chara_name);
+
+  todo;
+  return -1.0f;
+}
+
+// 0016BC90
+CActionChara* CActionChara::SearchChara(std::string chara_name)
+{
+  log_trace("CActionChara::{}({})", __func__, chara_name);
+
+  todo;
+  return nullptr;
+}
+
+// 0016BCF0
+mgCFrame* CActionChara::SearchObject(std::string frame_name)
+{
+  log_trace("CActionChara::{}({})", __func__, frame_name);
+
+  todo;
+  return nullptr;
+}
+
+// 0016BD60
+void CActionChara::ResetParent()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// 0016BD90
+bool CActionChara::SetRef(CActionChara* parent_chara, std::string frame_name)
+{
+  log_trace("CActionChara::{}({}, {})", __func__, fmt::ptr(parent_chara), frame_name);
+
+  todo;
+  return false;
+}
+
+// 0016BE50
+f32 CActionChara::GetTargetDist(CScene* scene)
+{
+  log_trace("CActionChara::{}({})", __func__, fmt::ptr(scene));
+
+  todo;
+  return -1.0f;
+}
+
+// 0016BEE0
+void CActionChara::CollisionCheck(const vec3& v1, const vec3& v2, const vec3& v3)
+{
+  log_trace("CActionChara::{}({}, {}, {})", __func__, v1, v2, v3);
+
+  todo;
+}
+
+// 0016C7A0
+// "RockOn"
+void CActionChara::LockOn()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// 0016C990
+void CActionChara::HumanMoveIF()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// 0016D560
+void CActionChara::HumanShrowMoveIF()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// 0016D8E0
+void CActionChara::HumanTameMoveIF()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// 0016DAA0
+void CActionChara::HumanGunMoveIF()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// 0016DD80
+void CActionChara::RoboWalkMoveIF(sint i)
+{
+  log_trace("CActionChara::{}({})", __func__, i);
+
+  todo;
+}
+
+// 0016E2A0
+void CActionChara::RoboTankMoveIF(sint i)
+{
+  log_trace("CActionChara::{}({})", __func__, i);
+
+  todo;
+}
+
+// 0016E9F0
+void CActionChara::RoboBikeMoveIF(sint i)
+{
+  log_trace("CActionChara::{}({})", __func__, i);
+
+  todo;
+}
+
+// 0016F330
+void CActionChara::RoboAirMoveIF(sint i1, sint i2)
+{
+  log_trace("CActionChara::{}({}, {})", __func__, i1, i2);
+
+  todo;
+}
+
+// 0016FA30
+void CActionChara::MonsterMoveIF()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// 00170730
+bool CActionChara::CheckDamage()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+  return false;
+}
+
+// 001710C0
+void CActionChara::LoadActionFile(char* c, int i, mgCMemory* memory)
+{
+  log_trace("CActionChara::{}({}, {}, {})", __func__, fmt::ptr(c), i, fmt::ptr(memory));
+
+  todo;
+}
+
+// 00171160
+void CActionChara::InitScript()
+{
+  log_trace("CActionChara::{}()", __func__);
+
+  todo;
+}
+
+// 00171210
+void CActionChara::RunScript(CScene* scene, RUN_SCRIPT_ENV* script_env)
+{
+  log_trace("CActionChara::{}({}, {})", __func__, fmt::ptr(scene), fmt::ptr(script_env));
+
+  todo;
+}
+
+// 001719C0
+// "CheckReleaseTimming"
+s16 CActionChara::CheckReleaseTiming(sint i)
+{
+  log_trace("CActionChara::{}({})", __func__, i);
+
+  todo;
+  return -1;
+}
+
+// 001719F0
+void CActionChara::StepParam()
 {
   log_trace("CActionChara::{}()", __func__);
 

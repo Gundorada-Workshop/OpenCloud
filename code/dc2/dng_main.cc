@@ -17,6 +17,7 @@
 #include "dc2/editloop.h"
 #include "dc2/effect.h"
 #include "dc2/map.h"
+#include "dc2/menusave.h"
 #include "dc2/mg/mg_lib.h"
 #include "dc2/monster.h"
 #include "dc2/nowload.h"
@@ -26,6 +27,27 @@
 #include "dc2/weapon.h"
 
 set_log_channel("dng_main");
+
+// 00377290
+CUserDataManager* DngUserData{ nullptr };
+
+// 00377294
+CSaveData* DngSaveData{ nullptr };
+
+// 00377298
+CSaveDataDungeon* DngSaveDataDungeon{ nullptr };
+
+// 0037729C
+CScene* DngMainScene{ nullptr };
+
+// 003772A0
+CScene* BattleAreaScene{ nullptr };
+
+// 003772A4
+CMap* DngMainMap{ nullptr };
+
+// 003772A8
+CActiveMonster* ActiveMonster{ nullptr };
 
 // 01E9F230
 std::array<mgCMemory, 2> BuffPacketList{ };

@@ -501,6 +501,31 @@ void calcWeaponParamWhp(const CActiveMonster& monster, const CColPrim& collision
 // and all Monica attacks pass in a literal 5. There's nothing which doesn't pass a 1/5 literal.
 void calcWeaponParam2(sint penalty_divisor);
 
+class CSaveData;
+class CSaveDataDungeon;
+class CUserDataManager;
+
+// 00377290
+extern CUserDataManager* DngUserData;
+
+// 00377294
+extern CSaveData* DngSaveData;
+
+// 00377298
+extern CSaveDataDungeon* DngSaveDataDungeon;
+
+// 0037729C
+extern CScene* DngMainScene;
+
+// 003772A0
+extern CScene* BattleAreaScene;
+
+// 003772A4
+extern CMap* DngMainMap;
+
+// 003772A8
+extern CActiveMonster* ActiveMonster;
+
 // 01EAF3B0
 extern CPot BTpot;
 
