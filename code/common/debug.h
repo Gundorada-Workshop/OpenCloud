@@ -1,5 +1,6 @@
 #pragma once
 #include <array>
+
 #include "common/types.h"
 #include "common/macros.h"
 #include "common/strings.h"

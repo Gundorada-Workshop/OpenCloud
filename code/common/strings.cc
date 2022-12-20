@@ -1,7 +1,9 @@
-#include "strings.h"
 #if defined(_WIN32)
 #include <Windows.h>
 #endif
+
+#include "common/strings.h"
+#include "common/debug.h"
 
 namespace common::strings
 {
@@ -72,6 +74,26 @@ namespace common::strings
       return std::nullopt;
 
     return wstring_to_utf8(out);
+  }
+
+  std::string sjis_to_utf8_or_none(std::string_view sjis)
+  {
+    auto utf8_string = sjis_to_utf8(sjis);
+
+    if (!utf8_string)
+      return { };
+
+    return *utf8_string;
+  }
+
+  std::string sjis_to_utf8_or_panic(std::string_view sjis)
+  {
+    auto utf8_string = sjis_to_utf8(sjis);
+
+    if (!utf8_string)
+      common::debug::panic("Failed to convert sjis string to utf8");
+
+    return *utf8_string;
   }
 #endif
 }

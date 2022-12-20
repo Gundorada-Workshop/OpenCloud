@@ -124,8 +124,6 @@ namespace iso9660
   };
 }
 
-extern std::unique_ptr<iso9660::file> g_iso_file;
-
 template<>
 struct fmt::formatter<iso9660::file::path_entry> : formatter<std::string_view>
 {

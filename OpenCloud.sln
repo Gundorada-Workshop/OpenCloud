@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "extract-iso", "tools\extract_iso.vcxproj", "{CB2DFB73-AE82-46CE-A1A6-F38C41BF1E99}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "msbuild props", "msbuild props", "{56D810EE-36AC-490F-A762-252628F8A9F6}"
 	ProjectSection(SolutionItems) = preProject
 		.msvc\All.Compile.props = .msvc\All.Compile.props
@@ -52,6 +50,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "common-test", "test\common-
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "game-test", "test\game-test\game-test.vcxproj", "{84CC4CEC-00B9-47D2-9790-4CE281F7E7FE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{D35920D6-291D-454E-8311-8AC7CD2C2D13}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "extract-iso", "conda\conda.vcxproj", "{CB2DFB73-AE82-46CE-A1A6-F38C41BF1E99}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -59,12 +61,6 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CB2DFB73-AE82-46CE-A1A6-F38C41BF1E99}.Debug|x64.ActiveCfg = Debug|x64
-		{CB2DFB73-AE82-46CE-A1A6-F38C41BF1E99}.Debug|x64.Build.0 = Debug|x64
-		{CB2DFB73-AE82-46CE-A1A6-F38C41BF1E99}.FastDebug|x64.ActiveCfg = FastDebug|x64
-		{CB2DFB73-AE82-46CE-A1A6-F38C41BF1E99}.FastDebug|x64.Build.0 = FastDebug|x64
-		{CB2DFB73-AE82-46CE-A1A6-F38C41BF1E99}.Release|x64.ActiveCfg = Release|x64
-		{CB2DFB73-AE82-46CE-A1A6-F38C41BF1E99}.Release|x64.Build.0 = Release|x64
 		{3024747D-56A5-4B76-835A-12C3899004A7}.Debug|x64.ActiveCfg = Debug|x64
 		{3024747D-56A5-4B76-835A-12C3899004A7}.Debug|x64.Build.0 = Debug|x64
 		{3024747D-56A5-4B76-835A-12C3899004A7}.FastDebug|x64.ActiveCfg = FastDebug|x64
@@ -101,17 +97,23 @@ Global
 		{84CC4CEC-00B9-47D2-9790-4CE281F7E7FE}.FastDebug|x64.Build.0 = FastDebug|x64
 		{84CC4CEC-00B9-47D2-9790-4CE281F7E7FE}.Release|x64.ActiveCfg = Release|x64
 		{84CC4CEC-00B9-47D2-9790-4CE281F7E7FE}.Release|x64.Build.0 = Release|x64
+		{CB2DFB73-AE82-46CE-A1A6-F38C41BF1E99}.Debug|x64.ActiveCfg = Debug|x64
+		{CB2DFB73-AE82-46CE-A1A6-F38C41BF1E99}.Debug|x64.Build.0 = Debug|x64
+		{CB2DFB73-AE82-46CE-A1A6-F38C41BF1E99}.FastDebug|x64.ActiveCfg = FastDebug|x64
+		{CB2DFB73-AE82-46CE-A1A6-F38C41BF1E99}.FastDebug|x64.Build.0 = FastDebug|x64
+		{CB2DFB73-AE82-46CE-A1A6-F38C41BF1E99}.Release|x64.ActiveCfg = Release|x64
+		{CB2DFB73-AE82-46CE-A1A6-F38C41BF1E99}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{CB2DFB73-AE82-46CE-A1A6-F38C41BF1E99} = {5B4BAF44-C9E2-449A-86B5-DE883F2E2919}
 		{3024747D-56A5-4B76-835A-12C3899004A7} = {5B4BAF44-C9E2-449A-86B5-DE883F2E2919}
 		{DC4A4239-8C6B-42DD-9612-999041EE0B5C} = {5B4BAF44-C9E2-449A-86B5-DE883F2E2919}
 		{3BADAE77-7397-46D5-8FA7-D72B3C216CF0} = {B7584972-373B-4199-A285-5CCD599277EE}
 		{A94524A6-D910-4E24-8716-64A2C19850D8} = {4022D7E3-270B-45B2-8F07-7531A351FF49}
 		{84CC4CEC-00B9-47D2-9790-4CE281F7E7FE} = {4022D7E3-270B-45B2-8F07-7531A351FF49}
+		{CB2DFB73-AE82-46CE-A1A6-F38C41BF1E99} = {D35920D6-291D-454E-8311-8AC7CD2C2D13}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {81C91EE3-8C0D-44FC-A3A6-F4D80A915E56}
