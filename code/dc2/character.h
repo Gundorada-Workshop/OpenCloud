@@ -71,25 +71,25 @@ public:
 
 public:
   // 10  00172DE0
-  virtual void SetPosition(vec3& v);
+  virtual void SetPosition(const vec3& v) override;
 
   // 14  00172DE0
-  virtual void SetPosition(f32 x, f32 y, f32 z);
+  virtual void SetPosition(f32 x, f32 y, f32 z) override;
 
   // 34  00172F60
-  virtual unkptr Draw();
+  virtual unkptr Draw() override;
 
   // 38  001731F0
-  virtual unkptr DrawDirect();
+  virtual unkptr DrawDirect() override;
 
   // 3C  00175340
-  virtual void Initialize();
+  virtual void Initialize() override;
 
   // 44  00173170
-  virtual f32 GetCameraDist();
+  virtual f32 GetCameraDist() override;
 
   // 4C  00173120
-  virtual bool DrawStep();
+  virtual bool DrawStep() override;
 
   // 7C  001751D0
   virtual void LoadPack(void* file_buf, char* file_name, mgCMemory* mem1, mgCMemory* mem2, mgCMemory* mem3, unk32 i, CCharacter2* character2);
@@ -243,15 +243,6 @@ public:
 
   // 001751C0
   void LoadSkin(uint* i1, char* c1, char* c2, mgCMemory* memory, sint i2);
-
-  // 001751D0
-  void LoadPack(uint* i1, char* c, mgCMemory* memory1, mgCMemory* memory2, mgCMemory* memory3, sint i2, CCharacter2* chara);
-
-  // 00175200
-  void LoadPackNoLine(uint* i1, char* c, mgCMemory* memory1, mgCMemory* memory2, mgCMemory* memory3, sint i2, CCharacter2* chara);
-
-  // 00175230
-  void LoadChrFile(uint* i1, char* c, mgCMemory* memory1, mgCMemory* memory2, mgCMemory* memory3, sint i2, CCharacter2* chara, sint i3);
 
   // 00177A30
   void ExecEntryEffect(CHRINFO_KEY_SET* keys);

@@ -8,7 +8,7 @@
 set_log_channel("character")
 
 // 00172DE0
-void CCharacter2::SetPosition(vec3& v)
+void CCharacter2::SetPosition(const vec3& v)
 {
   log_trace("CCharacter2::{}({})", __func__, fmt::ptr(&v));
 
@@ -539,30 +539,6 @@ f32 CCharacter2::GetWaitToFrame(std::string key_name, f32 rate)
 void CCharacter2::LoadSkin(uint* i1, char* c1, char* c2, mgCMemory* memory, sint i2)
 {
   log_trace("CCharacter2::{}({}, {}, {}, {}, {})", __func__, fmt::ptr(i1), c1, c2, fmt::ptr(memory), i2);
-
-  todo;
-}
-
-// 001751D0
-void CCharacter2::LoadPack(uint* i1, char* c, mgCMemory* memory1, mgCMemory* memory2, mgCMemory* memory3, sint i2, CCharacter2* chara)
-{
-  log_trace("CCharacter2::{}({}, {}, {}, {}, {}, {}, {})", __func__, fmt::ptr(i1), c, fmt::ptr(memory1), fmt::ptr(memory2), fmt::ptr(memory3), i2, fmt::ptr(chara));
-
-  todo;
-}
-
-// 00175200
-void CCharacter2::LoadPackNoLine(uint* i1, char* c, mgCMemory* memory1, mgCMemory* memory2, mgCMemory* memory3, sint i2, CCharacter2* chara)
-{
-  log_trace("CCharacter2::{}({}, {}, {}, {}, {}, {}, {})", __func__, fmt::ptr(i1), c, fmt::ptr(memory1), fmt::ptr(memory2), fmt::ptr(memory3), i2, fmt::ptr(chara));
-
-  todo;
-}
-
-// 00175230
-void CCharacter2::LoadChrFile(uint* i1, char* c, mgCMemory* memory1, mgCMemory* memory2, mgCMemory* memory3, sint i2, CCharacter2* chara, sint i3)
-{
-  log_trace("CCharacter2::{}({}, {}, {}, {}, {}, {}, {}, {})", __func__, fmt::ptr(i1), c, fmt::ptr(memory1), fmt::ptr(memory2), fmt::ptr(memory3), i2, fmt::ptr(chara), i3);
 
   todo;
 }
