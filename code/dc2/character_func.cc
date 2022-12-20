@@ -340,7 +340,18 @@ static bool _RUN_MAIN_MOVE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  switch (action_info.m_chara->m_move_type)
+  {
+    case EMoveType::Human:
+      action_info.m_chara->HumanMoveIF();
+      break;
+    case EMoveType::Monster:
+      action_info.m_chara->MonsterMoveIF();
+      break;
+    default:
+      break;
+  }
+
   return true;
 }
 

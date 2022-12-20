@@ -997,7 +997,8 @@ void CActionChara::HumanMoveIF()
 }
 
 // 0016D560
-void CActionChara::HumanShrowMoveIF()
+// "HumanShrowMoveIF"
+void CActionChara::HumanThrowMoveIF()
 {
   log_trace("CActionChara::{}()", __func__);
 
@@ -1005,7 +1006,7 @@ void CActionChara::HumanShrowMoveIF()
 }
 
 // 0016D8E0
-void CActionChara::HumanTameMoveIF()
+void CActionChara::HumanChargeUpMoveIF()
 {
   log_trace("CActionChara::{}()", __func__);
 

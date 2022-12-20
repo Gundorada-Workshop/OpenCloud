@@ -591,7 +591,8 @@ public:
 
 enum class EMoveType : s32
 {
-
+  Human = 0,
+  Monster = 3,
 };
 
 // this might be from another file but putting them here for now
@@ -759,10 +760,12 @@ public:
   void HumanMoveIF();
 
   // 0016D560
-  void HumanShrowMoveIF();
+  // "HumanShrowMoveIF"
+  void HumanThrowMoveIF();
 
   // 0016D8E0
-  void HumanTameMoveIF();
+  // "HumanTameMoveIF"
+  void HumanChargeUpMoveIF();
 
   // 0016DAA0
   void HumanGunMoveIF();
