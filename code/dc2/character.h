@@ -730,7 +730,7 @@ public:
   void ThrowItemObject();
 
   // 0016B020
-  void UsedItemAction();
+  sint UsedItemAction();
 
   // 0016B1C0
   void EntryThrowItem();

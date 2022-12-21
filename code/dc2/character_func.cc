@@ -653,11 +653,11 @@ static bool _CHECK_HAND_OBJ(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _SET_ITEM_USED(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_ITEM_USED(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack++, action_info.m_chara->UsedItemAction());
   return true;
 }
 

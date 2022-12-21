@@ -872,11 +872,12 @@ void CActionChara::ThrowItemObject()
 }
 
 // 0016B020
-void CActionChara::UsedItemAction()
+sint CActionChara::UsedItemAction()
 {
   log_trace("CActionChara::{}()", __func__);
 
   todo;
+  return 0;
 }
 
 // 0016B1C0
