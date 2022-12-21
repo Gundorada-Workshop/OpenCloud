@@ -533,11 +533,20 @@ static bool _SET_DMG2(RS_STACKDATA* stack, sint stack_count)
   return true;
 }
 
-static bool _SET_OBJ(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_OBJ(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(2);
 
-  todo;
+  sint i = GetStackInt(stack++);
+  std::string frame_name = GetStackString(stack++);
+
+  if (!action_info.m_chara->EntryObject(frame_name, i))
+  {
+    log_warn("_SET_OBJ: Not found {}", frame_name);
+    return false;
+  }
+
   return true;
 }
 
