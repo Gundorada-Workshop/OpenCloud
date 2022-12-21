@@ -33,6 +33,8 @@ static CMarker EventMarker{};
 static std::unique_ptr<CSwordAfterImage> SwordEffect{ nullptr };
 // 00377CE4
 static bool SetWorldCoordFlg{};
+// 01ECD5F0
+static MENU_INIT_ARG MenuArg{};
 // 01ECE880
 static CEohMother EventObjHandleMother{};
 // 01ECEA80
@@ -805,11 +807,14 @@ static bool _SET_BG_COLOR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
   return true;
 }
 
-static bool _GOTO_DNG_MAP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GOTO_DNG_MAP(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  // FIXME: MAGIC values
+  MenuArg.m_unk_field_28 = 3;
+  MenuArg.m_unk_field_58 = GetStackInt(stack++);
+  EdEventInfo.m_unk_field_D0 = 3;
   return true;
 }
 
