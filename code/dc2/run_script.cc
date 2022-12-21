@@ -364,9 +364,76 @@ void CRunScript::exe(vmcode_t* code)
     switch (m_vmcode->m_instruction)
     {
       case 1:
+      {
         // 00187414
-        todo;
+        switch (code->m_op2)
+        {
+          case 0x1:
+          {
+            // 187468
+            push(m_function_stack_frame[code->m_op1]);
+            break;
+          }
+          case 0x2:
+          {
+            // 1874B4
+            sint offset = chk_int(pop(), m_current_funcdata);
+            push(m_function_stack_frame[code->m_op1 + offset]);
+            break;
+          }
+          case 0x4:
+          {
+            // 1874FC
+            sint offset = chk_int(pop(), m_current_funcdata);
+            push(*(m_function_stack_frame[code->m_op1].m_data.p + offset));
+            break;
+          }
+          case 0x8:
+          {
+            // 187548
+            m_function_stack_frame[code->m_op1].m_data_type = Float;
+            push(m_function_stack_frame[code->m_op1]);
+            break;
+          }
+          case 0x10:
+          {
+            // 1875C8
+            sint offset = chk_int(pop(), m_current_funcdata);
+            auto data = &m_function_stack_frame[code->m_op1];
+            (data + offset)->m_data_type = Float;
+            push(*data);
+            break;
+          }
+          case 0x20:
+          {
+            // 187630
+            sint offset = chk_int(pop(), m_current_funcdata);
+            auto data = &m_function_stack_frame[code->m_op1];
+            (data->m_data.p + offset)->m_data_type = Float;
+            push(*data);
+            break;
+          }
+          case 0x40:
+          {
+            // 18748C
+            // SB2 only!
+            push(m_global_variables[code->m_op1]);
+            break;
+          }
+          case 0x200:
+          {
+            // 187588
+            // SB2 only!
+            auto data = m_global_variables[code->m_op1];
+            data.m_data_type = Float;
+            push(data);
+            break;
+          }
+          default:
+            break;
+        }
         break;
+      }
       case 2:
       {
         // 001876A0
