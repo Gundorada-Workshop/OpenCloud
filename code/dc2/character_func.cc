@@ -725,11 +725,16 @@ static bool _SET_DIR_GUN(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint sta
   return true;
 }
 
-static bool _GET_NOW_HP_RATE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_NOW_HP_RATE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  auto chara_info = GetBattleCharaInfo();
+  // BUG: The original code does do integer division then cast to float, meaning this function would only return 0.0f or 1.0f.
+  // I've changed it to float division, but that may result in different behavior than the original.
+  // 002D1588
+  SetStack(stack++, f32(chara_info->GetNowHp_i()) / f32(chara_info->GetMaxHp_i()));
   return true;
 }
 
