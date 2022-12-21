@@ -638,8 +638,9 @@ static bool _SET_GUARD_FLAG(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 static bool _SET_MUTEKI(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  action_info.m_chara->m_invincible_flag = common::bits::to_bool(GetStackInt(stack++));
   return true;
 }
 

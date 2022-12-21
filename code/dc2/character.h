@@ -830,6 +830,8 @@ public:
   EMoveType m_move_type{};
   // 712
   s16 m_prog{ 0 };
+  // 768
+  bool m_invincible_flag{ false };
   // 76C
   bool m_menu_flag{ false };
   // 794
