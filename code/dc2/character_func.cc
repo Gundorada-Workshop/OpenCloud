@@ -760,8 +760,10 @@ static bool _GET_ACTION_CODE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 static bool _GET_ATTK_POINT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  auto weapon_index = GetStackInt(stack++);
+  SetStack(stack++, GetBattleCharaInfo()->m_param.m_weapons[weapon_index].m_attack);
   return true;
 }
 
