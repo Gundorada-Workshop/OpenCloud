@@ -498,11 +498,38 @@ static bool _RUN_ROBO_MOVE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _SET_DMG2(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_DMG2(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  if (stack_count < 8 || stack_count > 9)
+  {
+    return false;
+  }
 
-  todo;
+  std::string s1 = GetStackString(stack++);
+  std::string s2 = GetStackString(stack++);
+  std::string s3 = GetStackString(stack++);
+  f32 f0 = GetStackFloat(stack++) * 2.0f;
+  f32 damage = GetStackFloat(stack++);
+  std::string s4 = GetStackString(stack++);
+  f32 f1 = GetStackFloat(stack++);
+  f32 f2 = GetStackFloat(stack++);
+  std::string s5 = "";
+
+  if (stack_count == 9)
+  {
+    s5 = GetStackString(stack++);
+  }
+
+  auto result = action_info.m_chara->EntryDamage2(s1, s2, s3, f0, s4, f1, f2, s5);
+
+  if (result == nullptr)
+  {
+    log_warn("CACT:DMG_ENTRY_ERR {}", s3);
+    return false;
+  }
+
+  result->m_unk_field_14 = damage;
   return true;
 }
 
