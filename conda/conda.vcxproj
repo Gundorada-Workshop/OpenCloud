@@ -20,6 +20,7 @@
     <ClInclude Include="hd\hd_file.h" />
     <ClInclude Include="iso9660\iso_file.h" />
     <ClInclude Include="iso9660\types.h" />
+    <ClInclude Include="pak.h" />
   </ItemGroup>
   <Import Project="$(SolutionDir)code\common\common.exports.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

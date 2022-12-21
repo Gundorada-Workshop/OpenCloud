@@ -5,6 +5,7 @@
 #include <shellapi.h>
 
 #include "common/types.h"
+#include "common/bits.h"
 #include "common/debug.h"
 #include "common/strings.h"
 #include "common/console.h"
@@ -15,18 +16,11 @@
 
 #include "iso9660/iso_file.h"
 #include "hd/hd_file.h"
+#include "pak.h"
 
 set_log_channel("conda")
 
 using namespace common;
-
-using string_list = std::vector<std::string>;
-using string_list_arg = const std::vector<std::string>&;
-using cmd_pfn = std::add_pointer_t<bool(string_list_arg)>;
-
-using iso_file_entry = iso9660::file::file_entry;
-using iso_file_list = iso9660::file::file_list;
-using iso_file = iso9660::file;
 
 struct cmd_info
 {
@@ -35,6 +29,14 @@ struct cmd_info
   std::string_view short_description;
   std::string_view long_description;
 };
+
+using string_list = std::vector<std::string>;
+using cmd_pfn = std::add_pointer_t<bool(const cmd_info&, const string_list&)>;
+
+using iso_file_entry = iso9660::file::file_entry;
+using iso_file_list = iso9660::file::file_list;
+using iso_file = iso9660::file;
+
 
 static constexpr std::array command_info_list =
 {
@@ -60,6 +62,14 @@ static constexpr std::array command_info_list =
     .short_description = "Extract a pak archive",
     .long_description  = "  Extracts a pak archive given pak_file_path\n"
                          "  If no output_directory_path is specified the name and location of the pak file is used.\n\n"
+                         "  Valid archive extensions: .pak, .chr, .efp, .ipk, .mpk, .pcp, .sky, .snd"
+  },
+  cmd_info
+  {
+    .name              = "ls-pak",
+    .args              = "pak_file_path",
+    .short_description = "Lists the contents of a pak archive",
+    .long_description  = "  Lists the contents of a pak archive given pak_file_path\n\n"
                          "  Valid archive extensions: .pak, .chr, .efp, .ipk, .mpk, .pcp, .sky, .snd"
   },
   cmd_info
@@ -93,21 +103,11 @@ static void print_program_header()
   console::write("\n");
 }
 
-static void print_command_help(std::string_view command_name)
+static void print_command_help(const cmd_info& info)
 {
-  const auto itr = std::find_if(command_info_list.begin(), command_info_list.end(), [&](const cmd_info& entry) {
-    return entry.name == command_name;
-  });
-
-  if (itr == command_info_list.end())
-  {
-    console::writeln_format("Unknown command {}", command_name);
-    return;
-  }
-
-  console::writeln_format("{} {} {}", s_program_name, itr->name, itr->args);
+  console::writeln_format("{} {} {}", s_program_name, info.name, info.args);
   console::write("\n");
-  console::writeln_format("{}", itr->long_description);
+  console::writeln_format("{}", info.long_description);
 }
 
 static void print_program_help()
@@ -270,11 +270,44 @@ static bool extract_hdx_file_from_iso(std::unique_ptr<iso_file>& iso, std::strin
   return true;
 }
 
-static bool cmd_help(string_list_arg args)
+pak::entry_list pak_archive_entries(std::unique_ptr<data_stream_base>& file)
+{
+  pak::entry_list out;
+
+  pak::entry_header header;
+  while (file->read_buffer_checked(&header, sizeof(header)))
+  {
+    if (header.entry_byte_count == 0 && header.header_byte_count == 0 && header.unk0 == 0 && header.unk1 == 0)
+      break;
+
+    auto name_byte_count = strnlen_s(header.name, 64);
+
+    std::string name;
+    name.resize(name_byte_count);
+
+    std::memcpy(name.data(), &header.name[0], name_byte_count);
+
+    pak::entry entry =
+    {
+      .name = strings::sjis_to_utf8_or_panic(name),
+      .file_byte_offset = file->pos(),
+      .file_byte_count = header.entry_byte_count
+    };
+
+    out.push_back(std::move(entry));
+
+    // the end of the file is random garbage (dev strings)
+    file->seek_relative(bits::align_up(header.entry_byte_count, 16));
+  }
+
+  return out;
+}
+
+static bool cmd_help(const cmd_info& info, const string_list& args)
 {
   if (args.size() == 1)
   {
-    print_command_help(args[0]);
+    print_command_help(info);
 
     return true;
   }
@@ -285,11 +318,11 @@ static bool cmd_help(string_list_arg args)
   return true;
 }
 
-static bool cmd_extract_iso(string_list_arg args)
+static bool cmd_extract_iso(const cmd_info& info, const string_list& args)
 {
   if (args.size() != 3 && args.size() != 4)
   {
-    print_command_help("extract-iso");
+    print_command_help(info);
 
     return false;
   }
@@ -320,22 +353,110 @@ static bool cmd_extract_iso(string_list_arg args)
   if (entry_type == "hdx")
     return extract_hdx_file_from_iso(iso, file_entry_path, output_path);
 
-  print_command_help("extract-iso");
+  print_command_help(info);
 
   return false;
 }
 
-static bool cmd_extract_pak(MAYBE_UNUSED string_list_arg args)
+static bool cmd_extract_pak(const cmd_info& info, const string_list& args)
+{
+  if (args.size() != 1 && args.size() != 2)
+  {
+    print_command_help(info);
+
+    return false;
+  }
+
+  const std::string_view input_file_path = args[0];
+  const std::string_view input_file_basename = file_helpers::basename(args[0]);
+  const std::string_view input_file_parent = file_helpers::parent_directory(args[0]);
+
+  std::string output_path = file_helpers::append(input_file_parent, input_file_basename);
+  if (args.size() == 2)
+    output_path = args[1];
+
+  if (!file_helpers::create_directory(output_path))
+  {
+    log_error("Failed to create output directory {}", output_path);
+
+    return false;
+  }
+
+  std::unique_ptr<data_stream_base> input_file_stream = file_stream::open(input_file_path, "rb");
+
+  if (!input_file_stream)
+  {
+    log_error("Failed to open input stream {}", input_file_path);
+
+    return false;
+  }
+
+  for (const auto& entry : pak_archive_entries(input_file_stream))
+  {
+    input_file_stream->seek(entry.file_byte_offset);
+
+    const auto full_output_path = file_helpers::append(output_path, entry.name);
+    std::unique_ptr<data_stream_base> output_file_stream = file_stream::open(full_output_path, "wb");
+
+    if (!output_file_stream)
+    {
+      log_warn("Failed to open output file stream {}... skipping", full_output_path);
+
+      continue;
+    }
+
+    // TODO: refactor this
+    usize write_size = data_stream_base::block_size;
+    usize bytes_written = 0;
+
+    std::array<u8, data_stream_base::block_size> temp_buffer;
+    while (bytes_written < entry.file_byte_count)
+    {
+      if (bytes_written + write_size >  entry.file_byte_count)
+        write_size = entry.file_byte_count - bytes_written;
+
+      if (!input_file_stream->read_buffer_checked(temp_buffer.data(), write_size))
+        return false;
+
+      if (!output_file_stream->write_buffer_checked(temp_buffer.data(), write_size))
+        return true;
+
+      bytes_written += write_size;
+    }
+
+    console::writeln(full_output_path);
+  }
+
+  return true;
+}
+
+static bool cmd_ls_pak(const cmd_info& info, const string_list& args)
+{
+  if (args.size() != 1)
+  {
+    print_command_help(info);
+
+    return false;
+  }
+
+  std::unique_ptr<data_stream_base> input_file_stream = file_stream::open(args[0], "rb");
+
+  if (!input_file_stream)
+    return false;
+
+  console::writeln_format("{:<20}{:<20}{:<20}", "offset", "size", "name");
+  for (const auto& entry : pak_archive_entries(input_file_stream))
+    console::writeln_format("{:<20}{:<20}{:<20}", entry.file_byte_offset, entry.file_byte_count, entry.name);
+
+  return true;
+}
+
+static bool cmd_extract_img(MAYBE_UNUSED const cmd_info& info, MAYBE_UNUSED const string_list& args)
 {
   return true;
 }
 
-static bool cmd_extract_img(MAYBE_UNUSED string_list_arg args)
-{
-  return true;
-}
-
-static bool cmd_decompile_script(MAYBE_UNUSED string_list_arg args)
+static bool cmd_decompile_script(MAYBE_UNUSED const cmd_info& info, MAYBE_UNUSED const string_list& args)
 {
   return true;
 }
@@ -345,6 +466,7 @@ static constexpr std::array command_function_list =
   cmd_pfn{ cmd_help },
   cmd_pfn{ cmd_extract_iso },
   cmd_pfn{ cmd_extract_pak },
+  cmd_pfn{ cmd_ls_pak },
   cmd_pfn{ cmd_extract_img },
   cmd_pfn{ cmd_decompile_script },
 };
@@ -425,7 +547,7 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
 
     arg_list.erase(arg_list.begin());
 
-    if (!command_function_list[i](arg_list))
+    if (!command_function_list[i](command_info_list[i], arg_list))
       return EXIT_FAILURE;
 
     return EXIT_SUCCESS;
