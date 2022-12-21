@@ -635,7 +635,7 @@ static bool _SET_GUARD_FLAG(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _SET_MUTEKI(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_MUTEKI(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
   VERIFY_STACK_COUNT(1);
@@ -644,11 +644,12 @@ static bool _SET_MUTEKI(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stac
   return true;
 }
 
-static bool _CHECK_HAND_OBJ(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHECK_HAND_OBJ(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  SetStack(stack++, action_info.m_chara->m_hand_obj);
   return true;
 }
 
