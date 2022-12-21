@@ -1,3 +1,4 @@
+#include "common/bits.h"
 #include "common/debug.h"
 #include "common/log.h"
 #include "common/macros.h"
@@ -625,11 +626,12 @@ static bool _SET_TRG_ANGLE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _SET_GUARD_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_GUARD_FLAG(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  action_info.m_chara->m_guard_flag = common::bits::to_bool(GetStackInt(stack++));
   return true;
 }
 

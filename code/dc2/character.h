@@ -838,6 +838,8 @@ public:
   std::array<SW_EFFECT, 9> m_unk_field_7E4{};
   // A20
   std::array<COLLISION_INFO, 11> m_unk_field_A20{};
+  // BF0
+  bool m_guard_flag{ false };
   // F50
   f32 m_unk_field_F50{};
   // F54
