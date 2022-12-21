@@ -665,7 +665,7 @@ static bool _THROW_HAND_OBJECT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED si
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  action_info.m_chara->ThrowItemObject();
   return true;
 }
 
