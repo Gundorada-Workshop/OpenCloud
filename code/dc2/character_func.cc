@@ -748,11 +748,12 @@ static bool _SET_BOMB(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_
   return true;
 }
 
-static bool _GET_ACTION_CODE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_ACTION_CODE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  SetStack(stack++, GetBattleCharaInfo()->GetEquipTablePtr(0)->GetModelNo().value_or(-1));
   return true;
 }
 
