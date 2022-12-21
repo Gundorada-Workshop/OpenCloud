@@ -7,6 +7,9 @@
 
 set_log_channel("character")
 
+// 00378294
+CScene* nowScene{ nullptr };
+
 // 00172DE0
 void CCharacter2::SetPosition(const vec3& v)
 {

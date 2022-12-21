@@ -847,3 +847,6 @@ public:
   // F5C
   s32 m_unk_field_F5C{};
 };
+
+// 00378294
+extern CScene* nowScene;

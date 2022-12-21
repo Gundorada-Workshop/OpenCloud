@@ -13,7 +13,7 @@
 set_log_channel("character_func");
 
 #define VERIFY_STACK_COUNT(n) \
-  if (stack_count != n) \
+  if (stack_count != n) UNLIKELY \
   { \
     return false; \
   }
@@ -608,11 +608,12 @@ static bool _SET_MURDEROUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _GET_TRG_DISTANCE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_TRG_DISTANCE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  SetStack(stack, action_info.m_chara->GetTargetDist(nowScene));
   return true;
 }
 
