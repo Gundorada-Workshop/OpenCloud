@@ -818,8 +818,9 @@ static bool _SET_XCHG_STEP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
 static bool _SET_MOS_STEP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  action_info.m_chara->SetStep(GetStackFloat(stack++));
   return true;
 }
 
