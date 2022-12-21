@@ -1,3 +1,4 @@
+#include "common/bits.h"
 #include "common/log.h"
 
 #include "dc2/run_script.h"
@@ -729,6 +730,7 @@ void CRunScript::exe(vmcode_t* code)
       case 17:
       {
         // 001879E0
+        // _BF
         if (!m_skip_flag && !is_true(pop()))
         {
           if (code->m_op2)
@@ -745,6 +747,7 @@ void CRunScript::exe(vmcode_t* code)
       case 18:
       {
         // 00187988
+        // _BT
         if (!m_skip_flag && is_true(pop()))
         {
           if (code->m_op2)
@@ -825,11 +828,22 @@ void CRunScript::exe(vmcode_t* code)
         break;
       }
       case 26:
+      {
         // 001884D8
-        todo;
+        // _NOT
+
+        auto stack_data = pop();
+        if (stack_data.m_data_type != Int)
+        {
+          panicf("RUNTIME ERROR: {}: Operand is not an integer!", m_current_funcdata->m_function_name);
+        }
+
+        push_int(!common::bits::to_bool(stack_data.m_data.i));
         break;
+      }
       case 27:
         // 001886DC
+        // _EXIT
         m_program_terminated = true;
         m_vmcode = nullptr;
         return;
