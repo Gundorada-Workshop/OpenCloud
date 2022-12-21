@@ -368,9 +368,83 @@ void CRunScript::exe(vmcode_t* code)
         todo;
         break;
       case 2:
+      {
         // 001876A0
-        todo;
+        switch (code->m_op2)
+        {
+          case 0x1:
+          {
+            // 1876F0
+            // Same as 0x8?
+            push_ptr(m_function_stack_frame + code->m_op1);
+            break;
+          }
+          case 0x2:
+          {
+            // 187730
+            // Same as 0x10?
+            sint offset = chk_int(pop(), m_current_funcdata) * sizeof(RS_STACKDATA);
+            push_ptr(
+              reinterpret_cast<RS_STACKDATA*>(reinterpret_cast<uptr>(m_function_stack_frame + code->m_op1) + offset)
+            );
+            break;
+          }
+          case 0x4:
+          {
+            // 187774
+            // Same as 0x20?
+            sint offset = chk_int(pop(), m_current_funcdata) * sizeof(RS_STACKDATA);
+            push_ptr(
+              reinterpret_cast<RS_STACKDATA*>(reinterpret_cast<uptr>((m_function_stack_frame + code->m_op1)->m_data.p) + offset)
+            );
+            break;
+          }
+          case 0x8:
+          {
+            // 1877C0
+            push_ptr(m_function_stack_frame + code->m_op1);
+            break;
+          }
+          case 0x10:
+          {
+            // 187800
+            sint offset = chk_int(pop(), m_current_funcdata) * sizeof(RS_STACKDATA);
+            push_ptr(
+              reinterpret_cast<RS_STACKDATA*>(reinterpret_cast<uptr>(m_function_stack_frame + code->m_op1) + offset)
+            );
+            break;
+          }
+          case 0x20:
+          {
+            // 187844
+            sint offset = chk_int(pop(), m_current_funcdata) * sizeof(RS_STACKDATA);
+            push_ptr(
+              reinterpret_cast<RS_STACKDATA*>(reinterpret_cast<uptr>((m_function_stack_frame + code->m_op1)->m_data.p) + offset)
+            );
+            break;
+          }
+          case 0x40:
+          {
+            // 187710
+            // SB2 only!
+            // ... same as 0x200?
+            push_ptr(
+              reinterpret_cast<RS_STACKDATA*>(reinterpret_cast<uptr>(m_global_variables) + (code->m_op1 * sizeof(RS_STACKDATA)))
+            );
+            break;
+          }
+          case 0x200:
+            // 1877E0
+            // SB2 only!
+            push_ptr(
+              reinterpret_cast<RS_STACKDATA*>(reinterpret_cast<uptr>(m_global_variables) + (code->m_op1 * sizeof(RS_STACKDATA)))
+            );
+            break;
+          default:
+            break;
+        }
         break;
+      }
       case 3:
         // 001878E8
         // _PUSH
