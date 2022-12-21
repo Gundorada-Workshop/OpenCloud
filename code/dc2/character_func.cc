@@ -550,12 +550,14 @@ static bool _SET_OBJ(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _SET_BODY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_BODY(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(2);
 
-  todo;
-  return true;
+  sint i = GetStackInt(stack++);
+  f32 f = GetStackFloat(stack++) * 2.0f;
+  return action_info.m_chara->EntryBodyCol(i, f) != nullptr;
 }
 
 static bool _SW_EFFECT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
