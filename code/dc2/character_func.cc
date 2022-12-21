@@ -742,7 +742,9 @@ static bool _SET_BOMB(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  // Is this even used?
+  // Oof, owie, my HP
+  GetBattleCharaInfo()->SetHpRate(0.05f);
   return true;
 }
 
