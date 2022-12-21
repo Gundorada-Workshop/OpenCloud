@@ -827,4 +827,12 @@ public:
   f32 m_move_speed{ DEFAULT_CHARACTER_MOVE_SPEED };
   // 7E4
   std::array<SW_EFFECT, 9> m_unk_field_7E4{};
+  // F50
+  f32 m_unk_field_F50{};
+  // F54
+  f32 m_unk_field_F54{};
+  // F58
+  f32 m_unk_field_F58{};
+  // F5C
+  s32 m_unk_field_F5C{};
 };

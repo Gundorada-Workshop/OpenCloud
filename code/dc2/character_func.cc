@@ -460,8 +460,11 @@ static bool _SET_BLOW_MOVE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
 static bool _BLOW_START(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(3);
 
-  todo;
+  action_info.m_chara->m_unk_field_F54 = GetStackFloat(stack++) * action_info.m_chara->m_unk_field_F50;
+  action_info.m_chara->m_unk_field_F58 = GetStackFloat(stack++);
+  action_info.m_chara->m_unk_field_F5C = GetStackInt(stack++);
   return true;
 }
 
