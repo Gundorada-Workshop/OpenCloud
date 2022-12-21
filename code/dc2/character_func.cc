@@ -399,19 +399,29 @@ static bool _SET_MENU_FLAG(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _GET_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_POS(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(3);
 
-  todo;
+  vec3 pos = action_info.m_chara->GetPosition();
+  SetStack(stack++, pos.x);
+  SetStack(stack++, pos.y);
+  SetStack(stack++, pos.z);
+
   return true;
 }
 
-static bool _GET_ROT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_ROT(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(3);
 
-  todo;
+  vec3 rot = action_info.m_chara->GetRotation();
+  SetStack(stack++, rot.x);
+  SetStack(stack++, rot.y);
+  SetStack(stack++, rot.z);
+
   return true;
 }
 
