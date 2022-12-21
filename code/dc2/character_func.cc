@@ -836,7 +836,7 @@ static bool _RESET_MOS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  action_info.m_chara->ResetMotion();
   return true;
 }
 
