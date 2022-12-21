@@ -1,3 +1,4 @@
+#include "common/bits.h"
 #include "common/log.h"
 
 #include "dc2/run_script.h"
@@ -279,7 +280,7 @@ sint CRunScript::run(s32 program_id)
     {
       if (func_list[i].m_program_id == program_id)
       {
-        m_current_funcdata = func_list[i].m_funcdata;
+        m_current_funcdata = reinterpret_cast<funcdata*>(static_cast<uptr>(func_list[i].m_funcdata));
         break;
       }
     }
@@ -363,13 +364,154 @@ void CRunScript::exe(vmcode_t* code)
     switch (m_vmcode->m_instruction)
     {
       case 1:
+      {
         // 00187414
-        todo;
+        switch (code->m_op2)
+        {
+          case 0x1:
+          {
+            // 187468
+            push(m_function_stack_frame[code->m_op1]);
+            break;
+          }
+          case 0x2:
+          {
+            // 1874B4
+            sint offset = chk_int(pop(), m_current_funcdata);
+            push(m_function_stack_frame[code->m_op1 + offset]);
+            break;
+          }
+          case 0x4:
+          {
+            // 1874FC
+            sint offset = chk_int(pop(), m_current_funcdata);
+            push(*(m_function_stack_frame[code->m_op1].m_data.p + offset));
+            break;
+          }
+          case 0x8:
+          {
+            // 187548
+            m_function_stack_frame[code->m_op1].m_data_type = Float;
+            push(m_function_stack_frame[code->m_op1]);
+            break;
+          }
+          case 0x10:
+          {
+            // 1875C8
+            sint offset = chk_int(pop(), m_current_funcdata);
+            auto data = &m_function_stack_frame[code->m_op1];
+            (data + offset)->m_data_type = Float;
+            push(*data);
+            break;
+          }
+          case 0x20:
+          {
+            // 187630
+            sint offset = chk_int(pop(), m_current_funcdata);
+            auto data = &m_function_stack_frame[code->m_op1];
+            (data->m_data.p + offset)->m_data_type = Float;
+            push(*data);
+            break;
+          }
+          case 0x40:
+          {
+            // 18748C
+            // SB2 only!
+            push(m_global_variables[code->m_op1]);
+            break;
+          }
+          case 0x200:
+          {
+            // 187588
+            // SB2 only!
+            auto data = m_global_variables[code->m_op1];
+            data.m_data_type = Float;
+            push(data);
+            break;
+          }
+          default:
+            break;
+        }
         break;
+      }
       case 2:
+      {
         // 001876A0
-        todo;
+        switch (code->m_op2)
+        {
+          case 0x1:
+          {
+            // 1876F0
+            // Same as 0x8?
+            push_ptr(m_function_stack_frame + code->m_op1);
+            break;
+          }
+          case 0x2:
+          {
+            // 187730
+            // Same as 0x10?
+            sint offset = chk_int(pop(), m_current_funcdata) * sizeof(RS_STACKDATA);
+            push_ptr(
+              reinterpret_cast<RS_STACKDATA*>(reinterpret_cast<uptr>(m_function_stack_frame + code->m_op1) + offset)
+            );
+            break;
+          }
+          case 0x4:
+          {
+            // 187774
+            // Same as 0x20?
+            sint offset = chk_int(pop(), m_current_funcdata) * sizeof(RS_STACKDATA);
+            push_ptr(
+              reinterpret_cast<RS_STACKDATA*>(reinterpret_cast<uptr>((m_function_stack_frame + code->m_op1)->m_data.p) + offset)
+            );
+            break;
+          }
+          case 0x8:
+          {
+            // 1877C0
+            push_ptr(m_function_stack_frame + code->m_op1);
+            break;
+          }
+          case 0x10:
+          {
+            // 187800
+            sint offset = chk_int(pop(), m_current_funcdata) * sizeof(RS_STACKDATA);
+            push_ptr(
+              reinterpret_cast<RS_STACKDATA*>(reinterpret_cast<uptr>(m_function_stack_frame + code->m_op1) + offset)
+            );
+            break;
+          }
+          case 0x20:
+          {
+            // 187844
+            sint offset = chk_int(pop(), m_current_funcdata) * sizeof(RS_STACKDATA);
+            push_ptr(
+              reinterpret_cast<RS_STACKDATA*>(reinterpret_cast<uptr>((m_function_stack_frame + code->m_op1)->m_data.p) + offset)
+            );
+            break;
+          }
+          case 0x40:
+          {
+            // 187710
+            // SB2 only!
+            // ... same as 0x200?
+            push_ptr(
+              reinterpret_cast<RS_STACKDATA*>(reinterpret_cast<uptr>(m_global_variables) + (code->m_op1 * sizeof(RS_STACKDATA)))
+            );
+            break;
+          }
+          case 0x200:
+            // 1877E0
+            // SB2 only!
+            push_ptr(
+              reinterpret_cast<RS_STACKDATA*>(reinterpret_cast<uptr>(m_global_variables) + (code->m_op1 * sizeof(RS_STACKDATA)))
+            );
+            break;
+          default:
+            break;
+        }
         break;
+      }
       case 3:
         // 001878E8
         // _PUSH
@@ -693,19 +835,22 @@ void CRunScript::exe(vmcode_t* code)
       case 15:
       {
         // 0018871C
-        auto var_130 = pop();
+        // _RET
+        auto return_value = pop();
 
         if (m_calldata_current == m_calldata_bottom)
         {
-          m_unk_field_4C = var_130.m_data;
-          push(var_130);
+          // The callstack has been completely unwound, stop execution.
+          m_last_return_value = return_value.m_data;
+          push(return_value);
           m_program_terminated = true;
         }
         else
         {
+          // Return to the last function on the call stack.
           m_stack_current = m_function_stack_frame;
           m_vmcode = ret_func();
-          push(var_130);
+          push(return_value);
         }
 
         break;
@@ -726,7 +871,8 @@ void CRunScript::exe(vmcode_t* code)
       case 17:
       {
         // 001879E0
-        if (!m_skip_flag || !is_true(pop()))
+        // _BF
+        if (!m_skip_flag && !is_true(pop()))
         {
           if (code->m_op2)
           {
@@ -742,7 +888,8 @@ void CRunScript::exe(vmcode_t* code)
       case 18:
       {
         // 00187988
-        if (!m_skip_flag || is_true(pop()))
+        // _BT
+        if (!m_skip_flag && is_true(pop()))
         {
           if (code->m_op2)
           {
@@ -750,16 +897,24 @@ void CRunScript::exe(vmcode_t* code)
           }
           m_vmcode = reinterpret_cast<vmcode_t*>(
             static_cast<uptr>(m_script_data) + code->m_op1
-            );
+          );
           continue;
         }
         break;
-        break;
       }
       case 19:
+      {
         // 001886F0
-        todo;
+        // _CALL
+        funcdata* fn = reinterpret_cast<funcdata*>(
+          static_cast<uptr>(m_script_data) + code->m_op2
+        );
+        
+        // call_func returns the address of the code at the start of the function;
+        // we have to decrement it once, since the loop will increment it at the end.
+        m_vmcode = call_func(fn, code) - 1;
         break;
+      }
       case 20:
       {
         // 00188670
@@ -783,7 +938,7 @@ void CRunScript::exe(vmcode_t* code)
       case 23:
       {
         // 001887A8
-        // _RET
+        // _YIELD
         if (!m_skip_flag)
         {
           m_vmcode += 1;
@@ -814,11 +969,22 @@ void CRunScript::exe(vmcode_t* code)
         break;
       }
       case 26:
+      {
         // 001884D8
-        todo;
+        // _NOT
+
+        auto stack_data = pop();
+        if (stack_data.m_data_type != Int)
+        {
+          panicf("RUNTIME ERROR: {}: Operand is not an integer!", m_current_funcdata->m_function_name);
+        }
+
+        push_int(!common::bits::to_bool(stack_data.m_data.i));
         break;
+      }
       case 27:
         // 001886DC
+        // _EXIT
         m_program_terminated = true;
         m_vmcode = nullptr;
         return;

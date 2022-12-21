@@ -608,6 +608,15 @@ struct SW_EFFECT
   // SIZE 0x20
 };
 
+// this might be from another file but putting them here for now
+struct COLLISION_INFO
+{
+  // 14
+  f32 m_unk_field_14{};
+
+  // SIZE 0x28
+};
+
 constexpr f32 DEFAULT_CHARACTER_MOVE_SPEED = 3.0f;
 
 class CActionChara : public CCharacter2
@@ -697,10 +706,10 @@ public:
   unkptr EntryBodyCol(ssize i, f32 f);
 
   // 0016A6B0
-  unkptr EntryDamage2(std::string s1, std::string s2, std::string s3, f32 f1, std::string s4, f32 f2, f32 f3, std::string s5);
+  COLLISION_INFO* EntryDamage2(std::string s1, std::string s2, std::string s3, f32 f1, std::string s4, f32 f2, f32 f3, std::string s5);
   
   // 0016A850
-  unkptr EntryDamage2(mgCFrame* frame1, mgCFrame* frame2, std::string s3, f32 f1, std::string s4, f32 f2, f32 f3, std::string s5);
+  COLLISION_INFO* EntryDamage2(mgCFrame* frame1, mgCFrame* frame2, std::string s3, f32 f1, std::string s4, f32 f2, f32 f3, std::string s5);
 
   // 0016A9B0
   void AllDeleteDamage();
@@ -721,7 +730,7 @@ public:
   void ThrowItemObject();
 
   // 0016B020
-  void UsedItemAction();
+  sint UsedItemAction();
 
   // 0016B1C0
   void EntryThrowItem();
@@ -821,10 +830,29 @@ public:
   EMoveType m_move_type{};
   // 712
   s16 m_prog{ 0 };
+  // 71C
+  s16 m_hand_obj{};
+  // 768
+  bool m_invincible_flag{ false };
   // 76C
   bool m_menu_flag{ false };
   // 794
   f32 m_move_speed{ DEFAULT_CHARACTER_MOVE_SPEED };
   // 7E4
   std::array<SW_EFFECT, 9> m_unk_field_7E4{};
+  // A20
+  std::array<COLLISION_INFO, 11> m_unk_field_A20{};
+  // BF0
+  bool m_guard_flag{ false };
+  // F50
+  f32 m_unk_field_F50{};
+  // F54
+  f32 m_unk_field_F54{};
+  // F58
+  f32 m_unk_field_F58{};
+  // F5C
+  s32 m_unk_field_F5C{};
 };
+
+// 00378294
+extern CScene* nowScene;

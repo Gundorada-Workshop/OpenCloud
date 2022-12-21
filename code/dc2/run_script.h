@@ -9,12 +9,16 @@ struct vmcode_t
   // 0
   u32 m_instruction;
   // 4
-  u32 m_op1;
+  s32 m_op1;
   // 8
-  u32 m_op2;
+  s32 m_op2;
 };
 
+// we're deserializing this structure from file
 static_assert(sizeof(vmcode_t) == 0xC, "needs to be 0xC for interpreter to function correctly");
+static_assert(offsetof(vmcode_t, m_instruction) == 0x0);
+static_assert(offsetof(vmcode_t, m_op1) == 0x4);
+static_assert(offsetof(vmcode_t, m_op2) == 0x8);
 
 struct funcdata;
 struct RS_STACKDATA;
@@ -52,7 +56,15 @@ struct RS_PROG_HEADER
   u32 m_n_global_variables{};
 };
 
+// we're deserializing this structure from file
 static_assert(sizeof(RS_PROG_HEADER) == 0x1C);
+static_assert(offsetof(RS_PROG_HEADER, m_tag) == 0x0);
+static_assert(offsetof(RS_PROG_HEADER, m_unk_field_4) == 0x4);
+static_assert(offsetof(RS_PROG_HEADER, m_script_data) == 0x8);
+static_assert(offsetof(RS_PROG_HEADER, m_func_table) == 0xC);
+static_assert(offsetof(RS_PROG_HEADER, m_n_func_table) == 0x10);
+static_assert(offsetof(RS_PROG_HEADER, m_unk_field_14) == 0x14);
+static_assert(offsetof(RS_PROG_HEADER, m_n_global_variables) == 0x18);
 
 struct funcdata
 {
@@ -60,20 +72,34 @@ struct funcdata
   // vmcode_t*
   u32 m_vmcode{};
   // 4
-  const char* m_function_name{};
+  // const char*
+  u32 m_function_name{};
   // 8
   u32 m_function_stack_size{};
   // C
   u32 m_arity{};
 };
 
+// we're deserializing this structure from file
+static_assert(sizeof(funcdata) == 0x10);
+static_assert(offsetof(funcdata, m_vmcode) == 0x0);
+static_assert(offsetof(funcdata, m_function_name) == 0x4);
+static_assert(offsetof(funcdata, m_function_stack_size) == 0x8);
+static_assert(offsetof(funcdata, m_arity) == 0xC);
+
 struct funcentry
 {
   // 0
   u32 m_program_id{};
   // 4
-  funcdata* m_funcdata{};
+  // funcdata*
+  u32 m_funcdata{};
 };
+
+// we're deserializing this structure from file
+static_assert(sizeof(funcentry) == 0x8);
+static_assert(offsetof(funcentry, m_program_id) == 0x0);
+static_assert(offsetof(funcentry, m_funcdata) == 0x4);
 
 enum class EStackDataType : u8
 {
@@ -221,7 +247,7 @@ private:
   // an offset to this address
   u32 m_script_data{ 0 };
   // 4C
-  stackdata_t m_unk_field_4C{}; // UNUSED?
+  stackdata_t m_last_return_value{}; // UNUSED?
   // 50
   s32 m_unk_field_50{}; // UNUSED? (incremented in exe case 28, but doesn't seem to be used elsewhere)
 };

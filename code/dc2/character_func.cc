@@ -1,3 +1,4 @@
+#include "common/bits.h"
 #include "common/debug.h"
 #include "common/log.h"
 #include "common/macros.h"
@@ -13,7 +14,7 @@
 set_log_channel("character_func");
 
 #define VERIFY_STACK_COUNT(n) \
-  if (stack_count != n) \
+  if (stack_count != n) UNLIKELY \
   { \
     return false; \
   }
@@ -399,19 +400,29 @@ static bool _SET_MENU_FLAG(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _GET_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_POS(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(3);
 
-  todo;
+  vec3 pos = action_info.m_chara->GetPosition();
+  SetStack(stack++, pos.x);
+  SetStack(stack++, pos.y);
+  SetStack(stack++, pos.z);
+
   return true;
 }
 
-static bool _GET_ROT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_ROT(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(3);
 
-  todo;
+  vec3 rot = action_info.m_chara->GetRotation();
+  SetStack(stack++, rot.x);
+  SetStack(stack++, rot.y);
+  SetStack(stack++, rot.z);
+
   return true;
 }
 
@@ -450,8 +461,11 @@ static bool _SET_BLOW_MOVE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
 static bool _BLOW_START(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(3);
 
-  todo;
+  action_info.m_chara->m_unk_field_F54 = GetStackFloat(stack++) * action_info.m_chara->m_unk_field_F50;
+  action_info.m_chara->m_unk_field_F58 = GetStackFloat(stack++);
+  action_info.m_chara->m_unk_field_F5C = GetStackInt(stack++);
   return true;
 }
 
@@ -485,28 +499,66 @@ static bool _RUN_ROBO_MOVE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _SET_DMG2(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_DMG2(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  if (stack_count < 8 || stack_count > 9)
+  {
+    return false;
+  }
 
-  todo;
+  std::string s1 = GetStackString(stack++);
+  std::string s2 = GetStackString(stack++);
+  std::string s3 = GetStackString(stack++);
+  f32 f0 = GetStackFloat(stack++) * 2.0f;
+  f32 damage = GetStackFloat(stack++);
+  std::string s4 = GetStackString(stack++);
+  f32 f1 = GetStackFloat(stack++);
+  f32 f2 = GetStackFloat(stack++);
+  std::string s5 = "";
+
+  if (stack_count == 9)
+  {
+    s5 = GetStackString(stack++);
+  }
+
+  auto result = action_info.m_chara->EntryDamage2(s1, s2, s3, f0, s4, f1, f2, s5);
+
+  if (result == nullptr)
+  {
+    log_warn("CACT:DMG_ENTRY_ERR {}", s3);
+    return false;
+  }
+
+  result->m_unk_field_14 = damage;
   return true;
 }
 
-static bool _SET_OBJ(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_OBJ(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(2);
 
-  todo;
+  sint i = GetStackInt(stack++);
+  std::string frame_name = GetStackString(stack++);
+
+  if (!action_info.m_chara->EntryObject(frame_name, i))
+  {
+    log_warn("_SET_OBJ: Not found {}", frame_name);
+    return false;
+  }
+
   return true;
 }
 
-static bool _SET_BODY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_BODY(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(2);
 
-  todo;
-  return true;
+  sint i = GetStackInt(stack++);
+  f32 f = GetStackFloat(stack++) * 2.0f;
+  return action_info.m_chara->EntryBodyCol(i, f) != nullptr;
 }
 
 static bool _SW_EFFECT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
@@ -557,11 +609,12 @@ static bool _SET_MURDEROUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _GET_TRG_DISTANCE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_TRG_DISTANCE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  SetStack(stack, action_info.m_chara->GetTargetDist(nowScene));
   return true;
 }
 
@@ -573,35 +626,38 @@ static bool _SET_TRG_ANGLE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _SET_GUARD_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_GUARD_FLAG(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  action_info.m_chara->m_guard_flag = common::bits::to_bool(GetStackInt(stack++));
   return true;
 }
 
-static bool _SET_MUTEKI(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_MUTEKI(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  action_info.m_chara->m_invincible_flag = common::bits::to_bool(GetStackInt(stack++));
   return true;
 }
 
-static bool _CHECK_HAND_OBJ(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHECK_HAND_OBJ(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  SetStack(stack++, action_info.m_chara->m_hand_obj);
   return true;
 }
 
-static bool _SET_ITEM_USED(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_ITEM_USED(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack++, action_info.m_chara->UsedItemAction());
   return true;
 }
 
@@ -609,7 +665,7 @@ static bool _THROW_HAND_OBJECT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED si
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  action_info.m_chara->ThrowItemObject();
   return true;
 }
 

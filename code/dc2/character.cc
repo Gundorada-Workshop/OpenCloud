@@ -7,6 +7,9 @@
 
 set_log_channel("character")
 
+// 00378294
+CScene* nowScene{ nullptr };
+
 // 00172DE0
 void CCharacter2::SetPosition(const vec3& v)
 {
@@ -800,7 +803,7 @@ unkptr CActionChara::EntryBodyCol(ssize i, f32 f)
 }
 
 // 0016A6B0
-unkptr CActionChara::EntryDamage2(std::string s1, std::string s2, std::string s3, f32 f1, std::string s4, f32 f2, f32 f3, std::string s5)
+COLLISION_INFO* CActionChara::EntryDamage2(std::string s1, std::string s2, std::string s3, f32 f1, std::string s4, f32 f2, f32 f3, std::string s5)
 {
   log_trace("CActionChara::{}({}, {}, {}, {}, {}, {}, {}, {})", __func__, s1, s2, s3, f1, s4, f2, f3, s5);
 
@@ -809,7 +812,7 @@ unkptr CActionChara::EntryDamage2(std::string s1, std::string s2, std::string s3
 }
 
 // 0016A850
-unkptr CActionChara::EntryDamage2(mgCFrame* frame1, mgCFrame* frame2, std::string s3, f32 f1, std::string s4, f32 f2, f32 f3, std::string s5)
+COLLISION_INFO* CActionChara::EntryDamage2(mgCFrame* frame1, mgCFrame* frame2, std::string s3, f32 f1, std::string s4, f32 f2, f32 f3, std::string s5)
 {
   log_trace("CActionChara::{}({}, {}, {}, {}, {}, {}, {}, {})", __func__, fmt::ptr(frame1), fmt::ptr(frame2), s3, f1, s4, f2, f3, s5);
 
@@ -869,11 +872,12 @@ void CActionChara::ThrowItemObject()
 }
 
 // 0016B020
-void CActionChara::UsedItemAction()
+sint CActionChara::UsedItemAction()
 {
   log_trace("CActionChara::{}()", __func__);
 
   todo;
+  return 0;
 }
 
 // 0016B1C0
