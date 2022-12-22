@@ -704,6 +704,10 @@ public:
   unk m_unk_field_2E80;
   // 2E84
   unk m_unk_field_2E84;
+  // 2E88
+  bool m_unk_field_2E88{};
+  // 2E8C
+  s32 m_unk_field_2E8C{};
   // 2E90
   CSceneEventData m_scene_event_data;
   // 2F64

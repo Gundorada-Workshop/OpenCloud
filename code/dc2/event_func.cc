@@ -6351,7 +6351,7 @@ static bool _RESET_EVENT_TRG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventScene->m_unk_field_2E88 = false;
   return true;
 }
 
