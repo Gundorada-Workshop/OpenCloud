@@ -500,7 +500,9 @@ struct SCharaData
   COMMON_GAGE m_chara_hp_gage;
 
   // ?
-
+  
+  // 2B
+  bool m_unk_field_2B{};
   // 2C
   std::array<CGameDataUsed, 3> m_active_item_info;
   // 170
@@ -672,6 +674,9 @@ public:
   // 0019CF10
   // "GetActiveEsa"
   CGameDataUsed* GetActiveBait(ECommonItemData item_id);
+
+  // 0019D560
+  void SetChrEquipDirect(ECharacterID chara_id, ECommonItemData item_id);
 
   // 0019D840
   s32 SearchSpaceUsedData() const;
@@ -942,6 +947,18 @@ std::optional<std::string> GetMainCharaModelName(ECharacterID chara_id, bool b);
 
 // 0019A890
 MOS_HENGE_PARAM* GetMonsterHengeParam(EMonsterID index);
+
+// 0019ECE0
+void SetEnvUserDataMan(sint i);
+
+// 0019ECE0
+void GetCharaDefaultWeapon(ECharacterID chara_id, ECommonItemData* weapon_id);
+
+// 0019EDC0
+void LanguageEquipChange();
+
+// 0019EE70
+void CheckEquipChange(ECharacterID chara_id);
 
 // 001A0EA0
 CBattleCharaInfo* GetBattleCharaInfo();

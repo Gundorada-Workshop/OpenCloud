@@ -6583,7 +6583,7 @@ static bool _CHECK_EQUIP_CHANGE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED s
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  CheckEquipChange(ECharacterID::Monica);
   return true;
 }
 

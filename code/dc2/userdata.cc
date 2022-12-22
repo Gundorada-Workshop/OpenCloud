@@ -2586,6 +2586,14 @@ CGameDataUsed* CUserDataManager::GetActiveBait(ECommonItemData item_id)
   }
 }
 
+// 0019D560
+void CUserDataManager::SetChrEquipDirect(ECharacterID chara_id, ECommonItemData item_id)
+{
+  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), std::to_underlying(item_id));
+
+  return;
+}
+
 // 0019D840
 s32 CUserDataManager::SearchSpaceUsedData() const
 {
@@ -2630,6 +2638,68 @@ void CUserDataManager::Initialize()
   memset(this, 0, sizeof(this));
 
   todo;
+}
+
+// 0019ECE0
+void SetEnvUserDataMan(sint i)
+{
+  log_trace("{}({})", __func__, i);
+
+  todo;
+}
+
+// 0019ECE0
+void GetCharaDefaultWeapon(ECharacterID chara_id, ECommonItemData* weapon_id)
+{
+  log_trace("{}({}, {})", __func__, std::to_underlying(chara_id), fmt::ptr(weapon_id));
+
+  todo;
+}
+
+// 0019EDC0
+void LanguageEquipChange()
+{
+  log_trace("{}()", __func__);
+
+  todo;
+}
+
+// 0019EE70
+void CheckEquipChange(ECharacterID chara_id)
+{
+  log_trace("{}()", __func__);
+
+  switch (chara_id)
+  {
+    case ECharacterID::Max:
+      return;
+    case ECharacterID::Monica:
+    {
+      auto chara_data = GetUserDataMan()->GetCharaDataPtr(ECharacterID::Monica);
+      if (chara_data == nullptr)
+      {
+        return;
+      }
+
+      ECommonItemData weapon_ids[6];
+      GetCharaDefaultWeapon(ECharacterID::Monica, weapon_ids);
+      GetUserDataMan()->SetChrEquipDirect(ECharacterID::Monica, weapon_ids[0]);
+
+      if (!chara_data->m_unk_field_2B)
+      {
+        GetUserDataMan()->SetChrEquipDirect(ECharacterID::Monica, weapon_ids[2]);
+        GetUserDataMan()->SetChrEquipDirect(ECharacterID::Monica, weapon_ids[3]);
+        GetUserDataMan()->SetChrEquipDirect(ECharacterID::Monica, weapon_ids[4]);
+
+        log_info("equip_no : {},{},{}", std::to_underlying(weapon_ids[2]), std::to_underlying(weapon_ids[3]), std::to_underlying(weapon_ids[4]));
+      }
+
+      chara_data->m_unk_field_2B = false;
+      return;
+    }
+    default:
+      return;
+  }
 }
 
 // 0019F010
