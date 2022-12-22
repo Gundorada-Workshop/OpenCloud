@@ -6615,8 +6615,29 @@ static bool _UDATA_GET_WHP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  auto chara_id = static_cast<ECharacterID>(GetStackInt(stack++));
+  sint gauge_index = GetStackInt(stack++);
+  sint max_whp;
+  sint current_whp = save_data->m_user_data_manager.GetWhp(chara_id, gauge_index, &max_whp);
+
+  switch (stack_count)
+  {
+    case 3:
+      SetStack(stack++, current_whp);
+      return true;
+    case 4:
+      SetStack(stack++, current_whp);
+      SetStack(stack++, max_whp);
+      return true;
+    default:
+      return false;
+  }
 }
 
 static bool _UDATA_ADD_WHP(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
