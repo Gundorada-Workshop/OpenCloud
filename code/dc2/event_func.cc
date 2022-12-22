@@ -3352,11 +3352,22 @@ static bool _CHECK_INVENT_ITEM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED si
   return true;
 }
 
-static bool _SET_AI(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_AI(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  sint villager_id = GetStackInt(stack++);
+  bool active = common::bits::to_bool(stack++);
+  
+  if (active)
+  {
+    EventScene->CancelStayVillager(villager_id);
+  }
+  else
+  {
+    EventScene->StayVillager(villager_id);
+  }
+
   return true;
 }
 
