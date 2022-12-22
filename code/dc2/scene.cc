@@ -1,7 +1,9 @@
 #include "common/debug.h"
 #include "common/log.h"
 
+#include "dc2/character.h"
 #include "dc2/scene.h"
+#include "dc2/userdata.h"
 
 set_log_channel("scene");
 
@@ -662,19 +664,19 @@ s32 CScene::AssignChara(ssize character_index, CCharacter2* character, const cha
 }
 
 // 00283B00
-void CScene::SetCharaNo(ssize character_index, ssize character_no)
+void CScene::SetCharaNo(ssize character_index, ECharacterID character_no)
 {
-	log_trace("CScene::{}({})", __func__, character_index, character_no);
+	log_trace("CScene::{}({})", __func__, character_index, static_cast<sint>(character_no));
 
 	CSceneCharacter* scene_character = GetSceneCharacter(character_index);
 	if (scene_character != nullptr)
 	{
-		scene_character->m_chara_no = static_cast<s32>(character_no);
+		scene_character->m_chara_no = character_no;
 	}
 }
 
 // 00283B30
-ssize CScene::GetCharaNo(ssize character_index)
+ECharacterID CScene::GetCharaNo(ssize character_index)
 {
 	log_trace("CScene::{}({})", __func__, character_index);
 
@@ -682,7 +684,7 @@ ssize CScene::GetCharaNo(ssize character_index)
 	
 	if (scene_character == nullptr)
 	{
-		return -1;
+		return ECharacterID::Invalid;
 	}
 
 	return scene_character->m_chara_no;
@@ -2065,9 +2067,9 @@ void CScene::DeleteVillager()
 }
 
 // 002C97C0
-s32 CScene::SearchCharaID(sint chara_no)
+s32 CScene::SearchCharaID(ECharacterID chara_no)
 {
-	log_trace("CScene::{}({})", __func__, chara_no);
+	log_trace("CScene::{}({})", __func__, std::to_underlying(chara_no));
 
 	for (usize i = 8; i < 0x40; ++i) // FIXME: MAGIC; not sure why 8 and 0x40 here
 	{

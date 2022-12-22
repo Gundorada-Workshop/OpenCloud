@@ -3696,7 +3696,7 @@ static bool _GET_CHARA_ID(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  auto chara_id = EventScene->SearchCharaID(GetStackInt(stack++));
+  auto chara_id = EventScene->SearchCharaID(static_cast<ECharacterID>(GetStackInt(stack++)));
   SetStack(stack, chara_id);
   return true;
 }
@@ -6359,11 +6359,13 @@ static bool _SET_CHARA_NO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  sint character_index = GetStackInt(stack++);
+  ECharacterID character_no = static_cast<ECharacterID>(GetStackInt(stack++));
+  EventScene->SetCharaNo(character_index, character_no);
   return true;
 }
 
-static bool _GET_CHARA_NO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_CHARA_NO(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
   if (stack_count != 2)
@@ -6384,7 +6386,7 @@ static bool _SEARCH_CHARA_NO(RS_STACKDATA* stack, sint stack_count)
     return false;
   }
 
-  auto index = EventScene->SearchCharaID(GetStackInt(stack++));
+  auto index = EventScene->SearchCharaID(static_cast<ECharacterID>(GetStackInt(stack++)));
   SetStack(stack++, index);
   return true;
 }

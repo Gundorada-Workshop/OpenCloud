@@ -20,6 +20,9 @@
 #include "dc2/villager.h"
 
 
+// forward declare
+enum class ECharacterID;
+
 // TODO
 struct InScreenFuncInfo {};
 
@@ -138,7 +141,7 @@ public:
   // 38
   s32 m_texb{ -1 };
   // 3C
-  s32 m_chara_no{ -1 };
+  ECharacterID m_chara_no{ static_cast<ECharacterID>(-1) };
 };
 
 class CSceneMap : public CSceneData
@@ -305,9 +308,9 @@ public:
   // 00283A30
   s32 AssignChara(ssize character_index, CCharacter2* character, const char* name);
   // 00283B00
-  void SetCharaNo(ssize character_index, ssize character_no);
+  void SetCharaNo(ssize character_index, ECharacterID character_no);
   // 00283B30
-  ssize GetCharaNo(ssize character_index);
+  ECharacterID GetCharaNo(ssize character_index);
   // 00283B60
   CCharacter2* GetCharacter(ssize character_index);
   // 00283BB0
@@ -576,7 +579,7 @@ public:
   // 002C9710
   void DeleteVillager();
   // 002C97C0
-  s32 SearchCharaID(sint chara_no);
+  s32 SearchCharaID(ECharacterID chara_id);
   // 002C9830
   bool GetNowVillagerTime();
   // 002C9880
