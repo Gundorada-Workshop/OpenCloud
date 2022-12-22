@@ -500,6 +500,11 @@ struct SCharaData
   COMMON_GAGE m_chara_hp_gage;
 
   // ?
+
+  // A
+  s16 m_defense{};
+  
+  // ?
   
   // 2B
   bool m_unk_field_2B{};

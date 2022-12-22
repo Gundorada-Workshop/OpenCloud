@@ -6439,7 +6439,18 @@ static bool _SET_CHARA_DEFENCE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED si
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  ECharacterID chara_id = static_cast<ECharacterID>(GetStackInt(stack++));
+  sint defense = GetStackInt(stack++);
+
+  auto chara_data = save_data->m_user_data_manager.GetCharaDataPtr(chara_id);
+
+  chara_data->m_defense = defense;
   return true;
 }
 
