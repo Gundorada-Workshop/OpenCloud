@@ -6475,11 +6475,17 @@ static bool _ATRAMIRIA_ON_OFF(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _ADD_YARIKOMI_MEDAL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _ADD_YARIKOMI_MEDAL(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  save_data->m_user_data_manager.AddYarikomiMedal(GetStackInt(stack++));
   return true;
 }
 

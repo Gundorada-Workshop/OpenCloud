@@ -2621,6 +2621,14 @@ usize CUserDataManager::GetNumSameItem(ECommonItemData item_id)
   return 0;
 }
 
+// 0019DF70
+void CUserDataManager::AddYarikomiMedal(sint i)
+{
+  log_trace("CUserDataManager::{}({})", __func__, i);
+
+  todo;
+}
+
 // 0019EAF0
 s32 CUserDataManager::AddMoney(s32 delta)
 {

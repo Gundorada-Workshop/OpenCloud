@@ -687,6 +687,9 @@ public:
   // 0019DDE0
   usize GetNumSameItem(ECommonItemData item_id);
 
+  // 0019DF70
+  void AddYarikomiMedal(sint i);
+
   // 0019EAF0
   s32 AddMoney(s32 delta);
 
