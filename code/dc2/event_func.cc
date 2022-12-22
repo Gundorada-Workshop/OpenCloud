@@ -6366,16 +6366,26 @@ static bool _SET_CHARA_NO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
 static bool _GET_CHARA_NO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  if (stack_count != 2)
+  {
+    return false;
+  }
 
-  todo;
+  auto index = EventScene->GetCharaNo(GetStackInt(stack++));
+  SetStack(stack++, static_cast<sint>(index));
   return true;
 }
 
-static bool _SEARCH_CHARA_NO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SEARCH_CHARA_NO(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  if (stack_count != 2)
+  {
+    return false;
+  }
 
-  todo;
+  auto index = EventScene->SearchCharaID(GetStackInt(stack++));
+  SetStack(stack++, index);
   return true;
 }
 

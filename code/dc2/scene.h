@@ -576,7 +576,7 @@ public:
   // 002C9710
   void DeleteVillager();
   // 002C97C0
-  s32 SearchCharaID(int i);
+  s32 SearchCharaID(sint chara_no);
   // 002C9830
   bool GetNowVillagerTime();
   // 002C9880

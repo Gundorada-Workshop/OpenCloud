@@ -2065,11 +2065,18 @@ void CScene::DeleteVillager()
 }
 
 // 002C97C0
-s32 CScene::SearchCharaID(MAYBE_UNUSED sint i)
+s32 CScene::SearchCharaID(sint chara_no)
 {
-	log_trace("CScene::{}({})", __func__, i);
+	log_trace("CScene::{}({})", __func__, chara_no);
 
-	todo;
+	for (usize i = 8; i < 0x40; ++i) // FIXME: MAGIC; not sure why 8 and 0x40 here
+	{
+		if (GetCharaNo(i) == chara_no)
+		{
+			return i;
+		}
+	}
+
 	return -1;
 }
 
