@@ -18,6 +18,4 @@ namespace pak
     usize file_byte_offset;
     usize file_byte_count;
   };
-
-  using entry_list = std::vector<entry>;
 }

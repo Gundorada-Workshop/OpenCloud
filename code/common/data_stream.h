@@ -77,6 +77,8 @@ namespace common
 
     // copy the contents of another stream to this one
     bool copy(data_stream_base* other);
+
+    bool copy_bytes_to_stream(data_stream_base* other, usize byte_count);
   };
 
   class file_stream : public data_stream_base

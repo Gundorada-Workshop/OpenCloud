@@ -17,6 +17,7 @@
 #include "iso9660/iso_file.h"
 #include "hd/hd_file.h"
 #include "pak.h"
+#include "img.h"
 
 set_log_channel("conda")
 
@@ -79,6 +80,14 @@ static constexpr std::array command_info_list =
     .short_description = "Extract an img archive",
     .long_description  = "  Extract an img archive given img_file_path\n"
                          "  If no output_directory_path is specified the name and location of the img file is used.\n\n"
+                         "  Valid archive extensions: .img"
+  },
+  cmd_info
+  {
+    .name              = "ls-img",
+    .args              = "img_file_path",
+    .short_description = "Extract an img archive",
+    .long_description  = "  List the contents of an img archive given img_file_path\n\n"
                          "  Valid archive extensions: .img"
   },
   cmd_info
@@ -270,9 +279,9 @@ static bool extract_hdx_file_from_iso(std::unique_ptr<iso_file>& iso, std::strin
   return true;
 }
 
-pak::entry_list pak_archive_entries(std::unique_ptr<data_stream_base>& file)
+std::vector<pak::entry> pak_archive_entries(std::unique_ptr<data_stream_base>& file)
 {
-  pak::entry_list out;
+  std::vector<pak::entry> out;
 
   pak::entry_header header;
   while (file->read_buffer_checked(&header, sizeof(header)))
@@ -301,6 +310,41 @@ pak::entry_list pak_archive_entries(std::unique_ptr<data_stream_base>& file)
   }
 
   return out;
+}
+
+std::vector<im3::entry> im3_archive_entries(std::unique_ptr<data_stream_base>& file)
+{
+  im3::header header;
+  if (!file->read_buffer_checked(&header, sizeof(im3::header)))
+    return { };
+
+  if (std::strncmp(header.magic, "IM3", 4) != 0)
+    return { };
+
+  std::vector<im3::entry> list;
+  for (usize i = 0; i < header.image_count; i++)
+  {
+    im3::entry_header entry_info;
+    if (!file->read_buffer_checked(&entry_info, sizeof(im3::entry_header)))
+      return { };
+
+    const auto name_byte_count = strnlen_s(entry_info.name, 32);
+    std::string name;
+    name.resize(name_byte_count);
+
+    std::memcpy(name.data(), &entry_info.name[0], name_byte_count);
+
+    im3::entry entry =
+    {
+      .name = std::move(name),
+      .file_byte_offset = entry_info.image_data_byte_offset,
+      .file_byte_count = entry_info.image_byte_count
+    };
+
+    list.push_back(std::move(entry));
+  }
+
+  return list;
 }
 
 static bool cmd_help(const cmd_info& info, const string_list& args)
@@ -405,24 +449,7 @@ static bool cmd_extract_pak(const cmd_info& info, const string_list& args)
       continue;
     }
 
-    // TODO: refactor this
-    usize write_size = data_stream_base::block_size;
-    usize bytes_written = 0;
-
-    std::array<u8, data_stream_base::block_size> temp_buffer;
-    while (bytes_written < entry.file_byte_count)
-    {
-      if (bytes_written + write_size >  entry.file_byte_count)
-        write_size = entry.file_byte_count - bytes_written;
-
-      if (!input_file_stream->read_buffer_checked(temp_buffer.data(), write_size))
-        return false;
-
-      if (!output_file_stream->write_buffer_checked(temp_buffer.data(), write_size))
-        return true;
-
-      bytes_written += write_size;
-    }
+    input_file_stream->copy_bytes_to_stream(output_file_stream.get(), entry.file_byte_count);
 
     console::writeln(full_output_path);
   }
@@ -451,8 +478,83 @@ static bool cmd_ls_pak(const cmd_info& info, const string_list& args)
   return true;
 }
 
-static bool cmd_extract_img(MAYBE_UNUSED const cmd_info& info, MAYBE_UNUSED const string_list& args)
+static bool cmd_extract_img(const cmd_info& info, const string_list& args)
 {
+  if (args.size() != 1 && args.size() != 2)
+  {
+    print_command_help(info);
+
+    return false;
+  }
+
+  const std::string_view input_file_path = args[0];
+  const std::string_view input_file_basename = file_helpers::basename(args[0]);
+  const std::string_view input_file_parent = file_helpers::parent_directory(args[0]);
+
+  std::string output_path = file_helpers::append(input_file_parent, input_file_basename);
+  if (args.size() == 2)
+    output_path = args[1];
+
+  if (!file_helpers::create_directory(output_path))
+  {
+    log_error("Failed to create output directory {}", output_path);
+
+    return false;
+  }
+
+  std::unique_ptr<data_stream_base> input_file_stream = file_stream::open(args[0], "rb");
+
+  if (!input_file_stream)
+  {
+    log_error("Failed to open input file {}", args[0]);
+
+    return false;
+  }
+
+  for (const auto& entry : im3_archive_entries(input_file_stream))
+  {
+    input_file_stream->seek(entry.file_byte_offset);
+
+    const auto full_output_path = file_helpers::append(output_path, entry.name);
+    std::unique_ptr<data_stream_base> output_file_stream = file_stream::open(full_output_path, "wb");
+
+    if (!output_file_stream)
+    {
+      log_warn("Failed to open output file stream {}... skipping", full_output_path);
+
+      continue;
+    }
+
+    input_file_stream->copy_bytes_to_stream(output_file_stream.get(), entry.file_byte_count);
+
+    console::writeln(full_output_path);
+  }
+
+  return true;
+}
+
+static bool cmd_ls_img(const cmd_info& info, const string_list& args)
+{
+  if (args.size() != 1)
+  {
+    print_command_help(info);
+
+    return false;
+  }
+
+  std::unique_ptr<data_stream_base> input_file_stream = file_stream::open(args[0], "rb");
+
+  if (!input_file_stream)
+  {
+    log_error("Failed to open input file {}", args[0]);
+
+    return false;
+  }
+
+  console::writeln_format("{:<15}{:<15}{:<20}", "offset", "size", "name");
+  for (const auto& entry : im3_archive_entries(input_file_stream))
+    console::writeln_format("{:<15}{:<15}{:<20}", entry.file_byte_offset, entry.file_byte_count, entry.name);
+
   return true;
 }
 
@@ -468,6 +570,7 @@ static constexpr std::array command_function_list =
   cmd_pfn{ cmd_extract_pak },
   cmd_pfn{ cmd_ls_pak },
   cmd_pfn{ cmd_extract_img },
+  cmd_pfn{ cmd_ls_img },
   cmd_pfn{ cmd_decompile_script },
 };
 

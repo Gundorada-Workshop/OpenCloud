@@ -18,6 +18,7 @@
   <ItemGroup>
     <!-- hpp files -->
     <ClInclude Include="hd\hd_file.h" />
+    <ClInclude Include="img.h" />
     <ClInclude Include="iso9660\iso_file.h" />
     <ClInclude Include="iso9660\types.h" />
     <ClInclude Include="pak.h" />

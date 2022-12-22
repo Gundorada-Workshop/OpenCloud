@@ -58,6 +58,33 @@ namespace common
     return true;
   }
 
+  bool data_stream_base::copy_bytes_to_stream(data_stream_base* other, usize byte_count)
+  {
+    if (!other->seek_to_start())
+      return false;
+
+    usize write_size = block_size;
+
+    std::array<u8, block_size> temp_buffer{ };
+
+    usize bytes_written = 0;
+    while (bytes_written < byte_count)
+    {
+      if (bytes_written + write_size > byte_count)
+        write_size = byte_count - bytes_written;
+
+      if (!read_buffer_checked(temp_buffer.data(), write_size))
+        return false;
+
+      if (!other->write_buffer_checked(temp_buffer.data(), write_size))
+        return false;
+
+      bytes_written += write_size;
+    }
+
+    return true;
+  }
+
   file_stream::file_stream(std::FILE* file)
     : m_file{ file }
   {
