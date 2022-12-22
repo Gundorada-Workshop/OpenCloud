@@ -148,3 +148,12 @@ uint CInventUserData::GetInventionNum()
 
   return count;
 }
+
+// 002005D0
+usize CheckInventPhoto(sint i1, sint i2)
+{
+  log_trace("{}({}, {})", __func__, i1, i2);
+
+  todo;
+  return 0;
+}

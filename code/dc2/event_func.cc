@@ -3360,12 +3360,21 @@ static bool _SET_AI(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_co
   return true;
 }
 
-static bool _CHECK_INVENT_PHOTO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHECK_INVENT_PHOTO(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  switch (stack_count)
+  {
+    case 2:
+      SetStack(&stack[1], static_cast<sint>(CheckInventPhoto(GetStackInt(&stack[0]), 0)));
+      return true;
+    case 3:
+      SetStack(&stack[2], static_cast<sint>(CheckInventPhoto(GetStackInt(&stack[0]), GetStackInt(&stack[1]))));
+      return true;
+    default:
+      return false;
+  }
 }
 
 static bool _GET_PHOTO_NUM(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)

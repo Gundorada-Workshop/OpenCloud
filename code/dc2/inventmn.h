@@ -85,3 +85,6 @@ public:
   // 3CD60
   // ...?
 };
+
+// 002005D0
+usize CheckInventPhoto(sint i1, sint i2);
