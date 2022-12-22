@@ -64,6 +64,9 @@ struct EDIT_EVENT_INFO
   // 1CC
   s32 m_unk_field_1CC{};
 
+  // 44C
+  f32 m_keep_time{};
+
   // ALIGNED SIZE 0x450
 };
 
