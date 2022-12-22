@@ -419,22 +419,27 @@ public:
 class CScreenEffect : CRaster
 {
 public:
+  // 00260C60
+  void CaptureMonoFlashScreen();
+  // 00260F30
+  void SetMonoFlashFlag(bool b1, bool b2);
+
   // 2C
   unk32 m_unk_field_2C{ 0 };
   // 30
-  unk32 m_unk_field_30{ 0 };
+  bool m_sepia_flag{ false };
   // 34
-  unk32 m_unk_field_34{ 0 };
+  bool m_unk_field_34{ false };
   // 38
-  unk32 m_unk_field_38{ 0 };
+  bool m_unk_field_38{ false };
   // 3C
-  unk32 m_unk_field_3C{ 0 };
+  bool m_unk_field_3C{ false };
   // 40
-  unk32 m_unk_field_40{ 0 };
+  bool m_unk_field_40{ false };
   // 44
-  unk32 m_unk_field_44{ 0 };
+  s32 m_unk_field_44{ 0 };
   // 48
-  unk32 m_unk_field_48{ 0 };
+  ssize m_unk_field_48{ 0 };
 };
 
 class CMarker
@@ -536,3 +541,6 @@ public:
   // C
   unk32 m_unk_field_C{ 0 };
 };
+
+// 002610D0
+sint GetLocalCnt(ssize index);

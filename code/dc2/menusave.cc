@@ -20,6 +20,22 @@ void CMenuSystemData::MenuSystemDataInit()
   memset(this, 0, sizeof(this));
 }
 
+void CSaveData::ForceBootTour(sint i, bool b)
+{
+  log_trace("CSaveData::{}({}, {})", __func__, i, b);
+
+  todo;
+}
+
+// 002F6AE0
+ETourType CSaveData::CheckNowTourType()
+{
+  log_trace("CSaveData::{}()", __func__);
+
+  todo;
+  return ETourType(-1);
+}
+
 // 002F73F0
 void CSaveDataDungeon::SetFloorID(sint floor)
 {

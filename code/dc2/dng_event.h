@@ -102,3 +102,9 @@ void AutoSetTreasureBox(sint i, const vec3& position, f32 rotY);
 
 // 0028E4B0
 void AutoSetTreasureBox();
+
+// 0028F320
+void DungeonFloorInit();
+
+// 0028F330
+void DungeonFloorFinish();

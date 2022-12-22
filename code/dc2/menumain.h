@@ -19,9 +19,17 @@ class CLevelUpEffect {};
 class CStarDust {};
 class CEffVerticalLine {};
 class CMenuEffect {};
-struct MENU_INIT_ARG {};
 struct MENU_SWAPITEM_INFO;
 class CItemSelect {};
+
+struct MENU_INIT_ARG 
+{
+  // 28
+  s32 m_unk_field_28{};
+  // 58
+  s32 m_unk_field_58{};
+  // ALIGNED SIZE 0xA0
+};
 
 struct CMENU_USERPARAM
 {

@@ -1,6 +1,8 @@
 #pragma once
 #include <array>
 
+#include "common/types.h"
+
 #include "dc2/dng_main.h"
 #include "dc2/editdata.h"
 #include "dc2/quest.h"
@@ -79,6 +81,11 @@ public:
   void MenuSystemDataInit();
 };
 
+enum class ETourType : u8
+{
+
+};
+
 class CSaveData
 {
 public:
@@ -88,10 +95,19 @@ public:
   // 002f6780
   void InitBitCtrl();
 
-  // ?
+  // 002F6820
+  void ForceBootTour(sint i, bool b);
 
+  // 002F6AE0
+  ETourType CheckNowTourType();
+
+  // 1A00
+  u64 m_play_time_count{};
   // 1A08
   s32 m_unk_field_1A08{};
+
+  // 1A14
+  s32 m_unk_field_1A14{};
 
   // ?
 
@@ -105,6 +121,8 @@ public:
   CUserDataManager m_user_data_manager{};
   // 62A40
   CQuestData m_quest_data{};
+  // 643C9
+  s8 m_unk_field_643C9{};
   // 65930
   CMenuSystemData m_menu_system_data{};
 };

@@ -1,5 +1,6 @@
 #include <cmath>
 
+#include "common/bits.h"
 #include "common/log.h"
 #include "common/math.h"
 #include "common/macros.h"
@@ -19,11 +20,14 @@
 #include "dc2/mainloop.h"
 #include "dc2/mapjump.h"
 #include "dc2/menumain.h"
+#include "dc2/nowload.h"
 #include "dc2/rain.h"
 #include "dc2/run_script.h"
 #include "dc2/scene.h"
 #include "dc2/subgame.h"
 #include "dc2/mg/mg_lib.h"
+
+#include "host/host_interface_dwm.h"
 
 set_log_channel("event_func");
 
@@ -33,14 +37,14 @@ static CMarker EventMarker{};
 static std::unique_ptr<CSwordAfterImage> SwordEffect{ nullptr };
 // 00377CE4
 static bool SetWorldCoordFlg{};
+// 01ECD5F0
+static MENU_INIT_ARG MenuArg{};
 // 01ECE880
 static CEohMother EventObjHandleMother{};
 // 01ECEA80
 static CEventSpriteMother esMother{};
 // 01ECEEC0
 static std::array<u32, 0x40> EventLocalFlag{};
-// 01ECEFC0
-static std::array<u32, 0x40> EventLocalCnt{};
 // 01ECF0C0
 static CRain EventRain{};
 // 01EE00B0
@@ -162,6 +166,55 @@ void InitWorldCoord()
   EdEventInfo.m_unk_field_0 = { 0, 0, 0, 0 };
   EdEventInfo.m_unk_field_10 = { 0, 0, 0, 0 };
   SetWorldCoordFlg = false;
+}
+
+// 01ECEFC0
+static std::array<sint, 64> EventLocalCnt{ 0 };
+
+// 002610D0
+sint GetLocalCnt(ssize index) // Not static as it's used by ClsMes apparently
+{
+  if (index < 0 || index >= EventLocalCnt.size())
+  {
+    return -1;
+  }
+
+  return EventLocalCnt[index];
+}
+
+// 00261110
+static bool SetLocalCnt(ssize index, sint value)
+{
+  if (index < 0 || index >= EventLocalCnt.size())
+  {
+    return false;
+  }
+
+  EventLocalCnt[index] = value;
+  return true;
+}
+
+// 00261150
+static sint GetLocalCnt2(sint count)
+{
+  // Retrieves the index of a count?
+  for (usize i = 0; i < EventLocalCnt.size(); ++i)
+  {
+    if (EventLocalCnt[i] == count)
+    {
+      return i;
+    }
+  }
+
+  return -1;
+}
+
+// 002611A0
+static void InitLocalCnt()
+{
+  log_trace("{}()", __func__);
+
+  EventLocalCnt.fill(0);
 }
 
 // 002614F0
@@ -640,6 +693,18 @@ static bool _GET_ADJUST_POLYGON_SCALE(RS_STACKDATA* stack, MAYBE_UNUSED sint sta
   return true;
 }
 
+// 00264760
+static bool GetConfigCaptionOff()
+{
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  return save_data->m_sv_config_option.m_display_captions;
+}
+
 static bool _LOAD_MOVIE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
@@ -652,7 +717,7 @@ static bool _INIT_LOCAL_CNT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint 
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  InitLocalCnt();
   return true;
 }
 
@@ -805,11 +870,14 @@ static bool _SET_BG_COLOR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
   return true;
 }
 
-static bool _GOTO_DNG_MAP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GOTO_DNG_MAP(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  // FIXME: MAGIC values
+  MenuArg.m_unk_field_28 = 3;
+  MenuArg.m_unk_field_58 = GetStackInt(stack++);
+  EdEventInfo.m_unk_field_D0 = 3;
   return true;
 }
 
@@ -979,7 +1047,8 @@ static bool _SET_LOCAL_CNT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  // (index, value)
+  SetLocalCnt(GetStackInt(&stack[0]), GetStackInt(&stack[1]));
   return true;
 }
 
@@ -987,7 +1056,13 @@ static bool _GET_LOCAL_CNT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  sint cnt = GetLocalCnt(GetStackInt(stack++));
+  if (cnt < 0)
+  {
+    return false;
+  }
+
+  SetStack(stack++, cnt);
   return true;
 }
 
@@ -995,7 +1070,8 @@ static bool _GET_LOCAL_CNT2(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint 
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  sint count = GetStackInt(stack++);
+  SetStack(stack++, GetLocalCnt2(count));
   return true;
 }
 
@@ -3259,7 +3335,47 @@ static bool _CHECK_BUTTON(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  bool btn_down = false;
+  using enum host::pad_handler::buttons;
+
+  switch (GetStackInt(stack++))
+  {
+    case 0:
+      // Cross
+      if (LanguageCode == Language::Japanese)
+      {
+        btn_down = g_host_interface->pad_button_any_down(circle);
+      }
+      else
+      {
+        btn_down = g_host_interface->pad_button_any_down(cross);
+      }
+      break;
+    case 1:
+      // Circle
+      if (LanguageCode == Language::Japanese)
+      {
+        btn_down = g_host_interface->pad_button_any_down(cross);
+      }
+      else
+      {
+        btn_down = g_host_interface->pad_button_any_down(circle);
+      }
+      break;
+    case 2:
+      // Square
+      btn_down = g_host_interface->pad_button_any_down(square);
+      break;
+    case 3:
+      // Select
+      btn_down = g_host_interface->pad_button_any_down(select);
+      break;
+    default:
+      // Invalid call
+      return false;
+  }
+
+  SetStack(stack++, static_cast<sint>(btn_down));
   return true;
 }
 
@@ -3271,35 +3387,61 @@ static bool _GET_LANGUAGE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
   return true;
 }
 
-static bool _CHECK_INVENT_ITEM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHECK_INVENT_ITEM(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(&stack[1], CheckInventItem(static_cast<ECommonItemData>(GetStackInt(&stack[0]))));
   return true;
 }
 
-static bool _SET_AI(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_AI(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  sint villager_id = GetStackInt(stack++);
+  bool active = common::bits::to_bool(stack++);
+  
+  if (active)
+  {
+    EventScene->CancelStayVillager(villager_id);
+  }
+  else
+  {
+    EventScene->StayVillager(villager_id);
+  }
+
   return true;
 }
 
-static bool _CHECK_INVENT_PHOTO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHECK_INVENT_PHOTO(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  switch (stack_count)
+  {
+    case 2:
+      SetStack(&stack[1], static_cast<sint>(CheckInventPhoto(GetStackInt(&stack[0]), 0)));
+      return true;
+    case 3:
+      SetStack(&stack[2], static_cast<sint>(CheckInventPhoto(GetStackInt(&stack[0]), GetStackInt(&stack[1]))));
+      return true;
+    default:
+      return false;
+  }
 }
 
-static bool _GET_PHOTO_NUM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_PHOTO_NUM(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+  
+  SetStack(stack++, static_cast<sint>(save_data->m_user_data_manager.m_invent_user_data.GetNowHavePictureNum()));
   return true;
 }
 
@@ -3310,11 +3452,32 @@ static bool _SET_CONTENTS_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _SET_STATUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_STATUS(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  sint data_type = GetStackInt(stack++);
+  sint data_index = GetStackInt(stack++);
+  sint data_status = GetStackInt(stack++);
+  bool flag = (stack_count >= 4 ? common::bits::to_bool(GetStackInt(stack++)) : true);
+
+  if (flag)
+  {
+    EventScene->SetStatus(
+      static_cast<ESceneDataType>(data_type),
+      data_index,
+      static_cast<ESceneDataStatus>(data_status)
+    );
+  }
+  else
+  {
+    EventScene->ResetStatus(
+      static_cast<ESceneDataType>(data_type),
+      data_index,
+      static_cast<ESceneDataStatus>(data_status)
+    );
+  }
+
   return true;
 }
 
@@ -3349,20 +3512,136 @@ static bool _GET_GYORACE_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _SET_SAVEDATA_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_SAVEDATA_ETC(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  switch (GetStackInt(stack++))
+  {
+    case 0:
+    {
+      // 26A07C
+      auto save_data = GetSaveData();
+      if (save_data == nullptr)
+      {
+        return false;
+      }
+
+      save_data->m_unk_field_1A08 = GetStackInt(stack++);
+      return true;
+    }
+    case 1:
+    {
+      // 26A0A8
+      auto save_data = GetSaveData();
+      if (save_data == nullptr)
+      {
+        return false;
+      }
+
+      auto badge_data = save_data->m_user_data_manager.GetMonsterBadgeDataPtrMosId(static_cast<EMonsterID>(GetStackInt(stack++)));
+      if (badge_data == nullptr)
+      {
+        return false;
+      }
+
+      badge_data->m_unk_field_A = 1;
+      return true;
+    }
+    case 2:
+    {
+      // 26A104
+      auto save_data = GetSaveData();
+      if (save_data == nullptr)
+      {
+        return false;
+      }
+
+      save_data->m_user_data_manager.AllWeaponRepair();
+      return true;
+    }
+    case 3:
+    {
+      // 26A144
+      auto save_data = GetSaveData();
+      if (save_data == nullptr)
+      {
+        return false;
+      }
+
+      save_data->m_unk_field_643C9 = GetStackInt(stack++);
+      return true;
+    }
+    case 4:
+      // 26A178
+      DeleteErekiFish();
+      return true;
+    default:
+      return false;
+  }
 }
 
-static bool _GET_SAVEDATA_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_SAVEDATA_ETC(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  switch (GetStackInt(stack++))
+  {
+    case 0:
+      // 26A208
+      SetStack(stack++, save_data->m_unk_field_1A08);
+      return true;
+    case 1:
+    {
+      // 26A21C
+      sint monster_id = GetStackInt(stack++);
+      auto badge_data = save_data->m_user_data_manager.GetMonsterBadgeDataPtrMosId(static_cast<EMonsterID>(monster_id));
+      if (badge_data == nullptr)
+      {
+        return false;
+      }
+
+      SetStack(stack++, badge_data->m_unk_field_A);
+      return true;
+    }
+    case 2:
+      // 26A270
+      SetStack(stack++, static_cast<sint>(save_data->m_user_data_manager.CheckElectricFish()));
+      return true;
+    case 3:
+    {
+      // 26A2A8
+      auto bait = save_data->m_user_data_manager.GetActiveBait(static_cast<ECommonItemData>(GetStackInt(stack++)));
+      if (bait == nullptr)
+      {
+        return false;
+      }
+
+      SetStack(stack++, static_cast<sint>(bait->m_common_index));
+      return true;
+    }
+    case 4:
+      // 26A2FC
+      PlayTimeCount(true);
+      SetStack(stack++, static_cast<sint>(save_data->m_play_time_count));
+      return true;
+    case 5:
+      // 26A318
+      SetStack(stack++, static_cast<sint>(GetConfigCaptionOff()));
+      return true;
+    case 6:
+      // 26A334
+      SetStack(stack++, static_cast<sint>(save_data->CheckNowTourType()));
+      return true;
+    default:
+      return false;
+  }
 }
 
 static bool _DEL_MONSTER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
@@ -6120,7 +6399,8 @@ static bool _START_MONO_FLASH(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sin
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventScreenEffect.CaptureMonoFlashScreen();
+  EventScreenEffect.SetMonoFlashFlag(true, common::bits::to_bool(GetStackInt(stack++)));
   return true;
 }
 
@@ -6128,15 +6408,15 @@ static bool _END_MONO_FLASH(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint 
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventScreenEffect.SetMonoFlashFlag(false, false);
   return true;
 }
 
-static bool _DELETE_VILLAGER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _DELETE_VILLAGER(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventScene->DeleteVillager(GetStackInt(stack++));
   return true;
 }
 
@@ -6148,11 +6428,23 @@ static bool _DNG_SET_WEATHER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _SET_CHARA_MAXHP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_CHARA_MAXHP(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  ECharacterID chara_id = static_cast<ECharacterID>(GetStackInt(stack++));
+  sint max_hp = GetStackInt(stack++);
+
+  auto chara_data = save_data->m_user_data_manager.GetCharaDataPtr(chara_id);
+
+  chara_data->m_chara_hp_gage.m_max = static_cast<f32>(max_hp);
+  chara_data->m_chara_hp_gage.SetFillRate(1.0f);
   return true;
 }
 
@@ -6160,7 +6452,18 @@ static bool _SET_CHARA_DEFENCE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED si
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  ECharacterID chara_id = static_cast<ECharacterID>(GetStackInt(stack++));
+  sint defense = GetStackInt(stack++);
+
+  auto chara_data = save_data->m_user_data_manager.GetCharaDataPtr(chara_id);
+
+  chara_data->m_defense = defense;
   return true;
 }
 
@@ -6196,11 +6499,17 @@ static bool _ATRAMIRIA_ON_OFF(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _ADD_YARIKOMI_MEDAL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _ADD_YARIKOMI_MEDAL(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  save_data->m_user_data_manager.AddYarikomiMedal(GetStackInt(stack++));
   return true;
 }
 
@@ -6224,7 +6533,7 @@ static bool _DNG_FLOOR_INIT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint 
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  DungeonFloorInit();
   return true;
 }
 
@@ -6232,7 +6541,7 @@ static bool _DNG_FLOOR_FINISH(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sin
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  DungeonFloorFinish();
   return true;
 }
 
@@ -6240,7 +6549,7 @@ static bool _CLEAR_RND_STONE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  AutoMapGen.ClearRandomStone();
   return true;
 }
 
@@ -6272,23 +6581,39 @@ static bool _SET_NEAR_DIST(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  sint chara_index = GetStackInt(stack++);
+  f32 near_dist = GetStackFloat(stack++);
+
+  CCharacter2* chara = GetCharacter(chara_index);
+  if (chara == nullptr)
+  {
+    return false;
+  }
+
+  chara->SetFadeFlag(true);
+  chara->SetNearDist(near_dist);
+
   return true;
 }
 
-static bool _SET_KEEP_TIME(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_KEEP_TIME(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EdEventInfo.m_keep_time = GetStackFloat(stack++);
   return true;
 }
 
-static bool _GET_KEEP_TIME(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_KEEP_TIME(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  if (stack_count != 1)
+  {
+    return false;
+  }
+
+  SetStack(stack++, EdEventInfo.m_keep_time);
   return true;
 }
 
@@ -6304,7 +6629,7 @@ static bool _CHECK_EQUIP_CHANGE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED s
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  CheckEquipChange(ECharacterID::Monica);
   return true;
 }
 
@@ -6312,7 +6637,15 @@ static bool _ADD_HP_RATE2(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  auto chara_id = static_cast<ECharacterID>(GetStackInt(stack++));
+  f32 delta = GetStackFloat(stack++);
+  save_data->m_user_data_manager.AddHp_Rate(chara_id, delta);
   return true;
 }
 
@@ -6336,31 +6669,91 @@ static bool _UDATA_GET_WHP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  auto chara_id = static_cast<ECharacterID>(GetStackInt(stack++));
+  sint gauge_index = GetStackInt(stack++);
+  sint max_whp;
+  sint current_whp = save_data->m_user_data_manager.GetWhp(chara_id, gauge_index, &max_whp);
+
+  switch (stack_count)
+  {
+    case 3:
+      SetStack(stack++, current_whp);
+      return true;
+    case 4:
+      SetStack(stack++, current_whp);
+      SetStack(stack++, max_whp);
+      return true;
+    default:
+      return false;
+  }
 }
 
-static bool _UDATA_ADD_WHP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _UDATA_ADD_WHP(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  auto chara_id = static_cast<ECharacterID>(GetStackInt(stack++));
+  sint gauge_index = GetStackInt(stack++);
+  sint delta = GetStackInt(stack++);
+  save_data->m_user_data_manager.AddWhp(chara_id, gauge_index, delta);
   return true;
 }
 
-static bool _UDATA_GET_ABS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _UDATA_GET_ABS(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  auto chara_id = static_cast<ECharacterID>(GetStackInt(stack++));
+  sint gauge_index = GetStackInt(stack++);
+  sint max_abs;
+  sint current_abs = save_data->m_user_data_manager.GetAbs(chara_id, gauge_index, &max_abs);
+
+  switch (stack_count)
+  {
+    case 3:
+      SetStack(stack++, current_abs);
+      return true;
+    case 4:
+      SetStack(stack++, current_abs);
+      SetStack(stack++, max_abs);
+      return true;
+    default:
+      return false;
+  }
 }
 
 static bool _UDATA_ADD_ABS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  auto chara_id = static_cast<ECharacterID>(GetStackInt(stack++));
+  sint gauge_index = GetStackInt(stack++);
+  sint delta = GetStackInt(stack++);
+  save_data->m_user_data_manager.AddAbs(chara_id, gauge_index, delta);
   return true;
 }
 
@@ -6376,15 +6769,15 @@ static bool _LEAVE_MONICA_ITEM_CHECK(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNU
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  LeaveMonicaItemCheck();
   return true;
 }
 
-static bool _PAUSE_ENABLE_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _PAUSE_ENABLE_FLAG(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  PauseEnable(common::bits::to_bool(GetStackInt(stack++)));
   return true;
 }
 
@@ -6392,7 +6785,13 @@ static bool _FORCE_BOOT_TOUR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  save_data->ForceBootTour(save_data->m_unk_field_1A14, true);
   return true;
 }
 
@@ -7424,6 +7823,33 @@ void CSceneObjSeq::Clear()
   m_unk_field_50 = 0;
   m_unk_field_54 = 0;
   m_unk_field_58 = 0;
+}
+
+// 00260C60
+void CScreenEffect::CaptureMonoFlashScreen()
+{
+  log_trace("CScreenEffect::{}()", __func__);
+
+  todo;
+}
+
+// 00260F30
+void CScreenEffect::SetMonoFlashFlag(bool b1, bool b2)
+{
+  log_trace("CScreenEffect::{}({}, {})", __func__, b1, b2);
+
+  if (m_unk_field_34 && m_unk_field_38)
+  {
+    m_unk_field_3C = b1;
+  }
+  else
+  {
+    m_unk_field_3C = false;
+  }
+
+  m_unk_field_40 = b2;
+  m_unk_field_44 = 0;
+  m_unk_field_48 = 0;
 }
 
 // 002901F0

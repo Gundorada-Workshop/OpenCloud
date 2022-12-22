@@ -2135,7 +2135,7 @@ CUserDataManager::CUserDataManager()
     new (&game_data_used) CGameDataUsed;
   }
 
-  for (auto& game_data_used : m_unk_field_4880)
+  for (auto& game_data_used : m_bait)
   {
     new (&game_data_used) CGameDataUsed;
   }
@@ -2358,6 +2358,55 @@ s32 CUserDataManager::AddAbs(ECharacterID chara_id, ssize gage_index, s32 delta)
   return static_cast<s32>(gage->m_current);
 }
 
+// 0019B910
+s32 CUserDataManager::GetAbs(ECharacterID chara_id, ssize gage_index, s32* max_dest)
+{
+  log_trace("CUserDataManager::{}({}, {}, {})", __func__, std::to_underlying(chara_id), gage_index, fmt::ptr(max_dest));
+
+  if (chara_id == ECharacterID::Ridepod)
+  {
+    // Ridepod
+    if (max_dest != nullptr)
+    {
+      *max_dest = 0;
+    }
+
+    return static_cast<s32>(GetRoboAbs());
+  }
+
+  // Human characters
+  auto gage = GetAbsGage(chara_id, gage_index);
+  if (gage == nullptr)
+  {
+    return 0;
+  }
+
+  if (max_dest != nullptr)
+  {
+    *max_dest = gage->m_max;
+  }
+
+  return static_cast<s32>(gage->m_current);
+}
+
+// 0019C2F0
+SMonsterBadgeData* GetMonsterBadgeDataPtr()
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+  return nullptr;
+}
+
+// 0019C300
+SMonsterBadgeData* GetMonsterBadgeDataPtrMosId(EMonsterID monster_id)
+{
+  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(monster_id));
+
+  todo;
+  return nullptr;
+}
+
 // 0019c420
 void CUserDataManager::SetRoboName(std::string name)
 {
@@ -2481,14 +2530,68 @@ EPartyCharacterID CUserDataManager::NowPartyCharaID() const
   return Invalid;
 }
 
-// 0019B160
-void CUserDataManager::Initialize()
+// 0019CAD0
+void CUserDataManager::AllWeaponRepair()
 {
-  log_trace("CUserDataManager::Initialize()");
+  log_trace("CUserDataManager::{}()", __func__);
 
-  memset(this, 0, sizeof(this));
+  for (auto& data_used : m_inventory)
+  {
+    data_used.Repair(999);
+  }
 
-  todo;
+  m_robo_data.m_parts.weapon.Repair(999);
+  m_robo_data.AddPoint(999.0f);
+}
+
+// 0019CEA0
+ECommonItemData CUserDataManager::GetFishingRodNo() const
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  return m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table[0].m_common_index;
+}
+
+// 0019CEB0
+bool CUserDataManager::NowFishingStyle() const
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  return m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table[0].IsFishingRod();
+}
+
+// 0019CEE0
+// "GetActiveEsa"
+CGameDataUsed* CUserDataManager::GetActiveBait()
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  return GetActiveBait(GetFishingRodNo());
+}
+
+// 0019CF10
+// "GetActiveEsa"
+CGameDataUsed* CUserDataManager::GetActiveBait(ECommonItemData item_id)
+{
+  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(item_id));
+
+  switch (item_id)
+  {
+    case ECommonItemData::Fishing_Rod:
+      return &m_bait[0];
+    case ECommonItemData::Lure_Rod:
+      return &m_bait[1];
+    default:
+      return nullptr;
+  }
+}
+
+// 0019D560
+void CUserDataManager::SetChrEquipDirect(ECharacterID chara_id, ECommonItemData item_id)
+{
+  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), std::to_underlying(item_id));
+
+  return;
 }
 
 // 0019D840
@@ -2500,13 +2603,13 @@ s32 CUserDataManager::SearchSpaceUsedData() const
   return -1;
 }
 
-// 0019EAF0
-s32 CUserDataManager::AddMoney(s32 delta)
+// 0019DD70
+bool CUserDataManager::CheckElectricFish() const
 {
-  log_trace("CUserDataManager::{}({})", __func__, delta);
+  log_trace("CUserDataManager::{}()", __func__);
 
-  m_money = std::clamp(m_money + delta, 0, 999'999);
-  return m_money;
+  todo;
+  return false;
 }
 
 // 0019DDE0
@@ -2516,6 +2619,95 @@ usize CUserDataManager::GetNumSameItem(ECommonItemData item_id)
 
   todo;
   return 0;
+}
+
+// 0019DF70
+void CUserDataManager::AddYarikomiMedal(sint i)
+{
+  log_trace("CUserDataManager::{}({})", __func__, i);
+
+  todo;
+}
+
+// 0019EAF0
+s32 CUserDataManager::AddMoney(s32 delta)
+{
+  log_trace("CUserDataManager::{}({})", __func__, delta);
+
+  m_money = std::clamp(m_money + delta, 0, 999'999);
+  return m_money;
+}
+
+// 0019B160
+void CUserDataManager::Initialize()
+{
+  log_trace("CUserDataManager::Initialize()");
+
+  memset(this, 0, sizeof(this));
+
+  todo;
+}
+
+// 0019ECE0
+void SetEnvUserDataMan(sint i)
+{
+  log_trace("{}({})", __func__, i);
+
+  todo;
+}
+
+// 0019ECE0
+void GetCharaDefaultWeapon(ECharacterID chara_id, ECommonItemData* weapon_id)
+{
+  log_trace("{}({}, {})", __func__, std::to_underlying(chara_id), fmt::ptr(weapon_id));
+
+  todo;
+}
+
+// 0019EDC0
+void LanguageEquipChange()
+{
+  log_trace("{}()", __func__);
+
+  todo;
+}
+
+// 0019EE70
+void CheckEquipChange(ECharacterID chara_id)
+{
+  log_trace("{}()", __func__);
+
+  switch (chara_id)
+  {
+    case ECharacterID::Max:
+      return;
+    case ECharacterID::Monica:
+    {
+      auto chara_data = GetUserDataMan()->GetCharaDataPtr(ECharacterID::Monica);
+      if (chara_data == nullptr)
+      {
+        return;
+      }
+
+      ECommonItemData weapon_ids[6];
+      GetCharaDefaultWeapon(ECharacterID::Monica, weapon_ids);
+      GetUserDataMan()->SetChrEquipDirect(ECharacterID::Monica, weapon_ids[0]);
+
+      if (!chara_data->m_unk_field_2B)
+      {
+        GetUserDataMan()->SetChrEquipDirect(ECharacterID::Monica, weapon_ids[2]);
+        GetUserDataMan()->SetChrEquipDirect(ECharacterID::Monica, weapon_ids[3]);
+        GetUserDataMan()->SetChrEquipDirect(ECharacterID::Monica, weapon_ids[4]);
+
+        log_info("equip_no : {},{},{}", std::to_underlying(weapon_ids[2]), std::to_underlying(weapon_ids[3]), std::to_underlying(weapon_ids[4]));
+      }
+
+      chara_data->m_unk_field_2B = false;
+      return;
+    }
+    default:
+      return;
+  }
 }
 
 // 0019F010
@@ -3145,4 +3337,20 @@ CBattleCharaInfo* GetBattleCharaInfo()
   log_trace("{}()", __func__);
 
   return &BattleParameter;
+}
+
+// 001A1880
+void DeleteErekiFish()
+{
+  log_trace("{}()", __func__);
+
+  todo;
+}
+
+// 001A1940
+void LeaveMonicaItemCheck()
+{
+  log_trace("{}()", __func__);
+
+  todo;
 }

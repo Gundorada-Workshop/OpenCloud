@@ -217,6 +217,9 @@ class CAutoMapGen
 {
 public:
 
+  // 001D94A0
+  void ClearRandomStone();
+
   // 0
   CMapParts* m_map_parts;
 
