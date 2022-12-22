@@ -6591,7 +6591,15 @@ static bool _ADD_HP_RATE2(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  auto chara_id = static_cast<ECharacterID>(GetStackInt(stack++));
+  f32 delta = GetStackFloat(stack++);
+  save_data->m_user_data_manager.AddHp_Rate(chara_id, delta);
   return true;
 }
 
