@@ -6427,11 +6427,23 @@ static bool _DNG_SET_WEATHER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _SET_CHARA_MAXHP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_CHARA_MAXHP(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  ECharacterID chara_id = static_cast<ECharacterID>(GetStackInt(stack++));
+  sint max_hp = GetStackInt(stack++);
+
+  auto chara_data = save_data->m_user_data_manager.GetCharaDataPtr(chara_id);
+
+  chara_data->m_chara_hp_gage.m_max = static_cast<f32>(max_hp);
+  chara_data->m_chara_hp_gage.SetFillRate(1.0f);
   return true;
 }
 
