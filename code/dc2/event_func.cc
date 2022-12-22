@@ -3344,11 +3344,11 @@ static bool _GET_LANGUAGE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
   return true;
 }
 
-static bool _CHECK_INVENT_ITEM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHECK_INVENT_ITEM(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(&stack[1], CheckInventItem(static_cast<ECommonItemData>(GetStackInt(&stack[0]))));
   return true;
 }
 

@@ -149,6 +149,15 @@ uint CInventUserData::GetInventionNum()
   return count;
 }
 
+// 00200350
+bool CheckInventItem(ECommonItemData item_id)
+{
+  log_trace("{}({})", __func__, std::to_underlying(item_id));
+
+  todo;
+  return false;
+}
+
 // 002005D0
 usize CheckInventPhoto(sint i1, sint i2)
 {

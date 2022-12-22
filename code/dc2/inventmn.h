@@ -86,5 +86,7 @@ public:
   // ...?
 };
 
+// 00200350
+bool CheckInventItem(ECommonItemData item_id);
 // 002005D0
 usize CheckInventPhoto(sint i1, sint i2);
