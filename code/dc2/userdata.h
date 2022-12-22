@@ -945,3 +945,6 @@ CBattleCharaInfo* GetBattleCharaInfo();
 
 // 001A1880
 void DeleteErekiFish();
+
+// 001A1940
+void LeaveMonicaItemCheck();

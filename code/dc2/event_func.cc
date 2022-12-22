@@ -6655,7 +6655,7 @@ static bool _LEAVE_MONICA_ITEM_CHECK(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNU
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  LeaveMonicaItemCheck();
   return true;
 }
 

@@ -3237,3 +3237,11 @@ void DeleteErekiFish()
 
   todo;
 }
+
+// 001A1940
+void LeaveMonicaItemCheck()
+{
+  log_trace("{}()", __func__);
+
+  todo;
+}
