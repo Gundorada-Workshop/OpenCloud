@@ -20,6 +20,7 @@
 #include "dc2/mainloop.h"
 #include "dc2/mapjump.h"
 #include "dc2/menumain.h"
+#include "dc2/nowload.h"
 #include "dc2/rain.h"
 #include "dc2/run_script.h"
 #include "dc2/scene.h"
@@ -6658,11 +6659,11 @@ static bool _LEAVE_MONICA_ITEM_CHECK(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNU
   return true;
 }
 
-static bool _PAUSE_ENABLE_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _PAUSE_ENABLE_FLAG(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  PauseEnable(common::bits::to_bool(GetStackInt(stack++)));
   return true;
 }
 
