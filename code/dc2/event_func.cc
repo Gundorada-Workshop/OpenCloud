@@ -26,6 +26,8 @@
 #include "dc2/subgame.h"
 #include "dc2/mg/mg_lib.h"
 
+#include "host/host_interface_dwm.h"
+
 set_log_channel("event_func");
 
 // 00377CD4
@@ -3332,7 +3334,47 @@ static bool _CHECK_BUTTON(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  bool btn_down = false;
+  using enum host::pad_handler::buttons;
+
+  switch (GetStackInt(stack++))
+  {
+    case 0:
+      // Cross
+      if (LanguageCode == Language::Japanese)
+      {
+        btn_down = g_host_interface->pad_button_any_down(circle);
+      }
+      else
+      {
+        btn_down = g_host_interface->pad_button_any_down(cross);
+      }
+      break;
+    case 1:
+      // Circle
+      if (LanguageCode == Language::Japanese)
+      {
+        btn_down = g_host_interface->pad_button_any_down(cross);
+      }
+      else
+      {
+        btn_down = g_host_interface->pad_button_any_down(circle);
+      }
+      break;
+    case 2:
+      // Square
+      btn_down = g_host_interface->pad_button_any_down(square);
+      break;
+    case 3:
+      // Select
+      btn_down = g_host_interface->pad_button_any_down(select);
+      break;
+    default:
+      // Invalid call
+      return false;
+  }
+
+  SetStack(stack++, static_cast<sint>(btn_down));
   return true;
 }
 
