@@ -2358,8 +2358,17 @@ s32 CUserDataManager::AddAbs(ECharacterID chara_id, ssize gage_index, s32 delta)
   return static_cast<s32>(gage->m_current);
 }
 
+// 0019C2F0
+SMonsterBadgeData* GetMonsterBadgeDataPtr()
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+  return nullptr;
+}
+
 // 0019C300
-SMonsterBadgeData* GetMonsterBadgeDataPtr(EMonsterID monster_id)
+SMonsterBadgeData* GetMonsterBadgeDataPtrMosId(EMonsterID monster_id)
 {
   log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(monster_id));
 
@@ -2488,6 +2497,20 @@ EPartyCharacterID CUserDataManager::NowPartyCharaID() const
   }
 
   return Invalid;
+}
+
+// 0019CAD0
+void CUserDataManager::AllWeaponRepair()
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  for (auto& data_used : m_inventory)
+  {
+    data_used.Repair(999);
+  }
+
+  m_robo_data.m_parts.weapon.Repair(999);
+  m_robo_data.AddPoint(999.0f);
 }
 
 // 0019CEA0
@@ -3205,4 +3228,12 @@ CBattleCharaInfo* GetBattleCharaInfo()
   log_trace("{}()", __func__);
 
   return &BattleParameter;
+}
+
+// 001A1880
+void DeleteErekiFish()
+{
+  log_trace("{}()", __func__);
+
+  todo;
 }

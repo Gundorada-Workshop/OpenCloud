@@ -3421,15 +3421,76 @@ static bool _GET_GYORACE_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _SET_SAVEDATA_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_SAVEDATA_ETC(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  switch (GetStackInt(stack++))
+  {
+    case 0:
+    {
+      // 26A07C
+      auto save_data = GetSaveData();
+      if (save_data == nullptr)
+      {
+        return false;
+      }
+
+      save_data->m_unk_field_1A08 = GetStackInt(stack++);
+      return true;
+    }
+    case 1:
+    {
+      // 26A0A8
+      auto save_data = GetSaveData();
+      if (save_data == nullptr)
+      {
+        return false;
+      }
+
+      auto badge_data = save_data->m_user_data_manager.GetMonsterBadgeDataPtrMosId(static_cast<EMonsterID>(GetStackInt(stack++)));
+      if (badge_data == nullptr)
+      {
+        return false;
+      }
+
+      badge_data->m_unk_field_A = 1;
+      return true;
+    }
+    case 2:
+    {
+      // 26A104
+      auto save_data = GetSaveData();
+      if (save_data == nullptr)
+      {
+        return false;
+      }
+
+      save_data->m_user_data_manager.AllWeaponRepair();
+      return true;
+    }
+    case 3:
+    {
+      // 26A144
+      auto save_data = GetSaveData();
+      if (save_data == nullptr)
+      {
+        return false;
+      }
+
+      save_data->m_unk_field_643C9 = GetStackInt(stack++);
+      return true;
+    }
+    case 4:
+      // 26A178
+      DeleteErekiFish();
+      return true;
+    default:
+      return false;
+  }
 }
 
-static bool _GET_SAVEDATA_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_SAVEDATA_ETC(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3449,7 +3510,7 @@ static bool _GET_SAVEDATA_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sin
     {
       // 26A21C
       sint monster_id = GetStackInt(stack++);
-      auto badge_data = save_data->m_user_data_manager.GetMonsterBadgeDataPtr(static_cast<EMonsterID>(monster_id));
+      auto badge_data = save_data->m_user_data_manager.GetMonsterBadgeDataPtrMosId(static_cast<EMonsterID>(monster_id));
       if (badge_data == nullptr)
       {
         return false;

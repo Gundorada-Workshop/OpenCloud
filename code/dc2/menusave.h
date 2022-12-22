@@ -115,6 +115,8 @@ public:
   CUserDataManager m_user_data_manager{};
   // 62A40
   CQuestData m_quest_data{};
+  // 643C9
+  s8 m_unk_field_643C9{};
   // 65930
   CMenuSystemData m_menu_system_data{};
 };

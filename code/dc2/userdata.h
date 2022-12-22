@@ -608,8 +608,11 @@ public:
   // 0019baa0
   void EnableCharaChange(s32 chara);
 
+  // 0019C2F0
+  SMonsterBadgeData* GetMonsterBadgeDataPtr();
+
   // 0019C300
-  SMonsterBadgeData* GetMonsterBadgeDataPtr(EMonsterID monster_id);
+  SMonsterBadgeData* GetMonsterBadgeDataPtrMosId(EMonsterID monster_id);
 
   // 0019C3D0
   void SetActiveChrNo(ECharacterID chara_id);
@@ -649,6 +652,9 @@ public:
 
   // 0019C930
   EPartyCharacterID NowPartyCharaID() const;
+
+  // 0019CAD0
+  void AllWeaponRepair();
 
   // 0019CEA0
   ECommonItemData GetFishingRodNo() const;
@@ -936,3 +942,6 @@ MOS_HENGE_PARAM* GetMonsterHengeParam(EMonsterID index);
 
 // 001A0EA0
 CBattleCharaInfo* GetBattleCharaInfo();
+
+// 001A1880
+void DeleteErekiFish();
