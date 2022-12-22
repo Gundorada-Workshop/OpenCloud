@@ -6627,12 +6627,33 @@ static bool _UDATA_ADD_WHP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _UDATA_GET_ABS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _UDATA_GET_ABS(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  auto chara_id = static_cast<ECharacterID>(GetStackInt(stack++));
+  sint gauge_index = GetStackInt(stack++);
+  sint max_abs;
+  sint current_abs = save_data->m_user_data_manager.GetAbs(chara_id, gauge_index, &max_abs);
+
+  switch (stack_count)
+  {
+    case 3:
+      SetStack(stack++, current_abs);
+      return true;
+    case 4:
+      SetStack(stack++, current_abs);
+      SetStack(stack++, max_abs);
+      return true;
+    default:
+      return false;
+  }
 }
 
 static bool _UDATA_ADD_ABS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)

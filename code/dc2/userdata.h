@@ -602,6 +602,9 @@ public:
   // 0019B880
   s32 AddAbs(ECharacterID chara_id, ssize gage_index, s32 delta);
 
+  // 0019B910
+  s32 GetAbs(ECharacterID chara_id, ssize gage_index, s32* max_dest);
+
   // 0019b9a0
   void JoinPartyMember(s32 chara);
 
