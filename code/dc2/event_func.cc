@@ -6407,7 +6407,7 @@ static bool _END_MONO_FLASH(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint 
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventScreenEffect.SetMonoFlashFlag(false, false);
   return true;
 }
 
@@ -7822,6 +7822,25 @@ void CSceneObjSeq::Clear()
   m_unk_field_50 = 0;
   m_unk_field_54 = 0;
   m_unk_field_58 = 0;
+}
+
+// 00260F30
+void CScreenEffect::SetMonoFlashFlag(bool b1, bool b2)
+{
+  log_trace("CScreenEffect::{}({}, {})", __func__, b1, b2);
+
+  if (m_unk_field_34 && m_unk_field_38)
+  {
+    m_unk_field_3C = b1;
+  }
+  else
+  {
+    m_unk_field_3C = false;
+  }
+
+  m_unk_field_40 = b2;
+  m_unk_field_44 = 0;
+  m_unk_field_48 = 0;
 }
 
 // 002901F0
