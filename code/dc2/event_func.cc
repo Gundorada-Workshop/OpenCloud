@@ -6519,7 +6519,7 @@ static bool _CLEAR_RND_STONE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  AutoMapGen.ClearRandomStone();
   return true;
 }
 

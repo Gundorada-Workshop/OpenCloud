@@ -284,6 +284,14 @@ void CMiniMapSymbol::DrawSymbol(MAYBE_UNUSED vec3& pos, MAYBE_UNUSED EMiniMapSym
   todo;
 }
 
+// 001D94A0
+void CAutoMapGen::ClearRandomStone()
+{
+  log_trace("CAutoMapGen::{}()", __func__);
+
+  todo;
+}
+
 // 002F8CC0
 void CDngFloorManager::Initialize()
 {
