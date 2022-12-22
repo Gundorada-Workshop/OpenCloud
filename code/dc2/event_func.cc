@@ -1,5 +1,6 @@
 #include <cmath>
 
+#include "common/bits.h"
 #include "common/log.h"
 #include "common/math.h"
 #include "common/macros.h"
@@ -3382,11 +3383,32 @@ static bool _SET_CONTENTS_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _SET_STATUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_STATUS(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  sint data_type = GetStackInt(stack++);
+  sint data_index = GetStackInt(stack++);
+  sint data_status = GetStackInt(stack++);
+  bool flag = (stack_count >= 4 ? common::bits::to_bool(GetStackInt(stack++)) : true);
+
+  if (flag)
+  {
+    EventScene->SetStatus(
+      static_cast<ESceneDataType>(data_type),
+      data_index,
+      static_cast<ESceneDataStatus>(data_status)
+    );
+  }
+  else
+  {
+    EventScene->ResetStatus(
+      static_cast<ESceneDataType>(data_type),
+      data_index,
+      static_cast<ESceneDataStatus>(data_status)
+    );
+  }
+
   return true;
 }
 
