@@ -689,6 +689,18 @@ static bool _GET_ADJUST_POLYGON_SCALE(RS_STACKDATA* stack, MAYBE_UNUSED sint sta
   return true;
 }
 
+// 00264760
+static bool GetConfigCaptionOff()
+{
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  return save_data->m_sv_config_option.m_display_captions;
+}
+
 static bool _LOAD_MOVIE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
@@ -3421,8 +3433,63 @@ static bool _GET_SAVEDATA_ETC(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sin
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  switch (GetStackInt(stack++))
+  {
+    case 0:
+      // 26A208
+      SetStack(stack++, save_data->m_unk_field_1A08);
+      return true;
+    case 1:
+    {
+      // 26A21C
+      sint monster_id = GetStackInt(stack++);
+      auto badge_data = save_data->m_user_data_manager.GetMonsterBadgeDataPtr(static_cast<EMonsterID>(monster_id));
+      if (badge_data == nullptr)
+      {
+        return false;
+      }
+
+      SetStack(stack++, badge_data->m_unk_field_A);
+      return true;
+    }
+    case 2:
+      // 26A270
+      SetStack(stack++, static_cast<sint>(save_data->m_user_data_manager.CheckElectricFish()));
+      return true;
+    case 3:
+    {
+      // 26A2A8
+      auto bait = save_data->m_user_data_manager.GetActiveBait(static_cast<ECommonItemData>(GetStackInt(stack++)));
+      if (bait == nullptr)
+      {
+        return false;
+      }
+
+      SetStack(stack++, static_cast<sint>(bait->m_common_index));
+      return true;
+    }
+    case 4:
+      // 26A2FC
+      PlayTimeCount(true);
+      SetStack(stack++, static_cast<sint>(save_data->m_play_time_count));
+      return true;
+    case 5:
+      // 26A318
+      SetStack(stack++, static_cast<sint>(GetConfigCaptionOff()));
+      return true;
+    case 6:
+      // 26A334
+      SetStack(stack++, static_cast<sint>(save_data->CheckNowTourType()));
+      return true;
+    default:
+      return false;
+  }
 }
 
 static bool _DEL_MONSTER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)

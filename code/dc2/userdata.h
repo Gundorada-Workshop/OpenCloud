@@ -468,6 +468,8 @@ public:
 
 struct SMonsterBadgeData
 {
+  // A
+  u8 m_unk_field_A{};
   // C
   COMMON_GAGE m_whp_gage;
   // 14
@@ -606,6 +608,12 @@ public:
   // 0019baa0
   void EnableCharaChange(s32 chara);
 
+  // 0019C300
+  SMonsterBadgeData* GetMonsterBadgeDataPtr(EMonsterID monster_id);
+
+  // 0019C3D0
+  void SetActiveChrNo(ECharacterID chara_id);
+
   // 0019c420
   void SetRoboName(std::string name);
 
@@ -642,17 +650,31 @@ public:
   // 0019C930
   EPartyCharacterID NowPartyCharaID() const;
 
+  // 0019CEA0
+  ECommonItemData GetFishingRodNo() const;
+
+  // 0019CEB0
+  bool NowFishingStyle() const;
+
+  // 0019CEE0
+  // "GetActiveEsa"
+  CGameDataUsed* GetActiveBait();
+
+  // 0019CF10
+  // "GetActiveEsa"
+  CGameDataUsed* GetActiveBait(ECommonItemData item_id);
+
   // 0019D840
   s32 SearchSpaceUsedData() const;
 
-  // 0019EAF0
-  s32 AddMoney(s32 delta);
-
-  // 0019C3D0
-  void SetActiveChrNo(ECharacterID chara_id);
+  // 0019DD70
+  bool CheckElectricFish() const;
 
   // 0019DDE0
   usize GetNumSameItem(ECommonItemData item_id);
+
+  // 0019EAF0
+  s32 AddMoney(s32 delta);
 
   // 0
   std::array<CGameDataUsed, 150> m_inventory{};
@@ -661,7 +683,7 @@ public:
   // 4660
   ROBO_DATA m_robo_data{};
   // 4880
-  std::array<CGameDataUsed, 2> m_unk_field_4880{};
+  std::array<CGameDataUsed, 2> m_bait{};
   // 4958
   CFishAquarium m_fish_aquarium{};
 

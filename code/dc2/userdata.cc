@@ -2135,7 +2135,7 @@ CUserDataManager::CUserDataManager()
     new (&game_data_used) CGameDataUsed;
   }
 
-  for (auto& game_data_used : m_unk_field_4880)
+  for (auto& game_data_used : m_bait)
   {
     new (&game_data_used) CGameDataUsed;
   }
@@ -2358,6 +2358,15 @@ s32 CUserDataManager::AddAbs(ECharacterID chara_id, ssize gage_index, s32 delta)
   return static_cast<s32>(gage->m_current);
 }
 
+// 0019C300
+SMonsterBadgeData* GetMonsterBadgeDataPtr(EMonsterID monster_id)
+{
+  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(monster_id));
+
+  todo;
+  return nullptr;
+}
+
 // 0019c420
 void CUserDataManager::SetRoboName(std::string name)
 {
@@ -2481,14 +2490,46 @@ EPartyCharacterID CUserDataManager::NowPartyCharaID() const
   return Invalid;
 }
 
-// 0019B160
-void CUserDataManager::Initialize()
+// 0019CEA0
+ECommonItemData CUserDataManager::GetFishingRodNo() const
 {
-  log_trace("CUserDataManager::Initialize()");
+  log_trace("CUserDataManager::{}()", __func__);
 
-  memset(this, 0, sizeof(this));
+  return m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table[0].m_common_index;
+}
 
-  todo;
+// 0019CEB0
+bool CUserDataManager::NowFishingStyle() const
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  return m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table[0].IsFishingRod();
+}
+
+// 0019CEE0
+// "GetActiveEsa"
+CGameDataUsed* CUserDataManager::GetActiveBait()
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  return GetActiveBait(GetFishingRodNo());
+}
+
+// 0019CF10
+// "GetActiveEsa"
+CGameDataUsed* CUserDataManager::GetActiveBait(ECommonItemData item_id)
+{
+  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(item_id));
+
+  switch (item_id)
+  {
+    case ECommonItemData::Fishing_Rod:
+      return &m_bait[0];
+    case ECommonItemData::Lure_Rod:
+      return &m_bait[1];
+    default:
+      return nullptr;
+  }
 }
 
 // 0019D840
@@ -2500,13 +2541,13 @@ s32 CUserDataManager::SearchSpaceUsedData() const
   return -1;
 }
 
-// 0019EAF0
-s32 CUserDataManager::AddMoney(s32 delta)
+// 0019DD70
+bool CUserDataManager::CheckElectricFish() const
 {
-  log_trace("CUserDataManager::{}({})", __func__, delta);
+  log_trace("CUserDataManager::{}()", __func__);
 
-  m_money = std::clamp(m_money + delta, 0, 999'999);
-  return m_money;
+  todo;
+  return false;
 }
 
 // 0019DDE0
@@ -2516,6 +2557,25 @@ usize CUserDataManager::GetNumSameItem(ECommonItemData item_id)
 
   todo;
   return 0;
+}
+
+// 0019EAF0
+s32 CUserDataManager::AddMoney(s32 delta)
+{
+  log_trace("CUserDataManager::{}({})", __func__, delta);
+
+  m_money = std::clamp(m_money + delta, 0, 999'999);
+  return m_money;
+}
+
+// 0019B160
+void CUserDataManager::Initialize()
+{
+  log_trace("CUserDataManager::Initialize()");
+
+  memset(this, 0, sizeof(this));
+
+  todo;
 }
 
 // 0019F010
