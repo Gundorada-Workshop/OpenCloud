@@ -6670,7 +6670,13 @@ static bool _FORCE_BOOT_TOUR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  save_data->ForceBootTour(save_data->m_unk_field_1A14, true);
   return true;
 }
 

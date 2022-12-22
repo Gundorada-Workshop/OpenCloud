@@ -95,6 +95,9 @@ public:
   // 002f6780
   void InitBitCtrl();
 
+  // 002F6820
+  void ForceBootTour(sint i, bool b);
+
   // 002F6AE0
   ETourType CheckNowTourType();
 
@@ -102,6 +105,9 @@ public:
   u64 m_play_time_count{};
   // 1A08
   s32 m_unk_field_1A08{};
+
+  // 1A14
+  s32 m_unk_field_1A14{};
 
   // ?
 
