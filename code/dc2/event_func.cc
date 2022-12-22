@@ -41,8 +41,6 @@ static CEohMother EventObjHandleMother{};
 static CEventSpriteMother esMother{};
 // 01ECEEC0
 static std::array<u32, 0x40> EventLocalFlag{};
-// 01ECEFC0
-static std::array<u32, 0x40> EventLocalCnt{};
 // 01ECF0C0
 static CRain EventRain{};
 // 01EE00B0
@@ -164,6 +162,55 @@ void InitWorldCoord()
   EdEventInfo.m_unk_field_0 = { 0, 0, 0, 0 };
   EdEventInfo.m_unk_field_10 = { 0, 0, 0, 0 };
   SetWorldCoordFlg = false;
+}
+
+// 01ECEFC0
+static std::array<sint, 64> EventLocalCnt{ 0 };
+
+// 002610D0
+sint GetLocalCnt(ssize index) // Not static as it's used by ClsMes apparently
+{
+  if (index < 0 || index >= EventLocalCnt.size())
+  {
+    return -1;
+  }
+
+  return EventLocalCnt[index];
+}
+
+// 00261110
+static bool SetLocalCnt(ssize index, sint value)
+{
+  if (index < 0 || index >= EventLocalCnt.size())
+  {
+    return false;
+  }
+
+  EventLocalCnt[index] = value;
+  return true;
+}
+
+// 00261150
+static sint GetLocalCnt2(sint count)
+{
+  // Retrieves the index of a count?
+  for (usize i = 0; i < EventLocalCnt.size(); ++i)
+  {
+    if (EventLocalCnt[i] == count)
+    {
+      return i;
+    }
+  }
+
+  return -1;
+}
+
+// 002611A0
+static void InitLocalCnt()
+{
+  log_trace("{}()", __func__);
+
+  EventLocalCnt.fill(0);
 }
 
 // 002614F0
@@ -654,7 +701,7 @@ static bool _INIT_LOCAL_CNT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint 
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  InitLocalCnt();
   return true;
 }
 
@@ -984,7 +1031,8 @@ static bool _SET_LOCAL_CNT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  // (index, value)
+  SetLocalCnt(GetStackInt(&stack[0]), GetStackInt(&stack[1]));
   return true;
 }
 
@@ -992,7 +1040,13 @@ static bool _GET_LOCAL_CNT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  sint cnt = GetLocalCnt(GetStackInt(stack++));
+  if (cnt < 0)
+  {
+    return false;
+  }
+
+  SetStack(stack++, cnt);
   return true;
 }
 
@@ -1000,7 +1054,8 @@ static bool _GET_LOCAL_CNT2(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint 
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  sint count = GetStackInt(stack++);
+  SetStack(stack++, GetLocalCnt2(count));
   return true;
 }
 

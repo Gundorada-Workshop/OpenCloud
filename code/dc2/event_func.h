@@ -536,3 +536,6 @@ public:
   // C
   unk32 m_unk_field_C{ 0 };
 };
+
+// 002610D0
+sint GetLocalCnt(ssize index);
