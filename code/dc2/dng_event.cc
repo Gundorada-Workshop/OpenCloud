@@ -304,3 +304,19 @@ void AutoSetTreasureBox()
 
   todo;
 }
+
+// 0028F320
+void DungeonFloorInit()
+{
+  log_trace("{}()", __func__);
+
+  // no operation
+}
+
+// 0028F330
+void DungeonFloorFinish()
+{
+  log_trace("{}()", __func__);
+
+  // no operation
+}

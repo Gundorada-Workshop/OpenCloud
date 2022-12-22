@@ -6503,7 +6503,7 @@ static bool _DNG_FLOOR_INIT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint 
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  DungeonFloorInit();
   return true;
 }
 
@@ -6511,7 +6511,7 @@ static bool _DNG_FLOOR_FINISH(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sin
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  DungeonFloorFinish();
   return true;
 }
 
