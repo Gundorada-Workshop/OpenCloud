@@ -6399,7 +6399,8 @@ static bool _START_MONO_FLASH(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sin
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventScreenEffect.CaptureMonoFlashScreen();
+  EventScreenEffect.SetMonoFlashFlag(true, common::bits::to_bool(GetStackInt(stack++)));
   return true;
 }
 
@@ -7822,6 +7823,14 @@ void CSceneObjSeq::Clear()
   m_unk_field_50 = 0;
   m_unk_field_54 = 0;
   m_unk_field_58 = 0;
+}
+
+// 00260C60
+void CScreenEffect::CaptureMonoFlashScreen()
+{
+  log_trace("CScreenEffect::{}()", __func__);
+
+  todo;
 }
 
 // 00260F30

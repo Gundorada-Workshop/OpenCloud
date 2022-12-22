@@ -419,6 +419,8 @@ public:
 class CScreenEffect : CRaster
 {
 public:
+  // 00260C60
+  void CaptureMonoFlashScreen();
   // 00260F30
   void SetMonoFlashFlag(bool b1, bool b2);
 
