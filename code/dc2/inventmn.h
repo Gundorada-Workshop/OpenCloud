@@ -14,29 +14,30 @@ class CMenuInvent {};
 
 struct USER_PICTURE_INFO
 {
-  u8 m_unk_field_0;
-  u8 m_unk_field_1;
-  s16 m_unk_field_2;
-  s16 m_unk_field_4;
-  s16 m_unk_field_6;
-  s16 m_unk_field_8;
-  s16 m_unk_field_A;
+  // whether or not this picture is actually currently holding any valid picture data
+  bool m_used{ false };
+  u8 m_unk_field_1{};
+  s16 m_unk_field_2{};
+  s16 m_unk_field_4{};
+  s16 m_unk_field_6{};
+  s16 m_unk_field_8{};
+  s16 m_unk_field_A{};
 };
 
 // 001FE170
 // Why?
 void Initialize_USER_PICTURE_INFO(USER_PICTURE_INFO* user_picture_info);
 
-struct SInventUserDataUnk1
+struct USER_PICTURE
 {
   // 0
-  USER_PICTURE_INFO m_user_picture_info;
+  USER_PICTURE_INFO m_picture_info{};
   // C
-  unk m_unk_field_C;
+  unk m_unk_field_C{};
   // 10
-  unk m_unk_field_10;
+  unk m_unk_field_10{};
   // 14
-  std::array<u8, 0x2000>* m_unk_field_14;
+  std::array<u8, 0x2000>* m_unk_field_14{};
 };
 
 class CInventUserData
@@ -47,6 +48,9 @@ public:
 
   // 001fe970
   void ResetAddress();
+
+  // 001FEE40
+  usize GetNowHavePictureNum();
 
   // 001FF070
   void SetCreateItemFlag(usize index, ECommonItemData item_id);
@@ -68,7 +72,7 @@ public:
   // 8
   unks<0x400> m_unk_field_8;
   // 408
-  std::array<SInventUserDataUnk1, 30> m_unk_field_408;
+  std::array<USER_PICTURE, 30> m_pictures;
   // 6D8
   // This may be array of some sort of struct (ECommonItemData, _WORD?), since each item is packed to 4 bytes
   std::array<ECommonItemData, 0x100> m_unk_field_6D8{ ECommonItemData::Invalid };

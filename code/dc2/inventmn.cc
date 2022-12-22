@@ -24,7 +24,7 @@ void Initialize_USER_PICTURE_INFO(USER_PICTURE_INFO* user_picture_info)
     return;
   }
 
-  user_picture_info->m_unk_field_0 = 0;
+  user_picture_info->m_used = false;
   user_picture_info->m_unk_field_1 = 0;
   user_picture_info->m_unk_field_2 = -1;
   user_picture_info->m_unk_field_4 = -1;
@@ -43,9 +43,9 @@ void CInventUserData::Initialize()
   memset(&m_unk_field_8, 0, sizeof(m_unk_field_8));
   memset(&m_unk_field_D60, 0, sizeof(m_unk_field_D60));
 
-  for (auto& unk_var : m_unk_field_408)
+  for (auto& picture : m_pictures)
   {
-    Initialize_USER_PICTURE_INFO(&unk_var.m_user_picture_info);
+    Initialize_USER_PICTURE_INFO(&picture.m_picture_info);
   }
 
   memset(&m_unk_field_6D8, 0, sizeof(m_unk_field_6D8));
@@ -58,10 +58,27 @@ void CInventUserData::ResetAddress()
 {
   log_trace("CInventUserData::ResetAddress()");
 
-  for (int i = 0; i < m_unk_field_408.size(); ++i)
+  for (int i = 0; i < m_pictures.size(); ++i)
   {
-    m_unk_field_408[i].m_unk_field_14 = &m_unk_field_D60[i];
+    m_pictures[i].m_unk_field_14 = &m_unk_field_D60[i];
   }
+}
+
+// 001FEE40
+usize CInventUserData::GetNowHavePictureNum()
+{
+  log_trace("CInventUserData::{}()", __func__);
+
+  usize count = 0;
+  for (auto& picture : m_pictures)
+  {
+    if (picture.m_picture_info.m_used)
+    {
+      ++count;
+    }
+  }
+
+  return count;
 }
 
 // 001FF070

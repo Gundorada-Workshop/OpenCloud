@@ -3368,11 +3368,17 @@ static bool _CHECK_INVENT_PHOTO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED s
   return true;
 }
 
-static bool _GET_PHOTO_NUM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_PHOTO_NUM(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+  
+  SetStack(stack++, static_cast<sint>(save_data->m_user_data_manager.m_invent_user_data.GetNowHavePictureNum()));
   return true;
 }
 
