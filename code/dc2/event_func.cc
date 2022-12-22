@@ -6551,7 +6551,18 @@ static bool _SET_NEAR_DIST(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  sint chara_index = GetStackInt(stack++);
+  f32 near_dist = GetStackFloat(stack++);
+
+  CCharacter2* chara = GetCharacter(chara_index);
+  if (chara == nullptr)
+  {
+    return false;
+  }
+
+  chara->SetFadeFlag(true);
+  chara->SetNearDist(near_dist);
+
   return true;
 }
 
