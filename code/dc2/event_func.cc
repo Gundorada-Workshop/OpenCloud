@@ -6619,11 +6619,20 @@ static bool _UDATA_GET_WHP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _UDATA_ADD_WHP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _UDATA_ADD_WHP(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  auto chara_id = static_cast<ECharacterID>(GetStackInt(stack++));
+  sint gauge_index = GetStackInt(stack++);
+  sint delta = GetStackInt(stack++);
+  save_data->m_user_data_manager.AddWhp(chara_id, gauge_index, delta);
   return true;
 }
 
