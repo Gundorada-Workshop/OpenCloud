@@ -6411,11 +6411,11 @@ static bool _END_MONO_FLASH(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _DELETE_VILLAGER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _DELETE_VILLAGER(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventScene->DeleteVillager(GetStackInt(stack++));
   return true;
 }
 
