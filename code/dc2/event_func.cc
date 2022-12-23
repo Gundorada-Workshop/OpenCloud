@@ -5531,19 +5531,29 @@ static bool _PAD_SET_AUTO_REPEAT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED 
   return true;
 }
 
-static bool _DNG_PAUSE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _DNG_PAUSE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  uint mask = GetStackInt(stack++);
+  bool active = common::bits::to_bool(GetStackInt(stack++));
+
+  if (active)
+  {
+    EventScene->m_battle_area_scene.m_unk_field_8 |= mask;
+  }
+  else
+  {
+    EventScene->m_battle_area_scene.m_unk_field_8 &= ~(mask);
+  }
   return true;
 }
 
-static bool _DNG_CHECK_PAUSE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _DNG_CHECK_PAUSE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack++, static_cast<sint>(EventScene->m_battle_area_scene.m_unk_field_8));
   return true;
 }
 
