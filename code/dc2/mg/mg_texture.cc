@@ -326,7 +326,7 @@ void mgCTextureManager::Initialize(void* vram_top, void* vram_bottom)
 
   for (int i = 0; i < m_n_textures; ++i)
   {
-    m_textures[i].Initialize();
+    new (&m_textures[i]) mgCTexture();
   }
 
   for (int i = 0; i < m_n_blocks; ++i)
@@ -517,43 +517,4 @@ void mgCTextureManager::LoadCFGFile(char* file, int size, mgCMemory* tex_anime_s
   interpreter.SetTag(tex_tag.data());
   interpreter.SetScript(file, size);
   interpreter.Run();
-}
-
-// 0012C480
-mgCTexture::mgCTexture()
-{
-  log_trace("mgCTexture::mgCTexture()");
-
-  Initialize();
-}
-
-// 0012C4B0
-void mgCTexture::Initialize()
-{
-  log_trace("mgCTexture::Initialize()");
-
-  m_name[0] = '\0';
-  m_hash_uuid = -1;
-
-  for (f32& f : m_unk_field_50)
-  {
-    f = 0.0f;
-  }
-
-  m_unk_field_60 = 0;
-  m_unk_field_48 = 0;
-  m_tex1 = 0;
-  m_tex0 = 0;
-
-  m_unk_field_48 = m_unk_field_48 & (~0b0000'0011) | 1;
-  m_unk_field_48 = m_unk_field_48 & (~0b0000'1100) | 4;
-
-  m_bytes_per_pixel = 0;
-  m_height = 0;
-  m_width = 0;
-  m_unk_field_64 = 0;
-  m_unk_field_28 = 0;
-  m_unk_field_2C = 0;
-  m_unk_field_30 = 0;
-  m_next = nullptr;
 }

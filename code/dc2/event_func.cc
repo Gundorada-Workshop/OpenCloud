@@ -2824,7 +2824,6 @@ static bool _SET_DOOR_MATERIAL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED si
 {
   trace_script_call(stack, stack_count);
 
-  todo;
   return true;
 }
 
@@ -2832,7 +2831,13 @@ static bool _INIT_DRAMA_SCENE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sin
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  // FIXME: MAGIC
+  EdEventInfo.m_unk_field_E0 = 0;
+  EdEventInfo.m_unk_field_E4 = 0;
+  EdEventInfo.m_unk_field_D4 = 1;
+  EdEventInfo.m_unk_field_D8 = 15;
+  EdEventInfo.m_unk_field_E8 = 0;
+  EdEventInfo.m_unk_field_EC = 0;
   return true;
 }
 
@@ -3696,7 +3701,7 @@ static bool _GET_CHARA_ID(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  auto chara_id = EventScene->SearchCharaID(GetStackInt(stack++));
+  auto chara_id = EventScene->SearchCharaID(static_cast<ECharacterID>(GetStackInt(stack++)));
   SetStack(stack, chara_id);
   return true;
 }
@@ -3880,11 +3885,11 @@ static bool _SET_MODEL_LIGHT_COLOR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSE
   return true;
 }
 
-static bool _GET_OMAKE_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_OMAKE_FLAG(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack++, OmakeFlag);
   return true;
 }
 
@@ -5057,9 +5062,14 @@ static bool _SPHIDA_GET_SCORE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _ZERO_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _ZERO_VECTOR(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+
+  if (stack_count != 3)
+  {
+    return false;
+  }
 
   SetStack(stack++, 0.0f);
   SetStack(stack++, 0.0f);
@@ -5067,9 +5077,14 @@ static bool _ZERO_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _NORMAL_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _NORMAL_VECTOR(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+
+  if (stack_count != 3)
+  {
+    return false;
+  }
 
   vec3 v
   {
@@ -5087,9 +5102,14 @@ static bool _NORMAL_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _COPY_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _COPY_VECTOR(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+
+  if (stack_count != 6)
+  {
+    return false;
+  }
 
   vec3 v = GetStackVector(&stack[3]);
 
@@ -5100,9 +5120,14 @@ static bool _COPY_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _ADD_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _ADD_VECTOR(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+
+  if (stack_count != 6)
+  {
+    return false;
+  }
 
   vec3 lhs = GetStackVector(&stack[0]);
   vec3 rhs = GetStackVector(&stack[3]);
@@ -5115,9 +5140,14 @@ static bool _ADD_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _SUB_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SUB_VECTOR(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+
+  if (stack_count != 6)
+  {
+    return false;
+  }
 
   vec3 lhs = GetStackVector(&stack[0]);
   vec3 rhs = GetStackVector(&stack[3]);
@@ -5130,13 +5160,18 @@ static bool _SUB_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _SCALE_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SCALE_VECTOR(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
+  if (stack_count != 4)
+  {
+    return false;
+  }
+
   vec3 lhs = GetStackVector(&stack[0]);
-  vec3 rhs = GetStackVector(&stack[3]);
-  lhs *= rhs;
+  f32 scale = GetStackFloat(&stack[3]);
+  lhs *= scale;
 
   SetStack(&stack[0], lhs.x);
   SetStack(&stack[1], lhs.y);
@@ -5145,9 +5180,14 @@ static bool _SCALE_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _DIV_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _DIV_VECTOR(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+
+  if (stack_count != 4)
+  {
+    return false;
+  }
 
   // Check for division by zero
   f32 divisor = GetStackFloat(&stack[3]);
@@ -5169,59 +5209,94 @@ static bool _DIV_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _DIST_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _DIST_VECTOR(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  SetStack(stack, mgDistVector(GetStackVector(stack).xyz));
+  if (stack_count != 4)
+  {
+    return false;
+  }
+
+  SetStack(&stack[3], mgDistVector(GetStackVector(&stack[0])));
   return true;
 }
 
-static bool _DIST_VECTOR2(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _DIST_VECTOR2(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  SetStack(stack, mgDistVector2(GetStackVector(stack).xyz));
+  if (stack_count != 7)
+  {
+    return false;
+  }
+
+  SetStack(&stack[6], mgDistVector2(GetStackVector(&stack[0]), GetStackVector(&stack[3])));
   return true;
 }
 
-static bool _SQRT(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SQRT(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  SetStack(stack, sqrtf(GetStackFloat(stack)));
+  if (stack_count != 2)
+  {
+    return false;
+  }
+
+  SetStack(&stack[1], sqrtf(GetStackFloat(&stack[0])));
   return true;
 }
 
-static bool _ATAN2F(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _ATAN2F(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  SetStack(stack, atan2f(GetStackFloat(&stack[0]), GetStackFloat(&stack[1])));
+  if (stack_count != 3)
+  {
+    return false;
+  }
+
+  SetStack(&stack[2], atan2f(GetStackFloat(&stack[0]), GetStackFloat(&stack[1])));
   return true;
 }
 
-static bool _ANGLE_CMP(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _ANGLE_CMP(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  SetStack(stack, mgAngleCmp(GetStackFloat(&stack[0]), GetStackFloat(&stack[1]), GetStackFloat(&stack[2])));
+  if (stack_count != 4)
+  {
+    return false;
+  }
+
+  SetStack(&stack[3], mgAngleCmp(GetStackFloat(&stack[0]), GetStackFloat(&stack[1]), GetStackFloat(&stack[2])));
   return true;
 }
 
-static bool _ANGLE_LIMIT(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _ANGLE_LIMIT(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+
+  if (stack_count != 1)
+  {
+    return false;
+  }
 
   SetStack(stack, mgAngleLimit(GetStackFloat(stack)));
   return true;
 }
 
-static bool _GET_RAND(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_RAND(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  if ((stack++)->m_data_type == EStackDataType::Float)
+  if (stack_count != 2)
+  {
+    return false;
+  }
+
+  if (stack->m_data_type == EStackDataType::Float)
   {
     f32 n = GetStackFloat(stack++);
     SetStack(stack, rand() / f32(common::constants::s32_max) * n);
@@ -5368,15 +5443,15 @@ static bool _CTRLC_STEP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stac
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  static_cast<CCameraControl*>(GetActiveCamera())->Step();
   return true;
 }
 
-static bool _CTRLC_SET_ROTATE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _CTRLC_SET_ROTATE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  static_cast<CCameraControl*>(GetActiveCamera())->RotBack(GetStackFloat(stack++));
   return true;
 }
 
@@ -5388,27 +5463,70 @@ static bool _CTRLC_MOVE_CAMERA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED si
   return true;
 }
 
-static bool _CTRLC_SET_ROT_CANCEL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _CTRLC_SET_ROT_CANCEL(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  static_cast<CCameraControl*>(GetActiveCamera())->SetRotCameraCancel(GetStackInt(stack++));
   return true;
 }
 
-static bool _CTRLC_MOVE_RANGE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _CTRLC_MOVE_RANGE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera_param = static_cast<CCameraControl*>(GetActiveCamera())->GetActiveParam();
+
+  camera_param.m_unk_field_8 = GetStackFloat(stack++);
+  camera_param.m_unk_field_C = GetStackFloat(stack++);
+  camera_param.m_unk_field_0 = GetStackFloat(stack++);
+  camera_param.m_unk_field_4 = GetStackFloat(stack++);
   return true;
 }
 
-static bool _GET_NEAR_TBOX_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_NEAR_TBOX_POS(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  CTreasureBoxManager* treasure_box_man = EventScene->m_battle_area_scene.m_treasure_box_manager;
+  
+  // Grab the position to check against
+  vec3 check_position = GetStackVector(stack);
+  stack += 3;
+
+  // We want to find the nearest treasure box index and position
+  std::optional<usize> box_index{ std::nullopt };
+  f32 near_distance{ 9999.0f };
+  vec3 near_position{ 0.0f };
+
+  // Iterate over all treasure boxes in the manager to find the closest treasure box
+  for (usize i = 0; i < treasure_box_man->m_treasure_boxes.size(); ++i)
+  {
+    CTreasureBox* box = &treasure_box_man->m_treasure_boxes[i];
+    vec3 box_position = box->GetPosition();
+    f32 distance = math::vector_distance(box_position, check_position);
+
+    if (distance < near_distance)
+    {
+      // We found a new nearest closest treasure box
+      near_distance = distance;
+      box_index = i;
+    }
+  }
+
+  // If we found a valid box, grab its position.
+  if (box_index.has_value())
+  {
+    near_position = treasure_box_man->m_treasure_boxes[box_index.value()].GetPosition();
+  }
+
+  // Put the nearest position/index onto the stack
+  // ({0, 0, 0} and -1 if not found)
+  SetStack(stack++, near_position.x);
+  SetStack(stack++, near_position.y);
+  SetStack(stack++, near_position.z);
+  SetStack(stack++, static_cast<sint>(box_index.value_or(-1)));
+
   return true;
 }
 
@@ -5416,8 +5534,7 @@ static bool _CONV_CHRNO_S2L(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint 
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  return false;
 }
 
 static bool _SWE_INIT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
@@ -5452,11 +5569,13 @@ static bool _SWE_START_EFFECT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _SET_CHARA_TYPE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_CHARA_TYPE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto chara_index = GetStackInt(stack++);
+  auto chara_type = GetStackInt(stack++);
+  EventScene->SetType(ESceneDataType::Character, chara_index, chara_type);
   return true;
 }
 
@@ -5507,11 +5626,13 @@ static bool _GET_FLOOR_INFO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _GET_NEXT_FLOOR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_NEXT_FLOOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  sint i1 = GetStackInt(stack++);
+  sint i2 = GetStackInt(stack++);
+  SetStack(stack++, EventScene->m_battle_area_scene.m_dng_floor_manager.GetDngMapNextFloorID(i1, i2));
   return true;
 }
 
@@ -5531,19 +5652,29 @@ static bool _PAD_SET_AUTO_REPEAT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED 
   return true;
 }
 
-static bool _DNG_PAUSE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _DNG_PAUSE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  uint mask = GetStackInt(stack++);
+  bool active = common::bits::to_bool(GetStackInt(stack++));
+
+  if (active)
+  {
+    EventScene->m_battle_area_scene.m_unk_field_8 |= mask;
+  }
+  else
+  {
+    EventScene->m_battle_area_scene.m_unk_field_8 &= ~(mask);
+  }
   return true;
 }
 
-static bool _DNG_CHECK_PAUSE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _DNG_CHECK_PAUSE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack++, static_cast<sint>(EventScene->m_battle_area_scene.m_unk_field_8));
   return true;
 }
 
@@ -5551,15 +5682,15 @@ static bool _DNG_RESET_TIMER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventScene->m_battle_area_scene.m_timer = 0;
   return true;
 }
 
-static bool _DNG_GET_TIMER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _DNG_GET_TIMER(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack++, EventScene->m_battle_area_scene.m_timer);
   return true;
 }
 
@@ -6303,7 +6434,20 @@ static bool _CHECK_ENABLE_CHARA_CHANGE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_U
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  if (stack_count != 2)
+  {
+    return false;
+  }
+
+  ECharacterID chara_id = static_cast<ECharacterID>(GetStackInt(stack++));
+
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack++, save_data->m_user_data_manager.CheckEnableCharaChange(chara_id));
   return true;
 }
 
@@ -6319,7 +6463,8 @@ static bool _START_SEPIA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint sta
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventScreenEffect.CaptureSepiaScreen();
+  EventScreenEffect.SetSepiaFlag(true);
   return true;
 }
 
@@ -6327,7 +6472,7 @@ static bool _END_SEPIA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventScreenEffect.SetSepiaFlag(false);
   return true;
 }
 
@@ -6351,7 +6496,7 @@ static bool _RESET_EVENT_TRG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventScene->m_unk_field_2E88 = false;
   return true;
 }
 
@@ -6359,23 +6504,35 @@ static bool _SET_CHARA_NO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  sint character_index = GetStackInt(stack++);
+  ECharacterID character_no = static_cast<ECharacterID>(GetStackInt(stack++));
+  EventScene->SetCharaNo(character_index, character_no);
   return true;
 }
 
-static bool _GET_CHARA_NO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_CHARA_NO(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  if (stack_count != 2)
+  {
+    return false;
+  }
 
-  todo;
+  auto index = EventScene->GetCharaNo(GetStackInt(stack++));
+  SetStack(stack++, static_cast<sint>(index));
   return true;
 }
 
-static bool _SEARCH_CHARA_NO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SEARCH_CHARA_NO(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  if (stack_count != 2)
+  {
+    return false;
+  }
 
-  todo;
+  auto index = EventScene->SearchCharaID(static_cast<ECharacterID>(GetStackInt(stack++)));
+  SetStack(stack++, index);
   return true;
 }
 
@@ -7823,6 +7980,110 @@ void CSceneObjSeq::Clear()
   m_unk_field_50 = 0;
   m_unk_field_54 = 0;
   m_unk_field_58 = 0;
+}
+
+// 0025FF40
+void CRaster::SetParam(f32 f1, f32 f2, f32 f3)
+{
+  log_trace("CRaster::{}({}, {}, {})", __func__, f1, f2, f3);
+
+  todo;
+}
+
+// 0025FF50
+void CRaster::StartRaster(f32 f1, f32 f2, f32 f3, s32 i)
+{
+  log_trace("CRaster::{}({}, {}, {}, {})", __func__, f1, f2, f3, i);
+
+  todo;
+}
+
+// 002600A0
+void CRaster::StopRaster(f32 f1, f32 f2, f32 f3, s32 i)
+{
+  log_trace("CRaster::{}({}, {}, {}, {})", __func__, f1, f2, f3, i);
+
+  todo;
+}
+
+// 002601F0
+void CRaster::StepRaster()
+{
+  log_trace("CRaster::{}()", __func__);
+
+  todo;
+}
+
+// 00260340
+void CRaster::DrawRaster()
+{
+  log_trace("CRaster::{}()", __func__);
+
+  todo;
+}
+
+// 00260640
+void CScreenEffect::Step()
+{
+  log_trace("CScreenEffect::{}()", __func__);
+
+  CRaster::StepRaster();
+}
+
+// 002608D0
+void CScreenEffect::InitRaster(f32 f1, f32 f2, f32 f3)
+{
+  log_trace("CScreenEffect::{}({}, {}, {})", __func__, f1, f2, f3);
+
+  todo;
+}
+
+// 00260930
+void CScreenEffect::StartRaster(f32 f1, f32 f2, f32 f3, s32 i)
+{
+  log_trace("CScreenEffect::{}({}, {}, {}, {})", __func__, f1, f2, f3, i);
+
+  CRaster::StartRaster(f1, f2, f3, i);
+}
+
+// 00260940
+void CScreenEffect::StopRaster(f32 f1, f32 f2, f32 f3, s32 i)
+{
+  log_trace("CScreenEffect::{}({}, {}, {}, {})", __func__, f1, f2, f3, i);
+
+  CRaster::StopRaster(f1, f2, f3, i);
+}
+
+// 00260950
+void CScreenEffect::SetSepiaTexture(unkptr p1, unkptr p2)
+{
+  log_trace("CScreenEffect::{}({}, {})", __func__, fmt::ptr(p1), fmt::ptr(p2));
+
+  todo;
+}
+
+// 00260970
+void CScreenEffect::CaptureSepiaScreen()
+{
+  log_trace("CScreenEffect::{}()", __func__);
+
+  todo;
+}
+
+// 00260BF0
+void CScreenEffect::SetSepiaFlag(bool flag)
+{
+  log_trace("CScreenEffect::{}({})", __func__, flag);
+
+  todo;
+}
+
+// 00260C10
+void CScreenEffect::SetMonoFlashTexture(unkptr p1, unkptr p2)
+{
+  log_trace("CScreenEffect::{}({}, {})", __func__, fmt::ptr(p1), fmt::ptr(p2));
+
+  todo;
 }
 
 // 00260C60

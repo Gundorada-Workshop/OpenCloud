@@ -20,6 +20,10 @@
 #include "dc2/villager.h"
 
 
+// forward declare
+enum class ECharacterID;
+class CTreasureBoxManager;
+
 // TODO
 struct InScreenFuncInfo {};
 
@@ -138,7 +142,7 @@ public:
   // 38
   s32 m_texb{ -1 };
   // 3C
-  s32 m_chara_no{ -1 };
+  ECharacterID m_chara_no{ static_cast<ECharacterID>(-1) };
 };
 
 class CSceneMap : public CSceneData
@@ -215,6 +219,76 @@ public:
   vec3 m_unk_field_90{};
   // A0
   vec3 m_unk_field_A0{};
+};
+
+struct BATTLE_AREA_SCENE
+{
+  // 0
+  unk32 m_unk_field_0{ 0 };
+  // 4
+  unk32 m_unk_field_4{ 0 };
+  // 8
+  u32 m_unk_field_8{};
+  // C
+  u16 m_unk_field_C{};
+  // 10
+  s32 m_timer{};
+  // 14
+  CDngFloorManager m_dng_floor_manager{};
+  // 24
+  std::array<char, 0x20> m_unk_field_24{ '\0' };
+  // 44
+  s16 m_unk_field_44{ -1 };
+  // 46
+  s16 m_unk_field_46{};
+  // 48
+  s8 m_unk_field_48{};
+  // 49
+  s8 m_unk_field_49{};
+  // 4C
+  f32 m_unk_field_4C{ 0.0f };
+  // 50
+  f32 m_unk_field_50{ 1.0f };
+  // 54 FIXME: enum?
+  s32 m_unk_field_54{};
+  // 58
+  bool m_unk_field_58{};
+  // 5C
+  bool m_unk_field_5C{};
+  // 60
+  unk32 m_unk_field_60{};
+  // 64
+  u32 m_unk_field_64{};
+  // 68
+  unk32 m_unk_field_68{};
+  // 6C
+  f32 m_unk_field_6C{ 1.0f };
+  // 70
+  f32 m_unk_field_70{};
+  // 74
+  f32 m_unk_field_74{};
+  // 78
+  s16 m_unk_field_78{ 0 };
+  // 7C
+  CTreasureBoxManager* m_treasure_box_manager{ nullptr };
+  // 80
+  BattleEffectMan* m_battle_effect_manager{ nullptr };
+  // 84
+  unk32 m_unk_field_84{};
+  // 88
+  f32 m_btl_bgm_vol{};
+  // 8C FIXME: enum?
+  s8 m_unk_field_8C{};
+  // 90
+  unk64 m_unk_field_90{};
+  // 98 FIXME: enum?
+  u32 m_unk_field_98{};
+  // 9C
+  unk8 m_unk_field_9C{};
+  // 9E
+  s16 m_unk_field_9E{};
+  // A0 - some sort of texb handle
+  u32 m_unk_field_A0{};
 };
 
 class CScene
@@ -305,9 +379,9 @@ public:
   // 00283A30
   s32 AssignChara(ssize character_index, CCharacter2* character, const char* name);
   // 00283B00
-  void SetCharaNo(ssize character_index, ssize character_no);
+  void SetCharaNo(ssize character_index, ECharacterID character_no);
   // 00283B30
-  ssize GetCharaNo(ssize character_index);
+  ECharacterID GetCharaNo(ssize character_index);
   // 00283B60
   CCharacter2* GetCharacter(ssize character_index);
   // 00283BB0
@@ -576,7 +650,7 @@ public:
   // 002C9710
   void DeleteVillager();
   // 002C97C0
-  s32 SearchCharaID(int i);
+  s32 SearchCharaID(ECharacterID chara_id);
   // 002C9830
   bool GetNowVillagerTime();
   // 002C9880
@@ -701,6 +775,10 @@ public:
   unk m_unk_field_2E80;
   // 2E84
   unk m_unk_field_2E84;
+  // 2E88
+  bool m_unk_field_2E88{};
+  // 2E8C
+  s32 m_unk_field_2E8C{};
   // 2E90
   CSceneEventData m_scene_event_data;
   // 2F64
@@ -718,44 +796,13 @@ public:
   // 2F80
   vec3 m_wind_direction;
   // 2F90
-  unk m_unk_field_2F90;
-  // 2F94
-  unk m_unk_field_2F94;
-
-  // ?
-
-  // 2FA4
-  CDngFloorManager m_dng_floor_manager;
-  // 2FB4
-  unk m_unk_field_2FB4;
-
-  // ?
-
-  // 2FD4
-  s16 m_unk_field_2FD4;
-
-  // ?
-
-  // 2FFC
-  float m_unk_field_2FFC;
-
-  // ?
-
-  // 3008
-  unk m_unk_field_3008;
-  // 300C
-  unk m_unk_field_300C;
-  // 3010
-  unk m_unk_field_3010;
-
-  // ?
-
+  BATTLE_AREA_SCENE m_battle_area_scene{};
   // 3038
   unk m_unk_field_3038;
   // 303C
   unk m_unk_field_303C;
   // 3040
-  unk m_unk_field_3040;
+  CSaveData* m_save_data{ nullptr };
   // 3050
   CVillagerMngr m_villager_manager;
   // 3E60

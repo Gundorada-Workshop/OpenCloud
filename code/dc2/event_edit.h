@@ -28,9 +28,22 @@ struct EDIT_EVENT_INFO
   s32 m_unk_field_CC{};
   // D0
   s32 m_unk_field_D0{};
+  // D4
+  unk32 m_unk_field_D4{};
+  // D8
+  unk32 m_unk_field_D8{};
 
   // ?
 
+  // E0
+  unk32 m_unk_field_E0{};
+  // E4
+  unk32 m_unk_field_E4{};
+  // E8
+  unk32 m_unk_field_E8{};
+  // EC
+  unk32 m_unk_field_EC{};
+  // F0
   s32 m_unk_field_F0{};
 
   // ?

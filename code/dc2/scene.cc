@@ -1,7 +1,9 @@
 #include "common/debug.h"
 #include "common/log.h"
 
+#include "dc2/character.h"
 #include "dc2/scene.h"
+#include "dc2/userdata.h"
 
 set_log_channel("scene");
 
@@ -257,15 +259,16 @@ CScene::CScene()
 	m_fire_raster.Initialize();
 	m_thunder_effect.Initialize();
 	m_unk_field_2F64 = 0;
-	m_dng_floor_manager.Initialize();
+	m_battle_area_scene.m_dng_floor_manager.Initialize();
 
-	m_unk_field_2F90 = 0;
-	m_unk_field_2F94 = 0;
-	m_unk_field_2FFC = 1.0f;
-	m_unk_field_3008 = 0;
-	m_unk_field_300C = 0;
-	m_unk_field_3010 = 0;
-	m_unk_field_2FD4 = -1;
+	m_battle_area_scene.m_unk_field_0 = 0;
+	m_battle_area_scene.m_unk_field_4 = 0;
+	m_battle_area_scene.m_unk_field_6C = 1.0f;
+	m_battle_area_scene.m_unk_field_78 = 0;
+	m_battle_area_scene.m_treasure_box_manager = nullptr;
+	m_battle_area_scene.m_battle_effect_manager = nullptr;
+	m_battle_area_scene.m_unk_field_24[0] = '\0';
+	m_battle_area_scene.m_unk_field_44 = -1;
 	m_wind_velocity = 0.0f;
 	m_wind_direction = vec4(0.0f);
 
@@ -274,7 +277,7 @@ CScene::CScene()
 
 	m_unk_field_2F6C = 0;
 	m_unk_field_2F68 = 0;
-	m_unk_field_3040 = 0;
+	m_save_data = nullptr;
 	m_now_map_no = -1;
 	m_now_submap_no = -1;
 	m_old_map_no = -1;
@@ -662,19 +665,19 @@ s32 CScene::AssignChara(ssize character_index, CCharacter2* character, const cha
 }
 
 // 00283B00
-void CScene::SetCharaNo(ssize character_index, ssize character_no)
+void CScene::SetCharaNo(ssize character_index, ECharacterID character_no)
 {
-	log_trace("CScene::{}({})", __func__, character_index, character_no);
+	log_trace("CScene::{}({})", __func__, character_index, static_cast<sint>(character_no));
 
 	CSceneCharacter* scene_character = GetSceneCharacter(character_index);
 	if (scene_character != nullptr)
 	{
-		scene_character->m_chara_no = static_cast<s32>(character_no);
+		scene_character->m_chara_no = character_no;
 	}
 }
 
 // 00283B30
-ssize CScene::GetCharaNo(ssize character_index)
+ECharacterID CScene::GetCharaNo(ssize character_index)
 {
 	log_trace("CScene::{}({})", __func__, character_index);
 
@@ -682,7 +685,7 @@ ssize CScene::GetCharaNo(ssize character_index)
 	
 	if (scene_character == nullptr)
 	{
-		return -1;
+		return ECharacterID::Invalid;
 	}
 
 	return scene_character->m_chara_no;
@@ -2065,11 +2068,18 @@ void CScene::DeleteVillager()
 }
 
 // 002C97C0
-s32 CScene::SearchCharaID(MAYBE_UNUSED sint i)
+s32 CScene::SearchCharaID(ECharacterID chara_no)
 {
-	log_trace("CScene::{}({})", __func__, i);
+	log_trace("CScene::{}({})", __func__, std::to_underlying(chara_no));
 
-	todo;
+	for (usize i = 8; i < 0x40; ++i) // FIXME: MAGIC; not sure why 8 and 0x40 here
+	{
+		if (GetCharaNo(i) == chara_no)
+		{
+			return i;
+		}
+	}
+
 	return -1;
 }
 

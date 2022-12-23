@@ -110,41 +110,36 @@ public:
 class mgCTexture
 {
 public:
-  // 0012C480
-  mgCTexture();
-  // 0012C4B0
-  void Initialize();
-
   // 0
-  s16 m_hash_uuid;
+  s16 m_hash_uuid{ -1 };
   // 2
-  u16 m_width;
+  u16 m_width{ 0 };
   // 4
-  u16 m_height;
+  u16 m_height{ 0 };
   // 6
-  u16 m_bytes_per_pixel;
+  u16 m_bytes_per_pixel{ 0 };
   // 8
-  std::array<char, 0x20> m_name;
+  std::array<char, 0x20> m_name{ 0 };
   // 28
-  unk32 m_unk_field_28;
+  unk32 m_unk_field_28{ 0 };
   // 2C
-  unk32 m_unk_field_2C;
+  unk32 m_unk_field_2C{ 0 };
   // 30
-  unk32 m_unk_field_30;
+  unk32 m_unk_field_30{ 0 };
   // 34
-  unk32 m_unk_field_24;
+  unk32 m_unk_field_24{ 0 };
   // 38
-  u64 m_tex0;
+  u64 m_tex0{ 0 };
   // 40
-  u64 m_tex1;
+  u64 m_tex1{ 0 };
   // 48
-  s64 m_unk_field_48;
+  s64 m_unk_field_48{ 0 };
   // 50
-  std::array<f32, 4> m_unk_field_50;
+  std::array<unkptr, 4> m_unk_field_50{ nullptr };
   // 60
-  unk32 m_unk_field_60;
+  unk32 m_unk_field_60{ 0 };
   // 64
-  unk32 m_unk_field_64;
+  unk32 m_unk_field_64{ 0 };
   // 68
-  mgCTexture* m_next;
+  mgCTexture* m_next{ nullptr };
 };
