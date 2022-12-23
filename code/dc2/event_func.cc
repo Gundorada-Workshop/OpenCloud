@@ -5511,7 +5511,9 @@ static bool _GET_NEXT_FLOOR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint 
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  sint i1 = GetStackInt(stack++);
+  sint i2 = GetStackInt(stack++);
+  SetStack(stack++, EventScene->m_battle_area_scene.m_dng_floor_manager.GetDngMapNextFloorID(i1, i2));
   return true;
 }
 
