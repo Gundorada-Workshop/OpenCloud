@@ -2741,7 +2741,7 @@ u8 GetShieldKitLimit(ECommonItemData item_id)
 
   using enum ECommonItemData;
 
-  std::unordered_map<ECommonItemData, u8> use_limit_table
+  static const std::unordered_map<ECommonItemData, u8> use_limit_table
   {
     {Core, 3},
     {Improved_Core, 6},
