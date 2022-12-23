@@ -5404,11 +5404,49 @@ static bool _CTRLC_MOVE_RANGE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _GET_NEAR_TBOX_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_NEAR_TBOX_POS(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  CTreasureBoxManager* treasure_box_man = EventScene->m_battle_area_scene.m_treasure_box_manager;
+  
+  // Grab the position to check against
+  vec3 check_position = GetStackVector(stack);
+  stack += 3;
+
+  // We want to find the nearest treasure box index and position
+  std::optional<usize> box_index{ std::nullopt };
+  f32 near_distance{ 9999.0f };
+  vec3 near_position{ 0.0f };
+
+  // Iterate over all treasure boxes in the manager to find the closest treasure box
+  for (usize i = 0; i < treasure_box_man->m_treasure_boxes.size(); ++i)
+  {
+    CTreasureBox* box = &treasure_box_man->m_treasure_boxes[i];
+    vec3 box_position = box->GetPosition();
+    f32 distance = math::vector_distance(box_position, check_position);
+
+    if (distance < near_distance)
+    {
+      // We found a new nearest closest treasure box
+      near_distance = distance;
+      box_index = i;
+    }
+  }
+
+  // If we found a valid box, grab its position.
+  if (box_index.has_value())
+  {
+    near_position = treasure_box_man->m_treasure_boxes[box_index.value()].GetPosition();
+  }
+
+  // Put the nearest position/index onto the stack
+  // ({0, 0, 0} and -1 if not found)
+  SetStack(stack++, near_position.x);
+  SetStack(stack++, near_position.y);
+  SetStack(stack++, near_position.z);
+  SetStack(stack++, static_cast<sint>(box_index.value_or(-1)));
+
   return true;
 }
 
@@ -5451,7 +5489,7 @@ static bool _SWE_START_EFFECT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _SET_CHARA_TYPE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_CHARA_TYPE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 

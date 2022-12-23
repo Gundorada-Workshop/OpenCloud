@@ -4,6 +4,7 @@
 #include "dc2/character.h"
 #include "dc2/dng_main.h"
 #include "dc2/event_func.h"
+#include "dc2/mg/mg_lib.h"
 
 // ~ 0028AFC0 - 002912F0
 
@@ -20,7 +21,7 @@ class CRedMarkModel
 {
 };
 
-class CTreasureBox
+class CTreasureBox : public mgCObject
 {
 
   // SIZE 0x70
@@ -28,7 +29,7 @@ class CTreasureBox
 
 class CTreasureBoxManager
 {
-
+public:
   // 10
   std::array<CTreasureBox, 24> m_treasure_boxes{};
 };
