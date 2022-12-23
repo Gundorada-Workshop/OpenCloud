@@ -3880,11 +3880,11 @@ static bool _SET_MODEL_LIGHT_COLOR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSE
   return true;
 }
 
-static bool _GET_OMAKE_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_OMAKE_FLAG(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack++, OmakeFlag);
   return true;
 }
 
