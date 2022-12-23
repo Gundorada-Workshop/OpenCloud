@@ -259,15 +259,16 @@ CScene::CScene()
 	m_fire_raster.Initialize();
 	m_thunder_effect.Initialize();
 	m_unk_field_2F64 = 0;
-	m_dng_floor_manager.Initialize();
+	m_battle_area_scene.m_dng_floor_manager.Initialize();
 
-	m_unk_field_2F90 = 0;
-	m_unk_field_2F94 = 0;
-	m_unk_field_2FFC = 1.0f;
-	m_unk_field_3008 = 0;
-	m_unk_field_300C = 0;
-	m_unk_field_3010 = 0;
-	m_unk_field_2FD4 = -1;
+	m_battle_area_scene.m_unk_field_0 = 0;
+	m_battle_area_scene.m_unk_field_4 = 0;
+	m_battle_area_scene.m_unk_field_6C = 1.0f;
+	m_battle_area_scene.m_unk_field_78 = 0;
+	m_battle_area_scene.m_treasure_box_manager = nullptr;
+	m_battle_area_scene.m_battle_effect_manager = nullptr;
+	m_battle_area_scene.m_unk_field_24[0] = '\0';
+	m_battle_area_scene.m_unk_field_44 = -1;
 	m_wind_velocity = 0.0f;
 	m_wind_direction = vec4(0.0f);
 
@@ -276,7 +277,7 @@ CScene::CScene()
 
 	m_unk_field_2F6C = 0;
 	m_unk_field_2F68 = 0;
-	m_unk_field_3040 = 0;
+	m_save_data = nullptr;
 	m_now_map_no = -1;
 	m_now_submap_no = -1;
 	m_old_map_no = -1;
