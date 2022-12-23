@@ -5551,15 +5551,15 @@ static bool _DNG_RESET_TIMER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventScene->m_battle_area_scene.m_timer = 0;
   return true;
 }
 
-static bool _DNG_GET_TIMER(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _DNG_GET_TIMER(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  SetStack(stack++, EventScene->m_battle_area_scene.m_timer);
   return true;
 }
 
