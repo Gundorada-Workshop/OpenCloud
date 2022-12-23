@@ -5372,11 +5372,11 @@ static bool _CTRLC_STEP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stac
   return true;
 }
 
-static bool _CTRLC_SET_ROTATE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _CTRLC_SET_ROTATE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  static_cast<CCameraControl*>(GetActiveCamera())->RotBack(GetStackFloat(stack++));
   return true;
 }
 
