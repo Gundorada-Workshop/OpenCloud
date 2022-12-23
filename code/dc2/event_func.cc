@@ -2824,7 +2824,6 @@ static bool _SET_DOOR_MATERIAL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED si
 {
   trace_script_call(stack, stack_count);
 
-  todo;
   return true;
 }
 
@@ -2832,7 +2831,13 @@ static bool _INIT_DRAMA_SCENE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sin
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  // FIXME: MAGIC
+  EdEventInfo.m_unk_field_E0 = 0;
+  EdEventInfo.m_unk_field_E4 = 0;
+  EdEventInfo.m_unk_field_D4 = 1;
+  EdEventInfo.m_unk_field_D8 = 15;
+  EdEventInfo.m_unk_field_E8 = 0;
+  EdEventInfo.m_unk_field_EC = 0;
   return true;
 }
 
