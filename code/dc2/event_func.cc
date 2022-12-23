@@ -5368,7 +5368,7 @@ static bool _CTRLC_STEP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stac
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  static_cast<CCameraControl*>(GetActiveCamera())->Step();
   return true;
 }
 
