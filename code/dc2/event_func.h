@@ -392,20 +392,31 @@ public:
 class CRaster
 {
 public:
+  // 0025FF40
+  void SetParam(f32 f1, f32 f2, f32 f3);
+  // 0025FF50
+  void StartRaster(f32 f1, f32 f2, f32 f3, s32 i);
+  // 002600A0
+  void StopRaster(f32 f1, f32 f2, f32 f3, s32 i);
+  // 002601F0
+  void StepRaster();
+  // 00260340
+  void DrawRaster();
+
   // 0
-  unk32 m_unk_field_0{ 0 };
+  bool m_unk_field_0{ false };
   // 4
-  unk32 m_unk_field_4{ 0 };
+  f32 m_unk_field_4{ 0.0f };
   // 8
-  unk32 m_unk_field_8{ 0 };
+  f32 m_unk_field_8{ 0.0f };
   // C
-  unk32 m_unk_field_C{ 0 };
+  f32 m_unk_field_C{ 0.0f };
   // 10
-  unk32 m_unk_field_10{ 0 };
+  f32 m_unk_field_10{ 0.0f };
   // 14
-  unk32 m_unk_field_14{ 0 };
+  f32 m_unk_field_14{ 0.0f };
   // 18
-  unk32 m_unk_field_18{ 0 };
+  f32 m_unk_field_18{ 0.0f };
   // 1C
   unk32 m_unk_field_1C{ 0 };
   // 20
@@ -419,13 +430,29 @@ public:
 class CScreenEffect : CRaster
 {
 public:
+  // 00260640
+  void Step();
+  // 002608D0
+  void InitRaster(f32 f1, f32 f2, f32 f3);
+  // 00260930
+  void StartRaster(f32 f1, f32 f2, f32 f3, s32 i);
+  // 00260940
+  void StopRaster(f32 f1, f32 f2, f32 f3, s32 i);
+  // 00260950
+  void SetSepiaTexture(unkptr p1, unkptr p2);
+  // 00260970
+  void CaptureSepiaScreen();
+  // 00260BF0
+  void SetSepiaFlag(bool flag);
+  // 00260C10
+  void SetMonoFlashTexture(unkptr p1, unkptr p2);
   // 00260C60
   void CaptureMonoFlashScreen();
   // 00260F30
   void SetMonoFlashFlag(bool b1, bool b2);
 
   // 2C
-  unk32 m_unk_field_2C{ 0 };
+  mgCTexture* m_unk_field_2C{ nullptr };
   // 30
   bool m_sepia_flag{ false };
   // 34

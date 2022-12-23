@@ -6319,7 +6319,8 @@ static bool _START_SEPIA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint sta
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventScreenEffect.CaptureSepiaScreen();
+  EventScreenEffect.SetSepiaFlag(true);
   return true;
 }
 
@@ -6327,7 +6328,7 @@ static bool _END_SEPIA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  EventScreenEffect.SetSepiaFlag(false);
   return true;
 }
 
@@ -7835,6 +7836,110 @@ void CSceneObjSeq::Clear()
   m_unk_field_50 = 0;
   m_unk_field_54 = 0;
   m_unk_field_58 = 0;
+}
+
+// 0025FF40
+void CRaster::SetParam(f32 f1, f32 f2, f32 f3)
+{
+  log_trace("CRaster::{}({}, {}, {})", __func__, f1, f2, f3);
+
+  todo;
+}
+
+// 0025FF50
+void CRaster::StartRaster(f32 f1, f32 f2, f32 f3, s32 i)
+{
+  log_trace("CRaster::{}({}, {}, {}, {})", __func__, f1, f2, f3, i);
+
+  todo;
+}
+
+// 002600A0
+void CRaster::StopRaster(f32 f1, f32 f2, f32 f3, s32 i)
+{
+  log_trace("CRaster::{}({}, {}, {}, {})", __func__, f1, f2, f3, i);
+
+  todo;
+}
+
+// 002601F0
+void CRaster::StepRaster()
+{
+  log_trace("CRaster::{}()", __func__);
+
+  todo;
+}
+
+// 00260340
+void CRaster::DrawRaster()
+{
+  log_trace("CRaster::{}()", __func__);
+
+  todo;
+}
+
+// 00260640
+void CScreenEffect::Step()
+{
+  log_trace("CScreenEffect::{}()", __func__);
+
+  CRaster::StepRaster();
+}
+
+// 002608D0
+void CScreenEffect::InitRaster(f32 f1, f32 f2, f32 f3)
+{
+  log_trace("CScreenEffect::{}({}, {}, {})", __func__, f1, f2, f3);
+
+  todo;
+}
+
+// 00260930
+void CScreenEffect::StartRaster(f32 f1, f32 f2, f32 f3, s32 i)
+{
+  log_trace("CScreenEffect::{}({}, {}, {}, {})", __func__, f1, f2, f3, i);
+
+  CRaster::StartRaster(f1, f2, f3, i);
+}
+
+// 00260940
+void CScreenEffect::StopRaster(f32 f1, f32 f2, f32 f3, s32 i)
+{
+  log_trace("CScreenEffect::{}({}, {}, {}, {})", __func__, f1, f2, f3, i);
+
+  CRaster::StopRaster(f1, f2, f3, i);
+}
+
+// 00260950
+void CScreenEffect::SetSepiaTexture(unkptr p1, unkptr p2)
+{
+  log_trace("CScreenEffect::{}({}, {})", __func__, fmt::ptr(p1), fmt::ptr(p2));
+
+  todo;
+}
+
+// 00260970
+void CScreenEffect::CaptureSepiaScreen()
+{
+  log_trace("CScreenEffect::{}()", __func__);
+
+  todo;
+}
+
+// 00260BF0
+void CScreenEffect::SetSepiaFlag(bool flag)
+{
+  log_trace("CScreenEffect::{}({})", __func__, flag);
+
+  todo;
+}
+
+// 00260C10
+void CScreenEffect::SetMonoFlashTexture(unkptr p1, unkptr p2)
+{
+  log_trace("CScreenEffect::{}({}, {})", __func__, fmt::ptr(p1), fmt::ptr(p2));
+
+  todo;
 }
 
 // 00260C60
