@@ -5388,19 +5388,24 @@ static bool _CTRLC_MOVE_CAMERA(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED si
   return true;
 }
 
-static bool _CTRLC_SET_ROT_CANCEL(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _CTRLC_SET_ROT_CANCEL(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  static_cast<CCameraControl*>(GetActiveCamera())->SetRotCameraCancel(GetStackInt(stack++));
   return true;
 }
 
-static bool _CTRLC_MOVE_RANGE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _CTRLC_MOVE_RANGE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera_param = static_cast<CCameraControl*>(GetActiveCamera())->GetActiveParam();
+
+  camera_param.m_unk_field_8 = GetStackFloat(stack++);
+  camera_param.m_unk_field_C = GetStackFloat(stack++);
+  camera_param.m_unk_field_0 = GetStackFloat(stack++);
+  camera_param.m_unk_field_4 = GetStackFloat(stack++);
   return true;
 }
 
