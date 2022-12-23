@@ -2389,8 +2389,17 @@ s32 CUserDataManager::GetAbs(ECharacterID chara_id, ssize gage_index, s32* max_d
   return static_cast<s32>(gage->m_current);
 }
 
+// 0019BB40
+bool CUserDataManager::CheckEnableCharaChange(ECharacterID chara_id, sint* p)
+{
+  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), fmt::ptr(p));
+
+  todo;
+  return false;
+}
+
 // 0019C2F0
-SMonsterBadgeData* GetMonsterBadgeDataPtr()
+SMonsterBadgeData* CUserDataManager::GetMonsterBadgeDataPtr()
 {
   log_trace("CUserDataManager::{}()", __func__);
 
@@ -2399,7 +2408,7 @@ SMonsterBadgeData* GetMonsterBadgeDataPtr()
 }
 
 // 0019C300
-SMonsterBadgeData* GetMonsterBadgeDataPtrMosId(EMonsterID monster_id)
+SMonsterBadgeData* CUserDataManager::GetMonsterBadgeDataPtrMosId(EMonsterID monster_id)
 {
   log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(monster_id));
 

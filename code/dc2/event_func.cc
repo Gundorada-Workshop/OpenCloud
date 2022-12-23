@@ -6303,7 +6303,20 @@ static bool _CHECK_ENABLE_CHARA_CHANGE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_U
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  if (stack_count != 2)
+  {
+    return false;
+  }
+
+  ECharacterID chara_id = static_cast<ECharacterID>(GetStackInt(stack++));
+
+  auto save_data = GetSaveData();
+  if (save_data == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack++, save_data->m_user_data_manager.CheckEnableCharaChange(chara_id));
   return true;
 }
 

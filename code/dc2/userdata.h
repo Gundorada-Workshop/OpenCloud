@@ -618,6 +618,9 @@ public:
   // 0019baa0
   void EnableCharaChange(s32 chara);
 
+  // 0019BB40
+  bool CheckEnableCharaChange(ECharacterID chara_id, sint* p = nullptr);
+
   // 0019C2F0
   SMonsterBadgeData* GetMonsterBadgeDataPtr();
 
