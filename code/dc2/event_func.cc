@@ -5057,9 +5057,14 @@ static bool _SPHIDA_GET_SCORE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _ZERO_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _ZERO_VECTOR(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+
+  if (stack_count != 3)
+  {
+    return false;
+  }
 
   SetStack(stack++, 0.0f);
   SetStack(stack++, 0.0f);
@@ -5067,9 +5072,14 @@ static bool _ZERO_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _NORMAL_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _NORMAL_VECTOR(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+
+  if (stack_count != 3)
+  {
+    return false;
+  }
 
   vec3 v
   {
@@ -5087,9 +5097,14 @@ static bool _NORMAL_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _COPY_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _COPY_VECTOR(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+
+  if (stack_count != 6)
+  {
+    return false;
+  }
 
   vec3 v = GetStackVector(&stack[3]);
 
@@ -5100,9 +5115,14 @@ static bool _COPY_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _ADD_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _ADD_VECTOR(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+
+  if (stack_count != 6)
+  {
+    return false;
+  }
 
   vec3 lhs = GetStackVector(&stack[0]);
   vec3 rhs = GetStackVector(&stack[3]);
@@ -5115,9 +5135,14 @@ static bool _ADD_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _SUB_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SUB_VECTOR(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+
+  if (stack_count != 6)
+  {
+    return false;
+  }
 
   vec3 lhs = GetStackVector(&stack[0]);
   vec3 rhs = GetStackVector(&stack[3]);
@@ -5130,13 +5155,18 @@ static bool _SUB_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _SCALE_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SCALE_VECTOR(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
+  if (stack_count != 4)
+  {
+    return false;
+  }
+
   vec3 lhs = GetStackVector(&stack[0]);
-  vec3 rhs = GetStackVector(&stack[3]);
-  lhs *= rhs;
+  f32 scale = GetStackFloat(&stack[3]);
+  lhs *= scale;
 
   SetStack(&stack[0], lhs.x);
   SetStack(&stack[1], lhs.y);
@@ -5145,9 +5175,14 @@ static bool _SCALE_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _DIV_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _DIV_VECTOR(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+
+  if (stack_count != 4)
+  {
+    return false;
+  }
 
   // Check for division by zero
   f32 divisor = GetStackFloat(&stack[3]);
@@ -5169,59 +5204,94 @@ static bool _DIV_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _DIST_VECTOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _DIST_VECTOR(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  SetStack(stack, mgDistVector(GetStackVector(stack).xyz));
+  if (stack_count != 4)
+  {
+    return false;
+  }
+
+  SetStack(&stack[3], mgDistVector(GetStackVector(&stack[0])));
   return true;
 }
 
-static bool _DIST_VECTOR2(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _DIST_VECTOR2(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  SetStack(stack, mgDistVector2(GetStackVector(stack).xyz));
+  if (stack_count != 7)
+  {
+    return false;
+  }
+
+  SetStack(&stack[6], mgDistVector2(GetStackVector(&stack[0]), GetStackVector(&stack[3])));
   return true;
 }
 
-static bool _SQRT(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SQRT(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  SetStack(stack, sqrtf(GetStackFloat(stack)));
+  if (stack_count != 2)
+  {
+    return false;
+  }
+
+  SetStack(&stack[1], sqrtf(GetStackFloat(&stack[0])));
   return true;
 }
 
-static bool _ATAN2F(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _ATAN2F(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  SetStack(stack, atan2f(GetStackFloat(&stack[0]), GetStackFloat(&stack[1])));
+  if (stack_count != 3)
+  {
+    return false;
+  }
+
+  SetStack(&stack[2], atan2f(GetStackFloat(&stack[0]), GetStackFloat(&stack[1])));
   return true;
 }
 
-static bool _ANGLE_CMP(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _ANGLE_CMP(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  SetStack(stack, mgAngleCmp(GetStackFloat(&stack[0]), GetStackFloat(&stack[1]), GetStackFloat(&stack[2])));
+  if (stack_count != 4)
+  {
+    return false;
+  }
+
+  SetStack(&stack[3], mgAngleCmp(GetStackFloat(&stack[0]), GetStackFloat(&stack[1]), GetStackFloat(&stack[2])));
   return true;
 }
 
-static bool _ANGLE_LIMIT(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _ANGLE_LIMIT(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+
+  if (stack_count != 1)
+  {
+    return false;
+  }
 
   SetStack(stack, mgAngleLimit(GetStackFloat(stack)));
   return true;
 }
 
-static bool _GET_RAND(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_RAND(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  if ((stack++)->m_data_type == EStackDataType::Float)
+  if (stack_count != 2)
+  {
+    return false;
+  }
+
+  if (stack->m_data_type == EStackDataType::Float)
   {
     f32 n = GetStackFloat(stack++);
     SetStack(stack, rand() / f32(common::constants::s32_max) * n);
