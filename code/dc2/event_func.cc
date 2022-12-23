@@ -5416,8 +5416,7 @@ static bool _CONV_CHRNO_S2L(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint 
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  return false;
 }
 
 static bool _SWE_INIT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
@@ -5456,7 +5455,9 @@ static bool _SET_CHARA_TYPE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint 
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto chara_index = GetStackInt(stack++);
+  auto chara_type = GetStackInt(stack++);
+  EventScene->SetType(ESceneDataType::Character, chara_index, chara_type);
   return true;
 }
 
@@ -5507,7 +5508,7 @@ static bool _GET_FLOOR_INFO(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _GET_NEXT_FLOOR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_NEXT_FLOOR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
