@@ -2558,6 +2558,9 @@ ECommonItemData CUserDataManager::GetFishingRodNo() const
 {
   log_trace("CUserDataManager::{}()", __func__);
 
+  // Return Invalid instead? The game just unconditionally returns Max's melee weapon item ID.
+  assert_msg(m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table[0].IsFishingRod(), "Fishing rod is not equipped!");
+
   return m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table[0].m_common_index;
 }
 
@@ -2593,6 +2596,20 @@ CGameDataUsed* CUserDataManager::GetActiveBait(ECommonItemData item_id)
     default:
       return nullptr;
   }
+}
+
+// 0019D2E0
+sint CUserDataManager::AddFp(sint fishing_points)
+{
+  // Adds *fishing points*, might change this fn name later to be clear
+  log_trace("CUserDataManager::{}({})", __func__, fishing_points);
+
+  if (GetFishingRodNo() == ECommonItemData::Invalid)
+  {
+    return 0;
+  }
+
+  return m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table[0].AddFusionPoint(fishing_points);
 }
 
 // 0019D560
