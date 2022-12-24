@@ -181,6 +181,8 @@ struct ITEM_MISC_USED
 {
   // 0
   s16 m_stack_num{};
+  // 2
+  s16 m_unk_field_2{};
 };
 
 struct CLOTHING_USED
@@ -408,6 +410,8 @@ public:
   void CopyGameData(CGameDataUsed* other);
   // 00199A50
   bool CopyDataWeapon(ECommonItemData item_id);
+  // 00199C90
+  bool CopyDataItem(ECommonItemData item_id);
 
   // 0
   EUsedItemType m_type{ static_cast<EUsedItemType>(0) };

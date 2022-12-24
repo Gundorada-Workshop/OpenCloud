@@ -2092,6 +2092,40 @@ bool CGameDataUsed::CopyDataWeapon(ECommonItemData item_id)
   return true;
 }
 
+// 00199C90
+bool CGameDataUsed::CopyDataItem(ECommonItemData item_id)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, std::to_underlying(item_id));
+
+  auto item_data = GetCommonItemData(item_id);
+  if (item_data == nullptr)
+  {
+    log_warn("{}: unrecognized item ID {}", __func__, std::to_underlying(item_id));
+    return false;
+  }
+
+  if (m_common_index == item_id)
+  {
+    // This item already exists; we need to add a new item to this stack of items instead.
+    if (CheckStackRemain() > 0)
+    {
+      ++as.item_misc.m_stack_num;
+    }
+  }
+  else
+  {
+    // Turn this data into the new item
+    m_item_data_type = item_data->m_type;
+    m_type = ConvertUsedItemType(m_item_data_type);
+    m_common_index = item_id;
+
+    as.item_misc.m_stack_num = 1;
+    as.item_misc.m_unk_field_2 = 0;
+  }
+
+  return true;
+}
+
 // 0019AE10
 CFishingRecord::CFishingRecord()
 {
