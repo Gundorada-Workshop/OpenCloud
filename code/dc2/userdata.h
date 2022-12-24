@@ -686,6 +686,9 @@ public:
   // 0019D560
   void SetChrEquipDirect(ECharacterID chara_id, ECommonItemData item_id);
 
+  // 0019D610
+  CGameDataUsed* SearchEquip(ECharacterID chara_id, ECommonItemData item_id);
+
   // 0019D840
   s32 SearchSpaceUsedData() const;
 

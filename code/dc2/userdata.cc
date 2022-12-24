@@ -2603,6 +2603,68 @@ void CUserDataManager::SetChrEquipDirect(ECharacterID chara_id, ECommonItemData 
   return;
 }
 
+// 0019D610
+CGameDataUsed* CUserDataManager::SearchEquip(ECharacterID chara_id, ECommonItemData item_id)
+{
+  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), std::to_underlying(item_id));
+
+  using enum ECharacterID;
+
+  CGameDataUsed* result = nullptr;
+
+  switch (chara_id)
+  {
+    case Max:
+    case Monica:
+    {
+      // Human characters
+      auto chara_data = GetCharaDataPtr(chara_id);
+
+      // Is the item equipped as an active item?
+      for (auto& item : chara_data->m_active_item_info)
+      {
+        if (item.m_common_index == item_id)
+        {
+          result = &item;
+          break;
+        }
+      }
+
+      if (result != nullptr)
+      {
+        break;
+      }
+
+      // Is the item equipped as a weapon?
+      for (auto& item : chara_data->m_equip_table)
+      {
+        if (item.m_common_index == item_id)
+        {
+          result = &item;
+          break;
+        }
+      }
+
+      break;
+    }
+    case Ridepod:
+      // Steve
+      // We can just check all of the robot's items in one place
+      for (auto& item : m_robo_data.m_parts.data)
+      {
+        if (item.m_common_index == item_id)
+        {
+          result = &item;
+          break;
+        }
+      }
+    default:
+      break;
+  }
+
+  return result;
+}
+
 // 0019D840
 s32 CUserDataManager::SearchSpaceUsedData() const
 {
