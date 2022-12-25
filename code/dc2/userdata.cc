@@ -2092,6 +2092,44 @@ bool CGameDataUsed::CopyDataWeapon(ECommonItemData item_id)
   return true;
 }
 
+// 00199B80
+bool CGameDataUsed::CopyDataAttach(ECommonItemData item_id)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, std::to_underlying(item_id));
+
+  auto attach_data = GameItemDataManage.GetAttachData(item_id);
+  if (attach_data == nullptr)
+  {
+    return false;
+  }
+
+  if (m_common_index == item_id && CheckTypeEnableStack())
+  {
+    // This item already exists; we need to add a new item to this stack of items instead.
+    AddNum(1, true);
+  }
+  else
+  {
+    // Turn this data into the new item
+    m_type = EUsedItemType::Attach;
+    m_common_index = item_id;
+    m_item_data_type = GetItemDataType(item_id);
+
+    as.attach.m_attack = attach_data->m_attack;
+    as.attach.m_durable = attach_data->m_durable;
+
+    for (usize i = 0; i < as.attach.m_properties.size(); ++i)
+    {
+      as.attach.m_properties[i] = attach_data->m_properties[i];
+    }
+
+    as.attach.m_unk_field_1C = attach_data->m_unk_field_14;
+    as.attach.m_stack_num = 1;
+  }
+
+  return true;
+}
+
 // 00199C90
 bool CGameDataUsed::CopyDataItem(ECommonItemData item_id)
 {

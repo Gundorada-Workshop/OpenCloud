@@ -410,6 +410,8 @@ public:
   void CopyGameData(CGameDataUsed* other);
   // 00199A50
   bool CopyDataWeapon(ECommonItemData item_id);
+  // 00199B80
+  bool CopyDataAttach(ECommonItemData item_id);
   // 00199C90
   bool CopyDataItem(ECommonItemData item_id);
 

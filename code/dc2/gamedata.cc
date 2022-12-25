@@ -351,10 +351,8 @@ static bool _DATAATTACH_ST(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
     return false;
   }
 
-  for (int i = 0; i < 2; ++i)
-  {
-    SpiAttach->m_unk_field_0[i] = static_cast<s16>(spiGetStackInt(stack++));
-  }
+  SpiAttach->m_attack = static_cast<s16>(spiGetStackInt(stack++));
+  SpiAttach->m_durable = static_cast<s16>(spiGetStackInt(stack++));
 
   return true;
 }
@@ -373,7 +371,7 @@ static bool _DATAATTACH_ST2(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 
   for (int i = 0; i < 8; ++i)
   {
-    SpiAttach->m_unk_field_4[i] = static_cast<s16>(spiGetStackInt(stack++));
+    SpiAttach->m_properties[i] = static_cast<s16>(spiGetStackInt(stack++));
   }
 
   return true;
