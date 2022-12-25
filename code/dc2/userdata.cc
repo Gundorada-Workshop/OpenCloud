@@ -2630,6 +2630,24 @@ SMonsterBadgeData* CUserDataManager::GetMonsterBadgeDataPtrMosId(EMonsterID mons
   return nullptr;
 }
 
+// 0019C310
+usize CUserDataManager::GetItemBoardOverNum() const
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+  return 0;
+}
+
+// 0019C350
+usize CUserDataManager::GetItemBoardMaxNum(bool b) const
+{
+  log_trace("CUserDataManager::{}({})", __func__, b);
+
+  todo;
+  return 0;
+}
+
 // 0019c420
 void CUserDataManager::SetRoboName(std::string name)
 {
@@ -3035,11 +3053,19 @@ bool CUserDataManager::AddFusionPoint(ECharacterID chara_id, ssize equip_index, 
 }
 
 // 0019D840
-s32 CUserDataManager::SearchSpaceUsedData() const
+ssize CUserDataManager::SearchSpaceUsedData() const
 {
   log_trace("CUserDataManager::{}()", __func__);
 
-  todo;
+  usize capacity = GetNowBagMax();
+  for (usize i = 0; i < capacity; ++i)
+  {
+    if (m_inventory[i].m_common_index == ECommonItemData::Invalid)
+    {
+      return i;
+    }
+  }
+
   return -1;
 }
 
@@ -3991,6 +4017,15 @@ void DeleteErekiFish()
   log_trace("{}()", __func__);
 
   todo;
+}
+
+// 001A1910
+usize GetNowBagMax(bool b)
+{
+  log_trace("{}({})", __func__, b);
+
+  todo;
+  return 0;
 }
 
 // 001A1940

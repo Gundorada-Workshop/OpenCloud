@@ -664,7 +664,7 @@ static bool _GET_ITEM_SPACE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
     return false;
   }
 
-  SetStack(stack, save_data->m_user_data_manager.SearchSpaceUsedData());
+  SetStack(stack, static_cast<sint>(save_data->m_user_data_manager.SearchSpaceUsedData()));
   return true;
 }
 

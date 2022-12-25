@@ -676,6 +676,12 @@ public:
   // 0019C300
   SMonsterBadgeData* GetMonsterBadgeDataPtrMosId(EMonsterID monster_id);
 
+  // 0019C310
+  usize GetItemBoardOverNum() const;
+
+  // 0019C350
+  usize GetItemBoardMaxNum(bool b) const;
+
   // 0019C3D0
   void SetActiveChrNo(ECharacterID chara_id);
 
@@ -751,7 +757,7 @@ public:
   bool AddFusionPoint(ECharacterID chara_id, ssize equip_index, sint delta);
 
   // 0019D840
-  s32 SearchSpaceUsedData() const;
+  ssize SearchSpaceUsedData() const;
 
   // 0019DD70
   bool CheckElectricFish() const;
@@ -1062,6 +1068,9 @@ ECharacterID IsItemtypeWhoisEquip(ECommonItemData item_id, ssize* equip_index_de
 
 // 001A1880
 void DeleteErekiFish();
+
+// 001A1910
+usize GetNowBagMax(bool b = false);
 
 // 001A1940
 void LeaveMonicaItemCheck();
