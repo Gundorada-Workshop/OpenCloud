@@ -527,6 +527,33 @@ public:
   std::array<SMonsterBadgeData, 0x40> m_monster_badge_data;
 };
 
+// Equipment for human players
+union EQUIP_TABLE
+{
+  std::array<CGameDataUsed, 5> data{};
+  struct
+  {
+    CGameDataUsed melee;
+    CGameDataUsed ranged;
+    CGameDataUsed hat;
+    CGameDataUsed shoes;
+    CGameDataUsed torso;
+  };
+};
+
+// Equipment for ridepod
+union ROBO_EQUIP_TABLE
+{
+  std::array<CGameDataUsed, 4> data{};
+  struct
+  {
+    CGameDataUsed arm;
+    CGameDataUsed body;
+    CGameDataUsed battery;
+    CGameDataUsed leg;
+  };
+};
+
 struct SCharaData
 {
   // Contains information about Max's/Monica's equipped items
@@ -546,7 +573,7 @@ struct SCharaData
   // 2C
   std::array<CGameDataUsed, 3> m_active_item_info;
   // 170
-  std::array<CGameDataUsed, 5> m_equip_table;
+  EQUIP_TABLE m_equip_table{};
   // SIZE 0x38C
 };
 
@@ -578,21 +605,8 @@ struct ROBO_DATA
   COMMON_GAGE m_chara_hp_gage{};
   // 28
   COMMON_GAGE m_abs_gage{};
-  union
-  {
-    std::array<CGameDataUsed, 4> data;
-    struct
-    {
-      // 30
-      CGameDataUsed weapon; // ROBOPART_USED
-      // 9C
-      CGameDataUsed body; // ROBOPART_USED
-      // 108
-      CGameDataUsed battery; // ROBOPART_USED
-      // 174
-      CGameDataUsed legs; // ROBOPART_USED
-    };
-  } m_parts;
+  // 30
+  ROBO_EQUIP_TABLE m_equip_table{};
 
   // ?
 
@@ -971,7 +985,14 @@ public:
   // 2C
   CGameDataUsed* m_active_item_info{ nullptr };
   // 30
-  CGameDataUsed* m_equip_table{ nullptr };
+  struct
+  {
+    union
+    {
+      EQUIP_TABLE* human{ nullptr };
+      ROBO_EQUIP_TABLE* robo;
+    } as;
+  } m_equip_table;
   // 34
   SBattleCharaInfoParam m_param{};
   // 74

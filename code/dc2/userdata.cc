@@ -1949,7 +1949,7 @@ void CGameDataUsed::CopyGameData(CGameDataUsed* other)
 
   auto robo_data = user_man->m_robo_data;
 
-  if (this == &robo_data.m_parts.battery)
+  if (this == &robo_data.m_equip_table.battery)
   {
     auto hp = truncf(robo_data.m_chara_hp_gage.m_max);
     robo_data.m_chara_hp_gage.m_max = as.robopart.m_battery_gage.m_max;
@@ -1996,7 +1996,7 @@ std::optional<std::string> GetMainCharaModelName(ECharacterID chara_id, bool b)
     return std::nullopt;
   }
 
-  auto model_no_opt = chara_data->m_equip_table[0].GetModelNo();
+  auto model_no_opt = chara_data->m_equip_table.melee.GetModelNo();
   u8 model_no = 0;
 
   if (model_no_opt.has_value()) [[likely]]
@@ -2332,19 +2332,19 @@ CUserDataManager::CUserDataManager()
     new (&game_data_used) CGameDataUsed;
   }
 
-  for (auto& unk_struct : m_chara_data)
+  for (auto& chara_data : m_chara_data)
   {
-    for (auto& game_data_used : unk_struct.m_active_item_info)
+    for (auto& game_data_used : chara_data.m_active_item_info)
     {
       new (&game_data_used) CGameDataUsed;
     }
-    for (auto& game_data_used : unk_struct.m_equip_table)
+    for (auto& game_data_used : chara_data.m_equip_table.data)
     {
       new (&game_data_used) CGameDataUsed;
     }
   }
 
-  for (auto& game_data_used : m_robo_data.m_parts.data)
+  for (auto& game_data_used : m_robo_data.m_equip_table.data)
   {
     new (&game_data_used) CGameDataUsed;
   }
@@ -2471,7 +2471,7 @@ COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_inde
   switch (chara_id)
   {
     case Ridepod:
-      return &m_robo_data.m_parts.weapon.as.robopart.m_whp_gage;
+      return &m_robo_data.m_equip_table.arm.as.robopart.m_whp_gage;
     case Monster:
     {
       auto badge_data = m_monster_box.GetMonsterBadgeData(m_monster_id);
@@ -2483,7 +2483,7 @@ COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_inde
     }
     case Max:
     case Monica:
-      return &m_chara_data[std::to_underlying(chara_id)].m_equip_table[gage_index].as.weapon.m_whp_gage;
+      return &m_chara_data[std::to_underlying(chara_id)].m_equip_table.data[gage_index].as.weapon.m_whp_gage;
     default:
       return nullptr;
   }
@@ -2511,7 +2511,7 @@ COMMON_GAGE* CUserDataManager::GetAbsGage(ECharacterID chara_id, ssize gage_inde
     }
     case Max:
     case Monica:
-      return &m_chara_data[std::to_underlying(chara_id)].m_equip_table[gage_index].as.weapon.m_abs_gage;
+      return &m_chara_data[std::to_underlying(chara_id)].m_equip_table.data[gage_index].as.weapon.m_abs_gage;
     default:
       return nullptr;
   }
@@ -2763,7 +2763,7 @@ void CUserDataManager::AllWeaponRepair()
     data_used.Repair(999);
   }
 
-  m_robo_data.m_parts.weapon.Repair(999);
+  m_robo_data.m_equip_table.arm.Repair(999);
   m_robo_data.AddPoint(999.0f);
 }
 
@@ -2773,9 +2773,9 @@ ECommonItemData CUserDataManager::GetFishingRodNo() const
   log_trace("CUserDataManager::{}()", __func__);
 
   // Return Invalid instead? The game just unconditionally returns Max's melee weapon item ID.
-  assert_msg(m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table[0].IsFishingRod(), "Fishing rod is not equipped!");
+  assert_msg(m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table.melee.IsFishingRod(), "Fishing rod is not equipped!");
 
-  return m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table[0].m_common_index;
+  return m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table.melee.m_common_index;
 }
 
 // 0019CEB0
@@ -2783,7 +2783,7 @@ bool CUserDataManager::NowFishingStyle() const
 {
   log_trace("CUserDataManager::{}()", __func__);
 
-  return m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table[0].IsFishingRod();
+  return m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table.melee.IsFishingRod();
 }
 
 // 0019CEE0
@@ -2823,7 +2823,7 @@ sint CUserDataManager::AddFp(sint fishing_points)
     return 0;
   }
 
-  return m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table[0].AddFusionPoint(fishing_points);
+  return m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table.melee.AddFusionPoint(fishing_points);
 }
 
 // 0019D330
@@ -2858,7 +2858,7 @@ bool CUserDataManager::SetChrEquip(ECharacterID chara_id, CGameDataUsed* equipme
         return false;
       }
 
-      GameDataSwap(equipment, &chara_data->m_equip_table[equip_index]);
+      GameDataSwap(equipment, &chara_data->m_equip_table.data[equip_index]);
       if (battle_chara != nullptr)
       {
         battle_chara->RefreshParameter();
@@ -2868,11 +2868,11 @@ bool CUserDataManager::SetChrEquip(ECharacterID chara_id, CGameDataUsed* equipme
     }
     case ECharacterID::Ridepod:
     {
-      for (usize i = 0; i < m_robo_data.m_parts.data.size(); ++i)
+      for (usize i = 0; i < m_robo_data.m_equip_table.data.size(); ++i)
       {
         if (SearchEquipType(ECharacterID::Ridepod, i) == equipment_item_type)
         {
-          GameDataSwap(&m_robo_data.m_parts.data[i], equipment);
+          GameDataSwap(&m_robo_data.m_equip_table.data[i], equipment);
           if (battle_chara != nullptr)
           {
             battle_chara->RefreshParameter();
@@ -2956,7 +2956,7 @@ CGameDataUsed* CUserDataManager::SearchEquip(ECharacterID chara_id, ECommonItemD
       }
 
       // Is the item equipped as a weapon?
-      for (auto& item : chara_data->m_equip_table)
+      for (auto& item : chara_data->m_equip_table.data)
       {
         if (item.m_common_index == item_id)
         {
@@ -2970,7 +2970,7 @@ CGameDataUsed* CUserDataManager::SearchEquip(ECharacterID chara_id, ECommonItemD
     case Ridepod:
       // Steve
       // We can just check all of the robot's items in one place
-      for (auto& item : m_robo_data.m_parts.data)
+      for (auto& item : m_robo_data.m_equip_table.data)
       {
         if (item.m_common_index == item_id)
         {
@@ -3002,14 +3002,14 @@ std::string CUserDataManager::GetCharaEquipDataPath(ECharacterID chara_id, ssize
         return "";
       }
 
-      return m_chara_data[std::to_underlying(chara_id)].m_equip_table[equip_index].GetDataPath();
+      return m_chara_data[std::to_underlying(chara_id)].m_equip_table.data[equip_index].GetDataPath();
     case Ridepod:
       if (equip_index < 0 || equip_index >= 4)
       {
         return "";
       }
 
-      return m_robo_data.m_parts.data[equip_index].GetDataPath();
+      return m_robo_data.m_equip_table.data[equip_index].GetDataPath();
     default:
       return "";
   }
@@ -3226,7 +3226,7 @@ s16 ROBO_DATA::GetDefenceVol()
 {
   log_trace("ROBO_DATA::{}()", __func__);
 
-  return m_parts.body.as.robopart.m_defense + m_n_shield_kits * 4;
+  return m_equip_table.body.as.robopart.m_defense + m_n_shield_kits * 4;
 }
 
 // 0019A830
@@ -3347,7 +3347,7 @@ CGameDataUsed* CBattleCharaInfo::GetEquipTablePtr(usize index)
     return nullptr;
   }
 
-  return &m_equip_table[index];
+  return &m_equip_table.as.human->data[index];
 }
 
 // 0019F010
@@ -3447,9 +3447,9 @@ COMMON_GAGE* CBattleCharaInfo::GetNowAccessWHp(usize weapon_index) const
   switch (m_battle_chara_type)
   {
     case EBattleCharaType::Human:
-      if (m_equip_table != nullptr)
+      if (m_equip_table.as.human != nullptr)
       {
-        return &m_equip_table[weapon_index].as.weapon.m_whp_gage;
+        return &m_equip_table.as.human->data[weapon_index].as.weapon.m_whp_gage;
       }
       return nullptr;
     case EBattleCharaType::MonsterTransform:
@@ -3473,9 +3473,9 @@ COMMON_GAGE* CBattleCharaInfo::GetNowAccessAbs(usize weapon_index) const
   switch (m_battle_chara_type)
   {
     case EBattleCharaType::Human:
-      if (m_equip_table != nullptr)
+      if (m_equip_table.as.human != nullptr)
       {
-        return &m_equip_table[weapon_index].as.weapon.m_abs_gage;
+        return &m_equip_table.as.human->data[weapon_index].as.weapon.m_abs_gage;
       }
       return nullptr;
     case EBattleCharaType::MonsterTransform:
@@ -3829,7 +3829,7 @@ void GameDataSwap(CGameDataUsed* data1, CGameDataUsed* data2, bool check_fishing
   }
 
   // Now we gotta do some checks for fishing rods, it seems?
-  CGameDataUsed* equipped_potential_rod = &GetUserDataMan()->m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table[0];
+  CGameDataUsed* equipped_potential_rod = &GetUserDataMan()->m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table.melee;
   if ((data1 == equipped_potential_rod || data2 == equipped_potential_rod) && data1->IsFishingRod() != data2->IsFishingRod())
   {
     if (data1 == equipped_potential_rod)
