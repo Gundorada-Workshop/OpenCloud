@@ -2826,11 +2826,71 @@ sint CUserDataManager::AddFp(sint fishing_points)
   return m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table[0].AddFusionPoint(fishing_points);
 }
 
+// 0019D330
+bool CUserDataManager::SetChrEquip(ECharacterID chara_id, CGameDataUsed* equipment)
+{
+  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), fmt::ptr(equipment));
+
+  if (equipment == nullptr)
+  {
+    return false;
+  }
+
+  auto equipment_item_id = equipment->m_common_index;
+  auto equipment_item_type = GetGameDataPtr()->GetDataType(equipment_item_id);
+  auto battle_chara = GetBattleCharaInfo();
+
+  switch (chara_id)
+  {
+    case ECharacterID::Max:
+    case ECharacterID::Monica:
+    {
+      auto chara_data = GetCharaDataPtr(chara_id);
+
+      ssize equip_index;
+      if (IsItemtypeWhoisEquip(equipment_item_id, &equip_index) != chara_id)
+      {
+        return false;
+      }
+
+      if (equip_index < 0)
+      {
+        return false;
+      }
+
+      GameDataSwap(equipment, &chara_data->m_equip_table[equip_index]);
+      if (battle_chara != nullptr)
+      {
+        battle_chara->RefreshParameter();
+      }
+
+      return true;
+    }
+    case ECharacterID::Ridepod:
+    {
+      for (usize i = 0; i < m_robo_data.m_parts.data.size(); ++i)
+      {
+        if (SearchEquipType(ECharacterID::Ridepod, i) == equipment_item_type)
+        {
+          GameDataSwap(&m_robo_data.m_parts.data[i], equipment);
+          if (battle_chara != nullptr)
+          {
+            battle_chara->RefreshParameter();
+          }
+          return true;
+        }
+      }
+      return false;
+    }
+  }
+}
+
 // 0019D560
 void CUserDataManager::SetChrEquipDirect(ECharacterID chara_id, ECommonItemData item_id)
 {
   log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), std::to_underlying(item_id));
 
+  todo;
   return;
 }
 

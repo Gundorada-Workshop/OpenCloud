@@ -721,6 +721,9 @@ public:
   // 0019D2E0
   sint AddFp(sint fishing_points);
 
+  // 0019D330
+  bool SetChrEquip(ECharacterID chara_id, CGameDataUsed* equipment);
+
   // 0019D560
   void SetChrEquipDirect(ECharacterID chara_id, ECommonItemData item_id);
 

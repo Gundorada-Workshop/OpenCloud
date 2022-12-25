@@ -774,6 +774,12 @@ public:
 // 00195470
 bool LoadGameDataAnalyze(const char* config_file_name);
 
+// 001945F0
+inline CGameData* GetGameDataPtr()
+{
+  return &GameItemDataManage;
+}
+
 // 00195C20
 SDataItemCommon* GetCommonItemData(ECommonItemData index);
 
