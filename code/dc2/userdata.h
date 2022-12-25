@@ -725,7 +725,7 @@ public:
   bool SetChrEquip(ECharacterID chara_id, CGameDataUsed* equipment);
 
   // 0019D560
-  void SetChrEquipDirect(ECharacterID chara_id, ECommonItemData item_id);
+  bool SetChrEquipDirect(ECharacterID chara_id, ECommonItemData item_id);
 
   // 0019D610
   CGameDataUsed* SearchEquip(ECharacterID chara_id, ECommonItemData item_id);

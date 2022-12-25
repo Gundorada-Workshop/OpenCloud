@@ -2886,12 +2886,41 @@ bool CUserDataManager::SetChrEquip(ECharacterID chara_id, CGameDataUsed* equipme
 }
 
 // 0019D560
-void CUserDataManager::SetChrEquipDirect(ECharacterID chara_id, ECommonItemData item_id)
+bool CUserDataManager::SetChrEquipDirect(ECharacterID chara_id, ECommonItemData item_id)
 {
+  // Directly applies equipment to a character given an item ID, useful if you don't care about any equipment stats in particular.
+  // For example, changing Max's clothes in the title or viewing different costumes on a character.
+
   log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), std::to_underlying(item_id));
 
-  todo;
-  return;
+  if (item_id == ECommonItemData::Invalid)
+  {
+    return false;
+  }
+
+  switch (chara_id)
+  {
+    case ECharacterID::Max:
+    case ECharacterID::Monica:
+    case ECharacterID::Ridepod:
+    {
+      if (SearchEquip(chara_id, item_id) != nullptr)
+      {
+        // Already equipped!
+        return false;
+      }
+
+      // Initialize the equipment.
+      CGameDataUsed equipment{};
+      CopyGameData(&equipment, item_id);
+
+      // Slap that equipment on
+      SetChrEquip(chara_id, &equipment);
+      return true;
+    }
+    default:
+      return false;
+  }
 }
 
 // 0019D610
