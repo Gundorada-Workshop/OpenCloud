@@ -730,6 +730,9 @@ public:
   // 0019D610
   CGameDataUsed* SearchEquip(ECharacterID chara_id, ECommonItemData item_id);
 
+  // 0019D710
+  std::string GetCharaEquipDataPath(ECharacterID chara_id, ssize equip_index) const;
+
   // 0019D840
   s32 SearchSpaceUsedData() const;
 

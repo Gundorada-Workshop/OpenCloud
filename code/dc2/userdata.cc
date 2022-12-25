@@ -2986,6 +2986,35 @@ CGameDataUsed* CUserDataManager::SearchEquip(ECharacterID chara_id, ECommonItemD
   return result;
 }
 
+// 0019D710
+std::string CUserDataManager::GetCharaEquipDataPath(ECharacterID chara_id, ssize equip_index) const
+{
+  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), equip_index);
+
+  using enum ECharacterID;
+
+  switch (chara_id)
+  {
+    case Max:
+    case Monica:
+      if (equip_index < 0 || equip_index >= 5)
+      {
+        return "";
+      }
+
+      return m_chara_data[std::to_underlying(chara_id)].m_equip_table[equip_index].GetDataPath();
+    case Ridepod:
+      if (equip_index < 0 || equip_index >= 4)
+      {
+        return "";
+      }
+
+      return m_robo_data.m_parts.data[equip_index].GetDataPath();
+    default:
+      return "";
+  }
+}
+
 // 0019D840
 s32 CUserDataManager::SearchSpaceUsedData() const
 {
