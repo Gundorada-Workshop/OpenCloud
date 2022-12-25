@@ -650,19 +650,19 @@ public:
   // 0
   s16 m_use_capacity{ 0 };
   // 2
-  s16 m_unk_field_2{ 0 };
+  s16 m_battery_max{ 0 };
   // 4
   s16 m_unk_field_4{ 0 };
   // 6
-  s16 m_unk_field_6{ 0 };
+  s16 m_whp_max{ 0 };
   // 8
-  s16 m_unk_field_8{ 0 };
+  s16 m_attack{ 0 };
   // A
-  s16 m_unk_field_A{ 0 };
+  s16 m_durable{ 0 };
   // C
-  std::array<s16, 8> m_unk_field_C{ 0 };
+  std::array<s16, 8> m_properties{ 0 };
   // 1C
-  s16 m_unk_field_1C{ 0 };
+  s16 m_defense{ 0 };
   // 1E
   EAttackType m_unk_field_1E{};
   // 20

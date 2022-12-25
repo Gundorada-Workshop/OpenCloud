@@ -255,7 +255,9 @@ struct ROBOPART_USED
   // 14
   std::array<s16, std::to_underlying(WeaponProperty::COUNT)> m_properties{};
   // 24
-  s16 m_defence{};
+  s16 m_defense{};
+  // 26
+  s16 m_unk_field_26{};
   // 2C
   std::array<char, 0x20> m_name{ 0 };
 };
@@ -437,6 +439,8 @@ public:
   bool CopyDataFish(ECommonItemData item_id);
   // 00199ED0
   bool CopyDataGiftBox(ECommonItemData item_id);
+  // 0019A040
+  bool CopyDataRoboPart(ECommonItemData item_id);
 
   // 0
   EUsedItemType m_type{ static_cast<EUsedItemType>(0) };

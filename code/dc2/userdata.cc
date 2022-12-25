@@ -2229,6 +2229,50 @@ bool CGameDataUsed::CopyDataGiftBox(ECommonItemData item_id)
   return true;
 }
 
+// 0019A040
+bool CGameDataUsed::CopyDataRoboPart(ECommonItemData item_id)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, std::to_underlying(item_id));
+
+  auto robo_data = GameItemDataManage.GetRoboData(item_id);
+  if (robo_data == nullptr)
+  {
+    return false;
+  }
+
+  m_type = EUsedItemType::Robopart;
+  m_common_index = item_id;
+  m_item_data_type = GetItemDataType(item_id);
+
+  // HP
+  f32 whp = static_cast<f32>(robo_data->m_whp_max);
+  as.robopart.m_whp_gage.m_max = whp;
+  as.robopart.m_whp_gage.m_current = whp;
+
+  // Battery/fuel
+  f32 battery = static_cast<f32>(robo_data->m_battery_max);
+  as.robopart.m_battery_gage.m_max = battery;
+  as.robopart.m_battery_gage.m_current = battery;
+
+  // Defense
+  as.robopart.m_defense = robo_data->m_defense;
+
+  as.robopart.m_unk_field_26 = robo_data->m_unk_field_4;
+
+  // Properties
+  as.robopart.m_attack = robo_data->m_attack;
+  as.robopart.m_durable = robo_data->m_durable;
+
+  for (usize i = 0; i < as.robopart.m_properties.size(); ++i)
+  {
+    as.robopart.m_properties[i] = robo_data->m_properties[i];
+  }
+
+  strcpy_s(as.robopart.m_name.data(), as.robopart.m_name.size(), GetItemMessage(item_id).c_str());
+
+  return true;
+}
+
 // 0019AE10
 CFishingRecord::CFishingRecord()
 {
@@ -2983,7 +3027,7 @@ s16 ROBO_DATA::GetDefenceVol()
 {
   log_trace("ROBO_DATA::{}()", __func__);
 
-  return m_parts.body.as.robopart.m_defence + m_n_shield_kits * 4;
+  return m_parts.body.as.robopart.m_defense + m_n_shield_kits * 4;
 }
 
 // 0019A830

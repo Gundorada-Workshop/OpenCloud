@@ -429,16 +429,16 @@ static bool _DATAROBO_ANALYZE(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
   switch (mode)
   {
     case 0:
-      SpiRoboPart->m_unk_field_1C = static_cast<s16>(spiGetStackInt(stack++));
+      SpiRoboPart->m_defense = static_cast<s16>(spiGetStackInt(stack++));
       break;
     case 1:
-      SpiRoboPart->m_unk_field_6 = static_cast<s16>(spiGetStackInt(stack++));
-      SpiRoboPart->m_unk_field_8 = static_cast<s16>(spiGetStackInt(stack++));
-      SpiRoboPart->m_unk_field_A = static_cast<s16>(spiGetStackInt(stack++));
+      SpiRoboPart->m_whp_max = static_cast<s16>(spiGetStackInt(stack++));
+      SpiRoboPart->m_attack = static_cast<s16>(spiGetStackInt(stack++));
+      SpiRoboPart->m_durable = static_cast<s16>(spiGetStackInt(stack++));
 
       for (int i = 0; i < 8; ++i)
       {
-        SpiRoboPart->m_unk_field_C[i] = static_cast<s16>(spiGetStackInt(stack++));
+        SpiRoboPart->m_properties[i] = static_cast<s16>(spiGetStackInt(stack++));
       }
       SpiRoboPart->m_unk_field_1E = static_cast<EAttackType>(spiGetStackInt(stack++));
       break;
@@ -447,7 +447,7 @@ static bool _DATAROBO_ANALYZE(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
       SpiRoboPart->m_unk_field_20 = static_cast<EAttackType>(spiGetStackInt(stack++));
       break;
     case 3:
-      SpiRoboPart->m_unk_field_2 = static_cast<s16>(spiGetStackInt(stack++));
+      SpiRoboPart->m_battery_max = static_cast<s16>(spiGetStackInt(stack++));
       break;
     default:
       break;
