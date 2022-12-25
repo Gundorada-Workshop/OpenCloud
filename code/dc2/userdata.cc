@@ -3751,6 +3751,58 @@ CBattleCharaInfo* GetBattleCharaInfo()
   return &BattleParameter;
 }
 
+// 001A1180
+ECommonItemDataType SearchEquipType(ECharacterID chara_id, ssize equip_index)
+{
+  log_trace("{}({}, {})", __func__, std::to_underlying(chara_id), equip_index);
+
+  using enum ECommonItemDataType;
+
+  // 00336398
+  static const std::unordered_map<ECharacterID, std::array<ECommonItemDataType, 5>> equip_type_tbl
+  {
+    {
+      ECharacterID::Max,
+      {
+        Melee_Max,
+        Ranged_Max,
+        Hat_Max,
+        Shoes_Max,
+        Torso_Max,
+      }
+    },
+
+    {
+      ECharacterID::Monica,
+      {
+        Melee_Monica,
+        Ranged_Monica,
+        Hat_Monica,
+        Shoes_Monica,
+        Torso_Monica,
+      }
+    },
+
+    {
+      ECharacterID::Ridepod,
+      {
+        Ridepod_Arm,
+        Ridepod_Body,
+        Ridepod_Battery,
+        Ridepod_Leg,
+        Invalid
+      }
+    }
+  };
+
+  if (!equip_type_tbl.contains(chara_id) || equip_index < 0 || equip_index >= 5)
+  {
+    return ECommonItemDataType::Invalid;
+  }
+
+  return equip_type_tbl.at(chara_id)[equip_index];
+}
+
 // 001A1880
 void DeleteErekiFish()
 {

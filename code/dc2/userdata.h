@@ -1024,6 +1024,9 @@ void CheckEquipChange(ECharacterID chara_id);
 // 001A0EA0
 CBattleCharaInfo* GetBattleCharaInfo();
 
+// 001A1180
+ECommonItemDataType SearchEquipType(ECharacterID chara_id, ssize equip_index);
+
 // 001A1880
 void DeleteErekiFish();
 
