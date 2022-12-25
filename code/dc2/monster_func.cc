@@ -1,4 +1,5 @@
 #include "common/bits.h"
+#include "common/constants.h"
 #include "common/debug.h"
 #include "common/log.h"
 #include "common/macros.h"
@@ -324,19 +325,27 @@ static bool _RESET_CAMERA_CTRL_PARAM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNU
   return true;
 }
 
-static bool _GET_RND(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_RND(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(2);
 
-  todo;
+  // NOTE: Metrowerks does multiplication, then division, which likely results in a less precise result.
+  // MSVC will likely reverse the operation for precision, but this likely won't cause any issues.
+  f32 max = GetStackInt(stack++);
+  SetStack(stack++, static_cast<s32>(static_cast<f32>(rand()) * max / static_cast<f32>(common::constants::s32_max)));
   return true;
 }
 
-static bool _GET_RNDF(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_RNDF(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(2);
 
-  todo;
+  // NOTE: Metrowerks does multiplication, then division, which likely results in a less precise result.
+  // MSVC will likely reverse the operation for precision, but this likely won't cause any issues.
+  f32 max = GetStackFloat(stack++);
+  SetStack(stack++, static_cast<f32>(rand()) * max / static_cast<f32>(common::constants::s32_max));
   return true;
 }
 
