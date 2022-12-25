@@ -2166,6 +2166,37 @@ bool CGameDataUsed::CopyDataItem(ECommonItemData item_id)
   return true;
 }
 
+// 00199F40
+bool CGameDataUsed::CopyDataItem(CGameDataUsed* other)
+{
+  // Copies other into this instance.
+  // If this function returns true, the operation was successful and other is invalidated.
+  // If this function returns false, the operation failed and other is not invalidated.
+  log_trace("CGameDataUsed::{}({})", __func__, fmt::ptr(other));
+
+  if (other == nullptr)
+  {
+    return false;
+  }
+
+  if (m_common_index == ECommonItemData::Invalid || m_common_index != other->m_common_index || !CheckTypeEnableStack())
+  {
+    GameDataSwap(this, other);
+    return true;
+  }
+
+  auto item_data = GetCommonItemData(m_common_index);
+  if (GetNum() + other->GetNum() > item_data->m_stack_max_1E)
+  {
+    return false;
+  }
+
+  AddNum(other->GetNum());
+  new (other) CGameDataUsed();
+
+  return true;
+}
+
 // 00199D40
 bool CGameDataUsed::CopyDataFish(ECommonItemData item_id)
 {
@@ -3611,7 +3642,7 @@ void SetFishingGamePreEquip(CGameDataUsed* pre_equip)
 }
 
 // 00196E80
-void GameDataSwap(CGameDataUsed* data1, CGameDataUsed* data2)
+void GameDataSwap(CGameDataUsed* data1, CGameDataUsed* data2, bool check_fishing_rods)
 {
   log_trace("{}({})", __func__, fmt::ptr(data1), fmt::ptr(data2));
 
@@ -3625,6 +3656,11 @@ void GameDataSwap(CGameDataUsed* data1, CGameDataUsed* data2)
   data_temp.CopyGameData(data1);
   data1->CopyGameData(data2);
   data2->CopyGameData(&data_temp);
+
+  if (!check_fishing_rods)
+  {
+    return;
+  }
 
   // Now we gotta do some checks for fishing rods, it seems?
   CGameDataUsed* equipped_potential_rod = &GetUserDataMan()->m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table[0];

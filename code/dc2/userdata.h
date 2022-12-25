@@ -357,7 +357,7 @@ public:
   // 00197360
   u8 GetActiveSetNum() const;
   // 00197370
-  s16 AddNum(sint delta, bool reset_if_empty);
+  s16 AddNum(sint delta, bool reset_if_empty = true);
   // 00197480
   sint GetUseCapacity() const;
   // 001974C0
@@ -435,6 +435,8 @@ public:
   bool CopyDataAttach(ECommonItemData item_id);
   // 00199C90
   bool CopyDataItem(ECommonItemData item_id);
+  // 00199F40
+  bool CopyDataItem(CGameDataUsed* other);
   // 00199D40
   bool CopyDataFish(ECommonItemData item_id);
   // 00199ED0
@@ -996,7 +998,7 @@ CUserDataManager* GetUserDataMan();
 void SetFishingGamePreEquip(CGameDataUsed* pre_equip);
 
 // 00196E80
-void GameDataSwap(CGameDataUsed* data1, CGameDataUsed* data2);
+void GameDataSwap(CGameDataUsed* data1, CGameDataUsed* data2, bool check_fishing_rods = false);
 
 // 001993F0
 std::optional<std::string> GetMainCharaModelName(ECharacterID chara_id, bool b);
