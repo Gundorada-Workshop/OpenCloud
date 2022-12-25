@@ -4,6 +4,7 @@
 #include "common/log.h"
 #include "common/macros.h"
 
+#include "dc2/camera.h"
 #include "dc2/monster.h"
 #include "dc2/monster_func.h"
 #include "dc2/run_script.h"
@@ -321,7 +322,19 @@ static bool _RESET_CAMERA_CTRL_PARAM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNU
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera = static_cast<CCameraControl*>(nowScene->GetCamera(nowScene->m_active_cmrid));
+  auto& param = camera->GetActiveParam();
+  param.m_unk_field_0 = 100.0f;
+  param.m_unk_field_4 = 160.0f;
+  param.m_unk_field_8 = 18.0f;
+  param.m_unk_field_C = 10.0f;
+  param.m_unk_field_14 = 40.0f;
+  param.m_unk_field_18 = -15.0f;
+  param.m_unk_field_1C = 20.0f;
+  param.m_unk_field_20 = -15.0f;
+  param.m_unk_field_10 = -15.0f;
+  param.m_unk_field_24 = 25.0f;
+
   return true;
 }
 
