@@ -2931,6 +2931,53 @@ void CUserDataManager::AddYarikomiMedal(sint i)
   todo;
 }
 
+// 0019E9E0
+bool CUserDataManager::CopyGameData(CGameDataUsed* dest, ECommonItemData item_id)
+{
+  log_trace("CUserDataManager::{}({}, {})", __func__, fmt::ptr(dest), std::to_underlying(item_id));
+
+  if (dest == nullptr)
+  {
+    return false;
+  }
+
+  auto common_item_data = GetCommonItemData(item_id);
+  if (common_item_data == nullptr)
+  {
+    return false;
+  }
+
+  using enum EUsedItemType;
+
+  switch (ConvertUsedItemType(common_item_data->m_type))
+  {
+    case Item_Misc:
+    case Clothing:
+      dest->CopyDataItem(item_id);
+      break;
+    case Attach:
+      dest->CopyDataAttach(item_id);
+      break;
+    case Weapon:
+      dest->CopyDataWeapon(item_id);
+      break;
+    case Robopart:
+      dest->CopyDataRoboPart(item_id);
+      break;
+    case Fish:
+      dest->CopyDataFish(item_id);
+      break;
+    case Gift_Box:
+      dest->CopyDataGiftBox(item_id);
+      break;
+    default:
+      log_warn("{}: Unrecognized used item type for item ID {}", __func__, std::to_underlying(item_id));
+      break;
+  }
+
+  return true;
+}
+
 // 0019EAF0
 s32 CUserDataManager::AddMoney(s32 delta)
 {
