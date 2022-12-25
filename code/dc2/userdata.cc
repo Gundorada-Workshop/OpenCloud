@@ -2164,6 +2164,48 @@ bool CGameDataUsed::CopyDataItem(ECommonItemData item_id)
   return true;
 }
 
+// 00199D40
+bool CGameDataUsed::CopyDataFish(ECommonItemData item_id)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, std::to_underlying(item_id));
+
+  auto fish_data = GetBreedFishInfoData(item_id);
+  if (fish_data == nullptr)
+  {
+    return false;
+  }
+
+  m_type = EUsedItemType::Fish;
+  m_common_index = item_id;
+  m_item_data_type = GetItemDataType(item_id);
+
+  strcpy_s(as.fish.m_name.data(), as.fish.m_name.size(), GetItemMessage(item_id).c_str());
+
+  as.fish.m_unk_field_18 = static_cast<u16>((fish_data->m_unk_field_0 / 2.0 + GetRandF(30.0f)) - GetRandF(10.0f));
+  as.fish.m_unk_field_1A = static_cast<u16>(400.0f + GetRandF(500.0f) + GetRandF(500.0f));
+  as.fish.m_unk_field_15 = GetRandI(2);
+  as.fish.m_unk_field_1C = GetRandI(4);
+  as.fish.m_unk_field_16 = GetRandI(4);
+  as.fish.m_hp = 100;
+
+  as.fish.m_unk_field_24 = 0;
+  as.fish.m_unk_field_2E = fish_data->m_unk_field_6;
+  as.fish.m_unk_field_26 = fish_data->m_unk_field_A;
+  as.fish.m_unk_field_28 = fish_data->m_unk_field_C;
+  as.fish.m_unk_field_2A = fish_data->m_unk_field_E;
+  as.fish.m_unk_field_2C = fish_data->m_unk_field_8;
+
+  as.fish.m_unk_field_36 = 200 + GetRandI(51);
+
+  as.fish.m_unk_field_35 = 0;
+  as.fish.m_unk_field_30 = 0;
+  as.fish.m_unk_field_38 = 0;
+  as.fish.m_unk_field_3C = GetRandI(256);
+  as.fish.m_unk_field_3D = 0;
+
+  return true;
+}
+
 // 00199ED0
 bool CGameDataUsed::CopyDataGiftBox(ECommonItemData item_id)
 {

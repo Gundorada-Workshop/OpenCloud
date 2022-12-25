@@ -265,27 +265,46 @@ struct BREEDFISH_USED
   // 0
   // BUG: Seems to be 20 decimal (14h) chars instead of 20h chars in original game
   std::array<char, 0x20> m_name{ 0 };
+  // 15
+  s8 m_unk_field_15{};
+  // 16
+  s8 m_unk_field_16{};
+  // 18
+  u16 m_unk_field_18{};
+  // 1A
+  u16 m_unk_field_1A{};
+  // 1C
+  s32 m_unk_field_1C{};
+
   // 20
   s32 m_hp{ 0 };
-
+  // 24
+  s16 m_unk_field_24{};
   // 26
-  u16 m_unk_field_26;
+  u16 m_unk_field_26{};
   // 28
-  u16 m_unk_field_28;
+  u16 m_unk_field_28{};
   // 2A
-  u16 m_unk_field_2A;
+  u16 m_unk_field_2A{};
   // 2C
-  u16 m_unk_field_2C;
+  u16 m_unk_field_2C{};
   // 2E
-  u16 m_unk_field_2E;
+  u16 m_unk_field_2E{};
 
   // ?
 
   // 30
   s32 m_unk_field_30{ 0 };
-
+  // 35
+  s8 m_unk_field_35{};
+  // 36
+  s16 m_unk_field_36{};
   // 38
   u16 m_unk_field_38{};
+  // 3C
+  s8 m_unk_field_3C{};
+  // 3D
+  s8 m_unk_field_3D{};
 
   // 00196DE0
   u32 CalcBreedFishParam();
@@ -414,6 +433,8 @@ public:
   bool CopyDataAttach(ECommonItemData item_id);
   // 00199C90
   bool CopyDataItem(ECommonItemData item_id);
+  // 00199D40
+  bool CopyDataFish(ECommonItemData item_id);
   // 00199ED0
   bool CopyDataGiftBox(ECommonItemData item_id);
 
