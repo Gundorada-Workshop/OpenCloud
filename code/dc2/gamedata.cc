@@ -998,7 +998,7 @@ UsedType ConvertUsedItemType(ComType type)
   log_trace("CGameData::{}({})", __func__, static_cast<int>(type));
 
   // Did runtime analysis to determine these
-  static std::unordered_map<ComType, UsedType> convert_table = {
+  static const std::unordered_map<ComType, UsedType> convert_table = {
     {ComType::Invalid, UsedType::Invalid},
     {ComType::Melee_Max, UsedType::Weapon},
     {ComType::Ranged_Max, UsedType::Weapon},
