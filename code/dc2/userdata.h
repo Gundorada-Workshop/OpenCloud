@@ -992,6 +992,12 @@ ECommonItemData GetRidePodCore(ssize index);
 // 00196BE0
 CUserDataManager* GetUserDataMan();
 
+// 00196E10
+void SetFishingGamePreEquip(CGameDataUsed* pre_equip);
+
+// 00196E80
+void GameDataSwap(CGameDataUsed* data1, CGameDataUsed* data2);
+
 // 001993F0
 std::optional<std::string> GetMainCharaModelName(ECharacterID chara_id, bool b);
 

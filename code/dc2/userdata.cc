@@ -17,6 +17,8 @@ set_log_channel("userdata");
 // 01E9B130
 static CBattleCharaInfo BattleParameter{};
 
+// 0037706C
+static CGameDataUsed* FishGamePreEquip{ nullptr };
 // 00377070
 static f32 BattleParameter_Time{};
 // 00377074
@@ -3598,6 +3600,64 @@ void CBattleCharaInfo::Step()
   log_trace("CBattleCharaInfo::{}()", __func__);
 
   todo;
+}
+
+// 00196E10
+void SetFishingGamePreEquip(CGameDataUsed* pre_equip)
+{
+  log_trace("{}({})", __func__, fmt::ptr(pre_equip));
+
+  FishGamePreEquip = pre_equip;
+}
+
+// 00196E80
+void GameDataSwap(CGameDataUsed* data1, CGameDataUsed* data2)
+{
+  log_trace("{}({})", __func__, fmt::ptr(data1), fmt::ptr(data2));
+
+  if (data1 == nullptr || data2 == nullptr)
+  {
+    return;
+  }
+
+  // Do the swap proper
+  CGameDataUsed data_temp{};
+  data_temp.CopyGameData(data1);
+  data1->CopyGameData(data2);
+  data2->CopyGameData(&data_temp);
+
+  // Now we gotta do some checks for fishing rods, it seems?
+  CGameDataUsed* equipped_potential_rod = &GetUserDataMan()->m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table[0];
+  if ((data1 == equipped_potential_rod || data2 == equipped_potential_rod) && data1->IsFishingRod() != data2->IsFishingRod())
+  {
+    if (data1 == equipped_potential_rod)
+    {
+      SetFishingGamePreEquip(nullptr);
+      if (data1->IsFishingRod())
+      {
+        SetFishingGamePreEquip(data2);
+      }
+    }
+    else if (data2 == equipped_potential_rod)
+    {
+      SetFishingGamePreEquip(nullptr);
+      if (data2->IsFishingRod())
+      {
+        SetFishingGamePreEquip(data1);
+      }
+    }
+  }
+  else if (equipped_potential_rod->IsFishingRod() && (data1 == FishGamePreEquip || data2 == FishGamePreEquip))
+  {
+    if (data1 == FishGamePreEquip)
+    {
+      SetFishingGamePreEquip(data2);
+    }
+    else if (data2 == FishGamePreEquip)
+    {
+      SetFishingGamePreEquip(data1);
+    }
+  }
 }
 
 // 001A0EA0
