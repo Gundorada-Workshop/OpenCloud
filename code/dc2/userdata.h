@@ -414,6 +414,8 @@ public:
   bool CopyDataAttach(ECommonItemData item_id);
   // 00199C90
   bool CopyDataItem(ECommonItemData item_id);
+  // 00199ED0
+  bool CopyDataGiftBox(ECommonItemData item_id);
 
   // 0
   EUsedItemType m_type{ static_cast<EUsedItemType>(0) };

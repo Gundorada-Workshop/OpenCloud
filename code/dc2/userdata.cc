@@ -2164,6 +2164,29 @@ bool CGameDataUsed::CopyDataItem(ECommonItemData item_id)
   return true;
 }
 
+// 00199ED0
+bool CGameDataUsed::CopyDataGiftBox(ECommonItemData item_id)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, std::to_underlying(item_id));
+
+  auto item_info_data = GetItemInfoData(item_id);
+  if (item_info_data == nullptr)
+  {
+    return false;
+  }
+
+  m_type = EUsedItemType::Gift_Box;
+  m_common_index = item_id;
+  m_item_data_type = GetItemDataType(item_id);
+
+  for (auto& item_id : as.gift_box.m_contents)
+  {
+    item_id = ECommonItemData::Invalid;
+  }
+
+  return true;
+}
+
 // 0019AE10
 CFishingRecord::CFishingRecord()
 {
