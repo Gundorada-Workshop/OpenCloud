@@ -1,12 +1,26 @@
+#include "common/bits.h"
 #include "common/debug.h"
 #include "common/log.h"
 #include "common/macros.h"
 
+#include "dc2/monster.h"
 #include "dc2/monster_func.h"
 #include "dc2/run_script.h"
+#include "dc2/scene.h"
 #include "dc2/script_interpreter.h"
 
 set_log_channel("monster_func");
+
+#define VERIFY_STACK_COUNT(n) \
+  if (stack_count != n) UNLIKELY \
+  { \
+    return false; \
+  }
+
+// 0037735C
+CScene* nowScene{ nullptr };
+// 00377360
+CActiveMonster* nowMonster{ nullptr };
 
 MAYBE_UNUSED static sint GetStackInt(RS_STACKDATA* stack)
 {
@@ -526,11 +540,12 @@ static bool _SET_LOCKON_MODE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _SET_MOTION_BLUR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_MOTION_BLUR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  nowScene->m_fade_in_out.m_motion_blur = common::bits::to_bool(GetStackInt(stack++));
   return true;
 }
 
