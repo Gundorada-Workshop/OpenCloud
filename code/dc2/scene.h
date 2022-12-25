@@ -286,7 +286,7 @@ struct BATTLE_AREA_SCENE
   // 9C
   unk8 m_unk_field_9C{};
   // 9E
-  s16 m_unk_field_9E{};
+  s16 m_lockon_mode{};
   // A0 - some sort of texb handle
   u32 m_unk_field_A0{};
 };

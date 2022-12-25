@@ -532,11 +532,12 @@ static bool _V_POP2(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_co
   return true;
 }
 
-static bool _SET_LOCKON_MODE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_LOCKON_MODE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  nowScene->m_battle_area_scene.m_lockon_mode = GetStackInt(stack++);
   return true;
 }
 
