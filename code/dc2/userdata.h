@@ -1027,6 +1027,9 @@ CBattleCharaInfo* GetBattleCharaInfo();
 // 001A1180
 ECommonItemDataType SearchEquipType(ECharacterID chara_id, ssize equip_index);
 
+// 001A11F0
+ECharacterID IsItemtypeWhoisEquip(ECommonItemData item_id, ssize* equip_index_dest = nullptr);
+
 // 001A1880
 void DeleteErekiFish();
 

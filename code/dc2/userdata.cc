@@ -3803,6 +3803,50 @@ ECommonItemDataType SearchEquipType(ECharacterID chara_id, ssize equip_index)
   return equip_type_tbl.at(chara_id)[equip_index];
 }
 
+// 001A11F0
+ECharacterID IsItemtypeWhoisEquip(ECommonItemData item_id, ssize* equip_index_dest)
+{
+  log_trace("{}({}, {})", __func__, std::to_underlying(item_id), fmt::ptr(equip_index_dest));
+
+  std::optional<ECharacterID> chara_result{};
+  std::optional<ssize> equip_index_result{};
+
+  // Data we're iterating over
+  static const ECharacterID charas[] = { ECharacterID::Max, ECharacterID::Monica, ECharacterID::Ridepod };
+  const ssize max_equip_index = 5;
+
+  // We want to match the equip type for a character/equip_index to the provided item's type.
+  ECommonItemDataType item_type = GetItemDataType(item_id);
+
+  for (auto chara_id : charas)
+  {
+    bool found = false;
+
+    for (ssize equip_index = 0; equip_index < max_equip_index; ++equip_index)
+    {
+      if (SearchEquipType(chara_id, equip_index) == item_type)
+      {
+        found = true;
+        chara_result = chara_id;
+        equip_index_result = equip_index;
+        break;
+      }
+    }
+
+    if (found)
+    {
+      break;
+    }
+  }
+
+  if (equip_index_dest != nullptr)
+  {
+    *equip_index_dest = equip_index_result.value_or(-1);
+  }
+
+  return chara_result.value_or(ECharacterID::Invalid);
+}
+
 // 001A1880
 void DeleteErekiFish()
 {
