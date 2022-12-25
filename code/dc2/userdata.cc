@@ -2978,6 +2978,7 @@ CGameDataUsed* CUserDataManager::SearchEquip(ECharacterID chara_id, ECommonItemD
           break;
         }
       }
+      break;
     default:
       break;
   }
