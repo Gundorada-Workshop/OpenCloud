@@ -3015,6 +3015,25 @@ std::string CUserDataManager::GetCharaEquipDataPath(ECharacterID chara_id, ssize
   }
 }
 
+// 0019D7D0
+bool CUserDataManager::AddFusionPoint(ECharacterID chara_id, ssize equip_index, sint delta)
+{
+  if (chara_id != ECharacterID::Max && chara_id != ECharacterID::Monica)
+  {
+    return false;
+  }
+
+  switch (equip_index)
+  {
+    case 0: // Melee
+    case 1: // Ranged
+      m_chara_data[std::to_underlying(chara_id)].m_equip_table.data[equip_index].AddFusionPoint(delta);
+      return true;
+    default:
+      return false;
+  }
+}
+
 // 0019D840
 s32 CUserDataManager::SearchSpaceUsedData() const
 {

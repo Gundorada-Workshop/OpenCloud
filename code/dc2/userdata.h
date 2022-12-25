@@ -747,6 +747,9 @@ public:
   // 0019D710
   std::string GetCharaEquipDataPath(ECharacterID chara_id, ssize equip_index) const;
 
+  // 0019D7D0
+  bool AddFusionPoint(ECharacterID chara_id, ssize equip_index, sint delta);
+
   // 0019D840
   s32 SearchSpaceUsedData() const;
 
