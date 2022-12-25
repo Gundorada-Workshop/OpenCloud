@@ -181,6 +181,8 @@ struct ITEM_MISC_USED
 {
   // 0
   s16 m_stack_num{};
+  // 2
+  s16 m_unk_field_2{};
 };
 
 struct CLOTHING_USED
@@ -253,7 +255,9 @@ struct ROBOPART_USED
   // 14
   std::array<s16, std::to_underlying(WeaponProperty::COUNT)> m_properties{};
   // 24
-  s16 m_defence{};
+  s16 m_defense{};
+  // 26
+  s16 m_unk_field_26{};
   // 2C
   std::array<char, 0x20> m_name{ 0 };
 };
@@ -263,27 +267,46 @@ struct BREEDFISH_USED
   // 0
   // BUG: Seems to be 20 decimal (14h) chars instead of 20h chars in original game
   std::array<char, 0x20> m_name{ 0 };
+  // 15
+  s8 m_unk_field_15{};
+  // 16
+  s8 m_unk_field_16{};
+  // 18
+  u16 m_unk_field_18{};
+  // 1A
+  u16 m_unk_field_1A{};
+  // 1C
+  s32 m_unk_field_1C{};
+
   // 20
   s32 m_hp{ 0 };
-
+  // 24
+  s16 m_unk_field_24{};
   // 26
-  u16 m_unk_field_26;
+  u16 m_unk_field_26{};
   // 28
-  u16 m_unk_field_28;
+  u16 m_unk_field_28{};
   // 2A
-  u16 m_unk_field_2A;
+  u16 m_unk_field_2A{};
   // 2C
-  u16 m_unk_field_2C;
+  u16 m_unk_field_2C{};
   // 2E
-  u16 m_unk_field_2E;
+  u16 m_unk_field_2E{};
 
   // ?
 
   // 30
   s32 m_unk_field_30{ 0 };
-
+  // 35
+  s8 m_unk_field_35{};
+  // 36
+  s16 m_unk_field_36{};
   // 38
   u16 m_unk_field_38{};
+  // 3C
+  s8 m_unk_field_3C{};
+  // 3D
+  s8 m_unk_field_3D{};
 
   // 00196DE0
   u32 CalcBreedFishParam();
@@ -334,7 +357,7 @@ public:
   // 00197360
   u8 GetActiveSetNum() const;
   // 00197370
-  s16 AddNum(sint delta, bool reset_if_empty);
+  s16 AddNum(sint delta, bool reset_if_empty = true);
   // 00197480
   sint GetUseCapacity() const;
   // 001974C0
@@ -408,6 +431,18 @@ public:
   void CopyGameData(CGameDataUsed* other);
   // 00199A50
   bool CopyDataWeapon(ECommonItemData item_id);
+  // 00199B80
+  bool CopyDataAttach(ECommonItemData item_id);
+  // 00199C90
+  bool CopyDataItem(ECommonItemData item_id);
+  // 00199F40
+  bool CopyDataItem(CGameDataUsed* other);
+  // 00199D40
+  bool CopyDataFish(ECommonItemData item_id);
+  // 00199ED0
+  bool CopyDataGiftBox(ECommonItemData item_id);
+  // 0019A040
+  bool CopyDataRoboPart(ECommonItemData item_id);
 
   // 0
   EUsedItemType m_type{ static_cast<EUsedItemType>(0) };
@@ -492,6 +527,33 @@ public:
   std::array<SMonsterBadgeData, 0x40> m_monster_badge_data;
 };
 
+// Equipment for human players
+union EQUIP_TABLE
+{
+  std::array<CGameDataUsed, 5> data{};
+  struct
+  {
+    CGameDataUsed melee;
+    CGameDataUsed ranged;
+    CGameDataUsed hat;
+    CGameDataUsed shoes;
+    CGameDataUsed torso;
+  };
+};
+
+// Equipment for ridepod
+union ROBO_EQUIP_TABLE
+{
+  std::array<CGameDataUsed, 4> data{};
+  struct
+  {
+    CGameDataUsed arm;
+    CGameDataUsed body;
+    CGameDataUsed battery;
+    CGameDataUsed leg;
+  };
+};
+
 struct SCharaData
 {
   // Contains information about Max's/Monica's equipped items
@@ -511,7 +573,7 @@ struct SCharaData
   // 2C
   std::array<CGameDataUsed, 3> m_active_item_info;
   // 170
-  std::array<CGameDataUsed, 5> m_equip_table;
+  EQUIP_TABLE m_equip_table{};
   // SIZE 0x38C
 };
 
@@ -543,21 +605,8 @@ struct ROBO_DATA
   COMMON_GAGE m_chara_hp_gage{};
   // 28
   COMMON_GAGE m_abs_gage{};
-  union
-  {
-    std::array<CGameDataUsed, 4> data;
-    struct
-    {
-      // 30
-      CGameDataUsed weapon; // ROBOPART_USED
-      // 9C
-      CGameDataUsed body; // ROBOPART_USED
-      // 108
-      CGameDataUsed battery; // ROBOPART_USED
-      // 174
-      CGameDataUsed legs; // ROBOPART_USED
-    };
-  } m_parts;
+  // 30
+  ROBO_EQUIP_TABLE m_equip_table{};
 
   // ?
 
@@ -627,6 +676,12 @@ public:
   // 0019C300
   SMonsterBadgeData* GetMonsterBadgeDataPtrMosId(EMonsterID monster_id);
 
+  // 0019C310
+  usize GetItemBoardOverNum() const;
+
+  // 0019C350
+  usize GetItemBoardMaxNum(bool b) const;
+
   // 0019C3D0
   void SetActiveChrNo(ECharacterID chara_id);
 
@@ -683,11 +738,26 @@ public:
   // "GetActiveEsa"
   CGameDataUsed* GetActiveBait(ECommonItemData item_id);
 
+  // 0019D2E0
+  sint AddFp(sint fishing_points);
+
+  // 0019D330
+  bool SetChrEquip(ECharacterID chara_id, CGameDataUsed* equipment);
+
   // 0019D560
-  void SetChrEquipDirect(ECharacterID chara_id, ECommonItemData item_id);
+  bool SetChrEquipDirect(ECharacterID chara_id, ECommonItemData item_id);
+
+  // 0019D610
+  CGameDataUsed* SearchEquip(ECharacterID chara_id, ECommonItemData item_id);
+
+  // 0019D710
+  std::string GetCharaEquipDataPath(ECharacterID chara_id, ssize equip_index) const;
+
+  // 0019D7D0
+  bool AddFusionPoint(ECharacterID chara_id, ssize equip_index, sint delta);
 
   // 0019D840
-  s32 SearchSpaceUsedData() const;
+  ssize SearchSpaceUsedData() const;
 
   // 0019DD70
   bool CheckElectricFish() const;
@@ -697,6 +767,9 @@ public:
 
   // 0019DF70
   void AddYarikomiMedal(sint i);
+
+  // 0019E9E0
+  static bool CopyGameData(CGameDataUsed* dest, ECommonItemData item_id);
 
   // 0019EAF0
   s32 AddMoney(s32 delta);
@@ -921,7 +994,14 @@ public:
   // 2C
   CGameDataUsed* m_active_item_info{ nullptr };
   // 30
-  CGameDataUsed* m_equip_table{ nullptr };
+  struct
+  {
+    union
+    {
+      EQUIP_TABLE* human{ nullptr };
+      ROBO_EQUIP_TABLE* robo;
+    } as;
+  } m_equip_table;
   // 34
   SBattleCharaInfoParam m_param{};
   // 74
@@ -953,6 +1033,12 @@ ECommonItemData GetRidePodCore(ssize index);
 // 00196BE0
 CUserDataManager* GetUserDataMan();
 
+// 00196E10
+void SetFishingGamePreEquip(CGameDataUsed* pre_equip);
+
+// 00196E80
+void GameDataSwap(CGameDataUsed* data1, CGameDataUsed* data2, bool check_fishing_rods = false);
+
 // 001993F0
 std::optional<std::string> GetMainCharaModelName(ECharacterID chara_id, bool b);
 
@@ -974,8 +1060,17 @@ void CheckEquipChange(ECharacterID chara_id);
 // 001A0EA0
 CBattleCharaInfo* GetBattleCharaInfo();
 
+// 001A1180
+ECommonItemDataType SearchEquipType(ECharacterID chara_id, ssize equip_index);
+
+// 001A11F0
+ECharacterID IsItemtypeWhoisEquip(ECommonItemData item_id, ssize* equip_index_dest = nullptr);
+
 // 001A1880
 void DeleteErekiFish();
+
+// 001A1910
+usize GetNowBagMax(bool b = false);
 
 // 001A1940
 void LeaveMonicaItemCheck();

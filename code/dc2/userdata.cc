@@ -17,6 +17,8 @@ set_log_channel("userdata");
 // 01E9B130
 static CBattleCharaInfo BattleParameter{};
 
+// 0037706C
+static CGameDataUsed* FishGamePreEquip{ nullptr };
 // 00377070
 static f32 BattleParameter_Time{};
 // 00377074
@@ -1947,7 +1949,7 @@ void CGameDataUsed::CopyGameData(CGameDataUsed* other)
 
   auto robo_data = user_man->m_robo_data;
 
-  if (this == &robo_data.m_parts.battery)
+  if (this == &robo_data.m_equip_table.battery)
   {
     auto hp = truncf(robo_data.m_chara_hp_gage.m_max);
     robo_data.m_chara_hp_gage.m_max = as.robopart.m_battery_gage.m_max;
@@ -1994,7 +1996,7 @@ std::optional<std::string> GetMainCharaModelName(ECharacterID chara_id, bool b)
     return std::nullopt;
   }
 
-  auto model_no_opt = chara_data->m_equip_table[0].GetModelNo();
+  auto model_no_opt = chara_data->m_equip_table.melee.GetModelNo();
   u8 model_no = 0;
 
   if (model_no_opt.has_value()) [[likely]]
@@ -2092,6 +2094,218 @@ bool CGameDataUsed::CopyDataWeapon(ECommonItemData item_id)
   return true;
 }
 
+// 00199B80
+bool CGameDataUsed::CopyDataAttach(ECommonItemData item_id)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, std::to_underlying(item_id));
+
+  auto attach_data = GameItemDataManage.GetAttachData(item_id);
+  if (attach_data == nullptr)
+  {
+    return false;
+  }
+
+  if (m_common_index == item_id && CheckTypeEnableStack())
+  {
+    // This item already exists; we need to add a new item to this stack of items instead.
+    AddNum(1, true);
+  }
+  else
+  {
+    // Turn this data into the new item
+    m_type = EUsedItemType::Attach;
+    m_common_index = item_id;
+    m_item_data_type = GetItemDataType(item_id);
+
+    as.attach.m_attack = attach_data->m_attack;
+    as.attach.m_durable = attach_data->m_durable;
+
+    for (usize i = 0; i < as.attach.m_properties.size(); ++i)
+    {
+      as.attach.m_properties[i] = attach_data->m_properties[i];
+    }
+
+    as.attach.m_unk_field_1C = attach_data->m_unk_field_14;
+    as.attach.m_stack_num = 1;
+  }
+
+  return true;
+}
+
+// 00199C90
+bool CGameDataUsed::CopyDataItem(ECommonItemData item_id)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, std::to_underlying(item_id));
+
+  auto item_data = GetCommonItemData(item_id);
+  if (item_data == nullptr)
+  {
+    log_warn("{}: unrecognized item ID {}", __func__, std::to_underlying(item_id));
+    return false;
+  }
+
+  if (m_common_index == item_id)
+  {
+    // This item already exists; we need to add a new item to this stack of items instead.
+    if (CheckStackRemain() > 0)
+    {
+      ++as.item_misc.m_stack_num;
+    }
+  }
+  else
+  {
+    // Turn this data into the new item
+    m_item_data_type = item_data->m_type;
+    m_type = ConvertUsedItemType(m_item_data_type);
+    m_common_index = item_id;
+
+    as.item_misc.m_stack_num = 1;
+    as.item_misc.m_unk_field_2 = 0;
+  }
+
+  return true;
+}
+
+// 00199F40
+bool CGameDataUsed::CopyDataItem(CGameDataUsed* other)
+{
+  // Copies other into this instance.
+  // If this function returns true, the operation was successful and other is invalidated.
+  // If this function returns false, the operation failed and other is not invalidated.
+  log_trace("CGameDataUsed::{}({})", __func__, fmt::ptr(other));
+
+  if (other == nullptr)
+  {
+    return false;
+  }
+
+  if (m_common_index == ECommonItemData::Invalid || m_common_index != other->m_common_index || !CheckTypeEnableStack())
+  {
+    GameDataSwap(this, other);
+    return true;
+  }
+
+  auto item_data = GetCommonItemData(m_common_index);
+  if (GetNum() + other->GetNum() > item_data->m_stack_max_1E)
+  {
+    return false;
+  }
+
+  AddNum(other->GetNum());
+  new (other) CGameDataUsed();
+
+  return true;
+}
+
+// 00199D40
+bool CGameDataUsed::CopyDataFish(ECommonItemData item_id)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, std::to_underlying(item_id));
+
+  auto fish_data = GetBreedFishInfoData(item_id);
+  if (fish_data == nullptr)
+  {
+    return false;
+  }
+
+  m_type = EUsedItemType::Fish;
+  m_common_index = item_id;
+  m_item_data_type = GetItemDataType(item_id);
+
+  strcpy_s(as.fish.m_name.data(), as.fish.m_name.size(), GetItemMessage(item_id).c_str());
+
+  as.fish.m_unk_field_18 = static_cast<u16>((fish_data->m_unk_field_0 / 2.0 + GetRandF(30.0f)) - GetRandF(10.0f));
+  as.fish.m_unk_field_1A = static_cast<u16>(400.0f + GetRandF(500.0f) + GetRandF(500.0f));
+  as.fish.m_unk_field_15 = GetRandI(2);
+  as.fish.m_unk_field_1C = GetRandI(4);
+  as.fish.m_unk_field_16 = GetRandI(4);
+  as.fish.m_hp = 100;
+
+  as.fish.m_unk_field_24 = 0;
+  as.fish.m_unk_field_2E = fish_data->m_unk_field_6;
+  as.fish.m_unk_field_26 = fish_data->m_unk_field_A;
+  as.fish.m_unk_field_28 = fish_data->m_unk_field_C;
+  as.fish.m_unk_field_2A = fish_data->m_unk_field_E;
+  as.fish.m_unk_field_2C = fish_data->m_unk_field_8;
+
+  as.fish.m_unk_field_36 = 200 + GetRandI(51);
+
+  as.fish.m_unk_field_35 = 0;
+  as.fish.m_unk_field_30 = 0;
+  as.fish.m_unk_field_38 = 0;
+  as.fish.m_unk_field_3C = GetRandI(256);
+  as.fish.m_unk_field_3D = 0;
+
+  return true;
+}
+
+// 00199ED0
+bool CGameDataUsed::CopyDataGiftBox(ECommonItemData item_id)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, std::to_underlying(item_id));
+
+  auto item_info_data = GetItemInfoData(item_id);
+  if (item_info_data == nullptr)
+  {
+    return false;
+  }
+
+  m_type = EUsedItemType::Gift_Box;
+  m_common_index = item_id;
+  m_item_data_type = GetItemDataType(item_id);
+
+  for (auto& item_id : as.gift_box.m_contents)
+  {
+    item_id = ECommonItemData::Invalid;
+  }
+
+  return true;
+}
+
+// 0019A040
+bool CGameDataUsed::CopyDataRoboPart(ECommonItemData item_id)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, std::to_underlying(item_id));
+
+  auto robo_data = GameItemDataManage.GetRoboData(item_id);
+  if (robo_data == nullptr)
+  {
+    return false;
+  }
+
+  m_type = EUsedItemType::Robopart;
+  m_common_index = item_id;
+  m_item_data_type = GetItemDataType(item_id);
+
+  // HP
+  f32 whp = static_cast<f32>(robo_data->m_whp_max);
+  as.robopart.m_whp_gage.m_max = whp;
+  as.robopart.m_whp_gage.m_current = whp;
+
+  // Battery/fuel
+  f32 battery = static_cast<f32>(robo_data->m_battery_max);
+  as.robopart.m_battery_gage.m_max = battery;
+  as.robopart.m_battery_gage.m_current = battery;
+
+  // Defense
+  as.robopart.m_defense = robo_data->m_defense;
+
+  as.robopart.m_unk_field_26 = robo_data->m_unk_field_4;
+
+  // Properties
+  as.robopart.m_attack = robo_data->m_attack;
+  as.robopart.m_durable = robo_data->m_durable;
+
+  for (usize i = 0; i < as.robopart.m_properties.size(); ++i)
+  {
+    as.robopart.m_properties[i] = robo_data->m_properties[i];
+  }
+
+  strcpy_s(as.robopart.m_name.data(), as.robopart.m_name.size(), GetItemMessage(item_id).c_str());
+
+  return true;
+}
+
 // 0019AE10
 CFishingRecord::CFishingRecord()
 {
@@ -2118,19 +2332,19 @@ CUserDataManager::CUserDataManager()
     new (&game_data_used) CGameDataUsed;
   }
 
-  for (auto& unk_struct : m_chara_data)
+  for (auto& chara_data : m_chara_data)
   {
-    for (auto& game_data_used : unk_struct.m_active_item_info)
+    for (auto& game_data_used : chara_data.m_active_item_info)
     {
       new (&game_data_used) CGameDataUsed;
     }
-    for (auto& game_data_used : unk_struct.m_equip_table)
+    for (auto& game_data_used : chara_data.m_equip_table.data)
     {
       new (&game_data_used) CGameDataUsed;
     }
   }
 
-  for (auto& game_data_used : m_robo_data.m_parts.data)
+  for (auto& game_data_used : m_robo_data.m_equip_table.data)
   {
     new (&game_data_used) CGameDataUsed;
   }
@@ -2257,7 +2471,7 @@ COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_inde
   switch (chara_id)
   {
     case Ridepod:
-      return &m_robo_data.m_parts.weapon.as.robopart.m_whp_gage;
+      return &m_robo_data.m_equip_table.arm.as.robopart.m_whp_gage;
     case Monster:
     {
       auto badge_data = m_monster_box.GetMonsterBadgeData(m_monster_id);
@@ -2269,7 +2483,7 @@ COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_inde
     }
     case Max:
     case Monica:
-      return &m_chara_data[std::to_underlying(chara_id)].m_equip_table[gage_index].as.weapon.m_whp_gage;
+      return &m_chara_data[std::to_underlying(chara_id)].m_equip_table.data[gage_index].as.weapon.m_whp_gage;
     default:
       return nullptr;
   }
@@ -2297,7 +2511,7 @@ COMMON_GAGE* CUserDataManager::GetAbsGage(ECharacterID chara_id, ssize gage_inde
     }
     case Max:
     case Monica:
-      return &m_chara_data[std::to_underlying(chara_id)].m_equip_table[gage_index].as.weapon.m_abs_gage;
+      return &m_chara_data[std::to_underlying(chara_id)].m_equip_table.data[gage_index].as.weapon.m_abs_gage;
     default:
       return nullptr;
   }
@@ -2414,6 +2628,24 @@ SMonsterBadgeData* CUserDataManager::GetMonsterBadgeDataPtrMosId(EMonsterID mons
 
   todo;
   return nullptr;
+}
+
+// 0019C310
+usize CUserDataManager::GetItemBoardOverNum() const
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+  return 0;
+}
+
+// 0019C350
+usize CUserDataManager::GetItemBoardMaxNum(bool b) const
+{
+  log_trace("CUserDataManager::{}({})", __func__, b);
+
+  todo;
+  return 0;
 }
 
 // 0019c420
@@ -2549,7 +2781,7 @@ void CUserDataManager::AllWeaponRepair()
     data_used.Repair(999);
   }
 
-  m_robo_data.m_parts.weapon.Repair(999);
+  m_robo_data.m_equip_table.arm.Repair(999);
   m_robo_data.AddPoint(999.0f);
 }
 
@@ -2558,7 +2790,10 @@ ECommonItemData CUserDataManager::GetFishingRodNo() const
 {
   log_trace("CUserDataManager::{}()", __func__);
 
-  return m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table[0].m_common_index;
+  // Return Invalid instead? The game just unconditionally returns Max's melee weapon item ID.
+  assert_msg(m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table.melee.IsFishingRod(), "Fishing rod is not equipped!");
+
+  return m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table.melee.m_common_index;
 }
 
 // 0019CEB0
@@ -2566,7 +2801,7 @@ bool CUserDataManager::NowFishingStyle() const
 {
   log_trace("CUserDataManager::{}()", __func__);
 
-  return m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table[0].IsFishingRod();
+  return m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table.melee.IsFishingRod();
 }
 
 // 0019CEE0
@@ -2595,20 +2830,242 @@ CGameDataUsed* CUserDataManager::GetActiveBait(ECommonItemData item_id)
   }
 }
 
+// 0019D2E0
+sint CUserDataManager::AddFp(sint fishing_points)
+{
+  // Adds *fishing points*, might change this fn name later to be clear
+  log_trace("CUserDataManager::{}({})", __func__, fishing_points);
+
+  if (GetFishingRodNo() == ECommonItemData::Invalid)
+  {
+    return 0;
+  }
+
+  return m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table.melee.AddFusionPoint(fishing_points);
+}
+
+// 0019D330
+bool CUserDataManager::SetChrEquip(ECharacterID chara_id, CGameDataUsed* equipment)
+{
+  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), fmt::ptr(equipment));
+
+  if (equipment == nullptr)
+  {
+    return false;
+  }
+
+  auto equipment_item_id = equipment->m_common_index;
+  auto equipment_item_type = GetGameDataPtr()->GetDataType(equipment_item_id);
+  auto battle_chara = GetBattleCharaInfo();
+
+  switch (chara_id)
+  {
+    case ECharacterID::Max:
+    case ECharacterID::Monica:
+    {
+      auto chara_data = GetCharaDataPtr(chara_id);
+
+      ssize equip_index;
+      if (IsItemtypeWhoisEquip(equipment_item_id, &equip_index) != chara_id)
+      {
+        return false;
+      }
+
+      if (equip_index < 0)
+      {
+        return false;
+      }
+
+      GameDataSwap(equipment, &chara_data->m_equip_table.data[equip_index]);
+      if (battle_chara != nullptr)
+      {
+        battle_chara->RefreshParameter();
+      }
+
+      return true;
+    }
+    case ECharacterID::Ridepod:
+    {
+      for (usize i = 0; i < m_robo_data.m_equip_table.data.size(); ++i)
+      {
+        if (SearchEquipType(ECharacterID::Ridepod, i) == equipment_item_type)
+        {
+          GameDataSwap(&m_robo_data.m_equip_table.data[i], equipment);
+          if (battle_chara != nullptr)
+          {
+            battle_chara->RefreshParameter();
+          }
+          return true;
+        }
+      }
+      return false;
+    }
+  }
+}
+
 // 0019D560
-void CUserDataManager::SetChrEquipDirect(ECharacterID chara_id, ECommonItemData item_id)
+bool CUserDataManager::SetChrEquipDirect(ECharacterID chara_id, ECommonItemData item_id)
+{
+  // Directly applies equipment to a character given an item ID, useful if you don't care about any equipment stats in particular.
+  // For example, changing Max's clothes in the title or viewing different costumes on a character.
+
+  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), std::to_underlying(item_id));
+
+  if (item_id == ECommonItemData::Invalid)
+  {
+    return false;
+  }
+
+  switch (chara_id)
+  {
+    case ECharacterID::Max:
+    case ECharacterID::Monica:
+    case ECharacterID::Ridepod:
+    {
+      if (SearchEquip(chara_id, item_id) != nullptr)
+      {
+        // Already equipped!
+        return false;
+      }
+
+      // Initialize the equipment.
+      CGameDataUsed equipment{};
+      CopyGameData(&equipment, item_id);
+
+      // Slap that equipment on
+      SetChrEquip(chara_id, &equipment);
+      return true;
+    }
+    default:
+      return false;
+  }
+}
+
+// 0019D610
+CGameDataUsed* CUserDataManager::SearchEquip(ECharacterID chara_id, ECommonItemData item_id)
 {
   log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), std::to_underlying(item_id));
 
-  return;
+  using enum ECharacterID;
+
+  CGameDataUsed* result = nullptr;
+
+  switch (chara_id)
+  {
+    case Max:
+    case Monica:
+    {
+      // Human characters
+      auto chara_data = GetCharaDataPtr(chara_id);
+
+      // Is the item equipped as an active item?
+      for (auto& item : chara_data->m_active_item_info)
+      {
+        if (item.m_common_index == item_id)
+        {
+          result = &item;
+          break;
+        }
+      }
+
+      if (result != nullptr)
+      {
+        break;
+      }
+
+      // Is the item equipped as a weapon?
+      for (auto& item : chara_data->m_equip_table.data)
+      {
+        if (item.m_common_index == item_id)
+        {
+          result = &item;
+          break;
+        }
+      }
+
+      break;
+    }
+    case Ridepod:
+      // Steve
+      // We can just check all of the robot's items in one place
+      for (auto& item : m_robo_data.m_equip_table.data)
+      {
+        if (item.m_common_index == item_id)
+        {
+          result = &item;
+          break;
+        }
+      }
+      break;
+    default:
+      break;
+  }
+
+  return result;
+}
+
+// 0019D710
+std::string CUserDataManager::GetCharaEquipDataPath(ECharacterID chara_id, ssize equip_index) const
+{
+  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), equip_index);
+
+  using enum ECharacterID;
+
+  switch (chara_id)
+  {
+    case Max:
+    case Monica:
+      if (equip_index < 0 || equip_index >= 5)
+      {
+        return "";
+      }
+
+      return m_chara_data[std::to_underlying(chara_id)].m_equip_table.data[equip_index].GetDataPath();
+    case Ridepod:
+      if (equip_index < 0 || equip_index >= 4)
+      {
+        return "";
+      }
+
+      return m_robo_data.m_equip_table.data[equip_index].GetDataPath();
+    default:
+      return "";
+  }
+}
+
+// 0019D7D0
+bool CUserDataManager::AddFusionPoint(ECharacterID chara_id, ssize equip_index, sint delta)
+{
+  if (chara_id != ECharacterID::Max && chara_id != ECharacterID::Monica)
+  {
+    return false;
+  }
+
+  switch (equip_index)
+  {
+    case 0: // Melee
+    case 1: // Ranged
+      m_chara_data[std::to_underlying(chara_id)].m_equip_table.data[equip_index].AddFusionPoint(delta);
+      return true;
+    default:
+      return false;
+  }
 }
 
 // 0019D840
-s32 CUserDataManager::SearchSpaceUsedData() const
+ssize CUserDataManager::SearchSpaceUsedData() const
 {
   log_trace("CUserDataManager::{}()", __func__);
 
-  todo;
+  usize capacity = GetNowBagMax();
+  for (usize i = 0; i < capacity; ++i)
+  {
+    if (m_inventory[i].m_common_index == ECommonItemData::Invalid)
+    {
+      return i;
+    }
+  }
+
   return -1;
 }
 
@@ -2636,6 +3093,53 @@ void CUserDataManager::AddYarikomiMedal(sint i)
   log_trace("CUserDataManager::{}({})", __func__, i);
 
   todo;
+}
+
+// 0019E9E0
+bool CUserDataManager::CopyGameData(CGameDataUsed* dest, ECommonItemData item_id)
+{
+  log_trace("CUserDataManager::{}({}, {})", __func__, fmt::ptr(dest), std::to_underlying(item_id));
+
+  if (dest == nullptr)
+  {
+    return false;
+  }
+
+  auto common_item_data = GetCommonItemData(item_id);
+  if (common_item_data == nullptr)
+  {
+    return false;
+  }
+
+  using enum EUsedItemType;
+
+  switch (ConvertUsedItemType(common_item_data->m_type))
+  {
+    case Item_Misc:
+    case Clothing:
+      dest->CopyDataItem(item_id);
+      break;
+    case Attach:
+      dest->CopyDataAttach(item_id);
+      break;
+    case Weapon:
+      dest->CopyDataWeapon(item_id);
+      break;
+    case Robopart:
+      dest->CopyDataRoboPart(item_id);
+      break;
+    case Fish:
+      dest->CopyDataFish(item_id);
+      break;
+    case Gift_Box:
+      dest->CopyDataGiftBox(item_id);
+      break;
+    default:
+      log_warn("{}: Unrecognized used item type for item ID {}", __func__, std::to_underlying(item_id));
+      break;
+  }
+
+  return true;
 }
 
 // 0019EAF0
@@ -2767,7 +3271,7 @@ s16 ROBO_DATA::GetDefenceVol()
 {
   log_trace("ROBO_DATA::{}()", __func__);
 
-  return m_parts.body.as.robopart.m_defence + m_n_shield_kits * 4;
+  return m_equip_table.body.as.robopart.m_defense + m_n_shield_kits * 4;
 }
 
 // 0019A830
@@ -2888,7 +3392,7 @@ CGameDataUsed* CBattleCharaInfo::GetEquipTablePtr(usize index)
     return nullptr;
   }
 
-  return &m_equip_table[index];
+  return &m_equip_table.as.human->data[index];
 }
 
 // 0019F010
@@ -2988,9 +3492,9 @@ COMMON_GAGE* CBattleCharaInfo::GetNowAccessWHp(usize weapon_index) const
   switch (m_battle_chara_type)
   {
     case EBattleCharaType::Human:
-      if (m_equip_table != nullptr)
+      if (m_equip_table.as.human != nullptr)
       {
-        return &m_equip_table[weapon_index].as.weapon.m_whp_gage;
+        return &m_equip_table.as.human->data[weapon_index].as.weapon.m_whp_gage;
       }
       return nullptr;
     case EBattleCharaType::MonsterTransform:
@@ -3014,9 +3518,9 @@ COMMON_GAGE* CBattleCharaInfo::GetNowAccessAbs(usize weapon_index) const
   switch (m_battle_chara_type)
   {
     case EBattleCharaType::Human:
-      if (m_equip_table != nullptr)
+      if (m_equip_table.as.human != nullptr)
       {
-        return &m_equip_table[weapon_index].as.weapon.m_abs_gage;
+        return &m_equip_table.as.human->data[weapon_index].as.weapon.m_abs_gage;
       }
       return nullptr;
     case EBattleCharaType::MonsterTransform:
@@ -3340,6 +3844,69 @@ void CBattleCharaInfo::Step()
   todo;
 }
 
+// 00196E10
+void SetFishingGamePreEquip(CGameDataUsed* pre_equip)
+{
+  log_trace("{}({})", __func__, fmt::ptr(pre_equip));
+
+  FishGamePreEquip = pre_equip;
+}
+
+// 00196E80
+void GameDataSwap(CGameDataUsed* data1, CGameDataUsed* data2, bool check_fishing_rods)
+{
+  log_trace("{}({})", __func__, fmt::ptr(data1), fmt::ptr(data2));
+
+  if (data1 == nullptr || data2 == nullptr)
+  {
+    return;
+  }
+
+  // Do the swap proper
+  CGameDataUsed data_temp{};
+  data_temp.CopyGameData(data1);
+  data1->CopyGameData(data2);
+  data2->CopyGameData(&data_temp);
+
+  if (!check_fishing_rods)
+  {
+    return;
+  }
+
+  // Now we gotta do some checks for fishing rods, it seems?
+  CGameDataUsed* equipped_potential_rod = &GetUserDataMan()->m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table.melee;
+  if ((data1 == equipped_potential_rod || data2 == equipped_potential_rod) && data1->IsFishingRod() != data2->IsFishingRod())
+  {
+    if (data1 == equipped_potential_rod)
+    {
+      SetFishingGamePreEquip(nullptr);
+      if (data1->IsFishingRod())
+      {
+        SetFishingGamePreEquip(data2);
+      }
+    }
+    else if (data2 == equipped_potential_rod)
+    {
+      SetFishingGamePreEquip(nullptr);
+      if (data2->IsFishingRod())
+      {
+        SetFishingGamePreEquip(data1);
+      }
+    }
+  }
+  else if (equipped_potential_rod->IsFishingRod() && (data1 == FishGamePreEquip || data2 == FishGamePreEquip))
+  {
+    if (data1 == FishGamePreEquip)
+    {
+      SetFishingGamePreEquip(data2);
+    }
+    else if (data2 == FishGamePreEquip)
+    {
+      SetFishingGamePreEquip(data1);
+    }
+  }
+}
+
 // 001A0EA0
 CBattleCharaInfo* GetBattleCharaInfo()
 {
@@ -3348,12 +3915,117 @@ CBattleCharaInfo* GetBattleCharaInfo()
   return &BattleParameter;
 }
 
+// 001A1180
+ECommonItemDataType SearchEquipType(ECharacterID chara_id, ssize equip_index)
+{
+  log_trace("{}({}, {})", __func__, std::to_underlying(chara_id), equip_index);
+
+  using enum ECommonItemDataType;
+
+  // 00336398
+  static const std::unordered_map<ECharacterID, std::array<ECommonItemDataType, 5>> equip_type_tbl
+  {
+    {
+      ECharacterID::Max,
+      {
+        Melee_Max,
+        Ranged_Max,
+        Hat_Max,
+        Shoes_Max,
+        Torso_Max,
+      }
+    },
+
+    {
+      ECharacterID::Monica,
+      {
+        Melee_Monica,
+        Ranged_Monica,
+        Hat_Monica,
+        Shoes_Monica,
+        Torso_Monica,
+      }
+    },
+
+    {
+      ECharacterID::Ridepod,
+      {
+        Ridepod_Arm,
+        Ridepod_Body,
+        Ridepod_Battery,
+        Ridepod_Leg,
+        Invalid
+      }
+    }
+  };
+
+  if (!equip_type_tbl.contains(chara_id) || equip_index < 0 || equip_index >= 5)
+  {
+    return ECommonItemDataType::Invalid;
+  }
+
+  return equip_type_tbl.at(chara_id)[equip_index];
+}
+
+// 001A11F0
+ECharacterID IsItemtypeWhoisEquip(ECommonItemData item_id, ssize* equip_index_dest)
+{
+  log_trace("{}({}, {})", __func__, std::to_underlying(item_id), fmt::ptr(equip_index_dest));
+
+  std::optional<ECharacterID> chara_result{};
+  std::optional<ssize> equip_index_result{};
+
+  // Data we're iterating over
+  static const ECharacterID charas[] = { ECharacterID::Max, ECharacterID::Monica, ECharacterID::Ridepod };
+  const ssize max_equip_index = 5;
+
+  // We want to match the equip type for a character/equip_index to the provided item's type.
+  ECommonItemDataType item_type = GetItemDataType(item_id);
+
+  for (auto chara_id : charas)
+  {
+    bool found = false;
+
+    for (ssize equip_index = 0; equip_index < max_equip_index; ++equip_index)
+    {
+      if (SearchEquipType(chara_id, equip_index) == item_type)
+      {
+        found = true;
+        chara_result = chara_id;
+        equip_index_result = equip_index;
+        break;
+      }
+    }
+
+    if (found)
+    {
+      break;
+    }
+  }
+
+  if (equip_index_dest != nullptr)
+  {
+    *equip_index_dest = equip_index_result.value_or(-1);
+  }
+
+  return chara_result.value_or(ECharacterID::Invalid);
+}
+
 // 001A1880
 void DeleteErekiFish()
 {
   log_trace("{}()", __func__);
 
   todo;
+}
+
+// 001A1910
+usize GetNowBagMax(bool b)
+{
+  log_trace("{}({})", __func__, b);
+
+  todo;
+  return 0;
 }
 
 // 001A1940

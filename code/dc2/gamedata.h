@@ -551,9 +551,11 @@ class CDataAttach
 {
 public:
   // 0
-  std::array<s16, 2> m_unk_field_0{ 0 };
+  s16 m_attack{};
+  // 2
+  s16 m_durable{};
   // 4
-  std::array<s16, 8> m_unk_field_4{ 0 };
+  std::array<s16, 8> m_properties{ 0 };
   // 14
   s32 m_unk_field_14{ 0 };
   // SIZE 0x18
@@ -648,19 +650,19 @@ public:
   // 0
   s16 m_use_capacity{ 0 };
   // 2
-  s16 m_unk_field_2{ 0 };
+  s16 m_battery_max{ 0 };
   // 4
   s16 m_unk_field_4{ 0 };
   // 6
-  s16 m_unk_field_6{ 0 };
+  s16 m_whp_max{ 0 };
   // 8
-  s16 m_unk_field_8{ 0 };
+  s16 m_attack{ 0 };
   // A
-  s16 m_unk_field_A{ 0 };
+  s16 m_durable{ 0 };
   // C
-  std::array<s16, 8> m_unk_field_C{ 0 };
+  std::array<s16, 8> m_properties{ 0 };
   // 1C
-  s16 m_unk_field_1C{ 0 };
+  s16 m_defense{ 0 };
   // 1E
   EAttackType m_unk_field_1E{};
   // 20
@@ -771,6 +773,12 @@ public:
 
 // 00195470
 bool LoadGameDataAnalyze(const char* config_file_name);
+
+// 001945F0
+inline CGameData* GetGameDataPtr()
+{
+  return &GameItemDataManage;
+}
 
 // 00195C20
 SDataItemCommon* GetCommonItemData(ECommonItemData index);
