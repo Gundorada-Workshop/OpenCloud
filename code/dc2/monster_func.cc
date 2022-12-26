@@ -1492,7 +1492,7 @@ static bool _RESET_MOTION(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  nowMonster->ResetMotion();
   return true;
 }
 

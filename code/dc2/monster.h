@@ -5,7 +5,7 @@
 
 #include "dc2/character.h"
 
-class CActiveMonster : CActionChara
+class CActiveMonster : public CActionChara
 {
 public:
   // 1324
