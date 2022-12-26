@@ -254,11 +254,21 @@ static bool _MONS_SE_LOOP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
   return true;
 }
 
-static bool _SET_CAMERA_NEXT_REF(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_CAMERA_NEXT_REF(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(3);
 
-  todo;
+  auto camera = static_cast<CCameraControl*>(nowScene->GetCamera(nowScene->m_active_cmrid));
+  if (camera == nullptr)
+  {
+    return false;
+  }
+
+  camera->FollowOff();
+  camera->ControlOff();
+  camera->SetNextRef(GetStackFloat(&stack[0]), GetStackFloat(&stack[1]), GetStackFloat(&stack[2]));
+
   return true;
 }
 
