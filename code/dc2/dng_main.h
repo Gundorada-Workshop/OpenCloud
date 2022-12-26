@@ -82,10 +82,6 @@ class CLevelupInfo
 {
 };
 
-class CPiyori
-{
-};
-
 class CGiftMark
 {
 };
@@ -492,6 +488,12 @@ class CLockOnModel : CObjectFrame
 
   // SIZE 0xB0
 };
+
+// 001C9290
+s32 iRand(s32 max);
+
+// 001C92F0
+f32 fRand(f32 max);
 
 // 001E8630
 // Calculate weapon health for melee weapons on hit

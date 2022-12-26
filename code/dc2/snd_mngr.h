@@ -130,11 +130,17 @@ void sndStep(float f);
 // 0018E060
 void sndSePlay(uint u1, int i1, int i2);
 
+// 0018E0C0
+void sndSePlayVPf(uint i0, sint i1, f32 f0, f32 f1, sint i2);
+
 // 0018E410
 void sndPortSqPause(int port_no);
 
 // 0018E460
 void sndPortSqReplay(int port_no);
+
+// 0018EEF0
+void sndGetVolPan(f32* fp0, f32* fp1, vec3* emitter_position, f32 f0, f32 f1);
 
 // 00190530
 void sndStreamPause();

@@ -1,12 +1,28 @@
+#include "common/bits.h"
+#include "common/constants.h"
 #include "common/debug.h"
 #include "common/log.h"
 #include "common/macros.h"
 
+#include "dc2/camera.h"
+#include "dc2/monster.h"
 #include "dc2/monster_func.h"
 #include "dc2/run_script.h"
+#include "dc2/scene.h"
 #include "dc2/script_interpreter.h"
 
 set_log_channel("monster_func");
+
+#define VERIFY_STACK_COUNT(n) \
+  if (stack_count != n) UNLIKELY \
+  { \
+    return false; \
+  }
+
+// 0037735C
+CScene* nowScene{ nullptr };
+// 00377360
+CActiveMonster* nowMonster{ nullptr };
 
 MAYBE_UNUSED static sint GetStackInt(RS_STACKDATA* stack)
 {
@@ -238,67 +254,241 @@ static bool _MONS_SE_LOOP(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
   return true;
 }
 
-static bool _SET_CAMERA_NEXT_REF(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_CAMERA_NEXT_REF(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(3);
 
-  todo;
+  auto camera = static_cast<CCameraControl*>(nowScene->GetCamera(nowScene->m_active_cmrid));
+  if (camera == nullptr)
+  {
+    return false;
+  }
+
+  camera->FollowOff();
+  camera->ControlOff();
+  camera->SetNextRef(GetStackFloat(&stack[0]), GetStackFloat(&stack[1]), GetStackFloat(&stack[2]));
+
   return true;
 }
 
-static bool _SET_CAMERA_FOLLOW(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_CAMERA_FOLLOW(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  auto camera = static_cast<CCameraControl*>(nowScene->GetCamera(nowScene->m_active_cmrid));
+  if (camera == nullptr)
+  {
+    return false;
+  }
+
+  bool follow_on = common::bits::to_bool(GetStackInt(stack++));
+  if (follow_on)
+  {
+    camera->FollowOn();
+    camera->ControlOn();
+  }
+  else
+  {
+    camera->FollowOff();
+    camera->ControlOff();
+  }
+
   return true;
 }
 
-static bool _SET_CAMERA_NEXT_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_CAMERA_NEXT_POS(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(3);
 
-  todo;
+  auto camera = static_cast<CCameraControl*>(nowScene->GetCamera(nowScene->m_active_cmrid));
+  if (camera == nullptr)
+  {
+    return false;
+  }
+
+  camera->FollowOff();
+  camera->ControlOff();
+  camera->SetNextPos(GetStackFloat(&stack[0]), GetStackFloat(&stack[1]), GetStackFloat(&stack[2]));
+
   return true;
 }
 
-static bool _SET_CAMERA_MODE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_CAMERA_MODE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  nowScene->m_battle_area_scene.m_camera_mode = GetStackInt(stack++);
   return true;
 }
 
-static bool _SET_CAMERA_SPEED(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_CAMERA_SPEED(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera = static_cast<CCameraControl*>(nowScene->GetCamera(nowScene->m_active_cmrid));
+  if (camera == nullptr)
+  {
+    return false;
+  }
+
+  camera->SetSpeed(GetStackFloat(stack++));
   return true;
 }
 
 static bool _CAMERA_QUAKE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(2);
 
-  todo;
+  f32 f = GetStackFloat(stack++);
+  nowScene->m_battle_area_scene.m_unk_field_70 = f;
+  sint i = GetStackInt(stack++);
+  nowScene->m_battle_area_scene.m_unk_field_74 = f / static_cast<f32>(i);
+  nowScene->m_battle_area_scene.m_unk_field_78 = i;
   return true;
 }
 
-static bool _SET_CAMERA_CTRL_PARAM1(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_CAMERA_CTRL_PARAM1(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  if (stack_count < 0 || stack_count > 4)
+  {
+    return false;
+  }
 
-  todo;
+  auto camera = static_cast<CCameraControl*>(nowScene->GetCamera(nowScene->m_active_cmrid));
+  auto& param = camera->GetActiveParam();
+
+  std::optional<f32> arg0{};
+  std::optional<f32> arg1{};
+  std::optional<f32> arg2{};
+  std::optional<f32> arg3{};
+
+  if (stack_count >= 1)
+  {
+    arg0 = GetStackFloat(stack++);
+  }
+
+  if (arg0.has_value() && arg0.value() != -99999.9f)
+  {
+    param.m_unk_field_0 = arg0.value();
+  }
+
+  if (stack_count >= 2)
+  {
+    arg1 = GetStackFloat(stack++);
+  }
+
+  if (arg1.has_value() && arg1.value() != -99999.9f)
+  {
+    param.m_unk_field_4 = arg1.value();
+  }
+
+  if (stack_count >= 3)
+  {
+    arg2 = GetStackFloat(stack++);
+  }
+
+  if (arg2.has_value() && arg2.value() != -99999.9f)
+  {
+    param.m_unk_field_8 = arg2.value();
+  }
+
+  if (stack_count >= 4)
+  {
+    arg3 = GetStackFloat(stack++);
+  }
+
+  if (arg3.has_value() && arg3.value() != -99999.9f)
+  {
+    param.m_unk_field_C = arg3.value();
+  }
+
   return true;
 }
 
 static bool _SET_CAMERA_CTRL_PARAM2(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  if (stack_count < 0 || stack_count > 6)
+  {
+    return false;
+  }
 
-  todo;
+  auto camera = static_cast<CCameraControl*>(nowScene->GetCamera(nowScene->m_active_cmrid));
+  auto& param = camera->GetActiveParam();
+
+  std::optional<f32> arg0{};
+  std::optional<f32> arg1{};
+  std::optional<f32> arg2{};
+  std::optional<f32> arg3{};
+  std::optional<f32> arg4{};
+  std::optional<f32> arg5{};
+
+  if (stack_count >= 1)
+  {
+    arg0 = GetStackFloat(stack++);
+  }
+
+  if (arg0.has_value() && arg0.value() != -99999.9f)
+  {
+    param.m_unk_field_10 = arg0.value();
+  }
+
+  if (stack_count >= 2)
+  {
+    arg1 = GetStackFloat(stack++);
+  }
+
+  if (arg1.has_value() && arg1.value() != -99999.9f)
+  {
+    param.m_unk_field_14 = arg1.value();
+  }
+
+  if (stack_count >= 3)
+  {
+    arg2 = GetStackFloat(stack++);
+  }
+
+  if (arg2.has_value() && arg2.value() != -99999.9f)
+  {
+    param.m_unk_field_18 = arg2.value();
+  }
+
+  if (stack_count >= 4)
+  {
+    arg3 = GetStackFloat(stack++);
+  }
+
+  if (arg3.has_value() && arg3.value() != -99999.9f)
+  {
+    param.m_unk_field_1C = arg3.value();
+  }
+
+  if (stack_count >= 5)
+  {
+    arg4 = GetStackFloat(stack++);
+  }
+
+  if (arg4.has_value() && arg4.value() != -99999.9f)
+  {
+    param.m_unk_field_20 = arg4.value();
+  }
+
+  if (stack_count >= 6)
+  {
+    arg5 = GetStackFloat(stack++);
+  }
+
+  if (arg5.has_value() && arg5.value() != -99999.9f)
+  {
+    param.m_unk_field_24 = arg5.value();
+  }
+
   return true;
 }
 
@@ -306,23 +496,43 @@ static bool _RESET_CAMERA_CTRL_PARAM(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNU
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera = static_cast<CCameraControl*>(nowScene->GetCamera(nowScene->m_active_cmrid));
+  auto& param = camera->GetActiveParam();
+  param.m_unk_field_0 = 100.0f;
+  param.m_unk_field_4 = 160.0f;
+  param.m_unk_field_8 = 18.0f;
+  param.m_unk_field_C = 10.0f;
+  param.m_unk_field_14 = 40.0f;
+  param.m_unk_field_18 = -15.0f;
+  param.m_unk_field_1C = 20.0f;
+  param.m_unk_field_20 = -15.0f;
+  param.m_unk_field_10 = -15.0f;
+  param.m_unk_field_24 = 25.0f;
+
   return true;
 }
 
-static bool _GET_RND(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_RND(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(2);
 
-  todo;
+  // NOTE: Metrowerks does multiplication, then division, which likely results in a less precise result.
+  // MSVC will likely reverse the operation for precision, but this likely won't cause any issues.
+  f32 max = GetStackInt(stack++);
+  SetStack(stack++, static_cast<s32>(static_cast<f32>(rand()) * max / static_cast<f32>(common::constants::s32_max)));
   return true;
 }
 
-static bool _GET_RNDF(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_RNDF(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(2);
 
-  todo;
+  // NOTE: Metrowerks does multiplication, then division, which likely results in a less precise result.
+  // MSVC will likely reverse the operation for precision, but this likely won't cause any issues.
+  f32 max = GetStackFloat(stack++);
+  SetStack(stack++, static_cast<f32>(rand()) * max / static_cast<f32>(common::constants::s32_max));
   return true;
 }
 
@@ -518,19 +728,21 @@ static bool _V_POP2(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_co
   return true;
 }
 
-static bool _SET_LOCKON_MODE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_LOCKON_MODE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  nowScene->m_battle_area_scene.m_lockon_mode = GetStackInt(stack++);
   return true;
 }
 
-static bool _SET_MOTION_BLUR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_MOTION_BLUR(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  nowScene->m_fade_in_out.m_motion_blur = common::bits::to_bool(GetStackInt(stack++));
   return true;
 }
 
@@ -1060,11 +1272,12 @@ static bool _GET_PRIORITY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
   return true;
 }
 
-static bool _SET_CLIP_DIST(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_CLIP_DIST(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  nowMonster->m_clip_dist = GetStackFloat(stack++) * 20.0f;
   return true;
 }
 
@@ -1076,11 +1289,12 @@ static bool _SET_PIYORI_MARK(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _CHECK_PIYORI(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHECK_PIYORI(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  SetStack(stack++, nowMonster->m_piyori_current);
   return true;
 }
 
@@ -1132,11 +1346,12 @@ static bool _SET_SHROW_END(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _GET_BASE_ATTACK(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_BASE_ATTACK(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
-
-  todo;
+  VERIFY_STACK_COUNT(1);
+  
+  SetStack(stack++, nowMonster->m_base_attack);
   return true;
 }
 
@@ -1280,7 +1495,7 @@ static bool _RESET_MOTION(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  nowMonster->ResetMotion();
   return true;
 }
 

@@ -250,7 +250,7 @@ struct BATTLE_AREA_SCENE
   // 50
   f32 m_unk_field_50{ 1.0f };
   // 54 FIXME: enum?
-  s32 m_unk_field_54{};
+  s32 m_camera_mode{};
   // 58
   bool m_unk_field_58{};
   // 5C
@@ -286,7 +286,7 @@ struct BATTLE_AREA_SCENE
   // 9C
   unk8 m_unk_field_9C{};
   // 9E
-  s16 m_unk_field_9E{};
+  s16 m_lockon_mode{};
   // A0 - some sort of texb handle
   u32 m_unk_field_A0{};
 };
@@ -835,6 +835,8 @@ public:
 
   // C4A0
   mgCMemory m_unk_field_C4A0{};
+  // C4D0
+  s32 m_unk_field_C4D0{};
 
   // ?
 

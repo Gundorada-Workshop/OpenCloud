@@ -156,6 +156,14 @@ void sndSePlay(MAYBE_UNUSED uint u1, MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2)
   todo;
 }
 
+// 0018E0C0
+void sndSePlayVPf(uint i0, sint i1, f32 f0, f32 f1, sint i2)
+{
+  log_trace("{}({}, {}, {}, {}, {})", __func__, i0, i1, f0, f1, i2);
+
+  todo;
+}
+
 // 0018E410
 void sndPortSqPause(MAYBE_UNUSED sint port_no)
 {
@@ -168,6 +176,14 @@ void sndPortSqPause(MAYBE_UNUSED sint port_no)
 void sndPortSqReplay(MAYBE_UNUSED sint port_no)
 {
   log_trace("{}({})", __func__, port_no);
+
+  todo;
+}
+
+// 0018EEF0
+void sndGetVolPan(MAYBE_UNUSED f32* fp0, MAYBE_UNUSED f32* fp1, MAYBE_UNUSED vec3* emitter_position, MAYBE_UNUSED f32 f0, MAYBE_UNUSED f32 f1)
+{
+  log_trace("{}({}, {}, {}, {}, {})", __func__, fmt::ptr(fp0), fmt::ptr(fp1), fmt::ptr(emitter_position), f0, f1);
 
   todo;
 }
