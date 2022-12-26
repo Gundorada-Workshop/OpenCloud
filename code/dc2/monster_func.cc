@@ -262,11 +262,29 @@ static bool _SET_CAMERA_NEXT_REF(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED 
   return true;
 }
 
-static bool _SET_CAMERA_FOLLOW(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_CAMERA_FOLLOW(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  auto camera = static_cast<CCameraControl*>(nowScene->GetCamera(nowScene->m_active_cmrid));
+  if (camera == nullptr)
+  {
+    return false;
+  }
+
+  bool follow_on = common::bits::to_bool(GetStackInt(stack++));
+  if (follow_on)
+  {
+    camera->FollowOn();
+    camera->ControlOn();
+  }
+  else
+  {
+    camera->FollowOff();
+    camera->ControlOff();
+  }
+
   return true;
 }
 
