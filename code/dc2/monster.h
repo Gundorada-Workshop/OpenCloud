@@ -4,6 +4,7 @@
 #include "common/types.h"
 
 #include "dc2/character.h"
+#include "dc2/gamedata.h"
 
 class CActiveMonster;
 
@@ -48,6 +49,8 @@ private:
 class CActiveMonster : public CActionChara
 {
 public:
+  // 12A4
+  EAttackType m_attack_type{ EAttackType::Invalid };
   // 12F0
   s16 m_priority{ 999 };
   // 12FC
