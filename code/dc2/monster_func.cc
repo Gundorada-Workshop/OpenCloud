@@ -302,19 +302,143 @@ static bool _CAMERA_QUAKE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
   return true;
 }
 
-static bool _SET_CAMERA_CTRL_PARAM1(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_CAMERA_CTRL_PARAM1(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  if (stack_count < 0 || stack_count > 4)
+  {
+    return false;
+  }
 
-  todo;
+  auto camera = static_cast<CCameraControl*>(nowScene->GetCamera(nowScene->m_active_cmrid));
+  auto& param = camera->GetActiveParam();
+
+  std::optional<f32> arg0{};
+  std::optional<f32> arg1{};
+  std::optional<f32> arg2{};
+  std::optional<f32> arg3{};
+
+  if (stack_count >= 1)
+  {
+    arg0 = GetStackFloat(stack++);
+  }
+
+  if (arg0.has_value() && arg0.value() != -99999.9f)
+  {
+    param.m_unk_field_0 = arg0.value();
+  }
+
+  if (stack_count >= 2)
+  {
+    arg1 = GetStackFloat(stack++);
+  }
+
+  if (arg1.has_value() && arg1.value() != -99999.9f)
+  {
+    param.m_unk_field_4 = arg1.value();
+  }
+
+  if (stack_count >= 3)
+  {
+    arg2 = GetStackFloat(stack++);
+  }
+
+  if (arg2.has_value() && arg2.value() != -99999.9f)
+  {
+    param.m_unk_field_8 = arg2.value();
+  }
+
+  if (stack_count >= 4)
+  {
+    arg3 = GetStackFloat(stack++);
+  }
+
+  if (arg3.has_value() && arg3.value() != -99999.9f)
+  {
+    param.m_unk_field_C = arg3.value();
+  }
+
   return true;
 }
 
 static bool _SET_CAMERA_CTRL_PARAM2(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  if (stack_count < 0 || stack_count > 6)
+  {
+    return false;
+  }
 
-  todo;
+  auto camera = static_cast<CCameraControl*>(nowScene->GetCamera(nowScene->m_active_cmrid));
+  auto& param = camera->GetActiveParam();
+
+  std::optional<f32> arg0{};
+  std::optional<f32> arg1{};
+  std::optional<f32> arg2{};
+  std::optional<f32> arg3{};
+  std::optional<f32> arg4{};
+  std::optional<f32> arg5{};
+
+  if (stack_count >= 1)
+  {
+    arg0 = GetStackFloat(stack++);
+  }
+
+  if (arg0.has_value() && arg0.value() != -99999.9f)
+  {
+    param.m_unk_field_10 = arg0.value();
+  }
+
+  if (stack_count >= 2)
+  {
+    arg1 = GetStackFloat(stack++);
+  }
+
+  if (arg1.has_value() && arg1.value() != -99999.9f)
+  {
+    param.m_unk_field_14 = arg1.value();
+  }
+
+  if (stack_count >= 3)
+  {
+    arg2 = GetStackFloat(stack++);
+  }
+
+  if (arg2.has_value() && arg2.value() != -99999.9f)
+  {
+    param.m_unk_field_18 = arg2.value();
+  }
+
+  if (stack_count >= 4)
+  {
+    arg3 = GetStackFloat(stack++);
+  }
+
+  if (arg3.has_value() && arg3.value() != -99999.9f)
+  {
+    param.m_unk_field_1C = arg3.value();
+  }
+
+  if (stack_count >= 5)
+  {
+    arg4 = GetStackFloat(stack++);
+  }
+
+  if (arg4.has_value() && arg4.value() != -99999.9f)
+  {
+    param.m_unk_field_20 = arg4.value();
+  }
+
+  if (stack_count >= 6)
+  {
+    arg5 = GetStackFloat(stack++);
+  }
+
+  if (arg5.has_value() && arg5.value() != -99999.9f)
+  {
+    param.m_unk_field_24 = arg5.value();
+  }
+
   return true;
 }
 
