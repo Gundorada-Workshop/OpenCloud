@@ -1344,11 +1344,12 @@ static bool _SET_SHROW_END(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _GET_BASE_ATTACK(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_BASE_ATTACK(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
-
-  todo;
+  VERIFY_STACK_COUNT(1);
+  
+  SetStack(stack++, nowMonster->m_base_attack);
   return true;
 }
 
