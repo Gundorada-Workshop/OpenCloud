@@ -270,11 +270,21 @@ static bool _SET_CAMERA_FOLLOW(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED si
   return true;
 }
 
-static bool _SET_CAMERA_NEXT_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_CAMERA_NEXT_POS(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(3);
 
-  todo;
+  auto camera = static_cast<CCameraControl*>(nowScene->GetCamera(nowScene->m_active_cmrid));
+  if (camera == nullptr)
+  {
+    return false;
+  }
+
+  camera->FollowOff();
+  camera->ControlOff();
+  camera->SetNextPos(GetStackFloat(&stack[0]), GetStackFloat(&stack[1]), GetStackFloat(&stack[2]));
+
   return true;
 }
 
