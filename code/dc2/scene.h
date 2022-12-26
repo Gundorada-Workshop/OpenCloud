@@ -835,6 +835,8 @@ public:
 
   // C4A0
   mgCMemory m_unk_field_C4A0{};
+  // C4D0
+  s32 m_unk_field_C4D0{};
 
   // ?
 

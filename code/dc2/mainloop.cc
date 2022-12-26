@@ -90,6 +90,14 @@ u32 GetSystemSndId(void)
   return s_system_snd_id;
 }
 
+// 00190870
+CScene* GetMainScene()
+{
+  log_trace("{}()", __func__);
+
+  return &MainScene;
+}
+
 // 00190880
 CSaveData* GetSaveData()
 {

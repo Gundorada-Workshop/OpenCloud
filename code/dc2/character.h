@@ -852,6 +852,8 @@ public:
   f32 m_unk_field_F58{};
   // F5C
   s32 m_unk_field_F5C{};
+
+  // Took a bit to find but the aligned size is 0x1030
 };
 
 // 00378294

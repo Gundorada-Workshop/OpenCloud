@@ -61,16 +61,14 @@ struct SDebugInfo
 	s32 m_unk_field_10{ -1 };
 };
 
-namespace MainLoop_SInit
-{
-	void SInit();
-}
-
 // 00190840
 CFont* GetDebugFont();
 
 // 00190860
 u32 GetSystemSndId();
+
+// 00190870
+CScene* GetMainScene();
 
 // 00190880
 CSaveData* GetSaveData();

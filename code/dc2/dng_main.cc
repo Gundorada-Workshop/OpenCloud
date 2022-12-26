@@ -219,6 +219,22 @@ void CSwordAfterImage::Initialize(MAYBE_UNUSED mgCMemory* stack, MAYBE_UNUSED si
   todo;
 }
 
+// 001C9290
+s32 iRand(s32 max)
+{
+  log_trace("{}({})", __func__, max);
+
+  return static_cast<s32>(static_cast<f32>(max) / static_cast<f32>(rand()) / static_cast<f32>(common::constants::s32_max));
+}
+
+// 001C92F0
+f32 fRand(f32 max)
+{
+  log_trace("{}({})", __func__, max);
+
+  return max / static_cast<f32>(rand()) / static_cast<f32>(common::constants::s32_max);
+}
+
 // 001D4850
 CFireAfterHit::CFireAfterHit()
 {
