@@ -1288,11 +1288,12 @@ static bool _SET_PIYORI_MARK(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _CHECK_PIYORI(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHECK_PIYORI(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  SetStack(stack++, nowMonster->m_piyori_current);
   return true;
 }
 
