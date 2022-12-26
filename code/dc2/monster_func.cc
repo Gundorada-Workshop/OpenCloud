@@ -1307,11 +1307,23 @@ static bool _GET_SCALE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack
   return true;
 }
 
-static bool _GET_MONS_WIDTH(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_MONS_WIDTH(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  if (nowMonster == nullptr)
+  {
+    return false;
+  }
+  
+  f32 width = nowMonster->m_monster_width;
+  if (width <= 0.0f)
+  {
+    width = 15.0f;
+  }
+
+  SetStack(stack++, width);
   return true;
 }
 

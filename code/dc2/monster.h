@@ -62,6 +62,8 @@ public:
   u16 m_melee_whp_penalty{ 1 };
   // 1338
   s16 m_piyori_current{ 0 };
+  // 1360
+  f32 m_monster_width{};
 };
 
 class CMonsterLocateInfo
