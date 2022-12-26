@@ -304,8 +304,13 @@ static bool _SET_CAMERA_SPEED(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count
 static bool _CAMERA_QUAKE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(2);
 
-  todo;
+  f32 f = GetStackFloat(stack++);
+  nowScene->m_battle_area_scene.m_unk_field_70 = f;
+  sint i = GetStackInt(stack++);
+  nowScene->m_battle_area_scene.m_unk_field_74 = f / static_cast<f32>(i);
+  nowScene->m_battle_area_scene.m_unk_field_78 = i;
   return true;
 }
 
