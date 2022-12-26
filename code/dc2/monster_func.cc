@@ -286,11 +286,17 @@ static bool _SET_CAMERA_MODE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _SET_CAMERA_SPEED(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_CAMERA_SPEED(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  auto camera = static_cast<CCameraControl*>(nowScene->GetCamera(nowScene->m_active_cmrid));
+  if (camera == nullptr)
+  {
+    return false;
+  }
+
+  camera->SetSpeed(GetStackFloat(stack++));
   return true;
 }
 
