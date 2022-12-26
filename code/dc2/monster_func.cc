@@ -1272,11 +1272,12 @@ static bool _GET_PRIORITY(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
   return true;
 }
 
-static bool _SET_CLIP_DIST(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_CLIP_DIST(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  nowMonster->m_clip_dist = GetStackFloat(stack++) * 20.0f;
   return true;
 }
 

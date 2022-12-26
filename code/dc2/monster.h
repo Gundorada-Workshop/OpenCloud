@@ -8,6 +8,8 @@
 class CActiveMonster : public CActionChara
 {
 public:
+  // 12FC
+  f32 m_clip_dist{ 500.0f };
   // 1318
   u16 m_base_attack{ 0 };
   // 1324
