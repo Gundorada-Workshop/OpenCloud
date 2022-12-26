@@ -278,11 +278,12 @@ static bool _SET_CAMERA_NEXT_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED 
   return true;
 }
 
-static bool _SET_CAMERA_MODE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_CAMERA_MODE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  nowScene->m_battle_area_scene.m_camera_mode = GetStackInt(stack++);
   return true;
 }
 

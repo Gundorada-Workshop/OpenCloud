@@ -250,7 +250,7 @@ struct BATTLE_AREA_SCENE
   // 50
   f32 m_unk_field_50{ 1.0f };
   // 54 FIXME: enum?
-  s32 m_unk_field_54{};
+  s32 m_camera_mode{};
   // 58
   bool m_unk_field_58{};
   // 5C
