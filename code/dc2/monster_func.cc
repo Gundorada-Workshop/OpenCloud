@@ -94,6 +94,15 @@ MAYBE_UNUSED static void SetStack(RS_STACKDATA* stack, f32 value)
   stack->m_data.p->m_data.f = value;
 }
 
+static void SetStackVector(vec3* vector, RS_STACKDATA* stack)
+{
+  log_trace("{}({}, {})", __func__, fmt::ptr(vector), fmt::ptr(stack));
+
+  SetStack(&stack[0], vector->x);
+  SetStack(&stack[1], vector->y);
+  SetStack(&stack[2], vector->z);
+}
+
 static bool _NORMAL_VECTOR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
@@ -1299,11 +1308,13 @@ static bool _CHECK_PIYORI(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _GET_SCALE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_SCALE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(3);
 
-  todo;
+  vec3 scale = nowMonster->GetScale();
+  SetStackVector(&scale, stack);
   return true;
 }
 
