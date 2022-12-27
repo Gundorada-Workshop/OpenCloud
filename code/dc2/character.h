@@ -669,7 +669,7 @@ public:
   virtual void SetMotion(std::string key_name, sint i1, sint i2);
 
   // 0016B5B0
-  virtual ECharacterMotionStatus GetMotionStatus(std::string chara_name);
+  virtual ECharacterMotionStatus GetMotionStatus(std::string key_name = "");
 
   // 0016BB00
   virtual void StepEffect();

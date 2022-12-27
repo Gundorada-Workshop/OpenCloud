@@ -63,11 +63,17 @@ MAYBE_UNUSED static vec3 GetStackVector(RS_STACKDATA* stack)
   };
 }
 
-MAYBE_UNUSED static const char* GetStackString(RS_STACKDATA* stack)
+MAYBE_UNUSED static std::string GetStackString(RS_STACKDATA* stack)
 {
   log_trace("{}()", __func__, fmt::ptr(stack));
 
-  return stack->m_data.s;
+  if (stack->m_data.s == nullptr)
+  {
+    return "";
+  }
+
+  // TODO: Maybe re-convert from SHIFT-JIS here to UTF8?
+  return std::string(stack->m_data.s);
 }
 
 MAYBE_UNUSED static void SetStack(RS_STACKDATA* stack, sint value)
@@ -1548,12 +1554,29 @@ static bool _NOW_MOS_WAIT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
   return true;
 }
 
-static bool _GET_MOS_STATUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_MOS_STATUS(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  
+  switch (stack_count)
+  {
+    case 1:
+      SetStack(stack++, static_cast<sint>(nowMonster->GetMotionStatus()));
+      return true;
+    case 2:
+    {
+      std::string key_name = GetStackString(stack++);
+      if (key_name == "")
+      {
+        return false;
+      }
 
-  todo;
-  return true;
+      SetStack(stack++, static_cast<sint>(nowMonster->GetMotionStatus(key_name)));
+      return true;
+    }
+    default:
+      return false;
+  }
 }
 
 static bool _ESM_CREATE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)

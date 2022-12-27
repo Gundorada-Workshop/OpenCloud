@@ -703,9 +703,9 @@ void CActionChara::SetMotion(std::string key_name, sint i1, sint i2)
 }
 
 // 0016B5B0
-ECharacterMotionStatus CActionChara::GetMotionStatus(std::string chara_name)
+ECharacterMotionStatus CActionChara::GetMotionStatus(std::string key_name)
 {
-  log_trace("CActionChara::{}({})", __func__, chara_name);
+  log_trace("CActionChara::{}({})", __func__, key_name);
 
   todo;
   return ECharacterMotionStatus::_0;
