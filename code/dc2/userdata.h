@@ -763,7 +763,7 @@ public:
   bool CheckElectricFish() const;
 
   // 0019DDE0
-  usize GetNumSameItem(ECommonItemData item_id);
+  usize GetNumSameItem(ECommonItemData item_id) const;
 
   // 0019DF70
   void AddYarikomiMedal(sint i);

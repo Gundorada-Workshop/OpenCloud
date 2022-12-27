@@ -3079,12 +3079,63 @@ bool CUserDataManager::CheckElectricFish() const
 }
 
 // 0019DDE0
-usize CUserDataManager::GetNumSameItem(ECommonItemData item_id)
+usize CUserDataManager::GetNumSameItem(ECommonItemData item_id) const
 {
   log_trace("CUserDataManager::{}({})", __func__, s32(item_id));
 
-  todo;
-  return 0;
+  usize count = 0;
+
+  // Check the inventory
+  usize bag_capacity = GetNowBagMax(true);
+  for (usize i = 0; i < bag_capacity; ++i)
+  {
+    if (m_inventory[i].m_common_index == item_id)
+    {
+      count += m_inventory[i].GetNum();
+    }
+
+    count += m_inventory[i].GetGiftBoxSameItemNum(item_id);
+  }
+
+  // Check each character's active items/equipment
+  constexpr std::array<ECharacterID, 2> character_ids{ ECharacterID::Max, ECharacterID::Monica };
+
+  for (auto character_id : character_ids)
+  {
+    // Active items
+    for (usize i = 0; i < m_chara_data[std::to_underlying(character_id)].m_active_item_info.size(); ++i)
+    {
+      if (m_chara_data[std::to_underlying(character_id)].m_active_item_info[i].m_common_index == item_id)
+      {
+        count += m_chara_data[std::to_underlying(character_id)].m_active_item_info[i].GetNum();
+      }
+
+      count += m_chara_data[std::to_underlying(character_id)].m_active_item_info[i].GetGiftBoxSameItemNum(item_id);
+    }
+
+    // Equipment
+    // Active items
+    for (usize i = 0; i < m_chara_data[std::to_underlying(character_id)].m_equip_table.data.size(); ++i)
+    {
+      if (m_chara_data[std::to_underlying(character_id)].m_equip_table.data[i].m_common_index == item_id)
+      {
+        count += m_chara_data[std::to_underlying(character_id)].m_equip_table.data[i].GetNum();
+      }
+
+      count += m_chara_data[std::to_underlying(character_id)].m_equip_table.data[i].GetGiftBoxSameItemNum(item_id);
+    }
+  }
+
+  // Check ridepod parts
+  for (usize i = 0; i < m_robo_data.m_equip_table.data.size(); ++i)
+  {
+    if (m_robo_data.m_equip_table.data[i].m_common_index == item_id)
+    {
+      count += 1;
+    }
+  }
+
+  return count;
 }
 
 // 0019DF70
