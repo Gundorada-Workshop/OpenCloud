@@ -169,13 +169,14 @@ vmcode_t* CRunScript::ret_func()
 }
 
 // 00187050
-void CRunScript::ext(RS_STACKDATA* stack_data, s32 i)
+void CRunScript::ext(RS_STACKDATA* stack_data, s32 stack_count)
 {
-  log_trace("CRunScript::{}({}, {})", __func__, *stack_data, i);
+  log_trace("CRunScript::{}({}, {})", __func__, *stack_data, stack_count);
 
+  // First item of stack_data should be the extension function ID.
   s32 call_index = stack_data->m_data.i;
 
-  if (i < 0 || m_n_ext_func <= i)
+  if (call_index < 0 || m_n_ext_func <= call_index)
   {
     log_warn("Not found ext {}", call_index);
     return;
@@ -189,7 +190,9 @@ void CRunScript::ext(RS_STACKDATA* stack_data, s32 i)
     return;
   }
 
-  if (!fn(stack_data + 1, i + 1))
+  // NOTE: the first item on the stack is the extension function ID,
+  // So we ignore that when passing the stack pointer/count to the extension function.
+  if (!fn(stack_data + 1, stack_count - 1))
   {
     log_warn("Illegal function call ext {}", call_index);
     return;

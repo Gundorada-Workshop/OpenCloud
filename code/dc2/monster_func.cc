@@ -63,11 +63,17 @@ MAYBE_UNUSED static vec3 GetStackVector(RS_STACKDATA* stack)
   };
 }
 
-MAYBE_UNUSED static const char* GetStackString(RS_STACKDATA* stack)
+MAYBE_UNUSED static std::string GetStackString(RS_STACKDATA* stack)
 {
   log_trace("{}()", __func__, fmt::ptr(stack));
 
-  return stack->m_data.s;
+  if (stack->m_data.s == nullptr)
+  {
+    return "";
+  }
+
+  // TODO: Maybe re-convert from SHIFT-JIS here to UTF8?
+  return std::string(stack->m_data.s);
 }
 
 MAYBE_UNUSED static void SetStack(RS_STACKDATA* stack, sint value)
@@ -92,6 +98,15 @@ MAYBE_UNUSED static void SetStack(RS_STACKDATA* stack, f32 value)
   }
 
   stack->m_data.p->m_data.f = value;
+}
+
+static void SetStackVector(vec3* vector, RS_STACKDATA* stack)
+{
+  log_trace("{}({}, {})", __func__, fmt::ptr(vector), fmt::ptr(stack));
+
+  SetStack(&stack[0], vector->x);
+  SetStack(&stack[1], vector->y);
+  SetStack(&stack[2], vector->z);
 }
 
 static bool _NORMAL_VECTOR(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
@@ -680,11 +695,12 @@ static bool _SET_BIT_FLAG(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
   return true;
 }
 
-static bool _GET_ATT_TYPE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_ATT_TYPE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  SetStack(stack++, static_cast<sint>(nowMonster->m_attack_type));
   return true;
 }
 
@@ -810,19 +826,26 @@ static bool _GET_INDEX_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _GET_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_POS(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  vec3 pos = nowMonster->GetPosition();
+  SetStack(stack++, pos.x);
+  SetStack(stack++, pos.y);
+  SetStack(stack++, pos.z);
   return true;
 }
 
-static bool _SET_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_POS(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(3);
 
-  todo;
+  f32 x = GetStackFloat(stack++);
+  f32 y = GetStackFloat(stack++);
+  f32 z = GetStackFloat(stack++);
+  nowMonster->SetPosition(x, y, z);
   return true;
 }
 
@@ -874,19 +897,46 @@ static bool _RESET_MOVE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stac
   return true;
 }
 
-static bool _GET_TARGET_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_TARGET_POS(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  if (stack_count < 3 || stack_count > 4)
+  {
+    return false;
+  }
 
-  todo;
+  auto target = nowScene->GetCharacter(nowMonster->m_target_chara_id);
+  if (target == nullptr)
+  {
+    return false;
+  }
+
+  vec3 target_pos = target->GetPosition();
+  SetStack(stack++, target_pos.x);
+  SetStack(stack++, target_pos.y);
+  SetStack(stack++, target_pos.z);
+
+  if (stack_count >= 4)
+  {
+    // Set the distance between the monster and target on the stack, if we want it.
+    SetStack(stack++, common::math::vector_distance(target_pos, nowMonster->GetPosition()));
+  }
+  
   return true;
 }
 
-static bool _GET_TARGET_DIST(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_TARGET_DIST(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  auto target = nowScene->GetCharacter(nowMonster->m_target_chara_id);
+  if (target == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack++, common::math::vector_distance(target->GetPosition(), nowMonster->GetPosition()));
   return true;
 }
 
@@ -930,11 +980,20 @@ static bool _GET_TARGET_ROT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _GET_REF_ANGLE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_REF_ANGLE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(4);
 
-  todo;
+  f32 x = GetStackFloat(stack++);
+  f32 y = GetStackFloat(stack++);
+  f32 z = GetStackFloat(stack++);
+  vec3 check_position{ x, y, z };
+
+  vec3 delta = check_position - nowMonster->GetPosition();
+  
+  SetStack(stack++, atan2f(delta.x, delta.z));
+
   return true;
 }
 
@@ -1234,11 +1293,12 @@ static bool _SET_ACT_STATUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _SET_MUTEKI(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_MUTEKI(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  nowMonster->m_invincible_flag = common::bits::to_bool(GetStackInt(stack++));
   return true;
 }
 
@@ -1298,19 +1358,33 @@ static bool _CHECK_PIYORI(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _GET_SCALE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_SCALE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(3);
 
-  todo;
+  vec3 scale = nowMonster->GetScale();
+  SetStackVector(&scale, stack);
   return true;
 }
 
-static bool _GET_MONS_WIDTH(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_MONS_WIDTH(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  if (nowMonster == nullptr)
+  {
+    return false;
+  }
+  
+  f32 width = nowMonster->m_monster_width;
+  if (width <= 0.0f)
+  {
+    width = 15.0f;
+  }
+
+  SetStack(stack++, width);
   return true;
 }
 
@@ -1499,36 +1573,105 @@ static bool _RESET_MOTION(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
   return true;
 }
 
-static bool _SET_MOS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_MOS(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  if (stack_count < 0 || stack_count > 3)
+  {
+    return false;
+  }
 
-  todo;
+  std::string key_name = (stack_count >= 1) ? GetStackString(stack++) : "";
+  f32 step = (stack_count >= 2) ? GetStackFloat(stack++) : -1.0f;
+  sint i = (stack_count >= 3) ? GetStackInt(stack++) : 0;
+
+  if (key_name == "")
+  {
+    return false;
+  }
+
+  nowMonster->SetMotion(key_name, 0, i);
+  if (step > 0.0f)
+  {
+    nowMonster->SetStep(step);
+  }
+
   return true;
 }
 
-static bool _CHECK_MOS_END(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHECK_MOS_END(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  switch (stack_count)
+  {
+    case 1:
+      SetStack(stack++, static_cast<sint>(nowMonster->CheckMotionEnd("")));
+      return true;
+    case 2:
+    {
+      std::string key_name = GetStackString(stack++);
+      if (key_name == "")
+      {
+        return false;
+      }
+
+      SetStack(stack++, static_cast<sint>(nowMonster->CheckMotionEnd(key_name)));
+      return true;
+    }
+    default:
+      return false;
+  }
 }
 
-static bool _NOW_MOS_WAIT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _NOW_MOS_WAIT(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  switch (stack_count)
+  {
+    case 1:
+      SetStack(stack++, static_cast<sint>(nowMonster->GetNowFrameWait("")));
+      return true;
+    case 2:
+    {
+      std::string key_name = GetStackString(stack++);
+      if (key_name == "")
+      {
+        return false;
+      }
+
+      SetStack(stack++, static_cast<sint>(nowMonster->GetNowFrameWait(key_name)));
+      return true;
+    }
+    default:
+      return false;
+  }
 }
 
-static bool _GET_MOS_STATUS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_MOS_STATUS(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  
+  switch (stack_count)
+  {
+    case 1:
+      SetStack(stack++, static_cast<sint>(nowMonster->GetMotionStatus()));
+      return true;
+    case 2:
+    {
+      std::string key_name = GetStackString(stack++);
+      if (key_name == "")
+      {
+        return false;
+      }
 
-  todo;
-  return true;
+      SetStack(stack++, static_cast<sint>(nowMonster->GetMotionStatus(key_name)));
+      return true;
+    }
+    default:
+      return false;
+  }
 }
 
 static bool _ESM_CREATE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)

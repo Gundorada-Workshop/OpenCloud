@@ -368,6 +368,8 @@ public:
   void SetName(const char* name);
   // 00197700
   const char* GetName() const;
+  // 00197D30
+  sint DeleteNum(sint delta);
   // 00197DC0
   sint RemainFusion() const;
   // 00197DE0
@@ -763,10 +765,16 @@ public:
   bool CheckElectricFish() const;
 
   // 0019DDE0
-  usize GetNumSameItem(ECommonItemData item_id);
+  usize GetNumSameItem(ECommonItemData item_id) const;
 
   // 0019DF70
-  void AddYarikomiMedal(sint i);
+  void AddYarikomiMedal(sint delta);
+
+  // 0019DFE0
+  sint GetYarikomiMedal();
+
+  // 0019E8C0
+  bool DeleteItem(ECommonItemData item_id, sint delta);
 
   // 0019E9E0
   static bool CopyGameData(CGameDataUsed* dest, ECommonItemData item_id);
@@ -811,7 +819,7 @@ public:
   // 44D9C
   s32 m_money{};
   // 44DA0
-  s16 m_unk_field_44DA0{};
+  s16 m_yarikomi_medal{ 0 };
 
   // ?
 

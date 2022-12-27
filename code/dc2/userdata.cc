@@ -958,6 +958,32 @@ const char* CGameDataUsed::GetName() const
   return nullptr;
 }
 
+// 00197D30
+sint CGameDataUsed::DeleteNum(sint delta)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, delta);
+
+  if (delta <= 0)
+  {
+    return 0;
+  }
+
+  sint num = GetNum();
+  switch (m_type)
+  {
+    case EUsedItemType::Attach:
+    case EUsedItemType::Item_Misc:
+      delta = AddNum(-delta);
+      break;
+    default:
+      new (this) CGameDataUsed();
+      delta = 0;
+      break;
+  }
+
+  return num - delta;
+}
+
 // 00197DC0
 sint CGameDataUsed::RemainFusion() const
 {
@@ -3079,20 +3105,140 @@ bool CUserDataManager::CheckElectricFish() const
 }
 
 // 0019DDE0
-usize CUserDataManager::GetNumSameItem(ECommonItemData item_id)
+usize CUserDataManager::GetNumSameItem(ECommonItemData item_id) const
 {
   log_trace("CUserDataManager::{}({})", __func__, s32(item_id));
 
-  todo;
-  return 0;
+  usize count = 0;
+
+  // Check the inventory
+  usize bag_capacity = GetNowBagMax(true);
+  for (usize i = 0; i < bag_capacity; ++i)
+  {
+    if (m_inventory[i].m_common_index == item_id)
+    {
+      count += m_inventory[i].GetNum();
+    }
+
+    count += m_inventory[i].GetGiftBoxSameItemNum(item_id);
+  }
+
+  // Check each character's active items/equipment
+  constexpr std::array<ECharacterID, 2> character_ids{ ECharacterID::Max, ECharacterID::Monica };
+
+  for (auto character_id : character_ids)
+  {
+    // Active items
+    for (usize i = 0; i < m_chara_data[std::to_underlying(character_id)].m_active_item_info.size(); ++i)
+    {
+      if (m_chara_data[std::to_underlying(character_id)].m_active_item_info[i].m_common_index == item_id)
+      {
+        count += m_chara_data[std::to_underlying(character_id)].m_active_item_info[i].GetNum();
+      }
+
+      count += m_chara_data[std::to_underlying(character_id)].m_active_item_info[i].GetGiftBoxSameItemNum(item_id);
+    }
+
+    // Equipment
+    // Active items
+    for (usize i = 0; i < m_chara_data[std::to_underlying(character_id)].m_equip_table.data.size(); ++i)
+    {
+      if (m_chara_data[std::to_underlying(character_id)].m_equip_table.data[i].m_common_index == item_id)
+      {
+        count += m_chara_data[std::to_underlying(character_id)].m_equip_table.data[i].GetNum();
+      }
+
+      count += m_chara_data[std::to_underlying(character_id)].m_equip_table.data[i].GetGiftBoxSameItemNum(item_id);
+    }
+  }
+
+  // Check ridepod parts
+  for (usize i = 0; i < m_robo_data.m_equip_table.data.size(); ++i)
+  {
+    if (m_robo_data.m_equip_table.data[i].m_common_index == item_id)
+    {
+      count += 1;
+    }
+  }
+
+  return count;
 }
 
 // 0019DF70
-void CUserDataManager::AddYarikomiMedal(sint i)
+void CUserDataManager::AddYarikomiMedal(sint delta)
 {
-  log_trace("CUserDataManager::{}({})", __func__, i);
+  log_trace("CUserDataManager::{}({})", __func__, delta);
 
-  todo;
+  m_yarikomi_medal = std::clamp(m_yarikomi_medal + delta, 0, 999);
+}
+
+// 0019DFE0
+sint CUserDataManager::GetYarikomiMedal()
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  return m_yarikomi_medal;
+}
+
+// 0019E7F0
+static sint DeleteItem_Local(CGameDataUsed* item, ECommonItemData item_id, sint delta)
+{
+  log_trace("{}({}, {}, {})", __func__, fmt::ptr(item), std::to_underlying(item_id), delta);
+
+  if (delta <= 0)
+  {
+    return 0;
+  }
+
+  sint deleted = 0;
+
+  if (item->m_common_index == item_id)
+  {
+    // This is the item we want to delete; super simple.
+    deleted = item->DeleteNum(delta);
+  }
+  else if (item->m_type == EUsedItemType::Gift_Box)
+  {
+    // This item isn't the item we want to delete; if it's a gift box, we want to remove the item from the box.
+    for (usize i = 0; i < item->as.gift_box.m_contents.size() && delta > 0; ++i)
+    {
+      if (item->GetGiftBoxItemNo(i) == item_id)
+      {
+        // the item's in the box; replace it with an empty space and record our deletion.
+        item->SetGiftBoxItem(ECommonItemData::Invalid, i);
+        delta -= 1;
+        deleted += 1;
+      }
+    }
+  }
+
+  return deleted;
+}
+
+// 0019E8C0
+bool CUserDataManager::DeleteItem(ECommonItemData item_id, sint delta)
+{
+  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(item_id), delta);
+
+  // Reverse iteration in order to delete items closer to the end of the inventory if possible.
+  for (auto item = m_inventory.rbegin(); item < m_inventory.rend() && delta > 0; ++item)
+  {
+    delta -= DeleteItem_Local(&(*item), item_id, delta);
+  }
+
+  // Now check active equipped items
+  for (auto& chara_data : m_chara_data)
+  {
+    for (auto& item : chara_data.m_active_item_info)
+    {
+      if (delta > 0)
+      {
+        delta -= DeleteItem_Local(&item, item_id, delta);
+      }
+    }
+  }
+
+  return true;
 }
 
 // 0019E9E0
