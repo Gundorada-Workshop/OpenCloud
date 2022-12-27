@@ -946,11 +946,20 @@ static bool _GET_TARGET_ROT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _GET_REF_ANGLE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_REF_ANGLE(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(4);
 
-  todo;
+  f32 x = GetStackFloat(stack++);
+  f32 y = GetStackFloat(stack++);
+  f32 z = GetStackFloat(stack++);
+  vec3 check_position{ x, y, z };
+
+  vec3 delta = check_position - nowMonster->GetPosition();
+  
+  SetStack(stack++, atan2f(delta.x, delta.z));
+
   return true;
 }
 
