@@ -834,11 +834,15 @@ static bool _GET_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_c
   return true;
 }
 
-static bool _SET_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_POS(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(3);
 
-  todo;
+  f32 x = GetStackFloat(stack++);
+  f32 y = GetStackFloat(stack++);
+  f32 z = GetStackFloat(stack++);
+  nowMonster->SetPosition(x, y, z);
   return true;
 }
 
@@ -890,11 +894,31 @@ static bool _RESET_MOVE(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stac
   return true;
 }
 
-static bool _GET_TARGET_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_TARGET_POS(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  if (stack_count < 3 || stack_count > 4)
+  {
+    return false;
+  }
 
-  todo;
+  auto target = nowScene->GetCharacter(nowMonster->m_target_chara_id);
+  if (target == nullptr)
+  {
+    return false;
+  }
+
+  vec3 target_pos = target->GetPosition();
+  SetStack(stack++, target_pos.x);
+  SetStack(stack++, target_pos.y);
+  SetStack(stack++, target_pos.z);
+
+  if (stack_count >= 4)
+  {
+    // Set the distance between the monster and target on the stack, if we want it.
+    SetStack(stack++, common::math::vector_distance(target_pos, nowMonster->GetPosition()));
+  }
+  
   return true;
 }
 
