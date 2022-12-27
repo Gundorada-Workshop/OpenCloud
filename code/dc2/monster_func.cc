@@ -826,11 +826,14 @@ static bool _GET_INDEX_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _GET_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_POS(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
+  vec3 pos = nowMonster->GetPosition();
+  SetStack(stack++, pos.x);
+  SetStack(stack++, pos.y);
+  SetStack(stack++, pos.z);
   return true;
 }
 
