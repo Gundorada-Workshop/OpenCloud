@@ -1530,11 +1530,29 @@ static bool _RESET_MOTION(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint st
   return true;
 }
 
-static bool _SET_MOS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_MOS(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  if (stack_count < 0 || stack_count > 3)
+  {
+    return false;
+  }
 
-  todo;
+  std::string key_name = (stack_count >= 1) ? GetStackString(stack++) : "";
+  f32 step = (stack_count >= 2) ? GetStackFloat(stack++) : -1.0f;
+  sint i = (stack_count >= 3) ? GetStackInt(stack++) : 0;
+
+  if (key_name == "")
+  {
+    return false;
+  }
+
+  nowMonster->SetMotion(key_name, 0, i);
+  if (step > 0.0f)
+  {
+    nowMonster->SetStep(step);
+  }
+
   return true;
 }
 
