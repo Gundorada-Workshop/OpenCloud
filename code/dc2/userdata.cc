@@ -3180,6 +3180,67 @@ sint CUserDataManager::GetYarikomiMedal()
   return m_yarikomi_medal;
 }
 
+// 0019E7F0
+static sint DeleteItem_Local(CGameDataUsed* item, ECommonItemData item_id, sint delta)
+{
+  log_trace("{}({}, {}, {})", __func__, fmt::ptr(item), std::to_underlying(item_id), delta);
+
+  if (delta <= 0)
+  {
+    return 0;
+  }
+
+  sint deleted = 0;
+
+  if (item->m_common_index == item_id)
+  {
+    // This is the item we want to delete; super simple.
+    deleted = item->DeleteNum(delta);
+  }
+  else if (item->m_type == EUsedItemType::Gift_Box)
+  {
+    // This item isn't the item we want to delete; if it's a gift box, we want to remove the item from the box.
+    for (usize i = 0; i < item->as.gift_box.m_contents.size() && delta > 0; ++i)
+    {
+      if (item->GetGiftBoxItemNo(i) == item_id)
+      {
+        // the item's in the box; replace it with an empty space and record our deletion.
+        item->SetGiftBoxItem(ECommonItemData::Invalid, i);
+        delta -= 1;
+        deleted += 1;
+      }
+    }
+  }
+
+  return deleted;
+}
+
+// 0019E8C0
+bool CUserDataManager::DeleteItem(ECommonItemData item_id, sint delta)
+{
+  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(item_id), delta);
+
+  // Reverse iteration in order to delete items closer to the end of the inventory if possible.
+  for (auto item = m_inventory.rbegin(); item < m_inventory.rend() && delta > 0; ++item)
+  {
+    delta -= DeleteItem_Local(&(*item), item_id, delta);
+  }
+
+  // Now check active equipped items
+  for (auto& chara_data : m_chara_data)
+  {
+    for (auto& item : chara_data.m_active_item_info)
+    {
+      if (delta > 0)
+      {
+        delta -= DeleteItem_Local(&item, item_id, delta);
+      }
+    }
+  }
+
+  return true;
+}
+
 // 0019E9E0
 bool CUserDataManager::CopyGameData(CGameDataUsed* dest, ECommonItemData item_id)
 {

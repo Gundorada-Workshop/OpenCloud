@@ -773,6 +773,9 @@ public:
   // 0019DFE0
   sint GetYarikomiMedal();
 
+  // 0019E8C0
+  bool DeleteItem(ECommonItemData item_id, sint delta);
+
   // 0019E9E0
   static bool CopyGameData(CGameDataUsed* dest, ECommonItemData item_id);
 
