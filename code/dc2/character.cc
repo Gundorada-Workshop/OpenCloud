@@ -122,7 +122,7 @@ std::string CCharacter2::GetNowMotionName()
 }
 
 // 001738C0
-bool CCharacter2::CheckMotionEnd()
+bool CCharacter2::CheckMotionEnd() const
 {
   log_trace("CCharacter2::{}()", __func__);
 
@@ -137,7 +137,7 @@ bool CCharacter2::CheckMotionEnd()
 }
 
 // 00168440
-f32 CCharacter2::GetNowFrameWait()
+f32 CCharacter2::GetNowFrameWait() const
 {
   log_trace("CCharacter2::{}()", __func__);
 
@@ -145,7 +145,7 @@ f32 CCharacter2::GetNowFrameWait()
 }
 
 // 00173890
-f32 CCharacter2::GetChgStepWait()
+f32 CCharacter2::GetChgStepWait() const
 {
   log_trace("CCharacter2::{}()", __func__);
 
@@ -897,35 +897,36 @@ void CActionChara::RemoveThrowItem()
 }
 
 // 0016B420
-f32 CActionChara::GetNowFrameWait(std::string chara_name)
+f32 CActionChara::GetNowFrameWait(std::string key_name) const
 {
-  log_trace("CActionChara::{}({})", __func__, chara_name);
+  log_trace("CActionChara::{}({})", __func__, key_name);
 
   todo;
   return -1.0f;
 }
 
 // 0016B4A0
-f32 CActionChara::GetNowFrame(std::string chara_name)
+f32 CActionChara::GetNowFrame(MAYBE_UNUSED std::string key_name) const
 {
-  log_trace("CActionChara::{}({})", __func__, chara_name);
+  log_trace("CActionChara::{}({})", __func__, key_name);
 
   todo;
   return -1.0f;
 }
 
 // 0016B520
-void CActionChara::CheckMotionEnd(std::string chara_name)
+bool CActionChara::CheckMotionEnd(MAYBE_UNUSED std::string key_name) const
 {
-  log_trace("CActionChara::{}({})", __func__, chara_name);
+  log_trace("CActionChara::{}({})", __func__, key_name);
 
   todo;
+  return false;
 }
 
 // 0016B630
-f32 CActionChara::GetWaitToFrame(std::string chara_name)
+f32 CActionChara::GetWaitToFrame(MAYBE_UNUSED std::string key_name)
 {
-  log_trace("CActionChara::{}({})", __func__, chara_name);
+  log_trace("CActionChara::{}({})", __func__, key_name);
 
   todo;
   return -1.0f;

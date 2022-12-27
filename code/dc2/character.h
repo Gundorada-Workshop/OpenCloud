@@ -107,13 +107,13 @@ public:
   virtual std::string GetNowMotionName();
 
   // 90  001738C0
-  virtual bool CheckMotionEnd();
+  virtual bool CheckMotionEnd() const;
 
   // 94  00168440
-  virtual f32 GetNowFrameWait();
+  virtual f32 GetNowFrameWait() const;
 
   // 98  00173890
-  virtual f32 GetChgStepWait();
+  virtual f32 GetChgStepWait() const;
 
   // 9C  00168450
   virtual void SetNowFrame(f32 now_frame);
@@ -668,6 +668,15 @@ public:
   // 0016B780
   virtual void SetMotion(std::string key_name, sint i1, sint i2);
 
+  // 0016B420
+  virtual f32 GetNowFrameWait(std::string key_name) const;
+
+  // 0016B4A0
+  virtual f32 GetNowFrame(std::string key_name) const;
+
+  // 0016B520
+  virtual bool CheckMotionEnd(std::string key_name) const;
+
   // 0016B5B0
   virtual ECharacterMotionStatus GetMotionStatus(std::string key_name = "");
 
@@ -737,15 +746,6 @@ public:
 
   // 0016B3C0
   void RemoveThrowItem();
-
-  // 0016B420
-  f32 GetNowFrameWait(std::string chara_name);
-
-  // 0016B4A0
-  f32 GetNowFrame(std::string chara_name);
-
-  // 0016B520
-  void CheckMotionEnd(std::string chara_name);
 
   // 0016B630
   f32 GetWaitToFrame(std::string chara_name);

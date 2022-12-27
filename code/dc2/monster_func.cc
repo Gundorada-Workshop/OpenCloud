@@ -1546,12 +1546,29 @@ static bool _CHECK_MOS_END(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _NOW_MOS_WAIT(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _NOW_MOS_WAIT(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  switch (stack_count)
+  {
+    case 1:
+      SetStack(stack++, static_cast<sint>(nowMonster->GetNowFrameWait("")));
+      return true;
+    case 2:
+    {
+      std::string key_name = GetStackString(stack++);
+      if (key_name == "")
+      {
+        return false;
+      }
+
+      SetStack(stack++, static_cast<sint>(nowMonster->GetNowFrameWait(key_name)));
+      return true;
+    }
+    default:
+      return false;
+  }
 }
 
 static bool _GET_MOS_STATUS(RS_STACKDATA* stack, sint stack_count)
