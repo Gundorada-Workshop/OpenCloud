@@ -3139,11 +3139,19 @@ usize CUserDataManager::GetNumSameItem(ECommonItemData item_id) const
 }
 
 // 0019DF70
-void CUserDataManager::AddYarikomiMedal(sint i)
+void CUserDataManager::AddYarikomiMedal(sint delta)
 {
-  log_trace("CUserDataManager::{}({})", __func__, i);
+  log_trace("CUserDataManager::{}({})", __func__, delta);
 
-  todo;
+  m_yarikomi_medal = std::clamp(m_yarikomi_medal + delta, 0, 999);
+}
+
+// 0019DFE0
+sint CUserDataManager::GetYarikomiMedal()
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  return m_yarikomi_medal;
 }
 
 // 0019E9E0

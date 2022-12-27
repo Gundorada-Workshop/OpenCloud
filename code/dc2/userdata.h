@@ -766,7 +766,10 @@ public:
   usize GetNumSameItem(ECommonItemData item_id) const;
 
   // 0019DF70
-  void AddYarikomiMedal(sint i);
+  void AddYarikomiMedal(sint delta);
+
+  // 0019DFE0
+  sint GetYarikomiMedal();
 
   // 0019E9E0
   static bool CopyGameData(CGameDataUsed* dest, ECommonItemData item_id);
@@ -811,7 +814,7 @@ public:
   // 44D9C
   s32 m_money{};
   // 44DA0
-  s16 m_unk_field_44DA0{};
+  s16 m_yarikomi_medal{ 0 };
 
   // ?
 
