@@ -1538,12 +1538,29 @@ static bool _SET_MOS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_c
   return true;
 }
 
-static bool _CHECK_MOS_END(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHECK_MOS_END(RS_STACKDATA* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  todo;
-  return true;
+  switch (stack_count)
+  {
+    case 1:
+      SetStack(stack++, static_cast<sint>(nowMonster->CheckMotionEnd("")));
+      return true;
+    case 2:
+    {
+      std::string key_name = GetStackString(stack++);
+      if (key_name == "")
+      {
+        return false;
+      }
+
+      SetStack(stack++, static_cast<sint>(nowMonster->CheckMotionEnd(key_name)));
+      return true;
+    }
+    default:
+      return false;
+  }
 }
 
 static bool _NOW_MOS_WAIT(RS_STACKDATA* stack, sint stack_count)
