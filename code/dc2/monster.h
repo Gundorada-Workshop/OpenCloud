@@ -51,6 +51,8 @@ class CActiveMonster : public CActionChara
 public:
   // 12A4
   EAttackType m_attack_type{ EAttackType::Invalid };
+  // 12E2
+  s16 m_target_chara_id{ 0 };
   // 12F0
   s16 m_priority{ 999 };
   // 12FC

@@ -898,11 +898,18 @@ static bool _GET_TARGET_POS(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _GET_TARGET_DIST(MAYBE_UNUSED RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_TARGET_DIST(RS_STACKDATA* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
+  VERIFY_STACK_COUNT(1);
 
-  todo;
+  auto target = nowScene->GetCharacter(nowMonster->m_target_chara_id);
+  if (target == nullptr)
+  {
+    return false;
+  }
+
+  SetStack(stack++, common::math::vector_distance(target->GetPosition(), nowMonster->GetPosition()));
   return true;
 }
 
