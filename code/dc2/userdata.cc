@@ -3381,6 +3381,35 @@ void CUserDataManager::GetCostume(ECommonItemData costume_item_id)
   }
 }
 
+// 0019EBF0
+usize CUserDataManager::CountFish() const
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  usize count = 0;
+
+  // Inventory
+  for (const auto& item : m_inventory)
+  {
+    if (item.m_type == EUsedItemType::Fish)
+    {
+      ++count;
+    }
+  }
+
+  // Aquarium
+  for (const auto& item : m_fish_aquarium.m_unk_field_4)
+  {
+    // Just have to make sure the slot is used
+    if (item.m_common_index != ECommonItemData::Invalid)
+    {
+      ++count;
+    }
+  }
+
+  return count;
+}
+
 // 0019B160
 void CUserDataManager::Initialize()
 {

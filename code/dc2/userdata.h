@@ -793,6 +793,9 @@ public:
   // 0019EB90
   void GetCostume(ECommonItemData costume_item_id);
 
+  // 0019EBF0
+  usize CountFish() const;
+
   // 0
   std::array<CGameDataUsed, 150> m_inventory{};
   // 3F48
