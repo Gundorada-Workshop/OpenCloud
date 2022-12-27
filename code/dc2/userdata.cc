@@ -958,6 +958,32 @@ const char* CGameDataUsed::GetName() const
   return nullptr;
 }
 
+// 00197D30
+sint CGameDataUsed::DeleteNum(sint delta)
+{
+  log_trace("CGameDataUsed::{}({})", __func__, delta);
+
+  if (delta <= 0)
+  {
+    return 0;
+  }
+
+  sint num = GetNum();
+  switch (m_type)
+  {
+    case EUsedItemType::Attach:
+    case EUsedItemType::Item_Misc:
+      delta = AddNum(-delta);
+      break;
+    default:
+      new (this) CGameDataUsed();
+      delta = 0;
+      break;
+  }
+
+  return num - delta;
+}
+
 // 00197DC0
 sint CGameDataUsed::RemainFusion() const
 {

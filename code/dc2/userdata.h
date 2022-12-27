@@ -368,6 +368,8 @@ public:
   void SetName(const char* name);
   // 00197700
   const char* GetName() const;
+  // 00197D30
+  sint DeleteNum(sint delta);
   // 00197DC0
   sint RemainFusion() const;
   // 00197DE0
