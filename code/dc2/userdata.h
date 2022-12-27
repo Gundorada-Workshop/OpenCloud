@@ -1,4 +1,6 @@
 #pragma once
+#include <bitset>
+
 #include "common/debug.h"
 #include "common/types.h"
 #include "common/constants.h"
@@ -782,6 +784,15 @@ public:
   // 0019EAF0
   s32 AddMoney(s32 delta);
 
+  // 0019EB70
+  void SetCostumeBit(u64 bits);
+
+  // 0019EB80
+  u64 GetCostumeBit() const;
+
+  // 0019EB90
+  void GetCostume(ECommonItemData costume_item_id);
+
   // 0
   std::array<CGameDataUsed, 150> m_inventory{};
   // 3F48
@@ -827,6 +838,10 @@ public:
   CFishingTournament m_fishing_tournament{};
   // 45258
   CFishingRecord m_fishing_record{};
+
+private:
+  // 45598
+  std::bitset<64> m_costume_bitset{ 0ull };
 
   // SIZE 0x457A0
 };

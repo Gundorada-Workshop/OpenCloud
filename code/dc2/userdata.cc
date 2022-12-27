@@ -3297,6 +3297,90 @@ s32 CUserDataManager::AddMoney(s32 delta)
   return m_money;
 }
 
+// 002F5440
+static std::optional<uint> GetCosInfo(ECommonItemData costume_item_id)
+{
+  log_trace("{}({})", __func__, std::to_underlying(costume_item_id));
+
+  using enum ECommonItemData;
+  
+  // 0035CC40
+  static const std::unordered_map<ECommonItemData, uint> cosbit_table
+  {
+    {Hunting_Cap, 0},
+    {Fashionable_Cap, 1},
+    {Two_Tone_Beret, 2},
+    {Maintenance_Cap, 3},
+    {Explorers_Helmet, 4},
+    {Clown_Hat, 5},
+    {Leather_Shoes, 6},
+    {Wing_Shoes, 7},
+    {Work_Shoes, 8},
+    {Dragon_Shoes, 9},
+    {Clown_Shoes, 10},
+    {Explorers_Shoes, 11},
+    {Yellow_Ribbon, 12},
+    {Stripe_Ribbon, 13},
+    {Zipangu_Comb, 14},
+    {Shallowtail, 15},
+    {Princess_Orb, 16},
+    {Kitty_Bell, 17},
+    {Knight_Boots, 18},
+    {Metal_Boots, 19},
+    {Wing_Boots, 20},
+    {Spike_Boots, 21},
+    {Princess_Boots, 22},
+    {Panther_Boots, 23},
+    {Green_Overalls, 24},
+    {Red_Vest, 25},
+    {Denim_Overalls, 26},
+    {Explorers_Outfit, 27},
+    {Clown_Suit, 28},
+    {Pumpkin_Shorts, 29},
+    {Striped_Dress, 30},
+    {Star_Leotard, 31},
+    {Princess_Dress, 32},
+    {Panther_Ensemble, 33},
+  };
+
+  if (cosbit_table.contains(costume_item_id))
+  {
+    return cosbit_table.at(costume_item_id);
+  }
+  else
+  {
+    return std::nullopt;
+  }
+}
+
+// 0019EB70
+void CUserDataManager::SetCostumeBit(u64 bits)
+{
+  log_trace("CUserDataManager::{}({:#b})", __func__, bits);
+
+  m_costume_bitset = bits;
+}
+
+// 0019EB80
+u64 CUserDataManager::GetCostumeBit() const
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  return m_costume_bitset.to_ullong();
+}
+
+// 0019EB90
+void CUserDataManager::GetCostume(ECommonItemData costume_item_id)
+{
+  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(costume_item_id));
+
+  auto bit_index = GetCosInfo(costume_item_id);
+  if (bit_index.has_value())
+  {
+    m_costume_bitset[bit_index.value()] = 1;
+  }
+}
+
 // 0019B160
 void CUserDataManager::Initialize()
 {
