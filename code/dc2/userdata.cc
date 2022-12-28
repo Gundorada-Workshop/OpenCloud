@@ -2926,6 +2926,25 @@ CGameDataUsed* CUserDataManager::GetActiveBait(ECommonItemData item_id)
   }
 }
 
+// 0019D270
+void CUserDataManager::GetRodStatus(sint* params_dest)
+{
+  log_trace("CUserDataManager::{}({})", __func__, fmt::ptr(params_dest));
+
+  if (GetFishingRodNo() == ECommonItemData::Invalid)
+  {
+    return;
+  }
+
+  const auto& weapon = m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table.melee.as.weapon;
+
+  params_dest[0] = weapon.m_properties[std::to_underlying(WeaponProperty::Flight)];
+  params_dest[1] = weapon.m_properties[std::to_underlying(WeaponProperty::Strength)];
+  params_dest[2] = weapon.m_properties[std::to_underlying(WeaponProperty::Resilience)];
+  params_dest[3] = weapon.m_properties[std::to_underlying(WeaponProperty::Grip)];
+  params_dest[4] = weapon.m_properties[std::to_underlying(WeaponProperty::Luck)];
+}
+
 // 0019D2E0
 sint CUserDataManager::AddFp(sint fishing_points)
 {

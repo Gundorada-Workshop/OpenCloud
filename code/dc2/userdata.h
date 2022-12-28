@@ -751,6 +751,9 @@ public:
   // "GetActiveEsa"
   CGameDataUsed* GetActiveBait(ECommonItemData item_id);
 
+  // 0019D270
+  void GetRodStatus(sint *params_dest);
+
   // 0019D2E0
   sint AddFp(sint fishing_points);
 

@@ -570,8 +570,23 @@ enum class WeaponProperty : s16
 {
   // NOTE: Attack and Durability are stored as their own attributes
 
+  // Fishing Rod
+  
+  // Properties
+  ROD_START = 0,
+  Flight = ROD_START,
+  Strength = ROD_START + 1,
+  Resilience = ROD_START + 2,
+  Grip = ROD_START + 3,
+  Luck = ROD_START + 4,
+  ROD_END = ROD_START + 5,
+  ROD_COUNT = ROD_END,
+
+  // Weapons
+  
   // Elements
-  ELEMENTS_START = 0,
+  WEAPON_START = 0,
+  ELEMENTS_START = WEAPON_START,
   Flame = ELEMENTS_START,
   Chill = ELEMENTS_START + 1,
   Lightning = ELEMENTS_START + 2,
@@ -585,8 +600,10 @@ enum class WeaponProperty : s16
   Beast = AFFINITIES_START + 2,
   Scale = AFFINITIES_START + 3,
   AFFINITIES_END = AFFINITIES_START + 4,
+  WEAPON_END = AFFINITIES_END,
+  WEAPON_COUNT = WEAPON_END,
 
-  COUNT = AFFINITIES_END,
+  COUNT = std::max(ROD_COUNT, WEAPON_COUNT),
 };
 
 class CDataWeapon
