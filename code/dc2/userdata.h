@@ -1143,7 +1143,10 @@ void LanguageEquipChange();
 void CheckEquipChange(ECharacterID chara_id);
 
 // 001A0590
-sint GetRandomCircleTrapID(sint i);
+sint GetRandomCircleTrapID(bool devil);
+
+// 001A06B0
+bool SetRandomCircleStatus(sint trap_id, f32* abs_bonus_dest);
 
 // 001A0EA0
 CBattleCharaInfo* GetBattleCharaInfo();

@@ -4481,9 +4481,9 @@ void GameDataSwap(CGameDataUsed* data1, CGameDataUsed* data2, bool check_fishing
 }
 
 // 001A0590
-sint GetRandomCircleTrapID(sint i)
+sint GetRandomCircleTrapID(bool devil)
 {
-  log_trace("{}({})", __func__, i);
+  log_trace("{}({})", __func__, devil);
 
   auto chara_id = GetBattleCharaInfo()->m_chara_id;
   uint random_num = rand();
@@ -4491,14 +4491,14 @@ sint GetRandomCircleTrapID(sint i)
 
   sint trap_id = 0;
 
-  if (i == 0)
+  if (!devil)
   {
     // BUG: A modulo by 3, *not* 4, occurs here
     // See 001A05C8
     constexpr static s8 tbl1[] = { 1, 2, 3, 4 };
     trap_id = tbl1[random_num % 3];
   }
-  else if (i == 1)
+  else
   {
     constexpr static s8 tbl2[] = { 6, 7 };
     trap_id = tbl2[random_num % 2];
@@ -4527,6 +4527,88 @@ sint GetRandomCircleTrapID(sint i)
   }
 
   return trap_id;
+}
+
+// 001A06B0
+bool SetRandomCircleStatus(sint trap_id, f32* abs_bonus_dest)
+{
+  log_trace("{}({})", __func__, trap_id, fmt::ptr(abs_bonus_dest));
+
+  auto battle_chara_info = GetBattleCharaInfo();
+  bool result = false;
+
+  switch (trap_id)
+  {
+    case 1:
+    {
+      // Abs Bonus
+      f32 melee_bonus = battle_chara_info->GetNowAccessAbs(0)->m_max * 0.1f;
+      f32 ranged_bonus = battle_chara_info->GetNowAccessAbs(1)->m_max * 0.1f;
+      *abs_bonus_dest = melee_bonus + ranged_bonus;
+      break;
+    }
+    case 2:
+    {
+      // Full Restore
+      battle_chara_info->AddHp_Rate(1.0f, 0, 0.0f);
+      battle_chara_info->SetAttr(ECharaStatusAttribute::ALL & ~ECharaStatusAttribute::_10, true);
+      result = true;
+      break;
+    }
+    case 3:
+    {
+      // Full Repair
+      auto user_data = GetUserDataMan();
+      if (user_data == nullptr)
+      {
+        break;
+      }
+
+      auto max_chara = user_data->GetCharaDataPtr(ECharacterID::Max);
+      auto monica_chara = user_data->GetCharaDataPtr(ECharacterID::Monica);
+
+      max_chara->m_equip_table.melee.Repair(999);
+      max_chara->m_equip_table.ranged.Repair(999);
+
+      monica_chara->m_equip_table.melee.Repair(999);
+      monica_chara->m_equip_table.ranged.Repair(999);
+
+      result = true;
+      break;
+    }
+    case 5:
+    {
+      battle_chara_info->SetAttr(ECharaStatusAttribute::_1, false);
+      result = true;
+      break;
+    }
+    case 6:
+    {
+      battle_chara_info->AddHp_Rate(-0.5f, 3, 0.0f);
+      result = true;
+      break;
+    }
+    case 8:
+    case 10:
+    {
+      // Half ranged weapon WHP
+      auto whp = battle_chara_info->GetNowAccessWHp(1);
+      whp->m_current *= 0.5f;
+      result = true;
+    }
+    case 9:
+    case 11:
+    {
+      // Half melee weapon WHP
+      auto whp = battle_chara_info->GetNowAccessWHp(0);
+      whp->m_current *= 0.5f;
+      result = true;
+    }
+    default:
+      break;
+  }
+
+  return result;
 }
 
 // 001A0EA0
