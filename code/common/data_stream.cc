@@ -150,52 +150,46 @@ namespace common
     return end;
   }
 
-  memory_view_stream::memory_view_stream(void* ptr, usize size)
-    : m_memory_ptr{ ptr }
-    , m_memory_size{ size }
+  memory_stream_base::memory_stream_base(usize size)
+    : m_memory_size{ size }
   {
   }
 
-  memory_view_stream::~memory_view_stream() = default;
+  memory_stream_base::~memory_stream_base() = default;
 
-  std::unique_ptr<data_stream_base> memory_view_stream::open(void* mem, usize size)
-  {
-    return std::make_unique<memory_view_stream>(mem, size);
-  }
-
-  usize memory_view_stream::read_buffer(void* buff, usize size)
+  usize memory_stream_base::read_buffer(void* buff, usize size)
   {
     const auto data_end = m_memory_position + size;
 
     if (data_end > m_memory_size)
       size = m_memory_size - m_memory_position;
 
-    auto ptr = static_cast<u8*>(m_memory_ptr);
+    const auto ptr = data();
 
-    std::memcpy(buff, &ptr[m_memory_position], size);
+    std::memcpy(buff, ptr, size);
 
     m_memory_position += size;
 
     return size;
   }
 
-  usize memory_view_stream::write_buffer(void* buff, usize size)
+  usize memory_stream_base::write_buffer(void* buff, usize size)
   {
     const auto data_end = m_memory_position + size;
 
     if (data_end > m_memory_size)
       size = m_memory_size - m_memory_position;
 
-    auto ptr = static_cast<u8*>(m_memory_ptr);
+    const auto ptr = data();
 
-    std::memcpy(&ptr[m_memory_position], buff, size);
+    std::memcpy(ptr, buff, size);
 
     m_memory_position += size;
 
     return size;
   }
 
-  bool memory_view_stream::seek(usize pos)
+  bool memory_stream_base::seek(usize pos)
   {
     if (pos >= m_memory_size)
       return false;
@@ -205,13 +199,43 @@ namespace common
     return true;
   }
 
-  bool memory_view_stream::seek_relative(usize pos)
+  bool memory_stream_base::seek_relative(usize pos)
   {
     return seek(m_memory_position + pos);
   }
 
-  bool memory_view_stream::seek_to_end()
+  bool memory_stream_base::seek_to_end()
   {
     return seek(m_memory_size);
+  }
+
+  unmanaged_memory_stream::unmanaged_memory_stream(void* ptr, usize size)
+    : memory_stream_base(size)
+    , m_memory_ptr{ static_cast<u8*>(ptr) }
+  {
+  }
+
+  unmanaged_memory_stream::~unmanaged_memory_stream() = default;
+
+  std::unique_ptr<memory_stream_base> unmanaged_memory_stream::create(void* mem, usize size)
+  {
+    return std::make_unique<unmanaged_memory_stream>(mem, size);
+  }
+
+  managed_memory_stream::managed_memory_stream(std::unique_ptr<u8[]> mem, usize size)
+    : memory_stream_base(size),
+    m_memory{ std::move(mem) }
+  {
+  }
+
+  managed_memory_stream::~managed_memory_stream() = default;
+
+  std::unique_ptr<memory_stream_base> managed_memory_stream::create(usize size)
+  {
+    auto mem = std::make_unique<u8[]>(size);
+    if (!mem)
+      return nullptr;
+
+    return std::make_unique<managed_memory_stream>(std::move(mem), size);
   }
 }

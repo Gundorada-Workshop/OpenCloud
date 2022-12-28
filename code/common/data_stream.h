@@ -124,17 +124,11 @@ namespace common
     bool valid_byte_count{ true };
   };
 
-  class memory_view_stream : public data_stream_base
+  class memory_stream_base : public data_stream_base
   {
   public:
-    // ctor
-    memory_view_stream(void* mem, usize size);
-
-    // dtor
-    ~memory_view_stream();
-  public:
-    // open a new memory stream given a buffer and size
-    static std::unique_ptr<data_stream_base> open(void* buff, usize size);
+    memory_stream_base(usize size);
+    ~memory_stream_base();
 
   public:
     // read n bytes from buffer
@@ -152,24 +146,66 @@ namespace common
     // seek to the end of the memory
     bool seek_to_end() override;
 
+    // get the size of the memory
     usize size() override
     {
       return m_memory_size;
     }
 
+    // get the current position
     usize pos() override
     {
       return m_memory_position;
     }
 
-  private:
-    // memory handle
-    void* m_memory_ptr{ nullptr };
+    virtual u8* data() const = 0;
 
+  protected:
     // size of the memory
     usize m_memory_size{ 0 };
 
     // current position
     usize m_memory_position{ 0 };
+  };
+
+  class unmanaged_memory_stream : public memory_stream_base
+  {
+  public:
+    // ctor
+    unmanaged_memory_stream(void* mem, usize size);
+
+    // dtor
+    ~unmanaged_memory_stream();
+  public:
+    // open a new memory stream given a buffer and size
+    static std::unique_ptr<memory_stream_base> create(void* buff, usize size);
+
+    u8* data() const override
+    {
+      return &m_memory_ptr[m_memory_position];
+    }
+
+  private:
+    // memory handle
+    u8* m_memory_ptr{ nullptr };
+  };
+
+  class managed_memory_stream : public memory_stream_base
+  {
+  public:
+    managed_memory_stream(std::unique_ptr<u8[]> mem, usize size);
+    ~managed_memory_stream();
+
+  public:
+    static std::unique_ptr<memory_stream_base> create(usize size);
+
+    u8* data() const override
+    {
+      return &m_memory[m_memory_position];
+    }
+
+  private:
+    // memory handle
+    std::unique_ptr<u8[]> m_memory;
   };
 }
