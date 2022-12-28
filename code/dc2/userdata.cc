@@ -4392,7 +4392,12 @@ void CBattleCharaInfo::ForceSet()
 {
   log_trace("CBattleCharaInfo::{}()", __func__);
 
-  todo;
+  if (m_hp_gage != nullptr && m_hp_gage->m_current != m_unk_field_84)
+  {
+    m_unk_field_84 = m_hp_gage->m_current;
+    m_unk_field_8C = -1.0f;
+    m_unk_field_7C = 0.0f;
+  }
 }
 
 // 001A08D0
