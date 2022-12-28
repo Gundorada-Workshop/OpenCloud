@@ -4376,8 +4376,15 @@ ECharaStatusAttribute CBattleCharaInfo::GetAttr()
 {
   log_trace("CBattleCharaInfo::{}()", __func__);
 
-  todo;
-  return static_cast<ECharaStatusAttribute>(0);
+  auto user_data = GetUserDataMan();
+  if (user_data == nullptr)
+  {
+    return ECharaStatusAttribute::NONE;
+  }
+  else
+  {
+    return user_data->GetCharaStatusAttribute(m_chara_id);
+  }
 }
 
 // 001A0550
