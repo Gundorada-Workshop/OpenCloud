@@ -1,6 +1,7 @@
 ﻿#include <string>
 #include <unordered_map>
 
+#include "common/bits.h"
 #include "common/constants.h"
 #include "common/debug.h"
 #include "common/log.h"
@@ -4261,6 +4262,16 @@ CBattleCharaInfo* GetBattleCharaInfo()
   log_trace("{}()", __func__);
 
   return &BattleParameter;
+}
+
+// 001A0FB0
+bool CheckBadStatus(ECharaStatusAttribute status)
+{
+  log_trace("{}()", __func__);
+
+  using enum ECharaStatusAttribute;
+
+  return common::bits::to_bool(status & (_1 | _2 | _4 | _8 | _20 | _40));
 }
 
 // 001A1180

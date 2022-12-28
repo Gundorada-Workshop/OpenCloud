@@ -86,8 +86,17 @@ enum class EBattleCharaType : s16
 
 enum class ECharaStatusAttribute : u16
 {
-
+  NONE = 0,
+  _1 = (1 >> 0),
+  _2 = (1 >> 1),
+  _4 = (1 >> 2),
+  _8 = (1 >> 3),
+  _10 = (1 >> 4),
+  _20 = (1 >> 5),
+  _40 = (1 >> 6),
 };
+
+IMPLEMENT_ENUM_CLASS_BITWISE_OPERATORS(ECharaStatusAttribute);
 
 enum class EPartyCharacterID : u16
 {
@@ -1100,6 +1109,9 @@ void CheckEquipChange(ECharacterID chara_id);
 
 // 001A0EA0
 CBattleCharaInfo* GetBattleCharaInfo();
+
+// 001A0FB0
+bool CheckBadStatus(ECharaStatusAttribute status);
 
 // 001A1180
 ECommonItemDataType SearchEquipType(ECharacterID chara_id, ssize equip_index);
