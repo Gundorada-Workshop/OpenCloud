@@ -3619,7 +3619,6 @@ void GetCharaDefaultWeapon(ECharacterID chara_id, ECommonItemData* equip_ids_des
   equip_ids_dest[2] = equip_tbl[2];
   equip_ids_dest[3] = equip_tbl[3];
   equip_ids_dest[4] = equip_tbl[4];
-  equip_ids_dest[5] = Invalid;
 }
 
 // 0019EDC0
@@ -3627,7 +3626,27 @@ void LanguageEquipChange()
 {
   log_trace("{}()", __func__);
 
-  todo;
+  auto user_data = GetUserDataMan();
+  if (user_data == nullptr)
+  {
+    return;
+  }
+
+  // Set all the default equipment for human characters
+  constexpr static std::array<ECharacterID, 2> charas{ ECharacterID::Max, ECharacterID::Monica };
+  for (auto chara : charas)
+  {
+    ECommonItemData default_equip[5];
+    GetCharaDefaultWeapon(chara, default_equip);
+
+    for (usize i = 0; i < std::size(default_equip); ++i)
+    {
+      user_data->SetChrEquipDirect(chara, default_equip[i]);
+    }
+  }
+
+  // Set the ridepod's default name
+  user_data->SetRoboName(user_data->GetRoboNameDefault());
 }
 
 // 0019EE70
