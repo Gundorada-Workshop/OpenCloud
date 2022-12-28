@@ -4361,8 +4361,14 @@ ECharaStatusAttribute CBattleCharaInfo::SetAttrVol(ECharaStatusAttribute attr, b
 {
   log_trace("CBattleCharaInfo::{}({}, {})", __func__, std::to_underlying(attr), b);
 
-  todo;
-  return static_cast<ECharaStatusAttribute>(0);
+  auto user_data = GetUserDataMan();
+  if (user_data == nullptr)
+  {
+    return ECharaStatusAttribute::NONE;
+  }
+
+  user_data->SetCharaStatusAttributeVol(m_chara_id, attr, b);
+  return user_data->GetCharaStatusAttribute(m_chara_id);
 }
 
 // 001A0500
