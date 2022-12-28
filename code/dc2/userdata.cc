@@ -3570,11 +3570,24 @@ void CUserDataManager::Initialize()
 }
 
 // 0019ECE0
-void SetEnvUserDataMan(sint i)
+void SetEnvUserDataMan(bool flag)
 {
-  log_trace("{}({})", __func__, i);
+  log_trace("{}({})", __func__, flag);
 
-  todo;
+  auto user_data = GetUserDataMan();
+
+  if (!flag)
+  {
+    user_data->InitCharaChangeMask();
+    user_data->DisableCharaChange(ECharacterID::Ridepod);
+    user_data->DisableCharaChange(ECharacterID::Monster);
+  }
+  else
+  {
+    user_data->InitCharaChangeMask();
+    user_data->EnableCharaChange(ECharacterID::Ridepod);
+    user_data->EnableCharaChange(ECharacterID::Monster);
+  }
 }
 
 // 0019ECE0

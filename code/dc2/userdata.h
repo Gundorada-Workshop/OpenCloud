@@ -1121,7 +1121,7 @@ std::optional<std::string> GetMainCharaModelName(ECharacterID chara_id, bool b);
 MOS_HENGE_PARAM* GetMonsterHengeParam(EMonsterID index);
 
 // 0019ECE0
-void SetEnvUserDataMan(sint i);
+void SetEnvUserDataMan(bool flag);
 
 // 0019ECE0
 void GetCharaDefaultWeapon(ECharacterID chara_id, ECommonItemData* weapon_id);
