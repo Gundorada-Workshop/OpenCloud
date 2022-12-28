@@ -710,10 +710,16 @@ public:
   uint GetEnableCharaChangeFlag();
 
   // 0019C060
-  u16* GetCharaStatusAttributePtr(ECharacterID chara_id);
+  ECharaStatusAttribute* GetCharaStatusAttributePtr(ECharacterID chara_id);
 
   // 0019C0C0
   void SetCharaStatusAttribute(ECharacterID chara_id, ECharaStatusAttribute status, bool b);
+
+  // 0019C190
+  void SetCharaStatusAttributeVol(ECharacterID chara_id, ECharaStatusAttribute status, bool b);
+
+  // 0019C2C0
+  ECharaStatusAttribute GetCharaStatusAttribute(ECharacterID chara_id);
 
   // 0019C2F0
   SMonsterBadgeData* GetMonsterBadgeDataPtr();

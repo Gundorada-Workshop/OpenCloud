@@ -2753,7 +2753,7 @@ uint CUserDataManager::GetEnableCharaChangeFlag()
 }
 
 // 0019C060
-u16* CUserDataManager::GetCharaStatusAttributePtr(ECharacterID chara_id)
+ECharaStatusAttribute* CUserDataManager::GetCharaStatusAttributePtr(ECharacterID chara_id)
 {
   log_trace("CUserDataManager::{}()", __func__);
 
@@ -2764,9 +2764,33 @@ u16* CUserDataManager::GetCharaStatusAttributePtr(ECharacterID chara_id)
 // 0019C0C0
 void CUserDataManager::SetCharaStatusAttribute(ECharacterID chara_id, ECharaStatusAttribute status, bool b)
 {
-  log_trace("CUserDataManager::{}()", __func__);
+  log_trace("CUserDataManager::{}({}, {}, {})", __func__, std::to_underlying(chara_id), std::to_underlying(status), b);
 
   todo;
+}
+
+// 0019C190
+void CUserDataManager::SetCharaStatusAttributeVol(ECharacterID chara_id, ECharaStatusAttribute status, bool b)
+{
+  log_trace("CUserDataManager::{}({}, {}, {})", __func__, std::to_underlying(chara_id), std::to_underlying(status), b);
+
+  todo;
+}
+
+// 0019C2C0
+ECharaStatusAttribute CUserDataManager::GetCharaStatusAttribute(ECharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}()", __func__, std::to_underlying(chara_id));
+
+  auto status_ptr = GetCharaStatusAttributePtr(chara_id);
+  if (status_ptr == nullptr)
+  {
+    return ECharaStatusAttribute::NONE;
+  }
+  else
+  {
+    return *status_ptr;
+  }
 }
 
 // 0019C2F0
@@ -4322,8 +4346,14 @@ ECharaStatusAttribute CBattleCharaInfo::SetAttr(ECharaStatusAttribute attr, bool
 {
   log_trace("CBattleCharaInfo::{}({}, {})", __func__, std::to_underlying(attr), b);
 
-  todo;
-  return static_cast<ECharaStatusAttribute>(0);
+  auto user_data = GetUserDataMan();
+  if (user_data == nullptr)
+  {
+    return ECharaStatusAttribute::NONE;
+  }
+
+  user_data->SetCharaStatusAttribute(m_chara_id, attr, b);
+  return user_data->GetCharaStatusAttribute(m_chara_id);
 }
 
 // 001A0490
