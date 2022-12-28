@@ -2629,6 +2629,76 @@ s32 CUserDataManager::GetAbs(ECharacterID chara_id, ssize gage_index, s32* max_d
   return static_cast<s32>(gage->m_current);
 }
 
+// 0019b9a0
+void CUserDataManager::JoinPartyMember(ECharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+}
+
+// 0019b9a0
+void CUserDataManager::LeavePartyMember(ECharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+}
+
+
+// 0019BA50
+ECharacterID CUserDataManager::GetNowPartyMember() const
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+  return ECharacterID::Invalid;
+}
+
+
+// 0019baa0
+void CUserDataManager::EnableCharaChange(ECharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  using enum ECharacterID;
+
+  switch (chara_id)
+  {
+    case Max:
+    case Monica:
+    case Ridepod:
+    case Monster:
+      m_chara_change[std::to_underlying(chara_id)] = true;
+    default:
+      break;
+  }
+
+  return;
+}
+
+
+// 0019BAF0
+void CUserDataManager::DisableCharaChange(ECharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  using enum ECharacterID;
+
+  switch (chara_id)
+  {
+    case Max:
+    case Monica:
+    case Ridepod:
+    case Monster:
+      m_chara_change[std::to_underlying(chara_id)] = false;
+    default:
+      break;
+  }
+
+  return;
+}
+
 // 0019BB40
 bool CUserDataManager::CheckEnableCharaChange(ECharacterID chara_id, sint* p)
 {

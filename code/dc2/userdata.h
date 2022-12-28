@@ -666,10 +666,19 @@ public:
   s32 GetAbs(ECharacterID chara_id, ssize gage_index, s32* max_dest);
 
   // 0019b9a0
-  void JoinPartyMember(s32 chara);
+  void JoinPartyMember(ECharacterID chara_id);
+
+  // 0019b9a0
+  void LeavePartyMember(ECharacterID chara_id);
+
+  // 0019BA50
+  ECharacterID GetNowPartyMember() const;
 
   // 0019baa0
-  void EnableCharaChange(s32 chara);
+  void EnableCharaChange(ECharacterID chara_id);
+
+  // 0019BAF0
+  void DisableCharaChange(ECharacterID chara_id);
 
   // 0019BB40
   bool CheckEnableCharaChange(ECharacterID chara_id, sint* p = nullptr);
@@ -812,30 +821,33 @@ public:
   // 4EB0
   CMonsterBox m_monster_box{};
   // 7DB0
-  std::array<PARTY_CHARA, 0x20> m_party_chara_status;
+  std::array<PARTY_CHARA, 0x20> m_party_chara_status{};
   // 7F30
-  CInventUserData m_invent_user_data{};
+  CInventUserData m_invent_user_data{ 0 };
 
   // ??
 
   // 44D90
-  s16 m_unk_field_44D90{};
+  std::bitset<16> m_party_members{ 0 };
   // 44D92
-  s16 m_unk_field_44D92{};
+  std::bitset<16> m_chara_change{ 0 };
   // 44D94
-  s16 m_unk_field_44D94{};
+  std::bitset<8> m_chara_change_mask{ 0 };
   // 44D96
-  ECharacterID m_active_chara_no{};
+  ECharacterID m_active_chara_no{ 0 };
   // 44D98
-  EMonsterID m_monster_id{};
+  EMonsterID m_monster_id{ 0 };
   // 44D9A
-  s16 m_unk_field_44D9A{};
+  s16 m_unk_field_44D9A{ 0 };
   // 44D9C
-  s32 m_money{};
+  s32 m_money{ 0 };
   // 44DA0
   s16 m_yarikomi_medal{ 0 };
 
   // ?
+
+  // 44DC8
+  u64 m_unk_field_44DC8{ 0 };
 
   // 451E8
   CFishingTournament m_fishing_tournament{};
