@@ -60,8 +60,6 @@ enum class ECharacterID
   Monster = 3,
 };
 
-enum class ENPCID : s16;
-
 enum class EMonsterID : s16
 {
   Invalid = 0,
@@ -768,6 +766,12 @@ public:
   // 0019C930
   EPartyCharacterID NowPartyCharaID() const;
 
+  // 0019C9E0
+  PARTY_CHARA* GetPartyCharaInfo(EPartyCharacterID chara_id);
+
+  // 0019CA20
+  bool UseNpcAbility(EPartyCharacterID chara_id, sint cost, bool b);
+
   // 0019CAD0
   void AllWeaponRepair();
 
@@ -932,7 +936,7 @@ class CBattleCharaInfo
 {
 private:
   // 4
-  ENPCID m_now_npc{};
+  EPartyCharacterID m_now_npc{};
   // 6
   EBattleCharaType m_battle_chara_type{ EBattleCharaType::Uninitialized };
   // 8
@@ -989,7 +993,7 @@ public:
   // 0019F210
   EMonsterID GetMonsterID();
   // 0019F250
-  ENPCID GetNowNPC();
+  EPartyCharacterID GetNowNPC();
   // 0019F260
   // NOTE: This fn takes an unused argument, so I removed it here.
   bool UseNPCPoint();

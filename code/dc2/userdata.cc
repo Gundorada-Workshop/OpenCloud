@@ -11,6 +11,7 @@
 #include "dc2/mainloop.h"
 #include "dc2/map.h"
 #include "dc2/menumain.h"
+#include "dc2/scene.h"
 #include "dc2/userdata.h"
 
 set_log_channel("userdata");
@@ -2927,6 +2928,29 @@ EPartyCharacterID CUserDataManager::NowPartyCharaID() const
   return Invalid;
 }
 
+// 0019C9E0
+PARTY_CHARA* CUserDataManager::GetPartyCharaInfo(EPartyCharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(chara_id));
+
+  sint index = std::to_underlying(chara_id) - 1;
+  if (index < 0 || index >= m_party_chara_status.size())
+  {
+    return nullptr;
+  }
+
+  return &m_party_chara_status[index];
+}
+
+// 0019CA20
+bool CUserDataManager::UseNpcAbility(EPartyCharacterID chara_id, sint cost, bool b)
+{
+  log_trace("CUserDataManager::{}({}, {}, {})", __func__, std::to_underlying(chara_id), cost, b);
+
+  todo;
+  return false;
+}
+
 // 0019CAD0
 void CUserDataManager::AllWeaponRepair()
 {
@@ -3894,7 +3918,7 @@ EMonsterID CBattleCharaInfo::GetMonsterID()
 }
 
 // 0019F250
-ENPCID CBattleCharaInfo::GetNowNPC()
+EPartyCharacterID CBattleCharaInfo::GetNowNPC()
 {
   log_trace("CBattleCharaInfo::{}()", __func__);
 
@@ -3907,8 +3931,34 @@ bool CBattleCharaInfo::UseNPCPoint()
 {
   log_trace("CBattleCharaInfo::{}()", __func__);
 
-  todo;
-  return false;
+  auto party_chara_info = GetUserDataMan()->GetPartyCharaInfo(m_now_npc);
+  if (party_chara_info == nullptr)
+  {
+    return false;
+  }
+
+  switch (m_now_npc)
+  {
+    case EPartyCharacterID::Stewart:
+      // FIXME: MAGIC
+      if ((GetMainScene()->m_battle_area_scene.m_unk_field_C & 0x4) != 0)
+      {
+        return false;
+      }
+      if (m_hp_gage->GetRate() >= 1.0f)
+      {
+        return false;
+      }
+      if (!GetUserDataMan()->UseNpcAbility(EPartyCharacterID::Stewart, 3, true))
+      {
+        return false;
+      }
+
+      m_hp_gage->AddRate(0.05f);
+      return true;
+    default:
+      return false;
+  }
 }
 
 // 0019F380
