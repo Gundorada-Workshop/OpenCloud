@@ -1,6 +1,7 @@
 ﻿#include <string>
 #include <unordered_map>
 
+#include "common/bits.h"
 #include "common/constants.h"
 #include "common/debug.h"
 #include "common/log.h"
@@ -10,6 +11,7 @@
 #include "dc2/mainloop.h"
 #include "dc2/map.h"
 #include "dc2/menumain.h"
+#include "dc2/scene.h"
 #include "dc2/userdata.h"
 
 set_log_channel("userdata");
@@ -2629,6 +2631,76 @@ s32 CUserDataManager::GetAbs(ECharacterID chara_id, ssize gage_index, s32* max_d
   return static_cast<s32>(gage->m_current);
 }
 
+// 0019b9a0
+void CUserDataManager::JoinPartyMember(ECharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+}
+
+// 0019b9a0
+void CUserDataManager::LeavePartyMember(ECharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+}
+
+
+// 0019BA50
+ECharacterID CUserDataManager::GetNowPartyMember() const
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+  return ECharacterID::Invalid;
+}
+
+
+// 0019baa0
+void CUserDataManager::EnableCharaChange(ECharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  using enum ECharacterID;
+
+  switch (chara_id)
+  {
+    case Max:
+    case Monica:
+    case Ridepod:
+    case Monster:
+      m_chara_change[std::to_underlying(chara_id)] = true;
+    default:
+      break;
+  }
+
+  return;
+}
+
+
+// 0019BAF0
+void CUserDataManager::DisableCharaChange(ECharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  using enum ECharacterID;
+
+  switch (chara_id)
+  {
+    case Max:
+    case Monica:
+    case Ridepod:
+    case Monster:
+      m_chara_change[std::to_underlying(chara_id)] = false;
+    default:
+      break;
+  }
+
+  return;
+}
+
 // 0019BB40
 bool CUserDataManager::CheckEnableCharaChange(ECharacterID chara_id, sint* p)
 {
@@ -2636,6 +2708,65 @@ bool CUserDataManager::CheckEnableCharaChange(ECharacterID chara_id, sint* p)
 
   todo;
   return false;
+}
+
+// 0019BD20
+uint CUserDataManager::CheckQuickChange(ECharacterID chara_id, uint* p)
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+  return 0;
+}
+
+// 0019BF00
+void CUserDataManager::EnableCharaChangeMask(ECharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+}
+
+// 0019BF30
+void CUserDataManager::DisableCharaChangeMask(ECharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+}
+
+// 0019BF60
+void CUserDataManager::InitCharaChangeMask()
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+}
+
+// 0019BF80
+uint CUserDataManager::GetEnableCharaChangeFlag()
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+  return 0;
+}
+
+// 0019C060
+u16* CUserDataManager::GetCharaStatusAttributePtr(ECharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+  return nullptr;
+}
+
+// 0019C0C0
+void CUserDataManager::SetCharaStatusAttribute(ECharacterID chara_id, ECharaStatusAttribute status, bool b)
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
 }
 
 // 0019C2F0
@@ -2797,6 +2928,29 @@ EPartyCharacterID CUserDataManager::NowPartyCharaID() const
   return Invalid;
 }
 
+// 0019C9E0
+PARTY_CHARA* CUserDataManager::GetPartyCharaInfo(EPartyCharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(chara_id));
+
+  sint index = std::to_underlying(chara_id) - 1;
+  if (index < 0 || index >= m_party_chara_status.size())
+  {
+    return nullptr;
+  }
+
+  return &m_party_chara_status[index];
+}
+
+// 0019CA20
+bool CUserDataManager::UseNpcAbility(EPartyCharacterID chara_id, sint cost, bool b)
+{
+  log_trace("CUserDataManager::{}({}, {}, {})", __func__, std::to_underlying(chara_id), cost, b);
+
+  todo;
+  return false;
+}
+
 // 0019CAD0
 void CUserDataManager::AllWeaponRepair()
 {
@@ -2854,6 +3008,25 @@ CGameDataUsed* CUserDataManager::GetActiveBait(ECommonItemData item_id)
     default:
       return nullptr;
   }
+}
+
+// 0019D270
+void CUserDataManager::GetRodStatus(sint* params_dest)
+{
+  log_trace("CUserDataManager::{}({})", __func__, fmt::ptr(params_dest));
+
+  if (GetFishingRodNo() == ECommonItemData::Invalid)
+  {
+    return;
+  }
+
+  const auto& weapon = m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table.melee.as.weapon;
+
+  params_dest[0] = weapon.m_properties[std::to_underlying(WeaponProperty::Flight)];
+  params_dest[1] = weapon.m_properties[std::to_underlying(WeaponProperty::Strength)];
+  params_dest[2] = weapon.m_properties[std::to_underlying(WeaponProperty::Resilience)];
+  params_dest[3] = weapon.m_properties[std::to_underlying(WeaponProperty::Grip)];
+  params_dest[4] = weapon.m_properties[std::to_underlying(WeaponProperty::Luck)];
 }
 
 // 0019D2E0
@@ -3297,6 +3470,119 @@ s32 CUserDataManager::AddMoney(s32 delta)
   return m_money;
 }
 
+// 002F5440
+static std::optional<uint> GetCosInfo(ECommonItemData costume_item_id)
+{
+  log_trace("{}({})", __func__, std::to_underlying(costume_item_id));
+
+  using enum ECommonItemData;
+  
+  // 0035CC40
+  static const std::unordered_map<ECommonItemData, uint> cosbit_table
+  {
+    {Hunting_Cap, 0},
+    {Fashionable_Cap, 1},
+    {Two_Tone_Beret, 2},
+    {Maintenance_Cap, 3},
+    {Explorers_Helmet, 4},
+    {Clown_Hat, 5},
+    {Leather_Shoes, 6},
+    {Wing_Shoes, 7},
+    {Work_Shoes, 8},
+    {Dragon_Shoes, 9},
+    {Clown_Shoes, 10},
+    {Explorers_Shoes, 11},
+    {Yellow_Ribbon, 12},
+    {Stripe_Ribbon, 13},
+    {Zipangu_Comb, 14},
+    {Shallowtail, 15},
+    {Princess_Orb, 16},
+    {Kitty_Bell, 17},
+    {Knight_Boots, 18},
+    {Metal_Boots, 19},
+    {Wing_Boots, 20},
+    {Spike_Boots, 21},
+    {Princess_Boots, 22},
+    {Panther_Boots, 23},
+    {Green_Overalls, 24},
+    {Red_Vest, 25},
+    {Denim_Overalls, 26},
+    {Explorers_Outfit, 27},
+    {Clown_Suit, 28},
+    {Pumpkin_Shorts, 29},
+    {Striped_Dress, 30},
+    {Star_Leotard, 31},
+    {Princess_Dress, 32},
+    {Panther_Ensemble, 33},
+  };
+
+  if (cosbit_table.contains(costume_item_id))
+  {
+    return cosbit_table.at(costume_item_id);
+  }
+  else
+  {
+    return std::nullopt;
+  }
+}
+
+// 0019EB70
+void CUserDataManager::SetCostumeBit(u64 bits)
+{
+  log_trace("CUserDataManager::{}({:#b})", __func__, bits);
+
+  m_costume_bitset = bits;
+}
+
+// 0019EB80
+u64 CUserDataManager::GetCostumeBit() const
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  return m_costume_bitset.to_ullong();
+}
+
+// 0019EB90
+void CUserDataManager::GetCostume(ECommonItemData costume_item_id)
+{
+  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(costume_item_id));
+
+  auto bit_index = GetCosInfo(costume_item_id);
+  if (bit_index.has_value())
+  {
+    m_costume_bitset[bit_index.value()] = 1;
+  }
+}
+
+// 0019EBF0
+usize CUserDataManager::CountFish() const
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  usize count = 0;
+
+  // Inventory
+  for (const auto& item : m_inventory)
+  {
+    if (item.m_type == EUsedItemType::Fish)
+    {
+      ++count;
+    }
+  }
+
+  // Aquarium
+  for (const auto& item : m_fish_aquarium.m_unk_field_4)
+  {
+    // Just have to make sure the slot is used
+    if (item.m_common_index != ECommonItemData::Invalid)
+    {
+      ++count;
+    }
+  }
+
+  return count;
+}
+
 // 0019B160
 void CUserDataManager::Initialize()
 {
@@ -3308,19 +3594,55 @@ void CUserDataManager::Initialize()
 }
 
 // 0019ECE0
-void SetEnvUserDataMan(sint i)
+void SetEnvUserDataMan(bool flag)
 {
-  log_trace("{}({})", __func__, i);
+  log_trace("{}({})", __func__, flag);
 
-  todo;
+  auto user_data = GetUserDataMan();
+
+  if (!flag)
+  {
+    user_data->InitCharaChangeMask();
+    user_data->DisableCharaChange(ECharacterID::Ridepod);
+    user_data->DisableCharaChange(ECharacterID::Monster);
+  }
+  else
+  {
+    user_data->InitCharaChangeMask();
+    user_data->EnableCharaChange(ECharacterID::Ridepod);
+    user_data->EnableCharaChange(ECharacterID::Monster);
+  }
 }
 
 // 0019ECE0
-void GetCharaDefaultWeapon(ECharacterID chara_id, ECommonItemData* weapon_id)
+void GetCharaDefaultWeapon(ECharacterID chara_id, ECommonItemData* equip_ids_dest)
 {
-  log_trace("{}({}, {})", __func__, std::to_underlying(chara_id), fmt::ptr(weapon_id));
+  log_trace("{}({}, {})", __func__, std::to_underlying(chara_id), fmt::ptr(equip_ids_dest));
 
-  todo;
+  using enum ECommonItemData;
+  using namespace std;
+
+  constexpr static array<array<array<ECommonItemData, 5>, 2>, size_t(Language::COUNT)> weptbl
+  {
+    // Japanese
+    // Max
+    Battle_Wrench, Classic_Gun, Hunting_Cap, Leather_Shoes, Green_Overalls,
+    // Monica
+    Long_Sword, Magic_Brassard, Yellow_Ribbon, Knight_Boots, Pumpkin_Shorts,
+
+    // English
+    // Max
+    Battle_Wrench, Classic_Gun, Hunting_Cap, Leather_Shoes, Denim_Overalls,
+    // Monica
+    Long_Sword, Magic_Brassard, Yellow_Ribbon, Knight_Boots, Pumpkin_Shorts,
+  };
+
+  auto equip_tbl = weptbl[std::to_underlying(LanguageCode)][std::to_underlying(chara_id)];
+  equip_ids_dest[0] = equip_tbl[0];
+  equip_ids_dest[1] = equip_tbl[1];
+  equip_ids_dest[2] = equip_tbl[2];
+  equip_ids_dest[3] = equip_tbl[3];
+  equip_ids_dest[4] = equip_tbl[4];
 }
 
 // 0019EDC0
@@ -3328,7 +3650,27 @@ void LanguageEquipChange()
 {
   log_trace("{}()", __func__);
 
-  todo;
+  auto user_data = GetUserDataMan();
+  if (user_data == nullptr)
+  {
+    return;
+  }
+
+  // Set all the default equipment for human characters
+  constexpr static std::array<ECharacterID, 2> charas{ ECharacterID::Max, ECharacterID::Monica };
+  for (auto chara : charas)
+  {
+    ECommonItemData default_equip[5];
+    GetCharaDefaultWeapon(chara, default_equip);
+
+    for (usize i = 0; i < std::size(default_equip); ++i)
+    {
+      user_data->SetChrEquipDirect(chara, default_equip[i]);
+    }
+  }
+
+  // Set the ridepod's default name
+  user_data->SetRoboName(user_data->GetRoboNameDefault());
 }
 
 // 0019EE70
@@ -3526,6 +3868,17 @@ SMonsterBadgeData* CMonsterBox::GetMonsterBadgeData(EMonsterID monster_id)
   return &m_monster_badge_data[index - 1];
 }
 
+// 0019AD60
+void CMonsterBox::AllCure()
+{
+  log_trace("CMonsterBox::{}()", __func__);
+
+  for (auto& monster_badge : m_monster_badge_data)
+  {
+    monster_badge.m_whp_gage.SetFillRate(1.0f);
+  }
+}
+
 // 0019EFD0
 CGameDataUsed* CBattleCharaInfo::GetEquipTablePtr(usize index)
 {
@@ -3565,7 +3918,7 @@ EMonsterID CBattleCharaInfo::GetMonsterID()
 }
 
 // 0019F250
-ENPCID CBattleCharaInfo::GetNowNPC()
+EPartyCharacterID CBattleCharaInfo::GetNowNPC()
 {
   log_trace("CBattleCharaInfo::{}()", __func__);
 
@@ -3578,8 +3931,34 @@ bool CBattleCharaInfo::UseNPCPoint()
 {
   log_trace("CBattleCharaInfo::{}()", __func__);
 
-  todo;
-  return false;
+  auto party_chara_info = GetUserDataMan()->GetPartyCharaInfo(m_now_npc);
+  if (party_chara_info == nullptr)
+  {
+    return false;
+  }
+
+  switch (m_now_npc)
+  {
+    case EPartyCharacterID::Stewart:
+      // FIXME: MAGIC
+      if ((GetMainScene()->m_battle_area_scene.m_unk_field_C & 0x4) != 0)
+      {
+        return false;
+      }
+      if (m_hp_gage->GetRate() >= 1.0f)
+      {
+        return false;
+      }
+      if (!GetUserDataMan()->UseNpcAbility(EPartyCharacterID::Stewart, 3, true))
+      {
+        return false;
+      }
+
+      m_hp_gage->AddRate(0.05f);
+      return true;
+    default:
+      return false;
+  }
 }
 
 // 0019F380
@@ -4061,6 +4440,16 @@ CBattleCharaInfo* GetBattleCharaInfo()
   return &BattleParameter;
 }
 
+// 001A0FB0
+bool CheckBadStatus(ECharaStatusAttribute status)
+{
+  log_trace("{}()", __func__);
+
+  using enum ECharaStatusAttribute;
+
+  return common::bits::to_bool(status & (_1 | _2 | _4 | _8 | _20 | _40));
+}
+
 // 001A1180
 ECommonItemDataType SearchEquipType(ECharacterID chara_id, ssize equip_index)
 {
@@ -4155,6 +4544,29 @@ ECharacterID IsItemtypeWhoisEquip(ECommonItemData item_id, ssize* equip_index_de
   }
 
   return chara_result.value_or(ECharacterID::Invalid);
+}
+
+// 001A17C0
+void PlayerPartyCure()
+{
+  log_trace("{}()", __func__);
+
+  auto user_data = GetUserDataMan();
+  if (user_data == nullptr)
+  {
+    return;
+  }
+
+  // Max
+  user_data->m_chara_data[std::to_underlying(ECharacterID::Max)].m_chara_hp_gage.SetFillRate(1.0f);
+  user_data->SetCharaStatusAttribute(ECharacterID::Max, ECharaStatusAttribute::ALL, true);
+
+  // Monica
+  user_data->m_chara_data[std::to_underlying(ECharacterID::Monica)].m_chara_hp_gage.SetFillRate(1.0f);
+  user_data->SetCharaStatusAttribute(ECharacterID::Monica, ECharaStatusAttribute::ALL, true);
+
+  // Monsters
+  user_data->m_monster_box.AllCure();
 }
 
 // 001A1880

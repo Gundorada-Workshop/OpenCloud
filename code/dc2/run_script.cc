@@ -1087,9 +1087,9 @@ s32 chk_int(RS_STACKDATA stack_data, funcdata* func_data)
 // 00186B90
 bool is_true(RS_STACKDATA stack_data)
 {
-  if (stack_data.m_data_type != EStackDataType::Int)
+  if (stack_data.m_data_type == EStackDataType::Int)
   {
-    return false;
+    return stack_data.m_data.i != 0;
   }
   return true;
 }

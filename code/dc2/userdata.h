@@ -1,4 +1,6 @@
 #pragma once
+#include <bitset>
+
 #include "common/debug.h"
 #include "common/types.h"
 #include "common/constants.h"
@@ -58,8 +60,6 @@ enum class ECharacterID
   Monster = 3,
 };
 
-enum class ENPCID : s16;
-
 enum class EMonsterID : s16
 {
   Invalid = 0,
@@ -84,8 +84,18 @@ enum class EBattleCharaType : s16
 
 enum class ECharaStatusAttribute : u16
 {
-
+  NONE = 0,
+  _1 = (1 >> 0),
+  _2 = (1 >> 1),
+  _4 = (1 >> 2),
+  _8 = (1 >> 3),
+  _10 = (1 >> 4),
+  _20 = (1 >> 5),
+  _40 = (1 >> 6),
+  ALL = 0x7F,
 };
+
+IMPLEMENT_ENUM_CLASS_BITWISE_OPERATORS(ECharaStatusAttribute);
 
 enum class EPartyCharacterID : u16
 {
@@ -524,6 +534,9 @@ public:
   // 0019AC40
   SMonsterBadgeData* GetMonsterBadgeData(EMonsterID index);
   SMonsterBadgeData* GetMonsterBajjiData(EMonsterID index);
+ 
+  // 0019AD60
+  void AllCure();
 
   // 0
   std::array<SMonsterBadgeData, 0x40> m_monster_badge_data;
@@ -664,13 +677,43 @@ public:
   s32 GetAbs(ECharacterID chara_id, ssize gage_index, s32* max_dest);
 
   // 0019b9a0
-  void JoinPartyMember(s32 chara);
+  void JoinPartyMember(ECharacterID chara_id);
+
+  // 0019b9a0
+  void LeavePartyMember(ECharacterID chara_id);
+
+  // 0019BA50
+  ECharacterID GetNowPartyMember() const;
 
   // 0019baa0
-  void EnableCharaChange(s32 chara);
+  void EnableCharaChange(ECharacterID chara_id);
+
+  // 0019BAF0
+  void DisableCharaChange(ECharacterID chara_id);
 
   // 0019BB40
   bool CheckEnableCharaChange(ECharacterID chara_id, sint* p = nullptr);
+
+  // 0019BD20
+  uint CheckQuickChange(ECharacterID chara_id, uint* p);
+
+  // 0019BF00
+  void EnableCharaChangeMask(ECharacterID chara_id);
+
+  // 0019BF30
+  void DisableCharaChangeMask(ECharacterID chara_id);
+
+  // 0019BF60
+  void InitCharaChangeMask();
+
+  // 0019BF80
+  uint GetEnableCharaChangeFlag();
+
+  // 0019C060
+  u16* GetCharaStatusAttributePtr(ECharacterID chara_id);
+
+  // 0019C0C0
+  void SetCharaStatusAttribute(ECharacterID chara_id, ECharaStatusAttribute status, bool b);
 
   // 0019C2F0
   SMonsterBadgeData* GetMonsterBadgeDataPtr();
@@ -723,6 +766,12 @@ public:
   // 0019C930
   EPartyCharacterID NowPartyCharaID() const;
 
+  // 0019C9E0
+  PARTY_CHARA* GetPartyCharaInfo(EPartyCharacterID chara_id);
+
+  // 0019CA20
+  bool UseNpcAbility(EPartyCharacterID chara_id, sint cost, bool b);
+
   // 0019CAD0
   void AllWeaponRepair();
 
@@ -739,6 +788,9 @@ public:
   // 0019CF10
   // "GetActiveEsa"
   CGameDataUsed* GetActiveBait(ECommonItemData item_id);
+
+  // 0019D270
+  void GetRodStatus(sint *params_dest);
 
   // 0019D2E0
   sint AddFp(sint fishing_points);
@@ -782,6 +834,18 @@ public:
   // 0019EAF0
   s32 AddMoney(s32 delta);
 
+  // 0019EB70
+  void SetCostumeBit(u64 bits);
+
+  // 0019EB80
+  u64 GetCostumeBit() const;
+
+  // 0019EB90
+  void GetCostume(ECommonItemData costume_item_id);
+
+  // 0019EBF0
+  usize CountFish() const;
+
   // 0
   std::array<CGameDataUsed, 150> m_inventory{};
   // 3F48
@@ -798,35 +862,42 @@ public:
   // 4EB0
   CMonsterBox m_monster_box{};
   // 7DB0
-  std::array<PARTY_CHARA, 0x20> m_party_chara_status;
+  std::array<PARTY_CHARA, 0x20> m_party_chara_status{};
   // 7F30
-  CInventUserData m_invent_user_data{};
+  CInventUserData m_invent_user_data{ 0 };
 
   // ??
 
   // 44D90
-  s16 m_unk_field_44D90{};
+  std::bitset<16> m_party_members{ 0 };
   // 44D92
-  s16 m_unk_field_44D92{};
+  std::bitset<16> m_chara_change{ 0 };
   // 44D94
-  s16 m_unk_field_44D94{};
+  std::bitset<8> m_chara_change_mask{ 0 };
   // 44D96
-  ECharacterID m_active_chara_no{};
+  ECharacterID m_active_chara_no{ 0 };
   // 44D98
-  EMonsterID m_monster_id{};
+  EMonsterID m_monster_id{ 0 };
   // 44D9A
-  s16 m_unk_field_44D9A{};
+  s16 m_unk_field_44D9A{ 0 };
   // 44D9C
-  s32 m_money{};
+  s32 m_money{ 0 };
   // 44DA0
   s16 m_yarikomi_medal{ 0 };
 
   // ?
 
+  // 44DC8
+  u64 m_unk_field_44DC8{ 0 };
+
   // 451E8
   CFishingTournament m_fishing_tournament{};
   // 45258
   CFishingRecord m_fishing_record{};
+
+private:
+  // 45598
+  std::bitset<64> m_costume_bitset{ 0ull };
 
   // SIZE 0x457A0
 };
@@ -865,7 +936,7 @@ class CBattleCharaInfo
 {
 private:
   // 4
-  ENPCID m_now_npc{};
+  EPartyCharacterID m_now_npc{};
   // 6
   EBattleCharaType m_battle_chara_type{ EBattleCharaType::Uninitialized };
   // 8
@@ -922,7 +993,7 @@ public:
   // 0019F210
   EMonsterID GetMonsterID();
   // 0019F250
-  ENPCID GetNowNPC();
+  EPartyCharacterID GetNowNPC();
   // 0019F260
   // NOTE: This fn takes an unused argument, so I removed it here.
   bool UseNPCPoint();
@@ -1054,10 +1125,10 @@ std::optional<std::string> GetMainCharaModelName(ECharacterID chara_id, bool b);
 MOS_HENGE_PARAM* GetMonsterHengeParam(EMonsterID index);
 
 // 0019ECE0
-void SetEnvUserDataMan(sint i);
+void SetEnvUserDataMan(bool flag);
 
 // 0019ECE0
-void GetCharaDefaultWeapon(ECharacterID chara_id, ECommonItemData* weapon_id);
+void GetCharaDefaultWeapon(ECharacterID chara_id, ECommonItemData* equip_ids_dest);
 
 // 0019EDC0
 void LanguageEquipChange();
@@ -1068,11 +1139,17 @@ void CheckEquipChange(ECharacterID chara_id);
 // 001A0EA0
 CBattleCharaInfo* GetBattleCharaInfo();
 
+// 001A0FB0
+bool CheckBadStatus(ECharaStatusAttribute status);
+
 // 001A1180
 ECommonItemDataType SearchEquipType(ECharacterID chara_id, ssize equip_index);
 
 // 001A11F0
 ECharacterID IsItemtypeWhoisEquip(ECommonItemData item_id, ssize* equip_index_dest = nullptr);
+
+// 001A17C0
+void PlayerPartyCure();
 
 // 001A1880
 void DeleteErekiFish();
