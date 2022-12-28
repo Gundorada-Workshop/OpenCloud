@@ -2709,6 +2709,65 @@ bool CUserDataManager::CheckEnableCharaChange(ECharacterID chara_id, sint* p)
   return false;
 }
 
+// 0019BD20
+uint CUserDataManager::CheckQuickChange(ECharacterID chara_id, uint* p)
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+  return 0;
+}
+
+// 0019BF00
+void CUserDataManager::EnableCharaChangeMask(ECharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+}
+
+// 0019BF30
+void CUserDataManager::DisableCharaChangeMask(ECharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+}
+
+// 0019BF60
+void CUserDataManager::InitCharaChangeMask()
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+}
+
+// 0019BF80
+uint CUserDataManager::GetEnableCharaChangeFlag()
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+  return 0;
+}
+
+// 0019C060
+u16* CUserDataManager::GetCharaStatusAttributePtr(ECharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+  return nullptr;
+}
+
+// 0019C0C0
+void CUserDataManager::SetCharaStatusAttribute(ECharacterID chara_id, ECharaStatusAttribute status, bool b)
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+}
+
 // 0019C2F0
 SMonsterBadgeData* CUserDataManager::GetMonsterBadgeDataPtr()
 {
@@ -3729,6 +3788,17 @@ SMonsterBadgeData* CMonsterBox::GetMonsterBadgeData(EMonsterID monster_id)
   return &m_monster_badge_data[index - 1];
 }
 
+// 0019AD60
+void CMonsterBox::AllCure()
+{
+  log_trace("CMonsterBox::{}()", __func__);
+
+  for (auto& monster_badge : m_monster_badge_data)
+  {
+    monster_badge.m_whp_gage.SetFillRate(1.0f);
+  }
+}
+
 // 0019EFD0
 CGameDataUsed* CBattleCharaInfo::GetEquipTablePtr(usize index)
 {
@@ -4368,6 +4438,29 @@ ECharacterID IsItemtypeWhoisEquip(ECommonItemData item_id, ssize* equip_index_de
   }
 
   return chara_result.value_or(ECharacterID::Invalid);
+}
+
+// 001A17C0
+void PlayerPartyCure()
+{
+  log_trace("{}()", __func__);
+
+  auto user_data = GetUserDataMan();
+  if (user_data == nullptr)
+  {
+    return;
+  }
+
+  // Max
+  user_data->m_chara_data[std::to_underlying(ECharacterID::Max)].m_chara_hp_gage.SetFillRate(1.0f);
+  user_data->SetCharaStatusAttribute(ECharacterID::Max, ECharaStatusAttribute::ALL, true);
+
+  // Monica
+  user_data->m_chara_data[std::to_underlying(ECharacterID::Monica)].m_chara_hp_gage.SetFillRate(1.0f);
+  user_data->SetCharaStatusAttribute(ECharacterID::Monica, ECharaStatusAttribute::ALL, true);
+
+  // Monsters
+  user_data->m_monster_box.AllCure();
 }
 
 // 001A1880

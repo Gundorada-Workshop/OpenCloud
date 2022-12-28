@@ -94,6 +94,7 @@ enum class ECharaStatusAttribute : u16
   _10 = (1 >> 4),
   _20 = (1 >> 5),
   _40 = (1 >> 6),
+  ALL = 0x7F,
 };
 
 IMPLEMENT_ENUM_CLASS_BITWISE_OPERATORS(ECharaStatusAttribute);
@@ -535,6 +536,9 @@ public:
   // 0019AC40
   SMonsterBadgeData* GetMonsterBadgeData(EMonsterID index);
   SMonsterBadgeData* GetMonsterBajjiData(EMonsterID index);
+ 
+  // 0019AD60
+  void AllCure();
 
   // 0
   std::array<SMonsterBadgeData, 0x40> m_monster_badge_data;
@@ -691,6 +695,27 @@ public:
 
   // 0019BB40
   bool CheckEnableCharaChange(ECharacterID chara_id, sint* p = nullptr);
+
+  // 0019BD20
+  uint CheckQuickChange(ECharacterID chara_id, uint* p);
+
+  // 0019BF00
+  void EnableCharaChangeMask(ECharacterID chara_id);
+
+  // 0019BF30
+  void DisableCharaChangeMask(ECharacterID chara_id);
+
+  // 0019BF60
+  void InitCharaChangeMask();
+
+  // 0019BF80
+  uint GetEnableCharaChangeFlag();
+
+  // 0019C060
+  u16* GetCharaStatusAttributePtr(ECharacterID chara_id);
+
+  // 0019C0C0
+  void SetCharaStatusAttribute(ECharacterID chara_id, ECharaStatusAttribute status, bool b);
 
   // 0019C2F0
   SMonsterBadgeData* GetMonsterBadgeDataPtr();
@@ -1118,6 +1143,9 @@ ECommonItemDataType SearchEquipType(ECharacterID chara_id, ssize equip_index);
 
 // 001A11F0
 ECharacterID IsItemtypeWhoisEquip(ECommonItemData item_id, ssize* equip_index_dest = nullptr);
+
+// 001A17C0
+void PlayerPartyCure();
 
 // 001A1880
 void DeleteErekiFish();
