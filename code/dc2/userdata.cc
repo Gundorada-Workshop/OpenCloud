@@ -4432,6 +4432,55 @@ void GameDataSwap(CGameDataUsed* data1, CGameDataUsed* data2, bool check_fishing
   }
 }
 
+// 001A0590
+sint GetRandomCircleTrapID(sint i)
+{
+  log_trace("{}({})", __func__, i);
+
+  auto chara_id = GetBattleCharaInfo()->m_chara_id;
+  uint random_num = rand();
+  srand(random_num);
+
+  sint trap_id = 0;
+
+  if (i == 0)
+  {
+    // BUG: A modulo by 3, *not* 4, occurs here
+    // See 001A05C8
+    constexpr static s8 tbl1[] = { 1, 2, 3, 4 };
+    trap_id = tbl1[random_num % 3];
+  }
+  else if (i == 1)
+  {
+    constexpr static s8 tbl2[] = { 6, 7 };
+    trap_id = tbl2[random_num % 2];
+
+    if (trap_id == 7)
+    {
+      trap_id = (GetRandI(11) + GetRandI(21)) / 2 + 8;
+      if (chara_id == ECharacterID::Monica)
+      {
+        trap_id += 2;
+      }
+    }
+  }
+
+  if (chara_id == ECharacterID::Ridepod)
+  {
+    trap_id = -2;
+  }
+
+  if (chara_id == ECharacterID::Monster)
+  {
+    if (trap_id != 4 && trap_id != 12)
+    {
+      trap_id = -1;
+    }
+  }
+
+  return trap_id;
+}
+
 // 001A0EA0
 CBattleCharaInfo* GetBattleCharaInfo()
 {

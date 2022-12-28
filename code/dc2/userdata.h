@@ -1136,6 +1136,9 @@ void LanguageEquipChange();
 // 0019EE70
 void CheckEquipChange(ECharacterID chara_id);
 
+// 001A0590
+sint GetRandomCircleTrapID(sint i);
+
 // 001A0EA0
 CBattleCharaInfo* GetBattleCharaInfo();
 
