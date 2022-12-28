@@ -1124,7 +1124,7 @@ MOS_HENGE_PARAM* GetMonsterHengeParam(EMonsterID index);
 void SetEnvUserDataMan(bool flag);
 
 // 0019ECE0
-void GetCharaDefaultWeapon(ECharacterID chara_id, ECommonItemData* weapon_id);
+void GetCharaDefaultWeapon(ECharacterID chara_id, ECommonItemData* equip_ids_dest);
 
 // 0019EDC0
 void LanguageEquipChange();

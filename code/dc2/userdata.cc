@@ -3591,11 +3591,35 @@ void SetEnvUserDataMan(bool flag)
 }
 
 // 0019ECE0
-void GetCharaDefaultWeapon(ECharacterID chara_id, ECommonItemData* weapon_id)
+void GetCharaDefaultWeapon(ECharacterID chara_id, ECommonItemData* equip_ids_dest)
 {
-  log_trace("{}({}, {})", __func__, std::to_underlying(chara_id), fmt::ptr(weapon_id));
+  log_trace("{}({}, {})", __func__, std::to_underlying(chara_id), fmt::ptr(equip_ids_dest));
 
-  todo;
+  using enum ECommonItemData;
+  using namespace std;
+
+  constexpr static array<array<array<ECommonItemData, 5>, 2>, size_t(Language::COUNT)> weptbl
+  {
+    // Japanese
+    // Max
+    Battle_Wrench, Classic_Gun, Hunting_Cap, Leather_Shoes, Green_Overalls,
+    // Monica
+    Long_Sword, Magic_Brassard, Yellow_Ribbon, Knight_Boots, Pumpkin_Shorts,
+
+    // English
+    // Max
+    Battle_Wrench, Classic_Gun, Hunting_Cap, Leather_Shoes, Denim_Overalls,
+    // Monica
+    Long_Sword, Magic_Brassard, Yellow_Ribbon, Knight_Boots, Pumpkin_Shorts,
+  };
+
+  auto equip_tbl = weptbl[std::to_underlying(LanguageCode)][std::to_underlying(chara_id)];
+  equip_ids_dest[0] = equip_tbl[0];
+  equip_ids_dest[1] = equip_tbl[1];
+  equip_ids_dest[2] = equip_tbl[2];
+  equip_ids_dest[3] = equip_tbl[3];
+  equip_ids_dest[4] = equip_tbl[4];
+  equip_ids_dest[5] = Invalid;
 }
 
 // 0019EDC0
