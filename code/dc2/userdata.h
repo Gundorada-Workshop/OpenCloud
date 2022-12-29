@@ -12,8 +12,11 @@
 
 enum class ESpecialStatus;
 
-// TODO THIS FILE
-struct MOS_CHANGE_PARAM {};
+struct MOS_CHANGE_PARAM
+{
+  // 10
+  f32 m_unk_field_10{};
+};
 
 enum class EItemCmd
 {
@@ -982,7 +985,7 @@ private:
   // 78
   f32 m_unk_field_78{};
   // 7C
-  f32 m_unk_field_7C{ 0.0f };
+  f32 m_next_hp_delta{ 0.0f };
   // 80
   f32 m_unk_field_80{ -1.0f };
   // 84

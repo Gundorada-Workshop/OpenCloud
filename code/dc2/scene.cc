@@ -176,62 +176,9 @@ CScene::CScene()
 {
 	log_trace("CScene::{}()", __func__);
 
-	m_n_stacks_capacity = m_stacks.size();
-	for (int i = 0; i < m_n_stacks_capacity; ++i)
-	{
-		m_stacks[i] = nullptr;
-	}
-
-	m_unk_field_38 = 0;
-	m_unk_field_3C = 0;
-
-	m_n_characters = m_characters.size();
-
-	for (auto& character : m_characters)
-	{
-		new (&character) CSceneCharacter();
-	}
-
-	m_n_cameras = m_cameras.size();
-	for (auto& camera : m_cameras)
-	{
-		new (&camera) CSceneCamera();
-	}
-
-	m_n_messages = m_messages.size();
-	for (auto& message : m_messages)
-	{
-		new (&message) CSceneMessage();
-	}
-
-	m_n_maps = m_maps.size();
-	for (auto& map : m_maps)
-	{
-		new (&map) CSceneMap();
-	}
-
-	m_n_skies = m_skies.size();
-	for (auto& sky : m_skies)
-	{
-		new (&sky) CSceneSky();
-	}
-
-	m_n_gameobjs = m_gameobjs.size();
-	for (auto& gameobj : m_gameobjs)
-	{
-		new (&gameobj) CSceneGameObj();
-	}
-
-	m_n_effects = m_effects.size();
-	for (auto& effect : m_effects)
-	{
-		new (&effect) CSceneEffect();
-	}
-
 	m_mds_list_set.Initialize();
 	//m_fade_in_out.Initialize();
 	m_scn_loadmap_info.Initialize();
-	new (&m_scene_event_data) CSceneEventData();
 
 	for (auto& villager_data : m_villager_manager.m_villager_data)
 	{
@@ -242,48 +189,9 @@ CScene::CScene()
 
 	m_loop_se_manager.Initialize();
 
-	m_control_chrid = -1;
-	m_active_cmrid = -1;
-	m_before_cmrid = -1;
-	m_unk_field_2E5C = -1;
-
-	m_unk_field_2E70 = 0;
-	m_unk_field_2E74 = 0;
-	m_unk_field_2E78 = 0;
-	m_unk_field_2E7C = 0;
-	m_unk_field_2E80 = 0;
-
-	m_unk_field_2F70 = 0.00088f;
-	m_unk_field_2F74 = 0;
-
 	m_fire_raster.Initialize();
 	m_thunder_effect.Initialize();
-	m_unk_field_2F64 = 0;
 	m_battle_area_scene.m_dng_floor_manager.Initialize();
-
-	m_battle_area_scene.m_unk_field_0 = 0;
-	m_battle_area_scene.m_unk_field_4 = 0;
-	m_battle_area_scene.m_unk_field_6C = 1.0f;
-	m_battle_area_scene.m_unk_field_78 = 0;
-	m_battle_area_scene.m_treasure_box_manager = nullptr;
-	m_battle_area_scene.m_battle_effect_manager = nullptr;
-	m_battle_area_scene.m_unk_field_24[0] = '\0';
-	m_battle_area_scene.m_unk_field_44 = -1;
-	m_wind_velocity = 0.0f;
-	m_wind_direction = vec4(0.0f);
-
-	m_unk_field_3E60 = -1;
-	m_unk_field_3E64 = -1;
-
-	m_unk_field_2F6C = 0;
-	m_unk_field_2F68 = 0;
-	m_save_data = nullptr;
-	m_now_map_no = -1;
-	m_now_submap_no = -1;
-	m_old_map_no = -1;
-	m_old_submap_no = -1;
-	m_unk_field_3038 = 0;
-	m_unk_field_303C = 0;
 }
 
 // 00283150
@@ -291,7 +199,7 @@ void CScene::SetStack(ssize stack_index, mgCMemory& stack)
 {
 	log_trace("CScene::{}({}, {})", __func__, stack_index, fmt::ptr(&stack));
 
-	if (stack_index < 0 || m_n_stacks_capacity >= stack_index)
+	if (stack_index < 0 || stack_index >= m_stacks.size())
 	{
 		return;
 	}
@@ -304,7 +212,7 @@ mgCMemory* CScene::GetStack(ssize stack_index)
 {
 	log_trace("CScene::{}({})", __func__, stack_index);
 
-	if (stack_index < 0 || m_n_stacks_capacity >= stack_index)
+	if (stack_index < 0 || stack_index >= m_stacks.size())
 	{
 		return nullptr;
 	}
@@ -317,7 +225,7 @@ void CScene::ClearStack(ssize stack_index)
 {
 	log_trace("CScene::{}({})", __func__, stack_index);
 
-	for (auto i = stack_index; i < m_n_stacks_capacity; ++i)
+	for (auto i = stack_index; i < m_stacks.size(); ++i)
 	{
 		if (m_stacks[i] != nullptr)
 		{
@@ -368,7 +276,7 @@ CSceneCharacter* CScene::GetSceneCharacter(ssize character_index)
 {
 	log_trace("CScene::{}({})", __func__, character_index);
 
-	if (character_index < 0 || m_n_characters <= character_index)
+	if (character_index < 0 || character_index >= m_characters.size())
 	{
 		return nullptr;
 	}
@@ -381,7 +289,7 @@ CSceneMap* CScene::GetSceneMap(ssize map_index)
 {
 	log_trace("CScene::{}({})", __func__, map_index);
 
-	if (map_index < 0 || static_cast<ssize>(m_n_maps) <= map_index)
+	if (map_index < 0 || map_index >= m_maps.size())
 	{
 		return nullptr;
 	}
@@ -394,7 +302,7 @@ CSceneMessage* CScene::GetSceneMessage(ssize message_index)
 {
 	log_trace("CScene::{}({})", __func__, message_index);
 
-	if (message_index < 0 || m_n_messages <= message_index)
+	if (message_index < 0 || message_index >= m_messages.size())
 	{
 		return nullptr;
 	}
@@ -407,7 +315,7 @@ CSceneCamera* CScene::GetSceneCamera(ssize camera_index)
 {
 	log_trace("CScene::{}({})", __func__, camera_index);
 
-	if (camera_index < 0 || m_n_cameras <= camera_index)
+	if (camera_index < 0 || camera_index >= m_cameras.size())
 	{
 		return nullptr;
 	}
@@ -420,7 +328,7 @@ CSceneSky* CScene::GetSceneSky(ssize sky_index)
 {
 	log_trace("CScene::{}({})", __func__, sky_index);
 
-	if (sky_index < 0 || static_cast<ssize>(m_n_skies) <= sky_index)
+	if (sky_index < 0 || sky_index >= m_skies.size())
 	{
 		return nullptr;
 	}
@@ -433,7 +341,7 @@ CSceneGameObj* CScene::GetSceneGameObj(ssize gameobj_index)
 {
 	log_trace("CScene::{}({})", __func__, gameobj_index);
 
-	if (gameobj_index < 0 || static_cast<ssize>(m_n_gameobjs) <= gameobj_index)
+	if (gameobj_index < 0 || gameobj_index >= m_gameobjs.size())
 	{
 		return nullptr;
 	}
@@ -446,7 +354,7 @@ CSceneEffect* CScene::GetSceneEffect(ssize effect_index)
 {
 	log_trace("CScene::{}({})", __func__, effect_index);
 
-	if (effect_index < 0 || static_cast<ssize>(m_n_effects) <= effect_index)
+	if (effect_index < 0 || effect_index >= m_effects.size())
 	{
 		return nullptr;
 	}
@@ -542,7 +450,7 @@ ssize CScene::GetCameraID(const char* name)
 		return -1;
 	}
 
-	for (int i = 0; i < m_n_cameras; ++i)
+	for (int i = 0; i < m_cameras.size(); ++i)
 	{
 		CSceneCamera* camera = GetSceneCamera(i);
 		if (camera == nullptr)
@@ -769,7 +677,7 @@ ssize CScene::GetMapID(const char* name)
 		return -1;
 	}
 
-	for (int i = 0; i < m_n_maps; ++i)
+	for (int i = 0; i < m_maps.size(); ++i)
 	{
 		CSceneMap* scene_map = GetSceneMap(i);
 		if (scene_map == nullptr)
@@ -854,7 +762,7 @@ void CScene::DrawScreenFunc(MAYBE_UNUSED mgCFrame& frame)
 {
 	log_trace("CScene::{}({})", __func__, fmt::ptr(&frame));
 
-	for (int i = 0; i < m_n_maps; ++i)
+	for (int i = 0; i < m_maps.size(); ++i)
 	{
 		MAYBE_UNUSED CMap* map = GetMap(i);
 		if (IsActive(ESceneDataType::Map, i))
@@ -981,7 +889,7 @@ void CScene::StepEffectScript(ssize effect_index)
 	}
 
 	// Step all effects
-	for (int i = 0; i < m_n_effects; ++i)
+	for (int i = 0; i < m_effects.size(); ++i)
 	{
 		effect = GetEffect(i);
 		if (effect != nullptr)
@@ -1011,7 +919,7 @@ void CScene::DrawEffectScript(ssize effect_index)
 	}
 
 	// Draw all effects
-	for (int i = 0; i < m_n_effects; ++i)
+	for (int i = 0; i < m_effects.size(); ++i)
 	{
 		effect = GetEffect(i);
 		if (effect != nullptr)
@@ -1132,7 +1040,7 @@ usize CScene::GetActiveMaps(CMap** maps_dest, usize maps_capacity)
 	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(maps_dest), maps_capacity);
 
 	int found_maps = 0;
-	for (int i = 0; i < m_n_maps && found_maps < maps_capacity; ++i)
+	for (int i = 0; i < m_maps.size() && found_maps < maps_capacity; ++i)
 	{
 		if (IsActive(ESceneDataType::Map, i))
 		{

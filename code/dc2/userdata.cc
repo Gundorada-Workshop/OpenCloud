@@ -24,7 +24,7 @@ static CGameDataUsed* FishGamePreEquip{ nullptr };
 // 00377070
 static f32 BattleParameter_Time{};
 // 00377074
-static TimeOfDay BattleParameter_TimeBand{};
+static ETimeBand BattleParameter_TimeBand{};
 
 // 001960C0
 void SetItemSpectolPoint(ECommonItemData item_id, ATTACH_USED* attach, sint stack_num)
@@ -1581,7 +1581,7 @@ void CGameDataUsed::GetStatusParam(s16* param_dest, f32 time_of_day)
   if (m_common_index == ECommonItemData::Lambs_Sword)
   {
     // The Lambs Sword is stronger at night, but weaker every other time of day.
-    if (GetTimeBand(time_of_day) == TimeOfDay::Night)
+    if (GetTimeBand(time_of_day) == ETimeBand::Night)
     {
       // 150% attack
       param_dest[0] += param_dest[0] / 2;
@@ -4278,11 +4278,11 @@ f32 CBattleCharaInfo::AddHp_Point(f32 delta, f32 divisor)
   if (divisor > 1.0f)
   {
     // this is dead code I think
-    m_unk_field_7C = delta / divisor;
+    m_next_hp_delta = delta / divisor;
   }
   else
   {
-    m_unk_field_7C = delta;
+    m_next_hp_delta = delta;
   }
 
   m_unk_field_8C = m_hp_gage->m_current;
@@ -4396,7 +4396,7 @@ void CBattleCharaInfo::ForceSet()
   {
     m_unk_field_84 = m_hp_gage->m_current;
     m_unk_field_8C = -1.0f;
-    m_unk_field_7C = 0.0f;
+    m_next_hp_delta = 0.0f;
   }
 }
 
@@ -4414,7 +4414,83 @@ void CBattleCharaInfo::Step()
 {
   log_trace("CBattleCharaInfo::{}()", __func__);
 
-  todo;
+  COMMON_GAGE* hp_gage = m_hp_gage;
+  if (hp_gage == nullptr)
+  {
+    return;
+  }
+
+  if (m_unk_field_84 < 0.0f)
+  {
+    return;
+  }
+
+  switch (m_chara_id)
+  {
+    case ECharacterID::Monica:
+      if (m_equip_table.as.human->melee.m_common_index == ECommonItemData::Lambs_Sword)
+      {
+        if (GetTimeBand(GetMainScene()->m_time_of_day) != BattleParameter_TimeBand)
+        {
+          RefreshParameter();
+        }
+      }
+      break;
+    case ECharacterID::Ridepod:
+      hp_gage->m_current -= m_unk_field_C;
+      m_unk_field_84 -= m_unk_field_C;
+      if (hp_gage->m_current <= 0.0f)
+      {
+        hp_gage->m_current = 0.0f;
+        m_unk_field_84 = 0.0f;
+      }
+      break;
+    case ECharacterID::Monster:
+      m_chara_data_as.monster->m_unk_field_10 -= -m_unk_field_10;
+      if (m_chara_data_as.monster->m_unk_field_10 <= 0.0f)
+      {
+        m_chara_data_as.monster->m_unk_field_10 = 0.0f;
+      }
+      break;
+    default:
+      break;
+  }
+
+  if (m_unk_field_84 != hp_gage->m_current)
+  {
+    if (m_next_hp_delta != 0.0f)
+    {
+      sint i = static_cast<sint>(m_next_hp_delta);
+      if (i == 0)
+      {
+        if (m_next_hp_delta < 0.0f)
+        {
+          i = -1;
+        }
+        else
+        {
+          i = 1;
+        }
+      }
+
+      m_unk_field_84 += static_cast<f32>(i);
+      m_unk_field_84 = std::clamp(m_unk_field_84, 0.0f, hp_gage->m_max);
+    }
+    else
+    {
+      m_unk_field_84 = hp_gage->m_current;
+    }
+  }
+  else
+  {
+    m_next_hp_delta = 0.0f;
+    m_unk_field_8C = hp_gage->m_current;
+  }
+
+  if (hp_gage->m_current <= 0.0f)
+  {
+    SetAttr(ECharaStatusAttribute::ALL, true);
+  }
 }
 
 // 00196E10
