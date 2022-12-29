@@ -952,7 +952,7 @@ private:
   union {
     SCharaData* human{ nullptr };
     ROBO_DATA* robot;
-    MOS_CHANGE_PARAM* monster;
+    SMonsterBadgeData* monster;
   } m_chara_data_as;
   // C
   f32 m_unk_field_C{};
@@ -1162,6 +1162,9 @@ ECommonItemDataType SearchEquipType(ECharacterID chara_id, ssize equip_index);
 
 // 001A11F0
 ECharacterID IsItemtypeWhoisEquip(ECommonItemData item_id, ssize* equip_index_dest = nullptr);
+
+// 001A16B0
+void CheckItemDngKey();
 
 // 001A17C0
 void PlayerPartyCure();

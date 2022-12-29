@@ -4446,10 +4446,10 @@ void CBattleCharaInfo::Step()
       }
       break;
     case ECharacterID::Monster:
-      m_chara_data_as.monster->m_unk_field_10 -= -m_unk_field_10;
-      if (m_chara_data_as.monster->m_unk_field_10 <= 0.0f)
+      m_chara_data_as.monster->m_whp_gage.m_current -= -m_unk_field_10;
+      if (m_chara_data_as.monster->m_whp_gage.m_current <= 0.0f)
       {
-        m_chara_data_as.monster->m_unk_field_10 = 0.0f;
+        m_chara_data_as.monster->m_whp_gage.m_current = 0.0f;
       }
       break;
     default:
@@ -4799,6 +4799,39 @@ ECharacterID IsItemtypeWhoisEquip(ECommonItemData item_id, ssize* equip_index_de
   }
 
   return chara_result.value_or(ECharacterID::Invalid);
+}
+
+// 001A16B0
+void CheckItemDngKey()
+{
+  log_trace("{}()", __func__);
+
+  auto user_data = GetUserDataMan();
+  if (user_data == nullptr)
+  {
+    return;
+  }
+
+  // Look for any keys (i.e. key to enter a room, or key to enter next floor) and wipe 'em
+  auto p_items = user_data->GetUsedDataPtr(0);
+  auto capacity = GetNowBagMax(true);
+  for (usize i = 0; i < capacity; ++i)
+  {
+    if (p_items[i].m_item_data_type == ECommonItemDataType::Dungeon_Key)
+    {
+      // Banish that item to the shadow realm (hell in the JP version)
+      new (&p_items[i]) CGameDataUsed();
+    }
+  }
+
+  // Set minimum HPs and attributes for characters
+  user_data->m_chara_data[std::to_underlying(ECharacterID::Max)].m_chara_hp_gage.m_current =
+    std::max(user_data->GetHp(ECharacterID::Max), 1.0f);
+  user_data->m_chara_data[std::to_underlying(ECharacterID::Monica)].m_chara_hp_gage.m_current =
+    std::max(user_data->GetHp(ECharacterID::Monica), 1.0f);
+
+  user_data->SetCharaStatusAttribute(ECharacterID::Max, ECharaStatusAttribute::_1, true);
+  user_data->SetCharaStatusAttribute(ECharacterID::Monica, ECharaStatusAttribute::_1, true);
 }
 
 // 001A17C0
