@@ -2403,6 +2403,14 @@ CUserDataManager::CUserDataManager()
   new (&m_fishing_record) CFishingRecord;
 }
 
+// 0019B380
+void CUserDataManager::RefreshParam()
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+}
+
 // 0019B450
 CGameDataUsed* CUserDataManager::GetUsedDataPtr(ssize index)
 {
@@ -4855,6 +4863,20 @@ void PlayerPartyCure()
 
   // Monsters
   user_data->m_monster_box.AllCure();
+}
+
+// 001A1850
+void UserDataRefresh()
+{
+  log_trace("{}()", __func__);
+
+  auto user_data = GetUserDataMan();
+  if (user_data == nullptr)
+  {
+    return;
+  }
+
+  user_data->RefreshParam();
 }
 
 // 001A1880

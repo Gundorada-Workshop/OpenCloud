@@ -643,6 +643,9 @@ public:
   // 0019b160
   void Initialize();
 
+  // 0019B380
+  void RefreshParam();
+
   // 0019B450
   CGameDataUsed* GetUsedDataPtr(ssize index);
 
@@ -1168,6 +1171,9 @@ void CheckItemDngKey();
 
 // 001A17C0
 void PlayerPartyCure();
+
+// 001A1850
+void UserDataRefresh();
 
 // 001A1880
 void DeleteErekiFish();
