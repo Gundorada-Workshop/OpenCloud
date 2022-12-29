@@ -1892,7 +1892,7 @@ bool CScene::CheckDrawCharaShadow(MAYBE_UNUSED ssize character_index)
 }
 
 // 002C8C70
-bool CScene::StepChar(MAYBE_UNUSED ssize character_index)
+bool CScene::StepChara(MAYBE_UNUSED ssize character_index)
 {
 	log_trace("CScene::{}({})", __func__, character_index);
 

@@ -1,11 +1,18 @@
-#include <glm/glm.hpp>
+﻿#include <glm/glm.hpp>
 
+#include "common/bits.h"
+#include "common/constants.h"
+#include "common/debug.h"
 #include "common/log.h"
+#include "common/types.h"
 
+#include "dc2/camera.h"
 #include "dc2/character.h"
 #include "dc2/editctrl.h"
 #include "dc2/mainloop.h"
 #include "dc2/menusave.h"
+#include "dc2/photo.h"
+#include "dc2/scene.h"
 
 #include "mg/mg_lib.h"
 
@@ -38,7 +45,7 @@ static f32 viewAngleH{ 0 };
 // 003770B8
 static f32 viewAngleV{ 0 };
 // 003770BC
-MAYBE_UNUSED static unkptr AddProj{ nullptr };
+MAYBE_UNUSED static f32 AddProj{ 0.0f };
 // 003770C0
 static s32 ShutterCnt{ 0 };
 // 003770C4
@@ -80,6 +87,92 @@ static vec3 LdrTopPos{ 0 };
 static vec3 LdrTopWalk{ 0 };
 // 01E9B410
 static vec3 LdrCamPos{ 0 };
+
+// 001A2C70
+static bool ClipBoxXZ(const vec4& max_corner1, const vec4& min_corner1, const vec4& max_corner2, const vec4& min_corner2)
+{
+  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&max_corner1), fmt::ptr(&min_corner1), fmt::ptr(&max_corner2), fmt::ptr(&min_corner2));
+
+  return math::vector_all_less_than_equal(min_corner1.xz(), max_corner2.xz()) &&
+    math::vector_all_greater_than_equal(max_corner1.xz(), min_corner2.xz());
+}
+
+// 001A2CC0
+f32 OverlapPoly3AreaXZ(const matrix4* m1, const matrix4* m2, const mgVu0FBOX* box)
+{
+  log_trace("{}({}, {}, {})", __func__, fmt::ptr(m1), fmt::ptr(m2), fmt::ptr(box));
+
+  todo;
+  return 0.0f;
+}
+
+// 001A32A0
+void CEditCollision::Copy(CEditCollision& other, sint i) const
+{
+  log_trace("CEditCollision::{}({}, {})", __func__, fmt::ptr(&other), i);
+
+  todo;
+}
+
+// 001A3490
+f32 CEditCollision::AreaXZ() const
+{
+  log_trace("CEditCollision::{}()", __func__);
+
+  todo;
+  return 0.0f;
+}
+
+// 001A3540
+bool CEditCollision::OverlapPoly3XZ(const matrix4* m, f32* f_dest, mgVu0FBOX* box_dest) const
+{
+  log_trace("CEditCollision::{}({}, {}, {})", __func__, fmt::ptr(m), fmt::ptr(f_dest), fmt::ptr(box_dest));
+
+  todo;
+  return false;
+};
+
+// 001A3720
+f32 CEditCollision::OverlapXZ(const CEditCollision& other, const matrix4* m, mgVu0FBOX* box_dest) const
+{
+  log_trace("CEditCollision::{}({}, {}, {})", __func__, fmt::ptr(&other), fmt::ptr(m), fmt::ptr(box_dest));
+
+  todo;
+  return 0.0f;
+}
+
+// 001A3820
+bool CEditCollision::OverlapPoly3XZ(const matrix4* m1, const matrix4* m2, mgVu0FBOX* box_dest) const
+{
+  log_trace("CEditCollision::{}({}, {}, {})", __func__, fmt::ptr(m1), fmt::ptr(m2), fmt::ptr(box_dest));
+
+  todo;
+  return false;
+}
+
+// 001A3B10
+void CEditCollision::ApplyMatrix(const matrix4* m)
+{
+  log_trace("CEditCollision::{}({})", __func__, fmt::ptr(m));
+
+  todo;
+}
+
+// 001A3C50
+void CEditCollision::DeleteVerticalPoly()
+{
+  log_trace("CEditCollision::{}()", __func__);
+
+  todo;
+}
+
+// 001A3DF0
+void CEditCollision::PickupVerticalPoly()
+{
+  log_trace("CEditCollision::{}()", __func__);
+
+  todo;
+}
 
 // 001A40E0
 static CUserDataManager* GetUserData()
@@ -124,4 +217,234 @@ bool IsWalkMode()
   log_trace("{}()", __func__);
 
   return ViewMode == EViewMode::Walk;
+}
+
+// 001A4170
+void EditControlInit(CScene* scene)
+{
+  log_trace("{}({})", __func__, fmt::ptr(scene));
+
+  new (&MoveInfo) MoveCheckInfo();
+  EyeViewCancelOnce = false;
+  ViewMode = EViewMode::Walk;
+  InitEyeViewFlag = false;
+  viewAngleH = 0.0f;
+  viewAngleV = 0.0f;
+  AddProj = 0.0f;
+  ShutterCnt = 0;
+  move_chara = nullptr;
+
+  scene->ResetStatus(ESceneDataType::Character, scene->m_control_chrid, ESceneDataStatus::UNK_10);
+
+  CharaAngleTarget = nullptr;
+  CharaAngleTargetFlag = false;
+  FixCameraFlag = false;
+
+  InitTakePhoto();
+
+  EditControlStatusInit(scene);
+
+  auto camera = scene->GetCamera(scene->m_active_cmrid);
+  if (camera != nullptr && camera->Iam() == CCameraControl_TypeID)
+  {
+    static_cast<CCameraControl*>(camera)->CancelRotBack();
+  }
+}
+
+// 001A4230
+void EditControlStatusInit(CScene* scene)
+{
+  log_trace("{}({})", __func__, fmt::ptr(scene));
+
+  LadderMode = ELadderMode::Off;
+  CharaMotionMode = ECharaMotionMode::_0;
+  CharaMotionModeCnt = 0;
+  CharaFallFlag = 0;
+  FixCameraChgCnt = 0;
+
+  CCharacter2* control_character = scene->GetCharacter(scene->m_control_chrid);
+  if (control_character != nullptr)
+  {
+    control_character->SetMotion("立ち", 4); // "Stand"
+    control_character->Step();
+  }
+}
+
+// 001A42B0
+void EditControl(CScene* scene, CPadControl* pad)
+{
+  log_trace("{}({}, {})", __func__, fmt::ptr(scene), fmt::ptr(pad));
+
+  if (LadderMode != ELadderMode::Off)
+  {
+    LadderControl(scene, pad);
+  }
+  else
+  {
+    CharaControl(scene, pad);
+    if (scene->m_unk_field_2E88)
+    {
+      pad = nullptr;
+    }
+    CameraControl(scene, pad);
+  }
+}
+
+// 001A4320
+std::string GetFootEffName(sint id)
+{
+  log_trace("{}({})", __func__, id);
+
+  constexpr static usize name_id[]
+  {
+    0, 3, 0, 0, 0,
+    0, 0, 1, 1, 0,
+    0, 2, 0, 1, 1,
+    0, 1, 0, 2, 0,
+    0, 0, 2, 0, 0,
+    0, 0, 0, 0, 0,
+  };
+
+  constexpr static const char* name[]
+  {
+    nullptr,
+    "足砂煙", // Foot dust cloud
+    "足水パシャ", // Foot water splash (?)
+    "足芝生", // Foot grass
+  };
+
+  if (id < 0 || id >= std::size(name_id) || name[name_id[id]] == nullptr)
+  {
+    return "";
+  }
+
+  return name[name_id[id]];
+}
+
+// 001A4370
+void EditMoveChara(CScene* scene, vec3* v, EditMoveCharaInfo* move_info)
+{
+  log_trace("{}({})", __func__, fmt::ptr(scene), fmt::ptr(v), fmt::ptr(move_info));
+
+  todo;
+}
+
+// 001A4E80
+void EditCameraControl(CScene* scene, CPadControl* pad, const vec3* v)
+{
+  log_trace("{}({})", __func__, fmt::ptr(scene), fmt::ptr(pad), fmt::ptr(v));
+
+  todo;
+}
+
+// 001A57B0
+void CharaControl(CScene* scene, CPadControl* pad)
+{
+  log_trace("{}({}, {})", __func__, fmt::ptr(scene), fmt::ptr(pad));
+  
+  todo;
+}
+
+// 001A5FB0
+void CancelEyeViewMode()
+{
+  log_trace("{}()", __func__);
+
+  EyeViewCancelOnce = true;
+}
+
+// 001A5FC0
+void CameraControl(CScene* scene, CPadControl* pad)
+{
+  log_trace("{}({}, {})", __func__, fmt::ptr(scene), fmt::ptr(pad));
+
+  todo;
+}
+
+// 001A6300
+void InitEyeCamera(CCharacter2* chara, CCameraControl* camera)
+{
+  log_trace("{}({}, {})", __func__, fmt::ptr(chara), fmt::ptr(camera));
+
+  f32 rot = chara->GetRotation().y;
+
+  InitEyeViewFlag = true;
+  viewAngleV = 0.0f;
+  AddProj = 0.0f;
+  ShutterCnt = 0;
+  viewAngleH = rot;
+  OldCameraPos = camera->GetPos();
+}
+
+// 001A6360
+void ResetViewMode(CScene* scene)
+{
+  log_trace("{}({})", __func__, fmt::ptr(scene));
+
+  auto camera = scene->GetCamera(scene->m_active_cmrid);
+
+  if (InitEyeViewFlag)
+  {
+    camera->SetPos(OldCameraPos);
+  }
+
+  InitEyeViewFlag = false;
+
+  if (camera != nullptr)
+  {
+    camera->Step(-1);
+  }
+
+  scene->ResetStatus(ESceneDataType::Character, scene->m_control_chrid, ESceneDataStatus::UNK_10);
+  EndTakePhoto();
+}
+
+// 001A63F0
+void EyeCamera(mgCCamera* camera, CCharacter2* chara, bool b)
+{
+  log_trace("{}({}, {}, {})", __func__, fmt::ptr(camera), fmt::ptr(chara), b);
+
+  todo;
+}
+
+// 001A66F0
+void InitLadder(ELadderMode ladder_mode, CScene* scene, CSceneEventData* event_data)
+{
+  log_trace("{}({}, {}, {})", __func__, std::to_underlying(ladder_mode), fmt::ptr(scene), fmt::ptr(event_data));
+
+  todo;
+}
+
+// 001A6AB0
+void EndLadder()
+{
+  log_trace("{}()", __func__);
+
+  LadderMode = ELadderMode::Off;
+}
+
+// 001A6AC0
+void LadderControl(CScene* scene, CPadControl* pad)
+{
+  log_trace("{}({}, {})", __func__, fmt::ptr(scene), fmt::ptr(pad));
+
+  todo;
+}
+
+// 001A76C0
+void EditStepChara(CScene* scene)
+{
+  log_trace("{}({})", __func__, fmt::ptr(scene));
+
+  scene->StepChara(scene->m_control_chrid);
+
+  for (usize i = 8; i < 64; ++i)
+  {
+    scene->StepChara(i);
+  }
+
+  scene->StepChara(120);
+  scene->StepChara(121);
+  scene->StepChara(122);
+  scene->StepChara(123);
 }

@@ -630,7 +630,7 @@ public:
   // 002C8BF0
   bool CheckDrawCharaShadow(ssize character_index);
   // 002C8C70
-  bool StepChar(ssize character_index);
+  bool StepChara(ssize character_index);
   // 002C8D70
   void GetCharaLighting(matrix4& m, vec4& v);
   // 002C8F80

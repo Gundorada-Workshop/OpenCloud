@@ -326,5 +326,5 @@ sint CCameraControl::Iam() const
 {
   log_trace("CCameraControl::{}()", __func__);
 
-  return 1000;
+  return CCameraControl_TypeID;
 }
