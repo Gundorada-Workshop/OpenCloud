@@ -6,6 +6,8 @@
 #include "dc2/gamepad.h"
 #include "dc2/mg/mg_camera.h"
 
+constexpr sint CCameraControl_TypeID = 1000;
+
 struct CameraCtrlParam
 {
   // 0

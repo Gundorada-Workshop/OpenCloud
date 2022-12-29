@@ -496,11 +496,11 @@ static const std::array<SPI_TAG_PARAM, 3> add_mapinfo_tag =
 };
 
 // 00160C70
-TimeOfDay GetTimeBand(f32 time)
+ETimeBand GetTimeBand(f32 time)
 {
   log_trace("{}({})", __func__, time);
 
-  using enum TimeOfDay;
+  using enum ETimeBand;
 
   if (time < 6.0f || time >= 21.0f)
   {
@@ -525,4 +525,6 @@ TimeOfDay GetTimeBand(f32 time)
     // 5 PM to 9 PM
     return Evening;
   }
+
+  unreachable_code;
 }

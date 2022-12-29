@@ -42,7 +42,7 @@ public:
   // TODO
 };
 
-enum class TimeOfDay : uint
+enum class ETimeBand : uint
 {
   Midday = 0,
   Evening = 1,
@@ -51,4 +51,4 @@ enum class TimeOfDay : uint
 };
 
 // 00160C70
-TimeOfDay GetTimeBand(f32);
+ETimeBand GetTimeBand(f32 time_of_day);

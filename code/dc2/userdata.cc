@@ -24,7 +24,7 @@ static CGameDataUsed* FishGamePreEquip{ nullptr };
 // 00377070
 static f32 BattleParameter_Time{};
 // 00377074
-static TimeOfDay BattleParameter_TimeBand{};
+static ETimeBand BattleParameter_TimeBand{};
 
 // 001960C0
 void SetItemSpectolPoint(ECommonItemData item_id, ATTACH_USED* attach, sint stack_num)
@@ -1581,7 +1581,7 @@ void CGameDataUsed::GetStatusParam(s16* param_dest, f32 time_of_day)
   if (m_common_index == ECommonItemData::Lambs_Sword)
   {
     // The Lambs Sword is stronger at night, but weaker every other time of day.
-    if (GetTimeBand(time_of_day) == TimeOfDay::Night)
+    if (GetTimeBand(time_of_day) == ETimeBand::Night)
     {
       // 150% attack
       param_dest[0] += param_dest[0] / 2;
@@ -2403,6 +2403,14 @@ CUserDataManager::CUserDataManager()
   new (&m_fishing_record) CFishingRecord;
 }
 
+// 0019B380
+void CUserDataManager::RefreshParam()
+{
+  log_trace("CUserDataManager::{}()", __func__);
+
+  todo;
+}
+
 // 0019B450
 CGameDataUsed* CUserDataManager::GetUsedDataPtr(ssize index)
 {
@@ -2753,7 +2761,7 @@ uint CUserDataManager::GetEnableCharaChangeFlag()
 }
 
 // 0019C060
-u16* CUserDataManager::GetCharaStatusAttributePtr(ECharacterID chara_id)
+ECharaStatusAttribute* CUserDataManager::GetCharaStatusAttributePtr(ECharacterID chara_id)
 {
   log_trace("CUserDataManager::{}()", __func__);
 
@@ -2764,9 +2772,33 @@ u16* CUserDataManager::GetCharaStatusAttributePtr(ECharacterID chara_id)
 // 0019C0C0
 void CUserDataManager::SetCharaStatusAttribute(ECharacterID chara_id, ECharaStatusAttribute status, bool b)
 {
-  log_trace("CUserDataManager::{}()", __func__);
+  log_trace("CUserDataManager::{}({}, {}, {})", __func__, std::to_underlying(chara_id), std::to_underlying(status), b);
 
   todo;
+}
+
+// 0019C190
+void CUserDataManager::SetCharaStatusAttributeVol(ECharacterID chara_id, ECharaStatusAttribute status, bool b)
+{
+  log_trace("CUserDataManager::{}({}, {}, {})", __func__, std::to_underlying(chara_id), std::to_underlying(status), b);
+
+  todo;
+}
+
+// 0019C2C0
+ECharaStatusAttribute CUserDataManager::GetCharaStatusAttribute(ECharacterID chara_id)
+{
+  log_trace("CUserDataManager::{}()", __func__, std::to_underlying(chara_id));
+
+  auto status_ptr = GetCharaStatusAttributePtr(chara_id);
+  if (status_ptr == nullptr)
+  {
+    return ECharaStatusAttribute::NONE;
+  }
+  else
+  {
+    return *status_ptr;
+  }
 }
 
 // 0019C2F0
@@ -4254,11 +4286,11 @@ f32 CBattleCharaInfo::AddHp_Point(f32 delta, f32 divisor)
   if (divisor > 1.0f)
   {
     // this is dead code I think
-    m_unk_field_7C = delta / divisor;
+    m_next_hp_delta = delta / divisor;
   }
   else
   {
-    m_unk_field_7C = delta;
+    m_next_hp_delta = delta;
   }
 
   m_unk_field_8C = m_hp_gage->m_current;
@@ -4322,8 +4354,14 @@ ECharaStatusAttribute CBattleCharaInfo::SetAttr(ECharaStatusAttribute attr, bool
 {
   log_trace("CBattleCharaInfo::{}({}, {})", __func__, std::to_underlying(attr), b);
 
-  todo;
-  return static_cast<ECharaStatusAttribute>(0);
+  auto user_data = GetUserDataMan();
+  if (user_data == nullptr)
+  {
+    return ECharaStatusAttribute::NONE;
+  }
+
+  user_data->SetCharaStatusAttribute(m_chara_id, attr, b);
+  return user_data->GetCharaStatusAttribute(m_chara_id);
 }
 
 // 001A0490
@@ -4331,8 +4369,14 @@ ECharaStatusAttribute CBattleCharaInfo::SetAttrVol(ECharaStatusAttribute attr, b
 {
   log_trace("CBattleCharaInfo::{}({}, {})", __func__, std::to_underlying(attr), b);
 
-  todo;
-  return static_cast<ECharaStatusAttribute>(0);
+  auto user_data = GetUserDataMan();
+  if (user_data == nullptr)
+  {
+    return ECharaStatusAttribute::NONE;
+  }
+
+  user_data->SetCharaStatusAttributeVol(m_chara_id, attr, b);
+  return user_data->GetCharaStatusAttribute(m_chara_id);
 }
 
 // 001A0500
@@ -4340,8 +4384,15 @@ ECharaStatusAttribute CBattleCharaInfo::GetAttr()
 {
   log_trace("CBattleCharaInfo::{}()", __func__);
 
-  todo;
-  return static_cast<ECharaStatusAttribute>(0);
+  auto user_data = GetUserDataMan();
+  if (user_data == nullptr)
+  {
+    return ECharaStatusAttribute::NONE;
+  }
+  else
+  {
+    return user_data->GetCharaStatusAttribute(m_chara_id);
+  }
 }
 
 // 001A0550
@@ -4349,7 +4400,12 @@ void CBattleCharaInfo::ForceSet()
 {
   log_trace("CBattleCharaInfo::{}()", __func__);
 
-  todo;
+  if (m_hp_gage != nullptr && m_hp_gage->m_current != m_unk_field_84)
+  {
+    m_unk_field_84 = m_hp_gage->m_current;
+    m_unk_field_8C = -1.0f;
+    m_next_hp_delta = 0.0f;
+  }
 }
 
 // 001A08D0
@@ -4366,7 +4422,83 @@ void CBattleCharaInfo::Step()
 {
   log_trace("CBattleCharaInfo::{}()", __func__);
 
-  todo;
+  COMMON_GAGE* hp_gage = m_hp_gage;
+  if (hp_gage == nullptr)
+  {
+    return;
+  }
+
+  if (m_unk_field_84 < 0.0f)
+  {
+    return;
+  }
+
+  switch (m_chara_id)
+  {
+    case ECharacterID::Monica:
+      if (m_equip_table.as.human->melee.m_common_index == ECommonItemData::Lambs_Sword)
+      {
+        if (GetTimeBand(GetMainScene()->m_time_of_day) != BattleParameter_TimeBand)
+        {
+          RefreshParameter();
+        }
+      }
+      break;
+    case ECharacterID::Ridepod:
+      hp_gage->m_current -= m_unk_field_C;
+      m_unk_field_84 -= m_unk_field_C;
+      if (hp_gage->m_current <= 0.0f)
+      {
+        hp_gage->m_current = 0.0f;
+        m_unk_field_84 = 0.0f;
+      }
+      break;
+    case ECharacterID::Monster:
+      m_chara_data_as.monster->m_whp_gage.m_current -= -m_unk_field_10;
+      if (m_chara_data_as.monster->m_whp_gage.m_current <= 0.0f)
+      {
+        m_chara_data_as.monster->m_whp_gage.m_current = 0.0f;
+      }
+      break;
+    default:
+      break;
+  }
+
+  if (m_unk_field_84 != hp_gage->m_current)
+  {
+    if (m_next_hp_delta != 0.0f)
+    {
+      sint i = static_cast<sint>(m_next_hp_delta);
+      if (i == 0)
+      {
+        if (m_next_hp_delta < 0.0f)
+        {
+          i = -1;
+        }
+        else
+        {
+          i = 1;
+        }
+      }
+
+      m_unk_field_84 += static_cast<f32>(i);
+      m_unk_field_84 = std::clamp(m_unk_field_84, 0.0f, hp_gage->m_max);
+    }
+    else
+    {
+      m_unk_field_84 = hp_gage->m_current;
+    }
+  }
+  else
+  {
+    m_next_hp_delta = 0.0f;
+    m_unk_field_8C = hp_gage->m_current;
+  }
+
+  if (hp_gage->m_current <= 0.0f)
+  {
+    SetAttr(ECharaStatusAttribute::ALL, true);
+  }
 }
 
 // 00196E10
@@ -4430,6 +4562,137 @@ void GameDataSwap(CGameDataUsed* data1, CGameDataUsed* data2, bool check_fishing
       SetFishingGamePreEquip(data1);
     }
   }
+}
+
+// 001A0590
+sint GetRandomCircleTrapID(bool devil)
+{
+  log_trace("{}({})", __func__, devil);
+
+  auto chara_id = GetBattleCharaInfo()->m_chara_id;
+  uint random_num = rand();
+  srand(random_num);
+
+  sint trap_id = 0;
+
+  if (!devil)
+  {
+    // BUG: A modulo by 3, *not* 4, occurs here
+    // See 001A05C8
+    constexpr static s8 tbl1[] = { 1, 2, 3, 4 };
+    trap_id = tbl1[random_num % 3];
+  }
+  else
+  {
+    constexpr static s8 tbl2[] = { 6, 7 };
+    trap_id = tbl2[random_num % 2];
+
+    if (trap_id == 7)
+    {
+      trap_id = (GetRandI(11) + GetRandI(21)) / 2 + 8;
+      if (chara_id == ECharacterID::Monica)
+      {
+        trap_id += 2;
+      }
+    }
+  }
+
+  if (chara_id == ECharacterID::Ridepod)
+  {
+    trap_id = -2;
+  }
+
+  if (chara_id == ECharacterID::Monster)
+  {
+    if (trap_id != 4 && trap_id != 12)
+    {
+      trap_id = -1;
+    }
+  }
+
+  return trap_id;
+}
+
+// 001A06B0
+bool SetRandomCircleStatus(sint trap_id, f32* abs_bonus_dest)
+{
+  log_trace("{}({})", __func__, trap_id, fmt::ptr(abs_bonus_dest));
+
+  auto battle_chara_info = GetBattleCharaInfo();
+  bool result = false;
+
+  switch (trap_id)
+  {
+    case 1:
+    {
+      // Abs Bonus
+      f32 melee_bonus = battle_chara_info->GetNowAccessAbs(0)->m_max * 0.1f;
+      f32 ranged_bonus = battle_chara_info->GetNowAccessAbs(1)->m_max * 0.1f;
+      *abs_bonus_dest = melee_bonus + ranged_bonus;
+      break;
+    }
+    case 2:
+    {
+      // Full Restore
+      battle_chara_info->AddHp_Rate(1.0f, 0, 0.0f);
+      battle_chara_info->SetAttr(ECharaStatusAttribute::ALL & ~ECharaStatusAttribute::_10, true);
+      result = true;
+      break;
+    }
+    case 3:
+    {
+      // Full Repair
+      auto user_data = GetUserDataMan();
+      if (user_data == nullptr)
+      {
+        break;
+      }
+
+      auto max_chara = user_data->GetCharaDataPtr(ECharacterID::Max);
+      auto monica_chara = user_data->GetCharaDataPtr(ECharacterID::Monica);
+
+      max_chara->m_equip_table.melee.Repair(999);
+      max_chara->m_equip_table.ranged.Repair(999);
+
+      monica_chara->m_equip_table.melee.Repair(999);
+      monica_chara->m_equip_table.ranged.Repair(999);
+
+      result = true;
+      break;
+    }
+    case 5:
+    {
+      battle_chara_info->SetAttr(ECharaStatusAttribute::_1, false);
+      result = true;
+      break;
+    }
+    case 6:
+    {
+      battle_chara_info->AddHp_Rate(-0.5f, 3, 0.0f);
+      result = true;
+      break;
+    }
+    case 8:
+    case 10:
+    {
+      // Half ranged weapon WHP
+      auto whp = battle_chara_info->GetNowAccessWHp(1);
+      whp->m_current *= 0.5f;
+      result = true;
+    }
+    case 9:
+    case 11:
+    {
+      // Half melee weapon WHP
+      auto whp = battle_chara_info->GetNowAccessWHp(0);
+      whp->m_current *= 0.5f;
+      result = true;
+    }
+    default:
+      break;
+  }
+
+  return result;
 }
 
 // 001A0EA0
@@ -4546,6 +4809,39 @@ ECharacterID IsItemtypeWhoisEquip(ECommonItemData item_id, ssize* equip_index_de
   return chara_result.value_or(ECharacterID::Invalid);
 }
 
+// 001A16B0
+void CheckItemDngKey()
+{
+  log_trace("{}()", __func__);
+
+  auto user_data = GetUserDataMan();
+  if (user_data == nullptr)
+  {
+    return;
+  }
+
+  // Look for any keys (i.e. key to enter a room, or key to enter next floor) and wipe 'em
+  auto p_items = user_data->GetUsedDataPtr(0);
+  auto capacity = GetNowBagMax(true);
+  for (usize i = 0; i < capacity; ++i)
+  {
+    if (p_items[i].m_item_data_type == ECommonItemDataType::Dungeon_Key)
+    {
+      // Banish that item to the shadow realm (hell in the JP version)
+      new (&p_items[i]) CGameDataUsed();
+    }
+  }
+
+  // Set minimum HPs and attributes for characters
+  user_data->m_chara_data[std::to_underlying(ECharacterID::Max)].m_chara_hp_gage.m_current =
+    std::max(user_data->GetHp(ECharacterID::Max), 1.0f);
+  user_data->m_chara_data[std::to_underlying(ECharacterID::Monica)].m_chara_hp_gage.m_current =
+    std::max(user_data->GetHp(ECharacterID::Monica), 1.0f);
+
+  user_data->SetCharaStatusAttribute(ECharacterID::Max, ECharaStatusAttribute::_1, true);
+  user_data->SetCharaStatusAttribute(ECharacterID::Monica, ECharaStatusAttribute::_1, true);
+}
+
 // 001A17C0
 void PlayerPartyCure()
 {
@@ -4567,6 +4863,20 @@ void PlayerPartyCure()
 
   // Monsters
   user_data->m_monster_box.AllCure();
+}
+
+// 001A1850
+void UserDataRefresh()
+{
+  log_trace("{}()", __func__);
+
+  auto user_data = GetUserDataMan();
+  if (user_data == nullptr)
+  {
+    return;
+  }
+
+  user_data->RefreshParam();
 }
 
 // 001A1880

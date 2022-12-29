@@ -630,7 +630,7 @@ public:
   // 002C8BF0
   bool CheckDrawCharaShadow(ssize character_index);
   // 002C8C70
-  bool StepChar(ssize character_index);
+  bool StepChara(ssize character_index);
   // 002C8D70
   void GetCharaLighting(matrix4& m, vec4& v);
   // 002C8F80
@@ -695,28 +695,28 @@ public:
   void DrawGameObject(ssize gameobj_index);
 
 
-  // 0
-  ssize m_n_stacks_capacity;
-  // 4
-  ssize m_n_stacks_length;
   // 8
-  std::array<mgCMemory*, 12> m_stacks;
+  std::array<mgCMemory*, 12> m_stacks{ nullptr };
+  // 0
+  //ssize m_n_stacks_capacity{ m_stacks.size() };
+  // 4
+  ssize m_n_stacks_length{ 0 };
   // 38
-  unk m_unk_field_38;
+  unk m_unk_field_38{ 0 };
   // 3C
-  unk m_unk_field_3C;
-  // 40
-  ssize m_n_characters;
+  unk m_unk_field_3C{ 0 };
   // 44
-  std::array<CSceneCharacter, 128> m_characters;
-  // 2044
-  ssize m_n_cameras;
+  std::array<CSceneCharacter, 128> m_characters{};
+  // 40
+  //ssize m_n_characters{ m_characters.size() };
   // 2048
-  std::array<CSceneCamera, 8> m_cameras;
-  // 2208
-  ssize m_n_messages;
+  std::array<CSceneCamera, 8> m_cameras{};
+  // 2044
+  //ssize m_n_cameras{ m_cameras.size() };
   // 220C
-  std::array<CSceneMessage, 8> m_messages;
+  std::array<CSceneMessage, 8> m_messages{};
+  // 2208
+  //ssize m_n_messages{ m_messages.size() };
   // 23D0
   CMdsListSet m_mds_list_set;
 
@@ -724,22 +724,22 @@ public:
 
   // 24F0
   CFireRaster m_fire_raster;
-  // 27E0
-  usize m_n_maps;
   // 27E4
   std::array<CSceneMap, 4> m_maps;
-  // 28C4
-  usize m_n_skies;
+  // 27E0
+  //usize m_n_maps{ m_maps.size() };
   // 28C8
   std::array<CSceneSky, 4> m_skies;
-  // 29A8
-  usize m_n_gameobjs;
+  // 28C4
+  //usize m_n_skies{ m_skies.size() };
   // 29AC
   std::array<CSceneGameObj, 4> m_gameobjs;
-  // 2AAC
-  usize m_n_effects;
+  // 29A8
+  //usize m_n_gameobjs{ m_gameobjs.size() };
   // 2AB0
   std::array<CSceneEffect, 8> m_effects;
+  // 2AAC
+  //usize m_n_effects{ m_effects.size() };
   // 2C70
   CFadeInOut m_fade_in_out{};
   // 2CA0
@@ -748,13 +748,13 @@ public:
   SCN_LOADMAP_INFO2 m_scn_loadmap_info;
   // 2E50
   // TODO: enum?
-  s32 m_control_chrid;
+  s32 m_control_chrid{ -1 };
   // 2E54
-  s32 m_active_cmrid;
+  s32 m_active_cmrid{ -1 };
   // 2E58
-  s32 m_before_cmrid;
+  s32 m_before_cmrid{ -1 };
   // 2E5C
-  s32 m_unk_field_2E5C;
+  s32 m_unk_field_2E5C{ -1 };
   // 2E60
   s32 m_now_map_no{ -1 };
   // 2E64
@@ -764,15 +764,15 @@ public:
   // 2E6C
   s32 m_old_submap_no{ -1 };
   // 2E70
-  unk m_unk_field_2E70;
+  unk m_unk_field_2E70{ 0 };
   // 2E74
-  unk m_unk_field_2E74;
+  unk m_unk_field_2E74{ 0 };
   // 2E78
-  unk m_unk_field_2E78;
+  unk m_unk_field_2E78{ 0 };
   // 2E7C
-  unk m_unk_field_2E7C;
+  unk m_unk_field_2E7C{ 0 };
   // 2E80
-  unk m_unk_field_2E80;
+  unk m_unk_field_2E80{ 0 };
   // 2E84
   unk m_unk_field_2E84;
   // 2E88
@@ -780,35 +780,35 @@ public:
   // 2E8C
   s32 m_unk_field_2E8C{};
   // 2E90
-  CSceneEventData m_scene_event_data;
+  CSceneEventData m_scene_event_data{};
   // 2F64
-  unk m_unk_field_2F64;
+  unk m_unk_field_2F64{ 0 };
   // 2F68
-  unk m_unk_field_2F68;
+  unk m_unk_field_2F68{ 0 };
   // 2F6C
-  unk m_unk_field_2F6C;
+  f32 m_time_of_day{ 0.0f };
   // 2F70
-  float m_unk_field_2F70;
+  f32 m_unk_field_2F70{ 0.00088f };
   // 2F74
-  unk m_unk_field_2F74;
+  unk m_unk_field_2F74{ 0 };
   // 2F78
-  float m_wind_velocity;
+  f32 m_wind_velocity{ 0.0f };
   // 2F80
-  vec3 m_wind_direction;
+  vec3 m_wind_direction{ 0.0f, 0.0f, 0.0f };
   // 2F90
   BATTLE_AREA_SCENE m_battle_area_scene{};
   // 3038
-  unk m_unk_field_3038;
+  unk m_unk_field_3038{ 0 };
   // 303C
-  unk m_unk_field_303C;
+  unk m_unk_field_303C{ 0 };
   // 3040
   CSaveData* m_save_data{ nullptr };
   // 3050
   CVillagerMngr m_villager_manager;
   // 3E60
-  unk m_unk_field_3E60;
+  s32 m_unk_field_3E60{ -1 };
   // 3E64
-  unk m_unk_field_3E64;
+  s32 m_unk_field_3E64{ -1 };
   // 3E68
   unk32 m_unk_field_3E68{};
   // 3E6C

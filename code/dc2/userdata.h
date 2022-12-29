@@ -12,8 +12,11 @@
 
 enum class ESpecialStatus;
 
-// TODO THIS FILE
-struct MOS_CHANGE_PARAM {};
+struct MOS_CHANGE_PARAM
+{
+  // 10
+  f32 m_unk_field_10{};
+};
 
 enum class EItemCmd
 {
@@ -640,6 +643,9 @@ public:
   // 0019b160
   void Initialize();
 
+  // 0019B380
+  void RefreshParam();
+
   // 0019B450
   CGameDataUsed* GetUsedDataPtr(ssize index);
 
@@ -710,10 +716,16 @@ public:
   uint GetEnableCharaChangeFlag();
 
   // 0019C060
-  u16* GetCharaStatusAttributePtr(ECharacterID chara_id);
+  ECharaStatusAttribute* GetCharaStatusAttributePtr(ECharacterID chara_id);
 
   // 0019C0C0
   void SetCharaStatusAttribute(ECharacterID chara_id, ECharaStatusAttribute status, bool b);
+
+  // 0019C190
+  void SetCharaStatusAttributeVol(ECharacterID chara_id, ECharaStatusAttribute status, bool b);
+
+  // 0019C2C0
+  ECharaStatusAttribute GetCharaStatusAttribute(ECharacterID chara_id);
 
   // 0019C2F0
   SMonsterBadgeData* GetMonsterBadgeDataPtr();
@@ -943,7 +955,7 @@ private:
   union {
     SCharaData* human{ nullptr };
     ROBO_DATA* robot;
-    MOS_CHANGE_PARAM* monster;
+    SMonsterBadgeData* monster;
   } m_chara_data_as;
   // C
   f32 m_unk_field_C{};
@@ -976,7 +988,7 @@ private:
   // 78
   f32 m_unk_field_78{};
   // 7C
-  f32 m_unk_field_7C{ 0.0f };
+  f32 m_next_hp_delta{ 0.0f };
   // 80
   f32 m_unk_field_80{ -1.0f };
   // 84
@@ -1136,6 +1148,12 @@ void LanguageEquipChange();
 // 0019EE70
 void CheckEquipChange(ECharacterID chara_id);
 
+// 001A0590
+sint GetRandomCircleTrapID(bool devil);
+
+// 001A06B0
+bool SetRandomCircleStatus(sint trap_id, f32* abs_bonus_dest);
+
 // 001A0EA0
 CBattleCharaInfo* GetBattleCharaInfo();
 
@@ -1148,8 +1166,14 @@ ECommonItemDataType SearchEquipType(ECharacterID chara_id, ssize equip_index);
 // 001A11F0
 ECharacterID IsItemtypeWhoisEquip(ECommonItemData item_id, ssize* equip_index_dest = nullptr);
 
+// 001A16B0
+void CheckItemDngKey();
+
 // 001A17C0
 void PlayerPartyCure();
+
+// 001A1850
+void UserDataRefresh();
 
 // 001A1880
 void DeleteErekiFish();
