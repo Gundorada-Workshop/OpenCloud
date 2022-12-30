@@ -31,6 +31,24 @@ class CWaterFrame
 {
 };
 
+class CWaveTable
+{
+public:
+  // 001A2110
+  CWaveTable();
+
+  // 0
+  std::array<std::array<unk32, 24>, 24> m_unk_field_0;
+
+  // 900
+  std::array<std::array<unk32, 24>, 24> m_unk_field_900;
+
+  // 1200
+  unk32 m_unk_field_1200;
+
+  // SIZE 0x1208 (vtable w/ (probably not called) destructor only @ 0x1204)
+};
+
 class CEffect
 {
 };

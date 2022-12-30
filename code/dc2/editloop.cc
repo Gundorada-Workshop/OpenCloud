@@ -5,6 +5,7 @@
 #include "common/log.h"
 
 #include "dc2/editloop.h"
+#include "dc2/effect.h"
 #include "dc2/ls_mes.h"
 #include "dc2/mainloop.h"
 #include "dc2/mg/mg_frame.h"
@@ -271,16 +272,6 @@ static mgCFrame TestFrame{ };
 
 // 01E9F0F0
 static std::array<unk32, 0x10> beforeAnalyze{ };
-
-// 001A2110
-CWaveTable::CWaveTable()
-{
-  log_trace("CWaveTable::CWaveTable()");
-
-  memset(&m_unk_field_0, 0, sizeof(m_unk_field_0));
-  memset(&m_unk_field_900, 0, sizeof(m_unk_field_900));
-  m_unk_field_1200 = 0;
-}
 
 // 002EF9B0
 void CEditEvent::Reset()
