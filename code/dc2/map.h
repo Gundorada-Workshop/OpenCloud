@@ -206,13 +206,13 @@ public:
   std::optional<mgVu0FBOX> GetBBox() const;
 
   // 00167220
-  std::optional<mgVu0FBOX> GetBoundBox() const;
+  std::optional<mgVu0FBOX> GetBoundBox();
 
   // 00167280
-  std::optional<vec4> GetBoundSphere() const;
+  std::optional<vec4> GetBoundSphere();
 
   // 00167300
-  matrix4 GetLWMatrix() const;
+  matrix4 GetLWMatrix();
 
   // 00167350
   bool InsideScreen() const;

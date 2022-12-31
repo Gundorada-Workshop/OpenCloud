@@ -984,7 +984,7 @@ std::optional<mgVu0FBOX> CMapParts::GetBBox() const
 }
 
 // 00167220
-std::optional<mgVu0FBOX> CMapParts::GetBoundBox() const
+std::optional<mgVu0FBOX> CMapParts::GetBoundBox()
 {
   log_trace("CMapParts::{}()", __func__);
 
@@ -1003,7 +1003,7 @@ std::optional<mgVu0FBOX> CMapParts::GetBoundBox() const
 }
 
 // 00167280
-std::optional<vec4> CMapParts::GetBoundSphere() const
+std::optional<vec4> CMapParts::GetBoundSphere()
 {
   log_trace("CMapParts::{}()", __func__);
 
@@ -1022,12 +1022,12 @@ std::optional<vec4> CMapParts::GetBoundSphere() const
 }
 
 // 00167300
-matrix4 CMapParts::GetLWMatrix() const
+matrix4 CMapParts::GetLWMatrix()
 {
   log_trace("CMapParts::{}()", __func__);
 
-  todo;
-  return matrix4{};
+  UpdatePosition();
+  return m_unk_field_C0.GetLWMatrix();
 }
 
 // 00167350
