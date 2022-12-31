@@ -3,30 +3,19 @@
   <Import Project="$(SolutionDir)\.msvc\Base.Targets.Props" />
   <Import Project="$(SolutionDir)\.msvc\Base.Globals.Props" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{CB2DFB73-AE82-46CE-A1A6-F38C41BF1E99}</ProjectGuid>
-    <ProjectName>conda</ProjectName>
+    <ProjectGuid>{98B893CD-0324-441E-8EBA-0267427E25C1}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <Import Project="$(SolutionDir)\.msvc\Application.Configuration.Props" />
+  <Import Project="$(SolutionDir)\.msvc\StaticLibrary.Configuration.Props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
   <ItemGroup>
-    <!-- cpp files -->
-    <ClCompile Include="cli.cc" />
-    <ClCompile Include="iso9660\iso_file.cc" />
+    <ClInclude Include="rs\analyzer.h" />
+    <ClInclude Include="rs\bytecode.h" />
+    <ClInclude Include="rs\file.h" />
   </ItemGroup>
   <ItemGroup>
-    <!-- hpp files -->
-    <ClInclude Include="hd\hd_file.h" />
-    <ClInclude Include="img.h" />
-    <ClInclude Include="iso9660\iso_file.h" />
-    <ClInclude Include="iso9660\types.h" />
-    <ClInclude Include="pak.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\code\script\script.vcxproj">
-      <Project>{98b893cd-0324-441e-8eba-0267427e25c1}</Project>
-    </ProjectReference>
+    <ClCompile Include="rs\analyzer.cc" />
   </ItemGroup>
   <Import Project="$(SolutionDir)code\common\common.exports.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

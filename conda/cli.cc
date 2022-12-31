@@ -14,6 +14,9 @@
 #include "common/file_helpers.h"
 #include "common/scoped_function.h"
 
+#include "script/rs/file.h"
+#include "script/rs/analyzer.h"
+
 #include "iso9660/iso_file.h"
 #include "hd/hd_file.h"
 #include "pak.h"
@@ -560,6 +563,93 @@ static bool cmd_ls_img(const cmd_info& info, const string_list& args)
 
 static bool cmd_decompile_script(MAYBE_UNUSED const cmd_info& info, MAYBE_UNUSED const string_list& args)
 {
+  using namespace script::rs;
+
+  if (args.size() != 1)
+  {
+    print_command_help(info);
+
+    return true;
+  }
+
+  std::unique_ptr<data_stream_base> input_file_stream = file_stream::open(args[0], "rb");
+
+  if (!input_file_stream)
+  {
+    log_error("Failed to open input file {}", args[0]);
+
+    return false;
+  }
+
+  script::rs::header header;
+  if (!input_file_stream->read(&header))
+  {
+    log_error("Failed to read header");
+
+    return false;
+  }
+
+  if (std::strncmp(header.magic, "SB2", 4) != 0)
+  {
+    log_error("Only SB2 scripts are supported");
+
+    return false;
+  }
+
+  auto code_size = input_file_stream->size() - header.data_start_byte_offset;
+  if (!code_size)
+  {
+    log_error("No vmcode found");
+
+    return false;
+  }
+
+  input_file_stream->seek(header.data_start_byte_offset);
+
+  auto code_memory_stream = managed_memory_stream::create(code_size);
+
+  if (!input_file_stream->copy_bytes_to_stream(code_memory_stream.get(), code_size))
+  {
+    log_error("Failed to read input file");
+
+    return false;
+  }
+
+  auto functions = script::rs::discover_functions(code_memory_stream);
+  auto labels = script::rs::discover_labels(functions);
+
+  for (const auto& func : functions)
+  {
+    console::writeln_format("{:#08x} fun_{:06x}: // argc: {}, stack: {}",
+      func.code_address, func.address, func.argument_count, func.stack_entry_count);
+
+    for (const auto& bytecode : func.code)
+    {
+      const auto itr = labels.find(bytecode.address);
+
+      if (itr != labels.end())
+        console::writeln_format("{:#08x} {}", bytecode.address, itr->second);
+
+      // special case for strings
+      // TODO: refactor this to be less icky
+      // maybe rely on fmt a lot less
+      if (bytecode.inst.opcode == opcode::_push && bytecode.inst.load_store_immediate.type == value_data_type::_str)
+      {
+        const auto citr = func.constants.find(bytecode.inst.load_store_immediate.data._str);
+        if (citr != func.constants.end())
+        {
+          std::string s = citr->second;
+          std::replace(s.begin(), s.end(), '\n', ' ');
+
+          console::writeln_format("{:#08x}    {} // {}", bytecode.address, bytecode.inst, s);
+          continue;
+        }
+      }
+
+      console::writeln_format("{:#08x}    {}", bytecode.address, bytecode.inst);
+    }
+  }
+
   return true;
 }
 
