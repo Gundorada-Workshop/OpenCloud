@@ -38,7 +38,6 @@ class CMapFlagData {};
 class CPartsGroup {};
 class CFuncPoint {};
 class CFuncPointCheck {};
-struct PieceMaterial {};
 class CCameraInfo {};
 class CCameraDrawInfo {};
 class CMapWater {};
@@ -50,6 +49,16 @@ class CMapEffect_Sprite {};
 class CMapEffect {};
 class CMapEffectsManager {};
 class COcclusion {};
+
+struct PieceMaterial
+{
+  // 8
+  bool m_unk_field_8{};
+  // C
+  usize m_color_idx{};
+  // 10
+  vec4 m_color{};
+};
 
 class CMapPiece : public CObjectFrame
 {
@@ -179,7 +188,7 @@ public:
   std::optional<vec4> GetColor(ssize index) const;
 
   // 001667F0
-  std::optional<vec4> GetDefColor(ssize index, const vec4& rgba) const;
+  std::optional<vec4> GetDefColor(ssize index, const vec4& rgba);
 
   // 001668E0
   void UpdateColor();

@@ -890,12 +890,29 @@ std::optional<vec4> CMapParts::GetColor(ssize index) const
 }
 
 // 001667F0
-std::optional<vec4> CMapParts::GetDefColor(ssize index, const vec4& rgba) const
+std::optional<vec4> CMapParts::GetDefColor(ssize index, const vec4& rgba)
 {
   log_trace("CMapParts::{}({}, {})", __func__, index, fmt::ptr(&rgba));
 
-  todo;
-  return vec4{};
+  if (index < 0 || index >= m_color.size())
+  {
+    return std::nullopt;
+  }
+
+  for (auto& map_piece : m_map_pieces)
+  {
+    for (usize i = 0; i < map_piece.m_material.size(); ++i)
+    {
+      PieceMaterial* piece_material = map_piece.GetMaterial(i);
+
+      if (piece_material->m_unk_field_8 && piece_material->m_color_idx == index)
+      {
+        return piece_material->m_color;
+      }
+    }
+  }
+
+  return std::nullopt;
 }
 
 // 001668E0
