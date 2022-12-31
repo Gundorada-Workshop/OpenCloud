@@ -1,6 +1,7 @@
 #pragma once
-#include "log.h"
 #include <limits>
+
+#include "common/log.h"
 
 namespace common::log
 {

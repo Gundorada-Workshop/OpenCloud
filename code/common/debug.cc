@@ -6,9 +6,9 @@
 #include <DbgHelp.h>
 #endif
 
-#include "types.h"
-#include "console.h"
-#include "debug.h"
+#include "common/types.h"
+#include "common/console.h"
+#include "common/debug.h"
 
 namespace common::debug
 {

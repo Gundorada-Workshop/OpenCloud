@@ -3,9 +3,9 @@
 #include <optional>
 #include <fmt/core.h>
 
-#include "types.h"
-#include "strings.h"
-#include "debug.h"
+#include "common/types.h"
+#include "common/strings.h"
+#include "common/debug.h"
 
 namespace common::log
 {

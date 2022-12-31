@@ -1,6 +1,6 @@
 #pragma once
 #include <fmt/core.h>
-#include "strings.h"
+#include "common/strings.h"
 
 namespace common::console
 {
