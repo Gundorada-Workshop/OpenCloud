@@ -95,6 +95,7 @@
     <ClCompile Include="monster.cc" />
     <ClCompile Include="monster_func.cc" />
     <ClCompile Include="character_func.cc" />
+    <ClCompile Include="object_anime.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
@@ -193,6 +194,7 @@
     <ClInclude Include="monster.h" />
     <ClInclude Include="monster_func.h" />
     <ClInclude Include="character_func.h" />
+    <ClInclude Include="object_anime.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="opencloud2.exports.props" />
