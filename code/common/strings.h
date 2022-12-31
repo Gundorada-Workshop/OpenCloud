@@ -17,6 +17,15 @@ namespace common::strings
   std::optional<std::string>  wstring_to_utf8(std::wstring_view wide);
   std::optional<std::wstring> utf8_to_wstring(std::string_view utf8);
   std::optional<std::string> sjis_to_utf8(std::string_view sjis);
+
+  std::string wstring_to_utf8_or_none(std::wstring_view wide);
+  std::string wstring_to_utf8_or_panic(std::wstring_view wide);
+
+  std::wstring utf8_to_wstring_or_none(std::string_view utf8);
+  std::wstring utf8_to_wstring_or_panic(std::string_view utf8);
+
+  std::string sjis_to_utf8_or_none(std::string_view sjis);
+  std::string sjis_to_utf8_or_panic(std::string_view sjis);
 #endif // _WIN32
 
   // format a string

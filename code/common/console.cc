@@ -153,8 +153,8 @@ namespace common::console
     const auto s = std::string{ msg };
 
 #if defined(_WIN32)
-    const auto wide = strings::utf8_to_wstring(s).value_or(L"");
-    fwprintf(stderr, L"%s", wide.c_str());
+    const auto wide = strings::utf8_to_wstring_or_none(s);
+    WriteConsoleW(s_out_handle, wide.c_str(), wide.size(), NULL, NULL);
 #else
     fprintf(stdout, "%s", s.c_str());
 #endif
@@ -165,8 +165,8 @@ namespace common::console
     const auto s = std::string{ msg };
 
 #if defined(_WIN32)
-    const auto wide = strings::utf8_to_wstring(s).value_or(L"");
-    fwprintf(stderr, L"%s", wide.c_str());
+    const auto wide = strings::utf8_to_wstring_or_none(s);
+    WriteConsoleW(s_err_handle, wide.c_str(), wide.size(), NULL, NULL);
 #else
     fprintf(stderr, "%s", s.c_str());
 #endif

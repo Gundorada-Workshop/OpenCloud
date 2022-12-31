@@ -1,7 +1,9 @@
-#include "strings.h"
 #if defined(_WIN32)
 #include <Windows.h>
 #endif
+
+#include "common/strings.h"
+#include "common/debug.h"
 
 namespace common::strings
 {
@@ -72,6 +74,57 @@ namespace common::strings
       return std::nullopt;
 
     return wstring_to_utf8(out);
+  }
+
+  std::string wstring_to_utf8_or_none(std::wstring_view wide)
+  {
+    const auto utf8 = wstring_to_utf8(wide);
+
+    return utf8.value_or("");
+  }
+
+  std::string wstring_to_utf8_or_panic(std::wstring_view wide)
+  {
+    auto utf8 = wstring_to_utf8(wide);
+
+    if (!utf8)
+      common::debug::panic("Failed to convert wide string to utf8 string");
+
+    return utf8.value();
+  }
+
+  std::wstring utf8_to_wstring_or_none(std::string_view utf8)
+  {
+    const auto wide = utf8_to_wstring(utf8);
+
+    return wide.value_or(L"");
+  }
+
+  std::wstring utf8_to_wstring_or_panic(std::string_view utf8)
+  {
+    const auto wide = utf8_to_wstring(utf8);
+
+    if(!wide)
+      common::debug::panic("Failed to convert utf8 string to wide string");
+
+    return wide.value();
+  }
+
+  std::string sjis_to_utf8_or_none(std::string_view sjis)
+  {
+    const auto utf8_string = sjis_to_utf8(sjis);
+
+    return utf8_string.value_or("");
+  }
+
+  std::string sjis_to_utf8_or_panic(std::string_view sjis)
+  {
+    auto utf8 = sjis_to_utf8(sjis);
+
+    if (!utf8)
+      common::debug::panic("Failed to convert sjis string to utf8 string");
+
+    return utf8.value();
   }
 #endif
 }

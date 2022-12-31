@@ -394,5 +394,3 @@ namespace iso9660
     return true;
   }
 }
-
-std::unique_ptr<iso9660::file> g_iso_file{ };
