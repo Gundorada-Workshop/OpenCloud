@@ -176,10 +176,10 @@ public:
   bool SetColor(ssize index, const vec4& rgba);
 
   // 001667B0
-  vec4 GetColor(ssize index) const;
+  std::optional<vec4> GetColor(ssize index) const;
 
   // 001667F0
-  vec4 GetDefColor(ssize index, const vec4& rgba) const;
+  std::optional<vec4> GetDefColor(ssize index, const vec4& rgba) const;
 
   // 001668E0
   void UpdateColor();

@@ -851,8 +851,7 @@ sint CMapParts::GetColPoly(CCPoly* dest, mgVu0FBOX& box, sint i2)
 {
   log_trace("CMapParts::{}({}, {}, {})", __func__, fmt::ptr(dest), fmt::ptr(&box), i2);
 
-  todo;
-  return 0;
+  return GetPoly(1, dest, box, i2);
 }
 
 // 001666D0
@@ -860,8 +859,7 @@ sint CMapParts::GetCameraPoly(CCPoly* dest, mgVu0FBOX& box, sint i2)
 {
   log_trace("CMapParts::{}({}, {}, {})", __func__, fmt::ptr(dest), fmt::ptr(&box), i2);
 
-  todo;
-  return 0;
+  return GetPoly(3, dest, box, i2);
 }
 
 // 00166760
@@ -869,21 +867,30 @@ bool CMapParts::SetColor(ssize index, const vec4& rgba)
 {
   log_trace("CMapParts::{}({}, {})", __func__, index, fmt::ptr(&rgba));
 
-  todo;
-  return false;
+  if (index < 0 || index >= m_color.size())
+  {
+    return false;
+  }
+
+  m_color[index] = rgba;
+  return true;
 }
 
 // 001667B0
-vec4 CMapParts::GetColor(ssize index) const
+std::optional<vec4> CMapParts::GetColor(ssize index) const
 {
   log_trace("CMapParts::{}({})", __func__, index);
 
-  todo;
-  return vec4{};
+  if (index < 0 || index >= m_color.size())
+  {
+    return std::nullopt;
+  }
+
+  return m_color[index];
 }
 
 // 001667F0
-vec4 CMapParts::GetDefColor(ssize index, const vec4& rgba) const
+std::optional<vec4> CMapParts::GetDefColor(ssize index, const vec4& rgba) const
 {
   log_trace("CMapParts::{}({}, {})", __func__, index, fmt::ptr(&rgba));
 
