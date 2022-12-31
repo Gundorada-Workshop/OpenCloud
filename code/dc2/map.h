@@ -14,6 +14,7 @@ class CMdsInfo;
 class CMapParts;
 struct InScreenFuncInfo;
 class CMdsListSet;
+class CCharacter2;
 
 // FIXME: Find out where this should go
 // 12/29/22 nah just use an std::list instead (or vector if you're confident with changing that spec)
@@ -44,7 +45,6 @@ class CMapWater {};
 class CMapInfo {};
 class CMapLightingInfo {};
 class CMapTreasureBox {};
-class CMapPiece {};
 class CMapSky {};
 class CMapEffect_Sprite {};
 class CMapEffect {};
@@ -56,6 +56,58 @@ public:
   // TODO
 };
 
+class CMapPiece : public CObjectFrame
+{
+public:
+  // 00168AC0
+  CMapPiece();
+
+  // 00168850
+  CMapPiece(CMapPiece& other);
+public:
+  // 00166E40
+  virtual unkptr Draw() override;
+  
+  // 0015E3E0
+  virtual unkptr DrawDirect() override;
+
+  // 00162750
+  void SetMaterial(usize capacity);
+
+  // 00168520
+  void AssignMds(CMdsInfo* mds_info);
+
+  // 00168570
+  sint GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2);
+
+  // 00168620
+  void SetTimeBand(f32 f1, f32 f2);
+
+  // 00168630
+  PieceMaterial* GetMaterial(ssize index);
+
+  // 00168680
+  void Step();
+
+  // 001686D0
+  std::optional<mgVu0FBOX> GetBoundBox();
+
+  // 00168730
+  unkptr DrawSub(bool b);
+
+  // 80
+  std::string m_name{};
+
+  // 8C (capacity), 90 (buf)
+  std::vector<PieceMaterial> m_material{};
+  // 94
+  f32 m_unk_field_94{};
+  // 98
+  f32 m_unk_field_98{};
+  // 9C
+  CCharacter2* m_unk_field_9C{};
+};
+
 class CMap
 {
 public:
@@ -63,16 +115,16 @@ public:
   static constexpr const char CMapName[] = "CMap";
 
   // 0015E250
-  virtual void DrawSub(bool b);
+  virtual unkptr DrawSub(bool b);
 
   // 00160B10
-  virtual void Draw();
+  virtual unkptr Draw();
 
   // 00160B30
-  virtual void DrawDirect();
+  virtual unkptr DrawDirect();
 
   // 0015D7A0
-  virtual void PreDraw(vec3* v);
+  virtual bool PreDraw(vec3* v);
 
   // 0015E3F0
   virtual void DrawEffect();

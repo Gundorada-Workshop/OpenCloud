@@ -7,6 +7,12 @@
 
 set_log_channel("map");
 
+// 00376E0C
+static CMapPiece* mapNowMapPiece{};
+
+// 00376E34
+static usize mapMatIdx{};
+
 // 00164520
 static bool cfgDRAW_OFF_RECT(MAYBE_UNUSED SPI_STACK* stack, int)
 {
@@ -153,8 +159,21 @@ static bool mapPIECE_SCALE(MAYBE_UNUSED SPI_STACK* stack, int)
   return true;
 }
 
-static bool mapPIECE_MATERIAL_START(MAYBE_UNUSED SPI_STACK* stack, int)
+static bool mapPIECE_MATERIAL_START(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  if (mapNowMapPiece == nullptr)
+  {
+    return false;
+  }
+
+  usize capacity = spiGetStackInt(stack++);
+  if (capacity > 0)
+  {
+    mapNowMapPiece->SetMaterial(capacity);
+  }
+
   return true;
 }
 
@@ -496,70 +515,159 @@ static const std::array<SPI_TAG_PARAM, 3> add_mapinfo_tag =
   NULL, nullptr
 };
 
-// 00160C70
-ETimeBand GetTimeBand(f32 time)
+// 00168AC0
+CMapPiece::CMapPiece()
 {
-  log_trace("{}({})", __func__, time);
+  log_trace("CMap::{}()", __func__);
 
-  using enum ETimeBand;
+  todo;
+}
 
-  if (time < 6.0f || time >= 21.0f)
+// 00168850
+CMapPiece::CMapPiece(CMapPiece& other)
+{
+  log_trace("CMapPiece::{}({})", __func__, fmt::ptr(&other));
+
+  todo;
+}
+
+// 00166E40
+unkptr CMapPiece::Draw()
+{
+  log_trace("CMapPiece::{}()", __func__);
+
+  return DrawSub(false);
+}
+
+// 0015E3E0
+unkptr CMapPiece::DrawDirect()
+{
+  log_trace("CMapPiece::{}()", __func__);
+
+  return DrawSub(true);
+}
+
+// 00162750
+void CMapPiece::SetMaterial(usize capacity)
+{
+  log_trace("CMapPiece::{}({})", __func__, capacity);
+
+  m_material.clear();
+  m_material.reserve(capacity);
+
+  for (usize i = 0; i < capacity; ++i)
   {
-    // 9 PM until 6 AM
-    return Night;
+    m_material.emplace_back();
+  }
+}
+
+// 00168520
+void CMapPiece::AssignMds(CMdsInfo* mds_info)
+{
+  log_trace("CMapPiece::{}({})", __func__, fmt::ptr(mds_info));
+
+  todo;
+}
+
+// 00168570
+sint CMapPiece::GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2)
+{
+  log_trace("CMapPiece::{}({}, {}, {}, {})", __func__, i1, fmt::ptr(dest), fmt::ptr(&box), i2);
+
+  todo;
+  return 0;
+}
+
+// 00168620
+void CMapPiece::SetTimeBand(f32 f1, f32 f2)
+{
+  log_trace("CMapPiece::{}({}, {})", __func__, f1, f2);
+
+  m_unk_field_94 = f1;
+  m_unk_field_98 = f2;
+}
+
+// 00168630
+PieceMaterial* CMapPiece::GetMaterial(ssize index)
+{
+  log_trace("CMapPiece::{}({})", __func__, index);
+
+  if (index < 0 || index > m_material.size())
+  {
+    return nullptr;
   }
 
-  if (time < 9.0f)
+  return &m_material[index];
+}
+
+// 00168680
+void CMapPiece::Step()
+{
+  log_trace("CMapPiece::{}()", __func__);
+
+  if (m_unk_field_9C == nullptr)
   {
-    // 6 AM to 9 AM
-    return Morning;
+    return;
   }
 
-  if (time < 17.0f)
+  UpdatePosition();
+  m_unk_field_9C->Step();
+}
+
+// 001686D0
+ std::optional<mgVu0FBOX> CMapPiece::GetBoundBox()
+{
+  log_trace("CMapPiece::{}()", __func__);
+
+  if (m_frame == nullptr)
   {
-    // 9 AM to 5 PM
-    return Midday;
+    return std::nullopt;
   }
 
-  if (time < 21.0f)
-  {
-    // 5 PM to 9 PM
-    return Evening;
-  }
+  return m_frame->GetWorldBBox();
+}
 
-  unreachable_code;
+// 00168730
+unkptr CMapPiece::DrawSub(bool b)
+{
+  log_trace("CMapPiece::{}({})", __func__, b);
+
+  todo;
+  return nullptr;
 }
 
 // 0015E250
-void CMap::DrawSub(bool b)
+unkptr CMap::DrawSub(bool b)
 {
   log_trace("CMap::{}({})", __func__, b);
 
   todo;
+  return nullptr;
 }
 
 // 00160B10
-void CMap::Draw()
+unkptr CMap::Draw()
 {
   log_trace("CMap::{}()", __func__);
 
-  DrawSub(false);
+  return DrawSub(false);
 }
 
 // 00160B30
-void CMap::DrawDirect()
+unkptr CMap::DrawDirect()
 {
   log_trace("CMap::{}()", __func__);
 
-  DrawSub(true);
+  return DrawSub(true);
 }
 
 // 0015D7A0
-void CMap::PreDraw(vec3* v)
+bool CMap::PreDraw(vec3* v)
 {
   log_trace("CMap::{}({})", __func__, fmt::ptr(v));
 
   todo;
+  return false;
 }
 
 // 0015E3F0
@@ -1189,4 +1297,38 @@ void CMap::SetPieceLoadSkip(bool skip)
   log_trace("CMap::{}({})", __func__, skip);
 
   todo;
+}
+
+// 00160C70
+ETimeBand GetTimeBand(f32 time)
+{
+  log_trace("{}({})", __func__, time);
+
+  using enum ETimeBand;
+
+  if (time < 6.0f || time >= 21.0f)
+  {
+    // 9 PM until 6 AM
+    return Night;
+  }
+
+  if (time < 9.0f)
+  {
+    // 6 AM to 9 AM
+    return Morning;
+  }
+
+  if (time < 17.0f)
+  {
+    // 9 AM to 5 PM
+    return Midday;
+  }
+
+  if (time < 21.0f)
+  {
+    // 5 PM to 9 PM
+    return Evening;
+  }
+
+  unreachable_code;
 }
