@@ -154,7 +154,9 @@ namespace common::console
 
 #if defined(_WIN32)
     const auto wide = strings::utf8_to_wstring_or_none(s);
-    WriteConsoleW(s_out_handle, wide.c_str(), wide.size(), NULL, NULL);
+    const auto size = static_cast<DWORD>(wide.size());
+
+    WriteConsoleW(s_out_handle, wide.c_str(), size, NULL, NULL);
 #else
     fprintf(stdout, "%s", s.c_str());
 #endif
@@ -166,7 +168,9 @@ namespace common::console
 
 #if defined(_WIN32)
     const auto wide = strings::utf8_to_wstring_or_none(s);
-    WriteConsoleW(s_err_handle, wide.c_str(), wide.size(), NULL, NULL);
+    const auto size = static_cast<DWORD>(wide.size());
+
+    WriteConsoleW(s_err_handle, wide.c_str(), size, NULL, NULL);
 #else
     fprintf(stderr, "%s", s.c_str());
 #endif
