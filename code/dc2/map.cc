@@ -704,7 +704,17 @@ void CMapParts::Step()
 {
   log_trace("CMapParts::{}()", __func__);
 
-  todo;
+  if (!m_active)
+  {
+    return;
+  }
+
+  for (auto& map_piece : m_map_pieces)
+  {
+    map_piece.m_frame->SetReference(&m_unk_field_C0);
+    map_piece.Step();
+    map_piece.m_frame->DeleteReference();
+  }
 }
 
 // 00167970

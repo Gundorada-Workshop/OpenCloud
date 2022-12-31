@@ -227,6 +227,8 @@ public:
   // C0
   mgCFrame m_unk_field_C0{};
 
+  // 1E4
+  bool m_active{};
   // 1E8
   // usize m_n_color{}; // m_color.size()
   // 1F0
