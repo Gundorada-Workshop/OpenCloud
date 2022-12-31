@@ -72,12 +72,11 @@ f32 CCharacter2::GetCameraDist()
 }
 
 // 00173120
-bool CCharacter2::DrawStep()
+void CCharacter2::DrawStep()
 {
   log_trace("CCharacter2::{}()", __func__);
 
   todo;
-  return false;
 }
 
 // 001751D0

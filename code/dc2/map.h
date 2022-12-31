@@ -14,6 +14,7 @@ class CMdsInfo;
 class CMapParts;
 struct InScreenFuncInfo;
 class CMdsListSet;
+class CCharacter2;
 
 // FIXME: Find out where this should go
 // 12/29/22 nah just use an std::list instead (or vector if you're confident with changing that spec)
@@ -37,23 +38,230 @@ class CMapFlagData {};
 class CPartsGroup {};
 class CFuncPoint {};
 class CFuncPointCheck {};
-struct PieceMaterial {};
 class CCameraInfo {};
 class CCameraDrawInfo {};
 class CMapWater {};
 class CMapInfo {};
 class CMapLightingInfo {};
 class CMapTreasureBox {};
-class CMapPiece {};
 class CMapSky {};
 class CMapEffect_Sprite {};
 class CMapEffect {};
 class CMapEffectsManager {};
+class COcclusion {};
+
+struct PieceMaterial
+{
+  // 8
+  bool m_unk_field_8{};
+  // C
+  usize m_color_idx{};
+  // 10
+  vec4 m_color{};
+};
+
+class CMapPiece : public CObjectFrame
+{
+public:
+  // 00168AC0
+  CMapPiece();
+
+  // 00168850
+  CMapPiece(CMapPiece& other);
+public:
+  // 00166E40
+  virtual unkptr Draw() override;
+  
+  // 0015E3E0
+  virtual unkptr DrawDirect() override;
+
+  // 00162750
+  void SetMaterial(usize capacity);
+
+  // 00168520
+  void AssignMds(CMdsInfo* mds_info);
+
+  // 00168570
+  sint GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2);
+
+  // 00168620
+  void SetTimeBand(f32 f1, f32 f2);
+
+  // 00168630
+  PieceMaterial* GetMaterial(ssize index);
+
+  // 00168680
+  void Step();
+
+  // 001686D0
+  std::optional<mgVu0FBOX> GetBoundBox();
+
+  // 00168730
+  unkptr DrawSub(bool b);
+
+  // 80
+  std::string m_name{};
+  // 84 FIXME: flags enum
+  uint m_unk_field_84{};
+
+  // 8C (capacity), 90 (buf)
+  std::vector<PieceMaterial> m_material{};
+  // 94
+  f32 m_unk_field_94{};
+  // 98
+  f32 m_unk_field_98{};
+  // 9C
+  CCharacter2* m_unk_field_9C{};
+  // A0 FIXME: enum
+  s16 m_col_type{};
+};
 
 class CMapParts : public CObject
 {
 public:
-  // TODO
+  // 0015CB30 / 00166250
+  CMapParts();
+
+  // 00167AA0
+  CMapParts(CMapParts& other);
+
+  // make a destructor please :)
+public:
+  // 0015E3D0
+  virtual unkptr Draw() override;
+
+  // 0015E3E0
+  virtual unkptr DrawDirect() override;
+
+  // 00166A00
+  virtual bool PreDraw() override;
+
+  // 00166E50
+  virtual void DrawStep() override;
+
+  // 001678E0
+  virtual void Step();
+
+  // 00167970
+  virtual void AnimeStep(CFuncPointCheck* point_check, CObjAnimeEnv* anime_env);
+
+  // 001666F0
+  virtual void UpdatePosition();
+
+  // 00162080
+  void SetLODDist(const std::vector<f32>& lods);
+
+  // 001620F0
+  void SetLODBlend(bool flag);
+
+  // 001621B0
+  bool GetLODBlend() const;
+
+  // 00166360
+  void SetName(const std::string& name);
+
+  // 001663C0
+  void SetPartsName(const std::string& name);
+
+  // 00166420
+  void AddPiece(std::list<CMapPiece>& pieces);
+
+  // 00166490
+  CMapPiece* SearchPiece(const std::string& name);
+
+  // 00166520
+  CMapPiece* SearchPieceColType(sint col_type);
+
+  // 00166580
+  sint GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2);
+
+  // 001666B0
+  sint GetColPoly(CCPoly* dest, mgVu0FBOX& box, sint i2);
+
+  // 001666D0
+  sint GetCameraPoly(CCPoly* dest, mgVu0FBOX& box, sint i2);
+
+  // 00166760
+  bool SetColor(ssize index, const vec4& rgba);
+
+  // 001667B0
+  std::optional<vec4> GetColor(ssize index) const;
+
+  // 001667F0
+  std::optional<vec4> GetDefColor(ssize index, const vec4& rgba);
+
+  // 001668E0
+  void UpdateColor();
+
+  // 00166A70
+  unkptr DrawSub(bool b);
+
+  // 00166ED0
+  void CreateBoundBox();
+
+  // 00167090
+  bool CheckColBox(mgVu0FBOX* box) const;
+
+  // 001671D0
+  std::optional<mgVu0FBOX> GetBBox() const;
+
+  // 00167220
+  std::optional<mgVu0FBOX> GetBoundBox();
+
+  // 00167280
+  std::optional<vec4> GetBoundSphere();
+
+  // 00167300
+  matrix4 GetLWMatrix();
+
+  // 00167350
+  bool InsideScreen() const;
+
+  // 001673A0
+  bool InsideScreen(const std::vector<COcclusion>& occlusion, sint i) const;
+
+  // 001674B0
+  void InScreenFunc(InScreenFuncInfo* func_info);
+
+  // 00167730
+  void DrawScreenFunc(mgCFrame* frame);
+
+  // 001679F0
+  void StepFuncPoint(CFuncPointCheck& point_check);
+
+  // 00167A60
+  void CopyFuncPointCheck(CFuncPointCheck& other);
+
+  // 00168150
+  bool AssignFuncAnime();
+
+  // 70 (fixed buf size 0x20)
+  std::string m_name{};
+  // 90 (fixed buf size 0x20)
+  std::string m_parts_name{};
+  // B0
+  std::list<CMapPiece> m_map_pieces{};
+  // C0
+  mgCFrame m_unk_field_C0{};
+
+  // 1D8 (length), 1D0 (buf)
+  std::vector<f32> m_lod_dist{};
+  // 1D4
+  bool m_lod_blend{};
+
+  // 1E4
+  bool m_active{};
+  // 1E8
+  // usize m_n_color{}; // m_color.size()
+  // 1F0
+  std::array<vec4, 4> m_color{};
+
+  // 230
+  bool m_bounding_box_valid{};
+  // 240
+  mgVu0FBOX m_bounding_box{};
+  // 260
+  vec4 m_bounding_sphere{};
 };
 
 class CMap
@@ -63,16 +271,16 @@ public:
   static constexpr const char CMapName[] = "CMap";
 
   // 0015E250
-  virtual void DrawSub(bool b);
+  virtual unkptr DrawSub(bool b);
 
   // 00160B10
-  virtual void Draw();
+  virtual unkptr Draw();
 
   // 00160B30
-  virtual void DrawDirect();
+  virtual unkptr DrawDirect();
 
   // 0015D7A0
-  virtual void PreDraw(vec3* v);
+  virtual bool PreDraw(vec3* v);
 
   // 0015E3F0
   virtual void DrawEffect();

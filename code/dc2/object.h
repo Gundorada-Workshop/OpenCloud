@@ -21,7 +21,7 @@ public:
 	// 48 00169AC0
 	virtual bool FarClip(float distance, float* alpha_result);
 	// 4C 00169D10
-	virtual bool DrawStep();
+	virtual void DrawStep();
 	// 50 00169D60
 	virtual float GetAlpha();
 	// 54 00160B70
@@ -73,7 +73,7 @@ public:
 	// 44 00169F00
 	virtual f32 GetCameraDist() override;
 	// 4C 00169EF0
-	virtual bool DrawStep() override;
+	virtual void DrawStep() override;
 	// 74 00169E80
 	void UpdatePosition();
 	// 78 0016A050

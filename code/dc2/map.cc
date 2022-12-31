@@ -7,6 +7,12 @@
 
 set_log_channel("map");
 
+// 00376E0C
+static std::list<CMapPiece> mapNowMapPiece{};
+
+// 00376E34
+static usize mapMatIdx{};
+
 // 00164520
 static bool cfgDRAW_OFF_RECT(MAYBE_UNUSED SPI_STACK* stack, int)
 {
@@ -153,8 +159,21 @@ static bool mapPIECE_SCALE(MAYBE_UNUSED SPI_STACK* stack, int)
   return true;
 }
 
-static bool mapPIECE_MATERIAL_START(MAYBE_UNUSED SPI_STACK* stack, int)
+static bool mapPIECE_MATERIAL_START(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 {
+  trace_script_call(stack, stack_count);
+
+  if (mapNowMapPiece.empty())
+  {
+    return false;
+  }
+
+  usize capacity = spiGetStackInt(stack++);
+  if (capacity > 0)
+  {
+    mapNowMapPiece.front().SetMaterial(capacity);
+  }
+
   return true;
 }
 
@@ -496,70 +515,613 @@ static const std::array<SPI_TAG_PARAM, 3> add_mapinfo_tag =
   NULL, nullptr
 };
 
-// 00160C70
-ETimeBand GetTimeBand(f32 time)
+// 00168AC0
+CMapPiece::CMapPiece()
 {
-  log_trace("{}({})", __func__, time);
+  log_trace("CMap::{}()", __func__);
 
-  using enum ETimeBand;
+  todo;
+}
 
-  if (time < 6.0f || time >= 21.0f)
+// 00168850
+CMapPiece::CMapPiece(CMapPiece& other)
+{
+  log_trace("CMapPiece::{}({})", __func__, fmt::ptr(&other));
+
+  todo;
+}
+
+// 00166E40
+unkptr CMapPiece::Draw()
+{
+  log_trace("CMapPiece::{}()", __func__);
+
+  return DrawSub(false);
+}
+
+// 0015E3E0
+unkptr CMapPiece::DrawDirect()
+{
+  log_trace("CMapPiece::{}()", __func__);
+
+  return DrawSub(true);
+}
+
+// 00162750
+void CMapPiece::SetMaterial(usize capacity)
+{
+  log_trace("CMapPiece::{}({})", __func__, capacity);
+
+  m_material.clear();
+  m_material.reserve(capacity);
+
+  for (usize i = 0; i < capacity; ++i)
   {
-    // 9 PM until 6 AM
-    return Night;
+    m_material.emplace_back();
+  }
+}
+
+// 00168520
+void CMapPiece::AssignMds(CMdsInfo* mds_info)
+{
+  log_trace("CMapPiece::{}({})", __func__, fmt::ptr(mds_info));
+
+  todo;
+}
+
+// 00168570
+sint CMapPiece::GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2)
+{
+  log_trace("CMapPiece::{}({}, {}, {}, {})", __func__, i1, fmt::ptr(dest), fmt::ptr(&box), i2);
+
+  todo;
+  return 0;
+}
+
+// 00168620
+void CMapPiece::SetTimeBand(f32 f1, f32 f2)
+{
+  log_trace("CMapPiece::{}({}, {})", __func__, f1, f2);
+
+  m_unk_field_94 = f1;
+  m_unk_field_98 = f2;
+}
+
+// 00168630
+PieceMaterial* CMapPiece::GetMaterial(ssize index)
+{
+  log_trace("CMapPiece::{}({})", __func__, index);
+
+  if (index < 0 || index > m_material.size())
+  {
+    return nullptr;
   }
 
-  if (time < 9.0f)
+  return &m_material[index];
+}
+
+// 00168680
+void CMapPiece::Step()
+{
+  log_trace("CMapPiece::{}()", __func__);
+
+  if (m_unk_field_9C == nullptr)
   {
-    // 6 AM to 9 AM
-    return Morning;
+    return;
   }
 
-  if (time < 17.0f)
+  UpdatePosition();
+  m_unk_field_9C->Step();
+}
+
+// 001686D0
+ std::optional<mgVu0FBOX> CMapPiece::GetBoundBox()
+{
+  log_trace("CMapPiece::{}()", __func__);
+
+  if (m_frame == nullptr)
   {
-    // 9 AM to 5 PM
-    return Midday;
+    return std::nullopt;
   }
 
-  if (time < 21.0f)
+  UpdatePosition();
+  return m_frame->GetWorldBBox();
+}
+
+// 00168730
+unkptr CMapPiece::DrawSub(bool b)
+{
+  log_trace("CMapPiece::{}({})", __func__, b);
+
+  todo;
+  return nullptr;
+}
+
+// 0015CB30 / 00166250
+CMapParts::CMapParts()
+{
+  log_trace("CMapParts::{}()", __func__);
+
+  todo;
+}
+
+// 00167AA0
+CMapParts::CMapParts(CMapParts& other)
+{
+  log_trace("CMapParts::{}({})", __func__, fmt::ptr(&other));
+
+  todo;
+}
+
+// 0015E3D0
+unkptr CMapParts::Draw()
+{
+  log_trace("CMapParts::{}()", __func__);
+
+  return DrawSub(false);
+}
+
+// 0015E3E0
+unkptr CMapParts::DrawDirect()
+{
+  log_trace("CMapParts::{}()", __func__);
+
+  return DrawSub(true);
+}
+
+// 00166A00
+bool CMapParts::PreDraw()
+{
+  log_trace("CMapParts::{}()", __func__);
+
+  if (!CObject::PreDraw())
   {
-    // 5 PM to 9 PM
-    return Evening;
+    return false;
   }
 
-  unreachable_code;
+  UpdatePosition();
+
+  f32 alpha_result;
+  return FarClip(mgGetDistFromCamera(m_position), &alpha_result);
+}
+
+// 00166E50
+void CMapParts::DrawStep()
+{
+  log_trace("CMapParts::{}()", __func__);
+
+  UpdatePosition();
+  CObject::DrawStep();
+
+  for (auto& map_piece : m_map_pieces)
+  {
+    map_piece.UpdatePosition();
+    map_piece.DrawStep();
+  }
+}
+
+// 001678E0
+void CMapParts::Step()
+{
+  log_trace("CMapParts::{}()", __func__);
+
+  if (!m_active)
+  {
+    return;
+  }
+
+  for (auto& map_piece : m_map_pieces)
+  {
+    map_piece.m_frame->SetReference(&m_unk_field_C0);
+    map_piece.Step();
+    map_piece.m_frame->DeleteReference();
+  }
+}
+
+// 00167970
+void CMapParts::AnimeStep(CFuncPointCheck* point_check, CObjAnimeEnv* anime_env)
+{
+  log_trace("CMapParts::{}()", __func__);
+
+  todo;
+}
+
+// 001666F0
+void CMapParts::UpdatePosition()
+{
+  log_trace("CMapParts::{}()", __func__);
+
+  if (!m_unk_field_40)
+  {
+    return;
+  }
+
+  m_unk_field_C0.SetPosition(m_position);
+  m_unk_field_C0.SetRotation(m_rotation);
+  m_unk_field_C0.SetScale(m_scale);
+  m_unk_field_40 = false;
+}
+
+// 00162080
+void CMapParts::SetLODDist(const std::vector<f32>& lods)
+{
+  log_trace("CMapParts::{}({})", __func__, fmt::ptr(&lods));
+
+  m_lod_dist.clear();
+  m_lod_dist.reserve(lods.size());
+  std::copy(lods.begin(), lods.end(), std::back_inserter(m_lod_dist));
+}
+
+// 001620F0
+void CMapParts::SetLODBlend(bool flag)
+{
+  log_trace("CMapParts::{}({})", __func__, flag);
+
+  m_lod_blend = flag;
+}
+
+// 001621B0
+bool CMapParts::GetLODBlend() const
+{
+  log_trace("CMapParts::{}()", __func__);
+
+  return m_lod_blend;
+}
+
+// 00166360
+void CMapParts::SetName(const std::string& name)
+{
+  log_trace("CMapParts::{}({})", __func__, name);
+
+  m_name = name;
+};
+
+// 001663C0
+void CMapParts::SetPartsName(const std::string& name)
+{
+  log_trace("CMapParts::{}({})", __func__, name);
+
+  m_parts_name = name;
+}
+
+// 00166420
+void CMapParts::AddPiece(std::list<CMapPiece>& pieces)
+{
+  // Used by script interpreter functions - adds one existing CMapPiece object to this CMapParts
+
+  log_trace("CMapParts::{}({})", __func__, fmt::ptr(&pieces));
+
+  CMapPiece* piece = &pieces.front();
+  if ((piece->m_unk_field_84 & 4) != 0)
+  {
+    m_active = true;
+  }
+
+  // Only grab one piece (script stores list of one piece in mapNowMapPiece?)
+  // Unlike the original code, this invalidates the element at mapNowMapPiece,
+  // however this function is only called in mapPIECE_END, so it should be at end of life anyways
+  auto end = pieces.begin();
+  std::advance(end, 1);
+
+  m_map_pieces.splice(m_map_pieces.end(), pieces, pieces.begin(), end);
+}
+
+// 00166490
+CMapPiece* CMapParts::SearchPiece(const std::string& name)
+{
+  log_trace("CMapParts::{}({})", __func__, name);
+
+  for (auto& map_pieces : m_map_pieces)
+  {
+    if (map_pieces.m_name == name)
+    {
+      return &map_pieces;
+    }
+  }
+
+  return nullptr;
+}
+
+// 00166520
+CMapPiece* CMapParts::SearchPieceColType(sint col_type)
+{
+  log_trace("CMapParts::{}({})", __func__, col_type);
+
+  for (auto& map_pieces : m_map_pieces)
+  {
+    if (map_pieces.m_col_type == col_type)
+    {
+      return &map_pieces;
+    }
+  }
+
+  return nullptr;
+}
+
+// 00166580
+sint CMapParts::GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2)
+{
+  log_trace("CMapParts::{}({}, {}, {}, {})", __func__, i1, fmt::ptr(dest), fmt::ptr(&box), i2);
+
+  todo;
+  return 0;
+}
+
+// 001666B0
+sint CMapParts::GetColPoly(CCPoly* dest, mgVu0FBOX& box, sint i2)
+{
+  log_trace("CMapParts::{}({}, {}, {})", __func__, fmt::ptr(dest), fmt::ptr(&box), i2);
+
+  return GetPoly(1, dest, box, i2);
+}
+
+// 001666D0
+sint CMapParts::GetCameraPoly(CCPoly* dest, mgVu0FBOX& box, sint i2)
+{
+  log_trace("CMapParts::{}({}, {}, {})", __func__, fmt::ptr(dest), fmt::ptr(&box), i2);
+
+  return GetPoly(3, dest, box, i2);
+}
+
+// 00166760
+bool CMapParts::SetColor(ssize index, const vec4& rgba)
+{
+  log_trace("CMapParts::{}({}, {})", __func__, index, fmt::ptr(&rgba));
+
+  if (index < 0 || index >= m_color.size())
+  {
+    return false;
+  }
+
+  m_color[index] = rgba;
+  return true;
+}
+
+// 001667B0
+std::optional<vec4> CMapParts::GetColor(ssize index) const
+{
+  log_trace("CMapParts::{}({})", __func__, index);
+
+  if (index < 0 || index >= m_color.size())
+  {
+    return std::nullopt;
+  }
+
+  return m_color[index];
+}
+
+// 001667F0
+std::optional<vec4> CMapParts::GetDefColor(ssize index, const vec4& rgba)
+{
+  log_trace("CMapParts::{}({}, {})", __func__, index, fmt::ptr(&rgba));
+
+  if (index < 0 || index >= m_color.size())
+  {
+    return std::nullopt;
+  }
+
+  for (auto& map_piece : m_map_pieces)
+  {
+    for (usize i = 0; i < map_piece.m_material.size(); ++i)
+    {
+      PieceMaterial* piece_material = map_piece.GetMaterial(i);
+
+      if (piece_material->m_unk_field_8 && piece_material->m_color_idx == index)
+      {
+        return piece_material->m_color;
+      }
+    }
+  }
+
+  return std::nullopt;
+}
+
+// 001668E0
+void CMapParts::UpdateColor()
+{
+  log_trace("CMapParts::{}()", __func__);
+
+  for (usize i = 0; i < m_color.size(); ++i)
+  {
+    auto& rgba = m_color[i];
+    if (rgba.a <= 0.0f)
+    {
+      continue;
+    }
+
+    for (auto& map_piece : m_map_pieces)
+    {
+      for (usize j = 0; j < map_piece.m_material.size(); ++j)
+      {
+        auto piece_material = map_piece.GetMaterial(j);
+        if (piece_material->m_unk_field_8 && piece_material->m_color_idx == i)
+        {
+          rgba = vec4{ piece_material->m_color.rgb, rgba.a };
+        }
+      }
+    }
+  }
+}
+
+// 00166A70
+unkptr CMapParts::DrawSub(bool b)
+{
+  log_trace("CMapParts::{}({})", __func__, b);
+
+  todo;
+  return nullptr;
+}
+
+// 00166ED0
+void CMapParts::CreateBoundBox()
+{
+  log_trace("CMapParts::{}()", __func__);
+
+  todo;
+}
+
+// 00167090
+bool CMapParts::CheckColBox(mgVu0FBOX* box) const
+{
+  log_trace("CMapParts::{}({})", __func__, fmt::ptr(box));
+
+  todo;
+  return false;
+}
+
+// 001671D0
+std::optional<mgVu0FBOX> CMapParts::GetBBox() const
+{
+  log_trace("CMapParts::{}()", __func__);
+
+  if (m_bounding_box_valid)
+  {
+    return m_bounding_box;
+  }
+  else
+  {
+    return std::nullopt;
+  }
+}
+
+// 00167220
+std::optional<mgVu0FBOX> CMapParts::GetBoundBox()
+{
+  log_trace("CMapParts::{}()", __func__);
+
+  if (m_bounding_box_valid)
+  {
+    mgVu0FBOX result;
+    matrix4 lw_mat = GetLWMatrix();
+
+    mgApplyMatrix(result.corners[0], result.corners[1], lw_mat, m_bounding_box.corners[0], m_bounding_box.corners[1]);
+    return result;
+  }
+  else
+  {
+    return std::nullopt;
+  }
+}
+
+// 00167280
+std::optional<vec4> CMapParts::GetBoundSphere()
+{
+  log_trace("CMapParts::{}()", __func__);
+
+  if (m_bounding_box_valid)
+  {
+    matrix4 lw_mat = GetLWMatrix();
+
+    vec4 result = lw_mat * m_bounding_sphere;
+    result.w = m_bounding_sphere.w;
+    return result;
+  }
+  else
+  {
+    return std::nullopt;
+  }
+}
+
+// 00167300
+matrix4 CMapParts::GetLWMatrix()
+{
+  log_trace("CMapParts::{}()", __func__);
+
+  UpdatePosition();
+  return m_unk_field_C0.GetLWMatrix();
+}
+
+// 00167350
+bool CMapParts::InsideScreen() const
+{
+  log_trace("CMapParts::{}()", __func__);
+
+  todo;
+  return false;
+}
+
+// 001673A0
+bool CMapParts::InsideScreen(const std::vector<COcclusion>& occlusion, sint i) const
+{
+  log_trace("CMapParts::{}({}, {})", __func__, fmt::ptr(&occlusion), i);
+
+  todo;
+  return false;
+}
+
+// 001674B0
+void CMapParts::InScreenFunc(InScreenFuncInfo* func_info)
+{
+  log_trace("CMapParts::{}({})", __func__, fmt::ptr(func_info));
+
+  todo;
+}
+
+// 00167730
+void CMapParts::DrawScreenFunc(mgCFrame* frame)
+{
+  log_trace("CMapParts::{}({})", __func__, fmt::ptr(frame));
+
+  todo;
+}
+
+// 001679F0
+void CMapParts::StepFuncPoint(CFuncPointCheck& point_check)
+{
+  log_trace("CMapParts::{}({})", __func__, fmt::ptr(&point_check));
+
+  todo;
+}
+
+// 00167A60
+void CMapParts::CopyFuncPointCheck(CFuncPointCheck& other)
+{
+  log_trace("CMapParts::{}({})", __func__, fmt::ptr(&other));
+
+  todo;
+}
+
+// 00168150
+bool CMapParts::AssignFuncAnime()
+{
+  log_trace("CMapParts::{}()", __func__);
+
+  todo;
+  return false;
 }
 
 // 0015E250
-void CMap::DrawSub(bool b)
+unkptr CMap::DrawSub(bool b)
 {
   log_trace("CMap::{}({})", __func__, b);
 
   todo;
+  return nullptr;
 }
 
 // 00160B10
-void CMap::Draw()
+unkptr CMap::Draw()
 {
   log_trace("CMap::{}()", __func__);
 
-  DrawSub(false);
+  return DrawSub(false);
 }
 
 // 00160B30
-void CMap::DrawDirect()
+unkptr CMap::DrawDirect()
 {
   log_trace("CMap::{}()", __func__);
 
-  DrawSub(true);
+  return DrawSub(true);
 }
 
 // 0015D7A0
-void CMap::PreDraw(vec3* v)
+bool CMap::PreDraw(vec3* v)
 {
   log_trace("CMap::{}({})", __func__, fmt::ptr(v));
 
   todo;
+  return false;
 }
 
 // 0015E3F0
@@ -1189,4 +1751,38 @@ void CMap::SetPieceLoadSkip(bool skip)
   log_trace("CMap::{}({})", __func__, skip);
 
   todo;
+}
+
+// 00160C70
+ETimeBand GetTimeBand(f32 time)
+{
+  log_trace("{}({})", __func__, time);
+
+  using enum ETimeBand;
+
+  if (time < 6.0f || time >= 21.0f)
+  {
+    // 9 PM until 6 AM
+    return Night;
+  }
+
+  if (time < 9.0f)
+  {
+    // 6 AM to 9 AM
+    return Morning;
+  }
+
+  if (time < 17.0f)
+  {
+    // 9 AM to 5 PM
+    return Midday;
+  }
+
+  if (time < 21.0f)
+  {
+    // 5 PM to 9 PM
+    return Evening;
+  }
+
+  unreachable_code;
 }
