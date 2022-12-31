@@ -624,6 +624,7 @@ void CMapPiece::Step()
     return std::nullopt;
   }
 
+  UpdatePosition();
   return m_frame->GetWorldBBox();
 }
 
