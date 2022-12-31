@@ -772,7 +772,7 @@ void CMapParts::SetName(const std::string& name)
 {
   log_trace("CMapParts::{}({})", __func__, name);
 
-  todo;
+  m_name = name;
 };
 
 // 001663C0
@@ -780,7 +780,7 @@ void CMapParts::SetPartsName(const std::string& name)
 {
   log_trace("CMapParts::{}({})", __func__, name);
 
-  todo;
+  m_parts_name = name;
 }
 
 // 00166420

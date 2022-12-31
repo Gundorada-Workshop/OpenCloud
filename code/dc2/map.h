@@ -222,6 +222,10 @@ public:
   // 00168150
   bool AssignFuncAnime();
 
+  // 70 (fixed buf size 0x20)
+  std::string m_name{};
+  // 90 (fixed buf size 0x20)
+  std::string m_parts_name{};
   // B0
   std::list<CMapPiece> m_map_pieces{};
   // C0
