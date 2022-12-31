@@ -89,7 +89,7 @@ public:
   virtual f32 GetCameraDist() override;
 
   // 4C  00173120
-  virtual bool DrawStep() override;
+  virtual void DrawStep() override;
 
   // 7C  001751D0
   virtual void LoadPack(void* file_buf, char* file_name, mgCMemory* mem1, mgCMemory* mem2, mgCMemory* mem3, unk32 i, CCharacter2* character2);

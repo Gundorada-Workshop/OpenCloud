@@ -111,13 +111,14 @@ bool CObject::FarClip(float distance, float* alpha_result)
 }
 
 // 00169D10
-bool CObject::DrawStep()
+void CObject::DrawStep()
 {
   log_trace("CObject::{}()", __func__);
 
   f32 fp;
-  return FarClip(GetCameraDist(), &fp);
+  FarClip(GetCameraDist(), &fp);
 }
+
 // 00169D60
 float CObject::GetAlpha()
 {
@@ -273,11 +274,11 @@ f32 CObjectFrame::GetCameraDist()
 }
 
 // 00169EF0
-bool CObjectFrame::DrawStep()
+void CObjectFrame::DrawStep()
 {
   log_trace("CObjectFrame::DrawStep()");
 
-  return this->CObject::DrawStep();
+  CObject::DrawStep();
 }
 
 // 00169E80

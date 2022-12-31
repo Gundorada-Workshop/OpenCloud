@@ -49,12 +49,7 @@ class CMapSky {};
 class CMapEffect_Sprite {};
 class CMapEffect {};
 class CMapEffectsManager {};
-
-class CMapParts : public CObject
-{
-public:
-  // TODO
-};
+class COcclusion {};
 
 class CMapPiece : public CObjectFrame
 {
@@ -106,6 +101,136 @@ public:
   f32 m_unk_field_98{};
   // 9C
   CCharacter2* m_unk_field_9C{};
+};
+
+class CMapParts : public CObject
+{
+public:
+  // 0015CB30 / 00166250
+  CMapParts();
+
+  // 00167AA0
+  CMapParts(CMapParts& other);
+
+  // make a destructor please :)
+public:
+  // 0015E3D0
+  virtual unkptr Draw() override;
+
+  // 0015E3E0
+  virtual unkptr DrawDirect() override;
+
+  // 00166A00
+  virtual bool PreDraw() override;
+
+  // 00166E50
+  virtual void DrawStep() override;
+
+  // 001678E0
+  virtual void Step();
+
+  // 00167970
+  virtual void AnimeStep(CFuncPointCheck* point_check, CObjAnimeEnv* anime_env);
+
+  // 001666F0
+  virtual void UpdatePosition();
+
+  // 00162080
+  void SetLODDist(const std::vector<f32>& lods);
+
+  // 001620F0
+  void SetLODBlend(sint i);
+
+  // 001621B0
+  sint GetLODBlend();
+
+  // 00166360
+  void SetName(const std::string& name);
+
+  // 001663C0
+  void SetPartsName(const std::string& name);
+
+  // 00166420
+  void AddPiece(std::list<CMapPiece>& pieces);
+
+  // 00166490
+  CMapPiece* SearchPiece(const std::string& name);
+
+  // 00166520
+  CMapPiece* SearchPieceColType(sint col_type);
+
+  // 00166580
+  sint GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2);
+
+  // 001666B0
+  sint GetColPoly(CCPoly* dest, mgVu0FBOX& box, sint i2);
+
+  // 001666D0
+  sint GetCameraPoly(CCPoly* dest, mgVu0FBOX& box, sint i2);
+
+  // 00166760
+  bool SetColor(ssize index, const vec4& rgba);
+
+  // 001667B0
+  vec4 GetColor(ssize index) const;
+
+  // 001667F0
+  vec4 GetDefColor(ssize index, const vec4& rgba) const;
+
+  // 001668E0
+  void UpdateColor();
+
+  // 00166A70
+  unkptr DrawSub(bool b);
+
+  // 00166ED0
+  void CreateBoundBox();
+
+  // 00167090
+  bool CheckColBox(mgVu0FBOX* box) const;
+
+  // 001671D0
+  mgVu0FBOX GetBBox() const;
+
+  // 00167220
+  mgVu0FBOX GetBoundBox() const;
+
+  // 00167280
+  vec4 GetBoundSphere() const;
+
+  // 00167300
+  matrix4 GetLWMatrix() const;
+
+  // 00167350
+  bool InsideScreen() const;
+
+  // 001673A0
+  bool InsideScreen(const std::vector<COcclusion>& occlusion, sint i) const;
+
+  // 001674B0
+  void InScreenFunc(InScreenFuncInfo* func_info);
+
+  // 00167730
+  void DrawScreenFunc(mgCFrame* frame);
+
+  // 001679F0
+  void StepFuncPoint(CFuncPointCheck& point_check);
+
+  // 00167A60
+  void CopyFuncPointCheck(CFuncPointCheck& other);
+
+  // 00168150
+  bool AssignFuncAnime();
+
+  // B0
+  std::list<CMapPiece> m_map_pieces{};
+  // C0
+  mgCFrame m_unk_field_C0{};
+
+  // 1E8
+  // usize m_n_color{}; // m_color.size()
+  // 1F0
+  std::array<vec4, 4> m_color{};
 };
 
 class CMap
