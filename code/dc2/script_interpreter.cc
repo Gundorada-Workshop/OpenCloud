@@ -381,7 +381,7 @@ void CScriptInterpreter::SetTag(const SPI_TAG_PARAM* param)
 }
 
 // 00146980
-void CScriptInterpreter::SetScript(char* script, usize script_len)
+void CScriptInterpreter::SetScript(const char* script, usize script_len)
 {
   log_trace("CScriptInterpreter::{}({}, {})", __func__, script, script_len);
 
