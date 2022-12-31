@@ -146,17 +146,13 @@ namespace common::file_helpers
 
   bool open_native(std::FILE** file, std::string_view path, std::string_view mode)
   {
-    if (!file)
-      panicf("File is null opening {} with mode {}", path, mode);
+    assert_panic(file);
 
 #if defined(_WIN32)
-    const auto wfilename = common::strings::utf8_to_wstring(path);
-    const auto wmode = common::strings::utf8_to_wstring(mode);
+    const auto wfilename = common::strings::utf8_to_wstring_or_panic(path);
+    const auto wmode = common::strings::utf8_to_wstring_or_panic(mode);
 
-    if (!wfilename || !wmode)
-      return false;
-
-    if (_wfopen_s(file, wfilename->c_str(), wmode->c_str()) != 0)
+    if (_wfopen_s(file, wfilename.c_str(), wmode.c_str()) != 0)
       return false;
 
     return true;
@@ -167,8 +163,7 @@ namespace common::file_helpers
 
   u64 tell64(std::FILE* file)
   {
-    if (!file)
-      panicf("File is null");
+    assert_panic(file);
 
 #if defined(_WIN32)
     return _ftelli64(file);
@@ -179,8 +174,7 @@ namespace common::file_helpers
 
   bool seek64(std::FILE* file, u64 offset, u64 whence)
   {
-    if (!file)
-      panicf("File is null seeking to {} from {}", offset, whence);
+    assert_panic(file);
 
 #if defined(_WIN32)
     return _fseeki64(file, offset, static_cast<int>(whence)) == 0;
@@ -192,11 +186,8 @@ namespace common::file_helpers
   bool create_directory(std::string_view path)
   {
 #if defined(_WIN32)
-    const auto wdir = common::strings::utf8_to_wstring(path);
-    if (!wdir)
-      panicf("Failed to convert directory path to UTF16: ", path);
-
-    const auto res = CreateDirectoryW(wdir->c_str(), NULL);
+    const auto wdir = common::strings::utf8_to_wstring_or_panic(path);
+    const auto res = CreateDirectoryW(wdir.c_str(), NULL);
 
     if (!res)
     {
@@ -280,12 +271,7 @@ namespace common::file_helpers
     TCHAR dir[MAX_PATH];
     GetCurrentDirectoryW(MAX_PATH, dir);
 
-    auto working_dir = common::strings::wstring_to_utf8(dir);
-
-    if (!working_dir)
-      panicf("Failed to convert working directory path to UTF8");
-
-    return *working_dir;
+    return common::strings::wstring_to_utf8_or_panic(dir);
 #endif
   }
 }
