@@ -114,7 +114,7 @@ public:
   void SetTag(const SPI_TAG_PARAM* param);
 
   // 00146980
-  void SetScript(char* script, usize script_len);
+  void SetScript(const char* script, usize script_len);
 
 private:
   // 00146500

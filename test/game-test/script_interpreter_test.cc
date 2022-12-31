@@ -15,18 +15,16 @@ protected:
 
 TEST_F(input_strTest, GetLine)
 {
-  char buf[0x1000];
-  strcpy_s(buf, sizeof(buf) / sizeof(char), "\
-WEPNUM 112;\r\n\
-WEP 36,32;\r\n\
-WEP_ST 8,10;\r\n\
-WEP_ST_L 20,19;\r\n\
-WEP_ST2 2,0,0,0, 5 ,0,0,0;\r\n\
-WEP_ST2_L 19,19,19,19,19,19,19,19;\r\n\
-WEP_SPE 1,0,0,2,0;\r\n\
-WEP_BUILD 2,90,0;\r\n\
-");
-  input.m_string = buf;
+  input.m_string = {
+    "WEPNUM 112;\r\n"
+    "WEP 36,32;\r\n"
+    "WEP_ST 8,10;\r\n"
+    "WEP_ST_L 20,19;\r\n"
+    "WEP_ST2 2,0,0,0, 5 ,0,0,0;\r\n"
+    "WEP_ST2_L 19,19,19,19,19,19,19,19;\r\n"
+    "WEP_SPE 1,0,0,2,0;\r\n"
+    "WEP_BUILD 2,90,0;\r\n"
+  };
   input.m_position = 0;
   input.m_length = input.m_string.length();
 
@@ -96,14 +94,14 @@ protected:
 
 TEST_F(CScriptInterpreterTest, Run)
 {
-  char buf[0x1000];
-  strcpy_s(buf, sizeof(buf) / sizeof(char), "\
-TEST1 1, 200, 735.2, \"HELLO WORLD!\";\r\n\
-TEST2 400;\r\n\
-");
+  constexpr std::string_view script =
+  {
+    "TEST1 1, 200, 735.2, \"HELLO WORLD!\";\r\n"
+    "TEST2 400;\r\n"
+  };
   
   CScriptInterpreter script_interpreter{};
-  script_interpreter.SetScript(buf, strlen(buf));
+  script_interpreter.SetScript(script.data(), script.size());
   script_interpreter.SetTag(test_tag);
   script_interpreter.Run();
 
@@ -116,13 +114,13 @@ TEST2 400;\r\n\
 
 TEST_F(CScriptInterpreterTest, ShouldIgnoreSpecialCharactersInStrings)
 {
-  char buf[0x1000];
-  strcpy_s(buf, sizeof(buf) / sizeof(char), "\
-TEST1 0, 123, 3.14, \"Hallo! ,;\\\" whoops that shouldn't break the script either\";\r\n\
-");
+  constexpr std::string_view script =
+  {
+    "TEST1 0, 123, 3.14, \"Hallo! ,;\\\" whoops that shouldn't break the script either\";\r\n"
+  };
 
   CScriptInterpreter script_interpreter{};
-  script_interpreter.SetScript(buf, strlen(buf));
+  script_interpreter.SetScript(script.data(), script.size());
   script_interpreter.SetTag(test_tag);
   script_interpreter.Run();
 
@@ -134,20 +132,20 @@ TEST1 0, 123, 3.14, \"Hallo! ,;\\\" whoops that shouldn't break the script eithe
 
 TEST_F(CScriptInterpreterTest, ShouldIgnoreComments)
 {
-  char buf[0x1000];
-  strcpy_s(buf, sizeof(buf) / sizeof(char), "\
-//Hi, here's my first script!\r\n\
-//Look at this \"TEST2 555;\" command, it should set a variable to 555\r\n\
-TEST2 555;\r\n\
-/*\r\n\
-  And this command is a bit more complicated, but it should set \r\n\
-  multiple variables, if everything works correctly. \r\n\
-*/\r\n\
-TEST1 0, 123, 3.14, \"Is this thing working?\";\r\n\
-");
+  constexpr std::string_view script =
+  {
+    "//Hi, here's my first script!\r\n"
+    "//Look at this \"TEST2 555;\" command, it should set a variable to 555\r\n"
+    "TEST2 555;\r\n"
+    "/*\r\n"
+    "  And this command is a bit more complicated, but it should set \r\n"
+    "  multiple variables, if everything works correctly. \r\n"
+    "*/\r\n"
+    "TEST1 0, 123, 3.14, \"Is this thing working?\";\r\n"
+  };
 
   CScriptInterpreter script_interpreter{};
-  script_interpreter.SetScript(buf, strlen(buf));
+  script_interpreter.SetScript(script.data(),script.size());
   script_interpreter.SetTag(test_tag);
   script_interpreter.Run();
 
@@ -161,13 +159,13 @@ TEST1 0, 123, 3.14, \"Is this thing working?\";\r\n\
 
 TEST_F(CScriptInterpreterTest, ShouldConvertFromShiftJIS)
 {
-  char buf[0x1000];
-  strcpy_s(buf, sizeof(buf) / sizeof(char), 
+  constexpr std::string_view script =
+  {
     "TEST1 0, 123, 3.14, \"\x32\x8F\xCD\x82\xA9\x82\xE7\";\r\n"
-);
+  };
 
   CScriptInterpreter script_interpreter{};
-  script_interpreter.SetScript(buf, strlen(buf));
+  script_interpreter.SetScript(script.data(), script.size());
   script_interpreter.SetTag(test_tag);
   script_interpreter.Run();
 
@@ -179,16 +177,16 @@ TEST_F(CScriptInterpreterTest, ShouldConvertFromShiftJIS)
 
 TEST_F(CScriptInterpreterTest, ShouldNotConvertWhenUTF8EncodingSpecified)
 {
-  char buf[0x1000];
-  strcpy_s(buf, sizeof(buf) / sizeof(char),
+  constexpr std::string_view script =
+  {
     "// This is a comment\r\n"
     "\r\n"
     "encoding utf-8;\r\n"
     "TEST1 1, 124, 3.15, \"これはＵTF8がなくてはならない\";\r\n"
-  );
+  };
 
   CScriptInterpreter script_interpreter{};
-  script_interpreter.SetScript(buf, strlen(buf));
+  script_interpreter.SetScript(script.data(), script.size());
   script_interpreter.SetTag(test_tag);
   script_interpreter.Run();
 
