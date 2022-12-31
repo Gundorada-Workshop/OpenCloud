@@ -1,5 +1,4 @@
 #pragma once
-#include "log.h"
 
 namespace common::log::console_logger
 {

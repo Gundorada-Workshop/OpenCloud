@@ -3,7 +3,7 @@
   <ItemGroup>
     <ClCompile Include="clock.cc" />
     <ClCompile Include="console.cc" />
-    <ClCompile Include="console_logger.cpp" />
+    <ClCompile Include="console_logger.cc" />
     <ClCompile Include="data_stream.cc" />
     <ClCompile Include="debug.cc" />
     <ClCompile Include="dynamic_library.cc" />

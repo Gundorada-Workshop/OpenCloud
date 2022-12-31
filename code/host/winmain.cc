@@ -47,13 +47,11 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
   WCHAR w_path[MAX_PATH];
   GetModuleFileNameW(NULL, w_path, MAX_PATH);
 
-  auto path = strings::wstring_to_utf8(w_path);
-  if (!path)
-    panicf("Can't convert application directory to utf8");
+  auto path = strings::wstring_to_utf8_or_panic(w_path);
 
-  file_helpers::set_application_directory(file_helpers::parent_directory(*path));
+  file_helpers::set_application_directory(file_helpers::parent_directory(path));
 
-  if (!host::dwm_interface::create(file_helpers::basename(*path)))
+  if (!host::dwm_interface::create(file_helpers::basename(path)))
     return EXIT_FAILURE;
 
   // create the render window

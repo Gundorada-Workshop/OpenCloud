@@ -11,12 +11,9 @@ namespace common
 
   bool dynamic_library::open(std::string_view name)
   {
-    const auto wide_name = strings::utf8_to_wstring(name);
+    const auto wide_name = strings::utf8_to_wstring_or_panic(name);
 
-    if (!wide_name)
-      panicf("Failed to convert name for dynamic library {}", name);
-
-    HMODULE handle = LoadLibraryW(wide_name->c_str());
+    HMODULE handle = LoadLibraryW(wide_name.c_str());
     if (!handle)
       return false;
 

@@ -21,11 +21,9 @@ namespace common::synchro
     if (!p_set_thread_description)
       return;
 
-    auto wname = strings::utf8_to_wstring(name);
-    if (!wname)
-      return;
+    auto wname = strings::utf8_to_wstring_or_panic(name);
 
-    p_set_thread_description(GetCurrentThread(), wname->c_str());
+    p_set_thread_description(GetCurrentThread(), wname.c_str());
   }
 
   void sleep_current_thread(uint ms)

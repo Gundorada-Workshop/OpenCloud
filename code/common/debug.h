@@ -28,7 +28,7 @@ namespace common::debug
 
   // same as panic, but with string formatting
   template<typename ...Args>
-  void panic_format(fmt::format_string<Args...> fmtstr, Args&&... args)
+  NO_RETURN void panic_format(fmt::format_string<Args...> fmtstr, Args&&... args)
   {
     const std::string msg = common::strings::format(fmtstr, std::forward<Args>(args)...);
 

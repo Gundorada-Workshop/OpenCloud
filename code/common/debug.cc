@@ -6,9 +6,9 @@
 #include <DbgHelp.h>
 #endif
 
-#include "types.h"
-#include "console.h"
-#include "debug.h"
+#include "common/types.h"
+#include "common/console.h"
+#include "common/debug.h"
 
 namespace common::debug
 {
@@ -71,7 +71,7 @@ namespace common::debug
 
       if (symbols->NameLen)
       {
-        auto name = strings::wstring_to_utf8({ symbols->Name, symbols->NameLen });
+        auto name = strings::wstring_to_utf8_or_none({ symbols->Name, symbols->NameLen });
 
         IMAGEHLP_LINEW64 line_info = {};
         line_info.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
@@ -80,21 +80,11 @@ namespace common::debug
         if (SymGetLineFromAddrW64(process, frame.AddrPC.Offset, &unused2, &line_info))
         {
           // note: null terminated
-          auto path = strings::wstring_to_utf8({ line_info.FileName });
-
-          if (name && path)
-          {
-            auto formatted = strings::format("{}:{} {}", *path, line_info.LineNumber, *name);
-
-            out.push_back(std::move(formatted));
-          }
-
-          // got all the info we need
-          continue;
+          auto path = strings::wstring_to_utf8_or_none({ line_info.FileName });
+          name = strings::format("{}:{} {}", path, line_info.LineNumber, name);
         }
 
-        if (name)
-          out.push_back(std::move(*name));
+        out.push_back(std::move(name));
 
         // didn't get extra symbol info (line number, etc)
         // but we got at name at least
@@ -116,9 +106,7 @@ namespace common::debug
     const auto bt = backtrace(depth);
 
     for (const auto& line : bt)
-    {
       console::write_format("{}\n", line);
-    }
   }
 
   void runtime_assert(std::string_view msg)

@@ -1,7 +1,8 @@
 #include <chrono>
-#include "debug.h"
-#include "console.h"
-#include "console_logger.h"
+#include "common/log.h"
+#include "common/debug.h"
+#include "common/console.h"
+#include "common/console_logger.h"
 
 namespace common::log::console_logger
 {
