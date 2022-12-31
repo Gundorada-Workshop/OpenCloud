@@ -139,10 +139,10 @@ public:
   void SetLODDist(const std::vector<f32>& lods);
 
   // 001620F0
-  void SetLODBlend(sint i);
+  void SetLODBlend(bool flag);
 
   // 001621B0
-  sint GetLODBlend();
+  bool GetLODBlend() const;
 
   // 00166360
   void SetName(const std::string& name);
@@ -226,6 +226,11 @@ public:
   std::list<CMapPiece> m_map_pieces{};
   // C0
   mgCFrame m_unk_field_C0{};
+
+  // 1D8 (length), 1D0 (buf)
+  std::vector<f32> m_lod_dist{};
+  // 1D4
+  bool m_lod_blend{};
 
   // 1E4
   bool m_active{};

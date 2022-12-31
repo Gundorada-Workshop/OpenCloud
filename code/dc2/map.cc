@@ -746,24 +746,25 @@ void CMapParts::SetLODDist(const std::vector<f32>& lods)
 {
   log_trace("CMapParts::{}({})", __func__, fmt::ptr(&lods));
 
-  todo;
+  m_lod_dist.clear();
+  m_lod_dist.reserve(lods.size());
+  std::copy(lods.begin(), lods.end(), std::back_inserter(m_lod_dist));
 }
 
 // 001620F0
-void CMapParts::SetLODBlend(sint i)
+void CMapParts::SetLODBlend(bool flag)
 {
-  log_trace("CMapParts::{}({})", __func__, i);
+  log_trace("CMapParts::{}({})", __func__, flag);
 
-  todo;
+  m_lod_blend = flag;
 }
 
 // 001621B0
-sint CMapParts::GetLODBlend()
+bool CMapParts::GetLODBlend() const
 {
   log_trace("CMapParts::{}()", __func__);
 
-  todo;
-  return 0;
+  return m_lod_blend;
 }
 
 // 00166360
