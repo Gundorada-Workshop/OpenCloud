@@ -203,10 +203,10 @@ public:
   bool CheckColBox(mgVu0FBOX* box) const;
 
   // 001671D0
-  mgVu0FBOX GetBBox() const;
+  std::optional<mgVu0FBOX> GetBBox() const;
 
   // 00167220
-  mgVu0FBOX GetBoundBox() const;
+  std::optional<mgVu0FBOX> GetBoundBox() const;
 
   // 00167280
   vec4 GetBoundSphere() const;
@@ -255,6 +255,11 @@ public:
   // usize m_n_color{}; // m_color.size()
   // 1F0
   std::array<vec4, 4> m_color{};
+
+  // 230
+  bool m_bounding_box_valid{};
+  // 240
+  mgVu0FBOX m_bounding_box{};
 };
 
 class CMap

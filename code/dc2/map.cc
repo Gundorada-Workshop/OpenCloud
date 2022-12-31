@@ -969,21 +969,37 @@ bool CMapParts::CheckColBox(mgVu0FBOX* box) const
 }
 
 // 001671D0
-mgVu0FBOX CMapParts::GetBBox() const
+std::optional<mgVu0FBOX> CMapParts::GetBBox() const
 {
   log_trace("CMapParts::{}()", __func__);
 
-  todo;
-  return mgVu0FBOX{};
+  if (m_bounding_box_valid)
+  {
+    return m_bounding_box;
+  }
+  else
+  {
+    return std::nullopt;
+  }
 }
 
 // 00167220
-mgVu0FBOX CMapParts::GetBoundBox() const
+std::optional<mgVu0FBOX> CMapParts::GetBoundBox() const
 {
   log_trace("CMapParts::{}()", __func__);
 
-  todo;
-  return mgVu0FBOX{};
+  if (m_bounding_box_valid)
+  {
+    mgVu0FBOX result;
+    matrix4 lw_mat = GetLWMatrix();
+
+    mgApplyMatrix(result.corners[0], result.corners[1], lw_mat, m_bounding_box.corners[0], m_bounding_box.corners[1]);
+    return result;
+  }
+  else
+  {
+    return std::nullopt;
+  }
 }
 
 // 00167280
