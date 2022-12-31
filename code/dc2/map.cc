@@ -920,7 +920,26 @@ void CMapParts::UpdateColor()
 {
   log_trace("CMapParts::{}()", __func__);
 
-  todo;
+  for (usize i = 0; i < m_color.size(); ++i)
+  {
+    auto& rgba = m_color[i];
+    if (rgba.a <= 0.0f)
+    {
+      continue;
+    }
+
+    for (auto& map_piece : m_map_pieces)
+    {
+      for (usize j = 0; j < map_piece.m_material.size(); ++j)
+      {
+        auto piece_material = map_piece.GetMaterial(j);
+        if (piece_material->m_unk_field_8 && piece_material->m_color_idx == i)
+        {
+          rgba = vec4{ piece_material->m_color.rgb, rgba.a };
+        }
+      }
+    }
+  }
 }
 
 // 00166A70
