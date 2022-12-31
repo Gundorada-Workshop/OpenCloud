@@ -604,9 +604,9 @@ public:
   // 002C7C20
   void GetCameraPoly(CCPoly& col_poly, mgVu0FBOX& box, int i);
   // 002C7CF0
-  void RunEvent(int i, CSceneEventData& event_data);
+  void RunEvent(int i, CSceneEventData* event_data);
   // 002C7E60
-  bool GetMapEvent(vec4& v, int i, CSceneEventData& event_data);
+  bool GetMapEvent(vec4& v, int i, CSceneEventData* event_data);
   // 002C8070
   bool GetFixCameraPos(vec4& v1, vec4& v2);
   // 002C8120

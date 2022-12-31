@@ -430,21 +430,3 @@ void LadderControl(CScene* scene, CPadControl* pad)
 
   todo;
 }
-
-// 001A76C0
-void EditStepChara(CScene* scene)
-{
-  log_trace("{}({})", __func__, fmt::ptr(scene));
-
-  scene->StepChara(scene->m_control_chrid);
-
-  for (usize i = 8; i < 64; ++i)
-  {
-    scene->StepChara(i);
-  }
-
-  scene->StepChara(120);
-  scene->StepChara(121);
-  scene->StepChara(122);
-  scene->StepChara(123);
-}

@@ -575,3 +575,13 @@ void CThunderEffect::Initialize()
   m_unk_field_94 = 0;
   m_unk_field_98 = 0;
 }
+
+// 001A2110
+CWaveTable::CWaveTable()
+{
+  log_trace("CWaveTable::CWaveTable()");
+
+  memset(&m_unk_field_0, 0, sizeof(m_unk_field_0));
+  memset(&m_unk_field_900, 0, sizeof(m_unk_field_900));
+  m_unk_field_1200 = 0;
+}

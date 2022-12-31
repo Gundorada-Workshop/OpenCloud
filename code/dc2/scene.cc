@@ -1773,17 +1773,17 @@ void CScene::GetCameraPoly(MAYBE_UNUSED CCPoly& col_poly, MAYBE_UNUSED mgVu0FBOX
 }
 
 // 002C7CF0
-void CScene::RunEvent(MAYBE_UNUSED sint i, MAYBE_UNUSED CSceneEventData& event_data)
+void CScene::RunEvent(MAYBE_UNUSED sint i, MAYBE_UNUSED CSceneEventData* event_data)
 {
-	log_trace("CScene::{}({}, {})", __func__, i, fmt::ptr(&event_data));
+	log_trace("CScene::{}({}, {})", __func__, i, fmt::ptr(event_data));
 
 	todo;
 }
 
 // 002C7E60
-bool CScene::GetMapEvent(MAYBE_UNUSED vec4& v, MAYBE_UNUSED sint i, MAYBE_UNUSED CSceneEventData& event_data)
+bool CScene::GetMapEvent(MAYBE_UNUSED vec4& v, MAYBE_UNUSED sint i, MAYBE_UNUSED CSceneEventData* event_data)
 {
-	log_trace("CScene::{}({}, {}, {})", __func__, fmt::ptr(&v), i, fmt::ptr(&event_data));
+	log_trace("CScene::{}({}, {}, {})", __func__, fmt::ptr(&v), i, fmt::ptr(event_data));
 
 	todo;
 	return false;

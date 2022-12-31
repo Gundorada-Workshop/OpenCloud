@@ -6,6 +6,11 @@
 
 // ~ 00168B60 - 001699F0
 
+class CMdsInfo
+{
+
+};
+
 class CMdsList
 {
 public:
