@@ -83,6 +83,46 @@ struct EDIT_EVENT_INFO
   // ALIGNED SIZE 0x450
 };
 
+class CEditEvent
+{
+public:
+  // 002EF9B0
+  void Reset();
+  // 002EF9E0
+  bool StartEvent(CSceneEventData* event_data);
+
+  // 0
+  unk32 m_unk_field_0{ 0 };
+
+  // 4
+  unk32 m_unk_field_4{ 0 };
+
+  // ?
+
+  // C
+  unk32 m_unk_field_C{ 0 };
+
+  // 10
+  s32 m_unk_field_10{ -1 };
+
+  // ?
+
+  // 20
+  unks<0xD0> m_unk_field_20{};
+
+  // ?
+
+  // 128
+  s8 m_unk_field_128{ 0 };
+
+  // ?
+
+  // 148
+  s32 m_unk_field_148{ -1 };
+
+  // SIZE 0x14C
+};
+
 // 01ECE430
 extern EDIT_EVENT_INFO EdEventInfo;
 

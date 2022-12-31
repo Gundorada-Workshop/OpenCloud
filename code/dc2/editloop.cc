@@ -273,30 +273,6 @@ static mgCFrame TestFrame{ };
 // 01E9F0F0
 static std::array<unk32, 0x10> beforeAnalyze{ };
 
-// 002EF9B0
-void CEditEvent::Reset()
-{
-  log_trace("CEditEvent::Reset()");
-
-  m_unk_field_4 = 0;
-  m_unk_field_C = 0;
-  m_unk_field_0 = 0;
-  m_unk_field_10 = -1;
-  m_unk_field_148 = -1;
-  m_unk_field_128 = 0;
-
-  memset(&m_unk_field_20, 0, sizeof(m_unk_field_20));
-}
-
-// 002EF9E0
-bool CEditEvent::StartEvent(CSceneEventData* event_data)
-{
-  log_trace("CEditEvent::{}({})", __func__, fmt::ptr(event_data));
-
-  todo;
-  return false;
-}
-
 // 001A76C0
 void EditStepChara(CScene* scene)
 {
