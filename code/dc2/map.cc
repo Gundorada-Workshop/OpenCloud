@@ -1003,12 +1003,22 @@ std::optional<mgVu0FBOX> CMapParts::GetBoundBox() const
 }
 
 // 00167280
-vec4 CMapParts::GetBoundSphere() const
+std::optional<vec4> CMapParts::GetBoundSphere() const
 {
   log_trace("CMapParts::{}()", __func__);
 
-  todo;
-  return vec4{};
+  if (m_bounding_box_valid)
+  {
+    matrix4 lw_mat = GetLWMatrix();
+
+    vec4 result = lw_mat * m_bounding_sphere;
+    result.w = m_bounding_sphere.w;
+    return result;
+  }
+  else
+  {
+    return std::nullopt;
+  }
 }
 
 // 00167300

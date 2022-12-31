@@ -209,7 +209,7 @@ public:
   std::optional<mgVu0FBOX> GetBoundBox() const;
 
   // 00167280
-  vec4 GetBoundSphere() const;
+  std::optional<vec4> GetBoundSphere() const;
 
   // 00167300
   matrix4 GetLWMatrix() const;
@@ -260,6 +260,8 @@ public:
   bool m_bounding_box_valid{};
   // 240
   mgVu0FBOX m_bounding_box{};
+  // 260
+  vec4 m_bounding_sphere{};
 };
 
 class CMap
