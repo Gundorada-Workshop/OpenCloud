@@ -92,6 +92,8 @@ public:
 
   // 80
   std::string m_name{};
+  // 84 FIXME: flags enum
+  uint m_unk_field_84{};
 
   // 8C (capacity), 90 (buf)
   std::vector<PieceMaterial> m_material{};
@@ -101,6 +103,8 @@ public:
   f32 m_unk_field_98{};
   // 9C
   CCharacter2* m_unk_field_9C{};
+  // A0 FIXME: enum
+  s16 m_col_type{};
 };
 
 class CMapParts : public CObject

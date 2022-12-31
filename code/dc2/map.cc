@@ -786,9 +786,23 @@ void CMapParts::SetPartsName(const std::string& name)
 // 00166420
 void CMapParts::AddPiece(std::list<CMapPiece>& pieces)
 {
+  // Used by script interpreter functions - adds one existing CMapPiece object to this CMapParts
+
   log_trace("CMapParts::{}({})", __func__, fmt::ptr(&pieces));
 
-  todo;
+  CMapPiece* piece = &pieces.front();
+  if ((piece->m_unk_field_84 & 4) != 0)
+  {
+    m_active = true;
+  }
+
+  // Only grab one piece (script stores list of one piece in mapNowMapPiece?)
+  // Unlike the original code, this invalidates the element at mapNowMapPiece,
+  // however this function is only called in mapPIECE_END, so it should be at end of life anyways
+  auto end = pieces.begin();
+  std::advance(end, 1);
+
+  m_map_pieces.splice(m_map_pieces.end(), pieces, pieces.begin(), end);
 }
 
 // 00166490
@@ -796,7 +810,14 @@ CMapPiece* CMapParts::SearchPiece(const std::string& name)
 {
   log_trace("CMapParts::{}({})", __func__, name);
 
-  todo;
+  for (auto& map_pieces : m_map_pieces)
+  {
+    if (map_pieces.m_name == name)
+    {
+      return &map_pieces;
+    }
+  }
+
   return nullptr;
 }
 
@@ -805,7 +826,14 @@ CMapPiece* CMapParts::SearchPieceColType(sint col_type)
 {
   log_trace("CMapParts::{}({})", __func__, col_type);
 
-  todo;
+  for (auto& map_pieces : m_map_pieces)
+  {
+    if (map_pieces.m_col_type == col_type)
+    {
+      return &map_pieces;
+    }
+  }
+
   return nullptr;
 }
 
