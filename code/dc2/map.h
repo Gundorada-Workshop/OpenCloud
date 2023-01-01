@@ -188,7 +188,7 @@ public:
   std::optional<vec4> GetColor(ssize index) const;
 
   // 001667F0
-  std::optional<vec4> GetDefColor(ssize index, const vec4& rgba);
+  std::optional<vec4> GetDefColor(ssize index);
 
   // 001668E0
   void UpdateColor();

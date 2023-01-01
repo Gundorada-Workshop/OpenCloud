@@ -50,6 +50,75 @@ bool CEditHouse::LiveChara() const
   return false;
 }
 
+// 001B5630
+EEPartsType CEditPartsInfo::GetPartsType() const
+{
+  log_trace("CEditPartsInfo::{}()", __func__);
+
+  // FIXME: MAGIC
+  if ((m_unk_field_4 & 0x40) != 0)
+  {
+    return EEPartsType::_1;
+  }
+  if ((m_unk_field_4 & 0x80) != 0)
+  {
+    return EEPartsType::_11;
+  }
+
+  return m_type;
+}
+
+// 001B5670
+void CEditPartsInfo::CreateBox()
+{
+  log_trace("CEditPartsInfo::{}()", __func__);
+
+  new (&m_parts_bound_box) mgVu0FBOX();
+}
+
+// 001B56A0
+f32 CEditPartsInfo::GetPartsHeight() const
+{
+  log_trace("CEditPartsInfo::{}()", __func__);
+
+  return m_parts_bound_box.corners[0].y - m_parts_bound_box.corners[1].y;
+}
+
+// 001B56B0
+f32 CEditPartsInfo::GetPartsMaxWidth() const
+{
+  log_trace("CEditPartsInfo::{}()", __func__);
+
+  vec3 temp = m_parts_bound_box.corners[0] - m_parts_bound_box.corners[1];
+  return std::max({ temp.x, temp.y, temp.z });
+}
+
+// 001B5730
+EditPartsMaterial* CEditPartsInfo::GetMaterial(ssize index)
+{
+  log_trace("CEditPartsInfo::{}({})", __func__, index);
+
+  if (index < 0 || index >= m_material.size())
+  {
+    return nullptr;
+  }
+
+  return &m_material[index];
+}
+
+// 001B5760
+std::optional<vec3> CEditPartsInfo::GetDefColor(ssize index) const
+{
+  log_trace("CEditPartsInfo::{}({})", __func__, index);
+
+  if (m_unk_field_44 == nullptr)
+  {
+    return std::nullopt;
+  }
+
+  return m_unk_field_44->GetDefColor(index);
+}
+
 // 001B57F0
 static f32 StandardPos(f32 f)
 {
@@ -124,13 +193,13 @@ void CEditParts::UpdatePosition()
 }
 
 // 001B5A50
-sint CEditParts::GetInfoID() const
+EEPartsInfoID CEditParts::GetInfoID() const
 {
   log_trace("CEditParts::{}()", __func__);
 
   if (m_info == nullptr)
   {
-    return -1;
+    return EEPartsInfoID::Invalid;
   }
 
   return m_info->m_id;
@@ -276,15 +345,6 @@ void CEditParts::CheckColorUpdate()
   }
 }
 
-// 001B5630
-EEPartsType CEditPartsInfo::GetPartsType() const
-{
-  log_trace("CEditPartsInfo::{}()", __func__);
-
-  todo;
-  return EEPartsType(0);
-}
-
 // 002A4DE0
 void CEditInfoMngr::SetePartsInfoTable(usize capacity)
 {
@@ -343,9 +403,9 @@ CEditPartsInfo* CEditInfoMngr::GetePartsInfo(const std::string& parts_name)
 }
 
 // 002A4ED0
-CEditPartsInfo* CEditInfoMngr::GetePartsInfoAtID(ssize id)
+CEditPartsInfo* CEditInfoMngr::GetePartsInfoAtID(EEPartsInfoID id)
 {
-  log_trace("CEditInfoMngr::{}({})", __func__, id);
+  log_trace("CEditInfoMngr::{}({})", __func__, std::to_underlying(id));
 
   for (auto& parts_info : m_eparts_info)
   {

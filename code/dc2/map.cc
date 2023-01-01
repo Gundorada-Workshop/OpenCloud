@@ -891,9 +891,9 @@ std::optional<vec4> CMapParts::GetColor(ssize index) const
 }
 
 // 001667F0
-std::optional<vec4> CMapParts::GetDefColor(ssize index, const vec4& rgba)
+std::optional<vec4> CMapParts::GetDefColor(ssize index)
 {
-  log_trace("CMapParts::{}({}, {})", __func__, index, fmt::ptr(&rgba));
+  log_trace("CMapParts::{}({})", __func__, index);
 
   if (index < 0 || index >= m_color.size())
   {

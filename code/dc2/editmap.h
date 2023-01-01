@@ -3,6 +3,7 @@
 #include "common/types.h"
 
 #include "dc2/map.h"
+#include "dc2/userdata.h"
 
 struct ePlaceData
 {
@@ -18,6 +19,8 @@ enum class EEPartsType
 {
   Invalid = -1,
   Uninitialized = 0,
+  _1 = 1,
+  _11 = 11,
 };
 
 class CEditHouse
@@ -30,19 +33,67 @@ public:
   std::array<ssize, 3> m_occupant_ids{ 0 };
 };
 
+struct EditPartsMaterial
+{
+  // 0
+  ECommonItemData m_item_id{};
+  // 4
+  ssize m_count{};
+};
+
+enum class EEPartsInfoID
+{
+  Uninitialized = -999,
+  Invalid = -1,
+  _53 = 53,
+  _78 = 78,
+};
+
 class CEditPartsInfo
 {
 public:
   // 001B5630
   EEPartsType GetPartsType() const;
 
+  // 001B5670
+  void CreateBox();
+
+  // 001B56A0
+  f32 GetPartsHeight() const;
+
+  // 001B56B0
+  f32 GetPartsMaxWidth() const;
+
+  // 001B5730
+  EditPartsMaterial* GetMaterial(ssize index);
+
+  // 001B5760
+  std::optional<vec3> GetDefColor(ssize index) const;
+
   // 0
-  ssize m_id{};
+  EEPartsInfoID m_id{ EEPartsInfoID::Uninitialized };
   // 4 FIXME: flags enum
   uint m_unk_field_4{};
 
+  // 18
+  sint m_unk_field_18{ -1 };
+
+  // 24
+  EEPartsType m_type{ EEPartsType::Uninitialized };
+
+  // 2C
+  sint m_unk_field_2C{ -1 };
+
   // 3C
   std::string m_name{};
+
+  // 44
+  CMapParts* m_unk_field_44{};
+
+  // 50
+  mgVu0FBOX m_parts_bound_box{};
+  // 70
+  std::array<EditPartsMaterial, 4> m_material{};
 
   // A0
   vec3 m_unk_field_A0{};
@@ -80,7 +131,7 @@ public:
   vec3 GetLocalPos();
 
   // 001B5A50
-  sint GetInfoID() const;
+  EEPartsInfoID GetInfoID() const;
 
   // 001B5A70
   sint GetLiveNPC() const;
@@ -146,7 +197,7 @@ public:
   CEditPartsInfo* GetePartsInfo(const std::string& parts_name);
 
   // 002A4ED0
-  CEditPartsInfo* GetePartsInfoAtID(ssize id);
+  CEditPartsInfo* GetePartsInfoAtID(EEPartsInfoID id);
 
   // 002A4F40
   CEditPartsInfo* GetPartsInfoAtType(EEPartsType parts_type);
