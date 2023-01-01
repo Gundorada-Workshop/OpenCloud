@@ -1,3 +1,5 @@
+#include <ranges>
+
 #include "common/log.h"
 
 #include "dc2/editmap.h"
@@ -39,13 +41,239 @@ bool CEditHouse::LiveChara() const
 
   for (auto chara_id : m_occupant_ids)
   {
-    if (chara_id != ECharacterID::Invalid)
+    if (chara_id > 0)
     {
       return true;
     }
   }
 
   return false;
+}
+
+// 001B57F0
+static f32 StandardPos(f32 f)
+{
+  log_trace("{}({})", __func__, f);
+
+  f32 epsilon = (f > 0.0f) ? 0.001 : -0.001;
+  return truncf(f + epsilon);
+}
+
+// 001B5860
+void CEditParts::SetPosition(const vec3& position)
+{
+  log_trace("CEditParts::{}(({}, {}, {}))", __func__, position.x, position.y, position.z);
+
+  if (m_unk_field_314 != nullptr)
+  {
+    vec3 old_pos = GetPosition();
+    mgCObject::SetPosition(vec3{ position.x, StandardPos(old_pos.y), position.z });
+  }
+  else
+  {
+    mgCObject::SetPosition(position);
+  }
+}
+
+// 001B58E0
+void CEditParts::SetPosition(f32 x, f32 y, f32 z)
+{
+  log_trace("CEditParts::{}({}, {}, {})", __func__, x, y, z);
+
+  SetPosition(vec3{ x, y, z });
+}
+
+// 001B5930
+vec3 CEditParts::GetPosition()
+{
+  log_trace("CEditParts::{}()", __func__);
+
+  vec3 local_pos = GetLocalPos();
+
+  if (m_unk_field_314 != nullptr)
+  {
+    vec3 pos = GetPosition();
+    local_pos.y += StandardPos(pos.y);
+  }
+
+  return local_pos;
+}
+
+// 001B59A0
+void CEditParts::UpdatePosition()
+{
+  log_trace("CEditParts::{}()", __func__);
+
+  if (!m_unk_field_40 && m_unk_field_314 == nullptr)
+  {
+    return;
+  }
+
+  vec3 local_pos = GetLocalPos();
+
+  if (m_unk_field_314 != nullptr)
+  {
+    local_pos.y += m_unk_field_314->GetPosition().y;
+  }
+
+  m_unk_field_C0.SetPosition(local_pos);
+  m_unk_field_C0.SetRotation(m_rotation);
+  m_unk_field_C0.SetScale(m_scale);
+
+  m_unk_field_40 = false;
+}
+
+// 001B5A50
+sint CEditParts::GetInfoID() const
+{
+  log_trace("CEditParts::{}()", __func__);
+
+  if (m_info == nullptr)
+  {
+    return -1;
+  }
+
+  return m_info->m_id;
+}
+
+// 001B5990
+vec3 CEditParts::GetLocalPos()
+{
+  log_trace("CEditParts::{}()", __func__);
+
+  return mgCObject::GetPosition();
+}
+
+// 001B5A70
+sint CEditParts::GetLiveNPC() const
+{
+  log_trace("CEditParts::{}()", __func__);
+
+  if (m_house == nullptr)
+  {
+    return -1;
+  }
+
+  return m_house->m_occupant_ids.front();
+}
+
+// 001B5A90
+bool CEditParts::IsWallParts() const
+{
+  log_trace("CEditParts::{}()", __func__);
+
+  if (m_info == nullptr)
+  {
+    return false;
+  }
+
+  todo;
+  return false;
+}
+
+// 001B5AC0
+bool CEditParts::IsFence() const
+{
+  log_trace("CEditParts::{}()", __func__);
+
+  if (m_info == nullptr)
+  {
+    return false;
+  }
+
+  // FIXME: MAGIC
+  return ((m_info->m_unk_field_4 & 0x130) == 0x130);
+}
+
+// 001B5AF0
+bool CEditParts::IsBurn() const
+{
+  log_trace("CEditParts::{}()", __func__);
+
+  if (m_info == nullptr)
+  {
+    return false;
+  }
+
+  // FIXME: MAGIC
+  return ((m_info->m_unk_field_4 & 0x1000) != 0x0);
+};
+
+// 001B5B20
+bool CEditParts::GetFenceSide(vec3& v1_dest, vec3& v2_dest)
+{
+  log_trace("CEditParts::{}()", __func__);
+
+  if (!m_bounding_box_valid || m_info == nullptr)
+  {
+    return false;
+  }
+
+  matrix4 lw_mat = GetLWMatrix();
+  vec4 var_20 = vec4{ m_info->m_unk_field_A0, 1.0f };
+  vec4 var_10 = vec4{ m_info->m_unk_field_B0, 1.0f };
+
+  v1_dest = lw_mat * var_20;
+  v2_dest = lw_mat * var_10;
+  return true;
+}
+
+// 001B5BD0
+bool CEditParts::GetWallPlane(sint i, WallInfo* wall_info) const
+{
+  log_trace("CEditParts::{}()", __func__);
+
+  todo;
+  return false;
+}
+
+// 001B5DC0
+sint CEditParts::GetWallGroupNum() const
+{
+  log_trace("CEditParts::{}()", __func__);
+
+  if (m_info == nullptr)
+  {
+    return 0;
+  }
+
+  return m_info->m_wall_group_num;
+}
+
+// 001B5DE0
+EEPartsType CEditParts::GetPartsType() const
+{
+  log_trace("CEditParts::{}()", __func__);
+
+  if (m_info == nullptr)
+  {
+    return EEPartsType::Invalid;
+  }
+
+  return m_info->GetPartsType();
+}
+
+// 001B5E20
+bool CEditParts::CheckTerritory(const CEditParts* other) const
+{
+  log_trace("CEditParts::{}()", __func__);
+
+  todo;
+  return false;
+}
+
+// 001B5F50
+void CEditParts::CheckColorUpdate()
+{
+  log_trace("CEditParts::{}()", __func__);
+
+  for (const auto& map_piece : m_map_pieces)
+  {
+    if (map_piece.m_material.size() > 0)
+    {
+      m_n_material = std::max<sint>(map_piece.m_material.size(), m_n_material);
+    }
+  }
 }
 
 // 001B5630
@@ -149,7 +377,7 @@ CEditPartsInfo* CEditInfoMngr::GetPartsInfoAtType(EEPartsType parts_type)
 // 002A58E0
 void CEditInfoMngr::LoadEditInfo(char* file, usize file_len)
 {
-  log_trace("CEditInfoMngr::{}({})", __func__, capacity);
+  log_trace("CEditInfoMngr::{}({}, {})", __func__, file, file_len);
 
   emapInfo = this;
   emapIdx = 0;

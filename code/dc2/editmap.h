@@ -3,7 +3,6 @@
 #include "common/types.h"
 
 #include "dc2/map.h"
-#include "dc2/userdata.h"
 
 struct ePlaceData
 {
@@ -17,7 +16,18 @@ public:
 
 enum class EEPartsType
 {
+  Invalid = -1,
+  Uninitialized = 0,
+};
 
+class CEditHouse
+{
+public:
+  // 001B5790
+  bool LiveChara() const;
+
+  bool m_active{};
+  std::array<ssize, 3> m_occupant_ids{ 0 };
 };
 
 class CEditPartsInfo
@@ -28,30 +38,96 @@ public:
 
   // 0
   ssize m_id{};
+  // 4 FIXME: flags enum
+  uint m_unk_field_4{};
 
   // 3C
   std::string m_name{};
 
+  // A0
+  vec3 m_unk_field_A0{};
+  // B0
+  vec3 m_unk_field_B0{};
+
+  // 254
+  sint m_wall_group_num{};
+
   // SIZE 0x280
 };
 
-class CEditHouse
-{
-public:
-  // 001B5790
-  bool LiveChara() const;
-
-  bool m_active{};
-  std::array<ECharacterID, 3> m_occupant_ids{ ECharacterID::Invalid };
-};
-
-class CEditParts
+class CEditParts : public CMapParts
 {
 public:
   struct WallInfo
   {
   public:
+    matrix4 m_wall_plane{};
   };
+
+  // 001B5860
+  virtual void SetPosition(const vec3& position) override;
+
+  // 001B58E0
+  virtual void SetPosition(f32 x, f32 y, f32 z) override;
+
+  // 001B5930
+  virtual vec3 GetPosition() override;
+
+  // 001B59A0
+  virtual void UpdatePosition() override;
+
+  // 001B5990
+  vec3 GetLocalPos();
+
+  // 001B5A50
+  sint GetInfoID() const;
+
+  // 001B5A70
+  sint GetLiveNPC() const;
+
+  // 001B5A90
+  bool IsWallParts() const;
+
+  // 001B5AC0
+  bool IsFence() const;
+
+  // 001B5AF0
+  bool IsBurn() const;
+
+  // 001B5B20
+  bool GetFenceSide(vec3& v1_dest, vec3& v2_dest);
+
+  // 001B5BD0
+  bool GetWallPlane(sint i, WallInfo* wall_info) const;
+
+  // 001B5DC0
+  sint GetWallGroupNum() const;
+
+  // 001B5DE0
+  EEPartsType GetPartsType() const;
+
+  // 001B5E20
+  bool CheckTerritory(const CEditParts* other) const;
+
+  // 001B5F50
+  void CheckColorUpdate();
+
+  // 310
+  unk32 m_unk_field_310{};
+  // 314
+  CMapParts* m_unk_field_314{};
+  // 318
+  sint m_n_material{};
+  // 31C
+  unk32 m_unk_field_31C{};
+  // 320
+  unk32 m_unk_field_320{};
+  // 324
+  CEditPartsInfo* m_info{};
+  // 328
+  CEditHouse* m_house{};
+
+  // ALIGNED SIZE 0x330
 };
 
 class CEditInfoMngr
