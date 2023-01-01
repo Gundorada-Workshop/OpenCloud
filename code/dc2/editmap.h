@@ -3,6 +3,7 @@
 #include "common/types.h"
 
 #include "dc2/map.h"
+#include "dc2/userdata.h"
 
 struct ePlaceData
 {
@@ -37,9 +38,12 @@ public:
 class CEditHouse
 {
 public:
+  // 001B5790
+  bool LiveChara() const;
+
+  bool m_active{};
+  std::array<ECharacterID, 3> m_occupant_ids{ ECharacterID::Invalid };
 };
-
-
 
 class CEditParts
 {

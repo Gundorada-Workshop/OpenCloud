@@ -5,12 +5,6 @@
 
 set_log_channel("editmap");
 
-// 003543C0
-const static SPI_TAG_PARAM emap_tag[] = {
-  // TODO
-  nullptr, nullptr
-};
-
 // 00377F44
 static CEditInfoMngr* emapInfo{};
 // 00377F4C
@@ -31,6 +25,28 @@ static sint emapRectIdx{};
 static sint emapFixNum{};
 // 00377F6C
 static sint emapFixIdx{};
+
+// 003543C0
+const static SPI_TAG_PARAM emap_tag[] = {
+  // TODO
+  nullptr, nullptr
+};
+
+// 001B5790
+bool CEditHouse::LiveChara() const
+{
+  log_trace("CEditHouse::{}()", __func__);
+
+  for (auto chara_id : m_occupant_ids)
+  {
+    if (chara_id != ECharacterID::Invalid)
+    {
+      return true;
+    }
+  }
+
+  return false;
+}
 
 // 001B5630
 EEPartsType CEditPartsInfo::GetPartsType() const
