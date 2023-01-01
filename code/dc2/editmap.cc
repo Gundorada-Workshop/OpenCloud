@@ -34,6 +34,223 @@ const static SPI_TAG_PARAM emap_tag[] = {
   nullptr, nullptr
 };
 
+// 00297770
+void CEditGrid::Create(usize x, usize y)
+{
+  log_trace("CEditGrid::{}({}, {})", __func__, x, y);
+
+  usize capacity = x * y;
+  m_tiles.reserve(capacity);
+
+  for (usize i = 0; i < capacity; ++i)
+  {
+    m_tiles.emplace_back();
+  }
+}
+
+// 00297860
+void CEditGrid::Clear()
+{
+  log_trace("CEditGrid::{}()", __func__);
+
+  m_tiles.clear();
+}
+
+// 002978B0
+bool CEditGrid::Check(usize x, usize y) const
+{
+  log_trace("CEditGrid::{}({}, {})", __func__, x, y);
+
+  return x < m_x && y < m_y;
+}
+
+// 00297900
+CGridData* CEditGrid::Get(usize x, usize y)
+{
+  log_trace("CEditGrid::{}({}, {})", __func__, x, y);
+
+  if (!Check(x, y))
+  {
+    return nullptr;
+  }
+
+  return GetFast(x, y);
+}
+
+// 00297990
+// local position (discrete x, y position)
+std::optional<std::pair<usize, usize>> CEditGrid::GetLPos(f32 x, f32 y) const
+{
+  log_trace("CEditGrid::{}({}, {})", __func__, x, y);
+
+  // Localize x and y to our grid
+  x = (x - m_grid_start_pos.x) / m_tile_len_x;
+  y = (y - m_grid_start_pos.y) / m_tile_len_y;
+
+  // Now check that x and y are valid
+  if (x < 0.0f || y < 0.0f)
+  {
+    return std::nullopt;
+  }
+
+  std::pair<usize, usize> result = { static_cast<usize>(x), static_cast<usize>(y) };
+  if (!Check(result.first, result.second))
+  {
+    return std::nullopt;
+  }
+
+  return result;
+}
+
+// 00297A50
+// world position (where are we in the scene, actually?)
+vec3 CEditGrid::GetWPos(usize x, usize y) const
+{
+  log_trace("CEditGrid::{}({}, {})", __func__, x, y);
+
+  return vec3
+  {
+    static_cast<f32>(x) * m_tile_len_x + m_grid_start_pos.x,
+    0.0f,
+    static_cast<f32>(y) * m_tile_len_y + m_grid_start_pos.y,
+  };
+}
+
+// 00297AA0
+bool CEditGrid::SetRiver(f32 x, f32 y)
+{
+  log_trace("CEditGrid::{}({}, {})", __func__, x, y);
+
+  auto local_pos = GetLPos(x, y);
+  if (!local_pos.has_value())
+  {
+    return false;
+  }
+
+  return SetRiver(local_pos.value().first, local_pos.value().second);
+}
+
+// 00297AA0
+bool CEditGrid::ResetRiver(f32 x, f32 y)
+{
+  log_trace("CEditGrid::{}({}, {})", __func__, x, y);
+
+  auto local_pos = GetLPos(x, y);
+  if (!local_pos.has_value())
+  {
+    return false;
+  }
+
+  return ResetRiver(local_pos.value().first, local_pos.value().second);
+}
+
+// 00297B20
+bool CEditGrid::SetRiver(usize x, usize y)
+{
+  log_trace("CEditGrid::{}({}, {})", __func__, x, y);
+
+  auto grid_data = Get(x, y);
+  if (grid_data == nullptr)
+  {
+    return false;
+  }
+
+  grid_data->m_river = true;
+
+  // Update this and all adjacent rivers
+  // this is the call order I dunno if it matters, it's kind of funky
+  UpdateRiver(x + 0, y + 0);
+  UpdateRiver(x - 1, y + 0);
+  UpdateRiver(x + 1, y + 0);
+  UpdateRiver(x + 0, y + 1);
+  UpdateRiver(x + 0, y - 1);
+  UpdateRiver(x - 1, y - 1);
+  UpdateRiver(x + 1, y - 1);
+  UpdateRiver(x + 1, y + 1);
+  UpdateRiver(x - 1, y + 1);
+
+  return true;
+}
+
+// 00297C10
+bool CEditGrid::ResetRiver(usize x, usize y)
+{
+  log_trace("CEditGrid::{}({}, {})", __func__, x, y);
+
+  auto grid_data = Get(x, y);
+  if (grid_data == nullptr || !grid_data->m_river)
+  {
+    return false;
+  }
+
+  grid_data->m_river = false;
+
+  // Update this and all adjacent rivers
+  // this is the call order I dunno if it matters, it's kind of funky
+  UpdateRiver(x + 0, y + 0);
+  UpdateRiver(x - 1, y + 0);
+  UpdateRiver(x + 1, y + 0);
+  UpdateRiver(x + 0, y + 1);
+  UpdateRiver(x + 0, y - 1);
+  UpdateRiver(x - 1, y - 1);
+  UpdateRiver(x + 1, y - 1);
+  UpdateRiver(x + 1, y + 1);
+  UpdateRiver(x - 1, y + 1);
+
+  return true;
+}
+
+// 00297D10
+bool CEditGrid::UpdateRiver(usize x, usize y)
+{
+  log_trace("CEditGrid::{}({}, {})", __func__, x, y);
+
+  todo;
+  return false;
+}
+
+// 00298040
+bool CEditGrid::River(usize x, usize y)
+{
+  log_trace("CEditGrid::{}({}, {})", __func__, x, y);
+
+  auto grid_data = Get(x, y);
+  return grid_data != nullptr && grid_data->m_river;
+}
+
+// 00298070
+void CEditGrid::GetRiverPos(usize x, usize y, matrix4& dest) const
+{
+  log_trace("CEditGrid::{}({}, {}, {})", __func__, x, y, fmt::ptr(&dest));
+
+  todo;
+}
+
+// 00298170
+void CEditGrid::GetRiverPos(usize x, usize y, vec3& dest) const
+{
+  log_trace("CEditGrid::{}({}, {}, {})", __func__, x, y, fmt::ptr(&dest));
+
+  todo;
+}
+
+// 00298200
+void CEditGrid::GetRiverPoly(CCPoly* dest, const mgVu0FBOX& box, sint i, f32 f)
+{
+  log_trace("CEditGrid::{}({}, {}, {}, {})", __func__, fmt::ptr(&dest), fmt::ptr(&box), i, f);
+
+  todo;
+}
+
+// 002985C0
+mgVu0FBOX CEditGrid::GetGridBox(const vec3& pos) const
+{
+  log_trace("CEditGrid::{}({})", __func__, fmt::ptr(&pos));
+
+  todo;
+  return mgVu0FBOX{};
+}
+
 // 001B5790
 bool CEditHouse::LiveChara() const
 {

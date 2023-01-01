@@ -3,6 +3,7 @@
 #include "common/types.h"
 
 #include "dc2/map.h"
+#include "dc2/mg/mg_lib.h"
 #include "dc2/userdata.h"
 
 struct ePlaceData
@@ -21,6 +22,97 @@ enum class EEPartsType
   Uninitialized = 0,
   _1 = 1,
   _11 = 11,
+};
+
+class CGridData
+{
+public:
+  // 0
+  bool m_river{};
+  // 4
+  unk32 m_unk_field_4{};
+  // 8
+  unk32 m_unk_field_8{};
+  // C
+  unk32 m_unk_field_C{};
+  // 10
+  unk32 m_unk_field_10{};
+};
+
+class CEditGrid
+{
+  // 00297770
+  void Create(usize x, usize y);
+
+  // 00297860
+  void Clear();
+
+  // 002978B0
+  bool Check(usize x, usize y) const;
+
+  // 00297900
+  CGridData* Get(usize x, usize y);
+
+  // 00297960
+  // Unchecked Get!
+  inline CGridData* GetFast(usize x, usize y)
+  {
+    return &m_tiles[m_x * x + y];
+  }
+
+  // 00297990
+  // local position (discrete x, y position)
+  std::optional<std::pair<usize, usize>> GetLPos(f32 x, f32 y) const;
+
+  // 00297A50
+  // world position (where are we in the scene, actually?)
+  vec3 GetWPos(usize x, usize y) const;
+
+  // 00297AA0
+  bool SetRiver(f32 x, f32 y);
+
+  // 00297AA0
+  bool ResetRiver(f32 x, f32 y);
+
+  // 00297B20
+  bool SetRiver(usize x, usize y);
+
+  // 00297C10
+  bool ResetRiver(usize x, usize y);
+
+  // 00298040
+  bool River(usize x, usize y);
+
+  // 00298070
+  void GetRiverPos(usize x, usize y, matrix4& dest) const;
+
+  // 00298170
+  void GetRiverPos(usize x, usize y, vec3& dest) const;
+
+  // 00298200
+  void GetRiverPoly(CCPoly* dest, const mgVu0FBOX& box, sint i, f32 f);
+
+  // 002985C0
+  mgVu0FBOX GetGridBox(const vec3& pos) const;
+
+private:
+  // 00297D10
+  bool UpdateRiver(usize x, usize y);
+
+public:
+
+  // 0
+  usize m_x{};
+  // 4
+  usize m_y{};
+  // 8
+  std::vector<CGridData> m_tiles{};
+  // C
+  f32 m_tile_len_x{};
+  // 10
+  f32 m_tile_len_y{};
+  // 20
+  vec3 m_grid_start_pos{ 0.0f };
 };
 
 class CEditHouse
