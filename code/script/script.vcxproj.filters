@@ -4,6 +4,9 @@
     <Filter Include="runscript">
       <UniqueIdentifier>{77c534e3-8b9d-429d-a6cd-f8f4fa00f6c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="spi">
+      <UniqueIdentifier>{659ec52c-6222-4a34-9963-de0a00d5ed4f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rs\bytecode.h">
@@ -13,6 +16,9 @@
       <Filter>runscript</Filter>
     </ClInclude>
     <ClInclude Include="rs\analyzer.h">
+      <Filter>runscript</Filter>
+    </ClInclude>
+    <ClInclude Include="rs\stack.h">
       <Filter>runscript</Filter>
     </ClInclude>
   </ItemGroup>

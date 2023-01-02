@@ -13,6 +13,7 @@
     <ClInclude Include="rs\analyzer.h" />
     <ClInclude Include="rs\bytecode.h" />
     <ClInclude Include="rs\file.h" />
+    <ClInclude Include="rs\stack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="rs\analyzer.cc" />
