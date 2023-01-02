@@ -524,7 +524,7 @@ CMapPiece::CMapPiece()
 }
 
 // 00168850
-CMapPiece::CMapPiece(CMapPiece& other)
+CMapPiece::CMapPiece(const CMapPiece& other)
 {
   log_trace("CMapPiece::{}({})", __func__, fmt::ptr(&other));
 
@@ -646,7 +646,7 @@ CMapParts::CMapParts()
 }
 
 // 00167AA0
-CMapParts::CMapParts(CMapParts& other)
+CMapParts::CMapParts(const CMapParts& other)
 {
   log_trace("CMapParts::{}({})", __func__, fmt::ptr(&other));
 
@@ -891,9 +891,9 @@ std::optional<vec4> CMapParts::GetColor(ssize index) const
 }
 
 // 001667F0
-std::optional<vec4> CMapParts::GetDefColor(ssize index, const vec4& rgba)
+std::optional<vec4> CMapParts::GetDefColor(ssize index)
 {
-  log_trace("CMapParts::{}({}, {})", __func__, index, fmt::ptr(&rgba));
+  log_trace("CMapParts::{}({})", __func__, index);
 
   if (index < 0 || index >= m_color.size())
   {
@@ -1116,9 +1116,9 @@ unkptr CMap::DrawDirect()
 }
 
 // 0015D7A0
-bool CMap::PreDraw(vec3* v)
+bool CMap::PreDraw(const vec3& v)
 {
-  log_trace("CMap::{}({})", __func__, fmt::ptr(v));
+  log_trace("CMap::{}({})", __func__, fmt::ptr(&v));
 
   todo;
   return false;
@@ -1472,14 +1472,6 @@ std::optional<mgVu0FBOX> CMap::GetBBox() const
     return m_bounding_box;
   }
   return std::nullopt;
-}
-
-// 0015D7A0
-void CMap::PreDraw(const vec3& v)
-{
-  log_trace("CMap::{}({})", __func__, fmt::ptr(&v));
-
-  todo;
 }
 
 // 0015DBE0

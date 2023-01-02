@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="camera.h" />
     <ClInclude Include="character_func.h" />
+    <ClInclude Include="editmap.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effect_script.h" />
     <ClInclude Include="font.h" />
@@ -100,6 +101,7 @@
     <ClCompile Include="character.cc" />
     <ClCompile Include="character_func.cc" />
     <ClCompile Include="dbg_font.cc" />
+    <ClCompile Include="editmap.cc" />
     <ClCompile Include="effect.cc" />
     <ClCompile Include="effect_script.cc" />
     <ClCompile Include="font.cc" />
