@@ -1,8 +1,6 @@
 #pragma once
 #include <array>
 
-#include <glm/glm.hpp>
-
 #include "common/debug.h"
 #include "common/types.h"
 
@@ -140,7 +138,7 @@ void sndPortSqPause(int port_no);
 void sndPortSqReplay(int port_no);
 
 // 0018EEF0
-void sndGetVolPan(f32* fp0, f32* fp1, vec3* emitter_position, f32 f0, f32 f1);
+//void sndGetVolPan(f32* fp0, f32* fp1, vec3* emitter_position, f32 f0, f32 f1);
 
 // 00190530
 void sndStreamPause();

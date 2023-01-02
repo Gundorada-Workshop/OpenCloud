@@ -71,7 +71,7 @@ public:
 
 public:
   // 10  00172DE0
-  virtual void SetPosition(const vec3& v) override;
+  //virtual void SetPosition(const vec3& v) override;
 
   // 14  00172DE0
   virtual void SetPosition(f32 x, f32 y, f32 z) override;
@@ -164,7 +164,7 @@ public:
   virtual void ShadowStep();
 
   // DC  001743C0
-  virtual void SetWind(f32 velocity, vec4& direction);
+  //virtual void SetWind(f32 velocity, vec4& direction);
 
   // E0  00174440
   virtual void ResetWind();
@@ -218,7 +218,7 @@ public:
   void StepDA(s32 steps = 1);
 
   // 001743C0
-  void SetWind(f32 velocity, const vec3& direction);
+  //void SetWind(f32 velocity, const vec3& direction);
 
   // 00174AD0
   CHRINFO_KEY_SET* GetKeyListPtr(std::string key_name, s32* index_dest = nullptr);
@@ -230,13 +230,13 @@ public:
   void DeleteImage();
 
   // 00174F50
-  vec3 GetEntryObjectPos(usize object_index);
+  //vec3 GetEntryObjectPos(usize object_index);
 
   // 00174FE0
-  matrix4 GetEntryObjectPosMatrix(usize object_index);
+  //matrix4 GetEntryObjectPosMatrix(usize object_index);
 
   // 00175080
-  vec3 GetEntryObjectPos(usize i1, usize i2);
+  //vec3 GetEntryObjectPos(usize i1, usize i2);
 
   // 00175160
   f32 GetWaitToFrame(std::string key_name, f32 rate);
@@ -284,7 +284,7 @@ public:
   f32 m_unk_field_A0{ 0.0f };
 
   // B0
-  matrix4 m_unk_field_B0{ 1.0f };
+  //matrix4 m_unk_field_B0{ 1.0f };
 
   // F0
   unkstr<0x10> m_unk_field_F0{ 0 };
@@ -566,7 +566,7 @@ public:
   void NewBoundingBoxTable(sint, mgCMemory* stack);
   void NewCollisionTable(sint, mgCMemory* stack);
   // 00179E70
-  void SetWind(f32 velocity, vec4& direction);
+  //void SetWind(f32 velocity, vec4& direction);
   // 00179E80
   void ResetWind();
   // 00179E90
@@ -577,7 +577,7 @@ public:
   // 68
   f32 m_wind_velocity;
   // 70
-  vec4 m_wind_direction;
+  //vec4 m_wind_direction;
 
   // ?
 
@@ -766,7 +766,7 @@ public:
   f32 GetTargetDist(CScene* scene);
 
   // 0016BEE0
-  void CollisionCheck(const vec3& v1, const vec3& v2, const vec3& v3);
+  //void CollisionCheck(const vec3& v1, const vec3& v2, const vec3& v3);
 
   // 0016C7A0
   // "RockOn"
@@ -823,7 +823,7 @@ public:
   // 678
   CActionChara* m_chara_parent{};
   // 690
-  vec3 m_front_vec{ 0.0f, 0.0f, 0.0f };
+  //vec3 m_front_vec{ 0.0f, 0.0f, 0.0f };
   // 6A4
   EAttackType m_attack_type{};
   // 6A8

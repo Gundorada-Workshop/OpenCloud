@@ -1,6 +1,4 @@
 #pragma once
-#include <glm/glm.hpp>
-
 #include "common/debug.h"
 #include "common/log.h"
 #include "common/macros.h"
@@ -134,16 +132,16 @@ static bool init$1253;
 static s32 reload_cnt$1348;
 
 // 01F5F940
-static vec4 StarbullPos;
+//static vec4 StarbullPos;
 
 // 01F5F950
 static mgCMemory EffectBuff{};
 
 // 01F5F980
-static vec4 BuggyVelo;
+//static vec4 BuggyVelo;
 
 // 01F5F990
-static vec4 BombVelo;
+//static vec4 BombVelo;
 
 // 01F5F9A0
 static STRU_1F5F9A0 PolVoice{};
@@ -276,16 +274,16 @@ bool TakeBomb()
 	return true;
 }
 
-bool ThrowBomb(MAYBE_UNUSED vec4& dir)
-{
-	// todo: need formatter for vec4
-	// log_trace("ThrowBomb({})", dir);
-	log_trace("ThrowBomb(dir)");
-
-	todo;
-
-	return false;
-}
+//bool ThrowBomb(MAYBE_UNUSED vec4& dir)
+//{
+//	// todo: need formatter for vec4
+//	// log_trace("ThrowBomb({})", dir);
+//	log_trace("ThrowBomb(dir)");
+//
+//	todo;
+//
+//	return false;
+//}
 
 bool BombBomb()
 {
@@ -296,7 +294,7 @@ bool BombBomb()
 		return false;
 	}
 
-	BombVelo = vec4(0.0f);
+	//BombVelo = vec4(0.0f);
 
 	BombCount = 0;
 	BombHitObj = true;

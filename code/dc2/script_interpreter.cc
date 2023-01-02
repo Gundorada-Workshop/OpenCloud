@@ -45,12 +45,12 @@ f32 spiGetStackFloat(SPI_STACK* stack)
   return 0.0f;
 }
 
-void spiGetStackVector(vec3 v, SPI_STACK* stack)
-{
-  v[0] = spiGetStackFloat(stack);
-  v[1] = spiGetStackFloat(++stack);
-  v[2] = spiGetStackFloat(++stack);
-}
+//void spiGetStackVector(vec3 v, SPI_STACK* stack)
+//{
+//  v[0] = spiGetStackFloat(stack);
+//  v[1] = spiGetStackFloat(++stack);
+//  v[2] = spiGetStackFloat(++stack);
+//}
 
 // 00146290
 bool input_str::GetLine(std::string& line_dest, const std::string line_sep)

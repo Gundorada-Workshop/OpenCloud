@@ -7,5 +7,4 @@
   </ItemGroup>
   <Import Project="$(SolutionDir)external\wil.exports.props" />
   <Import Project="$(SolutionDir)external\fmt.exports.props" />
-  <Import Project="$(SolutionDir)external\glm.exports.props"/>
 </Project>

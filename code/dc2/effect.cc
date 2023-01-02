@@ -1,7 +1,5 @@
 #include <string.h>
 
-#include <glm/glm.hpp>
-
 #include "common/log.h"
 #include "common/macros.h"
 

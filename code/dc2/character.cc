@@ -11,19 +11,19 @@ set_log_channel("character")
 CScene* nowScene{ nullptr };
 
 // 00172DE0
-void CCharacter2::SetPosition(const vec3& v)
-{
-  log_trace("CCharacter2::{}({})", __func__, fmt::ptr(&v));
-
-  mgCObject::SetPosition(v);
-}
+//void CCharacter2::SetPosition(const vec3& v)
+//{
+//  log_trace("CCharacter2::{}({})", __func__, fmt::ptr(&v));
+//
+//  mgCObject::SetPosition(v);
+//}
 
 // 00172DE0
 void CCharacter2::SetPosition(f32 x, f32 y, f32 z)
 {
   log_trace("CCharacter2::{}({}, {}, {})", __func__, x, y, z);
 
-  mgCObject::SetPosition({ x, y, z });
+  //mgCObject::SetPosition({ x, y, z });
 }
 
 // 00172F60
@@ -284,9 +284,9 @@ unkptr CCharacter2::DrawShadowDirect()
   }
 
   ShadowStep();
-  m_unk_field_2C0->SetPosition(m_position);
-  m_unk_field_2C0->SetRotation(m_rotation);
-  m_unk_field_2C0->SetScale(m_scale);
+  //m_unk_field_2C0->SetPosition(m_position);
+  //m_unk_field_2C0->SetRotation(m_rotation);
+  //m_unk_field_2C0->SetScale(m_scale);
 
   // 001736A8
   todo;
@@ -318,15 +318,15 @@ void CCharacter2::ShadowStep()
 }
 
 // 001743C0
-void CCharacter2::SetWind(f32 velocity, vec4& direction)
-{
-  log_trace("CCharacter2::{}({}, {})", __func__, velocity, fmt::ptr(&direction));
-
-  for (sint i = 0; i < m_n_unk_field_130; ++i)
-  {
-    m_unk_field_130[i].SetWind(velocity, direction);
-  }
-}
+//void CCharacter2::SetWind(f32 velocity, vec4& direction)
+//{
+//  log_trace("CCharacter2::{}({}, {})", __func__, velocity, fmt::ptr(&direction));
+//
+//  for (sint i = 0; i < m_n_unk_field_130; ++i)
+//  {
+//    m_unk_field_130[i].SetWind(velocity, direction);
+//  }
+//}
 
 // 00174440
 void CCharacter2::ResetWind()
@@ -469,12 +469,12 @@ void CCharacter2::StepDA(s32 steps)
 }
 
 // 001743C0
-void CCharacter2::SetWind(f32 velocity, const vec3& direction)
-{
-  log_trace("CCharacter2::{}({}, {})", __func__, velocity, direction);
-
-  todo;
-}
+//void CCharacter2::SetWind(f32 velocity, const vec3& direction)
+//{
+//  log_trace("CCharacter2::{}({}, {})", __func__, velocity, direction);
+//
+//  todo;
+//}
 
 // 00174AD0
 CHRINFO_KEY_SET* CCharacter2::GetKeyListPtr(std::string key_name, s32* index_dest)
@@ -502,31 +502,31 @@ void CCharacter2::DeleteImage()
 }
 
 // 00174F50
-vec3 CCharacter2::GetEntryObjectPos(usize object_index)
-{
-  log_trace("CCharacter2::{}({})", __func__, object_index);
-
-  todo;
-  return vec3{ 0.0f };
-}
+//vec3 CCharacter2::GetEntryObjectPos(usize object_index)
+//{
+//  log_trace("CCharacter2::{}({})", __func__, object_index);
+//
+//  todo;
+//  return vec3{ 0.0f };
+//}
 
 // 00174FE0
-matrix4 CCharacter2::GetEntryObjectPosMatrix(usize object_index)
-{
-  log_trace("CCharacter2::{}({})", __func__, object_index);
-
-  todo;
-  return matrix4{ 1.0f };
-}
+//matrix4 CCharacter2::GetEntryObjectPosMatrix(usize object_index)
+//{
+//  log_trace("CCharacter2::{}({})", __func__, object_index);
+//
+//  todo;
+//  return matrix4{ 1.0f };
+//}
 
 // 00175080
-vec3 CCharacter2::GetEntryObjectPos(usize i1, usize i2)
-{
-  log_trace("CCharacter2::{}({}, {})", __func__, i1, i2);
-
-  todo;
-  return vec3{ 0.0f };
-}
+//vec3 CCharacter2::GetEntryObjectPos(usize i1, usize i2)
+//{
+//  log_trace("CCharacter2::{}({}, {})", __func__, i1, i2);
+//
+//  todo;
+//  return vec3{ 0.0f };
+//}
 
 // 00175160
 f32 CCharacter2::GetWaitToFrame(std::string key_name, f32 rate)
@@ -976,12 +976,12 @@ f32 CActionChara::GetTargetDist(CScene* scene)
 }
 
 // 0016BEE0
-void CActionChara::CollisionCheck(const vec3& v1, const vec3& v2, const vec3& v3)
-{
-  log_trace("CActionChara::{}({}, {}, {})", __func__, v1, v2, v3);
-
-  todo;
-}
+//void CActionChara::CollisionCheck(const vec3& v1, const vec3& v2, const vec3& v3)
+//{
+//  log_trace("CActionChara::{}({}, {}, {})", __func__, v1, v2, v3);
+//
+//  todo;
+//}
 
 // 0016C7A0
 // "RockOn"
@@ -1210,21 +1210,21 @@ static bool dynVERTEX_START(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 }
 
 // 0017b300
-MAYBE_UNUSED static bool dynVERTEX_L(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
-{
-  trace_script_call(stack, stack_count);
-
-  const sint frame_id = spiGetStackInt(stack);
-
-  unused_v(frame_id);
-
-  vec3 vec{ };
-  spiGetStackVector(vec, ++stack);
-
-  todo;
-
-  return true;
-}
+//MAYBE_UNUSED static bool dynVERTEX_L(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
+//{
+//  trace_script_call(stack, stack_count);
+//
+//  const sint frame_id = spiGetStackInt(stack);
+//
+//  unused_v(frame_id);
+//
+//  vec3 vec{ };
+//  spiGetStackVector(vec, ++stack);
+//
+//  todo;
+//
+//  return true;
+//}
 
 // 0017b390
 static bool dynVERTEX_END(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
@@ -1482,13 +1482,13 @@ void CDynamicAnime::NewCollisionTable(MAYBE_UNUSED sint unk, MAYBE_UNUSED mgCMem
 }
 
 // 00179E70
-void CDynamicAnime::SetWind(f32 velocity, vec4& direction)
-{
-  log_trace("CDynamicAnime::SetWind({}, {})", velocity, fmt::ptr(&direction));
-
-  m_wind_velocity = velocity;
-  m_wind_direction = normalize(direction);
-}
+//void CDynamicAnime::SetWind(f32 velocity, vec4& direction)
+//{
+//  log_trace("CDynamicAnime::SetWind({}, {})", velocity, fmt::ptr(&direction));
+//
+//  m_wind_velocity = velocity;
+//  m_wind_direction = normalize(direction);
+//}
 
 // 00179E80
 void CDynamicAnime::ResetWind()

@@ -1092,18 +1092,18 @@ void CScene::TimeStep(MAYBE_UNUSED f32 time)
 }
 
 // 00284B30
-void CScene::SetWind(const vec3& wind_direction, float wind_velocity)
-{
-	log_trace("CScene::{}()", __func__, fmt::ptr(&wind_direction), wind_velocity);
+//void CScene::SetWind(const vec3& wind_direction, float wind_velocity)
+//{
+//	log_trace("CScene::{}()", __func__, fmt::ptr(&wind_direction), wind_velocity);
+//
+//	m_wind_velocity = wind_velocity;
+//	m_wind_direction = math::vector_normalize(wind_direction);
+//}
 
-	m_wind_velocity = wind_velocity;
-	m_wind_direction = math::vector_normalize(wind_direction);
-}
-
-void CScene::SetWind(const std::pair<vec3, f32>& wind)
-{
-	SetWind(wind.first, wind.second);
-}
+//void CScene::SetWind(const std::pair<vec3, f32>& wind)
+//{
+//	SetWind(wind.first, wind.second);
+//}
 
 // 00284B40
 void CScene::ResetWind()
@@ -1115,12 +1115,12 @@ void CScene::ResetWind()
 
 // 00284B50
 // Stores direction in direction; returns velocity.
-std::pair<vec3, f32> CScene::GetWind()
-{
-	log_trace("CScene::{}()", __func__);
-
-	return { m_wind_direction, m_wind_velocity };
-}
+//std::pair<vec3, f32> CScene::GetWind()
+//{
+//	log_trace("CScene::{}()", __func__);
+//
+//	return { m_wind_direction, m_wind_velocity };
+//}
 
 // 00284B60
 void CScene::SetNowMapNo(s32 now_map_no)
@@ -1757,20 +1757,20 @@ void CScene::UpdateMapInfo()
 }
 
 // 002C7B50
-void CScene::GetColPoly(MAYBE_UNUSED CCPoly& col_poly, MAYBE_UNUSED mgVu0FBOX& box, MAYBE_UNUSED sint i)
-{
-	log_trace("CScene::{}({}, {}, {})", __func__, fmt::ptr(&col_poly), fmt::ptr(&box), i);
-
-	todo;
-}
+//void CScene::GetColPoly(MAYBE_UNUSED CCPoly& col_poly, MAYBE_UNUSED mgVu0FBOX& box, MAYBE_UNUSED sint i)
+//{
+//	log_trace("CScene::{}({}, {}, {})", __func__, fmt::ptr(&col_poly), fmt::ptr(&box), i);
+//
+//	todo;
+//}
 
 // 002C7C20
-void CScene::GetCameraPoly(MAYBE_UNUSED CCPoly& col_poly, MAYBE_UNUSED mgVu0FBOX& box, MAYBE_UNUSED sint i)
-{
-	log_trace("CScene::{}({}, {}, {})", __func__, fmt::ptr(&col_poly), fmt::ptr(&box), i);
-
-	todo;
-}
+//void CScene::GetCameraPoly(MAYBE_UNUSED CCPoly& col_poly, MAYBE_UNUSED mgVu0FBOX& box, MAYBE_UNUSED sint i)
+//{
+//	log_trace("CScene::{}({}, {}, {})", __func__, fmt::ptr(&col_poly), fmt::ptr(&box), i);
+//
+//	todo;
+//}
 
 // 002C7CF0
 void CScene::RunEvent(MAYBE_UNUSED sint i, MAYBE_UNUSED CSceneEventData* event_data)
@@ -1781,30 +1781,30 @@ void CScene::RunEvent(MAYBE_UNUSED sint i, MAYBE_UNUSED CSceneEventData* event_d
 }
 
 // 002C7E60
-bool CScene::GetMapEvent(MAYBE_UNUSED vec4& v, MAYBE_UNUSED sint i, MAYBE_UNUSED CSceneEventData* event_data)
-{
-	log_trace("CScene::{}({}, {}, {})", __func__, fmt::ptr(&v), i, fmt::ptr(event_data));
-
-	todo;
-	return false;
-}
+//bool CScene::GetMapEvent(MAYBE_UNUSED vec4& v, MAYBE_UNUSED sint i, MAYBE_UNUSED CSceneEventData* event_data)
+//{
+//	log_trace("CScene::{}({}, {}, {})", __func__, fmt::ptr(&v), i, fmt::ptr(event_data));
+//
+//	todo;
+//	return false;
+//}
 
 // 002C8070
-bool CScene::GetFixCameraPos(MAYBE_UNUSED vec4& v1, MAYBE_UNUSED vec4& v2)
-{
-	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2));
-
-	todo;
-	return false;
-}
+//bool CScene::GetFixCameraPos(MAYBE_UNUSED vec4& v1, MAYBE_UNUSED vec4& v2)
+//{
+//	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2));
+//
+//	todo;
+//	return false;
+//}
 
 // 002C8120
-void CScene::FixCameraPartsOnOff(MAYBE_UNUSED vec4& v)
-{
-	log_trace("CScene::{}({})", __func__, fmt::ptr(&v));
-
-	todo;
-}
+//void CScene::FixCameraPartsOnOff(MAYBE_UNUSED vec4& v)
+//{
+//	log_trace("CScene::{}({})", __func__, fmt::ptr(&v));
+//
+//	todo;
+//}
 
 // 002C81A0
 void CScene::EyeViewDrawOnOff(MAYBE_UNUSED sint i)
@@ -1815,21 +1815,21 @@ void CScene::EyeViewDrawOnOff(MAYBE_UNUSED sint i)
 }
 
 // 002C8260
-void CScene::GetSunPosition(MAYBE_UNUSED vec4& sun_position)
-{
-	log_trace("CScene::{}({})", __func__, fmt::ptr(&sun_position));
-
-	todo;
-}
+//void CScene::GetSunPosition(MAYBE_UNUSED vec4& sun_position)
+//{
+//	log_trace("CScene::{}({})", __func__, fmt::ptr(&sun_position));
+//
+//	todo;
+//}
 
 // 002C8330
-void CScene::GetMoonPosition(MAYBE_UNUSED vec4& moon_position)
-{
-	log_trace("CScene::{}({})", __func__, fmt::ptr(&moon_position));
-
-	GetSunPosition(moon_position);
-	moon_position.y *= -1;
-}
+//void CScene::GetMoonPosition(MAYBE_UNUSED vec4& moon_position)
+//{
+//	log_trace("CScene::{}({})", __func__, fmt::ptr(&moon_position));
+//
+//	GetSunPosition(moon_position);
+//	moon_position.y *= -1;
+//}
 
 // 002C8370
 void CScene::DrawSky(MAYBE_UNUSED s32 i)
@@ -1901,12 +1901,12 @@ bool CScene::StepChara(MAYBE_UNUSED ssize character_index)
 }
 
 // 002C8D70
-void CScene::GetCharaLighting(MAYBE_UNUSED matrix4& m, MAYBE_UNUSED vec4& v)
-{
-	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(&m), fmt::ptr(&v));
-
-	todo;
-}
+//void CScene::GetCharaLighting(MAYBE_UNUSED matrix4& m, MAYBE_UNUSED vec4& v)
+//{
+//	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(&m), fmt::ptr(&v));
+//
+//	todo;
+//}
 
 // 002C8F80
 bool CScene::DrawChara(MAYBE_UNUSED ssize character_index, MAYBE_UNUSED sint i)
@@ -2072,13 +2072,13 @@ bool CScene::RegisterVillager(MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2, MAYBE_
 }
 
 // 002CA540
-bool CScene::GetTalkEvent(MAYBE_UNUSED vec4& v, MAYBE_UNUSED CSceneEventData& event_data)
-{
-	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(&v), fmt::ptr(&event_data));
-
-	todo;
-	return false;
-}
+//bool CScene::GetTalkEvent(MAYBE_UNUSED vec4& v, MAYBE_UNUSED CSceneEventData& event_data)
+//{
+//	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(&v), fmt::ptr(&event_data));
+//
+//	todo;
+//	return false;
+//}
 
 // 002CA880
 void CScene::StepVillager()
@@ -2089,12 +2089,12 @@ void CScene::StepVillager()
 }
 
 // 002CACD0
-void CScene::StayNearVillager(MAYBE_UNUSED vec4& v, MAYBE_UNUSED unkptr pi)
-{
-	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(&v), fmt::ptr(pi));
-
-	todo;
-}
+//void CScene::StayNearVillager(MAYBE_UNUSED vec4& v, MAYBE_UNUSED unkptr pi)
+//{
+//	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(&v), fmt::ptr(pi));
+//
+//	todo;
+//}
 
 // 002CAE60
 void CScene::CancelStayVillager(MAYBE_UNUSED unkptr pi)
@@ -2153,13 +2153,13 @@ void CScene::LoadGameObject(MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2, MAYBE_UN
 }
 
 // 002CB900
-s32 CScene::GetGameObjectEvent(MAYBE_UNUSED vec4& v, MAYBE_UNUSED CSceneEventData& event_data)
-{
-	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(&v), fmt::ptr(&event_data));
-
-	todo;
-	return -1;
-}
+//s32 CScene::GetGameObjectEvent(MAYBE_UNUSED vec4& v, MAYBE_UNUSED CSceneEventData& event_data)
+//{
+//	log_trace("CScene::{}({}, {})", __func__, fmt::ptr(&v), fmt::ptr(&event_data));
+//
+//	todo;
+//	return -1;
+//}
 
 // 002CBAA0
 void CScene::DrawGameObject(MAYBE_UNUSED ssize gameobj_index)

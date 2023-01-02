@@ -74,9 +74,9 @@ public:
   void Initialize();
 
   // 0
-  std::array<vec4, 0x10> m_unk_field_0;
+  //std::array<vec4, 0x10> m_unk_field_0;
   // 100
-  std::array<vec4, 0x10> m_unk_field_100;
+  //std::array<vec4, 0x10> m_unk_field_100;
   // 200
   unk32 m_unk_field_200;
   // 204
@@ -97,9 +97,9 @@ struct _SEN_CMR_SEQ
   // 0
   unk32 m_unk_field_0;
   // 10
-  vec4 m_unk_field_10;
+  //vec4 m_unk_field_10;
   // 20
-  vec4 m_unk_field_20;
+  //vec4 m_unk_field_20;
   // 30
   unk32 m_unk_field_30;
   // 34
@@ -165,9 +165,9 @@ public:
   // 48
   unk32 m_unk_field_48;
   // 50
-  vec4 m_unk_field_50;
+  //vec4 m_unk_field_50;
   // 60
-  vec4 m_unk_field_60;
+  //vec4 m_unk_field_60;
   // 70
   unk32 m_unk_field_70;
   // 74
@@ -181,7 +181,7 @@ public:
   // 84
   unk32 m_unk_field_84;
   // 90
-  vec4 m_unk_field_90;
+  //vec4 m_unk_field_90;
   // A0
   unk32 m_unk_field_A0;
   // A4
@@ -191,9 +191,9 @@ public:
   // AC
   std::array<char, 0x20> m_unk_field_AC;
   // D0
-  vec4 m_unk_field_D0;
+  //vec4 m_unk_field_D0;
   // E0
-  vec4 m_unk_field_E0;
+  //vec4 m_unk_field_E0;
   // F0
   unk32 m_unk_field_F0;
 
@@ -204,29 +204,29 @@ public:
   // FC
   unk32 m_unk_field_FC;
   // 100
-  vec4 m_unk_field_100;
+  //vec4 m_unk_field_100;
   // 110
-  vec4 m_unk_field_110;
+  //vec4 m_unk_field_110;
   // 120
-  vec4 m_unk_field_120;
+  //vec4 m_unk_field_120;
   // 130
-  vec4 m_unk_field_130;
+  //vec4 m_unk_field_130;
   // 140
   unk32 m_unk_field_140;
   // 150
-  vec4 m_unk_field_150;
+  //vec4 m_unk_field_150;
   // 160
-  vec4 m_unk_field_160;
+  //vec4 m_unk_field_160;
   // 170
-  vec4 m_unk_field_170;
+  //vec4 m_unk_field_170;
   // 180
   unk32 m_unk_field_180;
   // 190
-  vec4 m_unk_field_190;
+  //vec4 m_unk_field_190;
   // 1A0
-  vec4 m_unk_field_1A0;
+  //vec4 m_unk_field_1A0;
   // 1B0
-  vec4 m_unk_field_1B0;
+  //vec4 m_unk_field_1B0;
   // 1C0
   CCameraPas m_unk_field_1C0{};
 };
@@ -240,7 +240,7 @@ public:
   void Initialize();
 
   // 0
-  std::array<vec4, 16> m_unk_field_0;
+  //std::array<vec4, 16> m_unk_field_0;
   // 100
   unk32 m_unk_field_100;
   // 104
@@ -262,7 +262,7 @@ public:
   // 0
   unk32 m_unk_field_0;
   // 10
-  vec4 m_unk_field_10;
+  //vec4 m_unk_field_10;
   // 20
   unk32 m_unk_field_20;
   // 24
@@ -340,26 +340,26 @@ public:
   // 64
   s32 m_unk_field_64;
   // 70
-  vec4 m_unk_field_70;
+  //vec4 m_unk_field_70;
   // 80
-  vec4 m_unk_field_80;
+  //vec4 m_unk_field_80;
 
   // ?
 
   // B0
-  vec4 m_unk_field_B0;
+  //vec4 m_unk_field_B0;
   // C0
-  vec4 m_unk_field_C0;
+  //vec4 m_unk_field_C0;
   // D0
-  vec4 m_unk_field_D0;
+  //vec4 m_unk_field_D0;
   // E0
-  vec4 m_unk_field_E0;
+  //vec4 m_unk_field_E0;
   // F0
   unk32 m_unk_field_F0;
   // F4
   unk32 m_unk_field_F4;
   // 120
-  vec4 m_unk_field_120;
+  //vec4 m_unk_field_120;
 
   // ?
 
@@ -533,9 +533,9 @@ public:
   // 2C
   bool m_unk_field_2C{ true };
   // 30
-  vec4 m_unk_field_30{ 0.0f };
+  //vec4 m_unk_field_30{ 0.0f };
   // 40
-  vec4 m_unk_field_40{ 128.0f };
+  //vec4 m_unk_field_40{ 128.0f };
   // 50
   unk32 m_unk_field_50{ 0 };
   // 54

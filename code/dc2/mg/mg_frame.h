@@ -130,19 +130,19 @@ public:
   virtual mgCVisual* Copy(mgCMemory& stack);
 
   // 1C 00134330
-  virtual bool CreateBBox(const vec4& v1, const vec4& v2, const matrix4& m1);
+  //virtual bool CreateBBox(const vec4& v1, const vec4& v2, const matrix4& m1);
 
   // 20 00134340
-  virtual unkptr CreateRenderInfoPacket(unkptr p, matrix4& m1, mgRENDER_INFO& render_info);
+  //virtual unkptr CreateRenderInfoPacket(unkptr p, matrix4& m1, mgRENDER_INFO& render_info);
 
   // 24 001342F0
   virtual unkptr CreatePacket(mgCMemory& mem1, mgCMemory& mem2);
 
   // 28 00134360
-  virtual unkptr Draw(matrix4& m1, mgCDrawManager& draw_man);
+  //virtual unkptr Draw(matrix4& m1, mgCDrawManager& draw_man);
 
   // 2C 00134350
-  virtual unkptr Draw(unkptr p, matrix4& m1, mgCDrawManager& draw_man);
+  //virtual unkptr Draw(unkptr p, matrix4& m1, mgCDrawManager& draw_man);
 
   // 30 00132DC0
   //virtual void Initialize();
@@ -194,17 +194,17 @@ public:
 
   // 18 00133750 (mgCVisual::Copy)
   // 1C 0013EFC0
-  virtual bool CreateBBox(const vec4& v1, const vec4& v2, const matrix4& m1) override;
+  //virtual bool CreateBBox(const vec4& v1, const vec4& v2, const matrix4& m1) override;
 
   // 20 001404D0
-  virtual unkptr CreateRenderInfoPacket(unkptr p, matrix4& m1, mgRENDER_INFO& render_info);
+  //virtual unkptr CreateRenderInfoPacket(unkptr p, matrix4& m1, mgRENDER_INFO& render_info);
 
   // 24 001342F0 (mgCVisual::CreatePacket)
   // 28 001342B0
-  virtual unkptr Draw(matrix4& m1, mgCDrawManager& draw_man);
+  //virtual unkptr Draw(matrix4& m1, mgCDrawManager& draw_man);
 
   // 2C 0013F4E0
-  virtual unkptr Draw(unkptr p, matrix4& m1, mgCDrawManager& draw_man);
+  //virtual unkptr Draw(unkptr p, matrix4& m1, mgCDrawManager& draw_man);
 
   // 30 0013EAC0
   //virtual void Initialize();
@@ -218,7 +218,7 @@ public:
   virtual mgCFace* CreateFace(FACES_ID& faces_id, mgCMemory& mem1, mgCMemory& mem2, mgCFace&& faces);
 
   // 40 00140BE0
-  virtual unkptr CreateExtRenderInfoPacket(unkptr p, matrix4& m1, mgRENDER_INFO& render_info);
+  //virtual unkptr CreateExtRenderInfoPacket(unkptr p, matrix4& m1, mgRENDER_INFO& render_info);
 
   // 44 0013F290
   virtual bool DataAssignMT(MDT_HEADER* mdt_header, mgCMemory& stack, mgCTextureManager* texture_man);
@@ -236,7 +236,7 @@ public:
   unk32 m_unk_field_2C;
 
   // 30
-  matrix4* m_unk_field_30;
+  //matrix4* m_unk_field_30;
 
   // 34
   unk32 m_unk_field_34;
@@ -270,8 +270,8 @@ public:
 
 struct mgPOINT_LIGHT
 {
-  vec4 field_0;
-  vec4 field_10;
+  //vec4 field_0;
+  //vec4 field_10;
   f32 field_20;
   f32 field_24;
 };
@@ -302,31 +302,31 @@ public:
   virtual void UseParam();
 
   // 10 00136190
-  virtual void SetPosition(const vec3&);
+  //virtual void SetPosition(const vec3&);
 
   // 14 00136220
   virtual void SetPosition(f32 x, f32 y, f32 z);
 
   // 18 00136260
-  virtual vec3 GetPosition();
+  //virtual vec3 GetPosition();
 
   // 1C 00136270
-  virtual void SetRotation(const vec3&);
+  //virtual void SetRotation(const vec3&);
 
   // 20 001362F0
   virtual void SetRotation(f32 x, f32 y, f32 z);
 
   // 24 00136330
-  virtual vec3 GetRotation();
+  //virtual vec3 GetRotation();
 
   // 28 00136340
-  virtual void SetScale(const vec3&);
+  //virtual void SetScale(const vec3&);
 
   // 2C 001363C0
   virtual void SetScale(f32 x, f32 y, f32 z);
 
   // 30 00136400
-  virtual vec3 GetScale();
+  //virtual vec3 GetScale();
 
   // 34 00138840
   virtual unkptr Draw();
@@ -351,13 +351,13 @@ public:
   unk32 m_unk_field_C;
 
   // 10
-  vec3 m_position;
+  //vec3 m_position;
 
   // 20
-  vec3 m_rotation;
+  //vec3 m_rotation;
 
   // 30
-  vec3 m_scale;
+  //vec3 m_scale;
 
   // 40
   bool m_unk_field_40;
@@ -455,14 +455,14 @@ public:
   struct BoundInfo
   {
     // 0
-    mgVu0FBOX8 m_box8;
+    //mgVu0FBOX8 m_box8;
 
     // 80
-    mgVu0FBOX m_box;
+    //mgVu0FBOX m_box;
 
     // A0
     // NOTE: X, Y, Z is origin; W is radius
-    vec4 m_sphere;
+    //vec4 m_sphere;
   };
 
   // 34 001387F0
@@ -472,7 +472,7 @@ public:
   virtual void Initialize();
 
   // 40 00136890
-  virtual std::optional<mgVu0FBOX> GetWorldBBox();
+  //virtual std::optional<mgVu0FBOX> GetWorldBBox();
 
   // 44 00137E10
   virtual void Draw(unkptr p);
@@ -484,28 +484,28 @@ public:
   void SetName(const std::string& name);
 
   // 001365A0
-  void SetTransMatrix(glm::fquat& quat);
+  //void SetTransMatrix(glm::fquat& quat);
 
   // 001365F0
-  void SetBBox(const vec4& corner1, const vec4& corner2);
+  //void SetBBox(const vec4& corner1, const vec4& corner2);
 
-  void SetBBox(const mgVu0FBOX& box);
+  //void SetBBox(const mgVu0FBOX& box);
 
   // 001366F0
-  void GetBBox(vec4& corner1, vec4& corner2) const;
+  //void GetBBox(vec4& corner1, vec4& corner2) const;
 
-  void GetBBox(mgVu0FBOX& box) const;
+  //void GetBBox(mgVu0FBOX& box) const;
 
   // 00136760
-  void SetBSphere(vec4& origin, f32 radius);
+  //void SetBSphere(vec4& origin, f32 radius);
 
   // 001367B0
   mgCFrame* GetFrame(ssize i);
 
   // 00136800
-  bool RemakeBBox(const vec4& corner1, const vec4& corner2);
+  //bool RemakeBBox(const vec4& corner1, const vec4& corner2);
 
-  bool RemakeBBox(const mgVu0FBOX& box);
+  //bool RemakeBBox(const mgVu0FBOX& box);
 
   // 00136A80
   // Returns the number of frames contained within a subgraph, with this
@@ -528,19 +528,19 @@ public:
   void ClearChildFlag();
 
   // 00136E40
-  matrix4 GetBBoardMatrix(sint i1, mgRENDER_INFO& render_info);
+  //matrix4 GetBBoardMatrix(sint i1, mgRENDER_INFO& render_info);
 
   // 00137030
-  matrix4 GetLWMatrix();
+  //matrix4 GetLWMatrix();
 
   // 001371B0
-  matrix4 GetLWMatrixTopBottom();
+  //matrix4 GetLWMatrixTopBottom();
 
   // 00137320
-  matrix4 GetInverseMatrix();
+  //matrix4 GetInverseMatrix();
 
   // 00137590
-  matrix4 SetTransMatrix();
+  //matrix4 SetTransMatrix();
 
   // 001376D0
   void SearchFrame(char* s);
@@ -549,13 +549,13 @@ public:
   void SearchFrameID(char* s);
 
   // 001377E0
-  vec4 GetWorldPosition(vec4& v2);
+  //vec4 GetWorldPosition(vec4& v2);
 
   // 00137830
-  vec4 GetWorldPosition0();
+  //vec4 GetWorldPosition0();
 
   // 00137870
-  vec4 GetWorldDir(vec4& v1);
+  //vec4 GetWorldDir(vec4& v1);
 
   // 00137930
   void SetRotType(sint i1);
@@ -570,7 +570,7 @@ public:
   void SetAttrParamDraw(sint i1, sint i2);
 
   // 001381C0
-  mgVu0FBOX GetDrawRect(mgCDrawManager* manager);
+  //mgVu0FBOX GetDrawRect(mgCDrawManager* manager);
 
   // 00136490
   mgCFrame() = default;
@@ -603,10 +603,10 @@ public:
   unk32 m_unk_field_6C{ 0 };
 
   // 70
-  matrix4 m_lw_matrix{ 1.0f };
+  //matrix4 m_lw_matrix{ 1.0f };
 
   // B0
-  matrix4 m_trans_matrix{ 1.0f };
+  //matrix4 m_trans_matrix{ 1.0f };
 
   // F0
   BoundInfo* m_bound_info{ nullptr };
@@ -632,7 +632,7 @@ private:
   void SetChild(mgCFrame * child);
 
   // 00136CE0
-  matrix4 GetLocalMatrix();
+  //matrix4 GetLocalMatrix();
 };
 
 class mgCDrawEnv {
@@ -719,13 +719,13 @@ public:
   void End2();
 
   // 00134aa0
-  void Data0(vec4);
+  //void Data0(vec4);
 
   // 00134ac0
-  void Data4(vec4);
+  //void Data4(vec4);
 
   // 00134ae0
-  void Data(ivec4);
+  //void Data(ivec4);
 
   // 00134b00
   void DirectData(sint);
@@ -738,25 +738,25 @@ public:
   void Vertex(f32 x, f32 y, f32 z);
 
   // 00134B70
-  void Vertex(vec3 v);
+  //void Vertex(vec3 v);
 
   // 00134bb0
   void Vertex4(sint x, sint y, sint z);
 
   // 00134b70
-  void Vertex4(vec4 v);
+  //void Vertex4(vec4 v);
 
   // Custom
-  void Vertex4(vec3 v);
+  //void Vertex4(vec3 v);
 
   // 00134c60
-  void Vertex4(ivec3 v);
+  //void Vertex4(ivec3 v);
 
   // 00134c80
   void Color(sint r, sint g, sint b, sint a);
 
   // 00134cf0
-  void Color(vec4 v);
+  //void Color(vec4 v);
 
   // 00134d30
   // fixed posint (<< 4)
@@ -862,10 +862,10 @@ public:
   void SetRenderInfo(f32 f1, sint i1, sint i2, f32 f2, f32 f3, sint i3);
 
   // 00138FC0
-  void SetViewMatrix(matrix4& m1, vec4& v1);
+  //void SetViewMatrix(matrix4& m1, vec4& v1);
 
   // 001390A0
-  void SetDropShadowMatrix(vec4& v1, vec4& v2, vec4& v3);
+  //void SetDropShadowMatrix(vec4& v1, vec4& v2, vec4& v3);
 
   // 00139120
   usize ActiveLighting(usize i1, bool b1);
@@ -881,22 +881,22 @@ public:
   void InitLighting(void);
 
   // 00139320
-  void SetLight(matrix4& m1, matrix4& m2);
+  //void SetLight(matrix4& m1, matrix4& m2);
 
   // 001393A0
-  void GetLight(matrix4& m1, matrix4& m2);
+  //void GetLight(matrix4& m1, matrix4& m2);
 
   // 00139400
-  void SetLight(sint i1, vec4& v1, vec4& v2);
+  //void SetLight(sint i1, vec4& v1, vec4& v2);
 
   // 001394B0
-  void SetAmbient(vec4& v1);
+  //void SetAmbient(vec4& v1);
 
   // 001394E0
-  void GetAmbient(vec4& v1);
+  //void GetAmbient(vec4& v1);
 
   // 00139510
-  void SetPlight(sint i1, vec4& v1, vec4& v2, f32 f1, f32 f2);
+  //void SetPlight(sint i1, vec4& v1, vec4& v2, f32 f1, f32 f2);
 
   // 00139590
   void SetPlight(sint i1, mgPOINT_LIGHT& pl);
@@ -920,35 +920,35 @@ public:
   void SetFogParam(f32 f1, f32 f2, u8 i1, u8 i2, u8 i3, f32 f3, f32 f4);
 
   // 3A0
-  vec3 camera_pos{0};
+  //vec3 camera_pos{0};
 
   // F20
   std::array<mgCDrawEnv, 2> m_unk_field_F20{};
 };
 
 // 00135B90
-void QuatToMat(vec4& v1, matrix4& m1);
+//void QuatToMat(vec4& v1, matrix4& m1);
 
 // 00135C70
-void test1(matrix4& m1, matrix4& m2, matrix4& m3, vec4& v1, vec4& v2);
+//void test1(matrix4& m1, matrix4& m2, matrix4& m3, vec4& v1, vec4& v2);
 
 // 00135DC0
-void test2(vec4& v1, vec4& v2);
+//void test2(vec4& v1, vec4& v2);
 
 // 00135E90
-bool mgInsideScreen(mgVu0FBOX& box);
+//bool mgInsideScreen(mgVu0FBOX& box);
 
 // 00135EE0
-bool mgInsideScreen(mgVu0FBOX& box, matrix4& m1);
+//bool mgInsideScreen(mgVu0FBOX& box, matrix4& m1);
 
 // 00135FA0
-bool mgInsideScreen(mgVu0FBOX& box, matrix4& m1, vec4& v1, vec4& v2);
+//bool mgInsideScreen(mgVu0FBOX& box, matrix4& m1, vec4& v1, vec4& v2);
 
 // 00135F80
-bool mgInsideScreen(vec4& v1, vec4& v2);
+//bool mgInsideScreen(vec4& v1, vec4& v2);
 
 // 00135FA0
-bool mgInsideScreen(matrix4& m1, matrix4& m2, vec4& v1, vec4& v2);
+//bool mgInsideScreen(matrix4& m1, matrix4& m2, vec4& v1, vec4& v2);
 
 // 001375C0
 sint StrCmp(char* s1, char* s2);

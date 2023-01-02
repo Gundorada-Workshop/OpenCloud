@@ -33,16 +33,16 @@ static f32 GetStackFloat(rs::stack_data* stack)
   return stack->_flt;
 }
 
-MAYBE_UNUSED static vec3 GetStackVector(rs::stack_data* stack)
-{
-  log_trace("{}()", __func__, fmt::ptr(stack));
-
-  return {
-    GetStackFloat(&stack[0]),
-    GetStackFloat(&stack[1]),
-    GetStackFloat(&stack[2]),
-  };
-}
+//MAYBE_UNUSED static vec3 GetStackVector(rs::stack_data* stack)
+//{
+//  log_trace("{}()", __func__, fmt::ptr(stack));
+//
+//  return {
+//    GetStackFloat(&stack[0]),
+//    GetStackFloat(&stack[1]),
+//    GetStackFloat(&stack[2]),
+//  };
+//}
 
 MAYBE_UNUSED static const char* GetStackString(rs::stack_data* stack)
 {

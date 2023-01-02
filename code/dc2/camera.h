@@ -49,7 +49,7 @@ public:
   virtual void Step(sint steps = 1);
 
   // 002ED250
-  virtual matrix4 GetCameraMatrix() const override;
+  //virtual matrix4 GetCameraMatrix() const override;
 
   // 002ED3D0
   virtual sint Iam() const override;
@@ -89,7 +89,7 @@ public:
   }
 
   // 002EC370
-  void MoveCamera(const CPadControl* pad_control, const vec3& v, CCPoly* c_poly, usize i);
+  //void MoveCamera(const CPadControl* pad_control, const vec3& v, CCPoly* c_poly, usize i);
 
   // 002EC710
   void Rotate(f32 delta);
@@ -114,17 +114,17 @@ public:
   }
 
   // 002EC8B0
-  inline void SetCheckRef(const vec3& ref)
-  {
-    m_unk_field_1E0 = true;
-    m_unk_field_1D0 = ref;
-  }
+  //inline void SetCheckRef(const vec3& ref)
+  //{
+  //  m_unk_field_1E0 = true;
+  //  m_unk_field_1D0 = ref;
+  //}
 
   // 002EC8D0
-  inline void SetCheckRef(f32 x, f32 y, f32 z)
-  {
-    SetCheckRef({ x, y, z });
-  }
+  //inline void SetCheckRef(f32 x, f32 y, f32 z)
+  //{
+  //  SetCheckRef({ x, y, z });
+  //}
 
   // 002ED320
   void CopyParam(CCameraControl& other);
@@ -146,11 +146,11 @@ private:
     m_rot_camera_cancel = 0;
     m_unk_field_C8 = false;
     m_unk_field_CC = 0;
-    m_unk_field_E0 = vec3(0.0f);
+    //m_unk_field_E0 = vec3(0.0f);
   }
 
   // 002EC1F0
-  void MoveCamera(const Control& control, const vec3& v, CCPoly* c_poly, usize i);
+  //void MoveCamera(const Control& control, const vec3& v, CCPoly* c_poly, usize i);
 
   // 002EC910
   void CheckCollision(CCPoly* c_poly, usize i);
@@ -172,7 +172,7 @@ private:
   f32 m_unk_field_CC;
 
   // E0
-  vec3 m_unk_field_E0;
+  //vec3 m_unk_field_E0;
   // F0
   usize m_n_active_param;
   // F4
@@ -181,7 +181,7 @@ private:
   CameraCtrlParam m_active_param;
 
   // 1D0
-  vec3 m_unk_field_1D0;
+  //vec3 m_unk_field_1D0;
   // 1E0
   bool m_unk_field_1E0;
 };

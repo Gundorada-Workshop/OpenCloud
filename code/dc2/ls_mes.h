@@ -1,8 +1,6 @@
 #pragma once
 #include <array>
 
-#include <glm/glm.hpp>
-
 #include "common/debug.h"
 
 #include "dc2/font.h"
@@ -17,7 +15,7 @@ public:
   // 00152A90
   ClsMes();
   // 00152EC0
-  void SetDefColor(glm::u8vec4 default_rgba);
+  //void SetDefColor(glm::u8vec4 default_rgba);
   // 002D44A0
   void SetDrawSize(s32 i1, s32 i2);
 
@@ -222,9 +220,9 @@ public:
   // 17CC
   unk m_unk_field_17CC;
   // 17D0
-  glm::u8vec4 m_unk_field_17D0;
+  //glm::u8vec4 m_unk_field_17D0;
   // 17D4
-  glm::u8vec4 m_unk_field_17D4;
+  //glm::u8vec4 m_unk_field_17D4;
   // 17D8
   unk m_unk_field_17D8;
   // 17DC

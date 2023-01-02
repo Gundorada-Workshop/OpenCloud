@@ -539,26 +539,23 @@ namespace common::math
   }
 }
 
-//namespace common
-//{
-//  template<typename type>
-//  using vector2 = common::math::vector<type, 2>;
-//
-//  template<typename type>
-//  using vector3 = common::math::vector<type, 3>;
-//
-//  template<typename type>
-//  using vector4 = common::math::vector<type, 4>;
-//
-//  using vec2 = vector2<f32>;
-//  using vec3 = vector3<f32>;
-//  using vec4 = vector4<f32>;
-//
-//  using uvec2 = vector2<u32>;
-//  using uvec3 = vector3<u32>;
-//  using uvec4 = vector4<u32>;
-//
-//  using ivec2 = vector2<s32>;
-//  using ivec3 = vector3<s32>;
-//  using ivec4 = vector4<s32>;
-//}
+template<typename type>
+using vector2 = common::math::vector<type, 2>;
+
+template<typename type>
+using vector3 = common::math::vector<type, 3>;
+
+template<typename type>
+using vector4 = common::math::vector<type, 4>;
+
+using vec2 = vector2<f32>;
+using vec3 = vector3<f32>;
+using vec4 = vector4<f32>;
+
+using uvec2 = vector2<u32>;
+using uvec3 = vector3<u32>;
+using uvec4 = vector4<u32>;
+
+using ivec2 = vector2<s32>;
+using ivec3 = vector3<s32>;
+using ivec4 = vector4<s32>;

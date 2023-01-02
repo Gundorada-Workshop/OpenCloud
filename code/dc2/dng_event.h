@@ -41,9 +41,9 @@ public:
   virtual void Initialize();
 
   // 0028BCA0
-  bool CheckEvent(vec3& position);
+  //bool CheckEvent(vec3& position);
   // 0028BA80
-  void GeoDraw(vec3& position);
+  //void GeoDraw(vec3& position);
   // 0028BB70
   void DrawMiniMapSymbol(CMiniMapSymbol* mini_map_symbol);
   // 0028BBC0
@@ -66,24 +66,24 @@ class CRandomCircle
 {
 public:
   // 0028BD50
-  void Draw(vec3* v);
+  //void Draw(vec3* v);
   // 0028BE40
   void Step();
   // 0028BE60
   void DrawSymbol(CMiniMapSymbol* mini_map_symbol);
   // 0028BEF0
-  bool CheckArea(vec3* v, f32 f);
+  //bool CheckArea(vec3* v, f32 f);
   // 0028BFA0
-  bool GetPosition(vec3* dest, ssize i);
+  //bool GetPosition(vec3* dest, ssize i);
   // 0028C020
-  ssize CheckEvent(vec3* v);
+  //ssize CheckEvent(vec3* v);
   // 0028C0D0
-  ssize SetCircle(vec3* v);
+  //ssize SetCircle(vec3* v);
   // 0028C160
   void Clear();
 
   // 0
-  std::array<vec3, 3> m_unk_field_0{};
+  //std::array<vec3, 3> m_unk_field_0{};
   // 30
   std::array<bool, 3> m_unk_field_30{ false };
   // 3C
@@ -99,7 +99,7 @@ extern CRandomCircle RandomCircle;
 void ScriptDebugCommand(bool dummy);
 
 // 0028E480
-void AutoSetTreasureBox(sint i, const vec3& position, f32 rotY);
+//void AutoSetTreasureBox(sint i, const vec3& position, f32 rotY);
 
 // 0028E4B0
 void AutoSetTreasureBox();

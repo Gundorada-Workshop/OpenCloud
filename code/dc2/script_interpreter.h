@@ -93,7 +93,7 @@ sint spiGetStackInt(SPI_STACK* stack);
 f32 spiGetStackFloat(SPI_STACK* stack);
 // 001464a0
 // Get a vec3 off the stack
-void spiGetStackVector(vec3 v, SPI_STACK* stack);
+//void spiGetStackVector(vec3 v, SPI_STACK* stack);
 
 #define trace_script_call(stack, count) do { log_trace("{}({}, {})", __func__, fmt::ptr(stack), count); } while (0)
 

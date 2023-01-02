@@ -570,13 +570,13 @@ void CMapPiece::AssignMds(CMdsInfo* mds_info)
 }
 
 // 00168570
-sint CMapPiece::GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2)
-{
-  log_trace("CMapPiece::{}({}, {}, {}, {})", __func__, i1, fmt::ptr(dest), fmt::ptr(&box), i2);
-
-  todo;
-  return 0;
-}
+//sint CMapPiece::GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2)
+//{
+//  log_trace("CMapPiece::{}({}, {}, {}, {})", __func__, i1, fmt::ptr(dest), fmt::ptr(&box), i2);
+//
+//  todo;
+//  return 0;
+//}
 
 // 00168620
 void CMapPiece::SetTimeBand(f32 f1, f32 f2)
@@ -615,18 +615,18 @@ void CMapPiece::Step()
 }
 
 // 001686D0
- std::optional<mgVu0FBOX> CMapPiece::GetBoundBox()
-{
-  log_trace("CMapPiece::{}()", __func__);
-
-  if (m_frame == nullptr)
-  {
-    return std::nullopt;
-  }
-
-  UpdatePosition();
-  return m_frame->GetWorldBBox();
-}
+// std::optional<mgVu0FBOX> CMapPiece::GetBoundBox()
+//{
+//  log_trace("CMapPiece::{}()", __func__);
+//
+//  if (m_frame == nullptr)
+//  {
+//    return std::nullopt;
+//  }
+//
+//  UpdatePosition();
+//  return m_frame->GetWorldBBox();
+//}
 
 // 00168730
 unkptr CMapPiece::DrawSub(bool b)
@@ -682,7 +682,8 @@ bool CMapParts::PreDraw()
   UpdatePosition();
 
   f32 alpha_result;
-  return FarClip(mgGetDistFromCamera(m_position), &alpha_result);
+  return 0.0f;
+  //return FarClip(mgGetDistFromCamera(m_position), &alpha_result);
 }
 
 // 00166E50
@@ -736,9 +737,9 @@ void CMapParts::UpdatePosition()
     return;
   }
 
-  m_unk_field_C0.SetPosition(m_position);
-  m_unk_field_C0.SetRotation(m_rotation);
-  m_unk_field_C0.SetScale(m_scale);
+  //m_unk_field_C0.SetPosition(m_position);
+  //m_unk_field_C0.SetRotation(m_rotation);
+  //m_unk_field_C0.SetScale(m_scale);
   m_unk_field_40 = false;
 }
 
@@ -839,109 +840,109 @@ CMapPiece* CMapParts::SearchPieceColType(sint col_type)
 }
 
 // 00166580
-sint CMapParts::GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2)
-{
-  log_trace("CMapParts::{}({}, {}, {}, {})", __func__, i1, fmt::ptr(dest), fmt::ptr(&box), i2);
-
-  todo;
-  return 0;
-}
+//sint CMapParts::GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2)
+//{
+//  log_trace("CMapParts::{}({}, {}, {}, {})", __func__, i1, fmt::ptr(dest), fmt::ptr(&box), i2);
+//
+//  todo;
+//  return 0;
+//}
 
 // 001666B0
-sint CMapParts::GetColPoly(CCPoly* dest, mgVu0FBOX& box, sint i2)
-{
-  log_trace("CMapParts::{}({}, {}, {})", __func__, fmt::ptr(dest), fmt::ptr(&box), i2);
-
-  return GetPoly(1, dest, box, i2);
-}
+//sint CMapParts::GetColPoly(CCPoly* dest, mgVu0FBOX& box, sint i2)
+//{
+//  log_trace("CMapParts::{}({}, {}, {})", __func__, fmt::ptr(dest), fmt::ptr(&box), i2);
+//
+//  return GetPoly(1, dest, box, i2);
+//}
 
 // 001666D0
-sint CMapParts::GetCameraPoly(CCPoly* dest, mgVu0FBOX& box, sint i2)
-{
-  log_trace("CMapParts::{}({}, {}, {})", __func__, fmt::ptr(dest), fmt::ptr(&box), i2);
-
-  return GetPoly(3, dest, box, i2);
-}
+//sint CMapParts::GetCameraPoly(CCPoly* dest, mgVu0FBOX& box, sint i2)
+//{
+//  log_trace("CMapParts::{}({}, {}, {})", __func__, fmt::ptr(dest), fmt::ptr(&box), i2);
+//
+//  return GetPoly(3, dest, box, i2);
+//}
 
 // 00166760
-bool CMapParts::SetColor(ssize index, const vec4& rgba)
-{
-  log_trace("CMapParts::{}({}, {})", __func__, index, fmt::ptr(&rgba));
-
-  if (index < 0 || index >= m_color.size())
-  {
-    return false;
-  }
-
-  m_color[index] = rgba;
-  return true;
-}
+//bool CMapParts::SetColor(ssize index, const vec4& rgba)
+//{
+//  log_trace("CMapParts::{}({}, {})", __func__, index, fmt::ptr(&rgba));
+//
+//  if (index < 0 || index >= m_color.size())
+//  {
+//    return false;
+//  }
+//
+//  m_color[index] = rgba;
+//  return true;
+//}
 
 // 001667B0
-std::optional<vec4> CMapParts::GetColor(ssize index) const
-{
-  log_trace("CMapParts::{}({})", __func__, index);
-
-  if (index < 0 || index >= m_color.size())
-  {
-    return std::nullopt;
-  }
-
-  return m_color[index];
-}
+//std::optional<vec4> CMapParts::GetColor(ssize index) const
+//{
+//  log_trace("CMapParts::{}({})", __func__, index);
+//
+//  if (index < 0 || index >= m_color.size())
+//  {
+//    return std::nullopt;
+//  }
+//
+//  return m_color[index];
+//}
 
 // 001667F0
-std::optional<vec4> CMapParts::GetDefColor(ssize index)
-{
-  log_trace("CMapParts::{}({})", __func__, index);
-
-  if (index < 0 || index >= m_color.size())
-  {
-    return std::nullopt;
-  }
-
-  for (auto& map_piece : m_map_pieces)
-  {
-    for (usize i = 0; i < map_piece.m_material.size(); ++i)
-    {
-      PieceMaterial* piece_material = map_piece.GetMaterial(i);
-
-      if (piece_material->m_unk_field_8 && piece_material->m_color_idx == index)
-      {
-        return piece_material->m_color;
-      }
-    }
-  }
-
-  return std::nullopt;
-}
+//std::optional<vec4> CMapParts::GetDefColor(ssize index)
+//{
+//  log_trace("CMapParts::{}({})", __func__, index);
+//
+//  if (index < 0 || index >= m_color.size())
+//  {
+//    return std::nullopt;
+//  }
+//
+//  for (auto& map_piece : m_map_pieces)
+//  {
+//    for (usize i = 0; i < map_piece.m_material.size(); ++i)
+//    {
+//      PieceMaterial* piece_material = map_piece.GetMaterial(i);
+//
+//      if (piece_material->m_unk_field_8 && piece_material->m_color_idx == index)
+//      {
+//        return piece_material->m_color;
+//      }
+//    }
+//  }
+//
+//  return std::nullopt;
+//}
 
 // 001668E0
-void CMapParts::UpdateColor()
-{
-  log_trace("CMapParts::{}()", __func__);
-
-  for (usize i = 0; i < m_color.size(); ++i)
-  {
-    auto& rgba = m_color[i];
-    if (rgba.a <= 0.0f)
-    {
-      continue;
-    }
-
-    for (auto& map_piece : m_map_pieces)
-    {
-      for (usize j = 0; j < map_piece.m_material.size(); ++j)
-      {
-        auto piece_material = map_piece.GetMaterial(j);
-        if (piece_material->m_unk_field_8 && piece_material->m_color_idx == i)
-        {
-          rgba = vec4{ piece_material->m_color.rgb, rgba.a };
-        }
-      }
-    }
-  }
-}
+//void CMapParts::UpdateColor()
+//{
+//  log_trace("CMapParts::{}()", __func__);
+//
+//  for (usize i = 0; i < m_color.size(); ++i)
+//  {
+//    auto& rgba = m_color[i];
+//    if (rgba.a <= 0.0f)
+//    {
+//      continue;
+//    }
+//
+//    for (auto& map_piece : m_map_pieces)
+//    {
+//      for (usize j = 0; j < map_piece.m_material.size(); ++j)
+//      {
+//        auto piece_material = map_piece.GetMaterial(j);
+//        if (piece_material->m_unk_field_8 && piece_material->m_color_idx == i)
+//        {
+//          rgba = vec4{ piece_material->m_color.rgb, rgba.a };
+//        }
+//      }
+//    }
+//  }
+//}
 
 // 00166A70
 unkptr CMapParts::DrawSub(bool b)
@@ -961,75 +962,75 @@ void CMapParts::CreateBoundBox()
 }
 
 // 00167090
-bool CMapParts::CheckColBox(mgVu0FBOX* box) const
-{
-  log_trace("CMapParts::{}({})", __func__, fmt::ptr(box));
-
-  todo;
-  return false;
-}
+//bool CMapParts::CheckColBox(mgVu0FBOX* box) const
+//{
+//  log_trace("CMapParts::{}({})", __func__, fmt::ptr(box));
+//
+//  todo;
+//  return false;
+//}
 
 // 001671D0
-std::optional<mgVu0FBOX> CMapParts::GetBBox() const
-{
-  log_trace("CMapParts::{}()", __func__);
-
-  if (m_bounding_box_valid)
-  {
-    return m_bounding_box;
-  }
-  else
-  {
-    return std::nullopt;
-  }
-}
+//std::optional<mgVu0FBOX> CMapParts::GetBBox() const
+//{
+//  log_trace("CMapParts::{}()", __func__);
+//
+//  if (m_bounding_box_valid)
+//  {
+//    return m_bounding_box;
+//  }
+//  else
+//  {
+//    return std::nullopt;
+//  }
+//}
 
 // 00167220
-std::optional<mgVu0FBOX> CMapParts::GetBoundBox()
-{
-  log_trace("CMapParts::{}()", __func__);
-
-  if (m_bounding_box_valid)
-  {
-    mgVu0FBOX result;
-    matrix4 lw_mat = GetLWMatrix();
-
-    mgApplyMatrix(result.corners[0], result.corners[1], lw_mat, m_bounding_box.corners[0], m_bounding_box.corners[1]);
-    return result;
-  }
-  else
-  {
-    return std::nullopt;
-  }
-}
+//std::optional<mgVu0FBOX> CMapParts::GetBoundBox()
+//{
+//  log_trace("CMapParts::{}()", __func__);
+//
+//  if (m_bounding_box_valid)
+//  {
+//    mgVu0FBOX result;
+//    matrix4 lw_mat = GetLWMatrix();
+//
+//    mgApplyMatrix(result.corners[0], result.corners[1], lw_mat, m_bounding_box.corners[0], m_bounding_box.corners[1]);
+//    return result;
+//  }
+//  else
+//  {
+//    return std::nullopt;
+//  }
+//}
 
 // 00167280
-std::optional<vec4> CMapParts::GetBoundSphere()
-{
-  log_trace("CMapParts::{}()", __func__);
-
-  if (m_bounding_box_valid)
-  {
-    matrix4 lw_mat = GetLWMatrix();
-
-    vec4 result = lw_mat * m_bounding_sphere;
-    result.w = m_bounding_sphere.w;
-    return result;
-  }
-  else
-  {
-    return std::nullopt;
-  }
-}
+//std::optional<vec4> CMapParts::GetBoundSphere()
+//{
+//  log_trace("CMapParts::{}()", __func__);
+//
+//  if (m_bounding_box_valid)
+//  {
+//    matrix4 lw_mat = GetLWMatrix();
+//
+//    vec4 result = lw_mat * m_bounding_sphere;
+//    result.w = m_bounding_sphere.w;
+//    return result;
+//  }
+//  else
+//  {
+//    return std::nullopt;
+//  }
+//}
 
 // 00167300
-matrix4 CMapParts::GetLWMatrix()
-{
-  log_trace("CMapParts::{}()", __func__);
-
-  UpdatePosition();
-  return m_unk_field_C0.GetLWMatrix();
-}
+//matrix4 CMapParts::GetLWMatrix()
+//{
+//  log_trace("CMapParts::{}()", __func__);
+//
+//  UpdatePosition();
+//  return m_unk_field_C0.GetLWMatrix();
+//}
 
 // 00167350
 bool CMapParts::InsideScreen() const
@@ -1116,13 +1117,13 @@ unkptr CMap::DrawDirect()
 }
 
 // 0015D7A0
-bool CMap::PreDraw(const vec3& v)
-{
-  log_trace("CMap::{}({})", __func__, fmt::ptr(&v));
-
-  todo;
-  return false;
-}
+//bool CMap::PreDraw(const vec3& v)
+//{
+//  log_trace("CMap::{}({})", __func__, fmt::ptr(&v));
+//
+//  todo;
+//  return false;
+//}
 
 // 0015E3F0
 void CMap::DrawEffect()
@@ -1157,37 +1158,37 @@ void CMap::DrawWater(mgCCamera* camera, mgCTexture* tex1, mgCTexture* tex2)
 }
 
 // 0015F120
-sint CMap::GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2)
-{
-  log_trace("CMap::{}({}, {}, {}, {})", __func__, i1, fmt::ptr(dest), fmt::ptr(&box), i2);
-
-  todo;
-  return 0;
-}
+//sint CMap::GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2)
+//{
+//  log_trace("CMap::{}({}, {}, {}, {})", __func__, i1, fmt::ptr(dest), fmt::ptr(&box), i2);
+//
+//  todo;
+//  return 0;
+//}
 
 // 0015F260
-sint CMap::GetColPoly(CCPoly* dest, mgVu0FBOX& box, sint i2)
-{
-  log_trace("CMap::{}({}, {}, {})", __func__, fmt::ptr(dest), fmt::ptr(&box), i2);
-
-  return GetPoly(1, dest, box, i2);
-}
+//sint CMap::GetColPoly(CCPoly* dest, mgVu0FBOX& box, sint i2)
+//{
+//  log_trace("CMap::{}({}, {}, {})", __func__, fmt::ptr(dest), fmt::ptr(&box), i2);
+//
+//  return GetPoly(1, dest, box, i2);
+//}
 
 // 0015F290
-sint CMap::GetCameraPoly(CCPoly* dest, mgVu0FBOX& box, sint i2)
-{
-  log_trace("CMap::{}({}, {}, {})", __func__, fmt::ptr(dest), fmt::ptr(&box), i2);
-
-  return GetPoly(3, dest, box, i2);
-}
+//sint CMap::GetCameraPoly(CCPoly* dest, mgVu0FBOX& box, sint i2)
+//{
+//  log_trace("CMap::{}({}, {}, {})", __func__, fmt::ptr(dest), fmt::ptr(&box), i2);
+//
+//  return GetPoly(3, dest, box, i2);
+//}
 
 // 0015F880
-void CMap::GetEvent(const vec3* v, sint i, MapEventInfo* dest)
-{
-  log_trace("CMap::{}({}, {}, {})", __func__, fmt::ptr(v), i, fmt::ptr(dest));
-
-  todo;
-}
+//void CMap::GetEvent(const vec3* v, sint i, MapEventInfo* dest)
+//{
+//  log_trace("CMap::{}({}, {}, {})", __func__, fmt::ptr(v), i, fmt::ptr(dest));
+//
+//  todo;
+//}
 
 // 0015FC00
 void CMap::InScreenFunc(InScreenFuncInfo* func_info)
@@ -1372,28 +1373,28 @@ CMapParts* CMap::GetParts(const std::string& parts_name)
 }
 
 // 0015CE00
-void CMap::CreateDrawRect(mgVu0FBOX* box1, mgVu0FBOX* box2, sint i)
-{
-  log_trace("CMap::{}({}, {}, {})", __func__, fmt::ptr(box1), fmt::ptr(box2), i);
-
-  todo;
-}
+//void CMap::CreateDrawRect(mgVu0FBOX* box1, mgVu0FBOX* box2, sint i)
+//{
+//  log_trace("CMap::{}({}, {}, {})", __func__, fmt::ptr(box1), fmt::ptr(box2), i);
+//
+//  todo;
+//}
 
 // 0015CFD0
-void CMap::CreateOcclusion(const matrix4* m)
-{
-  log_trace("CMap::{}({})", __func__, fmt::ptr(m));
-
-  todo;
-}
+//void CMap::CreateOcclusion(const matrix4* m)
+//{
+//  log_trace("CMap::{}({})", __func__, fmt::ptr(m));
+//
+//  todo;
+//}
 
 // 0015D080
-void CMap::PlaceParts(const std::string& parts_name, const vec3& position, const vec3& rotation, const vec3& scale)
-{
-  log_trace("CMap::{}({}, {}, {}, {})", __func__, parts_name, fmt::ptr(&position), fmt::ptr(&rotation), fmt::ptr(&scale));
-
-  todo;
-}
+//void CMap::PlaceParts(const std::string& parts_name, const vec3& position, const vec3& rotation, const vec3& scale)
+//{
+//  log_trace("CMap::{}({}, {}, {}, {})", __func__, parts_name, fmt::ptr(&position), fmt::ptr(&rotation), fmt::ptr(&scale));
+//
+//  todo;
+//}
 
 // 0015D170
 void CMap::PlacePartsEnd()
@@ -1439,20 +1440,20 @@ ssize CMap::ConvertParts(CMapParts* parts)
 }
 
 // 0015D550
-void CMap::GetPlaceParts(mgVu0FBOX* region, std::vector<CMapParts>& parts_dest, usize max_capacity)
-{
-  log_trace("CMap::{}({}, {}, {})", __func__, fmt::ptr(region), fmt::ptr(&parts_dest), max_capacity);
-
-  todo;
-}
+//void CMap::GetPlaceParts(mgVu0FBOX* region, std::vector<CMapParts>& parts_dest, usize max_capacity)
+//{
+//  log_trace("CMap::{}({}, {}, {})", __func__, fmt::ptr(region), fmt::ptr(&parts_dest), max_capacity);
+//
+//  todo;
+//}
 
 // 0015D550
-void CMap::GetPlaceColParts(mgVu0FBOX* region, std::vector<CMapParts>& parts_dest, usize max_capacity)
-{
-  log_trace("CMap::{}({}, {}, {})", __func__, fmt::ptr(region), fmt::ptr(&parts_dest), max_capacity);
-
-  todo;
-}
+//void CMap::GetPlaceColParts(mgVu0FBOX* region, std::vector<CMapParts>& parts_dest, usize max_capacity)
+//{
+//  log_trace("CMap::{}({}, {}, {})", __func__, fmt::ptr(region), fmt::ptr(&parts_dest), max_capacity);
+//
+//  todo;
+//}
 
 // 0015D730
 void CMap::CreateFuncCheck(CFuncPointCheck* point_check)
@@ -1463,16 +1464,16 @@ void CMap::CreateFuncCheck(CFuncPointCheck* point_check)
 }
 
 // 0015D770
-std::optional<mgVu0FBOX> CMap::GetBBox() const
-{
-  log_trace("CMap::{}()", __func__);
-
-  if (m_bounding_box_valid)
-  {
-    return m_bounding_box;
-  }
-  return std::nullopt;
-}
+//std::optional<mgVu0FBOX> CMap::GetBBox() const
+//{
+//  log_trace("CMap::{}()", __func__);
+//
+//  if (m_bounding_box_valid)
+//  {
+//    return m_bounding_box;
+//  }
+//  return std::nullopt;
+//}
 
 // 0015DBE0
 usize CMap::GetCharaLight(mgCObject* object, CFuncPoint* func_point, sint i1, sint i2)
@@ -1484,12 +1485,12 @@ usize CMap::GetCharaLight(mgCObject* object, CFuncPoint* func_point, sint i1, si
 }
 
 // 0015E0B0
-void CMap::SetFuncPLight(const vec4& v, CFuncPointCheck* point_check)
-{
-  log_trace("CMap::{}({}, {})", __func__, fmt::ptr(&v), fmt::ptr(point_check));
-
-  todo;
-}
+//void CMap::SetFuncPLight(const vec4& v, CFuncPointCheck* point_check)
+//{
+//  log_trace("CMap::{}({}, {})", __func__, fmt::ptr(&v), fmt::ptr(point_check));
+//
+//  todo;
+//}
 
 // 0015E1F0
 void CMap::ResetFuncPLight(ssize light_index)
@@ -1517,39 +1518,39 @@ bool CMap::GetShow() const
 }
 
 // 0015F2C0
-sint CMap::GetTrBoxColPoly(CCPoly* dest, mgVu0FBOX& box, sint i2)
-{
-  log_trace("CMap::{}({}, {}, {})", __func__, fmt::ptr(dest), fmt::ptr(&box), i2);
-
-  todo;
-  return 0;
-}
+//sint CMap::GetTrBoxColPoly(CCPoly* dest, mgVu0FBOX& box, sint i2)
+//{
+//  log_trace("CMap::{}({}, {}, {})", __func__, fmt::ptr(dest), fmt::ptr(&box), i2);
+//
+//  todo;
+//  return 0;
+//}
 
 // 0015F3D0
-sint CMap::GetFixCameraPos(const vec3& v1, vec3& v2)
-{
-  log_trace("CMap::{}({}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2));
-
-  todo;
-  return 0;
-}
+//sint CMap::GetFixCameraPos(const vec3& v1, vec3& v2)
+//{
+//  log_trace("CMap::{}({}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2));
+//
+//  todo;
+//  return 0;
+//}
 
 // 0015F730
-void CMap::FixCameraPartsOnOff(const vec3& v)
-{
-  log_trace("CMap::{}({})", __func__, fmt::ptr(&v));
-
-  todo;
-}
+//void CMap::FixCameraPartsOnOff(const vec3& v)
+//{
+//  log_trace("CMap::{}({})", __func__, fmt::ptr(&v));
+//
+//  todo;
+//}
 
 // 0015F880
-CMapParts* CMap::GetEvent(const vec3& v, sint i, MapEventInfo* event_info)
-{
-  log_trace("CMap::{}({}, {}, {})", __func__, fmt::ptr(&v), i, fmt::ptr(event_info));
-
-  todo;
-  return nullptr;
-}
+//CMapParts* CMap::GetEvent(const vec3& v, sint i, MapEventInfo* event_info)
+//{
+//  log_trace("CMap::{}({}, {}, {})", __func__, fmt::ptr(&v), i, fmt::ptr(event_info));
+//
+//  todo;
+//  return nullptr;
+//}
 
 // 0015FDA0
 void CMap::EffectStep()
@@ -1644,45 +1645,45 @@ ETimeBand CMap::GetNowTimeLightBand() const
 }
 
 // 00160E70
-void CMap::GetLightingRatio(vec4& ratio_dest) const
-{
-  log_trace("CMap::{}({})", __func__, fmt::ptr(&ratio_dest));
-
-  todo;
-}
+//void CMap::GetLightingRatio(vec4& ratio_dest) const
+//{
+//  log_trace("CMap::{}({})", __func__, fmt::ptr(&ratio_dest));
+//
+//  todo;
+//}
 
 // 00160FE0
-void CMap::GetLightingFlareRatio(vec4& ratio_dest) const
-{
-  log_trace("CMap::{}({})", __func__, fmt::ptr(&ratio_dest));
-
-  todo;
-}
+//void CMap::GetLightingFlareRatio(vec4& ratio_dest) const
+//{
+//  log_trace("CMap::{}({})", __func__, fmt::ptr(&ratio_dest));
+//
+//  todo;
+//}
 
 // 00161010
-void CMap::GetLightingSunRatio(vec4& ratio_dest) const
-{
-  log_trace("CMap::{}({})", __func__, fmt::ptr(&ratio_dest));
-
-  todo;
-}
+//void CMap::GetLightingSunRatio(vec4& ratio_dest) const
+//{
+//  log_trace("CMap::{}({})", __func__, fmt::ptr(&ratio_dest));
+//
+//  todo;
+//}
 
 // 001610F0
-ETimeBand CMap::GetTimeLightingRatio(vec4& ratio_dest) const
-{
-  log_trace("CMap::{}({})", __func__, fmt::ptr(&ratio_dest));
-
-  todo;
-  return ETimeBand::Night;
-}
+//ETimeBand CMap::GetTimeLightingRatio(vec4& ratio_dest) const
+//{
+//  log_trace("CMap::{}({})", __func__, fmt::ptr(&ratio_dest));
+//
+//  todo;
+//  return ETimeBand::Night;
+//}
 
 // 001612B0
-void CMap::GetSunPoint(vec3& point_dest) const
-{
-  log_trace("CMap::{}({})", __func__, fmt::ptr(&point_dest));
-
-  todo;
-}
+//void CMap::GetSunPoint(vec3& point_dest) const
+//{
+//  log_trace("CMap::{}({})", __func__, fmt::ptr(&point_dest));
+//
+//  todo;
+//}
 
 // 00161360
 sint CMap::GetLightNoTime(ETimeBand time)

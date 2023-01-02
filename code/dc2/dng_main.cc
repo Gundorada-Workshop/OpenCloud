@@ -1,7 +1,5 @@
 #include <array>
 
-#include <glm/glm.hpp>
-
 #include "common/clock.h"
 #include "common/debug.h"
 #include "common/log.h"
@@ -274,31 +272,31 @@ void CChillAfterHit::Initialize()
   m_unk_field_4 = 0;
   m_unk_field_8 = 0;
   memset(&m_unk_field_20, 0, sizeof(m_unk_field_20));
-  m_unk_field_10 = vec4(0);
+  //m_unk_field_10 = vec4(0);
 }
 
 // 001D4C40
-void CMiniMapSymbol::DrawSymbol(MAYBE_UNUSED vec3& pos, MAYBE_UNUSED EMiniMapSymbol::EMiniMapSymbol symbol_type)
-{
-  // 0033D8A0
-  static std::array<MINIMAP_SYMBOL_DATA, EMiniMapSymbol::COUNT + 1> symbol_table
-  {
-    EMiniMapSymbol::SphidaShotGuide, {255, 0,   0},   10, 10, false, true,
-    EMiniMapSymbol::TreasureBox,     {96,  64,  0},   10, 10, false, true,
-    EMiniMapSymbol::RandomCircle,    {255, 255, 0},   10, 10, false, true,
-    EMiniMapSymbol::GeoStone,        {255, 0,   180}, 10, 10, false, true,
-    EMiniMapSymbol::SphidaRedGoal,   {255, 0,   0},   14, 14, false, false,
-    EMiniMapSymbol::SphidaBlueGoal,  {0,   64,  255}, 14, 14, false, false,
-    EMiniMapSymbol::SphidaRedBall,   {255, 0,   0},   10, 10, true,  false,
-    EMiniMapSymbol::SphidaBlueBall,  {0,   0,   255}, 10, 10, true,  false,
-    EMiniMapSymbol::Monster,         {255, 0,   0},   10, 10, true,  true,
-    EMiniMapSymbol::TERMINATOR,      {0,   0,   0},   0,  0,  false, false,
-  };
-
-  log_trace("CMiniMapSymbol::DrawSymbol({}, {})", fmt::ptr(&pos), std::to_underlying(symbol_type));
-
-  todo;
-}
+//void CMiniMapSymbol::DrawSymbol(MAYBE_UNUSED vec3& pos, MAYBE_UNUSED EMiniMapSymbol::EMiniMapSymbol symbol_type)
+//{
+//  // 0033D8A0
+//  static std::array<MINIMAP_SYMBOL_DATA, EMiniMapSymbol::COUNT + 1> symbol_table
+//  {
+//    EMiniMapSymbol::SphidaShotGuide, {255, 0,   0},   10, 10, false, true,
+//    EMiniMapSymbol::TreasureBox,     {96,  64,  0},   10, 10, false, true,
+//    EMiniMapSymbol::RandomCircle,    {255, 255, 0},   10, 10, false, true,
+//    EMiniMapSymbol::GeoStone,        {255, 0,   180}, 10, 10, false, true,
+//    EMiniMapSymbol::SphidaRedGoal,   {255, 0,   0},   14, 14, false, false,
+//    EMiniMapSymbol::SphidaBlueGoal,  {0,   64,  255}, 14, 14, false, false,
+//    EMiniMapSymbol::SphidaRedBall,   {255, 0,   0},   10, 10, true,  false,
+//    EMiniMapSymbol::SphidaBlueBall,  {0,   0,   255}, 10, 10, true,  false,
+//    EMiniMapSymbol::Monster,         {255, 0,   0},   10, 10, true,  true,
+//    EMiniMapSymbol::TERMINATOR,      {0,   0,   0},   0,  0,  false, false,
+//  };
+//
+//  log_trace("CMiniMapSymbol::DrawSymbol({}, {})", fmt::ptr(&pos), std::to_underlying(symbol_type));
+//
+//  todo;
+//}
 
 // 001D94A0
 void CAutoMapGen::ClearRandomStone()

@@ -1,8 +1,6 @@
 #include <array>
 #include <math.h>
 
-#include <glm/glm.hpp>
-
 #include "common/log.h"
 #include "common/types.h"
 #include "common/macros.h"
@@ -19,7 +17,7 @@ using namespace common;
 mgRENDER_INFO mgRenderInfo{ };
 
 // 00381EE0
-static vec4 mgBackColor{ 0 };
+//static vec4 mgBackColor{ 0 };
 
 // 00381EF0
 mgCTextureManager mgTexManager{ };
@@ -113,9 +111,9 @@ void mgSetPkMoveImage(MAYBE_UNUSED sceGsTex0* tex1, MAYBE_UNUSED irect* rect, MA
 }
 
 // 00145B20
-f32 mgGetDistFromCamera(vec3& point)
-{
-  log_trace("mgGetDistFromCamera({})", fmt::ptr(&point));
-
-  return math::vector_distance(point, mgRenderInfo.camera_pos);
-}
+//f32 mgGetDistFromCamera(vec3& point)
+//{
+//  log_trace("mgGetDistFromCamera({})", fmt::ptr(&point));
+//
+//  return math::vector_distance(point, mgRenderInfo.camera_pos);
+//}

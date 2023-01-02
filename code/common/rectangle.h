@@ -1,6 +1,7 @@
 #pragma once
 #include "common/types.h"
-#include "common/constants.h"
+#include "common/strings.h"
+#include "common/math/_vector.h"
 
 namespace common
 {
@@ -8,13 +9,12 @@ namespace common
   class rectangle
   {
   public:
-    using storage_type = vec<type, 4>;
-    using point_type = vec<type, 2>;
+    using storage_type = vector4<type>;
+    using point_type = vector4<type>;
 
     friend struct fmt::formatter<rectangle<type>>;
 
     constexpr rectangle()
-      : m_data{ constants::vector_constants<storage_type>::zero() }
     {
     }
 
@@ -45,7 +45,7 @@ namespace common
 
       const point_type p1 = p0 + extent;
 
-      return rectangle<type>{ p0.x, p0.y, p1.x, p1.y };
+      return rectangle<type>{ p0.x(), p0.y(), p1.x(), p1.y() };
     }
 
     // construct from an extent assuming top left is 0,0
@@ -57,25 +57,25 @@ namespace common
     // get the width of the rectangle
     constexpr type width() const
     {
-      return m_data.z - m_data.x;
+      return m_data.z() - m_data.x();
     }
 
     // get the height of the rectangle
     constexpr type height() const
     {
-      return m_data.w - m_data.y;
+      return m_data.w() - m_data.y();
     }
 
     // get the extent (width, height)
     constexpr point_type extent()
     {
-      return m_data.zw - m_data.xy;
+      return m_data.zw() - m_data.xy();
     }
 
     // get the top left origin point (x, y)
     constexpr point_type origin()
     {
-      return m_data.xy;
+      return m_data.xy();
     }
 
   private:
@@ -94,6 +94,6 @@ struct fmt::formatter<common::rectangle<rect_type>> : formatter<std::string_view
   auto format(const common::rectangle<rect_type>& rect, format_context& ctx)
   {
     return fmt::format_to(ctx.out(), "rect<{}>({}, {}, {}, {})",
-      typeid(rect_type).name(), rect.m_data.x, rect.m_data.y, rect.m_data.z, rect.m_data.w);
+      typeid(rect_type).name(), rect.m_data.x(), rect.m_data.y(), rect.m_data.z(), rect.m_data.w());
   }
 };

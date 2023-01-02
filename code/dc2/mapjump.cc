@@ -1,7 +1,5 @@
 #include <array>
 
-#include <glm/glm.hpp>
-
 #include "common/log.h"
 #include "common/types.h"
 #include "common/macros.h"
@@ -33,13 +31,13 @@ static MapJumpInfo SubMapInfo{};
 // 01F58E10
 static std::array<char, 0x40> old_mapname{ 0 };
 // 01F58E50
-static vec4 OldPos{ 0 };
+//static vec4 OldPos{ 0 };
 // 01F58E60
-static vec4 OldRot{ 0 };
+//static vec4 OldRot{ 0 };
 // 01F58E70
-static vec4 OldCamPos{ 0 };
+//static vec4 OldCamPos{ 0 };
 // 01F58E80
-static vec4 OldCamRef{ 0 };
+//static vec4 OldCamRef{ 0 };
 // 01F58E90
 static std::array<char, 0x40> PrevInterior{ 0 };
 // 01F58ED0

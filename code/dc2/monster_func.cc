@@ -56,16 +56,16 @@ static f32 GetStackFloat(rs::stack_data* stack)
   }
 }
 
-MAYBE_UNUSED static vec3 GetStackVector(rs::stack_data* stack)
-{
-  log_trace("{}()", __func__, fmt::ptr(stack));
-
-  return {
-    GetStackFloat(&stack[0]),
-    GetStackFloat(&stack[1]),
-    GetStackFloat(&stack[2]),
-  };
-}
+//MAYBE_UNUSED static vec3 GetStackVector(rs::stack_data* stack)
+//{
+//  log_trace("{}()", __func__, fmt::ptr(stack));
+//
+//  return {
+//    GetStackFloat(&stack[0]),
+//    GetStackFloat(&stack[1]),
+//    GetStackFloat(&stack[2]),
+//  };
+//}
 
 MAYBE_UNUSED static std::string GetStackString(rs::stack_data* stack)
 {
@@ -104,14 +104,14 @@ MAYBE_UNUSED static void SetStack(rs::stack_data* stack, f32 value)
   stack->_ptr->_flt = value;
 }
 
-static void SetStackVector(vec3* vector, rs::stack_data* stack)
-{
-  log_trace("{}({}, {})", __func__, fmt::ptr(vector), fmt::ptr(stack));
-
-  SetStack(&stack[0], vector->x);
-  SetStack(&stack[1], vector->y);
-  SetStack(&stack[2], vector->z);
-}
+//static void SetStackVector(vec3* vector, rs::stack_data* stack)
+//{
+//  log_trace("{}({}, {})", __func__, fmt::ptr(vector), fmt::ptr(stack));
+//
+//  SetStack(&stack[0], vector->x);
+//  SetStack(&stack[1], vector->y);
+//  SetStack(&stack[2], vector->z);
+//}
 
 static bool _NORMAL_VECTOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
@@ -834,10 +834,10 @@ static bool _GET_POS(rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  vec3 pos = nowMonster->GetPosition();
-  SetStack(stack++, pos.x);
-  SetStack(stack++, pos.y);
-  SetStack(stack++, pos.z);
+  //vec3 pos = nowMonster->GetPosition();
+  //SetStack(stack++, pos.x);
+  //SetStack(stack++, pos.y);
+  //SetStack(stack++, pos.z);
   return true;
 }
 
@@ -904,27 +904,27 @@ static bool _RESET_MOVE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint st
 static bool _GET_TARGET_POS(rs::stack_data* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
-  if (stack_count < 3 || stack_count > 4)
-  {
-    return false;
-  }
+  //if (stack_count < 3 || stack_count > 4)
+  //{
+  //  return false;
+  //}
 
-  auto target = nowScene->GetCharacter(nowMonster->m_target_chara_id);
-  if (target == nullptr)
-  {
-    return false;
-  }
+  //auto target = nowScene->GetCharacter(nowMonster->m_target_chara_id);
+  //if (target == nullptr)
+  //{
+  //  return false;
+  //}
 
-  vec3 target_pos = target->GetPosition();
-  SetStack(stack++, target_pos.x);
-  SetStack(stack++, target_pos.y);
-  SetStack(stack++, target_pos.z);
+  //vec3 target_pos = target->GetPosition();
+  //SetStack(stack++, target_pos.x);
+  //SetStack(stack++, target_pos.y);
+  //SetStack(stack++, target_pos.z);
 
-  if (stack_count >= 4)
-  {
-    // Set the distance between the monster and target on the stack, if we want it.
-    SetStack(stack++, common::math::vector_distance(target_pos, nowMonster->GetPosition()));
-  }
+  //if (stack_count >= 4)
+  //{
+  //  // Set the distance between the monster and target on the stack, if we want it.
+  //  SetStack(stack++, common::math::vector_distance(target_pos, nowMonster->GetPosition()));
+  //}
   
   return true;
 }
@@ -934,13 +934,13 @@ static bool _GET_TARGET_DIST(rs::stack_data* stack, MAYBE_UNUSED sint stack_coun
   trace_script_call(stack, stack_count);
   VERIFY_STACK_COUNT(1);
 
-  auto target = nowScene->GetCharacter(nowMonster->m_target_chara_id);
-  if (target == nullptr)
-  {
-    return false;
-  }
+  //auto target = nowScene->GetCharacter(nowMonster->m_target_chara_id);
+  //if (target == nullptr)
+  //{
+  //  return false;
+  //}
 
-  SetStack(stack++, common::math::vector_distance(target->GetPosition(), nowMonster->GetPosition()));
+  //SetStack(stack++, common::math::vector_distance(target->GetPosition(), nowMonster->GetPosition()));
   return true;
 }
 
@@ -989,14 +989,14 @@ static bool _GET_REF_ANGLE(rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
   trace_script_call(stack, stack_count);
   VERIFY_STACK_COUNT(4);
 
-  f32 x = GetStackFloat(stack++);
-  f32 y = GetStackFloat(stack++);
-  f32 z = GetStackFloat(stack++);
-  vec3 check_position{ x, y, z };
+  //f32 x = GetStackFloat(stack++);
+  //f32 y = GetStackFloat(stack++);
+  //f32 z = GetStackFloat(stack++);
+  //vec3 check_position{ x, y, z };
 
-  vec3 delta = check_position - nowMonster->GetPosition();
-  
-  SetStack(stack++, atan2f(delta.x, delta.z));
+  //vec3 delta = check_position - nowMonster->GetPosition();
+  //
+  //SetStack(stack++, atan2f(delta.x, delta.z));
 
   return true;
 }
@@ -1367,8 +1367,8 @@ static bool _GET_SCALE(rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
   trace_script_call(stack, stack_count);
   VERIFY_STACK_COUNT(3);
 
-  vec3 scale = nowMonster->GetScale();
-  SetStackVector(&scale, stack);
+  //vec3 scale = nowMonster->GetScale();
+  //SetStackVector(&scale, stack);
   return true;
 }
 

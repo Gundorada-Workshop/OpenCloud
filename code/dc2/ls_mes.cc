@@ -90,7 +90,7 @@ ClsMes::ClsMes()
   m_unk_field_1D8 = 0;
   m_unk_field_1DC = 0;
 
-  SetDefColor(glm::u8vec4(0x20, 0x20, 0x20, 0x80));
+  //SetDefColor(glm::u8vec4(0x20, 0x20, 0x20, 0x80));
 
   m_unk_field_17D8 = 0;
   m_unk_field_17DC = 0;
@@ -260,13 +260,13 @@ ClsMes::ClsMes()
 }
 
 // 00152EC0
-void ClsMes::SetDefColor(glm::u8vec4 default_rgba)
-{
-  log_trace("ClsMes::SetDefColor({}, {}, {}, {})", default_rgba.r, default_rgba.g, default_rgba.b, default_rgba.a);
-
-  m_unk_field_17D0 = default_rgba;
-  m_unk_field_17D4 = m_unk_field_17D0;
-}
+//void ClsMes::SetDefColor(glm::u8vec4 default_rgba)
+//{
+//  log_trace("ClsMes::SetDefColor({}, {}, {}, {})", default_rgba.r, default_rgba.g, default_rgba.b, default_rgba.a);
+//
+//  m_unk_field_17D0 = default_rgba;
+//  m_unk_field_17D4 = m_unk_field_17D0;
+//}
 
 // 002D44A0
 void ClsMes::SetDrawSize(s32 i1, s32 i2)

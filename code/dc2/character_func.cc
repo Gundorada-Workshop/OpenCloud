@@ -54,16 +54,16 @@ static f32 GetStackFloat(rs::stack_data* stack)
   }
 }
 
-MAYBE_UNUSED static vec3 GetStackVector(rs::stack_data* stack)
-{
-  log_trace("{}()", __func__, fmt::ptr(stack));
-
-  return {
-    GetStackFloat(&stack[0]),
-    GetStackFloat(&stack[1]),
-    GetStackFloat(&stack[2]),
-  };
-}
+//MAYBE_UNUSED static vec3 GetStackVector(rs::stack_data* stack)
+//{
+//  log_trace("{}()", __func__, fmt::ptr(stack));
+//
+//  return {
+//    GetStackFloat(&stack[0]),
+//    GetStackFloat(&stack[1]),
+//    GetStackFloat(&stack[2]),
+//  };
+//}
 
 MAYBE_UNUSED static const char* GetStackString(rs::stack_data* stack)
 {
@@ -270,16 +270,16 @@ static bool _GET_FRONT_VEC(rs::stack_data* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  if (stack_count != 3)
-  {
-    return false;
-  }
+  //if (stack_count != 3)
+  //{
+  //  return false;
+  //}
 
-  vec3 front_vec = action_info.m_chara->m_front_vec;
+  //vec3 front_vec = action_info.m_chara->m_front_vec;
 
-  SetStack(stack++, front_vec.x);
-  SetStack(stack++, front_vec.y);
-  SetStack(stack++, front_vec.z);
+  //SetStack(stack++, front_vec.x);
+  //SetStack(stack++, front_vec.y);
+  //SetStack(stack++, front_vec.z);
   return true;
 }
 
@@ -409,10 +409,10 @@ static bool _GET_POS(rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
   trace_script_call(stack, stack_count);
   VERIFY_STACK_COUNT(3);
 
-  vec3 pos = action_info.m_chara->GetPosition();
-  SetStack(stack++, pos.x);
-  SetStack(stack++, pos.y);
-  SetStack(stack++, pos.z);
+  //vec3 pos = action_info.m_chara->GetPosition();
+  //SetStack(stack++, pos.x);
+  //SetStack(stack++, pos.y);
+  //SetStack(stack++, pos.z);
 
   return true;
 }
@@ -422,10 +422,10 @@ static bool _GET_ROT(rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
   trace_script_call(stack, stack_count);
   VERIFY_STACK_COUNT(3);
 
-  vec3 rot = action_info.m_chara->GetRotation();
-  SetStack(stack++, rot.x);
-  SetStack(stack++, rot.y);
-  SetStack(stack++, rot.z);
+  //vec3 rot = action_info.m_chara->GetRotation();
+  //SetStack(stack++, rot.x);
+  //SetStack(stack++, rot.y);
+  //SetStack(stack++, rot.z);
 
   return true;
 }

@@ -1,6 +1,4 @@
-﻿#include <glm/glm.hpp>
-
-#include "common/bits.h"
+﻿#include "common/bits.h"
 #include "common/constants.h"
 #include "common/debug.h"
 #include "common/log.h"
@@ -70,41 +68,41 @@ static s32 LdrTopFoot{ 0 };
 // 01E9B1C0
 static MoveCheckInfo MoveInfo{ };
 // 01E9B2D0
-static vec3 OldFixCameraPos{ 0 };
+//static vec3 OldFixCameraPos{ 0 };
 // 01E9B2E0
-static vec3 OldCameraPos{ 0 };
+//static vec3 OldCameraPos{ 0 };
 // 01E9B2F0
-static SLadderData LadderData{ };
+//static SLadderData LadderData{ };
 // 01E9B3C0
-static vec3 LdrPos{ 0 };
+//static vec3 LdrPos{ 0 };
 // 01E9B3D0
-static vec3 StdPos{ 0 };
+//static vec3 StdPos{ 0 };
 // 01E9B3E0
-static vec3 LdrBottomPos{ 0 };
+//static vec3 LdrBottomPos{ 0 };
 // 01E9B3F0
-static vec3 LdrTopPos{ 0 };
+//static vec3 LdrTopPos{ 0 };
 // 01E9B400
-static vec3 LdrTopWalk{ 0 };
+//static vec3 LdrTopWalk{ 0 };
 // 01E9B410
-static vec3 LdrCamPos{ 0 };
+//static vec3 LdrCamPos{ 0 };
 
 // 001A2C70
-static bool ClipBoxXZ(const vec4& max_corner1, const vec4& min_corner1, const vec4& max_corner2, const vec4& min_corner2)
-{
-  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&max_corner1), fmt::ptr(&min_corner1), fmt::ptr(&max_corner2), fmt::ptr(&min_corner2));
-
-  return math::vector_all_less_than_equal(min_corner1.xz(), max_corner2.xz()) &&
-    math::vector_all_greater_than_equal(max_corner1.xz(), min_corner2.xz());
-}
+//static bool ClipBoxXZ(const vec4& max_corner1, const vec4& min_corner1, const vec4& max_corner2, const vec4& min_corner2)
+//{
+//  log_trace("{}({}, {}, {}, {})", __func__, fmt::ptr(&max_corner1), fmt::ptr(&min_corner1), fmt::ptr(&max_corner2), fmt::ptr(&min_corner2));
+//
+//  return math::vector_all_less_than_equal(min_corner1.xz(), max_corner2.xz()) &&
+//    math::vector_all_greater_than_equal(max_corner1.xz(), min_corner2.xz());
+//}
 
 // 001A2CC0
-f32 OverlapPoly3AreaXZ(const matrix4* m1, const matrix4* m2, const mgVu0FBOX* box)
-{
-  log_trace("{}({}, {}, {})", __func__, fmt::ptr(m1), fmt::ptr(m2), fmt::ptr(box));
-
-  todo;
-  return 0.0f;
-}
+//f32 OverlapPoly3AreaXZ(const matrix4* m1, const matrix4* m2, const mgVu0FBOX* box)
+//{
+//  log_trace("{}({}, {}, {})", __func__, fmt::ptr(m1), fmt::ptr(m2), fmt::ptr(box));
+//
+//  todo;
+//  return 0.0f;
+//}
 
 // 001A32A0
 void CEditCollision::Copy(CEditCollision& other, sint i) const
@@ -124,39 +122,39 @@ f32 CEditCollision::AreaXZ() const
 }
 
 // 001A3540
-bool CEditCollision::OverlapPoly3XZ(const matrix4* m, f32* f_dest, mgVu0FBOX* box_dest) const
-{
-  log_trace("CEditCollision::{}({}, {}, {})", __func__, fmt::ptr(m), fmt::ptr(f_dest), fmt::ptr(box_dest));
-
-  todo;
-  return false;
-};
+//bool CEditCollision::OverlapPoly3XZ(const matrix4* m, f32* f_dest, mgVu0FBOX* box_dest) const
+//{
+//  log_trace("CEditCollision::{}({}, {}, {})", __func__, fmt::ptr(m), fmt::ptr(f_dest), fmt::ptr(box_dest));
+//
+//  todo;
+//  return false;
+//};
 
 // 001A3720
-f32 CEditCollision::OverlapXZ(const CEditCollision& other, const matrix4* m, mgVu0FBOX* box_dest) const
-{
-  log_trace("CEditCollision::{}({}, {}, {})", __func__, fmt::ptr(&other), fmt::ptr(m), fmt::ptr(box_dest));
-
-  todo;
-  return 0.0f;
-}
+//f32 CEditCollision::OverlapXZ(const CEditCollision& other, const matrix4* m, mgVu0FBOX* box_dest) const
+//{
+//  log_trace("CEditCollision::{}({}, {}, {})", __func__, fmt::ptr(&other), fmt::ptr(m), fmt::ptr(box_dest));
+//
+//  todo;
+//  return 0.0f;
+//}
 
 // 001A3820
-bool CEditCollision::OverlapPoly3XZ(const matrix4* m1, const matrix4* m2, mgVu0FBOX* box_dest) const
-{
-  log_trace("CEditCollision::{}({}, {}, {})", __func__, fmt::ptr(m1), fmt::ptr(m2), fmt::ptr(box_dest));
-
-  todo;
-  return false;
-}
+//bool CEditCollision::OverlapPoly3XZ(const matrix4* m1, const matrix4* m2, mgVu0FBOX* box_dest) const
+//{
+//  log_trace("CEditCollision::{}({}, {}, {})", __func__, fmt::ptr(m1), fmt::ptr(m2), fmt::ptr(box_dest));
+//
+//  todo;
+//  return false;
+//}
 
 // 001A3B10
-void CEditCollision::ApplyMatrix(const matrix4* m)
-{
-  log_trace("CEditCollision::{}({})", __func__, fmt::ptr(m));
-
-  todo;
-}
+//void CEditCollision::ApplyMatrix(const matrix4* m)
+//{
+//  log_trace("CEditCollision::{}({})", __func__, fmt::ptr(m));
+//
+//  todo;
+//}
 
 // 001A3C50
 void CEditCollision::DeleteVerticalPoly()
@@ -322,20 +320,20 @@ std::string GetFootEffName(sint id)
 }
 
 // 001A4370
-void EditMoveChara(CScene* scene, vec3* v, EditMoveCharaInfo* move_info)
-{
-  log_trace("{}({})", __func__, fmt::ptr(scene), fmt::ptr(v), fmt::ptr(move_info));
-
-  todo;
-}
+//void EditMoveChara(CScene* scene, vec3* v, EditMoveCharaInfo* move_info)
+//{
+//  log_trace("{}({})", __func__, fmt::ptr(scene), fmt::ptr(v), fmt::ptr(move_info));
+//
+//  todo;
+//}
 
 // 001A4E80
-void EditCameraControl(CScene* scene, CPadControl* pad, const vec3* v)
-{
-  log_trace("{}({})", __func__, fmt::ptr(scene), fmt::ptr(pad), fmt::ptr(v));
-
-  todo;
-}
+//void EditCameraControl(CScene* scene, CPadControl* pad, const vec3* v)
+//{
+//  log_trace("{}({})", __func__, fmt::ptr(scene), fmt::ptr(pad), fmt::ptr(v));
+//
+//  todo;
+//}
 
 // 001A57B0
 void CharaControl(CScene* scene, CPadControl* pad)
@@ -362,42 +360,42 @@ void CameraControl(CScene* scene, CPadControl* pad)
 }
 
 // 001A6300
-void InitEyeCamera(CCharacter2* chara, CCameraControl* camera)
-{
-  log_trace("{}({}, {})", __func__, fmt::ptr(chara), fmt::ptr(camera));
-
-  f32 rot = chara->GetRotation().y;
-
-  InitEyeViewFlag = true;
-  viewAngleV = 0.0f;
-  AddProj = 0.0f;
-  ShutterCnt = 0;
-  viewAngleH = rot;
-  OldCameraPos = camera->GetPos();
-}
+//void InitEyeCamera(CCharacter2* chara, CCameraControl* camera)
+//{
+//  log_trace("{}({}, {})", __func__, fmt::ptr(chara), fmt::ptr(camera));
+//
+//  f32 rot = chara->GetRotation().y;
+//
+//  InitEyeViewFlag = true;
+//  viewAngleV = 0.0f;
+//  AddProj = 0.0f;
+//  ShutterCnt = 0;
+//  viewAngleH = rot;
+//  OldCameraPos = camera->GetPos();
+//}
 
 // 001A6360
-void ResetViewMode(CScene* scene)
-{
-  log_trace("{}({})", __func__, fmt::ptr(scene));
-
-  auto camera = scene->GetCamera(scene->m_active_cmrid);
-
-  if (InitEyeViewFlag)
-  {
-    camera->SetPos(OldCameraPos);
-  }
-
-  InitEyeViewFlag = false;
-
-  if (camera != nullptr)
-  {
-    camera->Step(-1);
-  }
-
-  scene->ResetStatus(ESceneDataType::Character, scene->m_control_chrid, ESceneDataStatus::UNK_10);
-  EndTakePhoto();
-}
+//void ResetViewMode(CScene* scene)
+//{
+//  log_trace("{}({})", __func__, fmt::ptr(scene));
+//
+//  auto camera = scene->GetCamera(scene->m_active_cmrid);
+//
+//  if (InitEyeViewFlag)
+//  {
+//    camera->SetPos(OldCameraPos);
+//  }
+//
+//  InitEyeViewFlag = false;
+//
+//  if (camera != nullptr)
+//  {
+//    camera->Step(-1);
+//  }
+//
+//  scene->ResetStatus(ESceneDataType::Character, scene->m_control_chrid, ESceneDataStatus::UNK_10);
+//  EndTakePhoto();
+//}
 
 // 001A63F0
 void EyeCamera(mgCCamera* camera, CCharacter2* chara, bool b)
