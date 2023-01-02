@@ -9,8 +9,8 @@ namespace common
   class rectangle
   {
   public:
-    using storage_type = math::vector<type, 4>;
-    using point_type = math::vector<type, 2>;
+    using storage_type = vector4<type>;
+    using point_type = vector4<type>;
 
     friend struct fmt::formatter<rectangle<type>>;
 

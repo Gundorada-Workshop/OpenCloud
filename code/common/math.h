@@ -3,8 +3,8 @@
 
 #include "common/types.h"
 
-// #include "common/math/_vector.h"
-// #include "common/math/_matrix.h"
+#include "common/math/_vector.h"
+//#include "common/math/_matrix.h"
 
 namespace common::math
 {

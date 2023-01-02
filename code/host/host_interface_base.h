@@ -34,10 +34,10 @@ namespace host
 
   public:
     // sample the left stick axis
-    common::math::vector<f32, 2> sample_pad_left_stick_xy();
+    vec2 sample_pad_left_stick_xy();
 
     // sample the right stick axis
-    common::math::vector<f32, 2> sample_pad_right_stick_xy();
+    vec2 sample_pad_right_stick_xy();
 
     // start a new in-game frame
     void start_game_frame();
