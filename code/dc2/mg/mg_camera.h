@@ -1,4 +1,5 @@
 #pragma once
+#include "common/math.h"
 #include "common/debug.h"
 
 // ~ 00131110 - 00131B60
@@ -17,16 +18,16 @@ private:
 
 protected:
   // 0
-  //vec3 m_position;
+  vec3 m_position;
 
   // 10
-  //vec3 m_reference;
+  vec3 m_reference;
 
   // 20
-  //vec3 m_next_position;
+  vec3 m_next_position;
 
   // 30
-  //vec3 m_next_reference;
+  vec3 m_next_reference;
 
   // 48
   f32 m_position_speed;
@@ -188,10 +189,10 @@ class mgCCameraFollow : public mgCCamera
 {
 protected:
   // 70
-  //vec3 m_follow;
+  vec3 m_follow;
 
   // 80
-  //vec3 m_follow_offset;
+  vec3 m_follow_offset;
 
   // 90
   f32 m_distance;
@@ -209,7 +210,7 @@ protected:
   bool m_following;
 
   // B0
-  //vec3 m_follow_next;
+  vec3 m_follow_next;
 
 public:
   // 00131A90
