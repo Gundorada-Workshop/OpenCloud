@@ -74,7 +74,7 @@ public:
 
   // 00297A50
   // world position (where are we in the scene, actually?)
-  vec3 GetWPos(usize x, usize y) const;
+  //vec3 GetWPos(usize x, usize y) const;
 
   // 00297AA0
   bool SetRiver(f32 x, f32 y);
@@ -92,16 +92,16 @@ public:
   bool River(usize x, usize y);
 
   // 00298070
-  void GetRiverPos(usize x, usize y, matrix4& dest) const;
+  //void GetRiverPos(usize x, usize y, matrix4& dest) const;
 
   // 00298170
-  void GetRiverPos(usize x, usize y, vec3& dest) const;
+  //void GetRiverPos(usize x, usize y, vec3& dest) const;
 
   // 00298200
-  void GetRiverPoly(CCPoly* dest, const mgVu0FBOX& box, sint i, f32 f);
+  //void GetRiverPoly(CCPoly* dest, const mgVu0FBOX& box, sint i, f32 f);
 
   // 002985C0
-  mgVu0FBOX GetGridBox(const vec3& pos) const;
+  //mgVu0FBOX GetGridBox(const vec3& pos) const;
 
 private:
   // 00297D10
@@ -120,7 +120,7 @@ public:
   // 10
   f32 m_tile_len_y{};
   // 20
-  vec3 m_grid_start_pos{ 0.0f };
+  //vec3 m_grid_start_pos{ 0.0f };
 };
 
 class CEditHouse
@@ -168,7 +168,7 @@ public:
   EditPartsMaterial* GetMaterial(ssize index);
 
   // 001B5760
-  std::optional<vec3> GetDefColor(ssize index) const;
+  //std::optional<vec3> GetDefColor(ssize index) const;
 
   // 0
   EEPartsInfoID m_id{ EEPartsInfoID::Uninitialized };
@@ -191,14 +191,14 @@ public:
   CMapParts* m_unk_field_44{};
 
   // 50
-  mgVu0FBOX m_parts_bound_box{};
+  //mgVu0FBOX m_parts_bound_box{};
   // 70
   std::array<EditPartsMaterial, 4> m_material{};
 
   // A0
-  vec3 m_unk_field_A0{};
+  //vec3 m_unk_field_A0{};
   // B0
-  vec3 m_unk_field_B0{};
+  //vec3 m_unk_field_B0{};
 
   // 254
   sint m_wall_group_num{};
@@ -212,23 +212,23 @@ public:
   struct WallInfo
   {
   public:
-    matrix4 m_wall_plane{};
+    //matrix4 m_wall_plane{};
   };
 
   // 001B5860
-  virtual void SetPosition(const vec3& position) override;
+  //virtual void SetPosition(const vec3& position) override;
 
   // 001B58E0
-  virtual void SetPosition(f32 x, f32 y, f32 z) override;
+  //virtual void SetPosition(f32 x, f32 y, f32 z) override;
 
   // 001B5930
-  virtual vec3 GetPosition() override;
+  //virtual vec3 GetPosition() override;
 
   // 001B59A0
   virtual void UpdatePosition() override;
 
   // 001B5990
-  vec3 GetLocalPos();
+  //vec3 GetLocalPos();
 
   // 001B5A50
   EEPartsInfoID GetInfoID() const;
@@ -246,7 +246,7 @@ public:
   bool IsBurn() const;
 
   // 001B5B20
-  bool GetFenceSide(vec3& v1_dest, vec3& v2_dest);
+  //bool GetFenceSide(vec3& v1_dest, vec3& v2_dest);
 
   // 001B5BD0
   bool GetWallPlane(sint i, WallInfo* wall_info) const;
@@ -337,7 +337,7 @@ public:
   virtual unkptr DrawSub(bool b) override;
 
   // 001B40A0
-  virtual bool PreDraw(const vec3& v) override;
+  //virtual bool PreDraw(const vec3& v) override;
 
   // 0029C1C0
   virtual void DrawEffect() override;
@@ -349,10 +349,10 @@ public:
   virtual void DrawFireRaster() override;
 
   // 001B0780
-  virtual sint GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2) override;
+  //virtual sint GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2) override;
 
   // 002A5960
-  virtual void GetEvent(const vec3* v, sint i, MapEventInfo* dest) override;
+  //virtual void GetEvent(const vec3* v, sint i, MapEventInfo* dest) override;
 
   // 002EF530
   virtual void InScreenFunc(InScreenFuncInfo* func_info) override;
@@ -418,7 +418,7 @@ public:
   void GetePlaceIDList(sint* ids_dest, usize max_size);
 
   // 001B0DD0
-  matrix4 GetRotMatrix(sint angle) const;
+  //matrix4 GetRotMatrix(sint angle) const;
 
   // 001B0EB0
   sint GetEditAngle90(sint angle) const;
@@ -433,7 +433,7 @@ public:
   sint AngleLimit(sint angle) const;
 
   // 001B1020
-  vec3 GetEditPos(const vec3& pos) const;
+  //vec3 GetEditPos(const vec3& pos) const;
 
   // 001B11D0
   sint CmpEditAlt(f32 f1, f32 f2) const;
@@ -442,13 +442,13 @@ public:
   f32 GetEditAlt(f32 f) const;
 
   // 001B1280
-  bool GetGridPos(const vec3& v1, vec3& v2, vec3& v3) const;
+  //bool GetGridPos(const vec3& v1, vec3& v2, vec3& v3) const;
 
   // 001B1360
-  matrix4 GetMatrix(const vec3& position, sint angle);
+  //matrix4 GetMatrix(const vec3& position, sint angle);
 
   // 001B13B0
-  matrix4 GetInverseMatrix(const matrix4& mat);
+  //matrix4 GetInverseMatrix(const matrix4& mat);
 
   // 001B13C0
   usize ConvertParts(CEditParts* parts);
@@ -469,7 +469,7 @@ public:
   bool DeleteEditParts(ssize index);
 
   // 001B18A0
-  bool RemoveEditParts(sint i, const vec3& v, const RemoveInfo* remove_info);
+  //bool RemoveEditParts(sint i, const vec3& v, const RemoveInfo* remove_info);
 
   // 001B1C50
   bool PlaceBurnParts();
@@ -478,61 +478,61 @@ public:
   bool BurnEditParts(const RemoveInfo* remove_info);
 
   // 001B1F50
-  CEditParts* PlaceEditParts(const std::string& name, const vec3& position, const vec3& rotation);
+  //CEditParts* PlaceEditParts(const std::string& name, const vec3& position, const vec3& rotation);
 
   // 001B2000
-  CEditParts* PlaceEditParts(sint i, const EP_PLACE_INFO* place_info, const vec3& position, const vec3& rotation, sint* ip = nullptr);
+  //CEditParts* PlaceEditParts(sint i, const EP_PLACE_INFO* place_info, const vec3& position, const vec3& rotation, sint* ip = nullptr);
 
   // 001B21D0
-  bool PlaceRiverParts(const vec3& position);
+  //bool PlaceRiverParts(const vec3& position);
 
   // 001B2220
   bool CreatePlaceLog(sint i, const EP_PLACE_INFO* place_info);
 
   // 001B2320
-  std::vector<std::shared_ptr<CEditParts>> GetNearParts(CEditPartsInfo* info, const vec3& position, f32 radius);
+  //std::vector<std::shared_ptr<CEditParts>> GetNearParts(CEditPartsInfo* info, const vec3& position, f32 radius);
 
   // 001B24D0
-  std::vector<std::shared_ptr<CEditParts>> GetNearParts(const mgVu0FBOX& bounding_box);
+  //std::vector<std::shared_ptr<CEditParts>> GetNearParts(const mgVu0FBOX& bounding_box);
 
   // 001B2670
-  std::optional<usize> GetePlaceParts(const vec4& bounding_sphere);
+  //std::optional<usize> GetePlaceParts(const vec4& bounding_sphere);
 
   // 001B2740
-  std::optional<usize> GetePlaceParts(const vec3& origin, const std::vector<std::shared_ptr<CEditParts>>& collection);
+  //std::optional<usize> GetePlaceParts(const vec3& origin, const std::vector<std::shared_ptr<CEditParts>>& collection);
 
   // 001B2A50
-  bool CheckEditParts(CEditPartsInfo* info, const vec3& position, f32 f, const EP_PLACE_INFO* place_info);
+  //bool CheckEditParts(CEditPartsInfo* info, const vec3& position, f32 f, const EP_PLACE_INFO* place_info);
 
   // 001B2A50
-  f32 GetEditPartsAlt(CEditPartsInfo* info, const vec3& position, f32 f, const EP_PLACE_INFO* place_info);
+  //f32 GetEditPartsAlt(CEditPartsInfo* info, const vec3& position, f32 f, const EP_PLACE_INFO* place_info);
 
   // 001B2B50
-  bool MagnetParts(CEditPartsInfo* info, const vec3& v1, const vec3& v2, const std::vector<std::shared_ptr<CEditParts>>& collection);
+  //bool MagnetParts(CEditPartsInfo* info, const vec3& v1, const vec3& v2, const std::vector<std::shared_ptr<CEditParts>>& collection);
 
   // 001B3A90
-  bool MagnetParts(CEditPartsInfo* info, const vec3& v1, const vec3& v2);
+  //bool MagnetParts(CEditPartsInfo* info, const vec3& v1, const vec3& v2);
 
   // 001B3B00
-  bool CheckWallEditParts(CEditPartsInfo* info, const vec3& v1, sint i1, sint i2, const EP_PLACE_INFO* place_info);
+  //bool CheckWallEditParts(CEditPartsInfo* info, const vec3& v1, sint i1, sint i2, const EP_PLACE_INFO* place_info);
 
   // 001B4AC0
   void LoadEditInfo(char* script_buf, usize script_size);
 
   // 002967B0
-  void PlaceRiver(const vec3& position);
+  //void PlaceRiver(const vec3& position);
 
   // 00296840
-  void RemoveRiver(const vec3& position);
+  //void RemoveRiver(const vec3& position);
 
   // 002968D0
-  void CreateGrid(const vec3& v1, const vec3& v2, const vec3& v3);
+  //void CreateGrid(const vec3& v1, const vec3& v2, const vec3& v3);
 
   // 00296B80
   usize GetRiverNum(f32* fp);
 
   // 00296CE0
-  bool IsRiverGrid(const vec3& position);
+  //bool IsRiverGrid(const vec3& position);
 
   // 00296DA0
   usize GetRiverNum(ssize index, f32 f);
@@ -565,16 +565,16 @@ public:
   void PartsOnOff(sint i, CEditData* data);
 
   // 002ED720
-  f32 GetEditPartsAlt(CEditPartsInfo* info, const vec3& position, f32 f, const std::vector<std::shared_ptr<CEditParts>>& collection);
+  //f32 GetEditPartsAlt(CEditPartsInfo* info, const vec3& position, f32 f, const std::vector<std::shared_ptr<CEditParts>>& collection);
 
   // 002ED990
-  bool CheckEditParts(CEditPartsInfo* info, const vec3& position, f32 f, const EP_PLACE_INFO* place_info, const std::vector<std::shared_ptr<CEditParts>>& collection);
+  //bool CheckEditParts(CEditPartsInfo* info, const vec3& position, f32 f, const EP_PLACE_INFO* place_info, const std::vector<std::shared_ptr<CEditParts>>& collection);
 
   // 002EDF60
-  bool CheckEditPartsOnRiver(CEditPartsInfo* info, const vec3& position, f32 f);
+  //bool CheckEditPartsOnRiver(CEditPartsInfo* info, const vec3& position, f32 f);
 
   // 002EE280
-  bool CheckRiverParts(const vec3& position);
+  //bool CheckRiverParts(const vec3& position);
 
   // 002EE5F0
   bool CheckNormalPlaceParts(ssize index);
@@ -598,7 +598,7 @@ public:
   sint RepaintNum(sint i);
 
   // 002EEB10
-  usize PaintFence(sint i1, const vec3& v, sint i2);
+  //usize PaintFence(sint i1, const vec3& v, sint i2);
 
   // 002EEDE0
   usize PaintFence(CEditParts* parts);

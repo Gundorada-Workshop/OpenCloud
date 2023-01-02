@@ -43,4 +43,4 @@ void mgGetFrameBackBuffer(mgCTexture* texture);
 void mgSetPkMoveImage(sceGsTex0* tex1, irect* rect, sceGsTex0* tex2, sint i1, sint i2, sint i3);
 
 // 00145B20
-f32 mgGetDistFromCamera(vec3& point);
+//f32 mgGetDistFromCamera(vec3& point);

@@ -90,41 +90,41 @@ void CPiyori::Step()
 {
   log_trace("CPiyori::{}()", __func__);
 
-  if (m_monster == nullptr)
-  {
-    return;
-  }
+  //if (m_monster == nullptr)
+  //{
+  //  return;
+  //}
 
-  if (--m_unk_field_1C <= 0)
-  {
-    m_monster = nullptr;
-    return;
-  }
+  //if (--m_unk_field_1C <= 0)
+  //{
+  //  m_monster = nullptr;
+  //  return;
+  //}
 
-  if (--m_unk_field_1E <= 0)
-  {
-    // FIXME: MAGIC
-    vec3 entry_pos = m_monster->GetEntryObjectPos(0);
-    f32 fp0;
-    f32 fp1;
-    sndGetVolPan(&fp0, &fp1, &entry_pos, 160.0f, 1200.0f);
-    sndSePlayVPf(GetMainScene()->m_unk_field_C4D0, 36, fp0, fp1, 0);
-    m_unk_field_1E = 13;
-  }
+  //if (--m_unk_field_1E <= 0)
+  //{
+  //  // FIXME: MAGIC
+  //  vec3 entry_pos = m_monster->GetEntryObjectPos(0);
+  //  f32 fp0;
+  //  f32 fp1;
+  //  sndGetVolPan(&fp0, &fp1, &entry_pos, 160.0f, 1200.0f);
+  //  sndSePlayVPf(GetMainScene()->m_unk_field_C4D0, 36, fp0, fp1, 0);
+  //  m_unk_field_1E = 13;
+  //}
 
-  m_unk_field_10 += common::math::pi() / GAME_FPS;
-  if (m_unk_field_10 > common::math::pi())
-  {
-    m_unk_field_10 -= common::math::pi2();
-  }
+  //m_unk_field_10 += common::math::pi() / GAME_FPS;
+  //if (m_unk_field_10 > common::math::pi())
+  //{
+  //  m_unk_field_10 -= common::math::pi2();
+  //}
 
-  for (usize i = 0; i < m_unk_field_4.size(); ++i)
-  {
-    m_unk_field_4[i] += common::math::pi2() / GAME_FPS;
+  //for (usize i = 0; i < m_unk_field_4.size(); ++i)
+  //{
+  //  m_unk_field_4[i] += common::math::pi2() / GAME_FPS;
 
-    if (m_unk_field_4[i] > common::math::pi())
-    {
-      m_unk_field_4[i] -= common::math::pi2();
-    }
-  }
+  //  if (m_unk_field_4[i] > common::math::pi())
+  //  {
+  //    m_unk_field_4[i] -= common::math::pi2();
+  //  }
+  //}
 }

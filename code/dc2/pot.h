@@ -1,8 +1,6 @@
 #pragma once
 #include <array>
 
-#include <glm/glm.hpp>
-
 #include "common/debug.h"
 #include "common/types.h"
 
@@ -18,13 +16,13 @@ public:
   // 4
   unk32 m_unk_field_4;
   // 10
-  vec4 m_unk_field_10;
+  //vec4 m_unk_field_10;
   // 20
-  vec4 m_unk_field_20;
+  //vec4 m_unk_field_20;
   // 30
-  vec4 m_unk_field_30;
+  //vec4 m_unk_field_30;
   // 40
-  vec4 m_unk_field_40;
+  //vec4 m_unk_field_40;
   // 50
   unk32 m_unk_field_50;
 
@@ -48,7 +46,7 @@ public:
   // 10
   unk32 m_unk_field_10;
   // 20
-  vec4 m_unk_field_20;
+  //vec4 m_unk_field_20;
   // 30
   unk32 m_unk_field_30;
   // 40
@@ -70,17 +68,17 @@ public:
   // 4
   unk32 m_unk_field_4;
   // 10
-  vec3 m_position;
+  //vec3 m_position;
   // 20
-  vec4 m_unk_field_20;
+  //vec4 m_unk_field_20;
   // 30
-  vec4 m_unk_field_30;
+  //vec4 m_unk_field_30;
   // 40
-  vec4 m_unk_field_40;
+  //vec4 m_unk_field_40;
   // 50
-  vec4 m_unk_field_50;
+  //vec4 m_unk_field_50;
   // 60
-  vec4 m_unk_field_60;
+  //vec4 m_unk_field_60;
   // 70
   unk32 m_unk_field_70;
 

@@ -1,8 +1,6 @@
 #pragma once
 #include <array>
 
-#include <glm/glm.hpp>
-
 #include "common/debug.h"
 #include "common/types.h"
 
@@ -53,9 +51,9 @@ public:
 
   // these are probably colors
   // 20
-  ivec4 m_unk_field_20{ 0x80, 0x80, 0x80, 0x80 };
+  //ivec4 m_unk_field_20{ 0x80, 0x80, 0x80, 0x80 };
   // 30
-  ivec4 m_unk_field_30{ 0x80, 0x80, 0x80, 0x80 };
+  //ivec4 m_unk_field_30{ 0x80, 0x80, 0x80, 0x80 };
 };
 
 class CFlushEffect
@@ -164,7 +162,7 @@ class CMiniEffPrim
   void Initialize();
 
   // 001C0DB0
-  void SetPrim(vec4* v, sint i);
+  //void SetPrim(vec4* v, sint i);
 
   // 001C0E20
   void Draw(CPreSprite* pre_sprite);
@@ -183,7 +181,7 @@ public:
   void Initialize();
 
   // 001C1000
-  void CreatePrim(vec4* v, sint i);
+  //void CreatePrim(vec4* v, sint i);
 
   // 001C1070
   void Draw();
@@ -256,7 +254,7 @@ struct MINIMAP_SYMBOL_DATA
   EMiniMapSymbol::EMiniMapSymbol id;
 
   // 2, 4, 6
-  glm::u16vec3 rgb;
+  //glm::u16vec3 rgb;
 
   // 8
   s16 m_unk_field_8;
@@ -318,7 +316,7 @@ public:
   // 8
   unk32 m_unk_field_8;
   // 10
-  vec4 m_unk_field_10;
+  //vec4 m_unk_field_10;
   // 20
   unks<0x780> m_unk_field_20;
 
@@ -341,7 +339,7 @@ class CMiniMapSymbol
 {
 public:
   // 001D4C40
-  void DrawSymbol(vec3& pos, EMiniMapSymbol::EMiniMapSymbol symbol_type);
+  //void DrawSymbol(vec3& pos, EMiniMapSymbol::EMiniMapSymbol symbol_type);
 };
 
 class CDngFloorManager
@@ -484,7 +482,7 @@ class CLockOnModel : CObjectFrame
   // ?
   
   // A0
-  vec4 m_unk_field_A0{ 0.0f };
+  //vec4 m_unk_field_A0{ 0.0f };
 
   // SIZE 0xB0
 };

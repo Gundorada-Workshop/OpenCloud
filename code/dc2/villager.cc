@@ -29,8 +29,8 @@ void CVillagerData::Initialize()
   m_unk_field_38 = 0;
   m_unk_field_3C = 0;
   m_unk_field_40 = 0;
-  m_unk_field_50 = constants::vec4_zero;
-  m_unk_field_60 = constants::vec4_zero;
+  //m_unk_field_50 = constants::vec4_zero;
+  //m_unk_field_60 = constants::vec4_zero;
 }
 
 // 002CD220

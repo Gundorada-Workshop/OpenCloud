@@ -181,12 +181,12 @@ void sndPortSqReplay(MAYBE_UNUSED sint port_no)
 }
 
 // 0018EEF0
-void sndGetVolPan(MAYBE_UNUSED f32* fp0, MAYBE_UNUSED f32* fp1, MAYBE_UNUSED vec3* emitter_position, MAYBE_UNUSED f32 f0, MAYBE_UNUSED f32 f1)
-{
-  log_trace("{}({}, {}, {}, {}, {})", __func__, fmt::ptr(fp0), fmt::ptr(fp1), fmt::ptr(emitter_position), f0, f1);
-
-  todo;
-}
+//void sndGetVolPan(MAYBE_UNUSED f32* fp0, MAYBE_UNUSED f32* fp1, MAYBE_UNUSED vec3* emitter_position, MAYBE_UNUSED f32 f0, MAYBE_UNUSED f32 f1)
+//{
+//  log_trace("{}({}, {}, {}, {}, {})", __func__, fmt::ptr(fp0), fmt::ptr(fp1), fmt::ptr(emitter_position), f0, f1);
+//
+//  todo;
+//}
 
 // 00190530
 void sndStreamPause()

@@ -38,30 +38,30 @@ MAYBE_UNUSED static f32 RandXYinViewArea(f32 f1, f32 f2, f32 f3, f32* x_dest, f3
 }
 
 // 00281510
-s32 CRipple::Birth(const vec3& position)
-{
-  log_trace("CRipple::{}({})", __func__, position);
-
-  if (m_birthed)
-  {
-    return 0;
-  }
-
-  // If this ripple is now active
-  m_birthed = true;
-
-  // Position of the ripple
-  m_position = position;
-
-  // Size of the ripple
-  m_scale = f_rand(8.0f, 12.0f);
-
-  // Current anim frame / How many animation frames this ripple has
-  m_frame = 0;
-  m_frame_max = static_cast<f32>(i_rand(20, 40));
-  
-  return static_cast<s32>(m_frame_max);
-}
+//s32 CRipple::Birth(const vec3& position)
+//{
+//  log_trace("CRipple::{}({})", __func__, position);
+//
+//  if (m_birthed)
+//  {
+//    return 0;
+//  }
+//
+//  // If this ripple is now active
+//  m_birthed = true;
+//
+//  // Position of the ripple
+//  m_position = position;
+//
+//  // Size of the ripple
+//  m_scale = f_rand(8.0f, 12.0f);
+//
+//  // Current anim frame / How many animation frames this ripple has
+//  m_frame = 0;
+//  m_frame_max = static_cast<f32>(i_rand(20, 40));
+//  
+//  return static_cast<s32>(m_frame_max);
+//}
 
 // 00281590
 CRipple::StepResult CRipple::Step()
@@ -94,51 +94,51 @@ void CRipple::Draw()
 }
 
 // 002819E0
-bool CParticle::Birth(const vec3& v1, const vec3& v2)
-{
-  log_trace("CParticle::{}({}, {})", __func__, v1, v2);
-
-  if (m_birthed)
-  {
-    return false;
-  }
-
-  m_unk_field_30 = { 0.0f, -1.0f, 0.0f };
-  m_unk_field_20 = v2;
-  m_unk_field_10 = v1;
-  m_unk_field_40 = v1.y;
-  return true;
-}
+//bool CParticle::Birth(const vec3& v1, const vec3& v2)
+//{
+//  log_trace("CParticle::{}({}, {})", __func__, v1, v2);
+//
+//  if (m_birthed)
+//  {
+//    return false;
+//  }
+//
+//  m_unk_field_30 = { 0.0f, -1.0f, 0.0f };
+//  m_unk_field_20 = v2;
+//  m_unk_field_10 = v1;
+//  m_unk_field_40 = v1.y;
+//  return true;
+//}
 
 // 00281A60
-CParticle::StepResult CParticle::Step()
-{
-  log_trace("CParticle::{}()", __func__);
-
-  using enum CParticle::StepResult;
-
-  if (!m_birthed)
-  {
-    return NotBirthed;
-  }
-
-  if (m_unk_field_10.y < m_unk_field_40)
-  {
-    m_birthed = false;
-    return Finished;
-  }
-
-  // TODO: due to lack of understanding, this might not be the correct way to account for framerate
-  m_unk_field_20.x += frame_step(m_unk_field_30.x);
-  m_unk_field_20.y += frame_step(m_unk_field_30.y);
-  m_unk_field_20.z += frame_step(m_unk_field_30.z);
-
-  m_unk_field_10.x += frame_step(m_unk_field_20.x);
-  m_unk_field_10.y += frame_step(m_unk_field_20.y);
-  m_unk_field_10.z += frame_step(m_unk_field_20.z);
-
-  return Playing;
-}
+//CParticle::StepResult CParticle::Step()
+//{
+//  log_trace("CParticle::{}()", __func__);
+//
+//  using enum CParticle::StepResult;
+//
+//  if (!m_birthed)
+//  {
+//    return NotBirthed;
+//  }
+//
+//  if (m_unk_field_10.y < m_unk_field_40)
+//  {
+//    m_birthed = false;
+//    return Finished;
+//  }
+//
+//  // TODO: due to lack of understanding, this might not be the correct way to account for framerate
+//  m_unk_field_20.x += frame_step(m_unk_field_30.x);
+//  m_unk_field_20.y += frame_step(m_unk_field_30.y);
+//  m_unk_field_20.z += frame_step(m_unk_field_30.z);
+//
+//  m_unk_field_10.x += frame_step(m_unk_field_20.x);
+//  m_unk_field_10.y += frame_step(m_unk_field_20.y);
+//  m_unk_field_10.z += frame_step(m_unk_field_20.z);
+//
+//  return Playing;
+//}
 
 // 00281B10
 void CParticle::Draw()
@@ -167,12 +167,12 @@ void CRain::SetCharNo(sint char_no)
 }
 
 // 002821F0
-void ParticleBirth(const vec3& v, sint i)
-{
-  log_trace("CRain::{}({}, {})", __func__, v, i);
-
-  todo;
-}
+//void ParticleBirth(const vec3& v, sint i)
+//{
+//  log_trace("CRain::{}({}, {})", __func__, v, i);
+//
+//  todo;
+//}
 
 // 002822D0
 void CRain::Stop()

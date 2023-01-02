@@ -62,9 +62,9 @@ public:
   // 40
   unk m_unk_field_40;
   // 50
-  vec4 m_unk_field_50;
+  //vec4 m_unk_field_50;
   // 60
-  vec4 m_unk_field_60;
+  //vec4 m_unk_field_60;
 };
 
 class CVillagerMngr

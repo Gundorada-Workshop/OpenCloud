@@ -65,7 +65,7 @@ struct TREASURE_BOX_FLOOR_INFO
 struct GRID_PIECE
 {
   // 0
-  vec2 m_position{};
+  //vec2 m_position{};
   // 8
   GRID_PIECE* m_next{};
 };

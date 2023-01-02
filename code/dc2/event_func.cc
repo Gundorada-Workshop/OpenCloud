@@ -117,16 +117,16 @@ static f32 GetStackFloat(rs::stack_data* stack)
 }
 
 // 0025F8D0
-static vec3 GetStackVector(rs::stack_data* stack)
-{
-  log_trace("{}()", __func__, fmt::ptr(stack));
-
-  return {
-    GetStackFloat(&stack[0]),
-    GetStackFloat(&stack[1]),
-    GetStackFloat(&stack[2]),
-  };
-}
+//static vec3 GetStackVector(rs::stack_data* stack)
+//{
+//  log_trace("{}()", __func__, fmt::ptr(stack));
+//
+//  return {
+//    GetStackFloat(&stack[0]),
+//    GetStackFloat(&stack[1]),
+//    GetStackFloat(&stack[2]),
+//  };
+//}
 
 // 0025F920
 static const char* GetStackString(rs::stack_data* stack)
@@ -167,8 +167,8 @@ void InitWorldCoord()
 {
   log_trace("{}()", __func__);
   
-  EdEventInfo.m_unk_field_0 = { 0, 0, 0, 0 };
-  EdEventInfo.m_unk_field_10 = { 0, 0, 0, 0 };
+  //EdEventInfo.m_unk_field_0 = { 0, 0, 0, 0 };
+  //EdEventInfo.m_unk_field_10 = { 0, 0, 0, 0 };
   SetWorldCoordFlg = false;
 }
 
@@ -478,32 +478,34 @@ static bool _SET_WORLD_COORD(rs::stack_data* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  switch (stack_count)
-  {
-    case 4:
-    {
-      EdEventInfo.m_unk_field_0 = {
-        GetStackFloat(&stack[0]),
-        GetStackFloat(&stack[1]),
-        GetStackFloat(&stack[2]),
-        1.0f
-      };
-      EdEventInfo.m_unk_field_10 = {
-        0.0f,
-        GetStackFloat(&stack[3]),
-        0.0f,
-        0.0f
-      };
+  //switch (stack_count)
+  //{
+  //  case 4:
+  //  {
+  //    EdEventInfo.m_unk_field_0 = {
+  //      GetStackFloat(&stack[0]),
+  //      GetStackFloat(&stack[1]),
+  //      GetStackFloat(&stack[2]),
+  //      1.0f
+  //    };
+  //    EdEventInfo.m_unk_field_10 = {
+  //      0.0f,
+  //      GetStackFloat(&stack[3]),
+  //      0.0f,
+  //      0.0f
+  //    };
 
-      SetWorldCoordFlg = true;
-      return true;
-    }
-    case 1:
-      InitWorldCoord();
-      return true;
-    default:
-      return false;
-  }
+  //    SetWorldCoordFlg = true;
+  //    return true;
+  //  }
+  //  case 1:
+  //    InitWorldCoord();
+  //    return true;
+  //  default:
+  //    return false;
+  //}
+
+  return true;
 }
 
 static bool _FINISH(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
@@ -945,22 +947,22 @@ static bool _AUTO_SET_TREASURE_BOX(rs::stack_data* stack, sint stack_count)
   trace_script_call(stack, stack_count);
 
   // NOTE: game checks < 2, but that's probably just a bug
-  if (stack_count < 5)
-  {
-    AutoSetTreasureBox();
-  }
-  else
-  {
-    AutoSetTreasureBox(
-      GetStackInt(&stack[0]),
-      vec3{
-        GetStackFloat(&stack[1]),
-        GetStackFloat(&stack[2]),
-        GetStackFloat(&stack[3])
-      },
-      GetStackFloat(&stack[4])
-    );
-  }
+  //if (stack_count < 5)
+  //{
+  //  AutoSetTreasureBox();
+  //}
+  //else
+  //{
+  //  AutoSetTreasureBox(
+  //    GetStackInt(&stack[0]),
+  //    vec3{
+  //      GetStackFloat(&stack[1]),
+  //      GetStackFloat(&stack[2]),
+  //      GetStackFloat(&stack[3])
+  //    },
+  //    GetStackFloat(&stack[4])
+  //  );
+  //}
 
   return true;
 }
@@ -2732,9 +2734,9 @@ static bool _GET_BPOT_POS(rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  SetStack(stack++, BTpot.m_position.x);
-  SetStack(stack++, BTpot.m_position.y);
-  SetStack(stack++, BTpot.m_position.z);
+  //SetStack(stack++, BTpot.m_position.x);
+  //SetStack(stack++, BTpot.m_position.y);
+  //SetStack(stack++, BTpot.m_position.z);
   return true;
 }
 
@@ -2923,10 +2925,10 @@ static bool _GET_BEFORE_CAMERA_NEXT_POS(rs::stack_data* stack, MAYBE_UNUSED sint
     return false;
   }
 
-  vec3 next_pos = camera->GetNextPos();
-  SetStack(stack++, next_pos.x);
-  SetStack(stack++, next_pos.y);
-  SetStack(stack++, next_pos.z);
+  //vec3 next_pos = camera->GetNextPos();
+  //SetStack(stack++, next_pos.x);
+  //SetStack(stack++, next_pos.y);
+  //SetStack(stack++, next_pos.z);
   return true;
 }
 
@@ -2941,10 +2943,10 @@ static bool _GET_BEFORE_CAMERA_NEXT_REF(rs::stack_data* stack, MAYBE_UNUSED sint
     return false;
   }
 
-  vec3 next_ref = camera->GetNextRef();
-  SetStack(stack++, next_ref.x);
-  SetStack(stack++, next_ref.y);
-  SetStack(stack++, next_ref.z);
+  //vec3 next_ref = camera->GetNextRef();
+  //SetStack(stack++, next_ref.x);
+  //SetStack(stack++, next_ref.y);
+  //SetStack(stack++, next_ref.z);
   return true;
 }
 
@@ -2968,15 +2970,15 @@ static bool _SET_FCAMERA_FOLLOW(rs::stack_data* stack, MAYBE_UNUSED sint stack_c
 {
   trace_script_call(stack, stack_count);
 
-  auto camera_follow = static_cast<mgCCameraFollow*>(EventScene->GetCamera(EventScene->m_active_cmrid));
+  //auto camera_follow = static_cast<mgCCameraFollow*>(EventScene->GetCamera(EventScene->m_active_cmrid));
 
-  if (camera_follow == nullptr)
-  {
-    return false;
-  }
+  //if (camera_follow == nullptr)
+  //{
+  //  return false;
+  //}
 
-  vec3 follow = GetStackVector(stack).xyz();
-  camera_follow->SetFollow(follow);
+  //vec3 follow = GetStackVector(stack).xyz();
+  //camera_follow->SetFollow(follow);
 
   return true;
 }
@@ -2985,15 +2987,15 @@ static bool _SET_FCAMERA_FOLLOW_A(rs::stack_data* stack, MAYBE_UNUSED sint stack
 {
   trace_script_call(stack, stack_count);
 
-  auto camera_follow = static_cast<mgCCameraFollow*>(EventScene->GetCamera(EventScene->m_active_cmrid));
+  //auto camera_follow = static_cast<mgCCameraFollow*>(EventScene->GetCamera(EventScene->m_active_cmrid));
 
-  if (camera_follow == nullptr)
-  {
-    return false;
-  }
+  //if (camera_follow == nullptr)
+  //{
+  //  return false;
+  //}
 
-  vec3 follow = GetStackVector(stack).xyz();
-  camera_follow->SetFollow(follow);
+  //vec3 follow = GetStackVector(stack).xyz();
+  //camera_follow->SetFollow(follow);
 
   return true;
 }
@@ -3002,15 +3004,15 @@ static bool _SET_FCAMERA_FOLLOW_OFS(rs::stack_data* stack, MAYBE_UNUSED sint sta
 {
   trace_script_call(stack, stack_count);
 
-  auto camera_follow = static_cast<mgCCameraFollow*>(EventScene->GetCamera(EventScene->m_active_cmrid));
+  //auto camera_follow = static_cast<mgCCameraFollow*>(EventScene->GetCamera(EventScene->m_active_cmrid));
 
-  if (camera_follow == nullptr)
-  {
-    return false;
-  }
+  //if (camera_follow == nullptr)
+  //{
+  //  return false;
+  //}
 
-  vec3 follow_offset = GetStackVector(stack).xyz();
-  camera_follow->SetFollowOffset(follow_offset);
+  //vec3 follow_offset = GetStackVector(stack).xyz();
+  //camera_follow->SetFollowOffset(follow_offset);
 
   return true;
 }
@@ -3270,16 +3272,16 @@ static bool _FUNCTION_DOOR_MODE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED
 {
   trace_script_call(stack, stack_count);
 
-  auto& event_data = EventScene->m_scene_event_data;
+  //auto& event_data = EventScene->m_scene_event_data;
 
-  EdEventInfo.m_unk_field_13C = 0;
-  EdEventInfo.m_unk_field_140 = event_data.m_unk_field_C;
-  EdEventInfo.m_unk_field_144 = event_data.m_unk_field_10;
-  EdEventInfo.m_unk_field_17C = event_data.m_unk_field_A0.x;
-  EdEventInfo.m_unk_field_180 = event_data.m_unk_field_A0.y;
-  EdEventInfo.m_unk_field_184 = event_data.m_unk_field_A0.z;
-  EdEventInfo.m_unk_field_188 = atan2f(event_data.m_unk_field_90.x, event_data.m_unk_field_90.z);
-  EdEventInfo.m_unk_field_D0 = 4; // FIXME: MAGIC
+  //EdEventInfo.m_unk_field_13C = 0;
+  //EdEventInfo.m_unk_field_140 = event_data.m_unk_field_C;
+  //EdEventInfo.m_unk_field_144 = event_data.m_unk_field_10;
+  //EdEventInfo.m_unk_field_17C = event_data.m_unk_field_A0.x;
+  //EdEventInfo.m_unk_field_180 = event_data.m_unk_field_A0.y;
+  //EdEventInfo.m_unk_field_184 = event_data.m_unk_field_A0.z;
+  //EdEventInfo.m_unk_field_188 = atan2f(event_data.m_unk_field_90.x, event_data.m_unk_field_90.z);
+  //EdEventInfo.m_unk_field_D0 = 4; // FIXME: MAGIC
 
   return true;
 }
@@ -3901,23 +3903,23 @@ static bool _SET_WIND(rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  f32 wind_vel = GetStackFloat(stack++);
+  //f32 wind_vel = GetStackFloat(stack++);
 
-  if (wind_vel < 0.0f)
-  {
-    EventScene->ResetWind();
-  }
-  else
-  {
-    EventScene->SetWind(
-      {
-        GetStackFloat(&stack[0]),
-        GetStackFloat(&stack[1]),
-        GetStackFloat(&stack[2]),
-      },
-      wind_vel
-    );
-  }
+  //if (wind_vel < 0.0f)
+  //{
+  //  EventScene->ResetWind();
+  //}
+  //else
+  //{
+  //  EventScene->SetWind(
+  //    {
+  //      GetStackFloat(&stack[0]),
+  //      GetStackFloat(&stack[1]),
+  //      GetStackFloat(&stack[2]),
+  //    },
+  //    wind_vel
+  //  );
+  //}
 
   return true;
 }
@@ -5085,23 +5087,23 @@ static bool _NORMAL_VECTOR(rs::stack_data* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  if (stack_count != 3)
-  {
-    return false;
-  }
+  //if (stack_count != 3)
+  //{
+  //  return false;
+  //}
 
-  vec3 v
-  {
-    GetStackFloat(&stack[0]),
-    GetStackFloat(&stack[1]),
-    GetStackFloat(&stack[2]),
-  };
+  //vec3 v
+  //{
+  //  GetStackFloat(&stack[0]),
+  //  GetStackFloat(&stack[1]),
+  //  GetStackFloat(&stack[2]),
+  //};
 
-  v = glm::normalize(v);
+  //v = glm::normalize(v);
 
-  SetStack(&stack[0], v.x);
-  SetStack(&stack[1], v.y);
-  SetStack(&stack[2], v.z);
+  //SetStack(&stack[0], v.x);
+  //SetStack(&stack[1], v.y);
+  //SetStack(&stack[2], v.z);
 
   return true;
 }
@@ -5110,16 +5112,16 @@ static bool _COPY_VECTOR(rs::stack_data* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  if (stack_count != 6)
-  {
-    return false;
-  }
+  //if (stack_count != 6)
+  //{
+  //  return false;
+  //}
 
-  vec3 v = GetStackVector(&stack[3]);
+  //vec3 v = GetStackVector(&stack[3]);
 
-  SetStack(&stack[0], v.x);
-  SetStack(&stack[1], v.y);
-  SetStack(&stack[2], v.z);
+  //SetStack(&stack[0], v.x);
+  //SetStack(&stack[1], v.y);
+  //SetStack(&stack[2], v.z);
 
   return true;
 }
@@ -5128,18 +5130,18 @@ static bool _ADD_VECTOR(rs::stack_data* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  if (stack_count != 6)
-  {
-    return false;
-  }
+  //if (stack_count != 6)
+  //{
+  //  return false;
+  //}
 
-  vec3 lhs = GetStackVector(&stack[0]);
-  vec3 rhs = GetStackVector(&stack[3]);
-  lhs += rhs;
+  //vec3 lhs = GetStackVector(&stack[0]);
+  //vec3 rhs = GetStackVector(&stack[3]);
+  //lhs += rhs;
 
-  SetStack(&stack[0], lhs.x);
-  SetStack(&stack[1], lhs.y);
-  SetStack(&stack[2], lhs.z);
+  //SetStack(&stack[0], lhs.x);
+  //SetStack(&stack[1], lhs.y);
+  //SetStack(&stack[2], lhs.z);
 
   return true;
 }
@@ -5148,18 +5150,18 @@ static bool _SUB_VECTOR(rs::stack_data* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  if (stack_count != 6)
-  {
-    return false;
-  }
+  //if (stack_count != 6)
+  //{
+  //  return false;
+  //}
 
-  vec3 lhs = GetStackVector(&stack[0]);
-  vec3 rhs = GetStackVector(&stack[3]);
-  lhs += rhs;
+  //vec3 lhs = GetStackVector(&stack[0]);
+  //vec3 rhs = GetStackVector(&stack[3]);
+  //lhs += rhs;
 
-  SetStack(&stack[0], lhs.x);
-  SetStack(&stack[1], lhs.y);
-  SetStack(&stack[2], lhs.z);
+  //SetStack(&stack[0], lhs.x);
+  //SetStack(&stack[1], lhs.y);
+  //SetStack(&stack[2], lhs.z);
 
   return true;
 }
@@ -5168,18 +5170,18 @@ static bool _SCALE_VECTOR(rs::stack_data* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  if (stack_count != 4)
-  {
-    return false;
-  }
+  //if (stack_count != 4)
+  //{
+  //  return false;
+  //}
 
-  vec3 lhs = GetStackVector(&stack[0]);
-  f32 scale = GetStackFloat(&stack[3]);
-  lhs *= scale;
+  //vec3 lhs = GetStackVector(&stack[0]);
+  //f32 scale = GetStackFloat(&stack[3]);
+  //lhs *= scale;
 
-  SetStack(&stack[0], lhs.x);
-  SetStack(&stack[1], lhs.y);
-  SetStack(&stack[2], lhs.z);
+  //SetStack(&stack[0], lhs.x);
+  //SetStack(&stack[1], lhs.y);
+  //SetStack(&stack[2], lhs.z);
 
   return true;
 }
@@ -5188,27 +5190,27 @@ static bool _DIV_VECTOR(rs::stack_data* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  if (stack_count != 4)
-  {
-    return false;
-  }
+  //if (stack_count != 4)
+  //{
+  //  return false;
+  //}
 
-  // Check for division by zero
-  f32 divisor = GetStackFloat(&stack[3]);
+  //// Check for division by zero
+  //f32 divisor = GetStackFloat(&stack[3]);
 
-  if (divisor == 0.0f)
-  {
-    return false;
-  }
+  //if (divisor == 0.0f)
+  //{
+  //  return false;
+  //}
 
-  // The division proper
-  vec3 lhs = GetStackVector(&stack[0]);
-  
-  lhs /= divisor;
+  //// The division proper
+  //vec3 lhs = GetStackVector(&stack[0]);
+  //
+  //lhs /= divisor;
 
-  SetStack(&stack[0], lhs.x);
-  SetStack(&stack[1], lhs.y);
-  SetStack(&stack[2], lhs.z);
+  //SetStack(&stack[0], lhs.x);
+  //SetStack(&stack[1], lhs.y);
+  //SetStack(&stack[2], lhs.z);
 
   return true;
 }
@@ -5217,12 +5219,12 @@ static bool _DIST_VECTOR(rs::stack_data* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  if (stack_count != 4)
-  {
-    return false;
-  }
+  //if (stack_count != 4)
+  //{
+  //  return false;
+  //}
 
-  SetStack(&stack[3], mgDistVector(GetStackVector(&stack[0])));
+  //SetStack(&stack[3], mgDistVector(GetStackVector(&stack[0])));
   return true;
 }
 
@@ -5230,12 +5232,12 @@ static bool _DIST_VECTOR2(rs::stack_data* stack, sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  if (stack_count != 7)
-  {
-    return false;
-  }
+  //if (stack_count != 7)
+  //{
+  //  return false;
+  //}
 
-  SetStack(&stack[6], mgDistVector2(GetStackVector(&stack[0]), GetStackVector(&stack[3])));
+  //SetStack(&stack[6], mgDistVector2(GetStackVector(&stack[0]), GetStackVector(&stack[3])));
   return true;
 }
 
@@ -5318,30 +5320,32 @@ static bool _LINE_POINT_DIST(rs::stack_data* stack, MAYBE_UNUSED sint stack_coun
 {
   trace_script_call(stack, stack_count);
 
-  vec3 start = GetStackVector(&stack[0]);
-  vec3 end = GetStackVector(&stack[3]);
-  vec3 point = GetStackVector(&stack[6]);
-  rs::stack_data* dist_dest = &stack[9];
+  //vec3 start = GetStackVector(&stack[0]);
+  //vec3 end = GetStackVector(&stack[3]);
+  //vec3 point = GetStackVector(&stack[6]);
+  //rs::stack_data* dist_dest = &stack[9];
 
-  f32 dist = mgDistVector(start, end);
+  //f32 dist = mgDistVector(start, end);
 
-  vec3 v1 = point - start;
-  vec3 dir = glm::normalize(end - start);
+  //vec3 v1 = point - start;
+  //vec3 dir = glm::normalize(end - start);
 
-  f32 inner_product = glm::dot(v1, dir);
+  //f32 inner_product = glm::dot(v1, dir);
 
-  if (inner_product < 0.0f || inner_product > dist)
-  {
-    SetStack(dist_dest, -1.0f);
-    return true;
-  }
-  else
-  {
-    dir *= inner_product;
-    dir += start;
-    SetStack(dist_dest, mgDistVector(point, dir));
-    return true;
-  }
+  //if (inner_product < 0.0f || inner_product > dist)
+  //{
+  //  SetStack(dist_dest, -1.0f);
+  //  return true;
+  //}
+  //else
+  //{
+  //  dir *= inner_product;
+  //  dir += start;
+  //  SetStack(dist_dest, mgDistVector(point, dir));
+  //  return true;
+  //}
+
+  return true;
 }
 
 static bool _CREATE_SWORD_EFFECT(rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
@@ -5392,17 +5396,17 @@ static bool _ADD_CHARA_POS(rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  s32 chara_id = GetStackInt(stack++);
-  vec3 delta = GetStackVector(stack).xyz();
+  //s32 chara_id = GetStackInt(stack++);
+  //vec3 delta = GetStackVector(stack).xyz();
 
-  auto chara = GetCharacter(chara_id);
-  if (chara == nullptr)
-  {
-    return false;
-  }
+  //auto chara = GetCharacter(chara_id);
+  //if (chara == nullptr)
+  //{
+  //  return false;
+  //}
 
-  vec3 pos = chara->GetPosition() + delta;
-  chara->SetPosition(pos);
+  //vec3 pos = chara->GetPosition() + delta;
+  //chara->SetPosition(pos);
   return true;
 }
 
@@ -5410,20 +5414,20 @@ static bool _ADD_CHARA_ROT(rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
-  s32 chara_id = GetStackInt(stack++);
-  vec3 delta = GetStackVector(stack).xyz();
+  //s32 chara_id = GetStackInt(stack++);
+  //vec3 delta = GetStackVector(stack).xyz();
 
-  auto chara = GetCharacter(chara_id);
-  if (chara == nullptr)
-  {
-    return false;
-  }
+  //auto chara = GetCharacter(chara_id);
+  //if (chara == nullptr)
+  //{
+  //  return false;
+  //}
 
-  vec3 rot = chara->GetRotation() + delta;
-  rot.x = mgAngleLimit(rot.x);
-  rot.y = mgAngleLimit(rot.y);
-  rot.z = mgAngleLimit(rot.z);
-  chara->SetRotation(rot);
+  //vec3 rot = chara->GetRotation() + delta;
+  //rot.x = mgAngleLimit(rot.x);
+  //rot.y = mgAngleLimit(rot.y);
+  //rot.z = mgAngleLimit(rot.z);
+  //chara->SetRotation(rot);
   return true;
 }
 
@@ -5492,44 +5496,44 @@ static bool _GET_NEAR_TBOX_POS(rs::stack_data* stack, MAYBE_UNUSED sint stack_co
 {
   trace_script_call(stack, stack_count);
 
-  CTreasureBoxManager* treasure_box_man = EventScene->m_battle_area_scene.m_treasure_box_manager;
-  
-  // Grab the position to check against
-  vec3 check_position = GetStackVector(stack);
-  stack += 3;
+  //CTreasureBoxManager* treasure_box_man = EventScene->m_battle_area_scene.m_treasure_box_manager;
+  //
+  //// Grab the position to check against
+  //vec3 check_position = GetStackVector(stack);
+  //stack += 3;
 
-  // We want to find the nearest treasure box index and position
-  std::optional<usize> box_index{ std::nullopt };
-  f32 near_distance{ 9999.0f };
-  vec3 near_position{ 0.0f };
+  //// We want to find the nearest treasure box index and position
+  //std::optional<usize> box_index{ std::nullopt };
+  //f32 near_distance{ 9999.0f };
+  //vec3 near_position{ 0.0f };
 
-  // Iterate over all treasure boxes in the manager to find the closest treasure box
-  for (usize i = 0; i < treasure_box_man->m_treasure_boxes.size(); ++i)
-  {
-    CTreasureBox* box = &treasure_box_man->m_treasure_boxes[i];
-    vec3 box_position = box->GetPosition();
-    f32 distance = math::vector_distance(box_position, check_position);
+  //// Iterate over all treasure boxes in the manager to find the closest treasure box
+  //for (usize i = 0; i < treasure_box_man->m_treasure_boxes.size(); ++i)
+  //{
+  //  CTreasureBox* box = &treasure_box_man->m_treasure_boxes[i];
+  //  vec3 box_position = box->GetPosition();
+  //  f32 distance = math::vector_distance(box_position, check_position);
 
-    if (distance < near_distance)
-    {
-      // We found a new nearest closest treasure box
-      near_distance = distance;
-      box_index = i;
-    }
-  }
+  //  if (distance < near_distance)
+  //  {
+  //    // We found a new nearest closest treasure box
+  //    near_distance = distance;
+  //    box_index = i;
+  //  }
+  //}
 
-  // If we found a valid box, grab its position.
-  if (box_index.has_value())
-  {
-    near_position = treasure_box_man->m_treasure_boxes[box_index.value()].GetPosition();
-  }
+  //// If we found a valid box, grab its position.
+  //if (box_index.has_value())
+  //{
+  //  near_position = treasure_box_man->m_treasure_boxes[box_index.value()].GetPosition();
+  //}
 
-  // Put the nearest position/index onto the stack
-  // ({0, 0, 0} and -1 if not found)
-  SetStack(stack++, near_position.x);
-  SetStack(stack++, near_position.y);
-  SetStack(stack++, near_position.z);
-  SetStack(stack++, static_cast<sint>(box_index.value_or(-1)));
+  //// Put the nearest position/index onto the stack
+  //// ({0, 0, 0} and -1 if not found)
+  //SetStack(stack++, near_position.x);
+  //SetStack(stack++, near_position.y);
+  //SetStack(stack++, near_position.z);
+  //SetStack(stack++, static_cast<sint>(box_index.value_or(-1)));
 
   return true;
 }
@@ -7747,22 +7751,22 @@ void CCameraPas::Initialize()
 {
   log_trace("CCameraPas::Initialize()");
 
-  for (auto& v : m_unk_field_0)
-  {
-    v = constants::vec4_zero;
-  }
+  //for (auto& v : m_unk_field_0)
+  //{
+  //  v = constants::vec4_zero;
+  //}
 
-  for (auto& v : m_unk_field_100)
-  {
-    v = constants::vec4_zero;
-  }
+  //for (auto& v : m_unk_field_100)
+  //{
+  //  v = constants::vec4_zero;
+  //}
 
-  m_unk_field_200 = 0;
-  m_unk_field_940 = 0;
-  m_unk_field_204 = 0;
+  //m_unk_field_200 = 0;
+  //m_unk_field_940 = 0;
+  //m_unk_field_204 = 0;
 
-  m_unk_field_208.Initialize();
-  m_unk_field_5A4.Initialize();
+  //m_unk_field_208.Initialize();
+  //m_unk_field_5A4.Initialize();
 }
 
 // 00259100
@@ -7771,8 +7775,8 @@ void _SEN_CMR_SEQ::Initialize()
   log_trace("_SEN_CMR_SEQ::Initialize()");
 
   m_unk_field_0 = 0;
-  m_unk_field_10 = constants::vec4_zero;
-  m_unk_field_20 = constants::vec4_zero;
+  //m_unk_field_10 = constants::vec4_zero;
+  //m_unk_field_20 = constants::vec4_zero;
   m_unk_field_30 = 0;
   m_unk_field_34 = 0;
   m_unk_field_38 = 0;
@@ -7796,8 +7800,8 @@ void CSceneCmrSeq::ZeroInitialize()
 
   m_sequences = nullptr;
   m_n_sequences = 0;
-  m_unk_field_50 = constants::vec4_zero;
-  m_unk_field_60 = constants::vec4_zero;
+  //m_unk_field_50 = constants::vec4_zero;
+  //m_unk_field_60 = constants::vec4_zero;
   Clear();
 }
 
@@ -7824,35 +7828,35 @@ void CSceneCmrSeq::Clear()
   m_unk_field_40 = 0;
   m_unk_field_44 = 0;
   m_unk_field_48 = 0;
-  m_unk_field_50 = constants::vec4_zero;
-  m_unk_field_60 = constants::vec4_zero;
+  //m_unk_field_50 = constants::vec4_zero;
+  //m_unk_field_60 = constants::vec4_zero;
   m_unk_field_78 = 0;
   m_unk_field_7C = 0;
   m_unk_field_80 = -1;
   m_unk_field_84 = 0;
-  m_unk_field_90 = constants::vec4_zero;
+  //m_unk_field_90 = constants::vec4_zero;
   m_unk_field_AC[0] = '\0';
   m_unk_field_A8 = 0;
   m_unk_field_A4 = 0;
   m_unk_field_A0 = 0;
-  m_unk_field_D0 = constants::vec4_zero;
-  m_unk_field_E0 = constants::vec4_zero;
+  //m_unk_field_D0 = constants::vec4_zero;
+  //m_unk_field_E0 = constants::vec4_zero;
   m_unk_field_FC = 0;
   m_unk_field_F8 = 0;
   m_unk_field_F0 = 0;
-  m_unk_field_100 = constants::vec4_zero;
-  m_unk_field_110 = constants::vec4_zero;
-  m_unk_field_120 = constants::vec4_zero;
-  m_unk_field_130 = constants::vec4_zero;
+  //m_unk_field_100 = constants::vec4_zero;
+  //m_unk_field_110 = constants::vec4_zero;
+  //m_unk_field_120 = constants::vec4_zero;
+  //m_unk_field_130 = constants::vec4_zero;
   m_unk_field_140 = 0;
-  m_unk_field_150 = constants::vec4_zero;
-  m_unk_field_160 = constants::vec4_zero;
-  m_unk_field_170 = constants::vec4_zero;
+  //m_unk_field_150 = constants::vec4_zero;
+  //m_unk_field_160 = constants::vec4_zero;
+  //m_unk_field_170 = constants::vec4_zero;
   m_unk_field_180 = 0;
   m_unk_field_1C0.Initialize();
-  m_unk_field_190 = constants::vec4_zero;
-  m_unk_field_1A0 = constants::vec4_zero;
-  m_unk_field_1B0 = constants::vec4_zero;
+  //m_unk_field_190 = constants::vec4_zero;
+  //m_unk_field_1A0 = constants::vec4_zero;
+  //m_unk_field_1B0 = constants::vec4_zero;
   m_unk_field_8 = 0;
   m_unk_field_C = 0;
   m_unk_field_10 = 0;
@@ -7887,10 +7891,10 @@ void CCharaPas::Initialize()
 {
   log_trace("CCharaPas::{}()", __func__);
 
-  for (auto& v : m_unk_field_0)
-  {
-    v = constants::vec4_zero;
-  }
+  //for (auto& v : m_unk_field_0)
+  //{
+  //  v = constants::vec4_zero;
+  //}
   m_unk_field_100 = 0;
   m_unk_field_104 = 0;
   m_unk_field_108.Initialize();
@@ -7904,7 +7908,7 @@ void _SEN_OBJ_SEQ::Initialize()
   log_trace("_SEN_OBJ_SEQ::{}()", __func__);
 
   m_unk_field_0 = 0;
-  m_unk_field_10 = constants::vec4_zero;
+  //m_unk_field_10 = constants::vec4_zero;
   m_unk_field_20 = 0;
   m_unk_field_24 = 0;
   m_unk_field_28 = 0;
@@ -7955,14 +7959,14 @@ void CSceneObjSeq::Clear()
   log_trace("CSceneObjSeq::{}()", __func__);
 
   m_unk_field_64 = -1;
-  m_unk_field_70 = constants::vec4_zero;
-  m_unk_field_80 = constants::vec4_zero;
-  m_unk_field_120 = constants::vec4_zero;
-  m_unk_field_B0 = constants::vec4_zero;
-  m_unk_field_D0 = constants::vec4_zero;
+  //m_unk_field_70 = constants::vec4_zero;
+  //m_unk_field_80 = constants::vec4_zero;
+  //m_unk_field_120 = constants::vec4_zero;
+  //m_unk_field_B0 = constants::vec4_zero;
+  //m_unk_field_D0 = constants::vec4_zero;
   m_unk_field_F0 = 0;
-  m_unk_field_C0 = constants::vec4_zero;
-  m_unk_field_E0 = constants::vec4_zero;
+  //m_unk_field_C0 = constants::vec4_zero;
+  //m_unk_field_E0 = constants::vec4_zero;
   m_unk_field_8 = 0;
   m_unk_field_C = 0;
   m_unk_field_10 = 0;

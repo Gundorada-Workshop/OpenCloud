@@ -41,7 +41,8 @@ f32 CObject::GetCameraDist()
 {
   log_trace("CObject::{}()", __func__);
 
-  return mgGetDistFromCamera(m_position);
+  return 0.0f;
+  //return mgGetDistFromCamera(m_position);
 }
 
 // 00169AC0
@@ -286,14 +287,14 @@ void CObjectFrame::UpdatePosition()
 {
   log_trace("CObjectFrame::UpdatePosition()");
 
-  if (m_frame == nullptr)
-  {
-    return;
-  }
+  //if (m_frame == nullptr)
+  //{
+  //  return;
+  //}
 
-  m_frame->SetPosition(m_position);
-  m_frame->SetRotation(m_rotation);
-  m_frame->SetScale(m_scale);
+  //m_frame->SetPosition(m_position);
+  //m_frame->SetRotation(m_rotation);
+  //m_frame->SetScale(m_scale);
 }
 
 // 0016A050

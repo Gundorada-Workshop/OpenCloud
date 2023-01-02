@@ -2,6 +2,7 @@
 #include "common/types.h"
 #include "common/bits.h"
 #include "common/rectangle.h"
+#include "common/math/_vector.h"
 #include "common/window_handle.h"
 
 #include "host/pad_handler.h"
@@ -33,10 +34,10 @@ namespace host
 
   public:
     // sample the left stick axis
-    vec2 sample_pad_left_stick_xy();
+    common::math::vector<f32, 2> sample_pad_left_stick_xy();
 
     // sample the right stick axis
-    vec2 sample_pad_right_stick_xy();
+    common::math::vector<f32, 2> sample_pad_right_stick_xy();
 
     // start a new in-game frame
     void start_game_frame();
@@ -118,7 +119,7 @@ namespace host
     {
       const auto axis = sample_pad_left_stick_xy();
 
-      return axis.x;
+      return axis.x();
     }
 
     // sample the left stick y value
@@ -126,7 +127,7 @@ namespace host
     {
       const auto axis = sample_pad_left_stick_xy();
 
-      return axis.y;
+      return axis.y();
     }
 
     // sample the right stick x value
@@ -134,7 +135,7 @@ namespace host
     {
       const auto axis = sample_pad_right_stick_xy();
 
-      return axis.x;
+      return axis.x();
     }
 
     // sample the right stick y value
@@ -142,7 +143,7 @@ namespace host
     {
       const auto axis = sample_pad_right_stick_xy();
 
-      return axis.y;
+      return axis.y();
     }
 
   protected:

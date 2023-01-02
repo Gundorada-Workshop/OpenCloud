@@ -1,10 +1,6 @@
 #pragma once
 #include "common/debug.h"
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/transform.hpp>
-
 // ~ 00131110 - 00131B60
 
 class mgCCamera
@@ -21,16 +17,16 @@ private:
 
 protected:
   // 0
-  vec3 m_position;
+  //vec3 m_position;
 
   // 10
-  vec3 m_reference;
+  //vec3 m_reference;
 
   // 20
-  vec3 m_next_position;
+  //vec3 m_next_position;
 
   // 30
-  vec3 m_next_reference;
+  //vec3 m_next_reference;
 
   // 48
   f32 m_position_speed;
@@ -68,64 +64,64 @@ public:
   virtual void Stay();
 
   // 001314D0
-  virtual matrix4 GetCameraMatrix() const;
+  //virtual matrix4 GetCameraMatrix() const;
 
   // 00131B50
   virtual sint Iam() const;
 
   // 001313E0
-  inline void SetPos(f32 x, f32 y, f32 z)
-  {
-    SetPos(vec3(x, y, z));
-  }
+  //inline void SetPos(f32 x, f32 y, f32 z)
+  //{
+  //  SetPos(vec3(x, y, z));
+  //}
 
   // 00131410
-  inline void SetPos(const vec3& pos)
-  {
-    m_position = pos;
-  }
+  //inline void SetPos(const vec3& pos)
+  //{
+  //  m_position = pos;
+  //}
 
   // 00131420
   inline void SetNextPos(f32 x, f32 y, f32 z)
   {
-    SetNextPos(vec3(x, y, z));
+    //SetNextPos(vec3(x, y, z));
   }
 
   // 00131430
-  inline void SetNextPos(const vec3& next_pos)
-  {
-    m_next_position = next_pos;
-  }
+  //inline void SetNextPos(const vec3& next_pos)
+  //{
+  //  m_next_position = next_pos;
+  //}
 
   // 00131440
-  inline void SetRef(f32 h, f32 p, f32 r)
-  {
-    SetRef(vec3(h, p, r));
-  }
+  //inline void SetRef(f32 h, f32 p, f32 r)
+  //{
+  //  SetRef(vec3(h, p, r));
+  //}
 
   // 00131460
-  inline void SetRef(const vec3& ref)
-  {
-    m_reference = ref;
-  }
+  //inline void SetRef(const vec3& ref)
+  //{
+  //  m_reference = ref;
+  //}
 
   // 00131470
   inline void SetNextRef(f32 h, f32 p, f32 r)
   {
-    SetNextRef(vec3(h, p, r));
+    //SetNextRef(vec3(h, p, r));
   }
 
   // 00131480
-  inline void SetNextRef(const vec3& next_ref)
-  {
-    m_next_reference = next_ref;
-  }
+  //inline void SetNextRef(const vec3& next_ref)
+  //{
+  //  m_next_reference = next_ref;
+  //}
 
   // 00131490
-  inline vec3 GetDir() const
-  {
-    return m_reference - m_position;
-  }
+  //inline vec3 GetDir() const
+  //{
+  //  return m_reference - m_position;
+  //}
 
   // 00131590
   inline void SetSpeed(f32 position_speed, f32 rotation_speed = -1.0f)
@@ -149,28 +145,28 @@ public:
   }
 
   // 001315D0
-  inline vec3 GetPos() const
-  {
-    return m_position;
-  }
+  //inline vec3 GetPos() const
+  //{
+  //  return m_position;
+  //}
 
   // 001315E0
-  inline vec3 GetRef() const
-  {
-    return m_reference;
-  }
+  //inline vec3 GetRef() const
+  //{
+  //  return m_reference;
+  //}
 
   // 001315F0
-  inline vec3 GetNextPos() const
-  {
-    return m_next_position;
-  }
+  //inline vec3 GetNextPos() const
+  //{
+  //  return m_next_position;
+  //}
 
   // 00131600
-  inline vec3 GetNextRef() const
-  {
-    return m_next_reference;
-  }
+  //inline vec3 GetNextRef() const
+  //{
+  //  return m_next_reference;
+  //}
 
   // 00131610
   inline f32 GetAngleH() const
@@ -192,10 +188,10 @@ class mgCCameraFollow : public mgCCamera
 {
 protected:
   // 70
-  vec3 m_follow;
+  //vec3 m_follow;
 
   // 80
-  vec3 m_follow_offset;
+  //vec3 m_follow_offset;
 
   // 90
   f32 m_distance;
@@ -213,7 +209,7 @@ protected:
   bool m_following;
 
   // B0
-  vec3 m_follow_next;
+  //vec3 m_follow_next;
 
 public:
   // 00131A90
@@ -234,18 +230,18 @@ public:
   virtual sint Iam() const;
 
   // 00131680
-  vec3 GetFollowNextPos() const;
+  //vec3 GetFollowNextPos() const;
 
   // 00131700
-  inline vec3 GetFollowNext() const
-  {
-    return GetFollow() + m_follow_offset;
-  }
+  //inline vec3 GetFollowNext() const
+  //{
+  //  return GetFollow() + m_follow_offset;
+  //}
   // 00131990
-  inline void SetFollow(const vec3& follow_pos)
-  {
-    m_follow = follow_pos;
-  }
+  //inline void SetFollow(const vec3& follow_pos)
+  //{
+  //  m_follow = follow_pos;
+  //}
   // 001319A0
   inline void FollowOn()
   {
@@ -308,18 +304,18 @@ public:
     m_height += delta;
   }
   // 00131A60
-  inline void SetFollowOffset(const vec3& offset)
-  {
-    m_follow_offset = offset;
-  }
+  //inline void SetFollowOffset(const vec3& offset)
+  //{
+  //  m_follow_offset = offset;
+  //}
   // 00131A70
-  inline vec3 GetFollow() const
-  {
-    return m_follow;
-  }
+  //inline vec3 GetFollow() const
+  //{
+  //  return m_follow;
+  //}
   // 00131A80
-  inline vec3 GetFollowOffset() const
-  {
-    return m_follow_offset;
-  }
+  //inline vec3 GetFollowOffset() const
+  //{
+  //  return m_follow_offset;
+  //}
 };

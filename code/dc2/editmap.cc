@@ -81,42 +81,42 @@ CGridData* CEditGrid::Get(usize x, usize y)
 
 // 00297990
 // local position (discrete x, y position)
-std::optional<std::pair<usize, usize>> CEditGrid::GetLPos(f32 x, f32 y) const
-{
-  log_trace("CEditGrid::{}({}, {})", __func__, x, y);
-
-  // Localize x and y to our grid
-  x = (x - m_grid_start_pos.x) / m_tile_len_x;
-  y = (y - m_grid_start_pos.y) / m_tile_len_y;
-
-  // Now check that x and y are valid
-  if (x < 0.0f || y < 0.0f)
-  {
-    return std::nullopt;
-  }
-
-  std::pair<usize, usize> result = { static_cast<usize>(x), static_cast<usize>(y) };
-  if (!Check(result.first, result.second))
-  {
-    return std::nullopt;
-  }
-
-  return result;
-}
+//std::optional<std::pair<usize, usize>> CEditGrid::GetLPos(f32 x, f32 y) const
+//{
+//  log_trace("CEditGrid::{}({}, {})", __func__, x, y);
+//
+//  // Localize x and y to our grid
+//  x = (x - m_grid_start_pos.x) / m_tile_len_x;
+//  y = (y - m_grid_start_pos.y) / m_tile_len_y;
+//
+//  // Now check that x and y are valid
+//  if (x < 0.0f || y < 0.0f)
+//  {
+//    return std::nullopt;
+//  }
+//
+//  std::pair<usize, usize> result = { static_cast<usize>(x), static_cast<usize>(y) };
+//  if (!Check(result.first, result.second))
+//  {
+//    return std::nullopt;
+//  }
+//
+//  return result;
+//}
 
 // 00297A50
 // world position (where are we in the scene, actually?)
-vec3 CEditGrid::GetWPos(usize x, usize y) const
-{
-  log_trace("CEditGrid::{}({}, {})", __func__, x, y);
-
-  return vec3
-  {
-    static_cast<f32>(x) * m_tile_len_x + m_grid_start_pos.x,
-    0.0f,
-    static_cast<f32>(y) * m_tile_len_y + m_grid_start_pos.y,
-  };
-}
+//vec3 CEditGrid::GetWPos(usize x, usize y) const
+//{
+//  log_trace("CEditGrid::{}({}, {})", __func__, x, y);
+//
+//  return vec3
+//  {
+//    static_cast<f32>(x) * m_tile_len_x + m_grid_start_pos.x,
+//    0.0f,
+//    static_cast<f32>(y) * m_tile_len_y + m_grid_start_pos.y,
+//  };
+//}
 
 // 00297AA0
 bool CEditGrid::SetRiver(f32 x, f32 y)
@@ -221,37 +221,37 @@ bool CEditGrid::River(usize x, usize y)
 }
 
 // 00298070
-void CEditGrid::GetRiverPos(usize x, usize y, matrix4& dest) const
-{
-  log_trace("CEditGrid::{}({}, {}, {})", __func__, x, y, fmt::ptr(&dest));
-
-  todo;
-}
+//void CEditGrid::GetRiverPos(usize x, usize y, matrix4& dest) const
+//{
+//  log_trace("CEditGrid::{}({}, {}, {})", __func__, x, y, fmt::ptr(&dest));
+//
+//  todo;
+//}
 
 // 00298170
-void CEditGrid::GetRiverPos(usize x, usize y, vec3& dest) const
-{
-  log_trace("CEditGrid::{}({}, {}, {})", __func__, x, y, fmt::ptr(&dest));
-
-  todo;
-}
+//void CEditGrid::GetRiverPos(usize x, usize y, vec3& dest) const
+//{
+//  log_trace("CEditGrid::{}({}, {}, {})", __func__, x, y, fmt::ptr(&dest));
+//
+//  todo;
+//}
 
 // 00298200
-void CEditGrid::GetRiverPoly(CCPoly* dest, const mgVu0FBOX& box, sint i, f32 f)
-{
-  log_trace("CEditGrid::{}({}, {}, {}, {})", __func__, fmt::ptr(&dest), fmt::ptr(&box), i, f);
-
-  todo;
-}
+//void CEditGrid::GetRiverPoly(CCPoly* dest, const mgVu0FBOX& box, sint i, f32 f)
+//{
+//  log_trace("CEditGrid::{}({}, {}, {}, {})", __func__, fmt::ptr(&dest), fmt::ptr(&box), i, f);
+//
+//  todo;
+//}
 
 // 002985C0
-mgVu0FBOX CEditGrid::GetGridBox(const vec3& pos) const
-{
-  log_trace("CEditGrid::{}({})", __func__, fmt::ptr(&pos));
-
-  todo;
-  return mgVu0FBOX{};
-}
+//mgVu0FBOX CEditGrid::GetGridBox(const vec3& pos) const
+//{
+//  log_trace("CEditGrid::{}({})", __func__, fmt::ptr(&pos));
+//
+//  todo;
+//  return mgVu0FBOX{};
+//}
 
 // 001B5790
 bool CEditHouse::LiveChara() const
@@ -288,29 +288,29 @@ EEPartsType CEditPartsInfo::GetPartsType() const
 }
 
 // 001B5670
-void CEditPartsInfo::CreateBox()
-{
-  log_trace("CEditPartsInfo::{}()", __func__);
-
-  m_parts_bound_box = mgVu0FBOX();
-}
+//void CEditPartsInfo::CreateBox()
+//{
+//  log_trace("CEditPartsInfo::{}()", __func__);
+//
+//  m_parts_bound_box = mgVu0FBOX();
+//}
 
 // 001B56A0
-f32 CEditPartsInfo::GetPartsHeight() const
-{
-  log_trace("CEditPartsInfo::{}()", __func__);
-
-  return m_parts_bound_box.corners[0].y - m_parts_bound_box.corners[1].y;
-}
+//f32 CEditPartsInfo::GetPartsHeight() const
+//{
+//  log_trace("CEditPartsInfo::{}()", __func__);
+//
+//  return m_parts_bound_box.corners[0].y - m_parts_bound_box.corners[1].y;
+//}
 
 // 001B56B0
-f32 CEditPartsInfo::GetPartsMaxWidth() const
-{
-  log_trace("CEditPartsInfo::{}()", __func__);
-
-  vec3 temp = m_parts_bound_box.corners[0] - m_parts_bound_box.corners[1];
-  return std::max({ temp.x, temp.y, temp.z });
-}
+//f32 CEditPartsInfo::GetPartsMaxWidth() const
+//{
+//  log_trace("CEditPartsInfo::{}()", __func__);
+//
+//  vec3 temp = m_parts_bound_box.corners[0] - m_parts_bound_box.corners[1];
+//  return std::max({ temp.x, temp.y, temp.z });
+//}
 
 // 001B5730
 EditPartsMaterial* CEditPartsInfo::GetMaterial(ssize index)
@@ -326,17 +326,17 @@ EditPartsMaterial* CEditPartsInfo::GetMaterial(ssize index)
 }
 
 // 001B5760
-std::optional<vec3> CEditPartsInfo::GetDefColor(ssize index) const
-{
-  log_trace("CEditPartsInfo::{}({})", __func__, index);
-
-  if (m_unk_field_44 == nullptr)
-  {
-    return std::nullopt;
-  }
-
-  return m_unk_field_44->GetDefColor(index);
-}
+//std::optional<vec3> CEditPartsInfo::GetDefColor(ssize index) const
+//{
+//  log_trace("CEditPartsInfo::{}({})", __func__, index);
+//
+//  if (m_unk_field_44 == nullptr)
+//  {
+//    return std::nullopt;
+//  }
+//
+//  return m_unk_field_44->GetDefColor(index);
+//}
 
 // 001B57F0
 static f32 StandardPos(f32 f)
@@ -348,68 +348,68 @@ static f32 StandardPos(f32 f)
 }
 
 // 001B5860
-void CEditParts::SetPosition(const vec3& position)
-{
-  log_trace("CEditParts::{}(({}, {}, {}))", __func__, position.x, position.y, position.z);
-
-  if (m_unk_field_314 != nullptr)
-  {
-    vec3 old_pos = GetPosition();
-    mgCObject::SetPosition(vec3{ position.x, StandardPos(old_pos.y), position.z });
-  }
-  else
-  {
-    mgCObject::SetPosition(position);
-  }
-}
+//void CEditParts::SetPosition(const vec3& position)
+//{
+//  log_trace("CEditParts::{}(({}, {}, {}))", __func__, position.x, position.y, position.z);
+//
+//  if (m_unk_field_314 != nullptr)
+//  {
+//    vec3 old_pos = GetPosition();
+//    mgCObject::SetPosition(vec3{ position.x, StandardPos(old_pos.y), position.z });
+//  }
+//  else
+//  {
+//    mgCObject::SetPosition(position);
+//  }
+//}
 
 // 001B58E0
-void CEditParts::SetPosition(f32 x, f32 y, f32 z)
-{
-  log_trace("CEditParts::{}({}, {}, {})", __func__, x, y, z);
-
-  SetPosition(vec3{ x, y, z });
-}
+//void CEditParts::SetPosition(f32 x, f32 y, f32 z)
+//{
+//  log_trace("CEditParts::{}({}, {}, {})", __func__, x, y, z);
+//
+//  SetPosition(vec3{ x, y, z });
+//}
 
 // 001B5930
-vec3 CEditParts::GetPosition()
-{
-  log_trace("CEditParts::{}()", __func__);
-
-  vec3 local_pos = GetLocalPos();
-
-  if (m_unk_field_314 != nullptr)
-  {
-    vec3 pos = GetPosition();
-    local_pos.y += StandardPos(pos.y);
-  }
-
-  return local_pos;
-}
+//vec3 CEditParts::GetPosition()
+//{
+//  log_trace("CEditParts::{}()", __func__);
+//
+//  vec3 local_pos = GetLocalPos();
+//
+//  if (m_unk_field_314 != nullptr)
+//  {
+//    vec3 pos = GetPosition();
+//    local_pos.y += StandardPos(pos.y);
+//  }
+//
+//  return local_pos;
+//}
 
 // 001B59A0
-void CEditParts::UpdatePosition()
-{
-  log_trace("CEditParts::{}()", __func__);
-
-  if (!m_unk_field_40 && m_unk_field_314 == nullptr)
-  {
-    return;
-  }
-
-  vec3 local_pos = GetLocalPos();
-
-  if (m_unk_field_314 != nullptr)
-  {
-    local_pos.y += m_unk_field_314->GetPosition().y;
-  }
-
-  m_unk_field_C0.SetPosition(local_pos);
-  m_unk_field_C0.SetRotation(m_rotation);
-  m_unk_field_C0.SetScale(m_scale);
-
-  m_unk_field_40 = false;
-}
+//void CEditParts::UpdatePosition()
+//{
+//  log_trace("CEditParts::{}()", __func__);
+//
+//  if (!m_unk_field_40 && m_unk_field_314 == nullptr)
+//  {
+//    return;
+//  }
+//
+//  vec3 local_pos = GetLocalPos();
+//
+//  if (m_unk_field_314 != nullptr)
+//  {
+//    local_pos.y += m_unk_field_314->GetPosition().y;
+//  }
+//
+//  m_unk_field_C0.SetPosition(local_pos);
+//  m_unk_field_C0.SetRotation(m_rotation);
+//  m_unk_field_C0.SetScale(m_scale);
+//
+//  m_unk_field_40 = false;
+//}
 
 // 001B5A50
 EEPartsInfoID CEditParts::GetInfoID() const
@@ -425,12 +425,12 @@ EEPartsInfoID CEditParts::GetInfoID() const
 }
 
 // 001B5990
-vec3 CEditParts::GetLocalPos()
-{
-  log_trace("CEditParts::{}()", __func__);
-
-  return mgCObject::GetPosition();
-}
+//vec3 CEditParts::GetLocalPos()
+//{
+//  log_trace("CEditParts::{}()", __func__);
+//
+//  return mgCObject::GetPosition();
+//}
 
 // 001B5A70
 sint CEditParts::GetLiveNPC() const
@@ -488,23 +488,23 @@ bool CEditParts::IsBurn() const
 };
 
 // 001B5B20
-bool CEditParts::GetFenceSide(vec3& v1_dest, vec3& v2_dest)
-{
-  log_trace("CEditParts::{}()", __func__);
-
-  if (!m_bounding_box_valid || m_info == nullptr)
-  {
-    return false;
-  }
-
-  matrix4 lw_mat = GetLWMatrix();
-  vec4 var_20 = vec4{ m_info->m_unk_field_A0, 1.0f };
-  vec4 var_10 = vec4{ m_info->m_unk_field_B0, 1.0f };
-
-  v1_dest = lw_mat * var_20;
-  v2_dest = lw_mat * var_10;
-  return true;
-}
+//bool CEditParts::GetFenceSide(vec3& v1_dest, vec3& v2_dest)
+//{
+//  log_trace("CEditParts::{}()", __func__);
+//
+//  if (!m_bounding_box_valid || m_info == nullptr)
+//  {
+//    return false;
+//  }
+//
+//  matrix4 lw_mat = GetLWMatrix();
+//  vec4 var_20 = vec4{ m_info->m_unk_field_A0, 1.0f };
+//  vec4 var_10 = vec4{ m_info->m_unk_field_B0, 1.0f };
+//
+//  v1_dest = lw_mat * var_20;
+//  v2_dest = lw_mat * var_10;
+//  return true;
+//}
 
 // 001B5BD0
 bool CEditParts::GetWallPlane(sint i, WallInfo* wall_info) const
@@ -684,13 +684,13 @@ unkptr CEditMap::DrawSub(bool b)
 }
 
 // 001B40A0
-bool CEditMap::PreDraw(const vec3& v)
-{
-  log_trace("CEditMap::{}({})", __func__, fmt::ptr(&v));
-
-  todo;
-  return false;
-}
+//bool CEditMap::PreDraw(const vec3& v)
+//{
+//  log_trace("CEditMap::{}({})", __func__, fmt::ptr(&v));
+//
+//  todo;
+//  return false;
+//}
 
 // 0029C1C0
 void CEditMap::DrawEffect()
@@ -717,21 +717,21 @@ void CEditMap::DrawFireRaster()
 }
 
 // 001B0780
-sint CEditMap::GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2)
-{
-  log_trace("CEditMap::{}({}, {}, {}, {})", __func__, i1, fmt::ptr(dest), fmt::ptr(&box), i2);
-
-  todo;
-  return 0;
-}
+//sint CEditMap::GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2)
+//{
+//  log_trace("CEditMap::{}({}, {}, {}, {})", __func__, i1, fmt::ptr(dest), fmt::ptr(&box), i2);
+//
+//  todo;
+//  return 0;
+//}
 
 // 002A5960
-void CEditMap::GetEvent(const vec3* v, sint i, MapEventInfo* dest)
-{
-  log_trace("CEditMap::{}({}, {}, {})", __func__, fmt::ptr(v), i, fmt::ptr(dest));
-
-  todo;
-}
+//void CEditMap::GetEvent(const vec3* v, sint i, MapEventInfo* dest)
+//{
+//  log_trace("CEditMap::{}({}, {}, {})", __func__, fmt::ptr(v), i, fmt::ptr(dest));
+//
+//  todo;
+//}
 
 // 002EF530
 void CEditMap::InScreenFunc(InScreenFuncInfo* func_info)
@@ -929,13 +929,13 @@ void CEditMap::GetePlaceIDList(sint* ids_dest, usize max_size)
 }
 
 // 001B0DD0
-matrix4 CEditMap::GetRotMatrix(sint angle) const
-{
-  log_trace("CEditMap::{}({})", __func__, angle);
-
-  todo;
-  return matrix4{ 1.0f };
-}
+//matrix4 CEditMap::GetRotMatrix(sint angle) const
+//{
+//  log_trace("CEditMap::{}({})", __func__, angle);
+//
+//  todo;
+//  return matrix4{ 1.0f };
+//}
 
 // 001B0EB0
 sint CEditMap::GetEditAngle90(sint angle) const
@@ -989,20 +989,20 @@ sint CEditMap::AngleLimit(sint angle) const
 }
 
 // 001B1020
-vec3 CEditMap::GetEditPos(const vec3& pos) const
-{
-  log_trace("CEditMap::{}({})", __func__, fmt::ptr(&pos));
-
-  vec3 edit_pos{};
-
-  for (usize i = 0; i < 3; ++i)
-  {
-    f32 epsilon = (pos[i] >= 0.0f) ? 0.01f : -0.01f;
-    edit_pos[i] = truncf(pos[i] + epsilon);
-  }
-
-  return edit_pos;
-}
+//vec3 CEditMap::GetEditPos(const vec3& pos) const
+//{
+//  log_trace("CEditMap::{}({})", __func__, fmt::ptr(&pos));
+//
+//  vec3 edit_pos{};
+//
+//  for (usize i = 0; i < 3; ++i)
+//  {
+//    f32 epsilon = (pos[i] >= 0.0f) ? 0.01f : -0.01f;
+//    edit_pos[i] = truncf(pos[i] + epsilon);
+//  }
+//
+//  return edit_pos;
+//}
 
 // 001B11D0
 sint CEditMap::CmpEditAlt(f32 f1, f32 f2) const
@@ -1034,31 +1034,31 @@ f32 CEditMap::GetEditAlt(f32 f) const
 }
 
 // 001B1280
-bool CEditMap::GetGridPos(const vec3& v1, vec3& v2, vec3& v3) const
-{
-  log_trace("CEditMap::{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3));
-
-  todo;
-  return false;
-}
+//bool CEditMap::GetGridPos(const vec3& v1, vec3& v2, vec3& v3) const
+//{
+//  log_trace("CEditMap::{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3));
+//
+//  todo;
+//  return false;
+//}
 
 // 001B1360
-matrix4 CEditMap::GetMatrix(const vec3& position, sint angle)
-{
-  log_trace("CEditMap::{}({}, {})", __func__, fmt::ptr(&position), angle);
-
-  todo;
-  return matrix4{ 1.0f };
-}
+//matrix4 CEditMap::GetMatrix(const vec3& position, sint angle)
+//{
+//  log_trace("CEditMap::{}({}, {})", __func__, fmt::ptr(&position), angle);
+//
+//  todo;
+//  return matrix4{ 1.0f };
+//}
 
 // 001B13B0
-matrix4 CEditMap::GetInverseMatrix(const matrix4& mat)
-{
-  log_trace("CEditMap::{}({})", __func__, fmt::ptr(&mat));
-
-  todo;
-  return matrix4{ 1.0f };
-}
+//matrix4 CEditMap::GetInverseMatrix(const matrix4& mat)
+//{
+//  log_trace("CEditMap::{}({})", __func__, fmt::ptr(&mat));
+//
+//  todo;
+//  return matrix4{ 1.0f };
+//}
 
 // 001B13C0
 usize CEditMap::ConvertParts(CEditParts* parts)
@@ -1129,13 +1129,13 @@ bool CEditMap::DeleteEditParts(ssize index)
 }
 
 // 001B18A0
-bool CEditMap::RemoveEditParts(sint i, const vec3& v, const RemoveInfo* remove_info)
-{
-  log_trace("CEditMap::{}({}, {}, {})", __func__, i, fmt::ptr(&v), fmt::ptr(remove_info));
-
-  todo;
-  return false;
-}
+//bool CEditMap::RemoveEditParts(sint i, const vec3& v, const RemoveInfo* remove_info)
+//{
+//  log_trace("CEditMap::{}({}, {}, {})", __func__, i, fmt::ptr(&v), fmt::ptr(remove_info));
+//
+//  todo;
+//  return false;
+//}
 
 // 001B1C50
 bool CEditMap::PlaceBurnParts()
@@ -1156,44 +1156,44 @@ bool CEditMap::BurnEditParts(const RemoveInfo* remove_info)
 }
 
 // 001B1F50
-CEditParts* CEditMap::PlaceEditParts(const std::string& name, const vec3& position, const vec3& rotation)
-{
-  log_trace("CEditMap::{}({}, {}, {})", __func__, name, position, rotation);
-
-  auto index = BuildEditParts(name);
-  if (!index.has_value())
-  {
-    return nullptr;
-  }
-
-  auto parts = GetePlaceParts(index.value());
-  if (parts == nullptr)
-  {
-    return nullptr;
-  }
-
-  parts->SetPosition(position);
-  parts->SetRotation(rotation);
-  parts->SetScale(1.0f, 1.0f, 1.0f);
-}
+//CEditParts* CEditMap::PlaceEditParts(const std::string& name, const vec3& position, const vec3& rotation)
+//{
+//  log_trace("CEditMap::{}({}, {}, {})", __func__, name, position, rotation);
+//
+//  auto index = BuildEditParts(name);
+//  if (!index.has_value())
+//  {
+//    return nullptr;
+//  }
+//
+//  auto parts = GetePlaceParts(index.value());
+//  if (parts == nullptr)
+//  {
+//    return nullptr;
+//  }
+//
+//  parts->SetPosition(position);
+//  parts->SetRotation(rotation);
+//  parts->SetScale(1.0f, 1.0f, 1.0f);
+//}
 
 // 001B2000
-CEditParts* CEditMap::PlaceEditParts(sint i, const EP_PLACE_INFO* place_info, const vec3& position, const vec3& rotation, sint* ip)
-{
-  log_trace("CEditMap::{}({}, {}, {}, {}, {})", __func__, i, fmt::ptr(place_info), fmt::ptr(&position), fmt::ptr(&rotation), fmt::ptr(ip));
-
-  todo;
-  return nullptr;
-}
+//CEditParts* CEditMap::PlaceEditParts(sint i, const EP_PLACE_INFO* place_info, const vec3& position, const vec3& rotation, sint* ip)
+//{
+//  log_trace("CEditMap::{}({}, {}, {}, {}, {})", __func__, i, fmt::ptr(place_info), fmt::ptr(&position), fmt::ptr(&rotation), fmt::ptr(ip));
+//
+//  todo;
+//  return nullptr;
+//}
 
 // 001B21D0
-bool CEditMap::PlaceRiverParts(const vec3& position)
-{
-  log_trace("CEditMap::{}({})", __func__, fmt::ptr(&position));
-
-  todo;
-  return false;
-}
+//bool CEditMap::PlaceRiverParts(const vec3& position)
+//{
+//  log_trace("CEditMap::{}({})", __func__, fmt::ptr(&position));
+//
+//  todo;
+//  return false;
+//}
 
 // 001B2220
 bool CEditMap::CreatePlaceLog(sint i, const EP_PLACE_INFO* place_info)
@@ -1205,85 +1205,85 @@ bool CEditMap::CreatePlaceLog(sint i, const EP_PLACE_INFO* place_info)
 }
 
 // 001B2320
-std::vector<std::shared_ptr<CEditParts>> CEditMap::GetNearParts(CEditPartsInfo* info, const vec3& position, f32 radius)
-{
-  log_trace("CEditMap::{}({}, {}, {})", __func__, fmt::ptr(info), fmt::ptr(&position), radius);
-
-  todo;
-  return std::vector<std::shared_ptr<CEditParts>>{};
-}
+//std::vector<std::shared_ptr<CEditParts>> CEditMap::GetNearParts(CEditPartsInfo* info, const vec3& position, f32 radius)
+//{
+//  log_trace("CEditMap::{}({}, {}, {})", __func__, fmt::ptr(info), fmt::ptr(&position), radius);
+//
+//  todo;
+//  return std::vector<std::shared_ptr<CEditParts>>{};
+//}
 
 // 001B24D0
-std::vector<std::shared_ptr<CEditParts>> CEditMap::GetNearParts(const mgVu0FBOX& bounding_box)
-{
-  log_trace("CEditMap::{}({})", __func__, fmt::ptr(&bounding_box));
-
-  todo;
-  return std::vector<std::shared_ptr<CEditParts>>{};
-}
+//std::vector<std::shared_ptr<CEditParts>> CEditMap::GetNearParts(const mgVu0FBOX& bounding_box)
+//{
+//  log_trace("CEditMap::{}({})", __func__, fmt::ptr(&bounding_box));
+//
+//  todo;
+//  return std::vector<std::shared_ptr<CEditParts>>{};
+//}
 
 // 001B2670
-std::optional<usize> CEditMap::GetePlaceParts(const vec4& bounding_sphere)
-{
-  log_trace("CEditMap::{}({})", __func__, fmt::ptr(&bounding_sphere));
-
-  todo;
-  return std::nullopt;
-}
+//std::optional<usize> CEditMap::GetePlaceParts(const vec4& bounding_sphere)
+//{
+//  log_trace("CEditMap::{}({})", __func__, fmt::ptr(&bounding_sphere));
+//
+//  todo;
+//  return std::nullopt;
+//}
 
 // 001B2740
-std::optional<usize> CEditMap::GetePlaceParts(const vec3& origin, const std::vector<std::shared_ptr<CEditParts>>& collection)
-{
-  log_trace("CEditMap::{}({}, {})", __func__, fmt::ptr(&origin), fmt::ptr(&collection));
-
-  todo;
-  return std::nullopt;
-}
-
-// 001B2A50
-bool CEditMap::CheckEditParts(CEditPartsInfo* info, const vec3& position, f32 f, const EP_PLACE_INFO* place_info)
-{
-  log_trace("CEditMap::{}({}, {}, {}, {})", __func__, fmt::ptr(info), fmt::ptr(&position), f, fmt::ptr(place_info));
-
-  todo;
-  return false;
-}
+//std::optional<usize> CEditMap::GetePlaceParts(const vec3& origin, const std::vector<std::shared_ptr<CEditParts>>& collection)
+//{
+//  log_trace("CEditMap::{}({}, {})", __func__, fmt::ptr(&origin), fmt::ptr(&collection));
+//
+//  todo;
+//  return std::nullopt;
+//}
 
 // 001B2A50
-f32 CEditMap::GetEditPartsAlt(CEditPartsInfo* info, const vec3& position, f32 f, const EP_PLACE_INFO* place_info)
-{
-  log_trace("CEditMap::{}({}, {}, {}, {})", __func__, fmt::ptr(info), fmt::ptr(&position), f, fmt::ptr(place_info));
+//bool CEditMap::CheckEditParts(CEditPartsInfo* info, const vec3& position, f32 f, const EP_PLACE_INFO* place_info)
+//{
+//  log_trace("CEditMap::{}({}, {}, {}, {})", __func__, fmt::ptr(info), fmt::ptr(&position), f, fmt::ptr(place_info));
+//
+//  todo;
+//  return false;
+//}
 
-  todo;
-  return 0.0f;
-}
+// 001B2A50
+//f32 CEditMap::GetEditPartsAlt(CEditPartsInfo* info, const vec3& position, f32 f, const EP_PLACE_INFO* place_info)
+//{
+//  log_trace("CEditMap::{}({}, {}, {}, {})", __func__, fmt::ptr(info), fmt::ptr(&position), f, fmt::ptr(place_info));
+//
+//  todo;
+//  return 0.0f;
+//}
 
 // 001B2B50
-bool CEditMap::MagnetParts(CEditPartsInfo* info, const vec3& v1, const vec3& v2, const std::vector<std::shared_ptr<CEditParts>>& collection)
-{
-  log_trace("CEditMap::{}({}, {}, {}, {})", __func__, fmt::ptr(info), fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&collection));
-
-  todo;
-  return false;
-}
+//bool CEditMap::MagnetParts(CEditPartsInfo* info, const vec3& v1, const vec3& v2, const std::vector<std::shared_ptr<CEditParts>>& collection)
+//{
+//  log_trace("CEditMap::{}({}, {}, {}, {})", __func__, fmt::ptr(info), fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&collection));
+//
+//  todo;
+//  return false;
+//}
 
 // 001B3A90
-bool CEditMap::MagnetParts(CEditPartsInfo* info, const vec3& v1, const vec3& v2)
-{
-  log_trace("CEditMap::{}({}, {}, {})", __func__, fmt::ptr(info), fmt::ptr(&v1), fmt::ptr(&v2));
-
-  todo;
-  return false;
-}
+//bool CEditMap::MagnetParts(CEditPartsInfo* info, const vec3& v1, const vec3& v2)
+//{
+//  log_trace("CEditMap::{}({}, {}, {})", __func__, fmt::ptr(info), fmt::ptr(&v1), fmt::ptr(&v2));
+//
+//  todo;
+//  return false;
+//}
 
 // 001B3B00
-bool CEditMap::CheckWallEditParts(CEditPartsInfo* info, const vec3& v1, sint i1, sint i2, const EP_PLACE_INFO* place_info)
-{
-  log_trace("CEditMap::{}({}, {}, {}, {}, {})", __func__, fmt::ptr(info), fmt::ptr(&v1), i1, i2, fmt::ptr(place_info));
-
-  todo;
-  return false;
-}
+//bool CEditMap::CheckWallEditParts(CEditPartsInfo* info, const vec3& v1, sint i1, sint i2, const EP_PLACE_INFO* place_info)
+//{
+//  log_trace("CEditMap::{}({}, {}, {}, {}, {})", __func__, fmt::ptr(info), fmt::ptr(&v1), i1, i2, fmt::ptr(place_info));
+//
+//  todo;
+//  return false;
+//}
 
 // 001B4AC0
 void CEditMap::LoadEditInfo(char* script_buf, usize script_size)
@@ -1294,28 +1294,28 @@ void CEditMap::LoadEditInfo(char* script_buf, usize script_size)
 }
 
 // 002967B0
-void CEditMap::PlaceRiver(const vec3& position)
-{
-  log_trace("CEditMap::{}({})", __func__, fmt::ptr(&position));
-
-  todo;
-}
+//void CEditMap::PlaceRiver(const vec3& position)
+//{
+//  log_trace("CEditMap::{}({})", __func__, fmt::ptr(&position));
+//
+//  todo;
+//}
 
 // 00296840
-void CEditMap::RemoveRiver(const vec3& position)
-{
-  log_trace("CEditMap::{}({})", __func__, fmt::ptr(&position));
-
-  todo;
-}
+//void CEditMap::RemoveRiver(const vec3& position)
+//{
+//  log_trace("CEditMap::{}({})", __func__, fmt::ptr(&position));
+//
+//  todo;
+//}
 
 // 002968D0
-void CEditMap::CreateGrid(const vec3& v1, const vec3& v2, const vec3& v3)
-{
-  log_trace("CEditMap::{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3));
-
-  todo;
-}
+//void CEditMap::CreateGrid(const vec3& v1, const vec3& v2, const vec3& v3)
+//{
+//  log_trace("CEditMap::{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&v3));
+//
+//  todo;
+//}
 
 // 00296B80
 usize CEditMap::GetRiverNum(f32* fp)
@@ -1327,13 +1327,13 @@ usize CEditMap::GetRiverNum(f32* fp)
 }
 
 // 00296CE0
-bool CEditMap::IsRiverGrid(const vec3& position)
-{
-  log_trace("CEditMap::{}({})", __func__, fmt::ptr(&position));
-
-  todo;
-  return false;
-};
+//bool CEditMap::IsRiverGrid(const vec3& position)
+//{
+//  log_trace("CEditMap::{}({})", __func__, fmt::ptr(&position));
+//
+//  todo;
+//  return false;
+//};
 
 // 00296DA0
 usize CEditMap::GetRiverNum(ssize index, f32 f)
@@ -1418,40 +1418,40 @@ void CEditMap::PartsOnOff(sint i, CEditData* data)
 }
 
 // 002ED720
-f32 CEditMap::GetEditPartsAlt(CEditPartsInfo* info, const vec3& position, f32 f, const std::vector<std::shared_ptr<CEditParts>>& collection)
-{
-  log_trace("CEditMap::{}({}, {}, {}, {})", __func__, fmt::ptr(info), fmt::ptr(&position), f, fmt::ptr(&collection));
-
-  todo;
-  return 0.0f;
-}
+//f32 CEditMap::GetEditPartsAlt(CEditPartsInfo* info, const vec3& position, f32 f, const std::vector<std::shared_ptr<CEditParts>>& collection)
+//{
+//  log_trace("CEditMap::{}({}, {}, {}, {})", __func__, fmt::ptr(info), fmt::ptr(&position), f, fmt::ptr(&collection));
+//
+//  todo;
+//  return 0.0f;
+//}
 
 // 002ED990
-bool CEditMap::CheckEditParts(CEditPartsInfo* info, const vec3& position, f32 f, const EP_PLACE_INFO* place_info, const std::vector<std::shared_ptr<CEditParts>>& collection)
-{
-  log_trace("CEditMap::{}({}, {}, {}, {})", __func__, fmt::ptr(info), fmt::ptr(&position), f, fmt::ptr(place_info), fmt::ptr(&collection));
-
-  todo;
-  return false;
-}
+//bool CEditMap::CheckEditParts(CEditPartsInfo* info, const vec3& position, f32 f, const EP_PLACE_INFO* place_info, const std::vector<std::shared_ptr<CEditParts>>& collection)
+//{
+//  log_trace("CEditMap::{}({}, {}, {}, {})", __func__, fmt::ptr(info), fmt::ptr(&position), f, fmt::ptr(place_info), fmt::ptr(&collection));
+//
+//  todo;
+//  return false;
+//}
 
 // 002EDF60
-bool CEditMap::CheckEditPartsOnRiver(CEditPartsInfo* info, const vec3& position, f32 f)
-{
-  log_trace("CEditMap::{}({}, {}, {})", __func__, fmt::ptr(info), fmt::ptr(&position), f);
-
-  todo;
-  return false;
-}
+//bool CEditMap::CheckEditPartsOnRiver(CEditPartsInfo* info, const vec3& position, f32 f)
+//{
+//  log_trace("CEditMap::{}({}, {}, {})", __func__, fmt::ptr(info), fmt::ptr(&position), f);
+//
+//  todo;
+//  return false;
+//}
 
 // 002EE280
-bool CEditMap::CheckRiverParts(const vec3& position)
-{
-  log_trace("CEditMap::{}({})", __func__, fmt::ptr(&position));
-
-  todo;
-  return false;
-}
+//bool CEditMap::CheckRiverParts(const vec3& position)
+//{
+//  log_trace("CEditMap::{}({})", __func__, fmt::ptr(&position));
+//
+//  todo;
+//  return false;
+//}
 
 // 002EE5F0
 bool CEditMap::CheckNormalPlaceParts(ssize index)
@@ -1516,13 +1516,13 @@ sint CEditMap::RepaintNum(sint i)
 }
 
 // 002EEB10
-usize CEditMap::PaintFence(sint i1, const vec3& v, sint i2)
-{
-  log_trace("CEditMap::{}({}, {}, {})", __func__, i1, fmt::ptr(&v), i2);
-
-  todo;
-  return 0;
-}
+//usize CEditMap::PaintFence(sint i1, const vec3& v, sint i2)
+//{
+//  log_trace("CEditMap::{}({}, {}, {})", __func__, i1, fmt::ptr(&v), i2);
+//
+//  todo;
+//  return 0;
+//}
 
 // 002EEDE0
 usize CEditMap::PaintFence(CEditParts* parts)

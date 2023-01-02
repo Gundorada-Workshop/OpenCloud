@@ -57,7 +57,7 @@ struct PieceMaterial
   // C
   usize m_color_idx{};
   // 10
-  vec4 m_color{};
+  //vec4 m_color{};
 };
 
 class CMapPiece : public CObjectFrame
@@ -82,7 +82,7 @@ public:
   void AssignMds(CMdsInfo* mds_info);
 
   // 00168570
-  sint GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2);
+  //sint GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2);
 
   // 00168620
   void SetTimeBand(f32 f1, f32 f2);
@@ -94,7 +94,7 @@ public:
   void Step();
 
   // 001686D0
-  std::optional<mgVu0FBOX> GetBoundBox();
+  //std::optional<mgVu0FBOX> GetBoundBox();
 
   // 00168730
   unkptr DrawSub(bool b);
@@ -173,22 +173,22 @@ public:
   CMapPiece* SearchPieceColType(sint col_type);
 
   // 00166580
-  sint GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2);
+  //sint GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2);
 
   // 001666B0
-  sint GetColPoly(CCPoly* dest, mgVu0FBOX& box, sint i2);
+  //sint GetColPoly(CCPoly* dest, mgVu0FBOX& box, sint i2);
 
   // 001666D0
-  sint GetCameraPoly(CCPoly* dest, mgVu0FBOX& box, sint i2);
+  //sint GetCameraPoly(CCPoly* dest, mgVu0FBOX& box, sint i2);
 
   // 00166760
-  bool SetColor(ssize index, const vec4& rgba);
+  //bool SetColor(ssize index, const vec4& rgba);
 
   // 001667B0
-  std::optional<vec4> GetColor(ssize index) const;
+  //std::optional<vec4> GetColor(ssize index) const;
 
   // 001667F0
-  std::optional<vec4> GetDefColor(ssize index);
+  //std::optional<vec4> GetDefColor(ssize index);
 
   // 001668E0
   void UpdateColor();
@@ -200,19 +200,19 @@ public:
   void CreateBoundBox();
 
   // 00167090
-  bool CheckColBox(mgVu0FBOX* box) const;
+  //bool CheckColBox(mgVu0FBOX* box) const;
 
   // 001671D0
-  std::optional<mgVu0FBOX> GetBBox() const;
+  //std::optional<mgVu0FBOX> GetBBox() const;
 
   // 00167220
-  std::optional<mgVu0FBOX> GetBoundBox();
+  //std::optional<mgVu0FBOX> GetBoundBox();
 
   // 00167280
-  std::optional<vec4> GetBoundSphere();
+  //std::optional<vec4> GetBoundSphere();
 
   // 00167300
-  matrix4 GetLWMatrix();
+  //matrix4 GetLWMatrix();
 
   // 00167350
   bool InsideScreen() const;
@@ -254,14 +254,14 @@ public:
   // 1E8
   // usize m_n_color{}; // m_color.size()
   // 1F0
-  std::array<vec4, 4> m_color{};
+  //std::array<vec4, 4> m_color{};
 
   // 230
   bool m_bounding_box_valid{};
   // 240
-  mgVu0FBOX m_bounding_box{};
+  //mgVu0FBOX m_bounding_box{};
   // 260
-  vec4 m_bounding_sphere{};
+  //vec4 m_bounding_sphere{};
 };
 
 class CMap
@@ -280,7 +280,7 @@ public:
   virtual unkptr DrawDirect();
 
   // 0015D7A0
-  virtual bool PreDraw(const vec3& v);
+  //virtual bool PreDraw(const vec3& v);
 
   // 0015E3F0
   virtual void DrawEffect();
@@ -295,16 +295,16 @@ public:
   virtual void DrawWater(mgCCamera* camera, mgCTexture* tex1, mgCTexture* tex2);
 
   // 0015F120
-  virtual sint GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2);
+  //virtual sint GetPoly(sint i1, CCPoly* dest, mgVu0FBOX& box, sint i2);
 
   // 0015F260
-  virtual sint GetColPoly(CCPoly* dest, mgVu0FBOX& box, sint i2);
+  //virtual sint GetColPoly(CCPoly* dest, mgVu0FBOX& box, sint i2);
 
   // 0015F290
-  virtual sint GetCameraPoly(CCPoly* dest, mgVu0FBOX& box, sint i2);
+  //virtual sint GetCameraPoly(CCPoly* dest, mgVu0FBOX& box, sint i2);
 
   // 0015F880
-  virtual void GetEvent(const vec3* v, sint i, MapEventInfo* dest);
+  //virtual void GetEvent(const vec3* v, sint i, MapEventInfo* dest);
 
   // 0015FC00
   virtual void InScreenFunc(InScreenFuncInfo* func_info);
@@ -372,13 +372,13 @@ public:
   CMapParts* GetParts(const std::string& parts_name);
 
   // 0015CE00
-  void CreateDrawRect(mgVu0FBOX* box1, mgVu0FBOX* box2, sint i);
+  //void CreateDrawRect(mgVu0FBOX* box1, mgVu0FBOX* box2, sint i);
 
   // 0015CFD0
-  void CreateOcclusion(const matrix4* m);
+  //void CreateOcclusion(const matrix4* m);
 
   // 0015D080
-  void PlaceParts(const std::string& parts_name, const vec3& position, const vec3& rotation, const vec3& scale);
+  //void PlaceParts(const std::string& parts_name, const vec3& position, const vec3& rotation, const vec3& scale);
 
   // 0015D170
   void PlacePartsEnd();
@@ -396,22 +396,22 @@ public:
   ssize ConvertParts(CMapParts* parts);
 
   // 0015D550
-  void GetPlaceParts(mgVu0FBOX* region, std::vector<CMapParts>& parts_dest, usize max_capacity);
+  //void GetPlaceParts(mgVu0FBOX* region, std::vector<CMapParts>& parts_dest, usize max_capacity);
 
   // 0015D550
-  void GetPlaceColParts(mgVu0FBOX* region, std::vector<CMapParts>& parts_dest, usize max_capacity);
+  //void GetPlaceColParts(mgVu0FBOX* region, std::vector<CMapParts>& parts_dest, usize max_capacity);
 
   // 0015D730
   void CreateFuncCheck(CFuncPointCheck* point_check);
 
   // 0015D770
-  std::optional<mgVu0FBOX> GetBBox() const;
+  //std::optional<mgVu0FBOX> GetBBox() const;
 
   // 0015DBE0
   usize GetCharaLight(mgCObject* object, CFuncPoint* func_point, sint i1, sint i2);
 
   // 0015E0B0
-  void SetFuncPLight(const vec4& v, CFuncPointCheck* point_check);
+  //void SetFuncPLight(const vec4& v, CFuncPointCheck* point_check);
 
   // 0015E1F0
   void ResetFuncPLight(ssize light_index);
@@ -423,16 +423,16 @@ public:
   bool GetShow() const;
 
   // 0015F2C0
-  sint GetTrBoxColPoly(CCPoly* dest, mgVu0FBOX& box, sint i2);
+  //sint GetTrBoxColPoly(CCPoly* dest, mgVu0FBOX& box, sint i2);
 
   // 0015F3D0
-  sint GetFixCameraPos(const vec3& v1, vec3& v2);
+  //sint GetFixCameraPos(const vec3& v1, vec3& v2);
 
   // 0015F730
-  void FixCameraPartsOnOff(const vec3& v);
+  //void FixCameraPartsOnOff(const vec3& v);
 
   // 0015F880
-  CMapParts* GetEvent(const vec3& v, sint i, MapEventInfo* event_info);
+  //CMapParts* GetEvent(const vec3& v, sint i, MapEventInfo* event_info);
 
   // 0015FDA0
   void EffectStep();
@@ -468,19 +468,19 @@ public:
   ETimeBand GetNowTimeLightBand() const;
 
   // 00160E70
-  void GetLightingRatio(vec4& ratio_dest) const;
+  //void GetLightingRatio(vec4& ratio_dest) const;
 
   // 00160FE0
-  void GetLightingFlareRatio(vec4& ratio_dest) const;
+  //void GetLightingFlareRatio(vec4& ratio_dest) const;
 
   // 00161010
-  void GetLightingSunRatio(vec4& ratio_dest) const;
+  //void GetLightingSunRatio(vec4& ratio_dest) const;
 
   // 001610F0
-  ETimeBand GetTimeLightingRatio(vec4& ratio_dest) const;
+  //ETimeBand GetTimeLightingRatio(vec4& ratio_dest) const;
 
   // 001612B0
-  void GetSunPoint(vec3& point_dest) const;
+  //void GetSunPoint(vec3& point_dest) const;
 
   // 00161360
   sint GetLightNoTime(ETimeBand time);
@@ -520,7 +520,7 @@ public:
   // 334
   bool m_bounding_box_valid{ false };
   // 340
-  mgVu0FBOX m_bounding_box{};
+  //mgVu0FBOX m_bounding_box{};
 
   // C80 (capacity), C84 (buf)
   std::vector<CCameraInfo> m_camera_info{};

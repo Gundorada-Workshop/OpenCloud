@@ -57,7 +57,6 @@
     <None Include="math\_vector_swizzle4.inl" />
   </ItemGroup>
   <Import Project="$(SolutionDir)external\wil.exports.props" />
-  <Import Project="$(SolutionDir)external\glm.exports.props" />
   <Import Project="$(SolutionDir)external\fmt.exports.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

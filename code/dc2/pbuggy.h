@@ -65,7 +65,7 @@ bool TakeBombCheck(void);
 bool TakeBomb(void);
 
 // 00316140
-bool ThrowBomb(vec4 &dir);
+//bool ThrowBomb(vec4 &dir);
 
 // 003161E0
 bool BombBomb(void);

@@ -1,9 +1,5 @@
 #include <string.h>
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/quaternion.hpp>
-
 #include "common/debug.h"
 #include "common/macros.h"
 #include "common/log.h"
@@ -62,20 +58,20 @@ mgCVisual* mgCVisual::Copy(MAYBE_UNUSED mgCMemory& stack)
 }
 
 // 00134330
-bool mgCVisual::CreateBBox(MAYBE_UNUSED const vec4& v1, MAYBE_UNUSED const vec4& v2, MAYBE_UNUSED const matrix4& m1)
-{
-  log_trace("mgCVisual::{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&m1));
-
-  return false;
-}
+//bool mgCVisual::CreateBBox(MAYBE_UNUSED const vec4& v1, MAYBE_UNUSED const vec4& v2, MAYBE_UNUSED const matrix4& m1)
+//{
+//  log_trace("mgCVisual::{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&m1));
+//
+//  return false;
+//}
 
 // 00134340
-unkptr mgCVisual::CreateRenderInfoPacket(MAYBE_UNUSED unkptr p, MAYBE_UNUSED matrix4& m1, MAYBE_UNUSED mgRENDER_INFO& render_info)
-{
-  log_trace("mgCVisual::{}({}, {}, {})", __func__, fmt::ptr(p), fmt::ptr(&m1), fmt::ptr(&render_info));
-
-  return nullptr;
-}
+//unkptr mgCVisual::CreateRenderInfoPacket(MAYBE_UNUSED unkptr p, MAYBE_UNUSED matrix4& m1, MAYBE_UNUSED mgRENDER_INFO& render_info)
+//{
+//  log_trace("mgCVisual::{}({}, {}, {})", __func__, fmt::ptr(p), fmt::ptr(&m1), fmt::ptr(&render_info));
+//
+//  return nullptr;
+//}
 // 001342F0
 unkptr mgCVisual::CreatePacket(MAYBE_UNUSED mgCMemory& mem1, MAYBE_UNUSED mgCMemory& mem2)
 {
@@ -85,20 +81,20 @@ unkptr mgCVisual::CreatePacket(MAYBE_UNUSED mgCMemory& mem1, MAYBE_UNUSED mgCMem
 }
 
 // 00134360
-unkptr mgCVisual::Draw(matrix4& m1, mgCDrawManager& draw_man)
-{
-  log_trace("mgCVisual::{}({}, {})", __func__, fmt::ptr(&m1), fmt::ptr(&draw_man));
-
-  return Draw(nullptr, m1, draw_man);
-}
+//unkptr mgCVisual::Draw(matrix4& m1, mgCDrawManager& draw_man)
+//{
+//  log_trace("mgCVisual::{}({}, {})", __func__, fmt::ptr(&m1), fmt::ptr(&draw_man));
+//
+//  return Draw(nullptr, m1, draw_man);
+//}
 
 // 00134350
-unkptr mgCVisual::Draw(MAYBE_UNUSED unkptr p, MAYBE_UNUSED matrix4& m1, MAYBE_UNUSED mgCDrawManager& draw_man)
-{
-  log_trace("mgCVisual::{}({}, {}, {})", __func__, fmt::ptr(p), fmt::ptr(&m1), fmt::ptr(&draw_man));
-
-  return nullptr;
-}
+//unkptr mgCVisual::Draw(MAYBE_UNUSED unkptr p, MAYBE_UNUSED matrix4& m1, MAYBE_UNUSED mgCDrawManager& draw_man)
+//{
+//  log_trace("mgCVisual::{}({}, {}, {})", __func__, fmt::ptr(p), fmt::ptr(&m1), fmt::ptr(&draw_man));
+//
+//  return nullptr;
+//}
 
 // 00132DC0
 mgCVisual::mgCVisual()
@@ -146,52 +142,52 @@ unkptr mgCVisualMDT::GetMaterial(MAYBE_UNUSED ssize index)
 }
 
 // 0013EFC0
-bool mgCVisualMDT::CreateBBox(MAYBE_UNUSED const vec4& v1, MAYBE_UNUSED const vec4& v2, MAYBE_UNUSED const matrix4& m1)
-{
-  log_trace("mgCVisualMDT::{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&m1));
-
-  if (m_unk_field_20 <= 0)
-  {
-    return false;
-  }
-
-  matrix4* mat = m_unk_field_30;
-  if (mat == nullptr)
-  {
-    return false;
-  }
-  else
-  {
-    // 0013EFF0
-    todo;
-    return true;
-  }
-}
+//bool mgCVisualMDT::CreateBBox(MAYBE_UNUSED const vec4& v1, MAYBE_UNUSED const vec4& v2, MAYBE_UNUSED const matrix4& m1)
+//{
+//  log_trace("mgCVisualMDT::{}({}, {}, {})", __func__, fmt::ptr(&v1), fmt::ptr(&v2), fmt::ptr(&m1));
+//
+//  if (m_unk_field_20 <= 0)
+//  {
+//    return false;
+//  }
+//
+//  matrix4* mat = m_unk_field_30;
+//  if (mat == nullptr)
+//  {
+//    return false;
+//  }
+//  else
+//  {
+//    // 0013EFF0
+//    todo;
+//    return true;
+//  }
+//}
 
 // 001404D0
-unkptr mgCVisualMDT::CreateRenderInfoPacket(MAYBE_UNUSED unkptr p, MAYBE_UNUSED matrix4& m1, MAYBE_UNUSED mgRENDER_INFO& render_info)
-{
-  log_trace("mgCVisualMDT::{}({}, {}, {})", __func__, fmt::ptr(p), fmt::ptr(&m1), fmt::ptr(&render_info));
-
-  todo;
-  return nullptr;
-}
+//unkptr mgCVisualMDT::CreateRenderInfoPacket(MAYBE_UNUSED unkptr p, MAYBE_UNUSED matrix4& m1, MAYBE_UNUSED mgRENDER_INFO& render_info)
+//{
+//  log_trace("mgCVisualMDT::{}({}, {}, {})", __func__, fmt::ptr(p), fmt::ptr(&m1), fmt::ptr(&render_info));
+//
+//  todo;
+//  return nullptr;
+//}
 
 // 001342B0
-unkptr mgCVisualMDT::Draw(matrix4& m1, mgCDrawManager& draw_man)
-{
-  log_trace("mgCVisualMDT::{}({}, {})", __func__, fmt::ptr(&m1), fmt::ptr(&draw_man));
-
-  return Draw(nullptr, m1, draw_man);
-}
+//unkptr mgCVisualMDT::Draw(matrix4& m1, mgCDrawManager& draw_man)
+//{
+//  log_trace("mgCVisualMDT::{}({}, {})", __func__, fmt::ptr(&m1), fmt::ptr(&draw_man));
+//
+//  return Draw(nullptr, m1, draw_man);
+//}
 
 // 0013F4E0
-unkptr mgCVisualMDT::Draw(MAYBE_UNUSED unkptr p, MAYBE_UNUSED matrix4& m1, MAYBE_UNUSED mgCDrawManager& draw_man)
-{
-  log_trace("mgCVisualMDT::{}({}, {}, {})", __func__, fmt::ptr(p), fmt::ptr(&m1), fmt::ptr(&draw_man));
-
-  return nullptr;
-}
+//unkptr mgCVisualMDT::Draw(MAYBE_UNUSED unkptr p, MAYBE_UNUSED matrix4& m1, MAYBE_UNUSED mgCDrawManager& draw_man)
+//{
+//  log_trace("mgCVisualMDT::{}({}, {}, {})", __func__, fmt::ptr(p), fmt::ptr(&m1), fmt::ptr(&draw_man));
+//
+//  return nullptr;
+//}
 
 
 // 0013EAC0
@@ -200,7 +196,7 @@ mgCVisualMDT::mgCVisualMDT()
   log_trace("mgCVisualMDT::mgCVisualMDT()");
 
   m_unk_field_20 = 0;
-  m_unk_field_30 = nullptr;
+  //m_unk_field_30 = nullptr;
   m_unk_field_24 = 0;
   m_unk_field_34 = 0;
   m_unk_field_38 = 0;
@@ -241,12 +237,12 @@ mgCFace* mgCVisualMDT::CreateFace(MAYBE_UNUSED FACES_ID& faces_id, MAYBE_UNUSED 
 }
 
 // 00140BE0
-unkptr mgCVisualMDT::CreateExtRenderInfoPacket(MAYBE_UNUSED unkptr p, MAYBE_UNUSED matrix4& m1, MAYBE_UNUSED mgRENDER_INFO& render_info)
-{
-  log_trace("mgCVisualMDT::{}({}, {}, {})", __func__, fmt::ptr(p), fmt::ptr(&m1), fmt::ptr(&render_info));
-
-  return nullptr;
-}
+//unkptr mgCVisualMDT::CreateExtRenderInfoPacket(MAYBE_UNUSED unkptr p, MAYBE_UNUSED matrix4& m1, MAYBE_UNUSED mgRENDER_INFO& render_info)
+//{
+//  log_trace("mgCVisualMDT::{}({}, {}, {})", __func__, fmt::ptr(p), fmt::ptr(&m1), fmt::ptr(&render_info));
+//
+//  return nullptr;
+//}
 
 // 0013F290
 bool mgCVisualMDT::DataAssignMT(MAYBE_UNUSED MDT_HEADER* mdt_header, MAYBE_UNUSED mgCMemory& stack, MAYBE_UNUSED mgCTextureManager* texture_man)
@@ -356,28 +352,28 @@ void mgCDrawPrim::End2()
 }
 
 // 00134AA0
-void mgCDrawPrim::Data0(MAYBE_UNUSED vec4 v)
-{
-  log_trace("mgCDrawPrim::{}(({}, {}, {}, {}))", __func__, v.x, v.y, v.z, v.w);
-
-  todo;
-}
+//void mgCDrawPrim::Data0(MAYBE_UNUSED vec4 v)
+//{
+//  log_trace("mgCDrawPrim::{}(({}, {}, {}, {}))", __func__, v.x, v.y, v.z, v.w);
+//
+//  todo;
+//}
 
 // 00134AC0
-void mgCDrawPrim::Data4(MAYBE_UNUSED vec4 v)
-{
-  log_trace("mgCDrawPrim::{}(({}, {}, {}, {}))", __func__, v.x, v.y, v.z, v.w);
-
-  todo;
-}
+//void mgCDrawPrim::Data4(MAYBE_UNUSED vec4 v)
+//{
+//  log_trace("mgCDrawPrim::{}(({}, {}, {}, {}))", __func__, v.x, v.y, v.z, v.w);
+//
+//  todo;
+//}
 
 // 00134AE0
-void mgCDrawPrim::Data(MAYBE_UNUSED ivec4 v)
-{
-  log_trace("mgCDrawPrim::{}(({}, {}, {}, {}))", __func__, v.x, v.y, v.z, v.w);
-
-  todo;
-}
+//void mgCDrawPrim::Data(MAYBE_UNUSED ivec4 v)
+//{
+//  log_trace("mgCDrawPrim::{}(({}, {}, {}, {}))", __func__, v.x, v.y, v.z, v.w);
+//
+//  todo;
+//}
 
 // 00134AE0
 void mgCDrawPrim::DirectData(MAYBE_UNUSED sint i)
@@ -404,12 +400,12 @@ void mgCDrawPrim::Vertex(MAYBE_UNUSED f32 x, MAYBE_UNUSED f32 y, MAYBE_UNUSED f3
 }
 
 // 00134B70
-void mgCDrawPrim::Vertex(MAYBE_UNUSED vec3 v)
-{
-  log_trace("mgCDrawPrim::{}({}, {}, {})", __func__, v.x, v.y, v.z);
-
-  todo;
-}
+//void mgCDrawPrim::Vertex(MAYBE_UNUSED vec3 v)
+//{
+//  log_trace("mgCDrawPrim::{}({}, {}, {})", __func__, v.x, v.y, v.z);
+//
+//  todo;
+//}
 
 // 00134BB0
 void mgCDrawPrim::Vertex4(MAYBE_UNUSED sint x, MAYBE_UNUSED sint y, MAYBE_UNUSED sint z)
@@ -420,19 +416,19 @@ void mgCDrawPrim::Vertex4(MAYBE_UNUSED sint x, MAYBE_UNUSED sint y, MAYBE_UNUSED
 }
 
 // 00134C60
-void mgCDrawPrim::Vertex4(ivec3 v)
-{
-  log_trace("mgCDrawPrim::{}({}, {}, {})", __func__, v.x, v.y, v.z);
+//void mgCDrawPrim::Vertex4(ivec3 v)
+//{
+//  log_trace("mgCDrawPrim::{}({}, {}, {})", __func__, v.x, v.y, v.z);
+//
+//  Vertex4(v[0], v[1], v[2]);
+//}
 
-  Vertex4(v[0], v[1], v[2]);
-}
-
-void mgCDrawPrim::Vertex4(vec3 v)
-{
-  log_trace("mgCDrawPrim::{}({}, {}, {})", __func__, v.x, v.y, v.z);
-
-  Vertex4(static_cast<sint>(v.x), static_cast<sint>(v.y), static_cast<sint>(v.z));
-}
+//void mgCDrawPrim::Vertex4(vec3 v)
+//{
+//  log_trace("mgCDrawPrim::{}({}, {}, {})", __func__, v.x, v.y, v.z);
+//
+//  Vertex4(static_cast<sint>(v.x), static_cast<sint>(v.y), static_cast<sint>(v.z));
+//}
 
 // 00134C80
 void mgCDrawPrim::Color(MAYBE_UNUSED sint r, MAYBE_UNUSED sint g, MAYBE_UNUSED sint b, MAYBE_UNUSED sint a)
@@ -443,13 +439,13 @@ void mgCDrawPrim::Color(MAYBE_UNUSED sint r, MAYBE_UNUSED sint g, MAYBE_UNUSED s
 }
 
 // 00134CF0
-void mgCDrawPrim::Color(vec4 rgba)
-{
-  log_trace("mgCDrawPrim::{}(({}, {}, {}, {}))", __func__, rgba.r, rgba.g, rgba.b, rgba.a);
-
-  Color(static_cast<sint>(rgba[0]), static_cast<sint>(rgba[1]),
-    static_cast<sint>(rgba[2]), static_cast<sint>(rgba[3]));
-}
+//void mgCDrawPrim::Color(vec4 rgba)
+//{
+//  log_trace("mgCDrawPrim::{}(({}, {}, {}, {}))", __func__, rgba.r, rgba.g, rgba.b, rgba.a);
+//
+//  Color(static_cast<sint>(rgba[0]), static_cast<sint>(rgba[1]),
+//    static_cast<sint>(rgba[2]), static_cast<sint>(rgba[3]));
+//}
 
 // 00134D30
 void mgCDrawPrim::TextureCrd4(MAYBE_UNUSED sint s, MAYBE_UNUSED sint t)
@@ -630,98 +626,98 @@ void mgCObject::UseParam()
 }
 
 // 00136190
-void mgCObject::SetPosition(const vec3& v)
-{
-  log_trace("mgCObject::SetPosition({}) (x, y, z = {}, {}, {})", fmt::ptr(&v), v.x, v.y, v.z);
-
-  if (v == m_position)
-  {
-    return;
-  }
-
-  m_unk_field_44 = true;
-  m_position = v;
-  m_unk_field_40 = true;
-}
+//void mgCObject::SetPosition(const vec3& v)
+//{
+//  log_trace("mgCObject::SetPosition({}) (x, y, z = {}, {}, {})", fmt::ptr(&v), v.x, v.y, v.z);
+//
+//  if (v == m_position)
+//  {
+//    return;
+//  }
+//
+//  m_unk_field_44 = true;
+//  m_position = v;
+//  m_unk_field_40 = true;
+//}
 
 // 00136220
 void mgCObject::SetPosition(f32 x, f32 y, f32 z)
 {
   log_trace("mgCObject::SetPosition({}, {}, {})", x, y, z);
 
-  vec3 pos = { x, y, z };
-  SetPosition(pos);
+  //vec3 pos = { x, y, z };
+  //SetPosition(pos);
 }
 
 // 00136260
-vec3 mgCObject::GetPosition()
-{
-  log_trace("mgCObject::GetPosition()");
-
-  return m_position;
-}
+//vec3 mgCObject::GetPosition()
+//{
+//  log_trace("mgCObject::GetPosition()");
+//
+//  return m_position;
+//}
 
 // 00136270
-void mgCObject::SetRotation(const vec3& v)
-{
-  log_trace("mgCObject::SetRotation({}) (x, y, z = {}, {}, {})", fmt::ptr(&v), v.x, v.y, v.z);
-
-  if (m_rotation == v)
-  {
-    return;
-  }
-
-  m_unk_field_44 = true;
-  m_rotation = v;
-  m_unk_field_40 = true;
-}
+//void mgCObject::SetRotation(const vec3& v)
+//{
+//  log_trace("mgCObject::SetRotation({}) (x, y, z = {}, {}, {})", fmt::ptr(&v), v.x, v.y, v.z);
+//
+//  if (m_rotation == v)
+//  {
+//    return;
+//  }
+//
+//  m_unk_field_44 = true;
+//  m_rotation = v;
+//  m_unk_field_40 = true;
+//}
 
 // 001362F0
 void mgCObject::SetRotation(f32 x, f32 y, f32 z)
 {
   log_trace("mgCObject::SetRotation({}, {}, {})", x, y, z);
 
-  SetPosition(vec3{x, y, z});
+  //SetPosition(vec3{x, y, z});
 }
 
 // 00136330
-vec3 mgCObject::GetRotation()
-{
-  log_trace("mgCObject::GetRotation()");
-
-  return m_rotation;
-}
+//vec3 mgCObject::GetRotation()
+//{
+//  log_trace("mgCObject::GetRotation()");
+//
+//  return m_rotation;
+//}
 
 // 00136340
-void mgCObject::SetScale(const vec3& v)
-{
-  log_trace("mgCObject::SetScale({}) (x, y, z = {}, {}, {})", fmt::ptr(&v), v.x, v.y, v.z);
-
-  if (static_cast<vec3>(v) == static_cast<vec3>(m_scale))
-  {
-    return;
-  }
-
-  m_unk_field_44 = true;
-  m_scale = v;
-  m_unk_field_40 = true;
-}
+//void mgCObject::SetScale(const vec3& v)
+//{
+//  log_trace("mgCObject::SetScale({}) (x, y, z = {}, {}, {})", fmt::ptr(&v), v.x, v.y, v.z);
+//
+//  if (static_cast<vec3>(v) == static_cast<vec3>(m_scale))
+//  {
+//    return;
+//  }
+//
+//  m_unk_field_44 = true;
+//  m_scale = v;
+//  m_unk_field_40 = true;
+//}
 
 // 001363C0
 void mgCObject::SetScale(f32 x, f32 y, f32 z)
 {
   log_trace("mgCObject::SetScale({}, {}, {})", x, y, z);
 
-  SetScale(vec3{ x, y, z });
+  //SetScale(vec3{ x, y, z });
 }
 
 // 00136400
-vec3 mgCObject::GetScale()
-{
-  log_trace("mgCObject::GetScale()");
-
-  return m_scale;
-}
+//vec3 mgCObject::GetScale()
+//{
+//  log_trace("mgCObject::GetScale()");
+//
+//  return m_scale;
+//}
 
 // 00138840
 unkptr mgCObject::Draw()
@@ -782,62 +778,62 @@ unkptr mgCFrame::Draw()
 }
 
 // 00136890
-std::optional<mgVu0FBOX> mgCFrame::GetWorldBBox()
-{
-  log_trace("mgCFrame::GetWorldBBox()");
-
-  bool have_box = false;
-  mgVu0FBOX result;
-
-  if (m_visual != nullptr && m_bound_info != nullptr)
-  {
-    auto lw_mat = GetLWMatrix();
-    have_box = true;
-
-    mgApplyMatrix(result.corners[0], result.corners[1], lw_mat, m_bound_info->m_box.corners[0], m_bound_info->m_box.corners[1]);
-
-    if (m_unk_field_F4 != nullptr && m_unk_field_F4->m_unk_field_88)
-    {
-      mgVu0FBOX var_40;
-      var_40.corners[0] = result.corners[0] + result.corners[1];
-      var_40.corners[0] *= 0.5f;
-      var_40.corners[1] = result.corners[0] - var_40.corners[0];
-
-      var_40.corners[1].z = std::min({ var_40.corners[1].x, var_40.corners[1].y, var_40.corners[1].z });
-
-      var_40.corners[1] = vec4{ var_40.corners[1].zzz, 0};
-
-      var_40.corners[0] += var_40.corners[1];
-      result.corners[1] = var_40.corners[0] - var_40.corners[1];
-    }
-  }
-
-  for (auto child = m_child; child != nullptr; child = child->m_next_brother)
-  {
-    auto box_opt = child->GetWorldBBox();
-    if (!box_opt.has_value())
-    {
-      continue;
-    }
-    auto box = box_opt.value();
-
-    if (have_box)
-    {
-      mgVectorMaxMin(result.corners[0], result.corners[1], result.corners[0], result.corners[1], box.corners[0], box.corners[1]);
-    }
-    else
-    {
-      result = box;
-    }
-    have_box = true;
-  }
-
-  if (!have_box)
-  {
-    return std::nullopt;
-  }
-  return result;
-}
+//std::optional<mgVu0FBOX> mgCFrame::GetWorldBBox()
+//{
+//  log_trace("mgCFrame::GetWorldBBox()");
+//
+//  bool have_box = false;
+//  mgVu0FBOX result;
+//
+//  if (m_visual != nullptr && m_bound_info != nullptr)
+//  {
+//    auto lw_mat = GetLWMatrix();
+//    have_box = true;
+//
+//    mgApplyMatrix(result.corners[0], result.corners[1], lw_mat, m_bound_info->m_box.corners[0], m_bound_info->m_box.corners[1]);
+//
+//    if (m_unk_field_F4 != nullptr && m_unk_field_F4->m_unk_field_88)
+//    {
+//      mgVu0FBOX var_40;
+//      var_40.corners[0] = result.corners[0] + result.corners[1];
+//      var_40.corners[0] *= 0.5f;
+//      var_40.corners[1] = result.corners[0] - var_40.corners[0];
+//
+//      var_40.corners[1].z = std::min({ var_40.corners[1].x, var_40.corners[1].y, var_40.corners[1].z });
+//
+//      var_40.corners[1] = vec4{ var_40.corners[1].zzz, 0};
+//
+//      var_40.corners[0] += var_40.corners[1];
+//      result.corners[1] = var_40.corners[0] - var_40.corners[1];
+//    }
+//  }
+//
+//  for (auto child = m_child; child != nullptr; child = child->m_next_brother)
+//  {
+//    auto box_opt = child->GetWorldBBox();
+//    if (!box_opt.has_value())
+//    {
+//      continue;
+//    }
+//    auto box = box_opt.value();
+//
+//    if (have_box)
+//    {
+//      mgVectorMaxMin(result.corners[0], result.corners[1], result.corners[0], result.corners[1], box.corners[0], box.corners[1]);
+//    }
+//    else
+//    {
+//      result = box;
+//    }
+//    have_box = true;
+//  }
+//
+//  if (!have_box)
+//  {
+//    return std::nullopt;
+//  }
+//  return result;
+//}
 
 // 00137E10
 void mgCFrame::Draw(MAYBE_UNUSED unkptr p)
@@ -864,106 +860,106 @@ void mgCFrame::SetName(const std::string& name)
 }
 
 // 001365A0
-void mgCFrame::SetTransMatrix(glm::fquat& quat)
-{
-  log_trace("mgCFrame::{}({})", __func__, fmt::ptr(&quat));
-
-  m_unk_field_40 = true;
-  vec4 w = m_trans_matrix[3];
-
-  // TODO: replace
-  m_trans_matrix = glm::mat4_cast(quat);
-
-  m_trans_matrix[3] = w;
-}
+//void mgCFrame::SetTransMatrix(glm::fquat& quat)
+//{
+//  log_trace("mgCFrame::{}({})", __func__, fmt::ptr(&quat));
+//
+//  m_unk_field_40 = true;
+//  vec4 w = m_trans_matrix[3];
+//
+//  // TODO: replace
+//  m_trans_matrix = glm::mat4_cast(quat);
+//
+//  m_trans_matrix[3] = w;
+//}
 
 // 001365F0
-void mgCFrame::SetBBox(const vec4& corner1, const vec4& corner2)
-{
-  log_trace("mgCFrame::{}(({}, {}, {}), ({}, {}, {}))", __func__,
-    corner1.x, corner1.y, corner1.z, corner2.x, corner2.y, corner2.z);
+//void mgCFrame::SetBBox(const vec4& corner1, const vec4& corner2)
+//{
+//  log_trace("mgCFrame::{}(({}, {}, {}), ({}, {}, {}))", __func__,
+//    corner1.x, corner1.y, corner1.z, corner2.x, corner2.y, corner2.z);
+//
+//  if (m_bound_info == nullptr)
+//  {
+//    return;
+//  }
+//
+//  m_bound_info->m_box.corners[0] = corner1;
+//  m_bound_info->m_box.corners[1] = corner2;
+//
+//  /*
+//  * The following code constructs all points of a 3D box, given the two corners.
+//  * Consider the following corners:
+//  * (1, 2, 3), (4, 5, 6)
+//  * 
+//  * This loop creates the following points (w/ w component = 1.0f) and stores it in m_bound_info:
+//  * (4, 5, 6)
+//  * (1, 5, 6)
+//  * (4, 2, 6)
+//  * (1, 2, 6)
+//  * (4, 5, 3)
+//  * (1, 5, 3)
+//  * (4, 2, 3)
+//  * (1, 2, 3)
+//  */
+//  vec4* bounds[2] = { &m_bound_info->m_box.corners[1], &m_bound_info->m_box.corners[0]};
+//
+//  for (usize i = 0; i < m_bound_info->m_box8.vertices.size(); ++i)
+//  {
+//    vec4* bound1 = bounds[(i & 1) != 0];
+//    vec4* bound2 = bounds[(i & 2) != 0];
+//    vec4* bound3 = bounds[(i & 4) != 0];
+//
+//    auto& vertex = m_bound_info->m_box8.vertices[i];
+//
+//    vertex.w = 1.0f;
+//    vertex.x = bound1->x;
+//    vertex.y = bound2->y;
+//    vertex.z = bound3->z;
+//  }
+//}
 
-  if (m_bound_info == nullptr)
-  {
-    return;
-  }
-
-  m_bound_info->m_box.corners[0] = corner1;
-  m_bound_info->m_box.corners[1] = corner2;
-
-  /*
-  * The following code constructs all points of a 3D box, given the two corners.
-  * Consider the following corners:
-  * (1, 2, 3), (4, 5, 6)
-  * 
-  * This loop creates the following points (w/ w component = 1.0f) and stores it in m_bound_info:
-  * (4, 5, 6)
-  * (1, 5, 6)
-  * (4, 2, 6)
-  * (1, 2, 6)
-  * (4, 5, 3)
-  * (1, 5, 3)
-  * (4, 2, 3)
-  * (1, 2, 3)
-  */
-  vec4* bounds[2] = { &m_bound_info->m_box.corners[1], &m_bound_info->m_box.corners[0]};
-
-  for (usize i = 0; i < m_bound_info->m_box8.vertices.size(); ++i)
-  {
-    vec4* bound1 = bounds[(i & 1) != 0];
-    vec4* bound2 = bounds[(i & 2) != 0];
-    vec4* bound3 = bounds[(i & 4) != 0];
-
-    auto& vertex = m_bound_info->m_box8.vertices[i];
-
-    vertex.w = 1.0f;
-    vertex.x = bound1->x;
-    vertex.y = bound2->y;
-    vertex.z = bound3->z;
-  }
-}
-
-void mgCFrame::SetBBox(const mgVu0FBOX& box)
-{
-  SetBBox(box.corners[0], box.corners[1]);
-}
+//void mgCFrame::SetBBox(const mgVu0FBOX& box)
+//{
+//  SetBBox(box.corners[0], box.corners[1]);
+//}
 
 // 001366F0
-void mgCFrame::GetBBox(vec4& corner1, vec4& corner2) const
-{
-  log_trace("mgCFrame::{}({}, {})", __func__, fmt::ptr(&corner1), fmt::ptr(&corner2));
+//void mgCFrame::GetBBox(vec4& corner1, vec4& corner2) const
+//{
+//  log_trace("mgCFrame::{}({}, {})", __func__, fmt::ptr(&corner1), fmt::ptr(&corner2));
+//
+//  if (m_bound_info != nullptr)
+//  {
+//    corner1 = m_bound_info->m_box.corners[0];
+//    corner2 = m_bound_info->m_box.corners[1];
+//  }
+//  else
+//  {
+//    corner1 = vec4{ 0, 0, 0, 0 };
+//    corner2 = vec4{ 0, 0, 0, 0 };
+//  }
+//}
 
-  if (m_bound_info != nullptr)
-  {
-    corner1 = m_bound_info->m_box.corners[0];
-    corner2 = m_bound_info->m_box.corners[1];
-  }
-  else
-  {
-    corner1 = vec4{ 0, 0, 0, 0 };
-    corner2 = vec4{ 0, 0, 0, 0 };
-  }
-}
-
-void mgCFrame::GetBBox(mgVu0FBOX& box) const
-{
-  GetBBox(box.corners[0], box.corners[1]);
-}
+//void mgCFrame::GetBBox(mgVu0FBOX& box) const
+//{
+//  GetBBox(box.corners[0], box.corners[1]);
+//}
 
 // 00136760
-void mgCFrame::SetBSphere(vec4& origin, f32 radius)
-{
-  log_trace("mgCFrame::{}(({}, {}, {}), {})", __func__,
-    origin.x, origin.y, origin.z, origin.x, radius);
-
-  if (m_bound_info == nullptr)
-  {
-    return;
-  }
-
-  m_bound_info->m_sphere = origin;
-  m_bound_info->m_sphere.w = radius;
-}
+//void mgCFrame::SetBSphere(vec4& origin, f32 radius)
+//{
+//  log_trace("mgCFrame::{}(({}, {}, {}), {})", __func__,
+//    origin.x, origin.y, origin.z, origin.x, radius);
+//
+//  if (m_bound_info == nullptr)
+//  {
+//    return;
+//  }
+//
+//  m_bound_info->m_sphere = origin;
+//  m_bound_info->m_sphere.w = radius;
+//}
 
 // 001367B0
 mgCFrame* mgCFrame::GetFrame(ssize i)
@@ -984,30 +980,30 @@ mgCFrame* mgCFrame::GetFrame(ssize i)
 }
 
 // 00136800
-bool mgCFrame::RemakeBBox(const vec4& corner1, const vec4& corner2)
-{
-  log_trace("mgCFrame::{}(({}, {}, {}), ({}, {}, {}))", __func__,
-    corner1.x, corner1.y, corner1.z, corner2.x, corner2.y, corner2.z);
+//bool mgCFrame::RemakeBBox(const vec4& corner1, const vec4& corner2)
+//{
+//  log_trace("mgCFrame::{}(({}, {}, {}), ({}, {}, {}))", __func__,
+//    corner1.x, corner1.y, corner1.z, corner2.x, corner2.y, corner2.z);
+//
+//  if (m_visual == nullptr)
+//  {
+//    return false;
+//  }
+//
+//  auto lw_mat = GetLWMatrix();
+//  if (!m_visual->CreateBBox(corner1, corner2, lw_mat))
+//  {
+//    return false;
+//  }
+//
+//  SetBBox(corner1, corner2);
+//  return true;
+//}
 
-  if (m_visual == nullptr)
-  {
-    return false;
-  }
-
-  auto lw_mat = GetLWMatrix();
-  if (!m_visual->CreateBBox(corner1, corner2, lw_mat))
-  {
-    return false;
-  }
-
-  SetBBox(corner1, corner2);
-  return true;
-}
-
-bool mgCFrame::RemakeBBox(const mgVu0FBOX& box)
-{
-  return RemakeBBox(box.corners[0], box.corners[1]);
-}
+//bool mgCFrame::RemakeBBox(const mgVu0FBOX& box)
+//{
+//  return RemakeBBox(box.corners[0], box.corners[1]);
+//}
 
 // 00136A80
 uint mgCFrame::GetFrameNum() const
@@ -1175,112 +1171,112 @@ void mgCFrame::ClearChildFlag()
 }
 
 // 00136CE0
-matrix4 mgCFrame::GetLocalMatrix()
-{
-  log_trace("mgCFrame::{}()", __func__);
-
-  if (!m_unk_field_44)
-  {
-    return m_trans_matrix;
-  }
-
-  matrix4 result;
-  vec4 scale = { m_scale.xyz, 1.0f };
-  result[0] = m_trans_matrix[0] * scale;
-  result[1] = m_trans_matrix[1] * scale;
-  result[2] = m_trans_matrix[2] * scale;
-  result[3] = m_trans_matrix[3];
-
-  vec4 v;
-  if (m_unk_field_100 & 2)
-  {
-    v = result[3];
-    result[3] = vec4{ 0, 0, 0, 1 };
-  }
-
-  if (m_unk_field_100 & 1)
-  {
-    if (m_rotation.x != 0.0f)
-    {
-      // TODO: replace
-      result = glm::rotate(result, m_rotation.x, { 1, 0, 0 });
-    }
-    if (m_rotation.y != 0.0f)
-    {
-      // TODO: replace
-      result = glm::rotate(result, m_rotation.y, { 0, 1, 0 });
-    }
-    if (m_rotation.z != 0.0f)
-    {
-      // TODO: replace
-      result = glm::rotate(result, m_rotation.z, { 0, 0, 1 });
-    }
-  }
-
-  if (m_unk_field_100 & 2)
-  {
-    result[3] = vec4{ (result[3] + v).xyz, 1.0f };
-  }
-  else
-  {
-    result[3] = vec4{ (result[3].xyz + m_position), 1.0f };
-  }
-
-  return result;
-}
+//matrix4 mgCFrame::GetLocalMatrix()
+//{
+//  log_trace("mgCFrame::{}()", __func__);
+//
+//  if (!m_unk_field_44)
+//  {
+//    return m_trans_matrix;
+//  }
+//
+//  matrix4 result;
+//  vec4 scale = { m_scale.xyz, 1.0f };
+//  result[0] = m_trans_matrix[0] * scale;
+//  result[1] = m_trans_matrix[1] * scale;
+//  result[2] = m_trans_matrix[2] * scale;
+//  result[3] = m_trans_matrix[3];
+//
+//  vec4 v;
+//  if (m_unk_field_100 & 2)
+//  {
+//    v = result[3];
+//    result[3] = vec4{ 0, 0, 0, 1 };
+//  }
+//
+//  if (m_unk_field_100 & 1)
+//  {
+//    if (m_rotation.x != 0.0f)
+//    {
+//      // TODO: replace
+//      result = glm::rotate(result, m_rotation.x, { 1, 0, 0 });
+//    }
+//    if (m_rotation.y != 0.0f)
+//    {
+//      // TODO: replace
+//      result = glm::rotate(result, m_rotation.y, { 0, 1, 0 });
+//    }
+//    if (m_rotation.z != 0.0f)
+//    {
+//      // TODO: replace
+//      result = glm::rotate(result, m_rotation.z, { 0, 0, 1 });
+//    }
+//  }
+//
+//  if (m_unk_field_100 & 2)
+//  {
+//    result[3] = vec4{ (result[3] + v).xyz, 1.0f };
+//  }
+//  else
+//  {
+//    result[3] = vec4{ (result[3].xyz + m_position), 1.0f };
+//  }
+//
+//  return result;
+//}
 
 // 00137030
-matrix4 mgCFrame::GetLWMatrix()
-{
-  log_trace("mgCFrame::{}()", __func__);
-
-  if (m_unk_field_FC)
-  {
-    m_unk_field_40 = true;
-  }
-
-  // ... is there a goto somewhere in here?
-
-  auto parent = m_parent;
-  if (!m_unk_field_40 && parent == nullptr)
-  {
-    return m_lw_matrix;
-  }
-
-  while (true)
-  {
-    if (parent == nullptr || m_unk_field_40)
-    {
-      break;
-    }
-
-    parent = parent->m_parent;
-    if (parent == nullptr)
-    {
-      return m_lw_matrix;
-    }
-  }
-
-  ClearChildFlag();
-  auto local_mat = GetLocalMatrix();
-
-  if (m_parent == nullptr)
-  {
-    m_lw_matrix = local_mat;
-    m_unk_field_40 = false;
-    return m_lw_matrix;
-  }
-
-  auto lw_mat = m_parent->GetLWMatrix();
-  matrix4 result;
-
-  result[0] = lw_mat * local_mat[0];
-  result[1] = lw_mat * local_mat[1];
-  result[2] = lw_mat * local_mat[2];
-  result[3] = lw_mat * local_mat[3];
-  m_unk_field_40 = false;
-  return result;
-}
+//matrix4 mgCFrame::GetLWMatrix()
+//{
+//  log_trace("mgCFrame::{}()", __func__);
+//
+//  if (m_unk_field_FC)
+//  {
+//    m_unk_field_40 = true;
+//  }
+//
+//  // ... is there a goto somewhere in here?
+//
+//  auto parent = m_parent;
+//  if (!m_unk_field_40 && parent == nullptr)
+//  {
+//    return m_lw_matrix;
+//  }
+//
+//  while (true)
+//  {
+//    if (parent == nullptr || m_unk_field_40)
+//    {
+//      break;
+//    }
+//
+//    parent = parent->m_parent;
+//    if (parent == nullptr)
+//    {
+//      return m_lw_matrix;
+//    }
+//  }
+//
+//  ClearChildFlag();
+//  auto local_mat = GetLocalMatrix();
+//
+//  if (m_parent == nullptr)
+//  {
+//    m_lw_matrix = local_mat;
+//    m_unk_field_40 = false;
+//    return m_lw_matrix;
+//  }
+//
+//  auto lw_mat = m_parent->GetLWMatrix();
+//  matrix4 result;
+//
+//  result[0] = lw_mat * local_mat[0];
+//  result[1] = lw_mat * local_mat[1];
+//  result[2] = lw_mat * local_mat[2];
+//  result[3] = lw_mat * local_mat[3];
+//  m_unk_field_40 = false;
+//  return result;
+//}
 
 mgCDrawEnv::mgCDrawEnv() : mgCDrawEnv(false) {}
 

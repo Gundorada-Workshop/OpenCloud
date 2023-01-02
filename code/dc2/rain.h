@@ -12,7 +12,7 @@ public:
   };
 
   // 00281510
-  s32 Birth(const vec3& position);
+  //s32 Birth(const vec3& position);
   // 00281590
   StepResult Step();
   // 002815E0
@@ -21,7 +21,7 @@ public:
   // 0
   bool m_birthed{ false };
   // 10
-  vec3 m_position{ 0.0f, 0.0f, 0.0f };
+  //vec3 m_position{ 0.0f, 0.0f, 0.0f };
   // 20
   f32 m_scale{ 0.0f };
   // 24
@@ -41,7 +41,7 @@ public:
   };
 
   // 002819E0
-  bool Birth(const vec3& v1, const vec3& v2);
+  //bool Birth(const vec3& v1, const vec3& v2);
   // 00281A60
   CParticle::StepResult Step();
   // 00281B10
@@ -50,11 +50,11 @@ public:
   // 0
   bool m_birthed{ false };
   // 10
-  vec3 m_unk_field_10{ 0.0f, 0.0f, 0.0f };
+  //vec3 m_unk_field_10{ 0.0f, 0.0f, 0.0f };
   // 20
-  vec3 m_unk_field_20{ 0.0f, 0.0f, 0.0f };
+  //vec3 m_unk_field_20{ 0.0f, 0.0f, 0.0f };
   // 30
-  vec3 m_unk_field_30{ 0.0f, 0.0f, 0.0f };
+  //vec3 m_unk_field_30{ 0.0f, 0.0f, 0.0f };
   // 40
   f32 m_unk_field_40{ 0.0f };
 };
@@ -81,11 +81,11 @@ public:
   // 4
   unk32 m_unk_field_4{ 0 };
   // 10
-  std::array<vec3, 8> m_unk_field_10{ vec3{0.0f, 0.0f, 0.0f} };
+  //std::array<vec3, 8> m_unk_field_10{ vec3{0.0f, 0.0f, 0.0f} };
   // 90
-  vec3 m_unk_field_90{ 0.0f, 0.0f, 0.0f };
+  //vec3 m_unk_field_90{ 0.0f, 0.0f, 0.0f };
   // A0, A4, A8, AC
-  glm::u8vec4 m_color{ 0x80, 0x80, 0x80, 0x80 };
+  //glm::u8vec4 m_color{ 0x80, 0x80, 0x80, 0x80 };
 };
 
 class CRain
@@ -108,7 +108,7 @@ public:
   void SetCharNo(sint char_no);
 
   // 002821F0
-  void ParticleBirth(const vec3& v, sint i);
+  //void ParticleBirth(const vec3& v, sint i);
 
   // 002822D0
   void Stop();

@@ -12,9 +12,9 @@
 struct EDIT_EVENT_INFO
 {
   // 0
-  vec4 m_unk_field_0{};
+  //vec4 m_unk_field_0{};
   // 10
-  vec4 m_unk_field_10{};
+  //vec4 m_unk_field_10{};
 
   // 64
   s32 m_unk_field_64{};

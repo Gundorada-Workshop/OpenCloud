@@ -18,16 +18,16 @@ public:
   f32 AreaXZ() const;
 
   // 001A3540
-  bool OverlapPoly3XZ(const matrix4* m, f32* f_dest, mgVu0FBOX* box_dest) const;
+  //bool OverlapPoly3XZ(const matrix4* m, f32* f_dest, mgVu0FBOX* box_dest) const;
 
   // 001A3720
-  f32 OverlapXZ(const CEditCollision& other, const matrix4* m, mgVu0FBOX* box_dest) const;
+  //f32 OverlapXZ(const CEditCollision& other, const matrix4* m, mgVu0FBOX* box_dest) const;
 
   // 001A3820
-  bool OverlapPoly3XZ(const matrix4* m1, const matrix4* m2, mgVu0FBOX* box_dest) const;
+  //bool OverlapPoly3XZ(const matrix4* m1, const matrix4* m2, mgVu0FBOX* box_dest) const;
 
   // 001A3B10
-  void ApplyMatrix(const matrix4* m);
+  //void ApplyMatrix(const matrix4* m);
 
   // 001A3C50
   void DeleteVerticalPoly();
@@ -96,10 +96,10 @@ void EditControl(CScene* scene, CPadControl* pad);
 std::string GetFootEffName(sint id);
 
 // 001A4370
-void EditMoveChara(CScene* scene, vec3* v, EditMoveCharaInfo* move_info);
+//void EditMoveChara(CScene* scene, vec3* v, EditMoveCharaInfo* move_info);
 
 // 001A4E80
-void EditCameraControl(CScene* scene, CPadControl* pad, const vec3* v);
+//void EditCameraControl(CScene* scene, CPadControl* pad, const vec3* v);
 
 // 001A57B0
 void CharaControl(CScene* scene, CPadControl* pad);
