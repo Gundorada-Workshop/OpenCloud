@@ -7,46 +7,6 @@
 #include <cstdint>
 #include <cstddef>
 
-// Enum class bitwise operators
-#define IMPLEMENT_ENUM_CLASS_BITWISE_OPERATORS(type_)                                                                  \
-  inline constexpr type_ operator&(type_ lhs, type_ rhs)                                                        \
-  {                                                                                                                    \
-    return static_cast<type_>(static_cast<std::underlying_type<type_>::type>(lhs) &                                    \
-                              static_cast<std::underlying_type<type_>::type>(rhs));                                    \
-  }                                                                                                                    \
-  inline constexpr type_ operator|(type_ lhs, type_ rhs)                                                        \
-  {                                                                                                                    \
-    return static_cast<type_>(static_cast<std::underlying_type<type_>::type>(lhs) |                                    \
-                              static_cast<std::underlying_type<type_>::type>(rhs));                                    \
-  }                                                                                                                    \
-  inline constexpr type_ operator^(type_ lhs, type_ rhs)                                                        \
-  {                                                                                                                    \
-    return static_cast<type_>(static_cast<std::underlying_type<type_>::type>(lhs) ^                                    \
-                              static_cast<std::underlying_type<type_>::type>(rhs));                                    \
-  }                                                                                                                    \
-  inline constexpr type_ operator~(type_ val)                                                                   \
-  {                                                                                                                    \
-    return static_cast<type_>(~static_cast<std::underlying_type<type_>::type>(val));                                   \
-  }                                                                                                                    \
-  inline constexpr type_& operator&=(type_& lhs, type_ rhs)                                                     \
-  {                                                                                                                    \
-    lhs = static_cast<type_>(static_cast<std::underlying_type<type_>::type>(lhs) &                                     \
-                             static_cast<std::underlying_type<type_>::type>(rhs));                                     \
-    return lhs;                                                                                                        \
-  }                                                                                                                    \
-  inline constexpr type_& operator|=(type_& lhs, type_ rhs)                                                     \
-  {                                                                                                                    \
-    lhs = static_cast<type_>(static_cast<std::underlying_type<type_>::type>(lhs) |                                     \
-                             static_cast<std::underlying_type<type_>::type>(rhs));                                     \
-    return lhs;                                                                                                        \
-  }                                                                                                                    \
-  inline constexpr type_& operator^=(type_& lhs, type_ rhs)                                                     \
-  {                                                                                                                    \
-    lhs = static_cast<type_>(static_cast<std::underlying_type<type_>::type>(lhs) ^                                     \
-                             static_cast<std::underlying_type<type_>::type>(rhs));                                     \
-    return lhs;                                                                                                        \
-  }
-
 // unsigned
 using u8     = std::uint8_t;
 using u16    = std::uint16_t;
