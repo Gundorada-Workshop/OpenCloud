@@ -67,7 +67,7 @@ public:
   CMapPiece();
 
   // 00168850
-  CMapPiece(CMapPiece& other);
+  CMapPiece(const CMapPiece& other);
 public:
   // 00166E40
   virtual unkptr Draw() override;
@@ -123,7 +123,7 @@ public:
   CMapParts();
 
   // 00167AA0
-  CMapParts(CMapParts& other);
+  CMapParts(const CMapParts& other);
 
   // make a destructor please :)
 public:
@@ -280,7 +280,7 @@ public:
   virtual unkptr DrawDirect();
 
   // 0015D7A0
-  virtual bool PreDraw(vec3* v);
+  virtual bool PreDraw(const vec3& v);
 
   // 0015E3F0
   virtual void DrawEffect();
@@ -406,9 +406,6 @@ public:
 
   // 0015D770
   std::optional<mgVu0FBOX> GetBBox() const;
-
-  // 0015D7A0
-  void PreDraw(const vec3& v);
 
   // 0015DBE0
   usize GetCharaLight(mgCObject* object, CFuncPoint* func_point, sint i1, sint i2);
