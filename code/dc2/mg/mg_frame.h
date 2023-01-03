@@ -111,6 +111,7 @@ public:
   // 00132DC0
   mgCVisual();
 
+public:
   // VTABLE 00374F10
   // 0  0
   // 4  0
@@ -147,26 +148,27 @@ public:
   // 30 00132DC0
   //virtual void Initialize();
 
+public:
   // 0
-  unk32 m_unk_field_0;
+  unk32 m_unk_field_0{ 0 };
 
   // 4
-  unk32 m_unk_field_4;
+  unk32 m_unk_field_4{ 0 };
 
   // 8
-  unk32 m_unk_field_8;
+  unk32 m_unk_field_8{ 0 };
 
   // C
-  unk32 m_unk_field_C;
+  unk32 m_unk_field_C{ 0};
 
   // 10
-  s32 m_unk_field_10;
+  s32 m_unk_field_10{ 0 };
 
   // 14
-  s32 m_unk_field_14;
+  s32 m_unk_field_14{ 0 };
 
   // 18
-  unk32 m_unk_field_18;
+  unk32 m_unk_field_18{ 0 };
   
   // SIZE 0x20 (vtable @ 0x1C)
 };
@@ -177,6 +179,7 @@ public:
   // 0013EAC0
   mgCVisualMDT();
 
+public:
   // VTABLE 00375190
   // 0  0
   // 4  0
@@ -223,38 +226,39 @@ public:
   // 44 0013F290
   virtual bool DataAssignMT(MDT_HEADER* mdt_header, mgCMemory& stack, mgCTextureManager* texture_man);
 
+public:
   // 20
-  s32 m_unk_field_20;
+  s32 m_unk_field_20{ 0 };
 
   // 24
-  unk32 m_unk_field_24;
+  unk32 m_unk_field_24{ 0 };
 
   // 28
-  unk32 m_unk_field_28;
+  unk32 m_unk_field_28{ 0 };
 
   // 2C
-  unk32 m_unk_field_2C;
+  unk32 m_unk_field_2C{ 0 };
 
   // 30
   //matrix4* m_unk_field_30;
 
   // 34
-  unk32 m_unk_field_34;
+  unk32 m_unk_field_34{ 0 };
 
   // 38
-  unk32 m_unk_field_38;
+  unk32 m_unk_field_38{ 0 };
 
   // 3C
-  unk32 m_unk_field_3C;
+  unk32 m_unk_field_3C{ 0 };
 
   // 40
-  s32 m_material_num;
+  s32 m_material_num{ 0 };
 
   // 44
-  unkptr m_p_material;
+  unkptr m_p_material{ nullptr };
 
   // 48
-  unk32 m_unk_field_48;
+  unk32 m_unk_field_48{ 0 };
 
   // SIZE 0x4C
 };
@@ -265,15 +269,17 @@ public:
   // 0013BCB0
   mgC3DSprite();
 
-  unk32 m_unk_field_20;
+public:
+  unk32 m_unk_field_20{ 0 };
 };
 
 struct mgPOINT_LIGHT
 {
-  //vec4 field_0;
-  //vec4 field_10;
-  f32 field_20;
-  f32 field_24;
+  vec4 field_0{ };
+  vec4 field_10{ };
+
+  f32 field_20{ 0.0f };
+  f32 field_24{ 0.0f };
 };
 
 class mgCDrawManager 
@@ -282,18 +288,23 @@ public:
   // 00135180
   mgCDrawManager();
 
+public:
   // 64
-  unkptr m_unk_field_64;
+  unkptr m_unk_field_64{ nullptr };
   // 68
-  u32 m_unk_field_68;
+  u32 m_unk_field_68{ 0 };
   // 6C
-  unk m_unk_field_6C;
+  unk m_unk_field_6C{ 0 };
   // 70
-  unk m_unk_field_70;
+  unk m_unk_field_70{ 0 };
 };
 
 class mgCObject
 {
+public:
+  // 00161DF0
+  mgCObject();
+
 public:
   // 8  00138810
   virtual void ChangeParam();
@@ -337,33 +348,31 @@ public:
   // 3C 00136410
   virtual void Initialize();
 
-  // 00161DF0
-  mgCObject();
-
+public:
   // (vtable @ 0x0)
   // 4
-  unk32 m_unk_field_4;
+  unk32 m_unk_field_4{ 0 };
 
   // 8
-  unk32 m_unk_field_8;
+  unk32 m_unk_field_8{ 0 };
 
   // C
-  unk32 m_unk_field_C;
+  unk32 m_unk_field_C{ 0 };
 
   // 10
-  vec3 m_position;
+  vec3 m_position{ };
 
   // 20
-  vec3 m_rotation;
+  vec3 m_rotation{ };
 
   // 30
-  vec3 m_scale;
+  vec3 m_scale{ };
 
   // 40
-  bool m_unk_field_40;
+  bool m_unk_field_40{ true };
 
   // 44
-  bool m_unk_field_44;
+  bool m_unk_field_44{ false };
 
   // SIZE 0x48
 };
@@ -462,7 +471,7 @@ public:
 
     // A0
     // NOTE: X, Y, Z is origin; W is radius
-    //vec4 m_sphere;
+    vec4 m_sphere;
   };
 
   // 34 001387F0
@@ -578,6 +587,17 @@ public:
   // 001386C0
   mgCFrame(mgCFrame& other);
 
+private:
+  // 00136B20
+  void SetBrother(mgCFrame * brother); // sibling?
+
+  // 00136B60
+  void SetChild(mgCFrame * child);
+
+  // 00136CE0
+  //matrix4 GetLocalMatrix();
+
+public:
   // 50
   std::string m_name{ };
 
@@ -624,18 +644,16 @@ public:
   unk32 m_unk_field_100{ 0 };
 
   // SIZE 0x104 (?)
-private:
-  // 00136B20
-  void SetBrother(mgCFrame * brother); // sibling?
-
-  // 00136B60
-  void SetChild(mgCFrame * child);
-
-  // 00136CE0
-  //matrix4 GetLocalMatrix();
 };
 
-class mgCDrawEnv {
+class mgCDrawEnv
+{
+public:
+  // 00138850
+  mgCDrawEnv(bool b);
+
+  mgCDrawEnv();
+
 public:
   // 00138970
   void SetAlpha(u8 alpha_macro_id);
@@ -646,34 +664,29 @@ public:
   // 00138A40
   void SetZBuf(sint i);
 
-  // 00138850
-  mgCDrawEnv(bool b);
-
-  mgCDrawEnv();
-
   // 0
-  u64 m_unk_field_0;
+  u64 m_unk_field_0{ 0 };
 
   // 8
-  u64 m_unk_field_8;
+  u64 m_unk_field_8{ 0 };
 
   // 10
-  u64 m_unk_field_10;
+  u64 m_unk_field_10{ 0 };
 
   // 18
-  u64 m_unk_field_18;
+  u64 m_unk_field_18{ 0 };
   
   // 24
-  u8 m_unk_field_24;
+  u8 m_unk_field_24{ 0 };
 
   // 28
-  u64 m_unk_field_28;
+  u64 m_unk_field_28{ 0 };
 
   // 30
-  u64 m_unk_field_30;
+  u64 m_unk_field_30{ 0 };
 
   // 38
-  u64 m_unk_field_38;
+  u64 m_unk_field_38{ 0 };
 };
 
 class mgCDrawPrim
@@ -688,6 +701,7 @@ public:
 
   mgCDrawPrim() = default;
 
+public:
   // 001344a0
   void Begin(sint i);
 
@@ -817,17 +831,18 @@ public:
   // 00135140
   void GetOffset(sint*, sint*);
 
+public:
   // 0
-  unk32 m_unk_field_0{ };
+  unk32 m_unk_field_0{ 0 };
 
   // 4
-  unk32 m_unk_field_4{ };
+  unk32 m_unk_field_4{ 0 };
 
   // 8
-  unk32 m_unk_field_8{ };
+  unk32 m_unk_field_8{ 0 };
 
   // 10
-  mgCDrawEnv m_unk_field_10{};
+  mgCDrawEnv m_unk_field_10{ };
 
   // 50
   unk32 m_unk_field_50{ 0x100 };
@@ -850,14 +865,13 @@ public:
   f32 m_unk_field_F8{ 1.0f };
 
   // FC
-  unk32 m_unk_field_FC{ };
+  unk32 m_unk_field_FC{ 0 };
 
   // SIZE 0x100
 };
 
 struct mgRENDER_INFO
 {
-public:
   // 00138B00
   void SetRenderInfo(f32 f1, sint i1, sint i2, f32 f2, f32 f3, sint i3);
 
@@ -951,10 +965,10 @@ public:
 //bool mgInsideScreen(matrix4& m1, matrix4& m2, vec4& v1, vec4& v2);
 
 // 001375C0
-sint StrCmp(char* s1, char* s2);
+// sint StrCmp(char* s1, char* s2);
 
 // 001376C0
-sint mgFrameNameComp(char* s1, char* s2);
+// sint mgFrameNameComp(char* s1, char* s2);
 
 // 001398B0
 void MG_ADDRESS_CHECK(void*, char*);
