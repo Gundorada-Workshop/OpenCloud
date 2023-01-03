@@ -16,8 +16,6 @@ CCameraControl::CCameraControl()
   // 2EBF04 compiler code end (ignore branch slot)
   log_trace("CCameraControl::CCameraControl()");
 
-  m_controlling = false;
-  m_n_active_param = 0;
   CameraCtrlParam& param = GetActiveParam();
   param.m_unk_field_0 = 100.0f;
   param.m_unk_field_4 = 160.0f;
@@ -29,10 +27,8 @@ CCameraControl::CCameraControl()
   param.m_unk_field_20 = -15.0f;
   param.m_unk_field_10 = -15.0f;
   param.m_unk_field_24 = 25.0f;
-  m_unk_field_1E0 = 0;
   param.m_unk_field_28 = 0;
 
-  InitStatus();
   m_active_param = CameraCtrlParam(GetActiveParam());
 }
 

@@ -26,12 +26,6 @@ mgCCamera::mgCCamera(f32 speed)
     m_position_speed = 1.0f;
     m_rotation_speed = 1.0f;
   }
-
-  // additional members
-  //SetPos(0, 0, 0);
-  SetNextPos(0, 0, 0);
-  //SetRef(0, 0, 0);
-  SetNextRef(0, 0, 0);
 }
 
 // 00131110
