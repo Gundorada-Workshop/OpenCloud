@@ -10,7 +10,7 @@ set_log_channel("mg_math");
 using namespace common;
 
 // 0037FD40
-static std::array<f32, 1024> SinTable{};
+static std::array<f32, 1024> SinTable{ };
 // 00376504
 constexpr static f32 sin_table_unit_1 = static_cast<f32>(SinTable.size()) / math::pi2();
 
@@ -153,14 +153,6 @@ constexpr static f32 sin_table_unit_1 = static_cast<f32>(SinTable.size()) / math
 //bool mgClipInBoxW(const mgVu0FBOX& box1, const mgVu0FBOX& box2)
 //{
 //  return mgClipInBoxW(box1.corners[0], box1.corners[1], box2.corners[0], box2.corners[1]);
-//}
-
-// 0012F410
-//vec3 mgNormalizeVector(const vec3& v, f32 scale)
-//{
-//  log_trace("{}({}, {})", __func__, fmt::ptr(&v), scale);
-//
-//  return math::vector_normalize(v) * scale;
 //}
 
 // 0012F540
@@ -440,70 +432,6 @@ uint Check_Point_Poly3(f32 aa, f32 ab, f32 ba, f32 bb, f32 ca, f32 cb, f32 da, f
   }
   return 0;
 }
-
-// 00130060
-//f32 mgDistVector(const vec3& v, const vec3& other)
-//{
-//  log_trace("{}({})", __func__, v, other);
-//
-//  return math::vector_distance(v, other);
-//}
-
-// 001300A0
-//f32 mgDistVectorXZ(const vec3& v, const vec3& other)
-//{
-//  log_trace("{}({})", __func__, v, other);
-//
-//  return math::vector_distance<2, f32>(v.xz, other.xz);
-//}
-
-// 001300E0
-//f32 mgDistVector2(const vec3& v, const vec3& other)
-//{
-//  log_trace("{}({})", __func__, v, other);
-//
-//  return powf(math::vector_distance(v, other), 2);
-//}
-
-// 00130110
-//f32 mgDistVectorXZ2(const vec3& v, const vec3& other)
-//{
-//  log_trace("{}({})", __func__, v, other);
-//
-//  return powf(math::vector_distance<2, f32>(v.xz, other.xz), 2);
-//}
-
-// 00130140
-//matrix4 mgUnitMatrix()
-//{
-//  log_trace("{}()", __func__);
-//
-//  return matrix4{ 1.0f };
-//}
-
-// 00130160
-//matrix4 mgZeroMatrix()
-//{
-//  log_trace("{}()", __func__);
-//
-//  return matrix4{ 0.0f };
-//}
-
-// 00130180
-//matrix4 MulMatrix3(const matrix4& m1, const matrix4& m2, const matrix4& m3)
-//{
-//  log_trace("{}({}, {}, {})", __func__, fmt::ptr(&m1), fmt::ptr(&m2), fmt::ptr(&m3));
-//
-//  return m1 * m2 * m3;
-//}
-
-// 00130250
-//matrix4 mgMulMatrix(const matrix4& lhs, const matrix4& rhs)
-//{
-//  log_trace("{}({}, {})", __func__, fmt::ptr(&lhs), fmt::ptr(&rhs));
-//
-//  return lhs * rhs;
-//}
 
 // 001302D0
 //matrix4 mgInverseMatrix(const matrix4& mat)
