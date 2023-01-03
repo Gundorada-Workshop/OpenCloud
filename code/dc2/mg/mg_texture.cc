@@ -11,24 +11,32 @@ set_log_channel("mg_texture");
 
 // 00376C1C
 static mgCTextureAnime* pTexAnime{ nullptr };
+
 // 00376C20
 static mgCTextureAnime* pLoadTexAnime{ nullptr };
+
 // 00376C24
 static s32 now_group{ 0 };
+
 // 00376C28
 static mgCTextureManager* TexManager{ nullptr };
+
 // 00376C2C
 static mgCMemory* TexAnimeStack{ nullptr };
+
 // 00376C30
 static char* group_name{ nullptr };
+
 // 00376C34
 static int ta_enable{ 0 };
+
 // 00376C38
 static usize now_texb{ 0 };
+
 // 00376C3C
 static bool texBugPatch{ false };
 
-static bool texTEX_ANIME(SPI_STACK* stack, int)
+static bool texTEX_ANIME(SPI_STACK* stack, sint count)
 {
   const char* s = spiGetStackString(stack);
 
@@ -47,84 +55,84 @@ static bool texTEX_ANIME(SPI_STACK* stack, int)
   return true;
 }
 
-static bool texTEX_ANIME_DATA(MAYBE_UNUSED SPI_STACK* stack, int)
+static bool texTEX_ANIME_DATA(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint count)
 {
   todo;
 
   return true;
 }
 
-static bool texSRC_TEX(MAYBE_UNUSED SPI_STACK* stack, int)
+static bool texSRC_TEX(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint count)
 {
   todo;
 
   return true;
 }
 
-static bool texDEST_TEX(MAYBE_UNUSED SPI_STACK* stack, int)
+static bool texDEST_TEX(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint count)
 {
   todo;
 
   return true;
 }
 
-static bool texSCROLL(MAYBE_UNUSED SPI_STACK* stack, int)
+static bool texSCROLL(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint count)
 {
   todo;
 
   return true;
 }
 
-static bool texCLUT_COPY(MAYBE_UNUSED SPI_STACK* stack, int)
+static bool texCLUT_COPY(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint count)
 {
   todo;
 
   return true;
 }
 
-static bool texCOLOR(MAYBE_UNUSED SPI_STACK* stack, int)
+static bool texCOLOR(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint count)
 {
   todo;
 
   return true;
 }
 
-static bool texALPHA_BLEND(MAYBE_UNUSED SPI_STACK* stack, int)
+static bool texALPHA_BLEND(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint count)
 {
   todo;
 
   return true;
 }
 
-static bool texALPHA_TEST(MAYBE_UNUSED SPI_STACK* stack, int)
+static bool texALPHA_TEST(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint count)
 {
   todo;
 
   return true;
 }
 
-static bool texWAIT(MAYBE_UNUSED SPI_STACK* stack, int)
+static bool texWAIT(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint count)
 {
   todo;
 
   return true;
 }
 
-static bool texTEX_ANIME_DATA_END(MAYBE_UNUSED SPI_STACK* stack, int)
+static bool texTEX_ANIME_DATA_END(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint count)
 {
   todo;
 
   return true;
 }
 
-static bool texANIME_END(MAYBE_UNUSED SPI_STACK* stack, int)
+static bool texANIME_END(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint count)
 {
   todo;
 
   return true;
 }
 
-static bool texANIME_BUG_PATCH(MAYBE_UNUSED SPI_STACK* stack, int)
+static bool texANIME_BUG_PATCH(MAYBE_UNUSED SPI_STACK* stack, MAYBE_UNUSED sint count)
 {
   todo;
 
@@ -151,22 +159,12 @@ const std::array<SPI_TAG_PARAM, 14> tex_tag =
 };
 
 // 0012C6D0
-mgCTextureBlock::mgCTextureBlock()
-{
-  log_trace("mgCTextureBlock::mgCTextureBlock()");
-
-  Initialize();
-}
+mgCTextureBlock::mgCTextureBlock() = default;
 
 // 0012C700
 void mgCTextureBlock::Initialize()
 {
   log_trace("mgCTextureBlock::Initialize()");
-
-  m_vram_offset = nullptr;
-  m_unk_field_4 = nullptr;
-  m_unk_field_8 = nullptr;
-  m_texture_anime = nullptr;
 }
 
 // 0012C720
@@ -210,7 +208,7 @@ void mgCTextureBlock::Delete(mgCTexture* texture)
 }
 
 // 0012C830
-void mgCTextureManager::SetTableBuffer(int n_textures, int n_blocks, mgCMemory* stack)
+void mgCTextureManager::SetTableBuffer(sint n_textures, sint n_blocks, mgCMemory* stack)
 {
   log_trace("mgCTextureBlock::SetTableBuffer({}, {}, {})", n_textures, n_blocks, fmt::ptr(stack));
 
@@ -437,7 +435,7 @@ mgCTexture* mgCTextureManager::GetTexture(const char* name, ssize i)
 void mgCTextureManager::EnterTexture(MAYBE_UNUSED usize texb, MAYBE_UNUSED const char* name,
     MAYBE_UNUSED unkptr p1, MAYBE_UNUSED s32 width,
     MAYBE_UNUSED s32 height, MAYBE_UNUSED u32 i3,
-    MAYBE_UNUSED unkptr p2, MAYBE_UNUSED u64 i4, MAYBE_UNUSED int i5)
+    MAYBE_UNUSED unkptr p2, MAYBE_UNUSED u64 i4, MAYBE_UNUSED sint i5)
 {
   log_trace(
     "mgCTextureManager::{}({}, {}, {}, {}, {}, {}, {}, {}, {})",
@@ -497,7 +495,7 @@ mgCTexture* mgCTextureManager::SearchTextureName(const char* name, ssize uuid)
 }
 
 // 0013d8c0
-void mgCTextureManager::LoadCFGFile(char* file, int size, mgCMemory* tex_anime_stack, mgCTextureAnime* tex_anime)
+void mgCTextureManager::LoadCFGFile(char* file, sint size, mgCMemory* tex_anime_stack, mgCTextureAnime* tex_anime)
 {
   log_trace("mgCTextureManager::ReloadTexture({}, {}, {})", file, size, fmt::ptr(tex_anime_stack));
 
