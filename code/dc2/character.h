@@ -577,7 +577,7 @@ public:
   // 68
   f32 m_wind_velocity;
   // 70
-  //vec4 m_wind_direction;
+  vec4 m_wind_direction{ };
 
   // ?
 
@@ -823,7 +823,7 @@ public:
   // 678
   CActionChara* m_chara_parent{};
   // 690
-  //vec3 m_front_vec{ 0.0f, 0.0f, 0.0f };
+  vec3 m_front_vec{ };
   // 6A4
   EAttackType m_attack_type{};
   // 6A8

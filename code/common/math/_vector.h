@@ -41,9 +41,9 @@ namespace common::math
     inline constexpr vector()
     {
       if (std::is_constant_evaluated())
-        data.a = impl_cxpr::set(0);
+        data.a = impl_cxpr::set(static_cast<type>(0));
       else
-        data.v = impl_simd::set(0);
+        data.v = impl_simd::set(static_cast<type>(0));
     }
 
     // construct from the underlying SSE type

@@ -2,6 +2,7 @@
 
 #include "common/debug.h"
 #include "common/log.h"
+#include "common/math.h"
 
 #include "dc2/editloop.h"
 #include "dc2/effect.h"
@@ -198,7 +199,7 @@ static sint emapInit{};
 static CWaveTable WaveTable{ };
 
 // 01E9C650
-//static vec4 CharaOldPos{ };
+static vec4 CharaOldPos{ };
 
 // 01E9C660
 static ClsMes EventMes1{ };

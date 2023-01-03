@@ -1,4 +1,5 @@
 ﻿#include "common/bits.h"
+#include "common/math.h"
 #include "common/constants.h"
 #include "common/debug.h"
 #include "common/log.h"
@@ -68,23 +69,23 @@ static s32 LdrTopFoot{ 0 };
 // 01E9B1C0
 static MoveCheckInfo MoveInfo{ };
 // 01E9B2D0
-//static vec3 OldFixCameraPos{ 0 };
+static vec3 OldFixCameraPos{ 0 };
 // 01E9B2E0
-//static vec3 OldCameraPos{ 0 };
+static vec3 OldCameraPos{ 0 };
 // 01E9B2F0
-//static SLadderData LadderData{ };
+static SLadderData LadderData{ };
 // 01E9B3C0
-//static vec3 LdrPos{ 0 };
+static vec3 LdrPos{ 0 };
 // 01E9B3D0
-//static vec3 StdPos{ 0 };
+static vec3 StdPos{ 0 };
 // 01E9B3E0
-//static vec3 LdrBottomPos{ 0 };
+static vec3 LdrBottomPos{ 0 };
 // 01E9B3F0
-//static vec3 LdrTopPos{ 0 };
+static vec3 LdrTopPos{ 0 };
 // 01E9B400
-//static vec3 LdrTopWalk{ 0 };
+static vec3 LdrTopWalk{ 0 };
 // 01E9B410
-//static vec3 LdrCamPos{ 0 };
+static vec3 LdrCamPos{ 0 };
 
 // 001A2C70
 //static bool ClipBoxXZ(const vec4& max_corner1, const vec4& min_corner1, const vec4& max_corner2, const vec4& min_corner2)

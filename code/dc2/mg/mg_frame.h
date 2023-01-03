@@ -44,35 +44,35 @@ extern s32 mgScreenWidth;
 // 00376C74
 extern s32 mgScreenHeight;
 
-template<typename T>
-struct mgRect
-{
-public:
-  // 0
-  T m_ax;
-
-  // 4
-  T m_ay;
-
-  // 8
-  T m_bx;
-
-  // C
-  T m_by;
-
-  // 0013E390 (s32)
-  // 001F24F0 (float)
-  // 002BFC30 (s16)
-  inline void Set(T ax, T ay, T bx, T by)
-  {
-    //log_trace("mgRect::Set({}, {}, {}, {})", ax, ay, bx, by);
-
-    m_ax = ax;
-    m_ay = ay;
-    m_bx = bx;
-    m_by = by;
-  }
-};
+//template<typename T>
+//struct mgRect
+//{
+//public:
+//  // 0
+//  T m_ax;
+//
+//  // 4
+//  T m_ay;
+//
+//  // 8
+//  T m_bx;
+//
+//  // C
+//  T m_by;
+//
+//  // 0013E390 (s32)
+//  // 001F24F0 (float)
+//  // 002BFC30 (s16)
+//  inline void Set(T ax, T ay, T bx, T by)
+//  {
+//    //log_trace("mgRect::Set({}, {}, {}, {})", ax, ay, bx, by);
+//
+//    m_ax = ax;
+//    m_ay = ay;
+//    m_bx = bx;
+//    m_by = by;
+//  }
+//};
 
 class mgCVisualAttr
 {
@@ -351,13 +351,13 @@ public:
   unk32 m_unk_field_C;
 
   // 10
-  //vec3 m_position;
+  vec3 m_position;
 
   // 20
-  //vec3 m_rotation;
+  vec3 m_rotation;
 
   // 30
-  //vec3 m_scale;
+  vec3 m_scale;
 
   // 40
   bool m_unk_field_40;
@@ -920,7 +920,7 @@ public:
   void SetFogParam(f32 f1, f32 f2, u8 i1, u8 i2, u8 i3, f32 f3, f32 f4);
 
   // 3A0
-  //vec3 camera_pos{0};
+  vec3 camera_pos{};
 
   // F20
   std::array<mgCDrawEnv, 2> m_unk_field_F20{};

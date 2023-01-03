@@ -1,6 +1,7 @@
 #pragma once
 #include "common/debug.h"
 #include "common/types.h"
+#include "common/math.h"
 #include "common/rectangle.h"
 
 #include "dc2/mg/mg_lib.h"
@@ -65,7 +66,7 @@ struct TREASURE_BOX_FLOOR_INFO
 struct GRID_PIECE
 {
   // 0
-  //vec2 m_position{};
+  vec2 m_position{ };
   // 8
   GRID_PIECE* m_next{};
 };
