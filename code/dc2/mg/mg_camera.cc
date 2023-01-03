@@ -16,31 +16,22 @@ bool mgCCamera::StopCamera = false;
 
 // 00131630
 mgCCamera::mgCCamera(f32 speed)
+  : m_position_speed{ speed }
+  , m_rotation_speed{ speed }
 {
   log_trace("mgCCamera::mgCCamera({})", speed);
 
   if (speed <= 0.0f)
   {
-    speed = 1.0f;
+    m_position_speed = 1.0f;
+    m_rotation_speed = 1.0f;
   }
-
-  m_position_speed = speed;
-  m_rotation_speed = speed;
-  m_unk_field_44 = 0;
-  m_roll = 0.0f;
-
-  // how close a pos/dir component has to get to next pos/dir in order
-  // to snap to the final position.
-  m_step_epsilon = 0.1f;
-  m_stopped = false;
 
   // additional members
   //SetPos(0, 0, 0);
   SetNextPos(0, 0, 0);
   //SetRef(0, 0, 0);
   SetNextRef(0, 0, 0);
-  m_angleH = 0.0f;
-  m_angleV = 0.0f;
 }
 
 // 00131110
@@ -163,28 +154,15 @@ sint mgCCamera::Iam() const
 }
 
 // 00131A90
-mgCCameraFollow::mgCCameraFollow(
-  f32 follow_distance,
-  f32 height,
-  f32 angle,
-  f32 speed
-) : mgCCamera(speed)
+mgCCameraFollow::mgCCameraFollow(f32 follow_distance, f32 height, f32 angle, f32 speed)
+  : mgCCamera(speed)
+  , m_angle_soon{ angle }
+  , m_angle{ angle }
+  , m_distance{ follow_distance }
+  , m_height{ height }
 {
-  log_trace(
-    "mgCCameraFollow::mgCCameraFollow({}, {}, {}, {})",
-    follow_distance,
-    height,
-    angle,
-    speed
-  );
-
-  //m_follow_next = vec3(0.0f);
-  m_angle_soon = angle;
-  m_angle = angle;
-  m_distance = follow_distance;
-  m_height = height;
-  //m_follow_offset = vec3(0.0f);
-  m_following = true;
+  log_trace("mgCCameraFollow::mgCCameraFollow({}, {}, {}, {})",
+    follow_distance, height, angle, speed);
 }
 
 // 00131740

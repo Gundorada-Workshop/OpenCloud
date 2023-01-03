@@ -97,16 +97,7 @@ unkptr mgCVisual::CreatePacket(MAYBE_UNUSED mgCMemory& mem1, MAYBE_UNUSED mgCMem
 //}
 
 // 00132DC0
-mgCVisual::mgCVisual()
-{
-  log_trace("mgCVisual::mgCVisual()");
-
-  m_unk_field_0 = 0;
-  m_unk_field_4 = 0;
-  m_unk_field_8 = 0;
-  m_unk_field_10 = 0;
-  m_unk_field_14 = 0;
-}
+mgCVisual::mgCVisual() = default;
 
 // 00134280
 sint mgCVisualMDT::Iam()
@@ -191,23 +182,7 @@ unkptr mgCVisualMDT::GetMaterial(MAYBE_UNUSED ssize index)
 
 
 // 0013EAC0
-mgCVisualMDT::mgCVisualMDT()
-{
-  log_trace("mgCVisualMDT::mgCVisualMDT()");
-
-  m_unk_field_20 = 0;
-  //m_unk_field_30 = nullptr;
-  m_unk_field_24 = 0;
-  m_unk_field_34 = 0;
-  m_unk_field_38 = 0;
-  m_unk_field_3C = 0;
-  m_material_num = 0;
-  m_p_material = nullptr;
-  m_unk_field_48 = 0;
-  
-  m_unk_field_10 = 60;
-  m_unk_field_14 = 180;
-}
+mgCVisualMDT::mgCVisualMDT() = default;
 
 // 0013F6A0
 unk32 mgCVisualMDT::CreatePacket(MAYBE_UNUSED mgCDrawManager& draw_man)
@@ -254,12 +229,7 @@ bool mgCVisualMDT::DataAssignMT(MAYBE_UNUSED MDT_HEADER* mdt_header, MAYBE_UNUSE
 }
 
 // 0013BCB0
-mgC3DSprite::mgC3DSprite()
-{
-  log_trace("mgC3DSprite::mgC3DSprite()");
-
-  m_unk_field_20 = 0;
-}
+mgC3DSprite::mgC3DSprite() = default;
 
 // 00134410
 mgCDrawPrim::mgCDrawPrim(MAYBE_UNUSED mgCMemory* memory, MAYBE_UNUSED sceVif1Packet* vif1_packet)
@@ -600,14 +570,7 @@ void mgCDrawPrim::GetOffset(MAYBE_UNUSED sint* i1, MAYBE_UNUSED sint* i2)
 }
 
 // 00135180
-mgCDrawManager::mgCDrawManager()
-{
-  log_trace("mgCDrawManager::mgCDrawManager()");
-
-  m_unk_field_68 = 0x40;
-  m_unk_field_6C = 0;
-  m_unk_field_70 = 0;
-}
+mgCDrawManager::mgCDrawManager() = default;
 
 // 00138810
 void mgCObject::ChangeParam()
@@ -743,29 +706,24 @@ mgCObject::mgCObject()
   SetPosition(0.0f, 0.0f, 0.0f);
   SetRotation(0.0f, 0.0f, 0.0f);
   SetScale(1.0f, 1.0f, 1.0f);
-  m_unk_field_40 = true;
-  m_unk_field_44 = false;
 }
 
 void mgCObject::Initialize()
 {
   log_trace("mgCObject::Initialize()");
   log_warn("Initialize should not be called (unless the game actually uses this as a virtual method on unknown type)");
-  new (this) mgCObject();
 }
 
 void mgCFrameBase::Initialize()
 {
   log_trace("mgCFrameBase::Initialize()");
   log_warn("Initialize should not be called (unless the game actually uses this as a virtual method on unknown type)");
-  new (this) mgCFrameBase();
 }
 
 void mgCFrame::Initialize()
 {
   log_trace("mgCFrame::Initialize()");
   log_warn("Initialize should not be called (unless the game actually uses this as a virtual method on unknown type)");
-  new (this) mgCFrame();
 }
 
 // 001387F0
@@ -1278,7 +1236,10 @@ void mgCFrame::ClearChildFlag()
 //  return result;
 //}
 
-mgCDrawEnv::mgCDrawEnv() : mgCDrawEnv(false) {}
+mgCDrawEnv::mgCDrawEnv()
+  : mgCDrawEnv(false)
+{
+}
 
 // 001388B0
 mgCDrawEnv::mgCDrawEnv(bool b)
