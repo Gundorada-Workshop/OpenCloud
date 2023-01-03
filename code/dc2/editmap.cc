@@ -2,7 +2,6 @@
 
 #include "common/clock.h"
 #include "common/log.h"
-#include "common/math.h"
 
 #include "dc2/editmap.h"
 #include "dc2/script_interpreter.h"

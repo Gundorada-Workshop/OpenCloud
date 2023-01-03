@@ -4,6 +4,7 @@
 
 #include "common/debug.h"
 #include "common/types.h"
+#include "common/math.h"
 
 #include "dc2/map.h"
 #include "dc2/mg/mg_lib.h"
@@ -120,7 +121,7 @@ public:
   // 10
   f32 m_tile_len_y{};
   // 20
-  //vec3 m_grid_start_pos{ 0.0f };
+  vec3 m_grid_start_pos{ };
 };
 
 class CEditHouse
@@ -196,9 +197,9 @@ public:
   std::array<EditPartsMaterial, 4> m_material{};
 
   // A0
-  //vec3 m_unk_field_A0{};
+  vec3 m_unk_field_A0{ };
   // B0
-  //vec3 m_unk_field_B0{};
+  vec3 m_unk_field_B0{ };
 
   // 254
   sint m_wall_group_num{};
