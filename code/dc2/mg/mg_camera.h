@@ -1,54 +1,22 @@
 #pragma once
 #include "common/math.h"
+#include "common/macros.h"
 #include "common/debug.h"
 
 // ~ 00131110 - 00131B60
 
 class mgCCamera
 {
-private:
-  // 40
-  f32 m_roll;
-
-  // 44
-  unk32 m_unk_field_44;
-
-  // 58
-  f32 m_step_epsilon;
-
-protected:
-  // 0
-  vec3 m_position;
-
-  // 10
-  vec3 m_reference;
-
-  // 20
-  vec3 m_next_position;
-
-  // 30
-  vec3 m_next_reference;
-
-  // 48
-  f32 m_position_speed;
-
-  // 4C
-  f32 m_rotation_speed;
-
-  // 50
-  f32 m_angleH;
-
-  // 54
-  f32 m_angleV;
-
-  // 5C
-  bool m_stopped;
-
 public:
   // 00131630
   // speed is how long it takes the camera to reach its target, in frames (30fps).
   mgCCamera(f32 speed = 8.0f);
 
+public:
+  // 00376C00
+  static bool StopCamera;
+
+public:
   // 001CE150
   // should be handled by compiler
   //mgCCamera(mgCCamera& other);
@@ -181,45 +149,52 @@ public:
     return m_angleV;
   }
 
-  // 00376C00
-  static bool StopCamera;
+protected:
+  // 0
+  vec3 m_position{ };
+
+  // 10
+  vec3 m_reference{ };
+
+  // 20
+  vec3 m_next_position{ };
+
+  // 30
+  vec3 m_next_reference{ };
+
+  // 48
+  f32 m_position_speed{ };
+
+  // 4C
+  f32 m_rotation_speed{ };
+
+  // 50
+  f32 m_angleH{ 0.0f };
+
+  // 54
+  f32 m_angleV{ 0.0f };
+
+  // 5C
+  bool m_stopped{ false };
+
+private:
+  // 40
+  f32 m_roll{ 0.0f };
+
+  // 44
+  unk32 m_unk_field_44{ 0 };
+
+  // 58
+  // how close a pos/dir component has to get to next pos/dir in order
+  // to snap to the final position.
+  f32 m_step_epsilon{ 0.1f };
 };
 
 class mgCCameraFollow : public mgCCamera
 {
-protected:
-  // 70
-  vec3 m_follow;
-
-  // 80
-  vec3 m_follow_offset;
-
-  // 90
-  f32 m_distance;
-
-  // 94
-  f32 m_height;
-
-  // 98
-  f32 m_angle_soon;
-
-  // 9C
-  f32 m_angle;
-
-  // A0
-  bool m_following;
-
-  // B0
-  vec3 m_follow_next;
-
 public:
   // 00131A90
-  mgCCameraFollow(
-    f32 follow_distance,
-    f32 height,
-    f32 angle,
-    f32 speed
-  );
+  mgCCameraFollow(f32 follow_distance, f32 height, f32 angle, f32 speed);
 
   // 00131740
   virtual void Step(sint steps = 1);
@@ -319,4 +294,28 @@ public:
   //{
   //  return m_follow_offset;
   //}
+protected:
+  // 70
+  vec3 m_follow{ };
+
+  // 80
+  vec3 m_follow_offset{ };
+
+  // 90
+  f32 m_distance{ };
+
+  // 94
+  f32 m_height{ };
+
+  // 98
+  f32 m_angle_soon{ };
+
+  // 9C
+  f32 m_angle{ };
+
+  // A0
+  bool m_following{ true };
+
+  // B0
+  vec3 m_follow_next{ };
 };
