@@ -3,6 +3,7 @@
 
 #include "common/debug.h"
 #include "common/types.h"
+#include "common/math.h"
 
 #include "dc2/character.h"
 #include "dc2/ls_mes.h"
@@ -51,9 +52,9 @@ public:
 
   // these are probably colors
   // 20
-  //ivec4 m_unk_field_20{ 0x80, 0x80, 0x80, 0x80 };
+  ivec4 m_unk_field_20{ 0x80, 0x80, 0x80, 0x80 };
   // 30
-  //ivec4 m_unk_field_30{ 0x80, 0x80, 0x80, 0x80 };
+  ivec4 m_unk_field_30{ 0x80, 0x80, 0x80, 0x80 };
 };
 
 class CFlushEffect
@@ -254,7 +255,7 @@ struct MINIMAP_SYMBOL_DATA
   EMiniMapSymbol::EMiniMapSymbol id;
 
   // 2, 4, 6
-  //glm::u16vec3 rgb;
+  uvec3 rgb;
 
   // 8
   s16 m_unk_field_8;
@@ -316,7 +317,7 @@ public:
   // 8
   unk32 m_unk_field_8;
   // 10
-  //vec4 m_unk_field_10;
+  vec4 m_unk_field_10;
   // 20
   unks<0x780> m_unk_field_20;
 
@@ -482,7 +483,7 @@ class CLockOnModel : CObjectFrame
   // ?
   
   // A0
-  //vec4 m_unk_field_A0{ 0.0f };
+  vec4 m_unk_field_A0{ };
 
   // SIZE 0xB0
 };

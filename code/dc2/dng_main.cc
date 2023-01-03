@@ -4,7 +4,6 @@
 #include "common/debug.h"
 #include "common/log.h"
 #include "common/debug.h"
-#include "common/math.h"
 #include "common/macros.h"
 
 #include "dc2/camera.h"
