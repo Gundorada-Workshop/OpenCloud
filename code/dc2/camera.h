@@ -66,9 +66,9 @@ public:
 
 
   // 002EBFA0
-  inline CameraCtrlParam& GetActiveParam()
+  inline CameraCtrlParam* GetActiveParam()
   {
-    return m_camera_params[m_n_active_param];
+    return &m_camera_params[m_n_active_param];
   }
 
   // 002EBFD0
@@ -99,7 +99,7 @@ public:
   }
 
   // 002EC370
-  //void MoveCamera(const CPadControl* pad_control, const vec3& v, CCPoly* c_poly, usize i);
+  void MoveCamera(const CPadControl* pad_control, const vec3& v, CCPoly* c_poly, usize i);
 
   // 002EC710
   void Rotate(f32 delta);
@@ -153,10 +153,12 @@ private:
   };
 
   // 002EC010
+  // just initializes some members
+  // not needed
   //inline void InitStatus();
 
   // 002EC1F0
-  //void MoveCamera(const Control& control, const vec3& v, CCPoly* c_poly, usize i);
+  void MoveCamera(const Control& control, const vec3& v, CCPoly* c_poly, usize i);
 
   // 002EC910
   void CheckCollision(CCPoly* c_poly, usize i);
@@ -190,10 +192,15 @@ private:
   std::array<CameraCtrlParam, 4> m_camera_params{ };
 
   // 1A4
-  CameraCtrlParam m_active_param{ };
+  // NOTE: This is not a pointer in the game!
+  //
+  // Shouldn't be an issue for the most part unless this ends up used
+  // as a temporary object that might actually differ from the reference in
+  // m_camera_params so keep an eye out for that
+  CameraCtrlParam* m_active_param{ nullptr };
 
   // 1D0
-  vec3 m_unk_field_1D0;
+  vec3 m_unk_field_1D0{ };
 
   // 1E0
   bool m_unk_field_1E0{ false };
