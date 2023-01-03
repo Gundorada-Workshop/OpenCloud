@@ -146,7 +146,7 @@ private:
     m_rot_camera_cancel = 0;
     m_unk_field_C8 = false;
     m_unk_field_CC = 0;
-    //m_unk_field_E0 = vec3(0.0f);
+    m_unk_field_E0 = vec3::zero();
   }
 
   // 002EC1F0
@@ -172,7 +172,7 @@ private:
   f32 m_unk_field_CC;
 
   // E0
-  //vec3 m_unk_field_E0;
+  vec3 m_unk_field_E0;
   // F0
   usize m_n_active_param;
   // F4
@@ -181,7 +181,7 @@ private:
   CameraCtrlParam m_active_param;
 
   // 1D0
-  //vec3 m_unk_field_1D0;
+  vec3 m_unk_field_1D0;
   // 1E0
   bool m_unk_field_1E0;
 };
