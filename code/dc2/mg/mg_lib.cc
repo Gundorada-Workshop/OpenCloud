@@ -17,7 +17,7 @@ using namespace common;
 mgRENDER_INFO mgRenderInfo{ };
 
 // 00381EE0
-//static vec4 mgBackColor{ 0 };
+static vec4 mgBackColor{ 0 };
 
 // 00381EF0
 mgCTextureManager mgTexManager{ };
@@ -51,12 +51,12 @@ void mgInit()
 }
 
 // 001421E0
-void mgBeginFrame(MAYBE_UNUSED mgCDrawManager* draw_man)
-{
-  log_trace("{}({})", __func__, fmt::ptr(draw_man));
-
-  todo;
-}
+//void mgBeginFrame(MAYBE_UNUSED mgCDrawManager* draw_man)
+//{
+//  log_trace("{}({})", __func__, fmt::ptr(draw_man));
+//
+//  todo;
+//}
 
 // 00142F90
 unkptr mgDraw(mgCFrame* frame)
@@ -87,28 +87,28 @@ unkptr mgDrawDirect(mgCFrame* frame)
 }
 
 // 001425B0
-void mgEndFrame(MAYBE_UNUSED mgCDrawManager* draw_man)
-{
-  log_trace("{}({})", __func__, fmt::ptr(draw_man));
-
-  todo;
-}
+//void mgEndFrame(MAYBE_UNUSED mgCDrawManager* draw_man)
+//{
+//  log_trace("{}({})", __func__, fmt::ptr(draw_man));
+//
+//  todo;
+//}
 
 // 00144400
-void mgGetFrameBackBuffer(MAYBE_UNUSED mgCTexture* texture)
-{
-  log_trace("mgGetFrameBackBuffer({})", fmt::ptr(texture));
-
-  todo;
-}
+//void mgGetFrameBackBuffer(MAYBE_UNUSED mgCTexture* texture)
+//{
+//  log_trace("mgGetFrameBackBuffer({})", fmt::ptr(texture));
+//
+//  todo;
+//}
 
 // 001445A0
-void mgSetPkMoveImage(MAYBE_UNUSED sceGsTex0* tex1, MAYBE_UNUSED irect* rect, MAYBE_UNUSED sceGsTex0* tex2, MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2, MAYBE_UNUSED sint i3)
-{
-  log_trace("mgSetPkMoveImage({})", fmt::ptr(tex1), fmt::ptr(rect), fmt::ptr(tex2), i1, i2, i3);
-
-  todo;
-}
+//void mgSetPkMoveImage(MAYBE_UNUSED sceGsTex0* tex1, MAYBE_UNUSED irect* rect, MAYBE_UNUSED sceGsTex0* tex2, MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2, MAYBE_UNUSED sint i3)
+//{
+//  log_trace("mgSetPkMoveImage({})", fmt::ptr(tex1), fmt::ptr(rect), fmt::ptr(tex2), i1, i2, i3);
+//
+//  todo;
+//}
 
 // 00145B20
 //f32 mgGetDistFromCamera(vec3& point)

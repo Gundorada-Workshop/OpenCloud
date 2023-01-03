@@ -5485,10 +5485,11 @@ static bool _CTRLC_MOVE_RANGE(rs::stack_data* stack, MAYBE_UNUSED sint stack_cou
 
   auto camera_param = static_cast<CCameraControl*>(GetActiveCamera())->GetActiveParam();
 
-  camera_param.m_unk_field_8 = GetStackFloat(stack++);
-  camera_param.m_unk_field_C = GetStackFloat(stack++);
-  camera_param.m_unk_field_0 = GetStackFloat(stack++);
-  camera_param.m_unk_field_4 = GetStackFloat(stack++);
+  camera_param->m_unk_field_8 = GetStackFloat(stack++);
+  camera_param->m_unk_field_C = GetStackFloat(stack++);
+  camera_param->m_unk_field_0 = GetStackFloat(stack++);
+  camera_param->m_unk_field_4 = GetStackFloat(stack++);
+
   return true;
 }
 

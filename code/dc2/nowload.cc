@@ -190,7 +190,7 @@ bool PauseLoop()
     return false;
   }
 
-  mgBeginFrame(nullptr);
+  //mgBeginFrame(nullptr);
 
   mgTexManager.ReloadTexture(PauseTexb, nullptr);
   mgCTexture* pause_work = mgTexManager.GetTexture("pause_work", -1);
@@ -206,7 +206,7 @@ bool PauseLoop()
     mgCTexture var_190;
     irect var_120 = irect::from_extent((mgScreenWidth - 1) << 4, (mgScreenHeight - 1) << 4);
 
-    mgSetPkMoveImage(&var_190, &var_120, pause_work, 0, 0, 0);
+    //mgSetPkMoveImage(&var_190, &var_120, pause_work, 0, 0, 0);
 
     play_time_count = GetPlayTimeCountFlag();
     PlayTimeCount(false);
@@ -267,7 +267,7 @@ bool PauseLoop()
     draw_prim.End();
   }
 
-  mgEndFrame(nullptr);
+  //mgEndFrame(nullptr);
 
   GamePad.Update();
   PadCtrl.Update(&GamePad);

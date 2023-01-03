@@ -19,13 +19,15 @@ extern mgCTextureManager mgTexManager;
 extern mgCDrawManager mgDrawManager;
 
 // TEMP
-using sceGsTex0 = mgCTexture;
+// using sceGsTex0 = mgCTexture;
 
 // 001413E0
 void mgInit();
 
 // 001421E0
-void mgBeginFrame(mgCDrawManager* draw_man);
+// This is not useful to us.
+// Clear screen, set up vif stuff
+//void mgBeginFrame(mgCDrawManager* draw_man);
 
 // 00142F90
 unkptr mgDraw(mgCFrame* frame);
@@ -34,13 +36,19 @@ unkptr mgDraw(mgCFrame* frame);
 unkptr mgDrawDirect(mgCFrame* frame);
 
 // 001425B0
-void mgEndFrame(mgCDrawManager* draw_man);
+// This is not useful to us.
+// Buffer swap, vsync, perf mon, screen capture,
+//void mgEndFrame(mgCDrawManager* draw_man);
 
 // 00144400
-void mgGetFrameBackBuffer(mgCTexture* texture);
+// This is not useful to us.
+// Gets the backbuffer
+//void mgGetFrameBackBuffer(mgCTexture* texture);
 
 // 001445A0
-void mgSetPkMoveImage(sceGsTex0* tex1, irect* rect, sceGsTex0* tex2, sint i1, sint i2, sint i3);
+// This is not useful to us.
+// Does what it says on the tin
+//void mgSetPkMoveImage(sceGsTex0* tex1, irect* rect, sceGsTex0* tex2, sint i1, sint i2, sint i3);
 
 // 00145B20
 //f32 mgGetDistFromCamera(vec3& point);

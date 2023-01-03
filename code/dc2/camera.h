@@ -11,27 +11,37 @@ constexpr sint CCameraControl_TypeID = 1000;
 struct CameraCtrlParam
 {
   // 0
-  f32 m_unk_field_0;
+  f32 m_unk_field_0{ 0.0f };
+
   // 4
-  f32 m_unk_field_4;
+  f32 m_unk_field_4{ 0.0f };
+
   // 8
-  f32 m_unk_field_8;
+  f32 m_unk_field_8{ 0.0f };
+
   // C
-  f32 m_unk_field_C;
+  f32 m_unk_field_C{ 0.0f };
+
   // 10
-  f32 m_unk_field_10;
+  f32 m_unk_field_10{ 0.0f };
+
   // 14
-  f32 m_unk_field_14;
+  f32 m_unk_field_14{ 0.0f };
+
   // 18
-  f32 m_unk_field_18;
+  f32 m_unk_field_18{ 0.0f };
+
   // 1C
-  f32 m_unk_field_1C;
+  f32 m_unk_field_1C{ 0.0f };
+
   // 20
-  f32 m_unk_field_20;
+  f32 m_unk_field_20{ 0.0f };
+
   // 24
-  f32 m_unk_field_24;
+  f32 m_unk_field_24{ 0.0f };
+
   // 28
-  unk32 m_unk_field_28{};
+  unk32 m_unk_field_28{ 0 };
   // SIZE 0x2C
 };
 
@@ -56,9 +66,9 @@ public:
 
 
   // 002EBFA0
-  inline CameraCtrlParam& GetActiveParam()
+  inline CameraCtrlParam* GetActiveParam()
   {
-    return m_camera_params[m_n_active_param];
+    return &m_camera_params[m_n_active_param];
   }
 
   // 002EBFD0
@@ -89,7 +99,7 @@ public:
   }
 
   // 002EC370
-  //void MoveCamera(const CPadControl* pad_control, const vec3& v, CCPoly* c_poly, usize i);
+  void MoveCamera(const CPadControl* pad_control, const vec3& v, CCPoly* c_poly, usize i);
 
   // 002EC710
   void Rotate(f32 delta);
@@ -133,24 +143,22 @@ private:
   struct Control
   {
     // 0
-    f32 x;
+    f32 x{ 0.0f };
+
     // 4
-    f32 y;
+    f32 y{ 0.0f };
+
     // 8
-    u32 m_unk_field_8;
+    u32 m_unk_field_8{ 0 };
   };
 
   // 002EC010
-  inline void InitStatus()
-  {
-    m_rot_camera_cancel = 0;
-    m_unk_field_C8 = false;
-    m_unk_field_CC = 0;
-    m_unk_field_E0 = vec3::zero();
-  }
+  // just initializes some members
+  // not needed
+  //inline void InitStatus();
 
   // 002EC1F0
-  //void MoveCamera(const Control& control, const vec3& v, CCPoly* c_poly, usize i);
+  void MoveCamera(const Control& control, const vec3& v, CCPoly* c_poly, usize i);
 
   // 002EC910
   void CheckCollision(CCPoly* c_poly, usize i);
@@ -163,25 +171,37 @@ private:
 
 private:
   // C0
-  bool m_controlling;
+  bool m_controlling{ false };
+
   // C4
-  u32 m_rot_camera_cancel;
+  u32 m_rot_camera_cancel{ 0 };
+
   // C8
-  bool m_unk_field_C8;
+  bool m_unk_field_C8{ false };
+
   // CC
-  f32 m_unk_field_CC;
+  f32 m_unk_field_CC{ 0 };
 
   // E0
-  vec3 m_unk_field_E0;
+  vec3 m_unk_field_E0{ };
+
   // F0
-  usize m_n_active_param;
+  usize m_n_active_param{ 0 };
+
   // F4
-  std::array<CameraCtrlParam, 4> m_camera_params{};
+  std::array<CameraCtrlParam, 4> m_camera_params{ };
+
   // 1A4
-  CameraCtrlParam m_active_param;
+  // NOTE: This is not a pointer in the game!
+  //
+  // Shouldn't be an issue for the most part unless this ends up used
+  // as a temporary object that might actually differ from the reference in
+  // m_camera_params so keep an eye out for that
+  CameraCtrlParam* m_active_param{ nullptr };
 
   // 1D0
-  vec3 m_unk_field_1D0;
+  vec3 m_unk_field_1D0{ };
+
   // 1E0
-  bool m_unk_field_1E0;
+  bool m_unk_field_1E0{ false };
 };

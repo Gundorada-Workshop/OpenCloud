@@ -20,6 +20,8 @@ public:
   // 001CE150
   // should be handled by compiler
   //mgCCamera(mgCCamera& other);
+
+public:
   // 00131110
   virtual void Step(sint steps = 1);
 
@@ -196,6 +198,7 @@ public:
   // 00131A90
   mgCCameraFollow(f32 follow_distance, f32 height, f32 angle, f32 speed);
 
+public:
   // 00131740
   virtual void Step(sint steps = 1);
 
@@ -213,87 +216,104 @@ public:
   //{
   //  return GetFollow() + m_follow_offset;
   //}
+
   // 00131990
   //inline void SetFollow(const vec3& follow_pos)
   //{
   //  m_follow = follow_pos;
   //}
+
   // 001319A0
   inline void FollowOn()
   {
     m_following = true;
   }
+
   // 001319B0
   inline void FollowOff()
   {
     m_following = false;
   }
+
   // 001319C0
   inline void SetAngle(f32 angle)
   {
     m_angle_soon = angle;
   }
+
   // 001319D0
   inline void SetAngleSoon(f32 angle)
   {
     m_angle_soon = angle;
     m_angle = angle;
   }
+
   // 001319E0
   inline f32 GetAngle() const
   {
     return m_angle;
   }
+
   // 001319F0
   inline void AddAngle(f32 delta)
   {
     m_angle_soon += delta;
   }
+
   // 00131A00
   inline void SetDistance(f32 distance)
   {
     m_distance = distance;
   }
+
   // 00131A10
   inline f32 GetDistance() const
   {
     return m_distance;
   }
+
   // 00131A20
   inline void AddDistance(f32 delta)
   {
     m_distance += delta;
   }
+
   // 00131A30
   inline void SetHeight(f32 height)
   {
     m_height = height;
   }
+
   // 00131A40
   inline f32 GetHeight() const
   {
     return m_height;
   }
+
   // 00131A50
   inline void AddHeight(f32 delta)
   {
     m_height += delta;
   }
+
   // 00131A60
   //inline void SetFollowOffset(const vec3& offset)
   //{
   //  m_follow_offset = offset;
   //}
+
   // 00131A70
   //inline vec3 GetFollow() const
   //{
   //  return m_follow;
   //}
+
   // 00131A80
   //inline vec3 GetFollowOffset() const
   //{
   //  return m_follow_offset;
   //}
+
 protected:
   // 70
   vec3 m_follow{ };

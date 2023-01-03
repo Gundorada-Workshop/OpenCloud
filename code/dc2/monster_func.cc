@@ -25,6 +25,7 @@ set_log_channel("monster_func");
 
 // 0037735C
 CScene* nowScene{ nullptr };
+
 // 00377360
 CActiveMonster* nowMonster{ nullptr };
 
@@ -380,7 +381,7 @@ static bool _SET_CAMERA_CTRL_PARAM1(rs::stack_data* stack, sint stack_count)
   }
 
   auto camera = static_cast<CCameraControl*>(nowScene->GetCamera(nowScene->m_active_cmrid));
-  auto& param = camera->GetActiveParam();
+  auto param = camera->GetActiveParam();
 
   std::optional<f32> arg0{};
   std::optional<f32> arg1{};
@@ -394,7 +395,7 @@ static bool _SET_CAMERA_CTRL_PARAM1(rs::stack_data* stack, sint stack_count)
 
   if (arg0.has_value() && arg0.value() != -99999.9f)
   {
-    param.m_unk_field_0 = arg0.value();
+    param->m_unk_field_0 = arg0.value();
   }
 
   if (stack_count >= 2)
@@ -404,7 +405,7 @@ static bool _SET_CAMERA_CTRL_PARAM1(rs::stack_data* stack, sint stack_count)
 
   if (arg1.has_value() && arg1.value() != -99999.9f)
   {
-    param.m_unk_field_4 = arg1.value();
+    param->m_unk_field_4 = arg1.value();
   }
 
   if (stack_count >= 3)
@@ -414,7 +415,7 @@ static bool _SET_CAMERA_CTRL_PARAM1(rs::stack_data* stack, sint stack_count)
 
   if (arg2.has_value() && arg2.value() != -99999.9f)
   {
-    param.m_unk_field_8 = arg2.value();
+    param->m_unk_field_8 = arg2.value();
   }
 
   if (stack_count >= 4)
@@ -424,7 +425,7 @@ static bool _SET_CAMERA_CTRL_PARAM1(rs::stack_data* stack, sint stack_count)
 
   if (arg3.has_value() && arg3.value() != -99999.9f)
   {
-    param.m_unk_field_C = arg3.value();
+    param->m_unk_field_C = arg3.value();
   }
 
   return true;
@@ -439,7 +440,7 @@ static bool _SET_CAMERA_CTRL_PARAM2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UN
   }
 
   auto camera = static_cast<CCameraControl*>(nowScene->GetCamera(nowScene->m_active_cmrid));
-  auto& param = camera->GetActiveParam();
+  auto param = camera->GetActiveParam();
 
   std::optional<f32> arg0{};
   std::optional<f32> arg1{};
@@ -455,7 +456,7 @@ static bool _SET_CAMERA_CTRL_PARAM2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UN
 
   if (arg0.has_value() && arg0.value() != -99999.9f)
   {
-    param.m_unk_field_10 = arg0.value();
+    param->m_unk_field_10 = arg0.value();
   }
 
   if (stack_count >= 2)
@@ -465,7 +466,7 @@ static bool _SET_CAMERA_CTRL_PARAM2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UN
 
   if (arg1.has_value() && arg1.value() != -99999.9f)
   {
-    param.m_unk_field_14 = arg1.value();
+    param->m_unk_field_14 = arg1.value();
   }
 
   if (stack_count >= 3)
@@ -475,7 +476,7 @@ static bool _SET_CAMERA_CTRL_PARAM2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UN
 
   if (arg2.has_value() && arg2.value() != -99999.9f)
   {
-    param.m_unk_field_18 = arg2.value();
+    param->m_unk_field_18 = arg2.value();
   }
 
   if (stack_count >= 4)
@@ -485,7 +486,7 @@ static bool _SET_CAMERA_CTRL_PARAM2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UN
 
   if (arg3.has_value() && arg3.value() != -99999.9f)
   {
-    param.m_unk_field_1C = arg3.value();
+    param->m_unk_field_1C = arg3.value();
   }
 
   if (stack_count >= 5)
@@ -495,7 +496,7 @@ static bool _SET_CAMERA_CTRL_PARAM2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UN
 
   if (arg4.has_value() && arg4.value() != -99999.9f)
   {
-    param.m_unk_field_20 = arg4.value();
+    param->m_unk_field_20 = arg4.value();
   }
 
   if (stack_count >= 6)
@@ -505,7 +506,7 @@ static bool _SET_CAMERA_CTRL_PARAM2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UN
 
   if (arg5.has_value() && arg5.value() != -99999.9f)
   {
-    param.m_unk_field_24 = arg5.value();
+    param->m_unk_field_24 = arg5.value();
   }
 
   return true;
@@ -516,17 +517,18 @@ static bool _RESET_CAMERA_CTRL_PARAM(MAYBE_UNUSED rs::stack_data* stack, MAYBE_U
   trace_script_call(stack, stack_count);
 
   auto camera = static_cast<CCameraControl*>(nowScene->GetCamera(nowScene->m_active_cmrid));
-  auto& param = camera->GetActiveParam();
-  param.m_unk_field_0 = 100.0f;
-  param.m_unk_field_4 = 160.0f;
-  param.m_unk_field_8 = 18.0f;
-  param.m_unk_field_C = 10.0f;
-  param.m_unk_field_14 = 40.0f;
-  param.m_unk_field_18 = -15.0f;
-  param.m_unk_field_1C = 20.0f;
-  param.m_unk_field_20 = -15.0f;
-  param.m_unk_field_10 = -15.0f;
-  param.m_unk_field_24 = 25.0f;
+  auto param = camera->GetActiveParam();
+
+  param->m_unk_field_0 = 100.0f;
+  param->m_unk_field_4 = 160.0f;
+  param->m_unk_field_8 = 18.0f;
+  param->m_unk_field_C = 10.0f;
+  param->m_unk_field_14 = 40.0f;
+  param->m_unk_field_18 = -15.0f;
+  param->m_unk_field_1C = 20.0f;
+  param->m_unk_field_20 = -15.0f;
+  param->m_unk_field_10 = -15.0f;
+  param->m_unk_field_24 = 25.0f;
 
   return true;
 }
