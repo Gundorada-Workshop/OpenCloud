@@ -4,6 +4,8 @@
 #include "common/log.h"
 #include "common/math.h"
 
+#include "graph/rectangle.h"
+
 #include "dc2/editloop.h"
 #include "dc2/effect.h"
 #include "dc2/ls_mes.h"
@@ -169,7 +171,7 @@ MAYBE_UNUSED static sint emapIdx{};
 MAYBE_UNUSED static CEditInfoMngr* emapNowInfo{};
 
 // 0037721C
-MAYBE_UNUSED static rect* emapRect{};
+MAYBE_UNUSED static graph::rect* emapRect{};
 
 // 00377220
 MAYBE_UNUSED static sint emapRectNum{};

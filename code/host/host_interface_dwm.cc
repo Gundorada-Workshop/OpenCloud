@@ -153,7 +153,7 @@ namespace host
 
   void dwm_interface::handle_render_window_resize(u32 width, u32 height)
   {
-    m_window_extent = urect::from_extent(width, height);
+    m_window_extent = graph::urect::from_extent(width, height);
 
     log_debug("Window resize event: {}", m_window_extent);
   }

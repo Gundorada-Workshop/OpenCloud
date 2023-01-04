@@ -3,6 +3,8 @@
 #include "common/clock.h"
 #include "common/log.h"
 
+#include "graph/rectangle.h"
+
 #include "dc2/editmap.h"
 #include "dc2/script_interpreter.h"
 
@@ -19,7 +21,7 @@ static CEditInfoMngr* emapNowInfo{};
 // 00377F58
 static sint emapRectType{};
 // 00377F5C
-static rect* emapRect{};
+static graph::rect* emapRect{};
 // 00377F60
 static sint emapRectNum{};
 // 00377F64

@@ -3,7 +3,7 @@
 #include "common/strings.h"
 #include "common/math/_vector.h"
 
-namespace common
+namespace graph
 {
   template<typename type>
   class rectangle
@@ -82,16 +82,16 @@ namespace common
     // vector storage
     storage_type m_data;
   };
+
+  using irect = rectangle<sint>;
+  using urect = rectangle<uint>;
+  using rect  = rectangle<f32>;
 }
 
-using irect = common::rectangle<sint>;
-using urect = common::rectangle<uint>;
-using rect  = common::rectangle<f32>;
-
 template<typename rect_type>
-struct fmt::formatter<common::rectangle<rect_type>> : formatter<std::string_view>
+struct fmt::formatter<graph::rectangle<rect_type>> : formatter<std::string_view>
 {
-  auto format(const common::rectangle<rect_type>& rect, format_context& ctx)
+  auto format(const graph::rectangle<rect_type>& rect, format_context& ctx)
   {
     return fmt::format_to(ctx.out(), "rect<{}>({}, {}, {}, {})",
       typeid(rect_type).name(), rect.m_data.x(), rect.m_data.y(), rect.m_data.z(), rect.m_data.w());

@@ -1,6 +1,5 @@
 #pragma once
 #include "common/types.h"
-#include "common/rectangle.h"
 
 #include "dc2/mg/mg_camera.h"
 #include "dc2/mg/mg_frame.h"

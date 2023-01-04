@@ -1,21 +1,23 @@
 #include "common/log.h"
 
+#include "graph/rectangle.h"
+
 #include "dc2/dngmenu.h"
 #include "dc2/mg/mg_lib.h"
 
 set_log_channel("dngmenu");
 
 // 00368640
-static irect dng_light_circle{ irect::from_extent(388, 304, 124, 80) };
+static graph::irect dng_light_circle{ graph::irect::from_extent(388, 304, 124, 80) };
 
 // 00368650
-static irect dngfreemap_num{ irect::from_extent(0, 0, 12, 18) };
+static graph::irect dngfreemap_num{ graph::irect::from_extent(0, 0, 12, 18) };
 
 // 01EC8DE0
-static rect treemap_root_put{ 0, 0, 0, 0 };
+static graph::rect treemap_root_put{ 0, 0, 0, 0 };
 
 // 01EC8DF0
-static irect Floor_Info{ irect::from_extent(0, 238, 256, 18) };
+static graph::irect Floor_Info{ graph::irect::from_extent(0, 238, 256, 18) };
 
 // 01EC8E00
 static mgCMemory MenuTreeMapStack{ };

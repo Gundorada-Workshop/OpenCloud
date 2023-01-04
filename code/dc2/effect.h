@@ -3,7 +3,8 @@
 
 #include "common/debug.h"
 #include "common/types.h"
-#include "common/rectangle.h"
+
+#include "graph/rectangle.h"
 
 #include "dc2/script_interpreter.h"
 #include "dc2/mg/mg_lib.h"
@@ -136,5 +137,5 @@ class CHitEffectImage
 public:
 
   // 50
-  irect m_unk_field_50{ irect::from_extent(0, 0, 0, 0) };
+  graph::irect m_unk_field_50{ 0, 0, 0, 0 };
 };
