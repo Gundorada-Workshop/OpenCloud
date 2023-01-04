@@ -1,10 +1,9 @@
-#include "host/texture.h"
+#include "graph/texture.h"
 
-namespace host
+namespace graph
 {
   texture::texture(const create_info& config)
     : m_config{ config }
   {
-
   }
 }

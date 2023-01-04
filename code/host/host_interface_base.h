@@ -1,9 +1,10 @@
 #pragma once
 #include "common/types.h"
 #include "common/bits.h"
-#include "common/rectangle.h"
-#include "common/math/_vector.h"
+#include "common/math.h"
 #include "common/window_handle.h"
+
+#include "graph/rectangle.h"
 
 #include "host/pad_handler.h"
 
@@ -172,7 +173,7 @@ namespace host
     std::string m_window_title{ };
 
     // the extent of the window
-    urect m_window_extent{ };
+    graph::urect m_window_extent{ };
 
     // should we exit?
     std::atomic<bool> m_message_pump_quit_requested{ false };

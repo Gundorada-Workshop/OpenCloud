@@ -3,24 +3,22 @@
   <Import Project="$(SolutionDir)\.msvc\Base.Targets.Props" />
   <Import Project="$(SolutionDir)\.msvc\Base.Globals.Props" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7370DD41-9528-46EE-AD33-EDC26F7C4327}</ProjectGuid>
+    <ProjectGuid>{01A149AB-39A3-4F54-A023-832781A21D1F}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <Import Project="$(SolutionDir)\.msvc\Application.Configuration.Props" />
+  <Import Project="$(SolutionDir)\.msvc\StaticLibrary.Configuration.Props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
   <ItemGroup>
-    <ClCompile Include="host_interface_base.cc" />
-    <ClCompile Include="winmain.cc" />
-    <ClCompile Include="host_interface_dwm.cc" />
-    <ClCompile Include="xinput_pad_handler.cc" />
+    <None Include="graph.exports.props" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="host_interface_base.h" />
-    <ClInclude Include="host_interface_dwm.h" />
-    <ClInclude Include="pad_handler.h" />
-    <ClInclude Include="xinput_pad_handler.h" />
+    <ClInclude Include="rectangle.h" />
+    <ClInclude Include="texture.h" />
   </ItemGroup>
-  <Import Project="$(SolutionDir)code\dc2\opencloud2.exports.props" />
+  <ItemGroup>
+    <ClCompile Include="texture.cc" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(SolutionDir)code\common\common.exports.props" />
 </Project>

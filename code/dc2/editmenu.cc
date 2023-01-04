@@ -1,5 +1,6 @@
 #include "common/log.h"
-#include "common/rectangle.h"
+
+#include "graph/rectangle.h"
 
 #include "dc2/editmenu.h"
 #include "dc2/mg/mg_lib.h"
@@ -10,7 +11,7 @@ set_log_channel("editmenu");
 mgCMemory MenuGeoramaStack{ };
 
 // 01EC95E0
-irect potti0{ irect::from_extent(372, 190, 16, 16) };
+graph::irect potti0{ graph::irect::from_extent(372, 190, 16, 16) };
 
 // 01EC95F0
-irect potti1{ irect::from_extent(356, 190, 16, 16) };
+graph::irect potti1{ graph::irect::from_extent(356, 190, 16, 16) };

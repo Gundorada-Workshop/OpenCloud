@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ItemGroup>
+    <ProjectReference Include="$(SolutionDir)code\graph\graph.vcxproj">
+      <Project>{01A149AB-39A3-4F54-A023-832781A21D1F}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(SolutionDir)code\common\common.exports.props" />
+</Project>

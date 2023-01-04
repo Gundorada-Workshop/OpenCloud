@@ -2,7 +2,8 @@
 #include "common/debug.h"
 #include "common/types.h"
 #include "common/math.h"
-#include "common/rectangle.h"
+
+#include "graph/rectangle.h"
 
 #include "dc2/mg/mg_lib.h"
 
@@ -120,13 +121,13 @@ public:
   f32 m_unk_field_10{ 0.0f };
 
   // 20
-  rect m_unk_field_20{ rect::from_extent(120, 138, 420, 286) };
+  graph::rect m_unk_field_20{ graph::rect::from_extent(120, 138, 420, 286) };
 
   // 30
   usize m_unk_field_30{ 0 };
 
   // 40
-  std::array<rect, 8> m_unk_field_40{ rect::from_extent(0, 0, 0, 0) };
+  std::array<graph::rect, 8> m_unk_field_40{ graph::rect::from_extent(0, 0, 0, 0) };
 
   // C0
   s16 m_unk_field_C0{ s16(-1) };

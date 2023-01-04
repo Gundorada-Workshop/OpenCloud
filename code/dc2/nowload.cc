@@ -2,7 +2,8 @@
 
 #include "common/log.h"
 #include "common/types.h"
-#include "common/rectangle.h"
+
+#include "graph/rectangle.h"
 
 #include "dc2/io.h"
 #include "dc2/event.h"
@@ -204,7 +205,7 @@ bool PauseLoop()
     sndPortSqPause(0);
 
     mgCTexture var_190;
-    irect var_120 = irect::from_extent((mgScreenWidth - 1) << 4, (mgScreenHeight - 1) << 4);
+    graph::irect var_120 = graph::irect::from_extent((mgScreenWidth - 1) << 4, (mgScreenHeight - 1) << 4);
 
     //mgSetPkMoveImage(&var_190, &var_120, pause_work, 0, 0, 0);
 
