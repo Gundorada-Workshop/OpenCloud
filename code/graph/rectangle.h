@@ -10,13 +10,11 @@ namespace graph
   {
   public:
     using storage_type = vector4<type>;
-    using point_type = vector4<type>;
+    using point_type = vector2<type>;
 
     friend struct fmt::formatter<rectangle<type>>;
 
-    constexpr rectangle()
-    {
-    }
+    constexpr rectangle() = default;
 
     // construct from a vector type
     explicit constexpr rectangle(storage_type v)
@@ -80,7 +78,7 @@ namespace graph
 
   private:
     // vector storage
-    storage_type m_data;
+    storage_type m_data{ };
   };
 
   using irect = rectangle<sint>;
