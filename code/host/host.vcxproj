@@ -11,7 +11,6 @@
   <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
   <ItemGroup>
     <ClCompile Include="host_interface_base.cc" />
-    <ClCompile Include="texture.cc" />
     <ClCompile Include="winmain.cc" />
     <ClCompile Include="host_interface_dwm.cc" />
     <ClCompile Include="xinput_pad_handler.cc" />
@@ -20,7 +19,6 @@
     <ClInclude Include="host_interface_base.h" />
     <ClInclude Include="host_interface_dwm.h" />
     <ClInclude Include="pad_handler.h" />
-    <ClInclude Include="texture.h" />
     <ClInclude Include="xinput_pad_handler.h" />
   </ItemGroup>
   <Import Project="$(SolutionDir)code\dc2\opencloud2.exports.props" />
