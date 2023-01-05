@@ -50,6 +50,7 @@
     </ClInclude>
     <ClInclude Include="aligned_allocator.h" />
     <ClInclude Include="macros.h" />
+    <ClInclude Include="helpers.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="common.exports.props" />
