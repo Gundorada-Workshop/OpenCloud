@@ -20,6 +20,7 @@
     <ClInclude Include="debug.h" />
     <ClInclude Include="dynamic_library.h" />
     <ClInclude Include="file_helpers.h" />
+    <ClInclude Include="helpers.h" />
     <ClInclude Include="log.h" />
     <ClInclude Include="macros.h" />
     <ClInclude Include="math.h" />
