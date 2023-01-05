@@ -1,7 +1,7 @@
 #pragma once
 #include "common/types.h"
 
-namespace common::math::detail
+namespace graph::detail
 {
   enum class element : sint
   {

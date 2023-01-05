@@ -24,12 +24,6 @@
     <ClInclude Include="log.h" />
     <ClInclude Include="macros.h" />
     <ClInclude Include="math.h" />
-    <ClInclude Include="math\_matrix.h" />
-    <ClInclude Include="math\_vector.h" />
-    <ClInclude Include="math\_vector_common.h" />
-    <ClInclude Include="math\_vector_cxp.h" />
-    <ClInclude Include="math\_vector_math.h" />
-    <ClInclude Include="math\_vector_sse.h" />
     <ClInclude Include="platform.h" />
     <ClInclude Include="scoped_function.h" />
     <ClInclude Include="strings.h" />
@@ -51,10 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="common.exports.props" />
-    <None Include="math\_vector_swizzle.inl" />
-    <None Include="math\_vector_swizzle2.inl" />
-    <None Include="math\_vector_swizzle3.inl" />
-    <None Include="math\_vector_swizzle4.inl" />
   </ItemGroup>
   <Import Project="$(SolutionDir)external\wil.exports.props" />
   <Import Project="$(SolutionDir)external\fmt.exports.props" />

@@ -11,10 +11,20 @@
   <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
   <ItemGroup>
     <None Include="graph.exports.props" />
+    <None Include="_vector\_vector_swizzle.inl" />
+    <None Include="_vector\_vector_swizzle2.inl" />
+    <None Include="_vector\_vector_swizzle3.inl" />
+    <None Include="_vector\_vector_swizzle4.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="matrix.h" />
     <ClInclude Include="rectangle.h" />
     <ClInclude Include="texture.h" />
+    <ClInclude Include="vector.h" />
+    <ClInclude Include="_vector\_vector_common.h" />
+    <ClInclude Include="_vector\_vector_cxp.h" />
+    <ClInclude Include="_vector\_vector_math.h" />
+    <ClInclude Include="_vector\_vector_sse.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="texture.cc" />
