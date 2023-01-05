@@ -1,3 +1,4 @@
+#include "common/helpers.h"
 #include "common/log.h"
 
 #include "dc2/inventmn.h"
@@ -152,7 +153,7 @@ uint CInventUserData::GetInventionNum()
 // 00200350
 bool CheckInventItem(ECommonItemData item_id)
 {
-  log_trace("{}({})", __func__, std::to_underlying(item_id));
+  log_trace("{}({})", __func__, common::to_underlying(item_id));
 
   todo;
   return false;

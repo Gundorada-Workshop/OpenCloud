@@ -2,6 +2,7 @@
 
 #include "common/data_stream.h"
 #include "common/file_helpers.h"
+#include "common/helpers.h"
 #include "common/log.h"
 #include "common/strings.h"
 #include "common/types.h"
@@ -81,7 +82,7 @@ void LoadNPCCfg()
   npc_spi_count_num = 0;
 
   using namespace common;
-  auto file_path = file_helpers::resolve_data_path("npc{}.cfg", std::to_underlying(LanguageCode));
+  auto file_path = file_helpers::resolve_data_path("npc{}.cfg", common::to_underlying(LanguageCode));
 
   auto fs = file_stream::open(file_path, "rb");
   auto file_size = fs->size();
@@ -108,7 +109,7 @@ void LoadNPCCfg()
 // 002AB3A0
 std::string GetNPCModelName(ENPCID npc_id)
 {
-  log_trace("{}({})", __func__, std::to_underlying(npc_id));
+  log_trace("{}({})", __func__, common::to_underlying(npc_id));
 
   auto npc_data = GetPartyNPCData(npc_id);
 
@@ -123,7 +124,7 @@ std::string GetNPCModelName(ENPCID npc_id)
 // 002AB3D0
 std::string GetNPCName(ENPCID npc_id)
 {
-  log_trace("{}({})", __func__, std::to_underlying(npc_id));
+  log_trace("{}({})", __func__, common::to_underlying(npc_id));
 
   auto npc_data = GetPartyNPCData(npc_id);
 
@@ -138,12 +139,12 @@ std::string GetNPCName(ENPCID npc_id)
 // 002AB400
 std::string GetPartyCharaModelName(ENPCID npc_id, int i)
 {
-  log_trace("{}({}, {})", __func__, std::to_underlying(npc_id), i);
+  log_trace("{}({}, {})", __func__, common::to_underlying(npc_id), i);
 
   using namespace common;
 
   // FIXME: magic
-  if (std::to_underlying(npc_id) < 0 || std::to_underlying(npc_id) > 32)
+  if (common::to_underlying(npc_id) < 0 || common::to_underlying(npc_id) > 32)
   {
     return "";
   }
@@ -172,7 +173,7 @@ std::string GetPartyCharaModelName(ENPCID npc_id, int i)
 // 002AB510
 SPartyNPCData* GetPartyNPCData(ENPCID npc_id)
 {
-  log_trace("{}({})", __func__, std::to_underlying(npc_id));
+  log_trace("{}({})", __func__, common::to_underlying(npc_id));
 
   for (int i = 0; i < NpcBaseDataTotalNum; ++i)
   {

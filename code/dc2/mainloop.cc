@@ -1,6 +1,7 @@
 #include <string>
 
 #include "common/debug.h"
+#include "common/helpers.h"
 #include "common/log.h"
 
 #include "host/host_interface_dwm.h"
@@ -115,7 +116,7 @@ mgCMemory* GetMainStack()
 // 00190900
 void NextLoop(ELoopID next_loop_id, const INIT_LOOP_ARG& init_arg)
 {
-  log_trace("{}()", __func__, std::to_underlying(next_loop_id), fmt::ptr(&init_arg));
+  log_trace("{}()", __func__, common::to_underlying(next_loop_id), fmt::ptr(&init_arg));
 
   NextLoopNo = next_loop_id;
   NextInitArg = init_arg;

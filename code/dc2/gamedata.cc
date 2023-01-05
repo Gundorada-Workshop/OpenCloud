@@ -4,6 +4,7 @@
 #include "common/file_helpers.h"
 #include "common/data_stream.h"
 #include "common/debug.h"
+#include "common/helpers.h"
 #include "common/log.h"
 #include "common/types.h"
 #include "common/macros.h"
@@ -109,7 +110,7 @@ static bool _DATACOM(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
   comdatapt->m_attribute = spiGetStackInt(stack++);
   comdatapt->m_name = "";
 
-  local_itemdatano_converttable[std::to_underlying(comdatapt->m_common_id)] = static_cast<s16>(comdatapt_num);
+  local_itemdatano_converttable[common::to_underlying(comdatapt->m_common_id)] = static_cast<s16>(comdatapt_num);
 
   ++comdatapt_num;
   ++comdatapt;
@@ -197,14 +198,14 @@ static bool _DATAWEP2_ST(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 
   using enum WeaponProperty;
 
-  SpiWeaponPt->m_properties[std::to_underlying(Flame)] = static_cast<s16>(spiGetStackInt(stack++));
-  SpiWeaponPt->m_properties[std::to_underlying(Chill)] = static_cast<s16>(spiGetStackInt(stack++));
-  SpiWeaponPt->m_properties[std::to_underlying(Lightning)] = static_cast<s16>(spiGetStackInt(stack++));
-  SpiWeaponPt->m_properties[std::to_underlying(Cyclone)] = static_cast<s16>(spiGetStackInt(stack++));
-  SpiWeaponPt->m_properties[std::to_underlying(Smash)] = static_cast<s16>(spiGetStackInt(stack++));
-  SpiWeaponPt->m_properties[std::to_underlying(Exorcism)] = static_cast<s16>(spiGetStackInt(stack++));
-  SpiWeaponPt->m_properties[std::to_underlying(Beast)] = static_cast<s16>(spiGetStackInt(stack++));
-  SpiWeaponPt->m_properties[std::to_underlying(Scale)] = static_cast<s16>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_properties[common::to_underlying(Flame)] = static_cast<s16>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_properties[common::to_underlying(Chill)] = static_cast<s16>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_properties[common::to_underlying(Lightning)] = static_cast<s16>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_properties[common::to_underlying(Cyclone)] = static_cast<s16>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_properties[common::to_underlying(Smash)] = static_cast<s16>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_properties[common::to_underlying(Exorcism)] = static_cast<s16>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_properties[common::to_underlying(Beast)] = static_cast<s16>(spiGetStackInt(stack++));
+  SpiWeaponPt->m_properties[common::to_underlying(Scale)] = static_cast<s16>(spiGetStackInt(stack++));
 
   return true;
 }
@@ -652,10 +653,10 @@ s32 CGameData::LoadData()
 // 00195630
 void CGameData::LoadItemSystemMes(Language language)
 {
-  log_trace("CGameData::{}({})", __func__, std::to_underlying(language));
+  log_trace("CGameData::{}({})", __func__, common::to_underlying(language));
 
   using namespace common;
-  auto file_path = file_helpers::resolve_data_path("menu/cfg7/comdatmes{}.cfg", std::to_underlying(language));
+  auto file_path = file_helpers::resolve_data_path("menu/cfg7/comdatmes{}.cfg", common::to_underlying(language));
 
   auto fs = file_stream::open(file_path, "rb");
   auto file_size = fs->size();
@@ -679,9 +680,9 @@ void CGameData::LoadItemSystemMes(Language language)
 // 00195770
 SDataItemCommon* CGameData::GetCommonData(ECommonItemData index)
 {
-  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
+  log_trace("CGameData::{}({})", __func__, common::to_underlying(index));
 
-  auto id = std::to_underlying(index);
+  auto id = common::to_underlying(index);
   if (id < 0 || local_itemdatano_converttable.size() <= id)
   {
     return nullptr;
@@ -699,7 +700,7 @@ SDataItemCommon* CGameData::GetCommonData(ECommonItemData index)
 // 001957E0
 CDataWeapon* CGameData::GetWeaponData(ECommonItemData index)
 {
-  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
+  log_trace("CGameData::{}({})", __func__, common::to_underlying(index));
 
   auto common_data = GetCommonData(index);
   if (common_data == nullptr)
@@ -727,7 +728,7 @@ CDataWeapon* CGameData::GetWeaponData(ECommonItemData index)
 // 00195890
 CDataItem* CGameData::GetItemData(ECommonItemData index)
 {
-  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
+  log_trace("CGameData::{}({})", __func__, common::to_underlying(index));
 
   auto common_data = GetCommonData(index);
   if (common_data == nullptr)
@@ -756,7 +757,7 @@ CDataItem* CGameData::GetItemData(ECommonItemData index)
 // 00195940
 CDataAttach* CGameData::GetAttachData(ECommonItemData index)
 {
-  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
+  log_trace("CGameData::{}({})", __func__, common::to_underlying(index));
 
   auto common_data = GetCommonData(index);
   if (common_data == nullptr)
@@ -785,7 +786,7 @@ CDataAttach* CGameData::GetAttachData(ECommonItemData index)
 // 001959F0
 CDataRoboPart* CGameData::GetRoboData(ECommonItemData index)
 {
-  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
+  log_trace("CGameData::{}({})", __func__, common::to_underlying(index));
 
   auto common_data = GetCommonData(index);
   if (common_data == nullptr)
@@ -809,7 +810,7 @@ CDataRoboPart* CGameData::GetRoboData(ECommonItemData index)
 // 00195A60
 CDataBreedFish* CGameData::GetFishData(ECommonItemData index)
 {
-  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
+  log_trace("CGameData::{}({})", __func__, common::to_underlying(index));
 
   auto common_data = GetCommonData(index);
   if (common_data == nullptr)
@@ -838,7 +839,7 @@ CDataBreedFish* CGameData::GetFishData(ECommonItemData index)
 // 00195B10
 CDataGuard* CGameData::GetGuardData(ECommonItemData index)
 {
-  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
+  log_trace("CGameData::{}({})", __func__, common::to_underlying(index));
 
   auto common_data = GetCommonData(index);
   if (common_data == nullptr)
@@ -862,7 +863,7 @@ CDataGuard* CGameData::GetGuardData(ECommonItemData index)
 // 00195B80
 ComType CGameData::GetDataType(ECommonItemData index)
 {
-  log_trace("CGameData::{}({})", __func__, std::to_underlying(index));
+  log_trace("CGameData::{}({})", __func__, common::to_underlying(index));
 
   auto common_data = GetCommonData(index);
   if (common_data == nullptr)
@@ -919,7 +920,7 @@ bool LoadGameDataAnalyze(const char* config_file_name)
 // 00195C20
 SDataItemCommon* GetCommonItemData(ECommonItemData index)
 {
-  log_trace("{}({})", __func__, std::to_underlying(index));
+  log_trace("{}({})", __func__, common::to_underlying(index));
 
   return GameItemDataManage.GetCommonData(index);
 }
@@ -927,7 +928,7 @@ SDataItemCommon* GetCommonItemData(ECommonItemData index)
 // 00195C30
 CDataItem* GetItemInfoData(ECommonItemData index)
 {
-  log_trace("{}({})", __func__, std::to_underlying(index));
+  log_trace("{}({})", __func__, common::to_underlying(index));
 
   return GameItemDataManage.GetItemData(index);
 }
@@ -935,7 +936,7 @@ CDataItem* GetItemInfoData(ECommonItemData index)
 // 00195C40
 CDataWeapon* GetWeaponInfoData(ECommonItemData index)
 {
-  log_trace("{}({})", __func__, std::to_underlying(index));
+  log_trace("{}({})", __func__, common::to_underlying(index));
 
   return GameItemDataManage.GetWeaponData(index);
 }
@@ -943,7 +944,7 @@ CDataWeapon* GetWeaponInfoData(ECommonItemData index)
 // 00195C50
 CDataRoboPart* GetRoboPartInfoData(ECommonItemData index)
 {
-  log_trace("{}({})", __func__, std::to_underlying(index));
+  log_trace("{}({})", __func__, common::to_underlying(index));
 
   return GameItemDataManage.GetRoboData(index);
 }
@@ -951,7 +952,7 @@ CDataRoboPart* GetRoboPartInfoData(ECommonItemData index)
 // 00195C60
 CDataBreedFish* GetBreedFishInfoData(ECommonItemData index)
 {
-  log_trace("{}({})", __func__, std::to_underlying(index));
+  log_trace("{}({})", __func__, common::to_underlying(index));
 
   return GameItemDataManage.GetFishData(index);
 }
@@ -959,7 +960,7 @@ CDataBreedFish* GetBreedFishInfoData(ECommonItemData index)
 // 00195C70
 std::string GetItemFileName(MAYBE_UNUSED ECommonItemData item_id, MAYBE_UNUSED sint i)
 {
-  log_trace("{}({}, {})", __func__, std::to_underlying(item_id), i);
+  log_trace("{}({}, {})", __func__, common::to_underlying(item_id), i);
 
   todo;
   return "";
@@ -968,7 +969,7 @@ std::string GetItemFileName(MAYBE_UNUSED ECommonItemData item_id, MAYBE_UNUSED s
 // 00195C70
 std::string GetItemFilePath(MAYBE_UNUSED ECommonItemData item_id, MAYBE_UNUSED sint i)
 {
-  log_trace("{}({})", __func__, std::to_underlying(item_id), i);
+  log_trace("{}({})", __func__, common::to_underlying(item_id), i);
 
   todo;
   return "";
@@ -977,7 +978,7 @@ std::string GetItemFilePath(MAYBE_UNUSED ECommonItemData item_id, MAYBE_UNUSED s
 // 00195EC0
 ECommonItemDataType GetItemDataType(ECommonItemData index)
 {
-  log_trace("{}({})", __func__, std::to_underlying(index));
+  log_trace("{}({})", __func__, common::to_underlying(index));
 
   return GameItemDataManage.GetDataType(index);
 }
@@ -1040,7 +1041,7 @@ UsedType ConvertUsedItemType(ComType type)
   auto result = convert_table.find(type);
   if (result == convert_table.end())
   {
-    if (std::to_underlying(type) < 0)
+    if (common::to_underlying(type) < 0)
     {
       return UsedType::Invalid;
     }
@@ -1056,7 +1057,7 @@ UsedType ConvertUsedItemType(ComType type)
 // 00196040
 std::string GetItemMessage(ECommonItemData index)
 {
-  log_trace("{}({})", __func__, std::to_underlying(index));
+  log_trace("{}({})", __func__, common::to_underlying(index));
 
   auto common_data = GameItemDataManage.GetCommonData(index);
   

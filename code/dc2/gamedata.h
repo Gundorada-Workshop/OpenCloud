@@ -1,5 +1,6 @@
 #pragma once
 #include "common/debug.h"
+#include "common/helpers.h"
 #include "common/types.h"
 
 // ~ 001937C0 - 00196130
@@ -623,9 +624,9 @@ public:
   // A
   s16 m_durable_max{ 0 };
   // C
-  std::array<s16, std::to_underlying(WeaponProperty::COUNT)> m_properties{ 0 };
+  std::array<s16, common::to_underlying(WeaponProperty::COUNT)> m_properties{ 0 };
   // 1C
-  std::array<s16, std::to_underlying(WeaponProperty::COUNT)> m_properties_max{ 0 };
+  std::array<s16, common::to_underlying(WeaponProperty::COUNT)> m_properties_max{ 0 };
   
   // ?
 

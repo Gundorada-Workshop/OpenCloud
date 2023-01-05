@@ -1,6 +1,7 @@
 #include <string.h>
 
 #include "common/debug.h"
+#include "common/helpers.h"
 #include "common/macros.h"
 #include "common/log.h"
 

@@ -1,4 +1,5 @@
 ﻿#include "common/bits.h"
+#include "common/helpers.h"
 #include "common/math.h"
 #include "common/constants.h"
 #include "common/debug.h"
@@ -409,7 +410,7 @@ void EyeCamera(mgCCamera* camera, CCharacter2* chara, bool b)
 // 001A66F0
 void InitLadder(ELadderMode ladder_mode, CScene* scene, CSceneEventData* event_data)
 {
-  log_trace("{}({}, {}, {})", __func__, std::to_underlying(ladder_mode), fmt::ptr(scene), fmt::ptr(event_data));
+  log_trace("{}({}, {}, {})", __func__, common::to_underlying(ladder_mode), fmt::ptr(scene), fmt::ptr(event_data));
 
   todo;
 }
