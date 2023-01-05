@@ -4,6 +4,8 @@
 #include "common/debug.h"
 #include "common/types.h"
 
+#include "graph/vector.h"
+
 #include "dc2/mg/mg_math.h"
 #include "dc2//mg/mg_memory.h"
 #include "dc2/mg/mg_texture.h"

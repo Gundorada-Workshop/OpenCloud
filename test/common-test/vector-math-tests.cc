@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
 
-#include "common/math/_vector.h"
-#include "common/math/_vector_math.h"
+#include "graph/vector.h"
+#include "graph/_vector/_vector_math.h"
 
-using namespace common::math;
+using namespace graph;
 
 TEST(VectorFloatMath, ShouldCalculateUnitVector)
 {

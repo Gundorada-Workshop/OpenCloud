@@ -4,9 +4,9 @@
 #include "common/types.h"
 #include "common/bits.h"
 
-#include "common/math/_vector_common.h"
+#include "graph/_vector/_vector_common.h"
 
-namespace common::math::detail
+namespace graph::detail
 {
   constexpr uint shuffle_mask(element e0, element e1, element e2, element e3)
   {

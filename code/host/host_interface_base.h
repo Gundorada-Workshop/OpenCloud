@@ -4,6 +4,7 @@
 #include "common/math.h"
 #include "common/window_handle.h"
 
+#include "graph/vector.h"
 #include "graph/rectangle.h"
 
 #include "host/pad_handler.h"

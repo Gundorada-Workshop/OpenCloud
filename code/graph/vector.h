@@ -2,10 +2,10 @@
 #include "common/types.h"
 #include "common/bits.h"
 
-#include "common/math/_vector_cxp.h"
-#include "common/math/_vector_sse.h"
+#include "graph/_vector/_vector_cxp.h"
+#include "graph/_vector/_vector_sse.h"
 
-namespace common::math
+namespace graph
 {
   template<usize size>
   concept is_vec_2 = (size >= 2);
@@ -332,7 +332,7 @@ namespace common::math
       return *this;
     }
 
-    #include "common/math/_vector_swizzle.inl"
+    #include "graph/_vector/_vector_swizzle.inl"
 
     union
     {
@@ -540,13 +540,13 @@ namespace common::math
 }
 
 template<typename type>
-using vector2 = common::math::vector<type, 2>;
+using vector2 = graph::vector<type, 2>;
 
 template<typename type>
-using vector3 = common::math::vector<type, 3>;
+using vector3 = graph::vector<type, 3>;
 
 template<typename type>
-using vector4 = common::math::vector<type, 4>;
+using vector4 = graph::vector<type, 4>;
 
 using vec2 = vector2<f32>;
 using vec3 = vector3<f32>;

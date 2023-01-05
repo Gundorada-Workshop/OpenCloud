@@ -1,7 +1,7 @@
 #pragma once
-#include "common/math/_vector.h"
+#include "graph/vector.h"
 
-namespace common::math
+namespace graph
 {
   // compute the dot product of two vectors
   template<typename type, usize size>

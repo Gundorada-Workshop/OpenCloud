@@ -3,6 +3,8 @@
 #include "common/macros.h"
 #include "common/debug.h"
 
+#include "graph/vector.h"
+
 // ~ 00131110 - 00131B60
 
 class mgCCamera

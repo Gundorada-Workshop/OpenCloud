@@ -1,8 +1,9 @@
 #pragma once
 #include "common/types.h"
-#include "common/math/_vector_common.h"
 
-namespace common::math::detail
+#include "graph/_vector/_vector_common.h"
+
+namespace graph::detail
 {
   template<typename type>
   struct vector_traits_cxp;

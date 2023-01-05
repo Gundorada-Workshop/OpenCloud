@@ -29,47 +29,12 @@
     <ClInclude Include="synchro.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="window_handle.h" />
-    <ClInclude Include="math\_vector_sse.h">
-      <Filter>math</Filter>
-    </ClInclude>
-    <ClInclude Include="math\_matrix.h">
-      <Filter>math</Filter>
-    </ClInclude>
-    <ClInclude Include="math\_vector.h">
-      <Filter>math</Filter>
-    </ClInclude>
-    <ClInclude Include="math\_vector_cxp.h">
-      <Filter>math</Filter>
-    </ClInclude>
-    <ClInclude Include="math\_vector_common.h">
-      <Filter>math</Filter>
-    </ClInclude>
     <ClInclude Include="constants.h" />
-    <ClInclude Include="math\_vector_math.h">
-      <Filter>math</Filter>
-    </ClInclude>
     <ClInclude Include="aligned_allocator.h" />
     <ClInclude Include="macros.h" />
     <ClInclude Include="helpers.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="common.exports.props" />
-    <None Include="math\_vector_swizzle2.inl">
-      <Filter>math</Filter>
-    </None>
-    <None Include="math\_vector_swizzle3.inl">
-      <Filter>math</Filter>
-    </None>
-    <None Include="math\_vector_swizzle4.inl">
-      <Filter>math</Filter>
-    </None>
-    <None Include="math\_vector_swizzle.inl">
-      <Filter>math</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="math">
-      <UniqueIdentifier>{036d1d30-a990-4859-b96b-8b167e589d03}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
 </Project>

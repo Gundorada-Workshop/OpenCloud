@@ -12,7 +12,7 @@ namespace host
   host_interface_base::host_interface_base() = default;
   host_interface_base::~host_interface_base() = default;
 
-  common::math::vector<f32, 2> host_interface_base::sample_pad_left_stick_xy()
+  vec2 host_interface_base::sample_pad_left_stick_xy()
   {
     std::lock_guard<std::mutex> lk(m_pad_handler_mutex);
 
@@ -21,7 +21,7 @@ namespace host
     return { axis.x, axis.y };
   }
 
-  common::math::vector<f32, 2> host_interface_base::sample_pad_right_stick_xy()
+  vec2 host_interface_base::sample_pad_right_stick_xy()
   {
     std::lock_guard<std::mutex> lk(m_pad_handler_mutex);
 

@@ -1,7 +1,8 @@
 #pragma once
 #include "common/types.h"
 #include "common/strings.h"
-#include "common/math/_vector.h"
+
+#include "graph/vector.h"
 
 namespace graph
 {
