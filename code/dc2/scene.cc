@@ -1,4 +1,5 @@
 #include "common/debug.h"
+#include "common/helpers.h"
 #include "common/log.h"
 
 #include "dc2/character.h"
@@ -1978,7 +1979,7 @@ void CScene::DeleteVillager()
 // 002C97C0
 s32 CScene::SearchCharaID(ECharacterID chara_no)
 {
-	log_trace("CScene::{}({})", __func__, std::to_underlying(chara_no));
+	log_trace("CScene::{}({})", __func__, common::to_underlying(chara_no));
 
 	for (usize i = 8; i < 0x40; ++i) // FIXME: MAGIC; not sure why 8 and 0x40 here
 	{

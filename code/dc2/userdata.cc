@@ -4,6 +4,7 @@
 #include "common/bits.h"
 #include "common/constants.h"
 #include "common/debug.h"
+#include "common/helpers.h"
 #include "common/log.h"
 #include "common/types.h"
 
@@ -38,14 +39,14 @@ void SetItemSpectolPoint(ECommonItemData item_id, ATTACH_USED* attach, sint stac
 
   enum class SpectolCategory : u8
   {
-    Flame = std::to_underlying(WeaponProperty::Flame), // 0
-    Chill = std::to_underlying(WeaponProperty::Chill), // 1
-    Lightning = std::to_underlying(WeaponProperty::Lightning), // 2
-    Cyclone = std::to_underlying(WeaponProperty::Cyclone), // 3
-    Smash = std::to_underlying(WeaponProperty::Smash), // 4
-    Exorcism = std::to_underlying(WeaponProperty::Exorcism), // 5
-    Beast = std::to_underlying(WeaponProperty::Beast), // 6
-    Scale = std::to_underlying(WeaponProperty::Scale), // 7
+    Flame = common::to_underlying(WeaponProperty::Flame), // 0
+    Chill = common::to_underlying(WeaponProperty::Chill), // 1
+    Lightning = common::to_underlying(WeaponProperty::Lightning), // 2
+    Cyclone = common::to_underlying(WeaponProperty::Cyclone), // 3
+    Smash = common::to_underlying(WeaponProperty::Smash), // 4
+    Exorcism = common::to_underlying(WeaponProperty::Exorcism), // 5
+    Beast = common::to_underlying(WeaponProperty::Beast), // 6
+    Scale = common::to_underlying(WeaponProperty::Scale), // 7
     
     Attack = 10,
     Durable = 11,
@@ -283,7 +284,7 @@ void SetItemSpectolPoint(ECommonItemData item_id, ATTACH_USED* attach, sint stac
       attach->m_durable = static_cast<s16>(param_amount * stack_num);
       break;
     default:
-      attach->m_properties[std::to_underlying(param_category)] = static_cast<s16>(param_amount * stack_num);;
+      attach->m_properties[common::to_underlying(param_category)] = static_cast<s16>(param_amount * stack_num);;
       break;
   }
 }
@@ -291,7 +292,7 @@ void SetItemSpectolPoint(ECommonItemData item_id, ATTACH_USED* attach, sint stac
 // 00196130
 usize ItemCmdMsgSet(EItemCmd cmd, s32* dest)
 {
-  log_trace("{}({}, {})", __func__, std::to_underlying(cmd), fmt::ptr(dest));
+  log_trace("{}({}, {})", __func__, common::to_underlying(cmd), fmt::ptr(dest));
 
   // 00335A70
   static s8 ItemCmdMsgTbl[][8] = {
@@ -332,7 +333,7 @@ usize ItemCmdMsgSet(EItemCmd cmd, s32* dest)
   int i = 0;
   for (; i < std::size(ItemCmdMsgTbl[0]); ++i)
   {
-    dest[i] = ItemCmdMsgTbl[std::to_underlying(cmd)][i] + 5000;
+    dest[i] = ItemCmdMsgTbl[common::to_underlying(cmd)][i] + 5000;
     if (dest[i] < 5000)
     {
       break;
@@ -346,7 +347,7 @@ usize ItemCmdMsgSet(EItemCmd cmd, s32* dest)
 // 001961A0
 usize GetMenuCommandMsg(ECommonItemData item_id, s32* dest)
 {
-  log_trace("{}({}, {})", __func__, std::to_underlying(item_id), fmt::ptr(dest));
+  log_trace("{}({}, {})", __func__, common::to_underlying(item_id), fmt::ptr(dest));
 
   auto item_type = GetItemDataType(item_id);
 
@@ -485,7 +486,7 @@ usize GetMenuCommandMsg(ECommonItemData item_id, s32* dest)
 // 00196520
 bool CheckItemEquip(ECharacterID chara_id, ECommonItemData item_id)
 {
-  log_trace("{}({}, {})", __func__, std::to_underlying(chara_id), std::to_underlying(item_id));
+  log_trace("{}({}, {})", __func__, common::to_underlying(chara_id), common::to_underlying(item_id));
 
   if (!GetItemInfoData(item_id))
   {
@@ -509,7 +510,7 @@ ECommonItemData SearchItemByName(const std::string name)
 {
   log_trace("{}({})", __func__, name);
 
-  for (int i = 1; i < std::to_underlying(ECommonItemData::COUNT); ++i)
+  for (int i = 1; i < common::to_underlying(ECommonItemData::COUNT); ++i)
   {
     if (GetCommonItemData(static_cast<ECommonItemData>(i))->m_name == name)
     {
@@ -1124,7 +1125,7 @@ ECommonItemData CGameDataUsed::GetRepairItemNo() const
 // 00198360
 bool CGameDataUsed::IsEnableUseRepair(ECommonItemData item_id) const
 {
-  log_trace("CGameDataUsed::{}({})", __func__, std::to_underlying(item_id));
+  log_trace("CGameDataUsed::{}({})", __func__, common::to_underlying(item_id));
 
   return GetRepairItemNo() == item_id;
 }
@@ -1437,7 +1438,7 @@ void CGameDataUsed::ToSpectolTrans(CGameDataUsed* spectrumized_item_dest, usize 
   {
     case Fish:
       spec->as.attach.m_level = 0;
-      spec->as.attach.m_properties[std::to_underlying(Scale)] = 2;
+      spec->as.attach.m_properties[common::to_underlying(Scale)] = 2;
       spec->as.attach.m_unk_field_1C = 0;
       spec->as.attach.m_unk_field_0 = 4;
       spec->as.attach.m_unk_field_1 = 1;
@@ -1533,38 +1534,38 @@ void CGameDataUsed::GetStatusParam(s16* param_dest)
     case Weapon:
       param_dest[0] = as.weapon.m_attack;
       param_dest[1] = as.weapon.m_durable;
-      param_dest[2] = as.weapon.m_properties[std::to_underlying(Flame)];
-      param_dest[3] = as.weapon.m_properties[std::to_underlying(Chill)];
-      param_dest[4] = as.weapon.m_properties[std::to_underlying(Lightning)];
-      param_dest[5] = as.weapon.m_properties[std::to_underlying(Cyclone)];
-      param_dest[6] = as.weapon.m_properties[std::to_underlying(Smash)];
-      param_dest[7] = as.weapon.m_properties[std::to_underlying(Exorcism)];
-      param_dest[8] = as.weapon.m_properties[std::to_underlying(Beast)];
-      param_dest[9] = as.weapon.m_properties[std::to_underlying(Scale)];
+      param_dest[2] = as.weapon.m_properties[common::to_underlying(Flame)];
+      param_dest[3] = as.weapon.m_properties[common::to_underlying(Chill)];
+      param_dest[4] = as.weapon.m_properties[common::to_underlying(Lightning)];
+      param_dest[5] = as.weapon.m_properties[common::to_underlying(Cyclone)];
+      param_dest[6] = as.weapon.m_properties[common::to_underlying(Smash)];
+      param_dest[7] = as.weapon.m_properties[common::to_underlying(Exorcism)];
+      param_dest[8] = as.weapon.m_properties[common::to_underlying(Beast)];
+      param_dest[9] = as.weapon.m_properties[common::to_underlying(Scale)];
       break;
     case Attach:
       param_dest[0] = as.attach.m_attack;
       param_dest[1] = as.attach.m_durable;
-      param_dest[2] = as.attach.m_properties[std::to_underlying(Flame)];
-      param_dest[3] = as.attach.m_properties[std::to_underlying(Chill)];
-      param_dest[4] = as.attach.m_properties[std::to_underlying(Lightning)];
-      param_dest[5] = as.attach.m_properties[std::to_underlying(Cyclone)];
-      param_dest[6] = as.attach.m_properties[std::to_underlying(Smash)];
-      param_dest[7] = as.attach.m_properties[std::to_underlying(Exorcism)];
-      param_dest[8] = as.attach.m_properties[std::to_underlying(Beast)];
-      param_dest[9] = as.attach.m_properties[std::to_underlying(Scale)];
+      param_dest[2] = as.attach.m_properties[common::to_underlying(Flame)];
+      param_dest[3] = as.attach.m_properties[common::to_underlying(Chill)];
+      param_dest[4] = as.attach.m_properties[common::to_underlying(Lightning)];
+      param_dest[5] = as.attach.m_properties[common::to_underlying(Cyclone)];
+      param_dest[6] = as.attach.m_properties[common::to_underlying(Smash)];
+      param_dest[7] = as.attach.m_properties[common::to_underlying(Exorcism)];
+      param_dest[8] = as.attach.m_properties[common::to_underlying(Beast)];
+      param_dest[9] = as.attach.m_properties[common::to_underlying(Scale)];
       break;
     case Robopart:
       param_dest[0] = as.robopart.m_attack;
       param_dest[1] = as.robopart.m_durable;
-      param_dest[2] = as.robopart.m_properties[std::to_underlying(Flame)];
-      param_dest[3] = as.robopart.m_properties[std::to_underlying(Chill)];
-      param_dest[4] = as.robopart.m_properties[std::to_underlying(Lightning)];
-      param_dest[5] = as.robopart.m_properties[std::to_underlying(Cyclone)];
-      param_dest[6] = as.robopart.m_properties[std::to_underlying(Smash)];
-      param_dest[7] = as.robopart.m_properties[std::to_underlying(Exorcism)];
-      param_dest[8] = as.robopart.m_properties[std::to_underlying(Beast)];
-      param_dest[9] = as.robopart.m_properties[std::to_underlying(Scale)];
+      param_dest[2] = as.robopart.m_properties[common::to_underlying(Flame)];
+      param_dest[3] = as.robopart.m_properties[common::to_underlying(Chill)];
+      param_dest[4] = as.robopart.m_properties[common::to_underlying(Lightning)];
+      param_dest[5] = as.robopart.m_properties[common::to_underlying(Cyclone)];
+      param_dest[6] = as.robopart.m_properties[common::to_underlying(Smash)];
+      param_dest[7] = as.robopart.m_properties[common::to_underlying(Exorcism)];
+      param_dest[8] = as.robopart.m_properties[common::to_underlying(Beast)];
+      param_dest[9] = as.robopart.m_properties[common::to_underlying(Scale)];
       break;
     default:
       break;
@@ -1615,14 +1616,14 @@ uint CGameDataUsed::IsBuildUp(uint* total_possible_dest, ECommonItemData* buildu
   s16 now_param[9];
 
   now_param[0] = as.weapon.m_attack;
-  now_param[1] = as.weapon.m_properties[std::to_underlying(Flame)];
-  now_param[2] = as.weapon.m_properties[std::to_underlying(Chill)];
-  now_param[3] = as.weapon.m_properties[std::to_underlying(Lightning)];
-  now_param[4] = as.weapon.m_properties[std::to_underlying(Cyclone)];
-  now_param[5] = as.weapon.m_properties[std::to_underlying(Smash)];
-  now_param[6] = as.weapon.m_properties[std::to_underlying(Exorcism)];
-  now_param[7] = as.weapon.m_properties[std::to_underlying(Beast)];
-  now_param[8] = as.weapon.m_properties[std::to_underlying(Scale)];
+  now_param[1] = as.weapon.m_properties[common::to_underlying(Flame)];
+  now_param[2] = as.weapon.m_properties[common::to_underlying(Chill)];
+  now_param[3] = as.weapon.m_properties[common::to_underlying(Lightning)];
+  now_param[4] = as.weapon.m_properties[common::to_underlying(Cyclone)];
+  now_param[5] = as.weapon.m_properties[common::to_underlying(Smash)];
+  now_param[6] = as.weapon.m_properties[common::to_underlying(Exorcism)];
+  now_param[7] = as.weapon.m_properties[common::to_underlying(Beast)];
+  now_param[8] = as.weapon.m_properties[common::to_underlying(Scale)];
 
   uint total_possible = 0;
   uint total_can_build_up = 0;
@@ -1640,14 +1641,14 @@ uint CGameDataUsed::IsBuildUp(uint* total_possible_dest, ECommonItemData* buildu
     s16 goal_param[std::size(now_param)];
 
     goal_param[0] = goal_wep_data->m_attack;
-    goal_param[1] = goal_wep_data->m_properties[std::to_underlying(Flame)];
-    goal_param[2] = goal_wep_data->m_properties[std::to_underlying(Chill)];
-    goal_param[3] = goal_wep_data->m_properties[std::to_underlying(Lightning)];
-    goal_param[4] = goal_wep_data->m_properties[std::to_underlying(Cyclone)];
-    goal_param[5] = goal_wep_data->m_properties[std::to_underlying(Smash)];
-    goal_param[6] = goal_wep_data->m_properties[std::to_underlying(Exorcism)];
-    goal_param[7] = goal_wep_data->m_properties[std::to_underlying(Beast)];
-    goal_param[8] = goal_wep_data->m_properties[std::to_underlying(Scale)];
+    goal_param[1] = goal_wep_data->m_properties[common::to_underlying(Flame)];
+    goal_param[2] = goal_wep_data->m_properties[common::to_underlying(Chill)];
+    goal_param[3] = goal_wep_data->m_properties[common::to_underlying(Lightning)];
+    goal_param[4] = goal_wep_data->m_properties[common::to_underlying(Cyclone)];
+    goal_param[5] = goal_wep_data->m_properties[common::to_underlying(Smash)];
+    goal_param[6] = goal_wep_data->m_properties[common::to_underlying(Exorcism)];
+    goal_param[7] = goal_wep_data->m_properties[common::to_underlying(Beast)];
+    goal_param[8] = goal_wep_data->m_properties[common::to_underlying(Scale)];
 
     bool goal_reached = true;
 
@@ -1703,9 +1704,9 @@ std::optional<usize> CGameDataUsed::GetActiveElem() const
     return std::nullopt;
   }
 
-  auto max_index = std::to_underlying(WeaponProperty::ELEMENTS_START);
+  auto max_index = common::to_underlying(WeaponProperty::ELEMENTS_START);
 
-  for (auto i = max_index + 1; i < std::to_underlying(WeaponProperty::ELEMENTS_END); ++i)
+  for (auto i = max_index + 1; i < common::to_underlying(WeaponProperty::ELEMENTS_END); ++i)
   {
     if (as.weapon.m_properties[i] > as.weapon.m_properties[max_index])
     {
@@ -1896,7 +1897,7 @@ ssize CGameDataUsed::GetGiftBoxItemNum() const
 // 001998B0
 ssize CGameDataUsed::SetGiftBoxItem(ECommonItemData item_id, ssize index)
 {
-  log_trace("CGameDataUsed::{}({}, {})", __func__, std::to_underlying(item_id), index);
+  log_trace("CGameDataUsed::{}({}, {})", __func__, common::to_underlying(item_id), index);
 
   if (m_type != EUsedItemType::Gift_Box)
   {
@@ -1938,7 +1939,7 @@ ECommonItemData CGameDataUsed::GetGiftBoxItemNo(ssize index) const
 // 00199960
 usize CGameDataUsed::GetGiftBoxSameItemNum(ECommonItemData item_id) const
 {
-  log_trace("CGameDataUsed::{}({})", __func__, std::to_underlying(item_id));
+  log_trace("CGameDataUsed::{}({})", __func__, common::to_underlying(item_id));
 
   if (m_type != EUsedItemType::Gift_Box)
   {
@@ -2008,7 +2009,7 @@ std::optional<u8> CGameDataUsed::GetModelNo() const
 // 001993F0
 std::optional<std::string> GetMainCharaModelName(ECharacterID chara_id, bool b)
 {
-  log_trace("{}({}, {})", __func__, std::to_underlying(chara_id), b);
+  log_trace("{}({}, {})", __func__, common::to_underlying(chara_id), b);
 
   auto user_man = GetUserDataMan();
 
@@ -2045,11 +2046,11 @@ std::optional<std::string> GetMainCharaModelName(ECharacterID chara_id, bool b)
 
   if (b)
   {
-    return common::strings::format("{}.chr", base_model_names[std::to_underlying(chara_id)]);
+    return common::strings::format("{}.chr", base_model_names[common::to_underlying(chara_id)]);
   }
   else
   {
-    return common::strings::format("{}{}.chr", base_model_names[std::to_underlying(chara_id)], model_no);
+    return common::strings::format("{}{}.chr", base_model_names[common::to_underlying(chara_id)], model_no);
   }
 }
 
@@ -2069,7 +2070,7 @@ void CGameDataUsed::TimeCheck(s32 delta)
 // 00199A50
 bool CGameDataUsed::CopyDataWeapon(ECommonItemData item_id)
 {
-  log_trace("CGameDataUsed::{}({})", __func__, std::to_underlying(item_id));
+  log_trace("CGameDataUsed::{}({})", __func__, common::to_underlying(item_id));
 
   const auto weapon_data = GameItemDataManage.GetWeaponData(item_id);
 
@@ -2095,15 +2096,15 @@ bool CGameDataUsed::CopyDataWeapon(ECommonItemData item_id)
   as.weapon.m_attack = weapon_data->m_attack;
   as.weapon.m_durable = weapon_data->m_durable;
 
-  as.weapon.m_properties[std::to_underlying(Flame)] = weapon_data->m_properties[std::to_underlying(Flame)];
-  as.weapon.m_properties[std::to_underlying(Chill)] = weapon_data->m_properties[std::to_underlying(Chill)];
-  as.weapon.m_properties[std::to_underlying(Lightning)]  = weapon_data->m_properties[std::to_underlying(Lightning)];
-  as.weapon.m_properties[std::to_underlying(Cyclone)] = weapon_data->m_properties[std::to_underlying(Cyclone)];
+  as.weapon.m_properties[common::to_underlying(Flame)] = weapon_data->m_properties[common::to_underlying(Flame)];
+  as.weapon.m_properties[common::to_underlying(Chill)] = weapon_data->m_properties[common::to_underlying(Chill)];
+  as.weapon.m_properties[common::to_underlying(Lightning)]  = weapon_data->m_properties[common::to_underlying(Lightning)];
+  as.weapon.m_properties[common::to_underlying(Cyclone)] = weapon_data->m_properties[common::to_underlying(Cyclone)];
 
-  as.weapon.m_properties[std::to_underlying(Smash)] = weapon_data->m_properties[std::to_underlying(Smash)];
-  as.weapon.m_properties[std::to_underlying(Exorcism)] = weapon_data->m_properties[std::to_underlying(Exorcism)];
-  as.weapon.m_properties[std::to_underlying(Beast)] = weapon_data->m_properties[std::to_underlying(Beast)];
-  as.weapon.m_properties[std::to_underlying(Scale)] = weapon_data->m_properties[std::to_underlying(Scale)];
+  as.weapon.m_properties[common::to_underlying(Smash)] = weapon_data->m_properties[common::to_underlying(Smash)];
+  as.weapon.m_properties[common::to_underlying(Exorcism)] = weapon_data->m_properties[common::to_underlying(Exorcism)];
+  as.weapon.m_properties[common::to_underlying(Beast)] = weapon_data->m_properties[common::to_underlying(Beast)];
+  as.weapon.m_properties[common::to_underlying(Scale)] = weapon_data->m_properties[common::to_underlying(Scale)];
 
   as.weapon.m_fusion_point = weapon_data->m_fusion_point;
   as.weapon.m_special_status = weapon_data->m_special_status;
@@ -2125,7 +2126,7 @@ bool CGameDataUsed::CopyDataWeapon(ECommonItemData item_id)
 // 00199B80
 bool CGameDataUsed::CopyDataAttach(ECommonItemData item_id)
 {
-  log_trace("CGameDataUsed::{}({})", __func__, std::to_underlying(item_id));
+  log_trace("CGameDataUsed::{}({})", __func__, common::to_underlying(item_id));
 
   auto attach_data = GameItemDataManage.GetAttachData(item_id);
   if (attach_data == nullptr)
@@ -2163,12 +2164,12 @@ bool CGameDataUsed::CopyDataAttach(ECommonItemData item_id)
 // 00199C90
 bool CGameDataUsed::CopyDataItem(ECommonItemData item_id)
 {
-  log_trace("CGameDataUsed::{}({})", __func__, std::to_underlying(item_id));
+  log_trace("CGameDataUsed::{}({})", __func__, common::to_underlying(item_id));
 
   auto item_data = GetCommonItemData(item_id);
   if (item_data == nullptr)
   {
-    log_warn("{}: unrecognized item ID {}", __func__, std::to_underlying(item_id));
+    log_warn("{}: unrecognized item ID {}", __func__, common::to_underlying(item_id));
     return false;
   }
 
@@ -2228,7 +2229,7 @@ bool CGameDataUsed::CopyDataItem(CGameDataUsed* other)
 // 00199D40
 bool CGameDataUsed::CopyDataFish(ECommonItemData item_id)
 {
-  log_trace("CGameDataUsed::{}({})", __func__, std::to_underlying(item_id));
+  log_trace("CGameDataUsed::{}({})", __func__, common::to_underlying(item_id));
 
   auto fish_data = GetBreedFishInfoData(item_id);
   if (fish_data == nullptr)
@@ -2270,7 +2271,7 @@ bool CGameDataUsed::CopyDataFish(ECommonItemData item_id)
 // 00199ED0
 bool CGameDataUsed::CopyDataGiftBox(ECommonItemData item_id)
 {
-  log_trace("CGameDataUsed::{}({})", __func__, std::to_underlying(item_id));
+  log_trace("CGameDataUsed::{}({})", __func__, common::to_underlying(item_id));
 
   auto item_info_data = GetItemInfoData(item_id);
   if (item_info_data == nullptr)
@@ -2293,7 +2294,7 @@ bool CGameDataUsed::CopyDataGiftBox(ECommonItemData item_id)
 // 0019A040
 bool CGameDataUsed::CopyDataRoboPart(ECommonItemData item_id)
 {
-  log_trace("CGameDataUsed::{}({})", __func__, std::to_underlying(item_id));
+  log_trace("CGameDataUsed::{}({})", __func__, common::to_underlying(item_id));
 
   auto robo_data = GameItemDataManage.GetRoboData(item_id);
   if (robo_data == nullptr)
@@ -2427,13 +2428,13 @@ CGameDataUsed* CUserDataManager::GetUsedDataPtr(ssize index)
 // 0019B490
 SCharaData* CUserDataManager::GetCharaDataPtr(ECharacterID chara_id)
 {
-  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(chara_id));
+  log_trace("CUserDataManager::{}({})", __func__, common::to_underlying(chara_id));
 
   switch (chara_id)
   {
     case ECharacterID::Max:
     case ECharacterID::Monica:
-      return &m_chara_data[std::to_underlying(chara_id)];
+      return &m_chara_data[common::to_underlying(chara_id)];
     default:
       return nullptr;
   }
@@ -2442,17 +2443,17 @@ SCharaData* CUserDataManager::GetCharaDataPtr(ECharacterID chara_id)
 // 0019B4C0
 COMMON_GAGE* CUserDataManager::GetCharaHpGage(ECharacterID chara_id)
 {
-  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(chara_id));
+  log_trace("CUserDataManager::{}({})", __func__, common::to_underlying(chara_id));
 
   switch (chara_id)
   {
     case ECharacterID::Max:
     case ECharacterID::Monica:
-      return &m_chara_data[std::to_underlying(chara_id)].m_chara_hp_gage;
+      return &m_chara_data[common::to_underlying(chara_id)].m_chara_hp_gage;
     case ECharacterID::Ridepod:
       return &m_robo_data.m_chara_hp_gage;
     case ECharacterID::Monster:
-      return &m_chara_data[std::to_underlying(ECharacterID::Monica)].m_chara_hp_gage;
+      return &m_chara_data[common::to_underlying(ECharacterID::Monica)].m_chara_hp_gage;
     default:
       return nullptr;
   }
@@ -2461,7 +2462,7 @@ COMMON_GAGE* CUserDataManager::GetCharaHpGage(ECharacterID chara_id)
 // 0019B510
 sint CUserDataManager::AddHp(ECharacterID chara_id, sint delta)
 {
-  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), delta);
+  log_trace("CUserDataManager::{}({}, {})", __func__, common::to_underlying(chara_id), delta);
 
   auto gage = GetCharaHpGage(chara_id);
   if (gage == nullptr) 
@@ -2474,7 +2475,7 @@ sint CUserDataManager::AddHp(ECharacterID chara_id, sint delta)
 // 0019B560
 f32 CUserDataManager::GetHp(ECharacterID chara_id)
 {
-  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(chara_id));
+  log_trace("CUserDataManager::{}({})", __func__, common::to_underlying(chara_id));
 
   auto gage = GetCharaHpGage(chara_id);
   if (gage == nullptr)
@@ -2486,7 +2487,7 @@ f32 CUserDataManager::GetHp(ECharacterID chara_id)
 // 0019B5A0
 f32 CUserDataManager::AddHp_Rate(ECharacterID chara_id, f32 rate)
 {
-  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), rate);
+  log_trace("CUserDataManager::{}({}, {})", __func__, common::to_underlying(chara_id), rate);
 
   auto gage = GetCharaHpGage(chara_id);
   if (gage == nullptr)
@@ -2500,7 +2501,7 @@ f32 CUserDataManager::AddHp_Rate(ECharacterID chara_id, f32 rate)
 // 0019B620
 COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_index)
 {
-  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), gage_index);
+  log_trace("CUserDataManager::{}({}, {})", __func__, common::to_underlying(chara_id), gage_index);
 
   using enum ECharacterID;
 
@@ -2519,7 +2520,7 @@ COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_inde
     }
     case Max:
     case Monica:
-      return &m_chara_data[std::to_underlying(chara_id)].m_equip_table.data[gage_index].as.weapon.m_whp_gage;
+      return &m_chara_data[common::to_underlying(chara_id)].m_equip_table.data[gage_index].as.weapon.m_whp_gage;
     default:
       return nullptr;
   }
@@ -2528,7 +2529,7 @@ COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_inde
 // 0019B6F0
 COMMON_GAGE* CUserDataManager::GetAbsGage(ECharacterID chara_id, ssize gage_index)
 {
-  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), gage_index);
+  log_trace("CUserDataManager::{}({}, {})", __func__, common::to_underlying(chara_id), gage_index);
 
   using enum ECharacterID;
 
@@ -2547,7 +2548,7 @@ COMMON_GAGE* CUserDataManager::GetAbsGage(ECharacterID chara_id, ssize gage_inde
     }
     case Max:
     case Monica:
-      return &m_chara_data[std::to_underlying(chara_id)].m_equip_table.data[gage_index].as.weapon.m_abs_gage;
+      return &m_chara_data[common::to_underlying(chara_id)].m_equip_table.data[gage_index].as.weapon.m_abs_gage;
     default:
       return nullptr;
   }
@@ -2556,7 +2557,7 @@ COMMON_GAGE* CUserDataManager::GetAbsGage(ECharacterID chara_id, ssize gage_inde
 // 0019B7C0
 s32 CUserDataManager::AddWhp(ECharacterID chara_id, ssize gage_index, s32 delta)
 {
-  log_trace("CUserDataManager::{}({}, {}, {})", __func__, std::to_underlying(chara_id), gage_index, delta);
+  log_trace("CUserDataManager::{}({}, {}, {})", __func__, common::to_underlying(chara_id), gage_index, delta);
 
   auto gage = GetWHpGage(chara_id, gage_index);
   if (gage == nullptr)
@@ -2571,7 +2572,7 @@ s32 CUserDataManager::AddWhp(ECharacterID chara_id, ssize gage_index, s32 delta)
 // 0019B820
 s32 CUserDataManager::GetWhp(ECharacterID chara_id, ssize gage_index, s32* max_dest)
 {
-  log_trace("CUserDataManager::{}({}, {}, {})", __func__, std::to_underlying(chara_id), gage_index, fmt::ptr(max_dest));
+  log_trace("CUserDataManager::{}({}, {}, {})", __func__, common::to_underlying(chara_id), gage_index, fmt::ptr(max_dest));
 
   auto gage = GetWHpGage(chara_id, gage_index);
   if (gage == nullptr)
@@ -2588,7 +2589,7 @@ s32 CUserDataManager::GetWhp(ECharacterID chara_id, ssize gage_index, s32* max_d
 // 0019B880
 s32 CUserDataManager::AddAbs(ECharacterID chara_id, ssize gage_index, s32 delta)
 {
-  log_trace("CUserDataManager::{}({}, {}, {})", __func__, std::to_underlying(chara_id), gage_index, delta);
+  log_trace("CUserDataManager::{}({}, {}, {})", __func__, common::to_underlying(chara_id), gage_index, delta);
 
   if (chara_id == ECharacterID::Ridepod)
   {
@@ -2611,7 +2612,7 @@ s32 CUserDataManager::AddAbs(ECharacterID chara_id, ssize gage_index, s32 delta)
 // 0019B910
 s32 CUserDataManager::GetAbs(ECharacterID chara_id, ssize gage_index, s32* max_dest)
 {
-  log_trace("CUserDataManager::{}({}, {}, {})", __func__, std::to_underlying(chara_id), gage_index, fmt::ptr(max_dest));
+  log_trace("CUserDataManager::{}({}, {}, {})", __func__, common::to_underlying(chara_id), gage_index, fmt::ptr(max_dest));
 
   if (chara_id == ECharacterID::Ridepod)
   {
@@ -2679,7 +2680,7 @@ void CUserDataManager::EnableCharaChange(ECharacterID chara_id)
     case Monica:
     case Ridepod:
     case Monster:
-      m_chara_change[std::to_underlying(chara_id)] = true;
+      m_chara_change[common::to_underlying(chara_id)] = true;
     default:
       break;
   }
@@ -2701,7 +2702,7 @@ void CUserDataManager::DisableCharaChange(ECharacterID chara_id)
     case Monica:
     case Ridepod:
     case Monster:
-      m_chara_change[std::to_underlying(chara_id)] = false;
+      m_chara_change[common::to_underlying(chara_id)] = false;
     default:
       break;
   }
@@ -2712,7 +2713,7 @@ void CUserDataManager::DisableCharaChange(ECharacterID chara_id)
 // 0019BB40
 bool CUserDataManager::CheckEnableCharaChange(ECharacterID chara_id, sint* p)
 {
-  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), fmt::ptr(p));
+  log_trace("CUserDataManager::{}({}, {})", __func__, common::to_underlying(chara_id), fmt::ptr(p));
 
   todo;
   return false;
@@ -2772,7 +2773,7 @@ ECharaStatusAttribute* CUserDataManager::GetCharaStatusAttributePtr(ECharacterID
 // 0019C0C0
 void CUserDataManager::SetCharaStatusAttribute(ECharacterID chara_id, ECharaStatusAttribute status, bool b)
 {
-  log_trace("CUserDataManager::{}({}, {}, {})", __func__, std::to_underlying(chara_id), std::to_underlying(status), b);
+  log_trace("CUserDataManager::{}({}, {}, {})", __func__, common::to_underlying(chara_id), common::to_underlying(status), b);
 
   todo;
 }
@@ -2780,7 +2781,7 @@ void CUserDataManager::SetCharaStatusAttribute(ECharacterID chara_id, ECharaStat
 // 0019C190
 void CUserDataManager::SetCharaStatusAttributeVol(ECharacterID chara_id, ECharaStatusAttribute status, bool b)
 {
-  log_trace("CUserDataManager::{}({}, {}, {})", __func__, std::to_underlying(chara_id), std::to_underlying(status), b);
+  log_trace("CUserDataManager::{}({}, {}, {})", __func__, common::to_underlying(chara_id), common::to_underlying(status), b);
 
   todo;
 }
@@ -2788,7 +2789,7 @@ void CUserDataManager::SetCharaStatusAttributeVol(ECharacterID chara_id, ECharaS
 // 0019C2C0
 ECharaStatusAttribute CUserDataManager::GetCharaStatusAttribute(ECharacterID chara_id)
 {
-  log_trace("CUserDataManager::{}()", __func__, std::to_underlying(chara_id));
+  log_trace("CUserDataManager::{}()", __func__, common::to_underlying(chara_id));
 
   auto status_ptr = GetCharaStatusAttributePtr(chara_id);
   if (status_ptr == nullptr)
@@ -2813,7 +2814,7 @@ SMonsterBadgeData* CUserDataManager::GetMonsterBadgeDataPtr()
 // 0019C300
 SMonsterBadgeData* CUserDataManager::GetMonsterBadgeDataPtrMosId(EMonsterID monster_id)
 {
-  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(monster_id));
+  log_trace("CUserDataManager::{}({})", __func__, common::to_underlying(monster_id));
 
   todo;
   return nullptr;
@@ -2868,7 +2869,7 @@ std::string CUserDataManager::GetRoboNameDefault() const
 
   if (!robo_nametable.contains(LanguageCode)) [[unlikely]]
   {
-    panicf("No default robo name for language {}", std::to_underlying(LanguageCode));
+    panicf("No default robo name for language {}", common::to_underlying(LanguageCode));
   }
 
   return robo_nametable.at(LanguageCode);
@@ -2877,7 +2878,7 @@ std::string CUserDataManager::GetRoboNameDefault() const
 // 0019C490
 void CUserDataManager::SetVoiceUnit(ERoboVoiceUnit voice_unit)
 {
-  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(voice_unit));
+  log_trace("CUserDataManager::{}({})", __func__, common::to_underlying(voice_unit));
 
   m_robo_data.m_voice_unit = voice_unit;
 
@@ -2928,7 +2929,7 @@ float CUserDataManager::GetRoboAbs() const
 // 0019C750
 void CUserDataManager::SetPartyCharaStatus(EPartyCharacterID chara_id, EPartyCharacterStatus status) const
 {
-  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), std::to_underlying(status));
+  log_trace("CUserDataManager::{}({}, {})", __func__, common::to_underlying(chara_id), common::to_underlying(status));
 
   todo;
 }
@@ -2936,7 +2937,7 @@ void CUserDataManager::SetPartyCharaStatus(EPartyCharacterID chara_id, EPartyCha
 // 0019C8F0
 EPartyCharacterStatus CUserDataManager::GetPartyCharaStatus(EPartyCharacterID chara_id) const
 {
-  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(chara_id));
+  log_trace("CUserDataManager::{}({})", __func__, common::to_underlying(chara_id));
 
   return m_party_chara_status[usize(chara_id)].m_status;
 }
@@ -2963,9 +2964,9 @@ EPartyCharacterID CUserDataManager::NowPartyCharaID() const
 // 0019C9E0
 PARTY_CHARA* CUserDataManager::GetPartyCharaInfo(EPartyCharacterID chara_id)
 {
-  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(chara_id));
+  log_trace("CUserDataManager::{}({})", __func__, common::to_underlying(chara_id));
 
-  sint index = std::to_underlying(chara_id) - 1;
+  sint index = common::to_underlying(chara_id) - 1;
   if (index < 0 || index >= m_party_chara_status.size())
   {
     return nullptr;
@@ -2977,7 +2978,7 @@ PARTY_CHARA* CUserDataManager::GetPartyCharaInfo(EPartyCharacterID chara_id)
 // 0019CA20
 bool CUserDataManager::UseNpcAbility(EPartyCharacterID chara_id, sint cost, bool b)
 {
-  log_trace("CUserDataManager::{}({}, {}, {})", __func__, std::to_underlying(chara_id), cost, b);
+  log_trace("CUserDataManager::{}({}, {}, {})", __func__, common::to_underlying(chara_id), cost, b);
 
   todo;
   return false;
@@ -3003,9 +3004,9 @@ ECommonItemData CUserDataManager::GetFishingRodNo() const
   log_trace("CUserDataManager::{}()", __func__);
 
   // Return Invalid instead? The game just unconditionally returns Max's melee weapon item ID.
-  assert_msg(m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table.melee.IsFishingRod(), "Fishing rod is not equipped!");
+  assert_msg(m_chara_data[common::to_underlying(ECharacterID::Max)].m_equip_table.melee.IsFishingRod(), "Fishing rod is not equipped!");
 
-  return m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table.melee.m_common_index;
+  return m_chara_data[common::to_underlying(ECharacterID::Max)].m_equip_table.melee.m_common_index;
 }
 
 // 0019CEB0
@@ -3013,7 +3014,7 @@ bool CUserDataManager::NowFishingStyle() const
 {
   log_trace("CUserDataManager::{}()", __func__);
 
-  return m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table.melee.IsFishingRod();
+  return m_chara_data[common::to_underlying(ECharacterID::Max)].m_equip_table.melee.IsFishingRod();
 }
 
 // 0019CEE0
@@ -3029,7 +3030,7 @@ CGameDataUsed* CUserDataManager::GetActiveBait()
 // "GetActiveEsa"
 CGameDataUsed* CUserDataManager::GetActiveBait(ECommonItemData item_id)
 {
-  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(item_id));
+  log_trace("CUserDataManager::{}({})", __func__, common::to_underlying(item_id));
 
   switch (item_id)
   {
@@ -3052,13 +3053,13 @@ void CUserDataManager::GetRodStatus(sint* params_dest)
     return;
   }
 
-  const auto& weapon = m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table.melee.as.weapon;
+  const auto& weapon = m_chara_data[common::to_underlying(ECharacterID::Max)].m_equip_table.melee.as.weapon;
 
-  params_dest[0] = weapon.m_properties[std::to_underlying(WeaponProperty::Flight)];
-  params_dest[1] = weapon.m_properties[std::to_underlying(WeaponProperty::Strength)];
-  params_dest[2] = weapon.m_properties[std::to_underlying(WeaponProperty::Resilience)];
-  params_dest[3] = weapon.m_properties[std::to_underlying(WeaponProperty::Grip)];
-  params_dest[4] = weapon.m_properties[std::to_underlying(WeaponProperty::Luck)];
+  params_dest[0] = weapon.m_properties[common::to_underlying(WeaponProperty::Flight)];
+  params_dest[1] = weapon.m_properties[common::to_underlying(WeaponProperty::Strength)];
+  params_dest[2] = weapon.m_properties[common::to_underlying(WeaponProperty::Resilience)];
+  params_dest[3] = weapon.m_properties[common::to_underlying(WeaponProperty::Grip)];
+  params_dest[4] = weapon.m_properties[common::to_underlying(WeaponProperty::Luck)];
 }
 
 // 0019D2E0
@@ -3072,13 +3073,13 @@ sint CUserDataManager::AddFp(sint fishing_points)
     return 0;
   }
 
-  return m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table.melee.AddFusionPoint(fishing_points);
+  return m_chara_data[common::to_underlying(ECharacterID::Max)].m_equip_table.melee.AddFusionPoint(fishing_points);
 }
 
 // 0019D330
 bool CUserDataManager::SetChrEquip(ECharacterID chara_id, CGameDataUsed* equipment)
 {
-  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), fmt::ptr(equipment));
+  log_trace("CUserDataManager::{}({}, {})", __func__, common::to_underlying(chara_id), fmt::ptr(equipment));
 
   if (equipment == nullptr)
   {
@@ -3140,7 +3141,7 @@ bool CUserDataManager::SetChrEquipDirect(ECharacterID chara_id, ECommonItemData 
   // Directly applies equipment to a character given an item ID, useful if you don't care about any equipment stats in particular.
   // For example, changing Max's clothes in the title or viewing different costumes on a character.
 
-  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), std::to_underlying(item_id));
+  log_trace("CUserDataManager::{}({}, {})", __func__, common::to_underlying(chara_id), common::to_underlying(item_id));
 
   if (item_id == ECommonItemData::Invalid)
   {
@@ -3175,7 +3176,7 @@ bool CUserDataManager::SetChrEquipDirect(ECharacterID chara_id, ECommonItemData 
 // 0019D610
 CGameDataUsed* CUserDataManager::SearchEquip(ECharacterID chara_id, ECommonItemData item_id)
 {
-  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), std::to_underlying(item_id));
+  log_trace("CUserDataManager::{}({}, {})", __func__, common::to_underlying(chara_id), common::to_underlying(item_id));
 
   using enum ECharacterID;
 
@@ -3238,7 +3239,7 @@ CGameDataUsed* CUserDataManager::SearchEquip(ECharacterID chara_id, ECommonItemD
 // 0019D710
 std::string CUserDataManager::GetCharaEquipDataPath(ECharacterID chara_id, ssize equip_index) const
 {
-  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(chara_id), equip_index);
+  log_trace("CUserDataManager::{}({}, {})", __func__, common::to_underlying(chara_id), equip_index);
 
   using enum ECharacterID;
 
@@ -3251,7 +3252,7 @@ std::string CUserDataManager::GetCharaEquipDataPath(ECharacterID chara_id, ssize
         return "";
       }
 
-      return m_chara_data[std::to_underlying(chara_id)].m_equip_table.data[equip_index].GetDataPath();
+      return m_chara_data[common::to_underlying(chara_id)].m_equip_table.data[equip_index].GetDataPath();
     case Ridepod:
       if (equip_index < 0 || equip_index >= 4)
       {
@@ -3276,7 +3277,7 @@ bool CUserDataManager::AddFusionPoint(ECharacterID chara_id, ssize equip_index, 
   {
     case 0: // Melee
     case 1: // Ranged
-      m_chara_data[std::to_underlying(chara_id)].m_equip_table.data[equip_index].AddFusionPoint(delta);
+      m_chara_data[common::to_underlying(chara_id)].m_equip_table.data[equip_index].AddFusionPoint(delta);
       return true;
     default:
       return false;
@@ -3334,26 +3335,26 @@ usize CUserDataManager::GetNumSameItem(ECommonItemData item_id) const
   for (auto character_id : character_ids)
   {
     // Active items
-    for (usize i = 0; i < m_chara_data[std::to_underlying(character_id)].m_active_item_info.size(); ++i)
+    for (usize i = 0; i < m_chara_data[common::to_underlying(character_id)].m_active_item_info.size(); ++i)
     {
-      if (m_chara_data[std::to_underlying(character_id)].m_active_item_info[i].m_common_index == item_id)
+      if (m_chara_data[common::to_underlying(character_id)].m_active_item_info[i].m_common_index == item_id)
       {
-        count += m_chara_data[std::to_underlying(character_id)].m_active_item_info[i].GetNum();
+        count += m_chara_data[common::to_underlying(character_id)].m_active_item_info[i].GetNum();
       }
 
-      count += m_chara_data[std::to_underlying(character_id)].m_active_item_info[i].GetGiftBoxSameItemNum(item_id);
+      count += m_chara_data[common::to_underlying(character_id)].m_active_item_info[i].GetGiftBoxSameItemNum(item_id);
     }
 
     // Equipment
     // Active items
-    for (usize i = 0; i < m_chara_data[std::to_underlying(character_id)].m_equip_table.data.size(); ++i)
+    for (usize i = 0; i < m_chara_data[common::to_underlying(character_id)].m_equip_table.data.size(); ++i)
     {
-      if (m_chara_data[std::to_underlying(character_id)].m_equip_table.data[i].m_common_index == item_id)
+      if (m_chara_data[common::to_underlying(character_id)].m_equip_table.data[i].m_common_index == item_id)
       {
-        count += m_chara_data[std::to_underlying(character_id)].m_equip_table.data[i].GetNum();
+        count += m_chara_data[common::to_underlying(character_id)].m_equip_table.data[i].GetNum();
       }
 
-      count += m_chara_data[std::to_underlying(character_id)].m_equip_table.data[i].GetGiftBoxSameItemNum(item_id);
+      count += m_chara_data[common::to_underlying(character_id)].m_equip_table.data[i].GetGiftBoxSameItemNum(item_id);
     }
   }
 
@@ -3388,7 +3389,7 @@ sint CUserDataManager::GetYarikomiMedal()
 // 0019E7F0
 static sint DeleteItem_Local(CGameDataUsed* item, ECommonItemData item_id, sint delta)
 {
-  log_trace("{}({}, {}, {})", __func__, fmt::ptr(item), std::to_underlying(item_id), delta);
+  log_trace("{}({}, {}, {})", __func__, fmt::ptr(item), common::to_underlying(item_id), delta);
 
   if (delta <= 0)
   {
@@ -3423,7 +3424,7 @@ static sint DeleteItem_Local(CGameDataUsed* item, ECommonItemData item_id, sint 
 // 0019E8C0
 bool CUserDataManager::DeleteItem(ECommonItemData item_id, sint delta)
 {
-  log_trace("CUserDataManager::{}({}, {})", __func__, std::to_underlying(item_id), delta);
+  log_trace("CUserDataManager::{}({}, {})", __func__, common::to_underlying(item_id), delta);
 
   // Reverse iteration in order to delete items closer to the end of the inventory if possible.
   for (auto item = m_inventory.rbegin(); item < m_inventory.rend() && delta > 0; ++item)
@@ -3449,7 +3450,7 @@ bool CUserDataManager::DeleteItem(ECommonItemData item_id, sint delta)
 // 0019E9E0
 bool CUserDataManager::CopyGameData(CGameDataUsed* dest, ECommonItemData item_id)
 {
-  log_trace("CUserDataManager::{}({}, {})", __func__, fmt::ptr(dest), std::to_underlying(item_id));
+  log_trace("CUserDataManager::{}({}, {})", __func__, fmt::ptr(dest), common::to_underlying(item_id));
 
   if (dest == nullptr)
   {
@@ -3486,7 +3487,7 @@ bool CUserDataManager::CopyGameData(CGameDataUsed* dest, ECommonItemData item_id
       dest->CopyDataGiftBox(item_id);
       break;
     default:
-      log_warn("{}: Unrecognized used item type for item ID {}", __func__, std::to_underlying(item_id));
+      log_warn("{}: Unrecognized used item type for item ID {}", __func__, common::to_underlying(item_id));
       break;
   }
 
@@ -3505,7 +3506,7 @@ s32 CUserDataManager::AddMoney(s32 delta)
 // 002F5440
 static std::optional<uint> GetCosInfo(ECommonItemData costume_item_id)
 {
-  log_trace("{}({})", __func__, std::to_underlying(costume_item_id));
+  log_trace("{}({})", __func__, common::to_underlying(costume_item_id));
 
   using enum ECommonItemData;
   
@@ -3577,7 +3578,7 @@ u64 CUserDataManager::GetCostumeBit() const
 // 0019EB90
 void CUserDataManager::GetCostume(ECommonItemData costume_item_id)
 {
-  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(costume_item_id));
+  log_trace("CUserDataManager::{}({})", __func__, common::to_underlying(costume_item_id));
 
   auto bit_index = GetCosInfo(costume_item_id);
   if (bit_index.has_value())
@@ -3649,7 +3650,7 @@ void SetEnvUserDataMan(bool flag)
 // 0019ECE0
 void GetCharaDefaultWeapon(ECharacterID chara_id, ECommonItemData* equip_ids_dest)
 {
-  log_trace("{}({}, {})", __func__, std::to_underlying(chara_id), fmt::ptr(equip_ids_dest));
+  log_trace("{}({}, {})", __func__, common::to_underlying(chara_id), fmt::ptr(equip_ids_dest));
 
   using enum ECommonItemData;
   using namespace std;
@@ -3669,7 +3670,7 @@ void GetCharaDefaultWeapon(ECharacterID chara_id, ECommonItemData* equip_ids_des
     Long_Sword, Magic_Brassard, Yellow_Ribbon, Knight_Boots, Pumpkin_Shorts,
   };
 
-  auto equip_tbl = weptbl[std::to_underlying(LanguageCode)][std::to_underlying(chara_id)];
+  auto equip_tbl = weptbl[common::to_underlying(LanguageCode)][common::to_underlying(chara_id)];
   equip_ids_dest[0] = equip_tbl[0];
   equip_ids_dest[1] = equip_tbl[1];
   equip_ids_dest[2] = equip_tbl[2];
@@ -3732,7 +3733,7 @@ void CheckEquipChange(ECharacterID chara_id)
         GetUserDataMan()->SetChrEquipDirect(ECharacterID::Monica, weapon_ids[3]);
         GetUserDataMan()->SetChrEquipDirect(ECharacterID::Monica, weapon_ids[4]);
 
-        log_info("equip_no : {},{},{}", std::to_underlying(weapon_ids[2]), std::to_underlying(weapon_ids[3]), std::to_underlying(weapon_ids[4]));
+        log_info("equip_no : {},{},{}", common::to_underlying(weapon_ids[2]), common::to_underlying(weapon_ids[3]), common::to_underlying(weapon_ids[4]));
       }
 
       chara_data->m_unk_field_2B = false;
@@ -3746,7 +3747,7 @@ void CheckEquipChange(ECharacterID chara_id)
 // 0019F010
 void SetActiveChrNo(ECharacterID chara_id)
 {
-  log_trace("CUserDataManager::{}({})", __func__, std::to_underlying(chara_id));
+  log_trace("CUserDataManager::{}({})", __func__, common::to_underlying(chara_id));
 
   auto chara_info = GetBattleCharaInfo();
 
@@ -3761,7 +3762,7 @@ void SetActiveChrNo(ECharacterID chara_id)
 // 0019A800
 u8 GetShieldKitLimit(ECommonItemData item_id)
 {
-  log_trace("{}({})", __func__, std::to_underlying(item_id));
+  log_trace("{}({})", __func__, common::to_underlying(item_id));
 
   using enum ECommonItemData;
 
@@ -3887,9 +3888,9 @@ SMonsterBadgeData* CMonsterBox::GetMonsterBajjiData(EMonsterID index)
 // 0019AC40
 SMonsterBadgeData* CMonsterBox::GetMonsterBadgeData(EMonsterID monster_id)
 {
-  log_trace("CMonsterBox::{}({})", __func__, std::to_underlying(monster_id));
+  log_trace("CMonsterBox::{}({})", __func__, common::to_underlying(monster_id));
 
-  auto index = std::to_underlying(monster_id);
+  auto index = common::to_underlying(monster_id);
 
   // BUG: last item of array is not accessible 
   if (index <= 0 || index >= m_monster_badge_data.size())
@@ -3929,7 +3930,7 @@ CGameDataUsed* CBattleCharaInfo::GetEquipTablePtr(usize index)
 // 0019F010
 void CBattleCharaInfo::SetChrNo(ECharacterID chara_id)
 {
-  log_trace("CBattleCharaInfo::{}({})", __func__, std::to_underlying(chara_id));
+  log_trace("CBattleCharaInfo::{}({})", __func__, common::to_underlying(chara_id));
 
   todo;
 }
@@ -4148,7 +4149,7 @@ s32 CBattleCharaInfo::GetWhpNowVol(usize weapon_index) const
 // 0019FAA0
 void SetMagicSwordPow(EMagicSwordElement element, s16 i1)
 {
-  log_trace("CBattleCharaInfo::{}({}, {})", __func__, std::to_underlying(element), i1);
+  log_trace("CBattleCharaInfo::{}({}, {})", __func__, common::to_underlying(element), i1);
   
   todo;
 }
@@ -4352,7 +4353,7 @@ s32 CBattleCharaInfo::GetNowHp_i() const
 // 001A0420
 ECharaStatusAttribute CBattleCharaInfo::SetAttr(ECharaStatusAttribute attr, bool b)
 {
-  log_trace("CBattleCharaInfo::{}({}, {})", __func__, std::to_underlying(attr), b);
+  log_trace("CBattleCharaInfo::{}({}, {})", __func__, common::to_underlying(attr), b);
 
   auto user_data = GetUserDataMan();
   if (user_data == nullptr)
@@ -4367,7 +4368,7 @@ ECharaStatusAttribute CBattleCharaInfo::SetAttr(ECharaStatusAttribute attr, bool
 // 001A0490
 ECharaStatusAttribute CBattleCharaInfo::SetAttrVol(ECharaStatusAttribute attr, bool b)
 {
-  log_trace("CBattleCharaInfo::{}({}, {})", __func__, std::to_underlying(attr), b);
+  log_trace("CBattleCharaInfo::{}({}, {})", __func__, common::to_underlying(attr), b);
 
   auto user_data = GetUserDataMan();
   if (user_data == nullptr)
@@ -4531,7 +4532,7 @@ void GameDataSwap(CGameDataUsed* data1, CGameDataUsed* data2, bool check_fishing
   }
 
   // Now we gotta do some checks for fishing rods, it seems?
-  CGameDataUsed* equipped_potential_rod = &GetUserDataMan()->m_chara_data[std::to_underlying(ECharacterID::Max)].m_equip_table.melee;
+  CGameDataUsed* equipped_potential_rod = &GetUserDataMan()->m_chara_data[common::to_underlying(ECharacterID::Max)].m_equip_table.melee;
   if ((data1 == equipped_potential_rod || data2 == equipped_potential_rod) && data1->IsFishingRod() != data2->IsFishingRod())
   {
     if (data1 == equipped_potential_rod)
@@ -4716,7 +4717,7 @@ bool CheckBadStatus(ECharaStatusAttribute status)
 // 001A1180
 ECommonItemDataType SearchEquipType(ECharacterID chara_id, ssize equip_index)
 {
-  log_trace("{}({}, {})", __func__, std::to_underlying(chara_id), equip_index);
+  log_trace("{}({}, {})", __func__, common::to_underlying(chara_id), equip_index);
 
   using enum ECommonItemDataType;
 
@@ -4768,7 +4769,7 @@ ECommonItemDataType SearchEquipType(ECharacterID chara_id, ssize equip_index)
 // 001A11F0
 ECharacterID IsItemtypeWhoisEquip(ECommonItemData item_id, ssize* equip_index_dest)
 {
-  log_trace("{}({}, {})", __func__, std::to_underlying(item_id), fmt::ptr(equip_index_dest));
+  log_trace("{}({}, {})", __func__, common::to_underlying(item_id), fmt::ptr(equip_index_dest));
 
   std::optional<ECharacterID> chara_result{};
   std::optional<ssize> equip_index_result{};
@@ -4833,9 +4834,9 @@ void CheckItemDngKey()
   }
 
   // Set minimum HPs and attributes for characters
-  user_data->m_chara_data[std::to_underlying(ECharacterID::Max)].m_chara_hp_gage.m_current =
+  user_data->m_chara_data[common::to_underlying(ECharacterID::Max)].m_chara_hp_gage.m_current =
     std::max(user_data->GetHp(ECharacterID::Max), 1.0f);
-  user_data->m_chara_data[std::to_underlying(ECharacterID::Monica)].m_chara_hp_gage.m_current =
+  user_data->m_chara_data[common::to_underlying(ECharacterID::Monica)].m_chara_hp_gage.m_current =
     std::max(user_data->GetHp(ECharacterID::Monica), 1.0f);
 
   user_data->SetCharaStatusAttribute(ECharacterID::Max, ECharaStatusAttribute::_1, true);
@@ -4854,11 +4855,11 @@ void PlayerPartyCure()
   }
 
   // Max
-  user_data->m_chara_data[std::to_underlying(ECharacterID::Max)].m_chara_hp_gage.SetFillRate(1.0f);
+  user_data->m_chara_data[common::to_underlying(ECharacterID::Max)].m_chara_hp_gage.SetFillRate(1.0f);
   user_data->SetCharaStatusAttribute(ECharacterID::Max, ECharaStatusAttribute::ALL, true);
 
   // Monica
-  user_data->m_chara_data[std::to_underlying(ECharacterID::Monica)].m_chara_hp_gage.SetFillRate(1.0f);
+  user_data->m_chara_data[common::to_underlying(ECharacterID::Monica)].m_chara_hp_gage.SetFillRate(1.0f);
   user_data->SetCharaStatusAttribute(ECharacterID::Monica, ECharaStatusAttribute::ALL, true);
 
   // Monsters

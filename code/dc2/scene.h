@@ -2,6 +2,7 @@
 #include <array>
 
 #include "common/debug.h"
+#include "common/helpers.h"
 #include "common/types.h"
 
 #include "dc2/character.h"
@@ -100,7 +101,7 @@ struct fmt::formatter<ESceneDataStatus> : fmt::formatter<std::string_view>
       "ESceneDataStatus({})"
     };
 
-    return fmt::format_to(ctx.out(), tpl, std::to_underlying(data_status));
+    return fmt::format_to(ctx.out(), tpl, common::to_underlying(data_status));
   }
 };
 

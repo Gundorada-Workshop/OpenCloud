@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "common/debug.h"
+#include "common/helpers.h"
 #include "common/log.h"
 #include "common/macros.h"
 
@@ -90,7 +91,7 @@ const char* GetMesTxt(ssize index)
 
 	log_trace("GetMesTxt({})", index);
 
-	auto language_index = std::to_underlying(LanguageCode);
+	auto language_index = common::to_underlying(LanguageCode);
 	if (index < 0 || static_cast<ssize>(mes_txt[0].size()) <= index || \
 		language_index < 0 || language_index >= mes_txt.size())
 	{

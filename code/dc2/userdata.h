@@ -1,9 +1,10 @@
 #pragma once
 #include <bitset>
 
-#include "common/debug.h"
-#include "common/types.h"
 #include "common/constants.h"
+#include "common/debug.h"
+#include "common/helpers.h"
+#include "common/types.h"
 
 #include "dc2/gamedata.h"
 #include "dc2/inventmn.h"
@@ -215,7 +216,7 @@ struct ATTACH_USED
   // 4
   s16 m_durable;
   // 6
-  std::array<s16, std::to_underlying(WeaponProperty::COUNT)> m_properties{};
+  std::array<s16, common::to_underlying(WeaponProperty::COUNT)> m_properties{};
   // 16
   ECommonItemData m_spectrumized_item_id;
   // 18
@@ -242,7 +243,7 @@ struct WEAPON_USED
   // 14
   s16 m_durable{};
   // 16
-  std::array<s16, std::to_underlying(WeaponProperty::COUNT)> m_properties{};
+  std::array<s16, common::to_underlying(WeaponProperty::COUNT)> m_properties{};
   // 28
   ESpecialStatus m_special_status{};
   // 2C
@@ -266,7 +267,7 @@ struct ROBOPART_USED
   // 12
   s16 m_durable{};
   // 14
-  std::array<s16, std::to_underlying(WeaponProperty::COUNT)> m_properties{};
+  std::array<s16, common::to_underlying(WeaponProperty::COUNT)> m_properties{};
   // 24
   s16 m_defense{};
   // 26

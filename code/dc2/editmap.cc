@@ -1,6 +1,7 @@
 #include <ranges>
 
 #include "common/clock.h"
+#include "common/helpers.h"
 #include "common/log.h"
 
 #include "graph/rectangle.h"
@@ -625,7 +626,7 @@ CEditPartsInfo* CEditInfoMngr::GetePartsInfo(const std::string& parts_name)
 // 002A4ED0
 CEditPartsInfo* CEditInfoMngr::GetePartsInfoAtID(EEPartsInfoID id)
 {
-  log_trace("CEditInfoMngr::{}({})", __func__, std::to_underlying(id));
+  log_trace("CEditInfoMngr::{}({})", __func__, common::to_underlying(id));
 
   for (auto& parts_info : m_eparts_info)
   {
@@ -641,7 +642,7 @@ CEditPartsInfo* CEditInfoMngr::GetePartsInfoAtID(EEPartsInfoID id)
 // 002A4F40
 CEditPartsInfo* CEditInfoMngr::GetePartsInfoAtType(EEPartsType parts_type)
 {
-  log_trace("CEditInfoMngr::{}({})", __func__, std::to_underlying(parts_type));
+  log_trace("CEditInfoMngr::{}({})", __func__, common::to_underlying(parts_type));
 
   for (auto& parts_info : m_eparts_info)
   {
@@ -851,7 +852,7 @@ CEditPartsInfo* CEditMap::GetePartsInfo(const std::string& name)
 // 001B0B50
 CEditPartsInfo* CEditMap::GetePartsInfoAtID(EEPartsInfoID id)
 {
-  log_trace("CEditMap::{}({})", __func__, std::to_underlying(id));
+  log_trace("CEditMap::{}({})", __func__, common::to_underlying(id));
 
   return m_edit_info_mngr.GetePartsInfoAtID(id);
 }
@@ -859,7 +860,7 @@ CEditPartsInfo* CEditMap::GetePartsInfoAtID(EEPartsInfoID id)
 // 001B0B60
 CEditPartsInfo* CEditMap::GetePartsInfoAtType(EEPartsType type)
 {
-  log_trace("CEditMap::{}({})", __func__, std::to_underlying(type));
+  log_trace("CEditMap::{}({})", __func__, common::to_underlying(type));
 
   return m_edit_info_mngr.GetePartsInfoAtType(type);
 }
@@ -1082,7 +1083,7 @@ std::optional<usize> CEditMap::GetSameParts(ssize index)
 // 001B14A0
 std::optional<usize> CEditMap::BuildEditParts(EEPartsInfoID id)
 {
-  log_trace("CEditMap::{}({})", __func__, std::to_underlying(id));
+  log_trace("CEditMap::{}({})", __func__, common::to_underlying(id));
 
   auto parts_info = GetePartsInfoAtID(id);
   
@@ -1484,7 +1485,7 @@ bool CEditMap::CheckLiveNPC(sint i1, sint i2)
 // 002EE770
 usize CEditMap::GetePlacePartsAtInfoID(EEPartsInfoID id, sint* ip, sint i)
 {
-  log_trace("CEditMap::{}({}, {}, {})", __func__, std::to_underlying(id), fmt::ptr(ip), i);
+  log_trace("CEditMap::{}({}, {}, {})", __func__, common::to_underlying(id), fmt::ptr(ip), i);
 
   todo;
   return 0;

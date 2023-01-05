@@ -2,6 +2,7 @@
 
 #include "common/clock.h"
 #include "common/debug.h"
+#include "common/helpers.h"
 #include "common/log.h"
 #include "common/debug.h"
 #include "common/macros.h"
@@ -292,7 +293,7 @@ void CChillAfterHit::Initialize()
 //    EMiniMapSymbol::TERMINATOR,      {0,   0,   0},   0,  0,  false, false,
 //  };
 //
-//  log_trace("CMiniMapSymbol::DrawSymbol({}, {})", fmt::ptr(&pos), std::to_underlying(symbol_type));
+//  log_trace("CMiniMapSymbol::DrawSymbol({}, {})", fmt::ptr(&pos), common::to_underlying(symbol_type));
 //
 //  todo;
 //}
