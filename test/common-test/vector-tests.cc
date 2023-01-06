@@ -1,15 +1,12 @@
 #include <gtest/gtest.h>
 
 #include "graph/vector.h"
-#include "graph/_vector/_vector_math.h"
-
-using namespace graph;
 
 TEST(VectorFloat, ShouldConstructFromScalarConstexpr)
 {
-  constexpr vector<f32, 4> v4{ 200.0f };
-  constexpr vector<f32, 3> v3{ 300.0f };
-  constexpr vector<f32, 2> v2{ 400.0f };
+  constexpr vec4 v4{ 200.0f };
+  constexpr vec3 v3{ 300.0f };
+  constexpr vec2 v2{ 400.0f };
 
   EXPECT_FLOAT_EQ(v4.data.a[0], 200.0f);
   EXPECT_FLOAT_EQ(v4.data.a[1], 200.0f);
@@ -26,9 +23,9 @@ TEST(VectorFloat, ShouldConstructFromScalarConstexpr)
 
 TEST(VectorFloat, ShouldConstructFromScalar)
 {
-  vector<f32, 4> v4{ 200.0f };
-  vector<f32, 3> v3{ 300.0f };
-  vector<f32, 2> v2{ 400.0f };
+  vec4 v4{ 200.0f };
+  vec3 v3{ 300.0f };
+  vec2 v2{ 400.0f };
 
   EXPECT_FLOAT_EQ(v4.data.a[0], 200.0f);
   EXPECT_FLOAT_EQ(v4.data.a[1], 200.0f);
@@ -45,9 +42,9 @@ TEST(VectorFloat, ShouldConstructFromScalar)
 
 TEST(VectorFloat, ShouldConstructFromTwoElements)
 {
-  vector<f32, 4> v4{ 200.0f, 100.0f };
-  vector<f32, 3> v3{ 300.0f, 400.0f };
-  vector<f32, 2> v2{ 400.0f, 300.0f };
+  vec4 v4{ 200.0f, 100.0f };
+  vec3 v3{ 300.0f, 400.0f };
+  vec2 v2{ 400.0f, 300.0f };
 
   EXPECT_FLOAT_EQ(v4.data.a[0], 200.0f);
   EXPECT_FLOAT_EQ(v4.data.a[1], 100.0f);
@@ -64,8 +61,8 @@ TEST(VectorFloat, ShouldConstructFromTwoElements)
 
 TEST(VectorFloat, ShouldConstructFromThreeElements)
 {
-  vector<f32, 4> v4{ 200.0f, 100.0f, 800.0f };
-  vector<f32, 3> v3{ 300.0f, 400.0f, 800.0f };
+  vec4 v4{ 200.0f, 100.0f, 800.0f };
+  vec3 v3{ 300.0f, 400.0f, 800.0f };
 
   EXPECT_FLOAT_EQ(v4.data.a[0], 200.0f);
   EXPECT_FLOAT_EQ(v4.data.a[1], 100.0f);
@@ -79,7 +76,7 @@ TEST(VectorFloat, ShouldConstructFromThreeElements)
 
 TEST(VectorFloat, ShouldConstructFromFourElements)
 {
-  vector<f32, 4> v4{ 200.0f, 100.0f, 800.0f, 7.0f };
+  vec4 v4{ 200.0f, 100.0f, 800.0f, 7.0f };
 
   EXPECT_FLOAT_EQ(v4.data.a[0], 200.0f);
   EXPECT_FLOAT_EQ(v4.data.a[1], 100.0f);
@@ -89,7 +86,7 @@ TEST(VectorFloat, ShouldConstructFromFourElements)
 
 TEST(VectorFloat, ShouldAccessIndividualElements)
 {
-  vector<f32, 4> v4{ 200.0f, 100.0f, 800.0f, 7.0f };
+  vec4 v4{ 200.0f, 100.0f, 800.0f, 7.0f };
 
   EXPECT_FLOAT_EQ(v4.x(), 200.0f);
   EXPECT_FLOAT_EQ(v4.y(), 100.0f);
@@ -99,7 +96,7 @@ TEST(VectorFloat, ShouldAccessIndividualElements)
 
 TEST(VectorFloat, ShouldSwizzle4Elements)
 {
-  vector<f32, 4> v4{ 200.0f, 100.0f, 800.0f, 7.0f };
+  vec4 v4{ 200.0f, 100.0f, 800.0f, 7.0f };
 
   auto res = v4.xxxx();
 
@@ -139,7 +136,7 @@ TEST(VectorFloat, ShouldSwizzle4Elements)
 
 TEST(VectorFloat, ShouldSwizzle3Elements)
 {
-  vector<f32, 4> v4{ 200.0f, 100.0f, 800.0f, 7.0f };
+  vec4 v4{ 200.0f, 100.0f, 800.0f, 7.0f };
 
   auto res = v4.xxx();
 
@@ -174,7 +171,7 @@ TEST(VectorFloat, ShouldSwizzle3Elements)
 
 TEST(VectorFloat, ShouldSwizzle2Elements)
 {
-  vector<f32, 4> v4{ 200.0f, 100.0f, 800.0f, 7.0f };
+  vec4 v4{ 200.0f, 100.0f, 800.0f, 7.0f };
 
   auto res = v4.xx();
 
@@ -204,8 +201,8 @@ TEST(VectorFloat, ShouldSwizzle2Elements)
 
 TEST(VectorFloat, ShouldAddByVector)
 {
-  const vector<f32, 4> v1{ 0.0f, 1.0f, 2.0f, 3.0f };
-  const vector<f32, 4> v2{ 3.0f, 2.0f, 1.0f, 0.0f };
+  const vec4 v1{ 0.0f, 1.0f, 2.0f, 3.0f };
+  const vec4 v2{ 3.0f, 2.0f, 1.0f, 0.0f };
 
   auto res = v1 + v2;
 
@@ -214,7 +211,7 @@ TEST(VectorFloat, ShouldAddByVector)
   EXPECT_FLOAT_EQ(res.data.a[2], 3.0f);
   EXPECT_FLOAT_EQ(res.data.a[3], 3.0f);
 
-  res += vector<f32, 4>{ 10.0f, 10.0f, 10.0f, 10.0f };
+  res += vec4{ 10.0f, 10.0f, 10.0f, 10.0f };
 
   EXPECT_FLOAT_EQ(res.data.a[0], 13.0f);
   EXPECT_FLOAT_EQ(res.data.a[1], 13.0f);
@@ -224,7 +221,7 @@ TEST(VectorFloat, ShouldAddByVector)
 
 TEST(VectorFloat, ShouldIncrement)
 {
-  vector<f32, 4> v1{ 0.0f, 0.0f, 0.0f, 0.0f };
+  vec4 v1{ 0.0f, 0.0f, 0.0f, 0.0f };
 
   v1++;
 
@@ -243,7 +240,7 @@ TEST(VectorFloat, ShouldIncrement)
 
 TEST(VectorFloat, ShouldDecrement)
 {
-  vector<f32, 4> v1{ 2.0f, 2.0f, 2.0f, 2.0f };
+  vec4 v1{ 2.0f, 2.0f, 2.0f, 2.0f };
 
   v1--;
 
@@ -262,7 +259,7 @@ TEST(VectorFloat, ShouldDecrement)
 
 TEST(VectorFloat, ShouldAddByScalar)
 {
-  const vector<f32, 4> v1{ 0.0f, 1.0f, 2.0f, 3.0f };
+  const vec4 v1{ 0.0f, 1.0f, 2.0f, 3.0f };
 
   auto res = v1 + 5.0f;
 
@@ -281,8 +278,8 @@ TEST(VectorFloat, ShouldAddByScalar)
 
 TEST(VectorFloat, ShouldSubtractByVector)
 {
-  const vector<f32, 4> v1{ 0.0f, 1.0f, 2.0f, 3.0f };
-  const vector<f32, 4> v2{ 3.0f, 2.0f, 1.0f, 0.0f };
+  const vec4 v1{ 0.0f, 1.0f, 2.0f, 3.0f };
+  const vec4 v2{ 3.0f, 2.0f, 1.0f, 0.0f };
 
   auto res = v1 - v2;
 
@@ -291,7 +288,7 @@ TEST(VectorFloat, ShouldSubtractByVector)
   EXPECT_FLOAT_EQ(res.data.a[2], 1.0f);
   EXPECT_FLOAT_EQ(res.data.a[3], 3.0f);
 
-  res -= vector<f32, 4>{ 10.0f, 10.0f, 1.0f, 3.0f };
+  res -= vec4{ 10.0f, 10.0f, 1.0f, 3.0f };
 
   EXPECT_FLOAT_EQ(res.data.a[0], -13.0f);
   EXPECT_FLOAT_EQ(res.data.a[1], -11.0f);
@@ -301,7 +298,7 @@ TEST(VectorFloat, ShouldSubtractByVector)
 
 TEST(VectorFloat, ShouldSubtractByScalar)
 {
-  const vector<f32, 4> v1{ 0.0f, 1.0f, 2.0f, 3.0f };
+  const vec4 v1{ 0.0f, 1.0f, 2.0f, 3.0f };
 
   auto res = v1 - 10.0f;
 
@@ -320,8 +317,8 @@ TEST(VectorFloat, ShouldSubtractByScalar)
 
 TEST(VectorFloat, ShouldMultiplyByVector)
 {
-  const vector<f32, 4> v1{ 0.0f, 1.0f, 2.0f, 3.0f };
-  const vector<f32, 4> v2{ 3.0f, 2.0f, 1.0f, 0.0f };
+  const vec4 v1{ 0.0f, 1.0f, 2.0f, 3.0f };
+  const vec4 v2{ 3.0f, 2.0f, 1.0f, 0.0f };
 
   auto res = v1 * v2;
 
@@ -330,7 +327,7 @@ TEST(VectorFloat, ShouldMultiplyByVector)
   EXPECT_FLOAT_EQ(res.data.a[2], 2.0f);
   EXPECT_FLOAT_EQ(res.data.a[3], 0.0f);
 
-  res *= vector<f32, 4>{ 2.0f, 2.0f, 2.0f, 2.0f };
+  res *= vec4{ 2.0f, 2.0f, 2.0f, 2.0f };
 
   EXPECT_FLOAT_EQ(res.data.a[0], 0.0f);
   EXPECT_FLOAT_EQ(res.data.a[1], 4.0f);
@@ -340,7 +337,7 @@ TEST(VectorFloat, ShouldMultiplyByVector)
 
 TEST(VectorFloat, ShouldMultiplyByScalar)
 {
-  const vector<f32, 4> v1{ 0.0f, 1.0f, 2.0f, 3.0f };
+  const vec4 v1{ 0.0f, 1.0f, 2.0f, 3.0f };
 
   auto res = v1 * 5.0f;
 
@@ -359,8 +356,8 @@ TEST(VectorFloat, ShouldMultiplyByScalar)
 
 TEST(VectorFloat, ShouldDivideByVector)
 {
-  const vector<f32, 4> v1{ 3.0f, 10.0f, 2.0f, 9.0f };
-  const vector<f32, 4> v2{ 3.0f, 2.0f,  1.0f, 3.0f };
+  const vec4 v1{ 3.0f, 10.0f, 2.0f, 9.0f };
+  const vec4 v2{ 3.0f, 2.0f,  1.0f, 3.0f };
 
   auto res = v1 / v2;
 
@@ -369,7 +366,7 @@ TEST(VectorFloat, ShouldDivideByVector)
   EXPECT_FLOAT_EQ(res.data.a[2], 2.0f);
   EXPECT_FLOAT_EQ(res.data.a[3], 3.0f);
 
-  res /= vector<f32, 4>{ 2.0f, 2.0f, 2.0f, 3.0f };
+  res /= vec4{ 2.0f, 2.0f, 2.0f, 3.0f };
 
   EXPECT_FLOAT_EQ(res.data.a[0], 0.5f);
   EXPECT_FLOAT_EQ(res.data.a[1], 2.5f);
@@ -379,7 +376,7 @@ TEST(VectorFloat, ShouldDivideByVector)
 
 TEST(VectorFloat, ShouldDivideByScalar)
 {
-  const vector<f32, 4> v1{ 3.0f, 6.0f, 12.0f, 9.0f };
+  const vec4 v1{ 3.0f, 6.0f, 12.0f, 9.0f };
 
   auto res = v1 / 3.0f;
 
@@ -388,7 +385,7 @@ TEST(VectorFloat, ShouldDivideByScalar)
   EXPECT_FLOAT_EQ(res.data.a[2], 4.0f);
   EXPECT_FLOAT_EQ(res.data.a[3], 3.0f);
 
-  res /= vector<f32, 4>{ 2.0f, 2.0f, 2.0f, 3.0f };
+  res /= vec4{ 2.0f, 2.0f, 2.0f, 3.0f };
 
   EXPECT_FLOAT_EQ(res.data.a[0], 0.5f);
   EXPECT_FLOAT_EQ(res.data.a[1], 1.0f);
@@ -398,9 +395,9 @@ TEST(VectorFloat, ShouldDivideByScalar)
 
 TEST(VectorUnsignedInteger, ShouldConstructFromScalarConstexpr)
 {
-  constexpr vector<u32, 4> v4{ 200u };
-  constexpr vector<u32, 3> v3{ 300u };
-  constexpr vector<u32, 2> v2{ 400u };
+  constexpr uvec4 v4{ 200u };
+  constexpr uvec3 v3{ 300u };
+  constexpr uvec2 v2{ 400u };
 
   EXPECT_EQ(v4.data.a[0], 200u);
   EXPECT_EQ(v4.data.a[1], 200u);
@@ -417,9 +414,9 @@ TEST(VectorUnsignedInteger, ShouldConstructFromScalarConstexpr)
 
 TEST(VectorUnsignedInteger, ShouldConstructFromScalar)
 {
-  vector<u32, 4> v4{ 200u };
-  vector<u32, 3> v3{ 300u };
-  vector<u32, 2> v2{ 400u };
+  uvec4 v4{ 200u };
+  uvec3 v3{ 300u };
+  uvec2 v2{ 400u };
 
   EXPECT_EQ(v4.data.a[0], 200u);
   EXPECT_EQ(v4.data.a[1], 200u);
@@ -436,9 +433,9 @@ TEST(VectorUnsignedInteger, ShouldConstructFromScalar)
 
 TEST(VectorSignedInteger, ShouldConstructFromScalarConstexpr)
 {
-  constexpr vector<s32, 4> v4{ -200 };
-  constexpr vector<s32, 3> v3{ -300 };
-  constexpr vector<s32, 2> v2{ -400 };
+  constexpr ivec4 v4{ -200 };
+  constexpr ivec3 v3{ -300 };
+  constexpr ivec3 v2{ -400 };
 
   EXPECT_EQ(v4.data.a[0], -200);
   EXPECT_EQ(v4.data.a[1], -200);
@@ -455,9 +452,9 @@ TEST(VectorSignedInteger, ShouldConstructFromScalarConstexpr)
 
 TEST(VectorSignedInteger, ShouldConstructFromScalar)
 {
-  vector<s32, 4> v4{ -200 };
-  vector<s32, 3> v3{ -300 };
-  vector<s32, 2> v2{ -400 };
+  ivec4 v4{ -200 };
+  ivec3 v3{ -300 };
+  ivec2 v2{ -400 };
 
   EXPECT_EQ(v4.data.a[0], -200);
   EXPECT_EQ(v4.data.a[1], -200);
