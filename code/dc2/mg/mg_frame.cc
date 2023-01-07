@@ -9,6 +9,8 @@
 
 set_log_channel("mg_frame");
 
+mgCFrameManager mgFrameManager{ };
+
 // 00376C70
 s32 mgScreenWidth{ 0 };
 
@@ -727,6 +729,15 @@ void mgCFrame::Initialize()
   log_warn("Initialize should not be called (unless the game actually uses this as a virtual method on unknown type)");
 }
 
+NO_DISCARD std::shared_ptr<mgCFrame> mgCFrame::Create()
+{
+  log_trace("mgCFrame::{}()", __func__);
+
+  auto result = std::shared_ptr<mgCFrame>(new mgCFrame());
+  mgFrameManager.AddGraph(result);
+  return result;
+}
+
 // 001387F0
 unkptr mgCFrame::Draw()
 {
@@ -920,6 +931,7 @@ void mgCFrame::SetName(const std::string& name)
 //  m_bound_info->m_sphere.w = radius;
 //}
 
+/*
 // 001367B0
 mgCFrame* mgCFrame::GetFrame(ssize i)
 {
@@ -937,6 +949,7 @@ mgCFrame* mgCFrame::GetFrame(ssize i)
 
   return m_unk_field_68[i];
 }
+*/
 
 // 00136800
 //bool mgCFrame::RemakeBBox(const vec4& corner1, const vec4& corner2)
@@ -970,7 +983,7 @@ uint mgCFrame::GetFrameNum() const
   log_trace("mgCFrame::{}()", __func__);
 
   uint frame_num = 1;
-  for (mgCFrame* curr = m_child; curr != nullptr; curr = curr->m_next_brother)
+  for (auto curr = m_child; curr != nullptr; curr = curr->m_next_brother)
   {
     frame_num += curr->GetFrameNum();
   }
@@ -978,12 +991,13 @@ uint mgCFrame::GetFrameNum() const
 }
 
 // 00136AE0
-void mgCFrame::SetParent(mgCFrame* parent)
+void mgCFrame::SetParent(std::shared_ptr<mgCFrame> parent)
 {
   log_trace("mgCFrame::{}({})", __func__, fmt::ptr(parent));
 
-  if (m_parent != nullptr)
+  if (!m_parent.expired())
   {
+    // Already have a parent; call DeleteParent first
     return;
   }
 
@@ -991,12 +1005,13 @@ void mgCFrame::SetParent(mgCFrame* parent)
 
   if (parent != nullptr)
   {
-    parent->SetChild(this);
+    parent->SetChild(shared_from_this());
+    mgFrameManager.RemoveGraph(shared_from_this());
   }
 }
 
 // 00136B20
-void mgCFrame::SetBrother(mgCFrame* brother)
+void mgCFrame::SetBrother(std::shared_ptr<mgCFrame> brother)
 {
   log_trace("mgCFrame::{}({})", __func__, fmt::ptr(brother));
 
@@ -1008,7 +1023,7 @@ void mgCFrame::SetBrother(mgCFrame* brother)
   if (m_next_brother == nullptr)
   {
     m_next_brother = brother;
-    m_next_brother->m_prev_brother = this;
+    m_next_brother->m_prev_brother = shared_from_this();
   }
   else
   {
@@ -1017,7 +1032,7 @@ void mgCFrame::SetBrother(mgCFrame* brother)
 }
 
 // 00136B60
-void mgCFrame::SetChild(mgCFrame* child)
+void mgCFrame::SetChild(std::shared_ptr<mgCFrame> child)
 {
   log_trace("mgCFrame::{}({})", __func__, fmt::ptr(child));
 
@@ -1029,12 +1044,12 @@ void mgCFrame::SetChild(mgCFrame* child)
   if (m_child == nullptr)
   {
     m_child = child;
-    m_child->m_parent = this;
+    m_child->m_parent = shared_from_this();
   }
   else
   {
     m_child->SetBrother(child);
-    child->m_parent = this;
+    child->m_parent = shared_from_this();
   }
 }
 
@@ -1043,41 +1058,44 @@ void mgCFrame::DeleteParent()
 {
   log_trace("mgCFrame::{}()", __func__);
   
-  if (m_parent == nullptr)
+  if (m_parent.expired())
   {
+    // Parent already gone!
     return;
   }
 
-  if (this == m_parent->m_child)
+  auto parent = m_parent.lock();
+  if (this == parent->m_child.get())
   {
     // we're the designated child frame for the parent;
     // but we don't want this parent any more,
     // so the parent has to adopt our brother as the primary child.
-    m_parent->m_child = m_next_brother;
-    m_parent = nullptr;
+    parent->m_child = m_next_brother;
+    m_parent.reset();
 
     if (m_next_brother != nullptr)
     {
       // no longer siblings as we no longer share the same parent
-      m_next_brother->m_prev_brother = nullptr;
+      m_next_brother->m_prev_brother.reset();
     }
 
     // NOTE: In this case we *should* be the first brother, so
     // we don't have to worry about stranding previous brothers.
-    assert_msg(m_prev_brother == nullptr, "More frames than this were reparented to nothing!");
+    assert_msg(m_prev_brother.expired(), "More frames than this were reparented to nothing!");
 
-    m_next_brother = nullptr;
-    m_prev_brother = nullptr;
+    m_next_brother.reset();
+    m_prev_brother.reset();
   }
   else
   {
     // We're not the primary child, so we just have to remove our parent
     // and ourselves from the list of brothers
 
-    m_parent = nullptr;
-    if (m_prev_brother != nullptr)
+    m_parent.reset();
+    if (!m_prev_brother.expired())
     {
-      m_prev_brother->m_next_brother = m_next_brother;
+      auto prev_brother = m_prev_brother.lock();
+      prev_brother->m_next_brother = m_next_brother;
     }
 
     // NOTE: The game doesn't do this check,
@@ -1088,22 +1106,26 @@ void mgCFrame::DeleteParent()
       m_next_brother->m_prev_brother = m_prev_brother;
     }
 
-    m_next_brother = nullptr;
-    m_prev_brother = nullptr;
+    m_next_brother.reset();
+    m_prev_brother.reset();
   }
+
+  // Now this frame is the root of a graph, so record this graph in the manager.
+  mgFrameManager.AddGraph(shared_from_this());
 }
 
 // 00136C30
-void mgCFrame::SetReference(mgCFrame* ref)
+void mgCFrame::SetReference(std::shared_ptr<mgCFrame> ref)
 {
   log_trace("mgCFrame::{}({})", __func__, fmt::ptr(ref));
 
-  if (m_parent != nullptr || ref == nullptr)
+  if (!m_parent.expired() || ref == nullptr)
   {
     return;
   }
 
   m_parent = ref;
+  mgFrameManager.RemoveGraph(shared_from_this());
   m_unk_field_FC = true;
   m_unk_field_40 = true;
 }
@@ -1113,7 +1135,8 @@ void mgCFrame::DeleteReference()
 {
   log_trace("mgCFrame::{}()", __func__);
 
-  m_parent = nullptr;
+  m_parent.reset();
+  mgFrameManager.AddGraph(shared_from_this());
   m_unk_field_FC = false;
   m_unk_field_40 = true;
 }
@@ -1236,6 +1259,83 @@ void mgCFrame::ClearChildFlag()
 //  m_unk_field_40 = false;
 //  return result;
 //}
+
+// Handles garbage collection
+void mgCFrameManager::Step()
+{
+  log_trace("mgCFrameManager::{}()", __func__);
+
+  std::vector<std::shared_ptr<mgCFrame>> temp{};
+  temp.reserve(m_graphs.size());
+
+  for (auto& root : m_graphs)
+  {
+    if (IsGraphAlive(root))
+    {
+      temp.push_back(root);
+    }
+  }
+ 
+  m_graphs.clear();
+  for (auto& root : temp)
+  {
+    m_graphs.push_back(root);
+  }
+}
+
+// Finds the position of a graph
+std::optional<mgCFrameCollection::iterator> mgCFrameManager::FindGraph(std::shared_ptr<mgCFrame> graph)
+{
+  log_trace("mgCFrameManager::{}()", __func__);
+
+  for (auto it = m_graphs.begin(); it != m_graphs.end(); ++it)
+  {
+    if (*it == graph)
+    {
+      return it;
+    }
+  }
+
+  return std::nullopt;
+}
+
+// Adds a graph to the collection
+void mgCFrameManager::AddGraph(std::shared_ptr<mgCFrame> graph)
+{
+  if (FindGraph(graph).has_value())
+  {
+    return;
+  }
+
+  m_graphs.push_back(graph);
+}
+
+// Removes a graph from the collection
+void mgCFrameManager::RemoveGraph(std::shared_ptr<mgCFrame> graph)
+{
+  auto it = FindGraph(graph);
+  if (!it.has_value())
+  {
+    return;
+  }
+
+  m_graphs.erase(it.value());
+}
+
+// Checks if a graph has other references
+bool mgCFrameManager::IsGraphAlive(std::shared_ptr<mgCFrame>& root)
+{
+  if (root == nullptr)
+  {
+    return false;
+  }
+
+  // If the use count is above 1 (i.e. other than the reference stored in m_graphs (or from another node)), 
+  // then something else is using this graph
+  bool alive = root.use_count() > 1;
+
+  return alive || IsGraphAlive(root->m_next_brother) || IsGraphAlive(root->m_child);
+}
 
 mgCDrawEnv::mgCDrawEnv()
   : mgCDrawEnv(false)

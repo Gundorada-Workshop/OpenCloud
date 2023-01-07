@@ -10,8 +10,7 @@
 #include "dc2/ls_mes.h"
 #include "dc2/mainloop.h"
 #include "dc2/menusave.h"
-#include "dc2/mg/mg_memory.h"
-#include "dc2/mg/mg_texture.h"
+#include "dc2/mg/mg_lib.h"
 #include "dc2/npc.h"
 #include "dc2/scene.h"
 #include "dc2/quest.h"
@@ -163,6 +162,9 @@ void MainLoop()
   while (!g_host_interface->message_pump_quit_requested())
   {
     g_host_interface->start_game_frame();
+
+    // Garbage collect the scene graph
+    mgFrameManager.Step();
 
     g_host_interface->end_game_frame();
   }
