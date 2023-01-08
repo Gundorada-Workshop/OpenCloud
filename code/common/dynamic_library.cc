@@ -80,7 +80,8 @@ namespace common
 
   void dynamic_library::impl::close()
   {
-   dlclose(library_handle);
+    dlclose(library_handle);
+    library_handle = nullptr;
   }
 
   void* dynamic_library::impl::load(std::string_view name)
