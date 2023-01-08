@@ -1,6 +1,6 @@
 #pragma once
 #include <string_view>
-#include <wil/resource.h>
+#include <memory>
 
 #include "common/types.h"
 
@@ -10,13 +10,22 @@ namespace common
   {
   public:
     // don't open anything yet
-    dynamic_library() = default;
+    dynamic_library();
+
+    dynamic_library(const dynamic_library&) = delete;
+    dynamic_library(dynamic_library&&) = delete;
 
     // create a new dynamic lib
     dynamic_library(std::string_view name);
 
+    // calls close
+    ~dynamic_library();
+
     // open a library (if not already open)
     bool open(std::string_view name);
+
+    // close the library
+    void close();
 
     // type unsafe load function
     void* load_pfn(std::string_view name);
@@ -29,8 +38,8 @@ namespace common
     }
     
   private:
-    // native handle to the library (windows in this case)
-    // TODO: linux
-    wil::unique_hmodule m_handle;
+    class impl;
+
+    std::unique_ptr<impl> m_impl;
   };
 }
