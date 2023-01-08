@@ -713,7 +713,7 @@ void CMapParts::Step()
 
   for (auto& map_piece : m_map_pieces)
   {
-    map_piece.m_frame->SetReference(&m_unk_field_C0);
+    map_piece.m_frame->SetReference(m_unk_field_C0);
     map_piece.Step();
     map_piece.m_frame->DeleteReference();
   }

@@ -270,7 +270,7 @@ static EditDebugInfo EdDebugInfo{ };
 static mgCVisualMDT TestVisual{ };
 
 // 01E9EFC0
-static mgCFrame TestFrame{ };
+static std::shared_ptr<mgCFrame> TestFrame = mgCFrame::Create();
 
 // 01E9F0F0
 static std::array<unk32, 0x10> beforeAnalyze{ };
