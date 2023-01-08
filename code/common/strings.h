@@ -1,5 +1,6 @@
 #pragma once
 #include <optional>
+#include <concepts>
 #include <string>
 #include <string_view>
 
@@ -13,6 +14,12 @@ FILE_DISABLE_WARNING(WARNING_ID_CONDITIONAL_EXPRESSION_IS_CONSTANT);
 
 namespace common::strings
 {
+  template<typename type>
+  concept is_char_type = requires
+  {
+    std::same_as<type, char> || std::same_as<type, wchar_t>;
+  };
+
 #if defined(_WIN32)
   std::optional<std::string>  wstring_to_utf8(std::wstring_view wide);
   std::optional<std::wstring> utf8_to_wstring(std::string_view utf8);
@@ -31,17 +38,19 @@ namespace common::strings
   // format a string
   // note: fmtstr must be constexpr
   template<typename ...Args>
-  std::string format(fmt::format_string<Args...> fmtstr, Args&&... args)
+  ALWAYS_INLINE std::string format(fmt::format_string<Args...> fmtstr, Args&&... args)
   {
     return fmt::format(fmtstr, std::forward<Args>(args)...);
   }
 
   // convert string to lowercase
-  static inline std::string lowercase(std::string_view s)
+  template<typename type>
+  requires(is_char_type<type>)
+  ALWAYS_INLINE constexpr std::basic_string<type> lowercase(std::basic_string_view<type> s)
   {
-    std::string out{ s };
+    std::basic_string<type> out{ s };
 
-    std::transform(out.begin(), out.end(), out.begin(), [&](char ch) {
+    std::transform(out.begin(), out.end(), out.begin(), [&](type ch) {
         return std::tolower(ch);
     });
 
@@ -49,11 +58,13 @@ namespace common::strings
   }
 
   // convert string to uppercase
-  static inline std::string upercase(std::string_view s)
+  template<typename type>
+  requires(is_char_type<type>)
+  ALWAYS_INLINE constexpr std::basic_string<type> uppercase(std::basic_string_view<type> s)
   {
-    std::string out{ s };
+    std::basic_string<type> out{ s };
 
-    std::transform(out.begin(), out.end(), out.begin(), [&](char ch) {
+    std::transform(out.begin(), out.end(), out.begin(), [&](type ch) {
         return std::toupper(ch);
     });
 
