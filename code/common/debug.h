@@ -99,15 +99,6 @@ namespace common::debug
     common::debug::runtime_assert_format("UNIMPLEMENTED VAR: {}", #expr); \
   } while (0)
 
-#define unimplemented_member(type, pos) \
-  type m_unk_field_##pos{ };
-
-#define unused_p(attr) \
-  // #attr
-
-#define unused_v(var) \
-  (void)var
-
 #if defined(_DEBUG) || defined(_FDEBUG)
 
 #define debug_assert(cnd) assert(cnd)

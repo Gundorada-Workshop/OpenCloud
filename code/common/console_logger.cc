@@ -1,6 +1,7 @@
 #include <chrono>
 #include "common/log.h"
 #include "common/debug.h"
+#include "common/macros.h"
 #include "common/console.h"
 #include "common/console_logger.h"
 
@@ -8,7 +9,7 @@ namespace common::log::console_logger
 {
   static std::optional<output_callback::cb_handle> s_callback_handle{ };
 
-  static void console_log_callback(std::string_view chan, level lvl, std::string_view unused_p(file), std::string_view unused_p(fn), std::string_view msg)
+  static void console_log_callback(std::string_view chan, level lvl, MAYBE_UNUSED std::string_view file, MAYBE_UNUSED std::string_view fn, std::string_view msg)
   {
     const auto now = std::chrono::system_clock::now();
 
