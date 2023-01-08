@@ -21,7 +21,9 @@
   <ItemGroup>
     <ClInclude Include="matrix.h" />
     <ClInclude Include="rectangle.h" />
+    <ClInclude Include="renderer.h" />
     <ClInclude Include="texture.h" />
+    <ClInclude Include="texture_pool.h" />
     <ClInclude Include="vector.h" />
     <ClInclude Include="_vector\_vector_common.h" />
     <ClInclude Include="_vector\_vector_cxp.h" />
@@ -29,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="texture.cc" />
+    <ClCompile Include="texture_pool.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="$(SolutionDir)code\common\common.exports.props" />
