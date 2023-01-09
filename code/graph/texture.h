@@ -4,6 +4,8 @@
 #include "common/types.h"
 #include "common/strings.h"
 
+#include "graph/rectangle.h"
+
 namespace graph
 {
   class texture
@@ -42,6 +44,17 @@ namespace graph
       u32 samples;
       data_format format{ data_format::rgba8 };
       bind_flags flags{ bind_flags::shader_resource };
+
+      bool operator ==(const create_info& other) const
+      {
+        return std::tie(width, height, layers, levels, samples, format, flags) ==
+          std::tie(other.width, other.height, other.layers, other.levels, other.samples, other.format, other.flags);
+      }
+
+      bool operator !=(const create_info& other) const
+      {
+        return !operator==(other);
+      }
     };
 
     // construct a new texture
@@ -53,57 +66,68 @@ namespace graph
   public:
     // sets the debug name
     // this is optional
-    inline void set_debug_name(std::string_view name)
+    ALWAYS_INLINE void set_debug_name(std::string_view name)
     {
       m_debug_name = std::string{ name };
     }
 
     // gets the debug name
-    inline std::string_view debug_name() const
+    ALWAYS_INLINE std::string_view debug_name() const
     {
       return m_debug_name;
     }
 
+    // rectangle
+    ALWAYS_INLINE graph::irect rect() const
+    {
+      return graph::irect::from_extent(m_config.width, m_config.height);
+    }
+
     // width
-    inline u32 width() const
+    ALWAYS_INLINE u32 width() const
     {
       return m_config.width;
     }
 
     // height
-    inline u32 height() const
+    ALWAYS_INLINE u32 height() const
     {
       return m_config.height;
     }
 
     // layers
-    inline u32 layers() const
+    ALWAYS_INLINE u32 layers() const
     {
       return m_config.layers;
     }
 
     // levels
-    inline u32 levels() const
+    ALWAYS_INLINE u32 levels() const
     {
       return m_config.levels;
     }
 
     // samples
-    inline u32 samples() const
+    ALWAYS_INLINE u32 samples() const
     {
       return m_config.samples;
     }
 
     // data format
-    inline data_format format() const
+    ALWAYS_INLINE data_format format() const
     {
       return m_config.format;
     }
 
     // bind flags
-    inline bind_flags flags() const
+    ALWAYS_INLINE bind_flags flags() const
     {
       return m_config.flags;
+    }
+
+    ALWAYS_INLINE create_info config() const
+    {
+      return m_config;
     }
 
   protected:
@@ -117,92 +141,86 @@ namespace graph
 
 IMPLEMENT_ENUM_CLASS_BITWISE_OPERATORS(graph::texture::bind_flags);
 
-namespace std
+template<>
+struct std::hash<graph::texture::create_info>
 {
-  template<>
-  struct hash<graph::texture::create_info>
+  usize operator()(const graph::texture::create_info& config) const noexcept
   {
-    usize operator()(const graph::texture::create_info& config)
-    {
-      const u64 width  = static_cast<u64>(config.width);
-      const u64 height = static_cast<u64>(config.height);
-      const u64 layers = static_cast<u64>(config.layers);
-      const u64 levels = static_cast<u64>(config.levels);
-      const u64 format = static_cast<u64>(config.format);
-      const u64 flags  = static_cast<u64>(config.flags);
+    const u64 width  = static_cast<u64>(config.width);
+    const u64 height = static_cast<u64>(config.height);
+    const u64 layers = static_cast<u64>(config.layers);
+    const u64 levels = static_cast<u64>(config.levels);
+    const u64 format = static_cast<u64>(config.format);
+    const u64 flags  = static_cast<u64>(config.flags);
 
-      const u64 uid = width << 0 | height << 16 | layers << 32 | levels << 48 | format << 50 | flags << 58;
+    const u64 uid = width << 0 | height << 16 | layers << 32 | levels << 48 | format << 50 | flags << 58;
 
-      return std::hash<u64>{}(uid);
-    }
-  };
-}
+    return std::hash<u64>{}(uid);
+  }
+};
 
-namespace fmt
+template<>
+struct fmt::formatter<graph::texture::data_format> : formatter<string_view>
 {
-  template<>
-  struct formatter<graph::texture::data_format> : formatter<std::string_view>
+  auto format(const graph::texture::data_format data_format, format_context& ctx)
   {
-    auto format(const graph::texture::data_format data_format, format_context& ctx)
+    switch (data_format)
     {
-      switch (data_format)
+    case graph::texture::data_format::rgba8:
+      return fmt::format_to(ctx.out(), "{}", "R8G8B8A8");
+    case graph::texture::data_format::bgra8:
+      return fmt::format_to(ctx.out(), "{}", "B8G8R8A8");
+    case graph::texture::data_format::rgb565:
+      return fmt::format_to(ctx.out(), "{}", "R5G6B5");
+    case graph::texture::data_format::r8:
+      return fmt::format_to(ctx.out(), "{}", "R8");
+    case graph::texture::data_format::d16:
+      return fmt::format_to(ctx.out(), "{}", "D16");
+    }
+
+    return fmt::format_to(ctx.out(), "{}", "UNKNOWN");
+  }
+};
+
+template<>
+struct fmt::formatter<graph::texture::bind_flags> : formatter<string_view>
+{
+  // TODO: this kinda sucks
+  auto format(const graph::texture::bind_flags flags, format_context& ctx)
+  {
+    if (std::to_underlying(flags) == 0)
+      return std::format_to(ctx.out(), "flags(none)");
+
+    constexpr std::array<std::string_view, 3> flag_names =
+    {
+      "shader_resource",
+      "rander_target",
+      "depth_stencil"
+    };
+
+    std::string flags_string;
+    for (usize i = 0; i < std::to_underlying(graph::texture::bind_flags::max); ++i)
+    {
+      if (std::to_underlying(flags) & (1 << i))
       {
-      case graph::texture::data_format::rgba8:
-        return fmt::format_to(ctx.out(), "{}", "R8G8B8A8");
-      case graph::texture::data_format::bgra8:
-        return fmt::format_to(ctx.out(), "{}", "B8G8R8A8");
-      case graph::texture::data_format::rgb565:
-        return fmt::format_to(ctx.out(), "{}", "R5G6B5");
-      case graph::texture::data_format::r8:
-        return fmt::format_to(ctx.out(), "{}", "R8");
-      case graph::texture::data_format::d16:
-        return fmt::format_to(ctx.out(), "{}", "D16");
+        flags_string += flag_names[i];
+        flags_string += "|";
       }
-
-      return fmt::format_to(ctx.out(), "{}", "UNKNOWN");
     }
-  };
 
-  template<>
-  struct formatter<graph::texture::bind_flags> : formatter<std::string_view>
+    // remove trailing |
+    flags_string.pop_back();
+
+    return fmt::format_to(ctx.out(), "flags({})", flags_string);
+  }
+};
+
+template<>
+struct fmt::formatter<graph::texture::create_info> : formatter<string_view>
+{
+  auto format(const graph::texture::create_info& config, format_context& ctx)
   {
-    // TODO: this kinda sucks
-    auto format(const graph::texture::bind_flags flags, format_context& ctx)
-    {
-      if (std::to_underlying(flags) == 0)
-        return std::format_to(ctx.out(), "flags(none)");
-
-      constexpr std::array<std::string_view, 3> flag_names =
-      {
-        "shader_resource",
-        "rander_target",
-        "depth_stencil"
-      };
-
-      std::string flags_string;
-      for (usize i = 0; i < std::to_underlying(graph::texture::bind_flags::max); ++i)
-      {
-        if (std::to_underlying(flags) & (1 << i))
-        {
-          flags_string += flag_names[i];
-          flags_string += "|";
-        }
-      }
-
-      // remove trailing |
-      flags_string.pop_back();
-
-      return fmt::format_to(ctx.out(), "flags({})", flags_string);
-    }
-  };
-
-  template<>
-  struct formatter<graph::texture::create_info> : formatter<std::string_view>
-  {
-    auto format(const graph::texture::create_info& config, format_context& ctx)
-    {
-      return fmt::format_to(ctx.out(), "create_info(fmt: {}, w: {}, h: {}, layers: {}, levels: {}, samples: {})",
-        config.format, config.width, config.height, config.layers, config.levels, config.samples);
-    }
-  };
-}
+    return fmt::format_to(ctx.out(), "create_info(fmt: {}, w: {}, h: {}, layers: {}, levels: {}, samples: {})",
+      config.format, config.width, config.height, config.layers, config.levels, config.samples);
+  }
+};
