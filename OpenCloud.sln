@@ -57,6 +57,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "script", "code\script\scrip
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "graph", "code\graph\graph.vcxproj", "{01A149AB-39A3-4F54-A023-832781A21D1F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "d3d11", "code\d3d11\d3d11.vcxproj", "{7B94AD44-4151-415D-9598-ED268EB017DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -118,6 +120,12 @@ Global
 		{01A149AB-39A3-4F54-A023-832781A21D1F}.FastDebug|x64.Build.0 = FastDebug|x64
 		{01A149AB-39A3-4F54-A023-832781A21D1F}.Release|x64.ActiveCfg = Release|x64
 		{01A149AB-39A3-4F54-A023-832781A21D1F}.Release|x64.Build.0 = Release|x64
+		{7B94AD44-4151-415D-9598-ED268EB017DE}.Debug|x64.ActiveCfg = Debug|x64
+		{7B94AD44-4151-415D-9598-ED268EB017DE}.Debug|x64.Build.0 = Debug|x64
+		{7B94AD44-4151-415D-9598-ED268EB017DE}.FastDebug|x64.ActiveCfg = FastDebug|x64
+		{7B94AD44-4151-415D-9598-ED268EB017DE}.FastDebug|x64.Build.0 = FastDebug|x64
+		{7B94AD44-4151-415D-9598-ED268EB017DE}.Release|x64.ActiveCfg = Release|x64
+		{7B94AD44-4151-415D-9598-ED268EB017DE}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -131,6 +139,7 @@ Global
 		{CB2DFB73-AE82-46CE-A1A6-F38C41BF1E99} = {D35920D6-291D-454E-8311-8AC7CD2C2D13}
 		{98B893CD-0324-441E-8EBA-0267427E25C1} = {5B4BAF44-C9E2-449A-86B5-DE883F2E2919}
 		{01A149AB-39A3-4F54-A023-832781A21D1F} = {5B4BAF44-C9E2-449A-86B5-DE883F2E2919}
+		{7B94AD44-4151-415D-9598-ED268EB017DE} = {5B4BAF44-C9E2-449A-86B5-DE883F2E2919}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {81C91EE3-8C0D-44FC-A3A6-F4D80A915E56}
