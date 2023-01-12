@@ -11,12 +11,7 @@ namespace graph
     using texture_create_info = texture::create_info;
 
   public:
-    std::unique_ptr<texture> create_texture_from_config(const texture_create_info& config)
-    {
-      // TODO
-
-      return { };
-    }
+    virtual std::unique_ptr<texture> create_texture_from_config(const texture_create_info& config) = 0;
   };
 }
 
