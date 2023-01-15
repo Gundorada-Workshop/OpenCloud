@@ -2,39 +2,89 @@
 #include <array>
 
 #include "common/types.h"
+#include "common/macros.h"
+
 #include "graph/vector.h"
 
 namespace graph
 {
-  //template<typename type, usize row_count, usize column_count>
-  //struct matrix
-  //{
-  //  using vector_type = vector<type, column_count>;
-  //  using storage_type = vector_type::storage_type;
+  template<typename type, usize row_count, usize column_count>
+  struct matrix
+  {
+    using vector_type = vector<type, column_count>;
 
-  //  std::array<storage_type, row_count> rows;
-  //};
+    ALWAYS_INLINE static consteval usize rows()
+    {
+      return row_count;
+    }
 
-  //template<typename type, usize rows, usize columns>
-  //static inline vector<type, columns> operator*(const vector<type, columns>& v, const matrix<type, rows, columns>& m)
-  //{
-  //  using enum detail::element;
+    ALWAYS_INLINE static consteval usize columns()
+    {
+      return column_count;
+    }
 
-  //  std::array swizzle_matrix =
-  //  {
-  //    detail::vector_swizzle<type, _x, _x, _x, _x>::swizzle(v.data.v),
-  //    detail::vector_swizzle<type, _y, _y, _y, _y>::swizzle(v.data.v),
-  //    detail::vector_swizzle<type, _z, _z, _z, _z>::swizzle(v.data.v),
-  //    detail::vector_swizzle<type, _w, _w, _w, _w>::swizzle(v.data.v)
-  //  };
+    std::array<vector_type, row_count> rows_;
+  };
 
-  //  auto res = vector<type, columns>::zero();
+  template<typename type, usize rows, usize columns, typename matrix_type = matrix<type, rows, columns>>
+  ALWAYS_INLINE constexpr auto operator+(const matrix_type& lhs, const type rhs) -> matrix_type
+  {
+    matrix_type out;
+    for (usize i = 0; i < matrix_type::rows(); ++i)
+      out.rows_[i] = lhs.rows_[i] + rhs;
 
-  //  for (usize i = 0; i < rows; ++i)
-  //    res.data.v = detail::vector_math<type>::madd(swizzle_matrix[i].v, m.rows[i].v, res.data.v);
+    return out;
+  }
 
-  //  return res;
-  //}
+  template<typename type, usize rows, usize columns, typename matrix_type = matrix<type, rows, columns>>
+  ALWAYS_INLINE constexpr auto operator-(const matrix_type& lhs, const type rhs) -> matrix_type
+  {
+    matrix_type out;
+    for (usize i = 0; i < matrix_type::rows(); ++i)
+      out.rows_[i] = lhs.rows_[i] - rhs;
+
+    return out;
+  }
+
+  template<typename type, usize rows, usize columns, typename matrix_type = matrix<type, rows, columns>>
+  ALWAYS_INLINE constexpr auto operator*(const matrix_type& lhs, const type rhs) -> matrix_type
+  {
+    matrix_type out;
+    for (usize i = 0; i < matrix_type::rows(); ++i)
+      out.rows_[i] = lhs.rows_[i] * rhs;
+
+    return out;
+  }
+
+  template<typename type, usize rows, usize columns, typename matrix_type = matrix<type, rows, columns>>
+  ALWAYS_INLINE constexpr auto operator/(const matrix_type& lhs, const type rhs) -> matrix_type
+  {
+    matrix_type out;
+    for (usize i = 0; i < matrix_type::rows(); ++i)
+      out.rows_[i] = lhs.rows_[i] / rhs;
+
+    return out;
+  }
+
+  template<typename type, usize rows, usize columns, typename matrix_type = matrix<type, rows, columns>>
+  ALWAYS_INLINE constexpr auto operator+(const matrix_type& lhs, const matrix_type& rhs) -> matrix_type
+  {
+    matrix_type out;
+    for (usize i = 0; i < matrix_type::rows(); ++i)
+      out.rows_[i] = lhs.rows_[i] + rhs.rows_[i];
+
+    return out;
+  }
+
+  template<typename type, usize rows, usize columns, typename matrix_type = matrix<type, rows, columns>>
+  ALWAYS_INLINE constexpr auto operator-(const matrix_type& lhs, const matrix_type& rhs) -> matrix_type
+  {
+    matrix_type out;
+    for (usize i = 0; i < matrix_type::rows(); ++i)
+      out.rows_[i] = lhs.rows_[i] - rhs.rows_[i];
+
+    return out;
+  }
 
   //template<typename type, usize rows, usize columns>
   //inline matrix<type, rows, columns> matrix_transpose(const matrix<type, rows, columns>& m)
@@ -57,3 +107,10 @@ namespace graph
   //  return out;
   //}
 }
+
+template<usize rows, usize columns>
+using mat = graph::matrix<f32, rows, columns>;
+
+using mat4 = mat<4, 4>;
+using mat3 = mat<3, 3>;
+using mat2 = mat<2, 2>;
