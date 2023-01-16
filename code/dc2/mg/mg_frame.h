@@ -2,6 +2,7 @@
 #include <array>
 
 #include "common/debug.h"
+#include "common/macros.h"
 #include "common/types.h"
 
 #include "graph/vector.h"
@@ -40,6 +41,9 @@ class mgCVisualPrim
 struct mgRENDER_INFO;
 class mgCDrawManager;
 class mgCTextureManager;
+class mgCFrameManager;
+
+extern mgCFrameManager mgFrameManager;
 
 // 00376C70
 extern s32 mgScreenWidth;
@@ -449,18 +453,25 @@ public:
   // SIZE 0x90
 };
 
+class mgCFrame;
+using mgCFrameCollection = std::vector<std::shared_ptr<mgCFrame>>;
+
 class mgCFrameBase : public mgCObject
 {
 public:
   virtual void Initialize();
 
-  // SIZE 0x48 (?) (no new members ?)
+private:
+  friend class mgCFrameManager;
 };
 
-class mgCFrame : public mgCFrameBase
+class mgCFrame : public mgCFrameBase, public std::enable_shared_from_this<mgCFrame>
 {
 public:
   virtual ~mgCFrame() {};
+  NO_DISCARD static std::shared_ptr<mgCFrame> Create();
+private:
+  mgCFrame() = default;
 
 public:
   struct BoundInfo
@@ -524,13 +535,13 @@ public:
   uint GetFrameNum() const;
 
   // 00136AE0
-  void SetParent(mgCFrame* parent);
+  void SetParent(std::shared_ptr<mgCFrame> parent);
 
   // 00136BC0
   void DeleteParent();
 
   // 00136C30
-  void SetReference(mgCFrame* ref);
+  void SetReference(std::shared_ptr<mgCFrame> ref);
 
   // 00136C60
   void DeleteReference();
@@ -583,18 +594,12 @@ public:
   // 001381C0
   //mgVu0FBOX GetDrawRect(mgCDrawManager* manager);
 
-  // 00136490
-  mgCFrame() = default;
-
-  // 001386C0
-  mgCFrame(mgCFrame& other);
-
 private:
   // 00136B20
-  void SetBrother(mgCFrame * brother); // sibling?
+  void SetBrother(std::shared_ptr<mgCFrame> brother); // sibling?
 
   // 00136B60
-  void SetChild(mgCFrame * child);
+  void SetChild(std::shared_ptr<mgCFrame> child);
 
   // 00136CE0
   //matrix4 GetLocalMatrix();
@@ -603,23 +608,54 @@ public:
   // 50
   std::string m_name{ };
 
+  // About the graph implementation:
+  // Users can create an mgCFrame using Create (which results in a graph with a singular frame)
+  // and can set/remove a parent for an mgCFrame (there's also SetReference/DeleteReference, 
+  // but I'm not quite sure of the use case for that compared to SetParent/DeleteParent).
+  // Setting children/siblings is entirely a private implementation detail.
+  //
+  // Example graph:
+  // ( )
+  // (1)<.........
+  // ( )    .    .
+  // | ^    .    .
+  // v .    .    .
+  // ( )->( )->( )
+  // (2)  (3)  (4)
+  // ( )<.( )<.( )
+  //      | ^
+  //      v .
+  //      ( )
+  //      (5)
+  //      ( )
+  //
+  // If a frame has a child, it has a reference to the first child in a doubly-linked list of siblings.
+  // All children also have a weak reference back to the parent frame.
+  // 
+  // Note that all strong references flow downwards through the graph, and in a way that all nodes (except the root)
+  // have exactly one reference.
+  // 
+  // However, the root frame is also stored in a vector in an mgCFrameManager instance, which prevents an upper
+  // second of the graph destructing if only a reference to a non-root frame is kept, such as keeping a reference
+  // to 5 while having no references to 1. This vector is currently manually garbage collected by
+  // calling mgCFrameManager::Step.
+  // 
+  // A graph which has a frame with siblings but no parent is malformed.
+
   // 54
-  mgCFrame* m_parent{ nullptr };
-
+  std::weak_ptr<mgCFrame> m_parent{ };
   // 58
-  mgCFrame* m_child{ nullptr };
-
+  std::shared_ptr<mgCFrame> m_child{ };
   // 5C
-  mgCFrame* m_next_brother{ nullptr };
-
+  std::shared_ptr<mgCFrame> m_next_brother{ };
   // 60
-  mgCFrame* m_prev_brother{ nullptr };
+  std::weak_ptr<mgCFrame> m_prev_brother{ };
 
   // 64
   ssize m_unk_field_64{ 0 };
 
   // 68
-  mgCFrame** m_unk_field_68{ nullptr };
+  //mgCFrame** m_unk_field_68{ nullptr };
 
   // 6C
   unk32 m_unk_field_6C{ 0 };
@@ -644,8 +680,30 @@ public:
 
   // 100
   unk32 m_unk_field_100{ 0 };
+};
 
-  // SIZE 0x104 (?)
+class mgCFrameManager
+{
+public:
+  // Handles garbage collection
+  void Step();
+private:
+  // Finds the position of a graph
+  std::optional<mgCFrameCollection::iterator> FindGraph(std::shared_ptr<mgCFrame> graph);
+
+  // Adds a graph to the collection
+  void AddGraph(std::shared_ptr<mgCFrame> graph);
+
+  // Removes a graph from the collection
+  void RemoveGraph(std::shared_ptr<mgCFrame> graph);
+
+  // Checks if a graph has other references
+  bool IsGraphAlive(std::shared_ptr<mgCFrame>& root); // argument by reference to avoid incrementing ref count
+private:
+  // All stored graph roots
+  mgCFrameCollection m_graphs{};
+private:
+  friend class mgCFrame;
 };
 
 class mgCDrawEnv

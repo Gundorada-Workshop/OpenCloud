@@ -242,7 +242,7 @@ public:
   // B0
   std::list<CMapPiece> m_map_pieces{};
   // C0
-  mgCFrame m_unk_field_C0{};
+  std::shared_ptr<mgCFrame> m_unk_field_C0{};
 
   // 1D8 (length), 1D0 (buf)
   std::vector<f32> m_lod_dist{};

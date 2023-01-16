@@ -328,7 +328,7 @@ class CThunder
 {
 public:
   // 0
-  mgCFrame m_unk_field_0{};
+  std::shared_ptr<mgCFrame> m_unk_field_0{};
 
   // 110
   mgCFrameAttr m_unk_field_110{};
