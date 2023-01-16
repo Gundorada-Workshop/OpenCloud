@@ -20,6 +20,7 @@ namespace host
   public:
     enum class buttons : u32
     {
+      none       = 0,
       dpad_up    = 1 << 0,
       dpad_down  = 1 << 1,
       dpad_left  = 1 << 2,
