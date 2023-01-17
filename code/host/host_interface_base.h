@@ -116,6 +116,56 @@ namespace host
       return (current_frame_buttons() & (~btn)) == btn;
     }
 
+    // NOTE: See pad_handler.h for more information about input actions
+
+    // clears all registered input actions
+    inline void pad_clear_input_actions()
+    {
+      m_pad_handler->clear_actions();
+    }
+
+    // registers an action associated with a digitial button
+    inline void pad_register_button_action(const std::string_view& action_name, pad_handler::buttons button, std::function<void(bool pressed)> callback = nullptr)
+    {
+      std::lock_guard<std::mutex> lk(m_pad_handler_mutex);
+
+      m_pad_handler->register_button_action(action_name, button, callback);
+    }
+
+    // registers an action associated with digitial button(s)
+    inline void pad_register_button_action(const std::string_view& action_name, const std::vector<pad_handler::buttons>& input_buttons, std::function<void(bool pressed)> callback = nullptr)
+    {
+      std::lock_guard<std::mutex> lk(m_pad_handler_mutex);
+
+      m_pad_handler->register_button_action(action_name, input_buttons, callback);
+    }
+
+    // TODO: Register analog actions
+
+    // sets a callback to be called when the value of an action changes
+    inline void pad_set_button_action_callback(const std::string_view& action_name, std::function<void(bool pressed)> callback)
+    {
+      m_pad_handler->set_button_action_callback(action_name, callback);
+    }
+
+    // sets a callback to be called every update with axis information
+    inline void pad_set_analog_action_callback(const std::string_view& action_name, std::function<void(f32 axis)> callback)
+    {
+      m_pad_handler->set_analog_action_callback(action_name, callback);
+    }
+
+    // check the value of a button action
+    inline bool pad_check_button_action(const std::string_view& action_name)
+    {
+      return m_pad_handler->check_button_action(action_name);
+    }
+
+    // check the value of an analog action
+    inline f32 pad_check_analog_action(const std::string_view& action_name)
+    {
+      return m_pad_handler->check_analog_action(action_name);
+    }
+
     // sample the left stick x value
     inline f32 sample_pad_left_stick_x()
     {

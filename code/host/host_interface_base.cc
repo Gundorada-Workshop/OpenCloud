@@ -41,7 +41,10 @@ namespace host
       std::lock_guard<std::mutex> lk(m_pad_handler_mutex);
 
       m_game_button_buffer[m_game_button_buffer_index ^= 1] = m_pad_handler->current_buttons();
+      m_pad_handler->update_actions();
     }
+
+    m_pad_handler->do_action_callbacks();
   }
 
   void host_interface_base::end_game_frame()
