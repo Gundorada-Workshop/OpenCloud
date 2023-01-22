@@ -3,6 +3,10 @@
 
 #include "common/types.h"
 
+#ifdef __linux__
+#include <time.h>
+#endif
+
 constexpr float GAME_FPS = 29.97f;
 constexpr float GAME_DT = 1.0f / GAME_FPS;
 constexpr float MENU_FPS = 59.94f;
@@ -11,6 +15,8 @@ constexpr float MENU_DT = 1.0f / MENU_FPS;
 namespace common::time
 {
   using seconds_type = f64;
+
+  #if defined(_WIN32)
   using cycles_type = u64;
 
   // get current cpu counter
@@ -25,6 +31,11 @@ namespace common::time
 
   // convert seconds to cycles
   cycles_type seconds_to_cycles(seconds_type val);
+  #endif
+
+  #if defined(__GNUG__) || defined(__clang__)
+  seconds_type current_timestamp();
+  #endif
 
   // convert from milliseconds
   constexpr seconds_type milliseconds(f64 val)
@@ -62,20 +73,32 @@ namespace common::time
     // reset the timer
     void reset();
 
+    #if defined(_WIN32)
     // number of cycles since start to end
     // or start to now if stop wasn't called
     cycles_type delta_cycles();
+    #endif
 
     // number of seconds since the start to end
     // or start to now if stop wasn't called
     seconds_type delta_seconds();
 
   private:
+    #if defined(_WIN32)
     // the cycle we started at
     cycles_type m_start_cycle{ 0 };
 
     // the cycle we ended at
     cycles_type m_end_cycle{ 0 };
+    #elif defined(__linux__)
+    // the time we started at
+    seconds_type m_start_time{ 0 };
+
+    // the time we ended at
+    seconds_type m_end_time{ 0 };
+    #else
+    static_assert(false, "Not implemented");
+    #endif
 
     // whether the timer is started
     bool m_started{ false };
