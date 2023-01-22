@@ -1,4 +1,3 @@
-#pragma once
 #include <limits>
 
 #include "common/log.h"
