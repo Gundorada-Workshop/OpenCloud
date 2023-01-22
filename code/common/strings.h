@@ -1,4 +1,5 @@
 #pragma once
+
 #include <optional>
 #include <concepts>
 #include <string>
@@ -20,7 +21,6 @@ namespace common::strings
     std::same_as<type, char> || std::same_as<type, wchar_t>;
   };
 
-#if defined(_WIN32)
   std::optional<std::string>  wstring_to_utf8(std::wstring_view wide);
   std::optional<std::wstring> utf8_to_wstring(std::string_view utf8);
   std::optional<std::string> sjis_to_utf8(std::string_view sjis);
@@ -33,7 +33,6 @@ namespace common::strings
 
   std::string sjis_to_utf8_or_none(std::string_view sjis);
   std::string sjis_to_utf8_or_panic(std::string_view sjis);
-#endif // _WIN32
 
   // format a string
   // note: fmtstr must be constexpr
