@@ -4,6 +4,9 @@
 #if defined(_WIN32)
 #include <Windows.h>
 #include <DbgHelp.h>
+#elif defined(__linux__)
+#include <execinfo.h>
+#include <signal.h>
 #endif
 
 #include "common/types.h"
@@ -12,9 +15,11 @@
 
 namespace common::debug
 {
-#if defined(_WIN32)
   static std::vector<std::string> backtrace(uint depth)
   {
+    std::vector<std::string> out;
+
+  #if defined(_WIN32)
     const auto process = GetCurrentProcess();
     const auto thread = GetCurrentThread();
 
@@ -58,8 +63,6 @@ namespace common::debug
     symbols->SizeOfStruct = sizeof(SYMBOL_INFOW);
     symbols->MaxNameLen = 256;
 
-    std::vector<std::string> out;
-
     // pop off the top
     // https://learn.microsoft.com/en-us/windows/win32/api/dbghelp/nf-dbghelp-stackwalk64
     while (StackWalk64(IMAGE_FILE_MACHINE_AMD64, process, thread, &frame, &context, NULL,
@@ -97,9 +100,25 @@ namespace common::debug
 
     LocalFree(symbols);
 
+  #elif defined(__linux__)
+    // Extract the backtrace to the requested depth
+    // Note that this doesn't give particularly useful results without
+    // the -rdynamic linker option
+    void* frame_stack[depth];
+    ::backtrace(frame_stack, depth);
+    char** symbols;
+    symbols = ::backtrace_symbols(frame_stack, depth); // Warning: uses malloc() under the hood, requires free()
+    
+    // Convert to std::string
+    for (int i=0; i < depth; ++i)
+      out.emplace_back(symbols[i]);
+    
+    // Cleaning up after backtrace_symbols
+    free(symbols);
+  #endif
+
     return out;
   }
-#endif
 
   void print_trace(uint depth)
   {
@@ -116,22 +135,30 @@ namespace common::debug
 
     print_trace(50);
 
-#if defined(_WIN32)
-    if (IsDebuggerPresent() && console::prompt("Would you like to start debugging?"))
-      DebugBreak();
-#endif
+    #if defined(_WIN32)
+      if (IsDebuggerPresent() && console::prompt("Would you like to start debugging?"))
+       DebugBreak();
+    #elif defined(__linux__)
+      #if defined(SIGTRAP)
+        raise(SIGTRAP);
+      #endif
+    #endif
   }
 
   void panic(std::string_view msg)
   {
     console::write("PANIC!!!\n");
     console::write_format("{}\n", msg);
+    #if defined(_WIN32)
+      if (IsDebuggerPresent())
+        DebugBreak();
 
-#if defined(_WIN32)
-    if (IsDebuggerPresent())
-      DebugBreak();
-
-    TerminateProcess(GetCurrentProcess(), 0xDEADBEEF);
-#endif
+      TerminateProcess(GetCurrentProcess(), 0xDEADBEEF);
+    #elif defined(__linux__)
+      #if defined(SIGTRAP)
+        raise(SIGTRAP);
+      #endif
+      kill(getpid(), SIGKILL);
+    #endif
   }
 }
