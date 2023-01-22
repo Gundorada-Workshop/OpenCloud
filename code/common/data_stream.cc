@@ -22,7 +22,7 @@ namespace common
     usize chunk_size = 0;
 
     std::array<u8, block_size> temp_buffer{ };
-    while (chunk_size = other->read_buffer(temp_buffer.data(), temp_buffer.size()))
+    while ((chunk_size = other->read_buffer(temp_buffer.data(), temp_buffer.size())))
     {
       if (!write_buffer_checked(temp_buffer.data(), chunk_size))
         return false;
@@ -45,7 +45,7 @@ namespace common
     usize chunk_size = 0;
 
     std::array<u8, block_size> temp_buffer{ };
-    while (chunk_size = other->read_buffer(temp_buffer.data(), temp_buffer.size()))
+    while ((chunk_size = other->read_buffer(temp_buffer.data(), temp_buffer.size())))
     {
       if (!write_buffer_checked(temp_buffer.data(), chunk_size))
         return false;
