@@ -1,6 +1,7 @@
 #pragma once
-#include <type_traits>
 #include <algorithm>
+#include <limits>
+#include <type_traits>
 
 #include "common/types.h"
 
@@ -230,8 +231,16 @@ namespace common::bits
   inline u64 lsb_index(type val)
   {
     ulong index;
-    _BitScanForward64(&index, val);
-
+    #if defined(_MSC_VER)
+      _BitScanForward64(&index, val);
+    #elif defined(__GNUG__) || defined(__clang__)
+      // Watch out for buffer overflow: result is 0
+      // if input is 0.
+      index = static_cast<ulong>(__builtin_ffsll(val));
+      index -= 1;
+    #else
+      static_assert(false, "Not implemented");
+    #endif
     return index;
   }
 
@@ -241,8 +250,13 @@ namespace common::bits
   inline u64 msb_index(type val)
   {
     ulong index;
-    _BitScanReverse64(&index, val);
-
+    #if defined(_MSC_VER)
+      _BitScanReverse64(&index, val);
+    #elif defined(__GNUG__) || defined(__clang__)
+      index = static_cast<ulong>(__builtin_clzll(val));
+    #else
+      static_assert(false, "Not implemented");
+    #endif
     return index;
   }
 
