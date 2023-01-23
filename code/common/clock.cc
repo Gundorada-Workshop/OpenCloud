@@ -78,7 +78,7 @@ namespace common::time
     #if defined(_WIN32)
       m_start_cycle = current_cycle_count();
     #elif defined(__linux__)
-      this->m_start_time = current_timestamp();
+      m_start_time = current_timestamp();
     #else
       static_assert(false, "Not implemented");
     #endif
@@ -91,7 +91,7 @@ namespace common::time
     #if defined(_WIN32)
       m_end_cycle = current_cycle_count();
     #elif defined(__linux__)
-      this->m_end_time = current_timestamp();
+      m_end_time = current_timestamp();
     #else
       static_assert(false, "Not implemented");
     #endif
@@ -129,7 +129,7 @@ namespace common::time
 
         return cycles_to_seconds(cycles);
     #elif defined(__linux__)
-        return this->m_end_time - this->m_start_time;
+        return m_end_time - m_start_time;
     #else
         static_assert(false, "Not Implemented");
     #endif
