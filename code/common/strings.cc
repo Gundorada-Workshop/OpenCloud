@@ -80,27 +80,38 @@ namespace common::strings
 
     return wstring_to_utf8(out);
     #elif defined(__linux__)
-    // Make a copy of the input string in case iconv alters it
-    // +1 to make room for a null-terminator we'll add on the end
-    size_t buf_in_size = sjis.size() + 1;
-    char in_buf[buf_in_size];
-    std::strncpy(in_buf, sjis.data(), sjis.size());
-    // Ensure it's null-terminated: string_view doesn't guarantee null-termination
-    in_buf[sjis.size()] = '\0';
+    // Make a null-terminated copy of the input string because
+    // 1) string_views are not guaranteed to be null-terminated
+    // 2) The input argument to iconv is mutable
+    auto input_copy        = std::string(sjis);
+    char* ptr_in           = reinterpret_cast<char*>(input_copy.data());
+    size_t bytes_remaining = input_copy.size();
 
-    // Create pointers to be fed into iconv
-    char* ptr_in = static_cast<char*>(in_buf);
-    size_t buf_out_size = buf_in_size*6; // UTF8 can be a maximum of 6 bytes/symbol, SHIFT-JIS can be a minimum of 1 byte/symbol
-    char buf_out[buf_out_size];
-    char* ptr_out = static_cast<char*>(buf_out);
+    // Set up the output variable
+    // SHIFT-JIS is 1 byte minimum, UTF8 is 6 bytes maximum: worst case scenario,
+    // out string is 6x larger than input string.
+    // However: if we can guarantee that all characters are ascii/kana/non-extension kanji,
+    // we can do better and assume a worst-case size of 3x input size due to the byte range
+    // these characters are encoded to within UTF-8.
+    size_t buf_out_size = bytes_remaining*6;
+    std::string buf_out;
+    buf_out.resize(buf_out_size);
+    char*  ptr_out= buf_out.data();
 
-    // shift-jis char* to utf-8 char*
-    // //IGNORE flag will drop anything that can't be utf8-encoded
+    // Do the conversion
+    // *Could* do this in a while loop "while(bytes_remaining > 0)", but
+    // not sure if it's really better than paying the memory cost for
+    // reserving a large buffer and converting all in one call.
+    // //IGNORE will drop any unconvertable glyphs
     auto descriptor = iconv_open("UTF-8//IGNORE", "SHIFT-JIS");
-    iconv(descriptor, &ptr_in, &buf_in_size, &ptr_out, &buf_out_size);
-    iconv_close(descriptor);
+    iconv(descriptor, &ptr_in, &bytes_remaining, &ptr_out, &buf_out_size);
+    int close_state = iconv_close(descriptor);
+    if (close_state != 0)
+        return std::nullopt;
 
-    return std::string(buf_out);
+    // Create an output string with any junk after the buf_out ends trimmed off
+    std::string out{buf_out.data()};
+    return out;
     #endif
 
   }
