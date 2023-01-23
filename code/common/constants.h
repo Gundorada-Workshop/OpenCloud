@@ -1,5 +1,5 @@
 #pragma once
-#pragma once
+
 #include <limits>
 
 #include "common/types.h"
