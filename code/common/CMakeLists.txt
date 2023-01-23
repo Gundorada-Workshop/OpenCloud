@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.20)
 
-set(CMAKE_CXX_STANDARD 23)
-
 project(OpenCloudCommon)
 
-set(
-    SOURCES
+add_library(${PROJECT_NAME} STATIC)
+target_sources(
+    ${PROJECT_NAME}
+    PRIVATE
     "clock.cc"
     "console_logger.cc"
     "console.cc"
@@ -16,10 +16,7 @@ set(
     "log.cc"
     "strings.cc"
     "synchro.cc"
-)
-
-set(
-    HEADERS
+    
     "aligned_allocator.h"
     "bits.h"
     "clock.h"
@@ -42,9 +39,7 @@ set(
     "window_handle.h"
 )
 
-add_library(${PROJECT_NAME} STATIC ${SOURCES} ${HEADERS})
-target_include_directories (${PROJECT_NAME} PUBLIC ..) # So that the folder name can be used in imports
-target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt)
+target_link_libraries(${PROJECT_NAME} PRIVATE ProjectConfiguration PUBLIC fmt::fmt)
 
 # Include pthread for Linux
 IF (UNIX)
