@@ -21,15 +21,19 @@ namespace common::strings
     std::same_as<type, char> || std::same_as<type, wchar_t>;
   };
 
+  #if defined(_WIN32)
   std::optional<std::string>  wstring_to_utf8(std::wstring_view wide);
   std::optional<std::wstring> utf8_to_wstring(std::string_view utf8);
+  #endif
   std::optional<std::string> sjis_to_utf8(std::string_view sjis);
 
+  #if defined(_WIN32)
   std::string wstring_to_utf8_or_none(std::wstring_view wide);
   std::string wstring_to_utf8_or_panic(std::wstring_view wide);
 
   std::wstring utf8_to_wstring_or_none(std::string_view utf8);
   std::wstring utf8_to_wstring_or_panic(std::string_view utf8);
+  #endif
 
   std::string sjis_to_utf8_or_none(std::string_view sjis);
   std::string sjis_to_utf8_or_panic(std::string_view sjis);
