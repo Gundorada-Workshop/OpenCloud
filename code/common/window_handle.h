@@ -1,10 +1,9 @@
 #pragma once
 #if defined(_WIN32)
-    #include <Windows.h>
+  #include <Windows.h>
 #elif defined(__linux__)
-
 #else
-    static_assert(false, "Not implemented");
+  static_assert(false, "Not implemented");
 #endif
 
 #include "common/platform.h"
@@ -23,10 +22,10 @@ namespace common
   };
   #elif defined(__linux__)
   template<>
-  struct window_handle_t<platform::linuxplatform>
+  struct window_handle_t<platform::linux_x11>
   {
-    // Don't know the type to go in here yet
-    //HWND window_handle{ nullptr };
+    void* connection; // Display from e.g. XOpenDisplay(NULL)
+    void* handle;     // Window from e.g. XCreateSimpleWindow(...)
   };
   #endif
 

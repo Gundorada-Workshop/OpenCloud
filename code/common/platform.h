@@ -5,7 +5,7 @@ namespace common
   enum class platform
   {
     windows,
-    linuxplatform // plain 'linux' is a g++ predefined macro
+    linux_x11
   };
 
   constexpr platform platform_type()
@@ -13,7 +13,7 @@ namespace common
     #if defined(_WIN32)
       return platform::windows;
     #elif defined(__linux__)
-      return platform::linuxplatform;
+      return platform::linux_x11;
     #else
       static_assert(false, "Undefined target platform");
     #endif
