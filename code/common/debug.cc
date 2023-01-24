@@ -104,7 +104,7 @@ namespace common::debug
     // Extract the backtrace to the requested depth
     // Note that this doesn't give particularly useful results without
     // the -rdynamic linker option
-    std::vector<void*> frame_stack;
+    std::vector<void*> frame_stack{ depth };
     ::backtrace(frame_stack.data(), depth);
     char** symbols;
     symbols = ::backtrace_symbols(frame_stack.data(), depth); // Warning: uses malloc() under the hood, requires free()
