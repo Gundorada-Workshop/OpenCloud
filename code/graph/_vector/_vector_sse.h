@@ -1,5 +1,12 @@
 #pragma once
-#include <intrin.h>
+#if defined(_MSC_VER)
+//#include <intrin.h>
+#elif defined(__GNUG__) || defined(__clang__)
+  #include <immintrin.h>
+  #include <avxintrin.h>
+#else
+  static_assert(false, "Not implemented");
+#endif
 
 #include "common/types.h"
 #include "common/bits.h"
@@ -62,7 +69,7 @@ namespace graph::detail
     static constexpr usize elements = sizeof(traits::type) / sizeof(type);
 
     // broadcast integral value
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires integral_vector<v>
     static inline v set(const u& a)
     {
@@ -70,7 +77,7 @@ namespace graph::detail
     }
 
     // broadcast single precision float value
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline v set(const u& a)
     {
@@ -78,7 +85,7 @@ namespace graph::detail
     }
 
     // repeat integral values a and b across vector
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires integral_vector<v>
     static inline v set(const u& a, const u& b)
     {
@@ -86,7 +93,7 @@ namespace graph::detail
     }
 
     // repeat single precision float values a and b across vector
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline v set(const u& a, const u& b)
     {
@@ -94,7 +101,7 @@ namespace graph::detail
     }
 
     // set integral values a, b, c, d to x, y, z, w respectively
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires integral_vector<v>
     static inline v set(const u& a, const u& b, const u& c, const u& d)
     {
@@ -102,7 +109,7 @@ namespace graph::detail
     }
 
     // set single precision float values a, b, c, d to x, y, z, w respectively
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline v set(const u& a, const u& b, const u&  c, const u& d)
     {
@@ -110,7 +117,7 @@ namespace graph::detail
     }
 
     // extract integral value el from vector
-    template<element el, typename u = type, typename v = traits::type>
+    template<element el, typename u = type, typename v = typename traits::type>
     requires integral_vector<v>
     static inline u extract(const v& a)
     {
@@ -118,7 +125,7 @@ namespace graph::detail
     }
 
     // extract single precision float value el from vector 
-    template<element el, typename u = type, typename v = traits::type>
+    template<element el, typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline u extract(const v& a)
     {
@@ -126,7 +133,7 @@ namespace graph::detail
     }
 
     // swizzle integral vector (shuffle across one register)
-    template<element e0, element e1, element e2, element e3, typename u = type, typename v = traits::type>
+    template<element e0, element e1, element e2, element e3, typename u = type, typename v = typename traits::type>
     requires integral_vector<v>
     static inline v swizzle(const v& a)
     {
@@ -134,7 +141,7 @@ namespace graph::detail
     }
 
     // swizzle single precision floating point vector (shuffle across one vector)
-    template<element e0, element e1, element e2, element e3, typename u = type, typename v = traits::type>
+    template<element e0, element e1, element e2, element e3, typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline v swizzle(const v& a)
     {
@@ -150,7 +157,7 @@ namespace graph::detail
     }
 
     // shuffle single precision float vectors a and b
-    template< element e0, element e1, element e2, element e3, typename u = type, typename v = traits::type>
+    template< element e0, element e1, element e2, element e3, typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline v shuffle(const v& a, const v& b)
     {
@@ -158,7 +165,7 @@ namespace graph::detail
     }
 
     // add two single precision float vectors
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline v add(const v& lhs, const v& rhs)
     {
@@ -166,7 +173,7 @@ namespace graph::detail
     }
 
     // add two integral vectors
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires integral_vector<v>
     static inline v add(const v& lhs, const v& rhs)
     {
@@ -174,7 +181,7 @@ namespace graph::detail
     }
 
     // subtract two single precision float vectors
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline v sub(const v& lhs, const v& rhs)
     {
@@ -182,7 +189,7 @@ namespace graph::detail
     }
 
     // subtract two integral vectors
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires integral_vector<v>
     static inline v sub(const v& lhs, const v& rhs)
     {
@@ -190,7 +197,7 @@ namespace graph::detail
     }
 
     // divide two single precision float vectors
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline v div(const v& lhs, const v& rhs)
     {
@@ -198,7 +205,7 @@ namespace graph::detail
     }
 
     // divide two signed integral vectors
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires integral_vector<v> && std::signed_integral<u>
     static inline v div(const v& lhs, const v& rhs)
     {
@@ -206,7 +213,7 @@ namespace graph::detail
     }
 
     // divide two unsigned integral vectors
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires integral_vector<v> && std::unsigned_integral<u>
     static inline v div(const v& lhs, const v& rhs)
     {
@@ -214,7 +221,7 @@ namespace graph::detail
     }
 
     // multiply two single precision float vectors
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline v mul(const v& lhs, const v& rhs)
     {
@@ -222,7 +229,7 @@ namespace graph::detail
     }
 
     // multiply two signed integral vectors
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires integral_vector<v> && std::signed_integral<u>
     static inline v mul(const v& lhs, const v& rhs)
     {
@@ -230,7 +237,7 @@ namespace graph::detail
     }
 
     // multiply two unsigned integral vectors 
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires integral_vector<v> && std::unsigned_integral<u>
     static inline v mul(const v& lhs, const v& rhs)
     {
@@ -239,7 +246,7 @@ namespace graph::detail
 
     // single precision packed floating point fused multiply add
     // (a * b) + c
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline v madd(const v& a, const v& b, const v& c)
     {
@@ -248,7 +255,7 @@ namespace graph::detail
 
     // signed integral multiply add
     // (a * b) + c
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires integral_vector<v> && std::signed_integral<u>
     static inline v madd(const v& a, const v& b, const v& c)
     {
@@ -257,7 +264,7 @@ namespace graph::detail
 
     // unsigned integer multiply add
     // (a * b) + c
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires integral_vector<v> && std::unsigned_integral<u>
     static inline v madd(const v& a, const v& b, const v& c)
     {
@@ -265,7 +272,7 @@ namespace graph::detail
     }
 
     // single precision float vector dot product
-    template<usize size, typename u = type, typename v = traits::type>
+    template<usize size, typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline u dot(const v& lhs, const v& rhs)
     {
@@ -276,7 +283,7 @@ namespace graph::detail
     }
 
     // single precision float vector cross product
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline v cross(const v& lhs, const v& rhs)
     {
@@ -296,7 +303,7 @@ namespace graph::detail
     }
 
     // calculate the magnitude of a single precision float vector
-    template<usize size, typename u = type, typename v = traits::type>
+    template<usize size, typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline u mag(const v& a)
     {
@@ -317,7 +324,7 @@ namespace graph::detail
     }
 
     // calculate the magnitude squared of a single precision float vector
-    template<usize size, typename u = type, typename v = traits::type>
+    template<usize size, typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline u mag2(const v& a)
     {
@@ -328,7 +335,7 @@ namespace graph::detail
     }
 
     // calculate the distance between two single precision float vectors
-    template<usize size, typename u = type, typename v = traits::type>
+    template<usize size, typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline u distance(const v& a, const v& b)
     {
@@ -349,7 +356,7 @@ namespace graph::detail
     }
 
     // calculate the distance squared between two single precision float vectors
-    template<usize size, typename u = type, typename v = traits::type>
+    template<usize size, typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline u distance2(const v& a, const v& b)
     {
@@ -362,7 +369,7 @@ namespace graph::detail
     }
 
     // normalize a vector (make it's magnitude 1) given a size
-    template<usize size, typename u = type, typename v = traits::type>
+    template<usize size, typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline v norm(const v& a)
     {
@@ -384,7 +391,7 @@ namespace graph::detail
     }
 
     // normalize a vector (make it's magnitude 1) given a size
-    template<usize size, typename u = type, typename v = traits::type>
+    template<usize size, typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline v norm2(const v& a)
     {
@@ -395,7 +402,7 @@ namespace graph::detail
     }
 
     // calculate the absolute value of a single precision float vector
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline v abs(const v& a)
     {
@@ -404,7 +411,7 @@ namespace graph::detail
 
     // check if single precision float vectors a lhs and rhs are equal
     // returns a mask of elements where this is true
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline v equal(const v& lhs, const v& rhs)
     {
@@ -413,7 +420,7 @@ namespace graph::detail
 
     // check if integral vectors lhs and rhs are equal
     // returns a mask of elements where this is true
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires integral_vector<v>
     static inline v equal(const v& lhs, const v& rhs)
     {
@@ -422,7 +429,7 @@ namespace graph::detail
 
     // check if single precision float vector lsh is less than rhs
     // returns a mask of elements where this is true
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline v less_than(const v& lhs, const v& rhs)
     {
@@ -431,7 +438,7 @@ namespace graph::detail
 
     // check if single precision float vector lsh is less or equal to than rhs
     // returns a mask of elements where this is true
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline v less_than_equal(const v& lhs, const v& rhs)
     {
@@ -440,7 +447,7 @@ namespace graph::detail
 
     // check if single precision float vector lsh is greater than rhs
     // returns a mask of elements where this is true
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline v greater_than(const v& lhs, const v& rhs)
     {
@@ -449,7 +456,7 @@ namespace graph::detail
 
     // check if single precision float vector lsh is greater or equal to than rhs
     // returns a mask of elements where this is true
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline v greater_than_equal(const v& lhs, const v& rhs)
     {
@@ -457,7 +464,7 @@ namespace graph::detail
     }
 
     // returns a single precision float vector that represents the max values between lhs and rhs
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline v max(const v& lhs, const v& rhs)
     {
@@ -465,7 +472,7 @@ namespace graph::detail
     }
 
     // returns a single precision float vector that represents the min values between lhs and rhs
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline v min(const v& lhs, const v& rhs)
     {
@@ -473,7 +480,7 @@ namespace graph::detail
     }
 
     // blend two single precision float vectors a and b based on mask
-    template<typename u = type, typename v = traits::type>
+    template<typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline v blend(const v& a, const v& b, const v& mask)
     {
@@ -481,7 +488,7 @@ namespace graph::detail
     }
 
     // check if any values are true in a single precision float mask
-    template<usize size, typename u = type, typename v = traits::type>
+    template<usize size, typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline bool any(const v& mask)
     {
@@ -491,7 +498,7 @@ namespace graph::detail
     }
 
     // check if all values are true in a single precision float mask
-    template<usize size, typename u = type, typename v = traits::type>
+    template<usize size, typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
     static inline bool all(const v& mask)
     {

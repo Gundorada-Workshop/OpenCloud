@@ -1,6 +1,9 @@
 #pragma once
 #include "common/types.h"
 #include "common/bits.h"
+#include "common/helpers.h"
+#include "common/macros.h"
+#include "common/types.h"
 
 #include "graph/_vector/_vector_cxp.h"
 #include "graph/_vector/_vector_sse.h"
@@ -23,8 +26,8 @@ namespace graph
     using impl_simd = detail::vector_impl_sse<type>;
     using impl_cxpr = detail::vector_impl_cxp<type>;
 
-    using simd_type = impl_simd::traits::type;
-    using cxpr_type = impl_cxpr::traits::type;
+    using simd_type = typename impl_simd::traits::type;
+    using cxpr_type = typename impl_cxpr::traits::type;
 
     using vector_type = vector<type, size>;
 
@@ -215,9 +218,9 @@ namespace graph
     inline constexpr u x() const
     {
       if (std::is_constant_evaluated())
-        return impl_cxpr::extract<_x>(data.a);
+        return impl_cxpr::template extract<_x>(data.a);
       else
-        return impl_simd::extract<_x>(data.v);
+        return impl_simd::template extract<_x>(data.v);
     }
 
     // access the second component
@@ -226,9 +229,9 @@ namespace graph
     inline constexpr u y() const
     {
       if (std::is_constant_evaluated())
-        return impl_cxpr::extract<_y>(data.a);
+        return impl_cxpr::template extract<_y>(data.a);
       else
-        return impl_simd::extract<_y>(data.v);
+        return impl_simd::template extract<_y>(data.v);
     }
 
     // access the third component
@@ -237,9 +240,9 @@ namespace graph
     inline constexpr u z() const
     {
       if (std::is_constant_evaluated())
-        return impl_cxpr::extract<_z>(data.a);
+        return impl_cxpr::template extract<_z>(data.a);
       else
-        return impl_simd::extract<_z>(data.v);
+        return impl_simd::template extract<_z>(data.v);
     }
 
     // access the forth component
@@ -248,9 +251,9 @@ namespace graph
     inline constexpr u w() const
     {
       if (std::is_constant_evaluated())
-        return impl_cxpr::extract<_w>(data.a);
+        return impl_cxpr::template extract<_w>(data.a);
       else
-        return impl_simd::extract<_w>(data.v);
+        return impl_simd::template extract<_w>(data.v);
     }
 
     // assignment by vector
