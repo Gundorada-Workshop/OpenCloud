@@ -148,14 +148,6 @@ namespace graph::detail
       return _mm_permute_ps(a, shuffle_mask(e0, e1, e2, e3));
     }
 
-    // shuffle integral vectors a and b
-    template< element e0, element e1, element e2, element e3, typename u = type, typename v = traits::type>
-    requires integral_vector<v>
-    static inline v shuffle(const v& a, const v& b)
-    {
-      return _mm_shuffle_epi32(a, b, shuffle_mask(e0, e1, e2, e3));
-    }
-
     // shuffle single precision float vectors a and b
     template< element e0, element e1, element e2, element e3, typename u = type, typename v = typename traits::type>
     requires single_precision_float_vector<v>
