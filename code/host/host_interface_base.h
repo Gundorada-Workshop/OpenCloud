@@ -125,45 +125,45 @@ namespace host
     }
 
     // registers an action associated with a digitial button
-    inline void pad_register_button_action(const std::string_view& action_name, pad_handler::buttons button, std::function<void(bool pressed)> callback = nullptr)
+    inline void pad_register_button_action(const pad_handler::button_action btn_action, pad_handler::buttons button, std::function<void(bool pressed)> callback = nullptr)
     {
       std::lock_guard<std::mutex> lk(m_pad_handler_mutex);
 
-      m_pad_handler->register_button_action(action_name, button, callback);
+      m_pad_handler->register_button_action(btn_action, button, callback);
     }
 
     // registers an action associated with digitial button(s)
-    inline void pad_register_button_action(const std::string_view& action_name, const std::vector<pad_handler::buttons>& input_buttons, std::function<void(bool pressed)> callback = nullptr)
+    inline void pad_register_button_action(const pad_handler::button_action btn_action, const std::vector<pad_handler::buttons>& input_buttons, std::function<void(bool pressed)> callback = nullptr)
     {
       std::lock_guard<std::mutex> lk(m_pad_handler_mutex);
 
-      m_pad_handler->register_button_action(action_name, input_buttons, callback);
+      m_pad_handler->register_button_action(btn_action, input_buttons, callback);
     }
 
     // TODO: Register analog actions
 
     // sets a callback to be called when the value of an action changes
-    inline void pad_set_button_action_callback(const std::string_view& action_name, std::function<void(bool pressed)> callback)
+    inline void pad_set_button_action_callback(const pad_handler::button_action btn_action, std::function<void(bool pressed)> callback)
     {
-      m_pad_handler->set_button_action_callback(action_name, callback);
+      m_pad_handler->set_button_action_callback(btn_action, callback);
     }
 
     // sets a callback to be called every update with axis information
-    inline void pad_set_analog_action_callback(const std::string_view& action_name, std::function<void(f32 axis)> callback)
+    inline void pad_set_analog_action_callback(const pad_handler::analog_action ana_action, std::function<void(f32 axis)> callback)
     {
-      m_pad_handler->set_analog_action_callback(action_name, callback);
+      m_pad_handler->set_analog_action_callback(ana_action, callback);
     }
 
     // check the value of a button action
-    inline bool pad_check_button_action(const std::string_view& action_name)
+    inline bool pad_check_button_action(const pad_handler::button_action btn_action)
     {
-      return m_pad_handler->check_button_action(action_name);
+      return m_pad_handler->check_button_action(btn_action);
     }
 
     // check the value of an analog action
-    inline f32 pad_check_analog_action(const std::string_view& action_name)
+    inline f32 pad_check_analog_action(const pad_handler::analog_action ana_action)
     {
-      return m_pad_handler->check_analog_action(action_name);
+      return m_pad_handler->check_analog_action(ana_action);
     }
 
     // sample the left stick x value

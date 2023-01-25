@@ -42,6 +42,80 @@ namespace host
       r2         = 1 << 16
     };
 
+    enum class analog : u32
+    {
+      // TODO: Check if these properly align with the values in analog_table @ 0x3353E0
+      left_horizonal = 1,
+      left_vertical = 2,
+      right_horizontal = 3,
+      right_vertical = 4,
+    };
+
+    // These values come from pad_table @ 0x3351B0
+    // TODO: Names
+    enum class button_action
+    {
+      _0 = 0,
+      _1 = 1,
+      _2 = 2,
+      _3 = 3,
+      _4 = 4,
+      _5 = 5,
+      _6 = 6,
+      _7 = 7,
+      _8 = 8,
+      _9 = 9,
+      _10 = 10,
+      _11 = 11,
+      _12 = 12,
+      _13 = 13,
+      _14 = 14,
+      _15 = 15,
+      _16 = 16,
+      _17 = 17,
+      _18 = 18,
+      _19 = 19,
+      _20 = 20,
+      _21 = 21,
+      _22 = 22,
+      _23 = 23,
+      _24 = 24,
+      _50 = 50,
+      _51 = 51,
+      _52 = 52,
+      _53 = 53,
+      _54 = 54,
+      _55 = 55,
+      _56 = 56,
+      _100 = 100,
+      _101 = 101,
+      _102 = 102,
+      _103 = 103,
+      _104 = 104,
+      _105 = 105,
+      _106 = 106,
+      _107 = 107,
+      _108 = 108,
+      _109 = 109,
+      _120 = 120,
+      _121 = 121,
+      _122 = 122,
+    };
+
+    // These values come from pad_table @ 0x3351B0
+    // TODO: Names
+    enum class analog_action
+    {
+      _0 = 0,
+      _1 = 1,
+      _2 = 2,
+      _3 = 3,
+      _4 = 4,
+      _5 = 5,
+      _6 = 6,
+      _7 = 7,
+    };
+
     struct axis
     {
       f32 x{ 0.0f };
@@ -107,8 +181,8 @@ namespace host
     void clear_actions();
 
     // Register a button action which corresponds to an input
-    void register_button_action(const std::string_view& action_name, buttons button, std::function<void(bool pressed)> callback = nullptr);
-    void register_button_action(const std::string_view& action_name, const std::vector<buttons>& input_buttons, std::function<void(bool pressed)> callback = nullptr);
+    void register_button_action(const button_action btn_action, buttons button, std::function<void(bool pressed)> callback = nullptr);
+    void register_button_action(const button_action btn_action, const std::vector<buttons>& input_buttons, std::function<void(bool pressed)> callback = nullptr);
 
     // TODO: Unregistering (this one commit is getting too large anyways)
 
@@ -119,16 +193,16 @@ namespace host
     */
 
     // Set a callback for a button action
-    void set_button_action_callback(const std::string_view& action_name, std::function<void(bool pressed)> callback);
+    void set_button_action_callback(const button_action btn_action, std::function<void(bool pressed)> callback);
 
     // Set a callback for an analog action
-    void set_analog_action_callback(const std::string_view& action_name, std::function<void(f32 axis)> callback);
+    void set_analog_action_callback(const analog_action ana_action, std::function<void(f32 axis)> callback);
 
     // Check the value of a button action
-    bool check_button_action(const std::string_view& action_name);
+    bool check_button_action(const button_action action);
 
     // Check the value of an analog action
-    f32 check_analog_action(const std::string_view& action_name);
+    f32 check_analog_action(const analog_action ana_action);
 
     // Updates the values of actions
     void update_actions();
@@ -198,8 +272,8 @@ namespace host
     axis m_trigger_axis{ };
 
     // Mapping of individual actions to raw inputs
-    std::unordered_map<std::string, action_button> m_button_actions{ };
-    std::unordered_map<std::string, action_analog> m_analog_actions{ };
+    std::unordered_map<button_action, action_button> m_button_actions{ };
+    std::unordered_map<analog_action, action_analog> m_analog_actions{ };
 
     // Queued callbacks (called outside critical section to avoid deadlocks)
     std::vector<action_button_callback> m_button_action_callbacks{ };

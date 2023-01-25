@@ -1,5 +1,6 @@
 #include "host/pad_handler.h"
 
+#include "common/helpers.h"
 #include "common/log.h"
 
 set_log_channel("pad_handler");
@@ -14,9 +15,9 @@ namespace host
   }
 
   // Register a button action which corresponds to an input
-  void pad_handler::register_button_action(const std::string_view& action_name, buttons button, std::function<void(bool pressed)> callback)
+  void pad_handler::register_button_action(const button_action btn_action, buttons button, std::function<void(bool pressed)> callback)
   {
-    m_button_actions[action_name.data()] = {
+    m_button_actions[btn_action] = {
       .m_value = (button & m_buttons) != buttons::none,
       .m_input_key = button,
       .m_callback = callback
@@ -24,7 +25,7 @@ namespace host
   }
 
   // Register a button action which corresponds to inputs
-  void pad_handler::register_button_action(const std::string_view& action_name, const std::vector<buttons>& input_buttons, std::function<void(bool pressed)> callback)
+  void pad_handler::register_button_action(const button_action btn_action, const std::vector<buttons>& input_buttons, std::function<void(bool pressed)> callback)
   {
     // We OR all buttons into one, so we can check if any are pressed when updating actions.
     buttons input_button = buttons::none;
@@ -33,19 +34,19 @@ namespace host
       input_button |= button;
     }
 
-    register_button_action(action_name, input_button, callback);
+    register_button_action(btn_action, input_button, callback);
   }
 
   // TODO:
   //void register_analog_action(const std::string_view& action, ... axis);
 
   // Set a callback for a button action
-  void pad_handler::set_button_action_callback(const std::string_view& action_name, std::function<void(bool pressed)> callback)
+  void pad_handler::set_button_action_callback(const button_action btn_action, std::function<void(bool pressed)> callback)
   {
-    auto it = m_button_actions.find(action_name.data());
+    auto it = m_button_actions.find(btn_action);
     if (it == m_button_actions.end())
     {
-      log_warn("pad_handler::{}: Attempted to set a callback for action {}, but that action has not been registered!", __func__, action_name);
+      log_warn("pad_handler::{}: Attempted to set a callback for action {}, but that action has not been registered!", __func__, common::to_underlying(btn_action));
       return;
     }
 
@@ -54,12 +55,12 @@ namespace host
   }
 
   // Set a callback for an analog action
-  void pad_handler::set_analog_action_callback(const std::string_view& action_name, std::function<void(f32 axis)> callback)
+  void pad_handler::set_analog_action_callback(const analog_action ana_action, std::function<void(f32 axis)> callback)
   {
-    auto it = m_analog_actions.find(action_name.data());
+    auto it = m_analog_actions.find(ana_action);
     if (it == m_analog_actions.end())
     {
-      log_warn("pad_handler::{}: Attempted to set a callback for action {}, but that action has not been registered!", __func__, action_name);
+      log_warn("pad_handler::{}: Attempted to set a callback for action {}, but that action has not been registered!", __func__, common::to_underlying(ana_action));
       return;
     }
 
@@ -68,12 +69,12 @@ namespace host
   }
 
   // Check the value of a button action
-  bool pad_handler::check_button_action(const std::string_view& action_name)
+  bool pad_handler::check_button_action(const button_action btn_action)
   {
-    auto it = m_button_actions.find(action_name.data());
+    auto it = m_button_actions.find(btn_action);
     if (it == m_button_actions.end())
     {
-      log_warn("pad_handler::{}: Attempted to check value for action {}, but action has not been registered!", __func__, action_name);
+      log_warn("pad_handler::{}: Attempted to check value for action {}, but action has not been registered!", __func__, common::to_underlying(btn_action));
       return false;
     }
 
@@ -82,12 +83,12 @@ namespace host
   }
 
   // Check the value of an analog action
-  f32 pad_handler::check_analog_action(const std::string_view& action_name)
+  f32 pad_handler::check_analog_action(const analog_action ana_action)
   {
-    auto it = m_analog_actions.find(action_name.data());
+    auto it = m_analog_actions.find(ana_action);
     if (it == m_analog_actions.end())
     {
-      log_warn("pad_handler::{}: Attempted to check value for action {}, but action has not been registered!", __func__, action_name);
+      log_warn("pad_handler::{}: Attempted to check value for action {}, but action has not been registered!", __func__, common::to_underlying(ana_action));
       return 0.0f;
     }
 
