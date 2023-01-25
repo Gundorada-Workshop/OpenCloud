@@ -1,4 +1,6 @@
+#ifdef _WIN32
 #include <Windows.h>
+#endif
 #include <cstdio>
 #include <iostream>
 
@@ -145,7 +147,9 @@ namespace common::console
 
   void shutdown()
   {
+    #if defined(_WIN32)
     release_console();
+    #endif
   }
 
   void write(std::string_view msg)

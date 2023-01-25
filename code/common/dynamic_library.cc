@@ -73,22 +73,22 @@ namespace common
   {
     const auto name_string = std::string{ name };
 
-    library_handle = dlopen(name.c_str(), RTLD_NOW);
+    m_handle = dlopen(name_string.c_str(), RTLD_NOW);
 
     return is_open();
   }
 
   void dynamic_library::impl::close()
   {
-    dlclose(library_handle);
-    library_handle = nullptr;
+    dlclose(m_handle);
+    m_handle = nullptr;
   }
 
   void* dynamic_library::impl::load(std::string_view name)
   {
     const auto name_string = std::string{ name };
 
-    return dlsym(library_handle, name_string.c_str());
+    return dlsym(m_handle, name_string.c_str());
   }
   #else
   #error Not Implemented

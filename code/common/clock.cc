@@ -1,8 +1,16 @@
-#include <Windows.h>
+#if defined(_WIN32)
+    #include <Windows.h>
+#elif defined(__linux__)
+    #include <time.h>
+#else
+    static_assert(false, "clock.cc is not implemented for this operating system");
+#endif
+
 #include <mutex>
 #include <list>
 
 #include "common/clock.h"
+#include "common/debug.h"
 
 namespace common::time
 {
@@ -13,11 +21,20 @@ namespace common::time
 
   cycles_type current_cycle_count()
   {
+    #if defined(_WIN32)
     // NOTE: on systems XP+ this never fails and count is never 0
     LARGE_INTEGER count;
     QueryPerformanceCounter(&count);
 
     return count.QuadPart;
+    #elif defined(__linux__)
+    timespec ts;
+    if (clock_gettime(CLOCK_MONOTONIC_RAW, &ts))
+      debug::panic("Failed to get time!");
+    return (u64)ts.tv_nsec + (u64)10E9 * (u64)ts.tv_sec;
+    #else
+    static_assert(false, "Not implemented");
+    #endif
   }
 
   cycles_type cycles_per_second()
@@ -26,11 +43,17 @@ namespace common::time
     // so there is no sense in querying the OS for it more than once
     if (!s_cached_cycles_per_second)
     {
+      #if defined(_WIN32)
       // NOTE: on systems XP+ this never fails and freq is never 0
       LARGE_INTEGER freq;
       QueryPerformanceFrequency(&freq);
 
       s_cached_cycles_per_second = freq.QuadPart;
+      #elif defined(__linux__)
+      return (u64)10E9;
+      #else
+      static_assert(false, "Not implemented");
+      #endif
     }
 
     return s_cached_cycles_per_second;
@@ -63,7 +86,6 @@ namespace common::time
   {
     if (m_started)
       m_end_cycle = current_cycle_count();
-
     m_started = false;
   }
 

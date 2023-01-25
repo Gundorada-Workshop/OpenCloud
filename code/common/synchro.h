@@ -7,6 +7,7 @@
 namespace common::synchro
 {
   // get the id of the current thread
+  // P: The return type might need to be OS-dependent
   sint current_thread_id();
 
   // set the name of the current thread

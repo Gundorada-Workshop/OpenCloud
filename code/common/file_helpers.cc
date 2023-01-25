@@ -1,8 +1,12 @@
-﻿#include "common/file_helpers.h"
+#include "common/file_helpers.h"
 #include "common/debug.h"
 
 #if defined(_WIN32)
 #include "Windows.h"
+#elif defined(__linux__)
+#include <cstdio>
+#include <sys/stat.h>
+#include <unistd.h>
 #endif
 
 namespace common::file_helpers
@@ -156,6 +160,11 @@ namespace common::file_helpers
       return false;
 
     return true;
+#elif defined(__linux__)
+    *file = std::fopen(path.data(), "r");
+    if (*file == nullptr)
+        return false;
+    return true;
 #else
     return false;
 #endif
@@ -165,41 +174,50 @@ namespace common::file_helpers
   {
     assert_panic(file);
 
-#if defined(_WIN32)
-    return _ftelli64(file);
-#else
-    return 0;
-#endif
+    #if defined(_WIN32)
+      return _ftelli64(file);
+    #elif defined(__linux__)
+      return ftello64(file);
+    #else
+      return 0;
+    #endif
   }
 
   bool seek64(std::FILE* file, u64 offset, u64 whence)
   {
     assert_panic(file);
 
-#if defined(_WIN32)
-    return _fseeki64(file, offset, static_cast<int>(whence)) == 0;
-#else
-    return false;
-#endif
+    #if defined(_WIN32)
+      return _fseeki64(file, offset, static_cast<int>(whence)) == 0;
+    #elif defined(__linux__)
+      return fseeko64(file, offset, static_cast<int>(whence)) == 0;
+    #else
+      return false;
+    #endif
   }
 
   bool create_directory(std::string_view path)
   {
-#if defined(_WIN32)
-    const auto wdir = common::strings::utf8_to_wstring_or_panic(path);
-    const auto res = CreateDirectoryW(wdir.c_str(), NULL);
+    #if defined(_WIN32)
+      const auto wdir = common::strings::utf8_to_wstring_or_panic(path);
+      const auto res = CreateDirectoryW(wdir.c_str(), NULL);
 
-    if (!res)
-    {
-      const auto err = GetLastError();
+      if (!res)
+      {
+        const auto err = GetLastError();
 
-      if (err != ERROR_ALREADY_EXISTS)
+        if (err != ERROR_ALREADY_EXISTS)
+          return false;
+      }
+
+      return true;
+    #elif defined(__linux__)
+      auto status = mkdir(path.data(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+      if (status > 0)
         return false;
-    }
-
-    return true;
-#else
-    return false;
+      return true;
+    #else
+      return false;
 #endif
   }
 
@@ -267,11 +285,17 @@ namespace common::file_helpers
 
   std::string get_working_directory()
   {
-#if defined(_WIN32)
-    TCHAR dir[MAX_PATH];
-    GetCurrentDirectoryW(MAX_PATH, dir);
+    #if defined(_WIN32)
+      TCHAR dir[MAX_PATH];
+      GetCurrentDirectoryW(MAX_PATH, dir);
 
-    return common::strings::wstring_to_utf8_or_panic(dir);
-#endif
+      return common::strings::wstring_to_utf8_or_panic(dir);
+    #elif defined(__linux__)
+      char cwd[PATH_MAX];
+      if (getcwd(cwd, sizeof(cwd)) != NULL)
+        return std::string(cwd);
+      else
+        common::debug::panic("Could not obtain CWD!");
+    #endif
   }
 }
