@@ -45,10 +45,10 @@ namespace host
     enum class analog : u32
     {
       // TODO: Check if these properly align with the values in analog_table @ 0x3353E0
-      left_horizonal = 1,
-      left_vertical = 2,
-      right_horizontal = 3,
-      right_vertical = 4,
+      left_x = 1,
+      left_y = 2,
+      right_x = 3,
+      right_y = 4,
     };
 
     // These values come from pad_table @ 0x3351B0
@@ -186,11 +186,8 @@ namespace host
 
     // TODO: Unregistering (this one commit is getting too large anyways)
 
-    // TODO:
-    /*
     // Register an analog action which corresponds to an input
-    void register_analog_action(const std::string_view& action, ... axis);
-    */
+    void register_analog_action(const analog_action ana_action, analog analog_axis, std::function<void(f32 axis)> callback = nullptr);
 
     // Set a callback for a button action
     void set_button_action_callback(const button_action btn_action, std::function<void(bool pressed)> callback);
@@ -241,7 +238,7 @@ namespace host
     struct action_analog
     {
       f32 m_value{ 0.0f };
-      // TODO: axis representation, need to do some digging in the game to match up values
+      analog m_input_key{};
       // TODO: Consider callback behavior for analog inputs; should it be called every update?
       std::function<void(f32 axis)> m_callback{ nullptr };
     };

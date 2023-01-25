@@ -140,7 +140,13 @@ namespace host
       m_pad_handler->register_button_action(btn_action, input_buttons, callback);
     }
 
-    // TODO: Register analog actions
+    // registers an action associated with an analog axis
+    inline void pad_register_button_action(const pad_handler::analog_action ana_action, pad_handler::analog axis, std::function<void(bool pressed)> callback = nullptr)
+    {
+      std::lock_guard<std::mutex> lk(m_pad_handler_mutex);
+
+      m_pad_handler->register_analog_action(ana_action, axis, callback);
+    }
 
     // sets a callback to be called when the value of an action changes
     inline void pad_set_button_action_callback(const pad_handler::button_action btn_action, std::function<void(bool pressed)> callback)

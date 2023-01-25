@@ -37,8 +37,50 @@ namespace host
     register_button_action(btn_action, input_button, callback);
   }
 
-  // TODO:
-  //void register_analog_action(const std::string_view& action, ... axis);
+  // Register an analog action which corresponds to an input
+  void pad_handler::register_analog_action(const analog_action ana_action, analog analog_axis, std::function<void(f32 axis)> callback)
+  {
+    axis axis_xy;
+    f32 axis_val;
+
+    // Poll the current analog value
+    switch (analog_axis)
+    {
+      case analog::left_x:
+      case analog::left_y:
+        axis_xy = left_stick_axis();
+        if (analog_axis == analog::left_x)
+        {
+          axis_val = axis_xy.x;
+        }
+        else
+        {
+          axis_val = axis_xy.y;
+        }
+        break;
+      case analog::right_x:
+      case analog::right_y:
+        axis_xy = right_stick_axis();
+        if (analog_axis == analog::right_x)
+        {
+          axis_val = axis_xy.x;
+        }
+        else
+        {
+          axis_val = axis_xy.y;
+        }
+        break;
+      default:
+        panicf("Unrecognized analog value {}", common::to_underlying(analog_axis));
+        return;
+    }
+
+    m_analog_actions[ana_action] = {
+      .m_value = axis_val,
+      .m_input_key = analog_axis,
+      .m_callback = callback
+    };
+  }
 
   // Set a callback for a button action
   void pad_handler::set_button_action_callback(const button_action btn_action, std::function<void(bool pressed)> callback)
@@ -118,7 +160,39 @@ namespace host
       action.m_value = pressed;
     }
 
-    // TODO: Update analog
+    // Update analog
+    auto left_axis = left_stick_axis();
+    auto right_axis = right_stick_axis();
+
+    for (auto& kv : m_analog_actions)
+    {
+      auto& action = kv.second;
+
+      switch (action.m_input_key)
+      {
+        case analog::left_x:
+          action.m_value = left_axis.x;
+          break;
+        case analog::left_y:
+          action.m_value = left_axis.y;
+          break;
+        case analog::right_x:
+          action.m_value = right_axis.x;
+          break;
+        case analog::right_y:
+          action.m_value = right_axis.y;
+      }
+
+      // Currently we defer a callback to execute every frame for analog actions
+      if (action.m_callback != nullptr)
+      {
+        m_analog_action_callbacks.push_back(
+        {
+          .m_value = action.m_value,
+          .m_callback = action.m_callback
+        });
+      }
+    }
   }
 
   void pad_handler::do_action_callbacks()
