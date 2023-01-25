@@ -20,7 +20,7 @@ namespace graph
   concept is_vec_4 = (size >= 4);
 
   template<typename type, usize size>
-  struct __declspec(align(16)) vector
+  struct ALIGN(0x10) vector
   {
     // underlying implementation details
     using impl_simd = detail::vector_impl_sse<type>;
