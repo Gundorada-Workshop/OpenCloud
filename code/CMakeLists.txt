@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 23)
 ######################
 add_subdirectory("common")
 #add_subdirectory("script")
-#add_subdirectory("graph")
+add_subdirectory("graph")
 #add_subdirectory("host")
 #add_subdirectory("dc2")
 
