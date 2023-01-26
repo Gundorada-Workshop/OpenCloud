@@ -17,10 +17,10 @@ namespace graph::detail
 {
   constexpr uint shuffle_mask(element e0, element e1, element e2, element e3)
   {
-    return (std::to_underlying(e0) << 0) |
-           (std::to_underlying(e1) << 2) |
-           (std::to_underlying(e2) << 4) |
-           (std::to_underlying(e3) << 6);
+    return (common::to_underlying(e0) << 0) |
+           (common::to_underlying(e1) << 2) |
+           (common::to_underlying(e2) << 4) |
+           (common::to_underlying(e3) << 6);
   }
 
   constexpr uint shuffle_mask_repeat(element el)

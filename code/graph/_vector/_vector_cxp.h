@@ -93,7 +93,7 @@ namespace graph::detail
     template<element el, typename u = type, typename v = typename traits::type>
     static inline constexpr u extract(const v& a)
     {
-      return a[std::to_underlying(el)];
+      return a[common::to_underlying(el)];
     }
 
     template<element e0, element e1, element e2, element e3, typename u = type, typename v = typename traits::type>
@@ -102,10 +102,10 @@ namespace graph::detail
       v out{ };
 
       // TODO
-      out[0] = a[std::to_underlying(e0)];
-      out[1] = a[std::to_underlying(e1)];
-      out[2] = a[std::to_underlying(e2)];
-      out[3] = a[std::to_underlying(e3)];
+      out[0] = a[common::to_underlying(e0)];
+      out[1] = a[common::to_underlying(e1)];
+      out[2] = a[common::to_underlying(e2)];
+      out[3] = a[common::to_underlying(e3)];
 
       return out;
     }
@@ -116,10 +116,10 @@ namespace graph::detail
       v out{ };
 
       // TODO
-      out[0] = a[std::to_underlying(e0)];
-      out[1] = a[std::to_underlying(e1)];
-      out[2] = b[std::to_underlying(e2)];
-      out[3] = b[std::to_underlying(e3)];
+      out[0] = a[common::to_underlying(e0)];
+      out[1] = a[common::to_underlying(e1)];
+      out[2] = b[common::to_underlying(e2)];
+      out[3] = b[common::to_underlying(e3)];
 
       return out;
     }
