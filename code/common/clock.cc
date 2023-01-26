@@ -31,7 +31,7 @@ namespace common::time
     timespec ts;
     if (clock_gettime(CLOCK_MONOTONIC_RAW, &ts))
       debug::panic("Failed to get time!");
-    return (u64)ts.tv_nsec + (u64)10E9 * (u64)ts.tv_sec;
+    return (u64)ts.tv_nsec + (u64)1E9 * (u64)ts.tv_sec;
     #else
     static_assert(false, "Not implemented");
     #endif
@@ -50,7 +50,7 @@ namespace common::time
 
       s_cached_cycles_per_second = freq.QuadPart;
       #elif defined(__linux__)
-      return (u64)10E9;
+      return (u64)1E9;
       #else
       static_assert(false, "Not implemented");
       #endif
