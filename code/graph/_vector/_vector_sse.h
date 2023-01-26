@@ -1,6 +1,6 @@
 #pragma once
 #if defined(_MSC_VER)
-//#include <intrin.h>
+  #include <intrin.h>
 #elif defined(__GNUG__) || defined(__clang__)
   #include <immintrin.h>
   #include <avxintrin.h>
