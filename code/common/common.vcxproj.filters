@@ -33,6 +33,7 @@
     <ClInclude Include="aligned_allocator.h" />
     <ClInclude Include="macros.h" />
     <ClInclude Include="helpers.h" />
+    <ClInclude Include="result.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="common.exports.props" />

@@ -25,6 +25,7 @@
     <ClInclude Include="macros.h" />
     <ClInclude Include="math.h" />
     <ClInclude Include="platform.h" />
+    <ClInclude Include="result.h" />
     <ClInclude Include="scoped_function.h" />
     <ClInclude Include="strings.h" />
     <ClInclude Include="synchro.h" />
