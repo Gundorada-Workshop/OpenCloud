@@ -18,7 +18,7 @@ namespace common::strings
   template<typename type>
   concept is_char_type = requires
   {
-    std::same_as<type, char> || std::same_as<type, wchar_t>;
+    requires(std::same_as<type, char> || std::same_as<type, wchar_t>);
   };
 
   #if defined(_WIN32)
