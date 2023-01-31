@@ -4,6 +4,7 @@
 #include <type_traits>
 
 #include "common/types.h"
+#include "common/macros.h"
 
 namespace common::bits
 {
@@ -228,7 +229,7 @@ namespace common::bits
   // return the index of the lsb
   // undefined behavior if val is 0
   template<typename type>
-  inline u64 lsb_index(type val)
+  ALWAYS_INLINE u64 lsb_index(type val)
   {
     ulong index;
     #if defined(_MSC_VER)
@@ -247,7 +248,7 @@ namespace common::bits
   // return the index of the msb
   // undefined behavior if val is 0
   template<typename type>
-  inline u64 msb_index(type val)
+  ALWAYS_INLINE u64 msb_index(type val)
   {
     ulong index;
     #if defined(_MSC_VER)
@@ -263,7 +264,7 @@ namespace common::bits
   // find the lsb
   // undefined behavior if val is 0
   template<typename type>
-  inline type lsb(type val)
+  ALWAYS_INLINE type lsb(type val)
   {
     return 1 << lsb_index(val);
   }
@@ -271,7 +272,7 @@ namespace common::bits
   // find the msb
   // undefined behavior if val is 0
   template<typename type>
-  inline type msb(type val)
+  ALWAYS_INLINE type msb(type val)
   {
     return 1 << msb_index(val);
   }
