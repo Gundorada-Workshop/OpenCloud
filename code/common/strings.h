@@ -11,7 +11,9 @@
 #include "common/types.h"
 #include "common/macros.h"
 
-FILE_DISABLE_WARNING(WARNING_ID_CONDITIONAL_EXPRESSION_IS_CONSTANT)
+FILE_WARNING_PUSH;
+// fmt lib throws a bunch of this warning
+FILE_WARNING_DISABLE(WARNING_ID_CONDITIONAL_EXPRESSION_IS_CONSTANT)
 
 namespace common::strings
 {
@@ -74,3 +76,5 @@ namespace common::strings
     return out;
   }
 }
+
+FILE_WARNING_POP;
