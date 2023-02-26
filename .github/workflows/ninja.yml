@@ -1,0 +1,43 @@
+name: Ninja
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  Ubuntu-Latest:
+    runs-on: ubuntu-latest
+    env:
+      CC: clang-16
+      CXX: clang++-16
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        submodules: true
+
+    - name: Setup And Install LLVM 16
+      run: |
+        wget https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+        sudo ./llvm.sh 16
+
+    - name: Update Apt Package List
+      run: sudo apt-get update
+
+    - name: Install LibC++
+      run: sudo apt-get install -y libc++1-16 libc++abi-16-dev libc++-16-dev libc++abi1-16
+
+    - name: Install Ninja
+      run: sudo apt-get install -y ninja-build
+
+    - name: Generate Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: cmake -DCMAKE_BUILD_TYPE=Release -S. -B./build -G Ninja
+
+    - name: Ninja Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: cmake --build ./build --config Release

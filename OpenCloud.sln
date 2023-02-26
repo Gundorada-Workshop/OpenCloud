@@ -37,6 +37,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{189CD55B-0
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		.github\workflows\msbuild.yml = .github\workflows\msbuild.yml
+		.github\workflows\ninja.yml = .github\workflows\ninja.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "projects", "projects", "{5B4BAF44-C9E2-449A-86B5-DE883F2E2919}"
