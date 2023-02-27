@@ -1,0 +1,62 @@
+{
+  "25c5f19b9b6a2b0f0458d30bcb6fff46": {
+    "Region": "NTSC",
+    "Name": "Dark Cloud 2",
+    "Type": "Pre-Release",
+    "Languages": [
+      "English"
+    ]
+  },
+  "963a2a35e12236165889ea8488b51aa1": {
+    "Region": "NTSC-J",
+    "Name": "다크클라우드 2",
+    "Type": "Gold",
+    "Languages": [
+      "Korean"
+    ]
+  },
+  "fd484a27771980614b9e86f760f15c93": {
+    "Region": "NTSC",
+    "Name": "Dark Cloud 2",
+    "Type": "Gold",
+    "Languages": [
+      "English"
+    ]
+  },
+  "0bec104614687df18f28f6f58c2285ad": {
+    "Region": "NTSC",
+    "Name": "Dark Cloud 2",
+    "Type": "Gold",
+    "Languages": [
+      "English"
+    ]
+  },
+  "f6d5c3201e56cdc4f797150b5f78577e": {
+    "Region": "PAL",
+    "Name": "Dark Chronicle",
+    "Type": "Gold",
+    "Languages": [
+      "English",
+      "French",
+      "German",
+      "Italian",
+      "Spanish"
+    ]
+  },
+  "51b1ad47d26489fdeb2018bb6b184199": {
+    "Region": "NTSC-J",
+    "Name": "ダーククロニクル",
+    "Type": "Pre-Release",
+    "Languages": [
+      "Japanese"
+    ]
+  },
+  "fb09ff126f606294ff56d47ce29b24ec": {
+    "Region": "NTSC-J",
+    "Name": "ダーククロニクル",
+    "Type": "Gold",
+    "Languages": [
+      "Japanese"
+    ]
+  }
+}
