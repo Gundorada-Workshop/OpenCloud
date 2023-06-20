@@ -11,6 +11,7 @@
   <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
   <ItemGroup>
     <ClCompile Include="aligned-allocator-test.cc" />
+    <ClCompile Include="dictionary-test.cc" />
     <ClCompile Include="string-test.cc" />
     <ClCompile Include="vector-comparison-tests.cc" />
     <ClCompile Include="vector-math-tests.cc" />
