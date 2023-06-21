@@ -34,6 +34,7 @@
     <ClInclude Include="macros.h" />
     <ClInclude Include="helpers.h" />
     <ClInclude Include="result.h" />
+    <ClInclude Include="dictionary.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="common.exports.props" />
