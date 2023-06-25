@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\simdjson\singleheader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(SolutionDir)external\simdjson.vcxproj">
+      <Project>{123DEE7E-D3F8-4A2A-95F3-5D4E8EA26FB3}</Project>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

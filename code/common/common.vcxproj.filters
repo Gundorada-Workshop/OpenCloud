@@ -39,4 +39,7 @@
   <ItemGroup>
     <None Include="common.exports.props" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
+  </ItemGroup>
 </Project>

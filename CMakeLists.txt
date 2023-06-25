@@ -15,6 +15,7 @@ IF ((CMAKE_CXX_COMPILER_ID STREQUAL "Clang") OR (CMAKE_CXX_COMPILER_ID STREQUAL 
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=x86-64-v2 -mavx -mfma") # Enable SSE/AVX
 ENDIF()
 add_subdirectory("external/fmt")
+add_subdirectory("external/simdjson")
 add_subdirectory("code")
 
 # Notes
