@@ -48,7 +48,11 @@
   <ItemGroup>
     <None Include="common.exports.props" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
+  </ItemGroup>
   <Import Project="$(SolutionDir)external\wil.exports.props" />
   <Import Project="$(SolutionDir)external\fmt.exports.props" />
+  <Import Project="$(SolutionDir)external\simdjson.exports.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

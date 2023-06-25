@@ -36,6 +36,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{189CD55B-0
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		CMakeLists.txt = CMakeLists.txt
 		.github\workflows\msbuild.yml = .github\workflows\msbuild.yml
 		.github\workflows\ninja.yml = .github\workflows\ninja.yml
 		resource\releases.json = resource\releases.json
@@ -58,6 +59,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "script", "code\script\script.vcxproj", "{98B893CD-0324-441E-8EBA-0267427E25C1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "graph", "code\graph\graph.vcxproj", "{01A149AB-39A3-4F54-A023-832781A21D1F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simdjson", "external\simdjson.vcxproj", "{123DEE7E-D3F8-4A2A-95F3-5D4E8EA26FB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -120,6 +123,12 @@ Global
 		{01A149AB-39A3-4F54-A023-832781A21D1F}.FastDebug|x64.Build.0 = FastDebug|x64
 		{01A149AB-39A3-4F54-A023-832781A21D1F}.Release|x64.ActiveCfg = Release|x64
 		{01A149AB-39A3-4F54-A023-832781A21D1F}.Release|x64.Build.0 = Release|x64
+		{123DEE7E-D3F8-4A2A-95F3-5D4E8EA26FB3}.Debug|x64.ActiveCfg = Debug|x64
+		{123DEE7E-D3F8-4A2A-95F3-5D4E8EA26FB3}.Debug|x64.Build.0 = Debug|x64
+		{123DEE7E-D3F8-4A2A-95F3-5D4E8EA26FB3}.FastDebug|x64.ActiveCfg = FastDebug|x64
+		{123DEE7E-D3F8-4A2A-95F3-5D4E8EA26FB3}.FastDebug|x64.Build.0 = FastDebug|x64
+		{123DEE7E-D3F8-4A2A-95F3-5D4E8EA26FB3}.Release|x64.ActiveCfg = Release|x64
+		{123DEE7E-D3F8-4A2A-95F3-5D4E8EA26FB3}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,6 +142,7 @@ Global
 		{CB2DFB73-AE82-46CE-A1A6-F38C41BF1E99} = {D35920D6-291D-454E-8311-8AC7CD2C2D13}
 		{98B893CD-0324-441E-8EBA-0267427E25C1} = {5B4BAF44-C9E2-449A-86B5-DE883F2E2919}
 		{01A149AB-39A3-4F54-A023-832781A21D1F} = {5B4BAF44-C9E2-449A-86B5-DE883F2E2919}
+		{123DEE7E-D3F8-4A2A-95F3-5D4E8EA26FB3} = {B7584972-373B-4199-A285-5CCD599277EE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {81C91EE3-8C0D-44FC-A3A6-F4D80A915E56}

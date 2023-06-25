@@ -39,7 +39,7 @@ target_sources(
     "window_handle.h"
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ProjectConfiguration PUBLIC fmt::fmt)
+target_link_libraries(${PROJECT_NAME} PRIVATE ProjectConfiguration PUBLIC fmt::fmt simdjson)
 
 # Include pthread for Linux
 IF (UNIX)
