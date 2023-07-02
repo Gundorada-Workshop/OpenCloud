@@ -2,14 +2,8 @@
 
 #pragma once
 #include <array>
-#include <type_traits>
-
 #include <cstdint>
 #include <cstddef>
-
-#if !defined(_MSC_VER)
-#include <x86intrin.h>
-#endif
 
 // unsigned integer
 using u8     = std::uint8_t;
@@ -47,9 +41,11 @@ struct portable_bool
     set(init);
   }
 
-  constexpr void set(const bool val)
+  constexpr bool set(const bool val)
   {
     value_ = static_cast<type>(val);
+
+    return value_;
   }
 
   constexpr explicit operator bool() const
@@ -59,7 +55,7 @@ struct portable_bool
 
   constexpr bool operator =(bool val)
   {
-    set(val);
+    return set(val);
   }
 
   template<typename other>
