@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 #if defined(_WIN32)
 #include <wil/resource.h>
 #elif defined(__linux__)
