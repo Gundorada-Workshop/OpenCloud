@@ -3,6 +3,7 @@
 #include "common/types.h"
 #include "common/bits.h"
 #include "common/strings.h"
+#include "common/dictionary.h"
 
 namespace script::rs
 {
@@ -69,7 +70,7 @@ namespace script::rs
 
   // the comparison function for comparison operations
   // for some reason these start at 40
-  enum class comparision_function : u32
+  enum class comparison_function : u32
   {
     _eq = 40,
     _ne = 41,
@@ -106,49 +107,151 @@ namespace script::rs
 
   constexpr instruction_encoding_type encoding_type_for_opcode(opcode op)
   {
-    switch (op)
-    {
-    case opcode::_end:
-    case opcode::_pop:
-    case opcode::_deref:
-    case opcode::_add:
-    case opcode::_sub:
-    case opcode::_mul:
-    case opcode::_div:
-    case opcode::_mod:
-    case opcode::_neg:
-    case opcode::_itof:
-    case opcode::_ftoi:
-    case opcode::_ret:
-    case opcode::_yld:
-    case opcode::_and:
-    case opcode::_or:
-    case opcode::_not:
-    case opcode::_exit:
-    case opcode::_unk0:
-    case opcode::_unk1:
-    case opcode::_sin:
-    case opcode::_cos:
-      return instruction_encoding_type::empty;
-    case opcode::_print:
-    case opcode::_ext:
-      return instruction_encoding_type::single_integer_argument;
-    case opcode::_push_stack:
-    case opcode::_push_ptr:
-      return instruction_encoding_type::load_store_relative;
-    case opcode::_call:
-    case opcode::_jmp:
-      return instruction_encoding_type::jump;
-    case opcode::_bf:
-    case opcode::_bt:
-      return instruction_encoding_type::conditional_branch;
-    case opcode::_push:
-      return instruction_encoding_type::load_store_immediate;
-    case opcode::_cmp:
-      return instruction_encoding_type::comparison;
-    }
+    constexpr usize count = common::to_underlying(opcode::count);
 
-    return instruction_encoding_type::invalid;
+    constexpr common::dictionary<opcode, instruction_encoding_type, count> table =
+    {
+      { opcode::_end,        instruction_encoding_type::empty },
+      { opcode::_push_stack, instruction_encoding_type::load_store_relative },
+      { opcode::_push_ptr,   instruction_encoding_type::load_store_relative },
+      { opcode::_push,       instruction_encoding_type::load_store_immediate },
+      { opcode::_pop,        instruction_encoding_type::empty },
+      { opcode::_deref,      instruction_encoding_type::empty },
+      { opcode::_add,        instruction_encoding_type::empty },
+      { opcode::_sub,        instruction_encoding_type::empty },
+      { opcode::_mul,        instruction_encoding_type::empty },
+      { opcode::_div,        instruction_encoding_type::empty },
+      { opcode::_mod,        instruction_encoding_type::empty },
+      { opcode::_neg,        instruction_encoding_type::empty },
+      { opcode::_itof,       instruction_encoding_type::empty },
+      { opcode::_ftoi,       instruction_encoding_type::empty },
+      { opcode::_cmp,        instruction_encoding_type::comparison },
+      { opcode::_ret,        instruction_encoding_type::empty },
+      { opcode::_jmp,        instruction_encoding_type::jump },
+      { opcode::_bf,         instruction_encoding_type::conditional_branch },
+      { opcode::_bt,         instruction_encoding_type::conditional_branch },
+      { opcode::_call,       instruction_encoding_type::jump },
+      { opcode::_print,      instruction_encoding_type::single_integer_argument },
+      { opcode::_ext,        instruction_encoding_type::single_integer_argument },
+      { opcode::_unk0,       instruction_encoding_type::empty },
+      { opcode::_yld,        instruction_encoding_type::empty },
+      { opcode::_and,        instruction_encoding_type::empty },
+      { opcode::_or,         instruction_encoding_type::empty },
+      { opcode::_not,        instruction_encoding_type::empty },
+      { opcode::_exit,       instruction_encoding_type::empty },
+      { opcode::_unk1,       instruction_encoding_type::empty },
+      { opcode::_sin,        instruction_encoding_type::empty },
+      { opcode::_cos,        instruction_encoding_type::empty }
+    };
+
+    return table.find_or(op, instruction_encoding_type::invalid);
+  }
+
+  constexpr std::string_view opcode_to_string(const opcode op)
+  {
+    constexpr usize count = common::to_underlying(opcode::count);
+
+    constexpr common::dictionary<opcode, std::string_view, count> table =
+    {
+      { opcode::_end,        "end" },
+      { opcode::_push_stack, "psh" },
+      { opcode::_push_ptr,   "psh" },
+      { opcode::_push,       "psh" },
+      { opcode::_pop,        "pop" },
+      { opcode::_deref,      "drf" },
+      { opcode::_add,        "add" },
+      { opcode::_sub,        "sub" },
+      { opcode::_mul,        "mul" },
+      { opcode::_div,        "div" },
+      { opcode::_mod,        "mod" },
+      { opcode::_neg,        "neg" },
+      { opcode::_itof,       "itf" },
+      { opcode::_ftoi,       "fti" },
+      { opcode::_cmp,        "cmp" },
+      { opcode::_ret,        "ret" },
+      { opcode::_jmp,        "jmp" },
+      { opcode::_bf,         "brf" },
+      { opcode::_bt,         "brt" },
+      { opcode::_call,       "cal" },
+      { opcode::_print,      "prt" },
+      { opcode::_ext,        "ext" },
+      { opcode::_unk0,       "unk" },
+      { opcode::_yld,        "yld" },
+      { opcode::_and,        "and" },
+      { opcode::_or,         "lor" },
+      { opcode::_not,        "not" },
+      { opcode::_exit,       "trm" },
+      { opcode::_unk1,       "unk" },
+      { opcode::_sin,        "sin" },
+      { opcode::_cos,        "cos" }
+    };
+
+    return table.find_or(op, "inv");
+  }
+
+  constexpr std::string_view value_data_type_to_string(value_data_type type)
+  {
+    constexpr usize count = common::to_underlying(value_data_type::count);
+
+    constexpr common::dictionary<value_data_type, std::string_view, count> table =
+    {
+      { value_data_type::_flt, "flt" },
+      { value_data_type::_int, "int" },
+      { value_data_type::_str, "str" }
+    };
+
+    return table.find_or(type, "inv");
+  }
+
+  constexpr std::string_view comparison_function_to_string(comparison_function fnc)
+  {
+    constexpr usize count = common::to_underlying(comparison_function::count);
+
+    constexpr common::dictionary<comparison_function, std::string_view, count> table =
+    {
+      { comparison_function::_eq, "eq" },
+      { comparison_function::_ne, "ne" },
+      { comparison_function::_ge, "ge" },
+      { comparison_function::_gt, "gt" },
+      { comparison_function::_le, "le" },
+      { comparison_function::_lt, "lt" }
+    };
+
+    return table.find_or(fnc, "inv");
+  }
+
+  constexpr std::string_view address_mode_to_string(address_mode mode)
+  {
+    constexpr usize count = common::to_underlying(address_mode::count);
+
+    constexpr common::dictionary<address_mode, std::string_view, count> table =
+    {
+      { address_mode::frame_relative,      "fr" },
+      { address_mode::frame_offset,        "fo" },
+      { address_mode::global_relative,     "gr" },
+      { address_mode::data_offset,         "do" },
+      { address_mode::frame_relative_flt,  "fr" },
+      { address_mode::frame_offset_flt,    "fo" },
+      { address_mode::global_relative_flt, "gr" },
+      { address_mode::data_offset_flt,     "do" },
+      { address_mode::unk0,                "uk" },
+      { address_mode::unk1,                "uk" }
+    };
+
+    return table.find_or(mode, "unk");
+  }
+
+  constexpr std::string_view test_flag_to_string(test_flag_mode mode)
+  {
+    constexpr usize count = common::to_underlying(test_flag_mode::count);
+
+    constexpr common::dictionary<test_flag_mode, std::string_view, count> table =
+    {
+      { test_flag_mode::discard,  "discard" },
+      { test_flag_mode::preserve, "preserve" }
+    };
+
+    return table.find_or(mode, "invalid");
   }
 
   // almost all values are ints (including str and ptr)
@@ -194,7 +297,7 @@ namespace script::rs
   template<>
   struct instruction_data<instruction_encoding_type::comparison>
   {
-    comparision_function function;
+    comparison_function function;
   };
 
   template<>
@@ -252,47 +355,11 @@ struct fmt::formatter<script::rs::opcode> : formatter<string_view>
 {
   auto format(script::rs::opcode op, format_context& ctx) const -> decltype(ctx.out())
   {
-    using enum script::rs::opcode;
+    using namespace script::rs;
 
-    std::array<string_view, std::to_underlying(count)> table =
-    {
-      "end",
-      "psh", // stack
-      "psh", // ptr
-      "psh",
-      "pop",
-      "drf",
-      "add",
-      "sub",
-      "mul",
-      "div",
-      "mod",
-      "neg",
-      "itf",
-      "fti",
-      "cmp",
-      "ret",
-      "jmp",
-      "brf",
-      "brt",
-      "cal",
-      "prt",
-      "ext",
-      "nop",
-      "yld",
-      "and",
-      "lor",
-      "not",
-      "trm",
-      "unk",
-      "sin",
-      "cos"
-    };
+    const std::string_view opcode_name = opcode_to_string(op);
 
-    if (op >= count)
-      ctx.on_error("Invalid op");
-
-    return fmt::formatter<string_view>::format(table[std::to_underlying(op)], ctx);
+    return fmt::formatter<string_view>::format(opcode_name, ctx);
   }
 };
 
@@ -301,44 +368,24 @@ struct fmt::formatter<script::rs::value_data_type> : formatter<string_view>
 {
   auto format(script::rs::value_data_type vt, format_context& ctx) const -> decltype(ctx.out())
   {
-    using enum script::rs::value_data_type;
+    using namespace script::rs;
 
-    constexpr std::array<string_view, std::to_underlying(count)> table =
-    {
-      "inv",
-      "int",
-      "flt",
-      "str"
-    };
+    const std::string_view value_type_name = value_data_type_to_string(vt);
 
-    if (vt >= count)
-      ctx.on_error("Invalid value type");
-
-    return formatter<string_view>::format(table[std::to_underlying(vt)], ctx);
+    return formatter<string_view>::format(value_type_name, ctx);
   }
 };
 
 template<>
-struct fmt::formatter<script::rs::comparision_function> : formatter<string_view>
+struct fmt::formatter<script::rs::comparison_function> : formatter<string_view>
 {
-  auto format(script::rs::comparision_function op, format_context& ctx) const -> decltype(ctx.out())
+  auto format(script::rs::comparison_function op, format_context& ctx) const -> decltype(ctx.out())
   {
-    using enum script::rs::comparision_function;
+    using namespace script::rs;
 
-    constexpr std::array<string_view, std::to_underlying(count)> table =
-    {
-      "eq",
-      "ne",
-      "lt",
-      "le",
-      "gt",
-      "ge"
-    };
+    const std::string_view compare_function_name = comparison_function_to_string(op);
 
-    if (op >= count || op < _eq)
-      ctx.on_error("Invalid comparison op");
-
-    return formatter<string_view>::format(table[std::to_underlying(op)], ctx);
+    return formatter<string_view>::format(compare_function_name, ctx);
   }
 };
 
@@ -347,33 +394,11 @@ struct fmt::formatter<script::rs::address_mode> : formatter<string_view>
 {
   auto format(script::rs::address_mode mode, format_context& ctx) const -> decltype(ctx.out())
   {
-    using enum script::rs::address_mode;
+    using namespace script::rs;
 
-    constexpr std::array<string_view, std::to_underlying(count)> table =
-    {
-      "spo",
-      "sf0",
-      "spr",
-      "sfr",
-      "dpo",
-      "dfo",
-      "gpr",
-      "unk",
-      "unk",
-      "gpf"
-    };
+    const std::string_view address_mode_name = address_mode_to_string(mode);
 
-    const auto v = std::to_underlying(mode);
-
-    if (v < std::to_underlying(frame_relative))
-      ctx.on_error("Invalid address mode");
-
-    const auto i = common::bits::lsb_index(v);
-
-    if (i >= table.size())
-      ctx.on_error("Address mode out of bounds");
-
-    return formatter<string_view>::format(table[i], ctx);
+    return formatter<string_view>::format(address_mode_name, ctx);
   }
 };
 
@@ -384,16 +409,9 @@ struct fmt::formatter<script::rs::test_flag_mode> : formatter<string_view>
   {
     using namespace script::rs;
 
-    constexpr std::array<string_view, std::to_underlying(test_flag_mode::count)> table =
-    {
-      "discard",
-      "restore"
-    };
+    const std::string_view mode_name = test_flag_to_string(mode);
 
-    if (mode >= test_flag_mode::count)
-      ctx.on_error("Invalid test flag mode");
-
-    return formatter<string_view>::format(table[std::to_underlying(mode)], ctx);
+    return formatter<string_view>::format(mode_name, ctx);
   }
 };
 

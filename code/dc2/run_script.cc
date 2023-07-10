@@ -768,22 +768,22 @@ void CRunScript::exe(instruction* code)
 
         switch (encoding.function)
         {
-        case comparision_function::_eq:
+        case comparison_function::_eq:
           result = (lVal == rVal);
           break;
-        case comparision_function::_ne:
+        case comparison_function::_ne:
           result = (lVal != rVal);
           break;
-        case comparision_function::_lt:
+        case comparison_function::_lt:
           result = (lVal < rVal);
           break;
-        case comparision_function::_le:
+        case comparison_function::_le:
           result = (lVal <= rVal);
           break;
-        case comparision_function::_gt:
+        case comparison_function::_gt:
           result = (lVal > rVal);
           break;
-        case comparision_function::_ge:
+        case comparison_function::_ge:
           result = (lVal >= rVal);
           break;
         default:
@@ -797,22 +797,22 @@ void CRunScript::exe(instruction* code)
 
         switch (encoding.function)
         {
-        case comparision_function::_eq:
+        case comparison_function::_eq:
           result = (lVal == rVal);
           break;
-        case comparision_function::_ne:
+        case comparison_function::_ne:
           result = (lVal != rVal);
           break;
-        case comparision_function::_lt:
+        case comparison_function::_lt:
           result = (lVal < rVal);
           break;
-        case comparision_function::_le:
+        case comparison_function::_le:
           result = (lVal <= rVal);
           break;
-        case comparision_function::_gt:
+        case comparison_function::_gt:
           result = (lVal > rVal);
           break;
-        case comparision_function::_ge:
+        case comparison_function::_ge:
           result = (lVal >= rVal);
           break;
         default:
