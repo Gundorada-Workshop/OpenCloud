@@ -415,7 +415,7 @@ void CRunScript::exe(instruction* code)
   {
     switch (m_vmcode->opcode)
     {
-    case opcode::_push_stack: // 00187414
+    case opcode::push_stack: // 00187414
     {
       const auto& encoding = code->load_store_relative;
 
@@ -489,7 +489,7 @@ void CRunScript::exe(instruction* code)
       }
       break;
     }
-    case opcode::_push_ptr:
+    case opcode::push_pointer:
     {
       const auto& encoding = code->load_store_relative;
 
@@ -538,21 +538,21 @@ void CRunScript::exe(instruction* code)
       }
       break;
     }
-    case opcode::_push: // 001878E8
+    case opcode::push: // 001878E8
     {
       const auto& encoding = code->load_store_immediate;
 
       switch (encoding.type)
       {
-      case value_data_type::_int:
-        push_int(encoding.data._int);
+      case value_data_type::integer:
+        push_int(encoding.data.int_);
         break;
-      case value_data_type::_flt:
-        push_float(encoding.data._flt);
+      case value_data_type::floating_point:
+        push_float(encoding.data.flt_);
         break;
-      case value_data_type::_str:
+      case value_data_type::string:
       {
-        const auto addr = static_cast<uptr>(m_script_data) + static_cast<uptr>(encoding.data._str);
+        const auto addr = static_cast<uptr>(m_script_data) + static_cast<uptr>(encoding.data.str_);
         const auto str = reinterpret_cast<char*>(addr);
 
         push_str(str);
@@ -563,10 +563,10 @@ void CRunScript::exe(instruction* code)
       }
       break;
     }
-    case opcode::_pop: // 00187958
+    case opcode::pop: // 00187958
       pop();
       break;
-    case opcode::_deref: // 00187890
+    case opcode::deference_pointer: // 00187890
     {
       // NOTE: an intermediate variable, var_130, is used here, but I don't think it's necessary
       auto val = pop();
@@ -578,7 +578,7 @@ void CRunScript::exe(instruction* code)
       push(val);
       break;
     }
-    case opcode::_add: // 00187D00
+    case opcode::add: // 00187D00
     {
       auto rhs = pop();
       auto lhs = pop();
@@ -604,7 +604,7 @@ void CRunScript::exe(instruction* code)
       push(lhs);
       break;
     }
-    case opcode::_sub: // 00187E30
+    case opcode::sub: // 00187E30
     {
       auto rhs = pop();
       auto lhs = pop();
@@ -631,7 +631,7 @@ void CRunScript::exe(instruction* code)
 
       break;
     }
-    case opcode::_mul: // 00187F60
+    case opcode::mul: // 00187F60
     {
       auto rhs = pop();
       auto lhs = pop();
@@ -657,7 +657,7 @@ void CRunScript::exe(instruction* code)
       push(lhs);
       break;
     }
-    case opcode::_div: // 00188090
+    case opcode::div: // 00188090
     {
       auto rhs = pop();
       auto lhs = pop();
@@ -687,7 +687,7 @@ void CRunScript::exe(instruction* code)
       push(lhs);
       break;
     }
-    case opcode::_mod: // 00188208
+    case opcode::mod: // 00188208
     {
       auto rhs = pop();
       auto lhs = pop();
@@ -705,7 +705,7 @@ void CRunScript::exe(instruction* code)
       push(lhs);
       break;
     }
-    case opcode::_neg: // 00188300
+    case opcode::neg: // 00188300
     {
       auto lhs = pop();
 
@@ -725,7 +725,7 @@ void CRunScript::exe(instruction* code)
       push(lhs);
       break;
     }
-    case opcode::_itof: // 00188550
+    case opcode::int_to_float: // 00188550
     {
       auto lhs = pop();
 
@@ -737,7 +737,7 @@ void CRunScript::exe(instruction* code)
       push(lhs);
       break;
     }
-    case opcode::_ftoi: // 001885E0
+    case opcode::float_to_int: // 001885E0
     {
       auto lhs = pop();
 
@@ -749,7 +749,7 @@ void CRunScript::exe(instruction* code)
       push(lhs);
       break;
     }
-    case opcode::_cmp: // 00187A38
+    case opcode::compare: // 00187A38
     {
       const auto& encoding = code->comparison;
 
@@ -768,22 +768,22 @@ void CRunScript::exe(instruction* code)
 
         switch (encoding.function)
         {
-        case comparision_function::_eq:
+        case comparison_function::equal:
           result = (lVal == rVal);
           break;
-        case comparision_function::_ne:
+        case comparison_function::not_equal:
           result = (lVal != rVal);
           break;
-        case comparision_function::_lt:
+        case comparison_function::less_than:
           result = (lVal < rVal);
           break;
-        case comparision_function::_le:
+        case comparison_function::less_than_equal:
           result = (lVal <= rVal);
           break;
-        case comparision_function::_gt:
+        case comparison_function::greater_than:
           result = (lVal > rVal);
           break;
-        case comparision_function::_ge:
+        case comparison_function::greater_than_equal:
           result = (lVal >= rVal);
           break;
         default:
@@ -797,22 +797,22 @@ void CRunScript::exe(instruction* code)
 
         switch (encoding.function)
         {
-        case comparision_function::_eq:
+        case comparison_function::equal:
           result = (lVal == rVal);
           break;
-        case comparision_function::_ne:
+        case comparison_function::not_equal:
           result = (lVal != rVal);
           break;
-        case comparision_function::_lt:
+        case comparison_function::less_than:
           result = (lVal < rVal);
           break;
-        case comparision_function::_le:
+        case comparison_function::less_than_equal:
           result = (lVal <= rVal);
           break;
-        case comparision_function::_gt:
+        case comparison_function::greater_than:
           result = (lVal > rVal);
           break;
-        case comparision_function::_ge:
+        case comparison_function::greater_than_equal:
           result = (lVal >= rVal);
           break;
         default:
@@ -823,7 +823,7 @@ void CRunScript::exe(instruction* code)
       }
       break;
     }
-    case opcode::_ret: // 0018871C
+    case opcode::return_: // 0018871C
     {
       auto return_value = pop();
 
@@ -843,7 +843,7 @@ void CRunScript::exe(instruction* code)
       push(return_value);
       break;
     }
-    case opcode::_jmp: // 00187968
+    case opcode::jump: // 00187968
     {
       const auto& encoding = code->jump;
 
@@ -855,7 +855,7 @@ void CRunScript::exe(instruction* code)
 
       break;
     }
-    case opcode::_bf: // 001879E0
+    case opcode::branch_false: // 001879E0
     {
       const auto& encoding = code->conditional_branch;
 
@@ -871,7 +871,7 @@ void CRunScript::exe(instruction* code)
       m_vmcode = reinterpret_cast<instruction*>(addr + encoding.address);
       break;
     }
-    case opcode::_bt: // 00187988
+    case opcode::branch_true: // 00187988
     {
       const auto& encoding = code->conditional_branch;
 
@@ -887,7 +887,7 @@ void CRunScript::exe(instruction* code)
       m_vmcode = reinterpret_cast<instruction*>(addr + encoding.address);
       break;
     }
-    case opcode::_call: // 001886F0
+    case opcode::call: // 001886F0
     {
       const auto& encoding = code->jump;
 
@@ -898,7 +898,7 @@ void CRunScript::exe(instruction* code)
       m_vmcode = call_func(fn, code) - 1;
       break;
     }
-    case opcode::_print: // 00188670
+    case opcode::print: // 00188670
     {
       const auto& encoding = code->single_integer;
 
@@ -906,7 +906,7 @@ void CRunScript::exe(instruction* code)
       print(m_stack_current, encoding.value);
       break;
     }
-    case opcode::_ext: // 0018869C
+    case opcode::extended_function: // 0018869C
     {
       const auto& encoding = code->single_integer;
 
@@ -917,7 +917,7 @@ void CRunScript::exe(instruction* code)
 
       break;
     }
-    case opcode::_yld: // 001887A8
+    case opcode::yield: // 001887A8
     {
       if (!m_skip_flag)
       {
@@ -927,7 +927,7 @@ void CRunScript::exe(instruction* code)
 
       break;
     }
-    case opcode::_and: // 00188270
+    case opcode::and_: // 00188270
     {
       const auto rhs = pop();
       const auto lhs = pop();
@@ -938,7 +938,7 @@ void CRunScript::exe(instruction* code)
       push_int(lhs._int & rhs._int);
       break;
     }
-    case opcode::_or: // 001882B8
+    case opcode::or_: // 001882B8
     {
       const auto rhs = pop();
       const auto lhs = pop();
@@ -949,7 +949,7 @@ void CRunScript::exe(instruction* code)
       push_int(lhs._int | rhs._int);
       break;
     }
-    case opcode::_not: // 001884D8
+    case opcode::not_: // 001884D8
     {
       const auto lhs = pop();
 
@@ -960,12 +960,12 @@ void CRunScript::exe(instruction* code)
       push_int(static_cast<sint>(value));
       break;
     }
-    case opcode::_exit: // 001886DC
+    case opcode::exit: // 001886DC
       m_program_terminated = true;
       m_vmcode = nullptr;
 
       return;
-    case opcode::_unk1: // 001887BC
+    case opcode::unknown_1: // 001887BC
       ++m_unk_field_50;
 
       if (!m_skip_flag)
@@ -975,7 +975,7 @@ void CRunScript::exe(instruction* code)
       m_vmcode += 1;
 
       return;
-    case opcode::_sin: // 00188398
+    case opcode::sin: // 00188398
     {
       const auto lhs = pop();
 
@@ -991,7 +991,7 @@ void CRunScript::exe(instruction* code)
       push_float(result);
       break;
     }
-    case opcode::_cos: // 00188438
+    case opcode::cos: // 00188438
     {
       const auto lhs = pop();
 
@@ -1007,8 +1007,8 @@ void CRunScript::exe(instruction* code)
       push_float(result);
       break;
     }
-    case opcode::_end:
-    case opcode::_unk0:
+    case opcode::end:
+    case opcode::unknown_0:
     default: // 00187C08
       break;
     }

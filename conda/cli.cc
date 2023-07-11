@@ -633,9 +633,9 @@ static bool cmd_decompile_script(MAYBE_UNUSED const cmd_info& info, MAYBE_UNUSED
       // special case for strings
       // TODO: refactor this to be less icky
       // maybe rely on fmt a lot less
-      if (bytecode.inst.opcode == opcode::_push && bytecode.inst.load_store_immediate.type == value_data_type::_str)
+      if (bytecode.inst.opcode == opcode::push && bytecode.inst.load_store_immediate.type == value_data_type::string)
       {
-        const auto citr = func.constants.find(bytecode.inst.load_store_immediate.data._str);
+        const auto citr = func.constants.find(bytecode.inst.load_store_immediate.data.str_);
         if (citr != func.constants.end())
         {
           std::string s = citr->second;

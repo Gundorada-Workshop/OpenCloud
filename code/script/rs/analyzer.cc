@@ -40,7 +40,7 @@ namespace script::rs
     instruction inst;
     while (code->read(&inst))
     {
-      if (inst.opcode == opcode::_end)
+      if (inst.opcode == opcode::end)
         break;
     }
 
@@ -56,22 +56,22 @@ namespace script::rs
     instruction inst;
     while (code->read(&inst))
     {
-      if (inst.opcode == opcode::_end)
+      if (inst.opcode == opcode::end)
         break;
 
-      if (inst.opcode != opcode::_push)
+      if (inst.opcode != opcode::push)
         continue;
 
       const auto type = inst.load_store_immediate.type;
       const auto value = inst.load_store_immediate.data;
 
-      if (type != value_data_type::_str)
+      if (type != value_data_type::string)
         continue;
 
-      auto entry = std::find(addresses.begin(), addresses.end(), value._str);
+      auto entry = std::find(addresses.begin(), addresses.end(), value.str_);
 
       if (entry == addresses.end())
-        addresses.push_back(value._str);
+        addresses.push_back(value.str_);
     }
 
     return addresses;
@@ -129,7 +129,7 @@ namespace script::rs
 
     while (code->read(&inst))
     {
-      if (inst.opcode == opcode::_end)
+      if (inst.opcode == opcode::end)
         break;
 
       bytecode_entry entry =
@@ -195,12 +195,12 @@ namespace script::rs
       const auto value_type = inst.load_store_immediate.type;
       const auto value = inst.load_store_immediate.data;
 
-      if (value_type != value_data_type::_str)
+      if (value_type != value_data_type::string)
         break;
 
       label_entry entry =
       {
-        .address = value._str,
+        .address = value.str_,
         .type    = label_type::string_constant,
       };
 
