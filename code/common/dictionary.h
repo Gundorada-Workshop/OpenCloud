@@ -38,6 +38,8 @@ namespace common
     // returns nullopt if not found
     constexpr result_type find(const key_type& k) const;
 
+    constexpr value_type find_or(const key_type& k, const value_type& fail_value) const;
+
     // find a value given a key
     // panics if not found
     constexpr value_type find_or_panic(const key_type& k) const;
@@ -81,6 +83,14 @@ namespace common
     }
 
     return res->second;
+  }
+
+  template<typename k, typename v, usize s>
+  constexpr auto dictionary<k, v, s>::find_or(const key_type& key, const value_type& fail_value) const -> value_type
+  {
+    const auto res = find(key);
+
+    return res.value_or(fail_value);
   }
 
   template<typename k, typename v, usize s>
