@@ -8,7 +8,7 @@
 #include "common/strings.h"
 #include "common/data_stream.h"
 
-#include "script/rs/bytecode.h"
+#include "script/bytecode.h"
 
 namespace script::rs
 {

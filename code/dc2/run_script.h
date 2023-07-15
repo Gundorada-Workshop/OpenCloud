@@ -2,9 +2,9 @@
 #include "common/debug.h"
 #include "common/types.h"
 
-#include "script/rs/file.h"
-#include "script/rs/bytecode.h"
-#include "script/rs/stack.h"
+#include "script/file.h"
+#include "script/bytecode.h"
+#include "script/stack.h"
 
 // ~ 00186AE0 - 00188880
 

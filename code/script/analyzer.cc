@@ -1,7 +1,7 @@
 #include "common/strings.h"
 
-#include "script/rs/file.h"
-#include "script/rs/analyzer.h"
+#include "script/file.h"
+#include "script/analyzer.h"
 
 namespace script::rs
 {

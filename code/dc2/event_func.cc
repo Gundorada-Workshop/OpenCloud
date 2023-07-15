@@ -7,7 +7,7 @@
 #include "common/constants.h"
 #include "common/types.h"
 
-#include "script/rs/stack.h"
+#include "script/stack.h"
 
 #include "dc2/camera.h"
 #include "dc2/dng_main.h"

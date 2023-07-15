@@ -2,7 +2,7 @@
 #include "common/log.h"
 #include "common/macros.h"
 
-#include "script/rs/stack.h"
+#include "script/stack.h"
 
 #include "dc2/effect_script.h"
 #include "dc2/monster_func.h"

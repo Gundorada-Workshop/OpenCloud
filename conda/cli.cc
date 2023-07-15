@@ -14,8 +14,8 @@
 #include "common/file_helpers.h"
 #include "common/scoped_function.h"
 
-#include "script/rs/file.h"
-#include "script/rs/analyzer.h"
+#include "script/file.h"
+#include "script/analyzer.h"
 
 #include "iso9660/iso_file.h"
 #include "hd/hd_file.h"

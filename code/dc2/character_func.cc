@@ -3,7 +3,7 @@
 #include "common/log.h"
 #include "common/macros.h"
 
-#include "script/rs/stack.h"
+#include "script/stack.h"
 
 #include "dc2/character.h"
 #include "dc2/character_func.h"
