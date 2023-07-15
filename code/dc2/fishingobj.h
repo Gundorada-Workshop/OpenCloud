@@ -54,9 +54,9 @@ void SetWaterLevel(float water_level);
 // 0030F9E0
 float GetWaterLevel(void);
 // 0030F9F0
-CFishObj* GetActiveHariObj(void);
+CFishObj* GetActiveHookObj(void);
 // 0030FA20
-CFishObj* GetActiveUkiObj(void);
+CFishObj* GetActiveBobberObj(void);
 // 0030FA50
 void ExtendLine(float delta);
 // 0030FC10
@@ -68,19 +68,19 @@ void InitRodPoint(mgCFrame& fr1, mgCFrame& fr2);
 // 00310020
 //void GetTriPose(matrix4& m1, matrix4& m2, vec4& v1);
 // 003101F0
-//void GetHariPos(vec4& v1, vec4& v2);
+//void GetHookPos(vec4& v1, vec4& v2);
 // 00310220
-//void GetUkiPos(vec4& v1, vec4& v2);
+//void GetBobberPos(vec4& v1, vec4& v2);
 // 00310250
-void PullUki(float f);
+void PullBobber(float f);
 // 00310270
-void SetShowHari(bool enabled);
+void SetShowHook(bool enabled);
 // 00310280
-bool GetShowHari(void);
+bool GetShowHook(void);
 // 003102E0
 void SetLurePose(mgCFrame& frame);
 // 003103D0
-void SetUkiPose(mgCFrame& fr1, mgCFrame& fr2);
+void SetBobberPose(mgCFrame& fr1, mgCFrame& fr2);
 // 003105C0
 //void CastingLure(vec4& v);
 // 00310730
@@ -118,6 +118,6 @@ void DrawFishingActionChance(void);
 // 003128E0
 void InitLureObj(int i, mgCFrame& frame);
 // 00312D20
-void InitUkiObj(int i, mgCFrame& frame1, mgCFrame& frame2);
+void InitBobberObj(int i, mgCFrame& frame1, mgCFrame& frame2);
 // 00313570
 //void ParaBlend(vec4& v1, float f1, vec4& v2, s32 i);
