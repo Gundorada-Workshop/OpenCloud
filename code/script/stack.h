@@ -153,6 +153,170 @@ namespace script
   {
     return extract_stack_value<stack_data_type::_flt>(stack);
   }
+
+  template<typename type, usize max_element_count>
+  class stack
+  {
+  public:
+    stack() = default;
+    ~stack() = default;
+
+  public:
+    // push an item on to the stack
+    // returns the index of the pushed item
+    ALWAYS_INLINE usize push(type&& val);
+
+    // pop an item off the stack
+    // returns the item popped off
+    ALWAYS_INLINE type pop();
+
+    // reset the stack
+    ALWAYS_INLINE void reset();
+
+    // get the most recently pushed item in the stack
+    ALWAYS_INLINE type poke() const;
+
+    // get the number of elements in the stack
+    constexpr usize count() const;
+
+    // get the size of the stack in bytes
+    constexpr usize size() const;
+
+    // get the max number of elements the stack can hold
+    constexpr usize max_count() const;
+
+    // get the max number of bytes the stack can hold
+    constexpr usize max_size() const;
+
+    // check if the stack is empty
+    ALWAYS_INLINE bool empty() const;
+
+  private:
+    // increment the stack pointer
+    ALWAYS_INLINE void increment_stack_offset();
+
+    // decrement the stack pointer
+    ALWAYS_INLINE void decrement_stack_offset();
+
+    // insert a value at a given index
+    ALWAYS_INLINE void insert_value_at_index(type&& val, usize index);
+
+    // get an item at a given index
+    ALWAYS_INLINE type item_at_index(usize index) const;
+
+    // get the current index into the stack
+    ALWAYS_INLINE usize current_index() const;
+
+    // get the next index in the stack
+    ALWAYS_INLINE usize next_index() const;
+
+  private:
+    std::array<type, max_element_count> m_stack{ };
+
+    usize m_current_index{ 0 };
+  };
+
+  template<typename type, usize max_element_count>
+  ALWAYS_INLINE auto stack<type, max_element_count>::push(type&& val) -> usize
+  {
+    const usize index = next_index();
+
+    insert_value_at_index(std::move(val), index);
+    increment_stack_offset();
+
+    return index;
+  }
+
+  template<typename type, usize max_element_count>
+  ALWAYS_INLINE auto stack<type, max_element_count>::pop() -> type
+  {
+    type item = poke();
+
+    decrement_stack_offset();
+
+    return item;
+  }
+
+  template<typename type, usize max_element_count>
+  ALWAYS_INLINE auto stack<type, max_element_count>::poke() const -> type
+  {
+    const usize index = current_index();
+    const type item = item_at_index(index);
+
+    return item;
+  }
+
+  template<typename type, usize max_element_count>
+  ALWAYS_INLINE void stack<type, max_element_count>::reset()
+  {
+    m_current_index = 0;
+  }
+
+  template<typename type, usize max_element_count>
+  constexpr usize stack<type, max_element_count>::count() const
+  {
+    return current_index();
+  }
+
+  template<typename type, usize max_element_count>
+  constexpr usize stack<type, max_element_count>::size() const
+  {
+    return current_index() * sizeof(type);
+  }
+
+  template<typename type, usize max_element_count>
+  constexpr usize stack<type, max_element_count>::max_count() const
+  {
+    return max_element_count;
+  }
+
+  template<typename type, usize max_element_count>
+  constexpr usize stack<type, max_element_count>::max_size() const
+  {
+    return max_element_count * sizeof(type);
+  }
+
+  template<typename type, usize max_element_count>
+  ALWAYS_INLINE usize stack<type, max_element_count>::current_index() const
+  {
+    return m_current_index;
+  }
+
+  template<typename type, usize max_element_count>
+  ALWAYS_INLINE usize stack<type, max_element_count>::next_index() const
+  {
+    return m_current_index + 1;
+  }
+
+  template<typename type, usize max_element_count>
+  ALWAYS_INLINE bool stack<type, max_element_count>::empty() const
+  {
+    return m_current_index != 0;
+  }
+
+  template<typename type, usize max_element_count>
+  ALWAYS_INLINE void stack<type, max_element_count>::increment_stack_offset()
+  {
+    m_current_index += 1;
+  }
+
+  template<typename type, usize max_element_count>
+  ALWAYS_INLINE void stack<type, max_element_count>::decrement_stack_offset()
+  {
+    m_current_index -= 1;
+  }
+
+  template<typename type, usize max_element_count>
+  ALWAYS_INLINE void stack<type, max_element_count>::insert_value_at_index(type&& val, usize index)
+  {
+    m_stack[index] = std::move(val);
+  }
+
+  template<typename type, usize max_element_count>
+  ALWAYS_INLINE type stack<type, max_element_count>::item_at_index(usize index) const
+  {
+    return m_stack[index];
+  }
 }
 
 template<>
