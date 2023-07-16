@@ -1,30 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="runscript">
-      <UniqueIdentifier>{77c534e3-8b9d-429d-a6cd-f8f4fa00f6c9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="spi">
-      <UniqueIdentifier>{659ec52c-6222-4a34-9963-de0a00d5ed4f}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="analyzer.cc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="rs\bytecode.h">
-      <Filter>runscript</Filter>
-    </ClInclude>
-    <ClInclude Include="rs\file.h">
-      <Filter>runscript</Filter>
-    </ClInclude>
-    <ClInclude Include="rs\analyzer.h">
-      <Filter>runscript</Filter>
-    </ClInclude>
-    <ClInclude Include="rs\stack.h">
-      <Filter>runscript</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="rs\analyzer.cc">
-      <Filter>runscript</Filter>
-    </ClCompile>
+    <ClInclude Include="analyzer.h" />
+    <ClInclude Include="bytecode.h" />
+    <ClInclude Include="file.h" />
+    <ClInclude Include="stack.h" />
   </ItemGroup>
 </Project>

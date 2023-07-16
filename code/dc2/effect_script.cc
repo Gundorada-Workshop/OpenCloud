@@ -2,7 +2,7 @@
 #include "common/log.h"
 #include "common/macros.h"
 
-#include "script/rs/stack.h"
+#include "script/stack.h"
 
 #include "dc2/effect_script.h"
 #include "dc2/monster_func.h"
@@ -11,29 +11,27 @@
 
 set_log_channel("effect_script");
 
-using namespace script;
-
-static sint GetStackInt(rs::stack_data* stack)
+static sint GetStackInt(script::stack_data* stack)
 {
   log_trace("{}()", __func__, fmt::ptr(stack));
 
-  if (stack->type == rs::stack_data_type::_int)
+  if (stack->type == script::stack_data_type::_int)
     return static_cast<sint>(stack->_flt);
 
   return stack->_int;
 }
 
-static f32 GetStackFloat(rs::stack_data* stack)
+static f32 GetStackFloat(script::stack_data* stack)
 {
   log_trace("{}()", __func__, fmt::ptr(stack));
 
-  if (stack->type == rs::stack_data_type::_int)
+  if (stack->type == script::stack_data_type::_int)
     return static_cast<f32>(stack->_int);
 
   return stack->_flt;
 }
 
-//MAYBE_UNUSED static vec3 GetStackVector(rs::stack_data* stack)
+//MAYBE_UNUSED static vec3 GetStackVector(script::stack_data* stack)
 //{
 //  log_trace("{}()", __func__, fmt::ptr(stack));
 //
@@ -44,34 +42,34 @@ static f32 GetStackFloat(rs::stack_data* stack)
 //  };
 //}
 
-MAYBE_UNUSED static const char* GetStackString(rs::stack_data* stack)
+MAYBE_UNUSED static const char* GetStackString(script::stack_data* stack)
 {
   log_trace("{}()", __func__, fmt::ptr(stack));
 
   return stack->_str;
 }
 
-static void SetStack(rs::stack_data* stack, sint value)
+static void SetStack(script::stack_data* stack, sint value)
 {
   log_trace("{}()", __func__, fmt::ptr(stack));
 
-  if (stack->type != rs::stack_data_type::_ptr)
+  if (stack->type != script::stack_data_type::_ptr)
     return;
 
   stack->_ptr->_int = value;
 }
 
-MAYBE_UNUSED static void SetStack(rs::stack_data* stack, f32 value)
+MAYBE_UNUSED static void SetStack(script::stack_data* stack, f32 value)
 {
   log_trace("{}()", __func__, fmt::ptr(stack));
 
-  if (stack->type != rs::stack_data_type::_ptr)
+  if (stack->type != script::stack_data_type::_ptr)
     return;
 
   stack->_ptr->_flt = value;
 }
 
-static bool _ZERO_VECTOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _ZERO_VECTOR(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -79,7 +77,7 @@ static bool _ZERO_VECTOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _NORMAL_VECTOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _NORMAL_VECTOR(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -87,7 +85,7 @@ static bool _NORMAL_VECTOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _COPY_VECTOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _COPY_VECTOR(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -95,7 +93,7 @@ static bool _COPY_VECTOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _ADD_VECTOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _ADD_VECTOR(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -103,7 +101,7 @@ static bool _ADD_VECTOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint st
   return true;
 }
 
-static bool _SUB_VECTOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SUB_VECTOR(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -111,7 +109,7 @@ static bool _SUB_VECTOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint st
   return true;
 }
 
-static bool _SCALE_VECTOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SCALE_VECTOR(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -119,7 +117,7 @@ static bool _SCALE_VECTOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _DIV_VECTOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _DIV_VECTOR(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -127,7 +125,7 @@ static bool _DIV_VECTOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint st
   return true;
 }
 
-static bool _DIST_VECTOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _DIST_VECTOR(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -135,7 +133,7 @@ static bool _DIST_VECTOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _DIST_VECTOR2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _DIST_VECTOR2(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -143,7 +141,7 @@ static bool _DIST_VECTOR2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _SQRT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SQRT(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -151,7 +149,7 @@ static bool _SQRT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_co
   return true;
 }
 
-static bool _ATAN2F(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _ATAN2F(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -159,7 +157,7 @@ static bool _ATAN2F(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_
   return true;
 }
 
-static bool _ANGLE_CMP(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _ANGLE_CMP(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -167,7 +165,7 @@ static bool _ANGLE_CMP(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint sta
   return true;
 }
 
-static bool _ANGLE_LIMIT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _ANGLE_LIMIT(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -175,7 +173,7 @@ static bool _ANGLE_LIMIT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _GET_RAND(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_RAND(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -183,7 +181,7 @@ static bool _GET_RAND(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stac
   return true;
 }
 
-static bool _GET_REF_ROT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_REF_ROT(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -191,7 +189,7 @@ static bool _GET_REF_ROT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _GET_DIR_VECTOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_DIR_VECTOR(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -199,7 +197,7 @@ static bool _GET_DIR_VECTOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _SET_ORIGIN(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_ORIGIN(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -207,7 +205,7 @@ static bool _SET_ORIGIN(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint st
   return true;
 }
 
-static bool _GET_ORIGIN(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_ORIGIN(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -215,7 +213,7 @@ static bool _GET_ORIGIN(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint st
   return true;
 }
 
-static bool _AUTO_SET_OFFSET(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _AUTO_SET_OFFSET(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -223,7 +221,7 @@ static bool _AUTO_SET_OFFSET(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED si
   return true;
 }
 
-static bool _GET_WORK_VECT1(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_WORK_VECT1(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -231,7 +229,7 @@ static bool _GET_WORK_VECT1(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _GET_WORK_VECT2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_WORK_VECT2(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -239,7 +237,7 @@ static bool _GET_WORK_VECT2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _GET_TARGET_ID(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_TARGET_ID(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -247,7 +245,7 @@ static bool _GET_TARGET_ID(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _GET_USER_ID(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_USER_ID(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -255,7 +253,7 @@ static bool _GET_USER_ID(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _GET_VALUE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_VALUE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -263,7 +261,7 @@ static bool _GET_VALUE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint sta
   return true;
 }
 
-static bool _SET_VALUE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_VALUE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -271,7 +269,7 @@ static bool _SET_VALUE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint sta
   return true;
 }
 
-static bool _CHR_SET_SHOW(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_SET_SHOW(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -279,7 +277,7 @@ static bool _CHR_SET_SHOW(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _CHR_GET_SHOW(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_GET_SHOW(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -287,7 +285,7 @@ static bool _CHR_GET_SHOW(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _CHR_SET_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_SET_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -295,7 +293,7 @@ static bool _CHR_SET_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _CHR_GET_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_GET_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -303,7 +301,7 @@ static bool _CHR_GET_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _CHR_SET_ROT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_SET_ROT(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -311,7 +309,7 @@ static bool _CHR_SET_ROT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _CHR_GET_ROT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_GET_ROT(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -319,7 +317,7 @@ static bool _CHR_GET_ROT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _CHR_SET_SCALE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_SET_SCALE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -327,7 +325,7 @@ static bool _CHR_SET_SCALE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _CHR_GET_SCALE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_GET_SCALE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -335,7 +333,7 @@ static bool _CHR_GET_SCALE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _CHR_SET_MOTION(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_SET_MOTION(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -343,7 +341,7 @@ static bool _CHR_SET_MOTION(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _CHR_SET_MOT_STEP(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_SET_MOT_STEP(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -351,7 +349,7 @@ static bool _CHR_SET_MOT_STEP(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED s
   return true;
 }
 
-static bool _CHR_GET_DIR_VECTOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_GET_DIR_VECTOR(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -359,7 +357,7 @@ static bool _CHR_GET_DIR_VECTOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED
   return true;
 }
 
-static bool _CHR_GET_REF_ROT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_GET_REF_ROT(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -367,7 +365,7 @@ static bool _CHR_GET_REF_ROT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED si
   return true;
 }
 
-static bool _CHR_ADD_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_ADD_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -375,7 +373,7 @@ static bool _CHR_ADD_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _CHR_ADD_ROT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_ADD_ROT(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -383,7 +381,7 @@ static bool _CHR_ADD_ROT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _CHR_ADD_SCALE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_ADD_SCALE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -391,7 +389,7 @@ static bool _CHR_ADD_SCALE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _CHR_COPY_CHARA(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_COPY_CHARA(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -399,7 +397,7 @@ static bool _CHR_COPY_CHARA(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _CHR_SET_POS2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_SET_POS2(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -407,7 +405,7 @@ static bool _CHR_SET_POS2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _CHR_SET_ROT2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_SET_ROT2(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -415,7 +413,7 @@ static bool _CHR_SET_ROT2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _CHR_SET_SCALE2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_SET_SCALE2(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -423,7 +421,7 @@ static bool _CHR_SET_SCALE2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _CHR_SET_MOTION2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_SET_MOTION2(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -431,7 +429,7 @@ static bool _CHR_SET_MOTION2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED si
   return true;
 }
 
-static bool _CHR_ADD_POS2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_ADD_POS2(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -439,7 +437,7 @@ static bool _CHR_ADD_POS2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _CHR_ADD_ROT2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_ADD_ROT2(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -447,7 +445,7 @@ static bool _CHR_ADD_ROT2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _CHR_ADD_SCALE2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_ADD_SCALE2(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -455,7 +453,7 @@ static bool _CHR_ADD_SCALE2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _CHR_GET_MOT_WAIT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_GET_MOT_WAIT(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -463,7 +461,7 @@ static bool _CHR_GET_MOT_WAIT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED s
   return true;
 }
 
-static bool _CHR_SET_SHOW2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_SET_SHOW2(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -471,7 +469,7 @@ static bool _CHR_SET_SHOW2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _CHR_GET_FRAME_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_GET_FRAME_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -479,7 +477,7 @@ static bool _CHR_GET_FRAME_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED 
   return true;
 }
 
-static bool _CHR_SET_FRAME_SHOW(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_SET_FRAME_SHOW(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -487,7 +485,7 @@ static bool _CHR_SET_FRAME_SHOW(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED
   return true;
 }
 
-static bool _CHR_CHK_MOT_END(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_CHK_MOT_END(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -495,7 +493,7 @@ static bool _CHR_CHK_MOT_END(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED si
   return true;
 }
 
-static bool _CHR_SET_LIGHT_COLOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CHR_SET_LIGHT_COLOR(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -503,7 +501,7 @@ static bool _CHR_SET_LIGHT_COLOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSE
   return true;
 }
 
-static bool _SPT_ASSIGN_SPRITE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_ASSIGN_SPRITE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -511,7 +509,7 @@ static bool _SPT_ASSIGN_SPRITE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED 
   return true;
 }
 
-static bool _SPT_DELETE_SPRITE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_DELETE_SPRITE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -519,7 +517,7 @@ static bool _SPT_DELETE_SPRITE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED 
   return true;
 }
 
-static bool _SPT_SET_TEXNAME(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_SET_TEXNAME(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -527,7 +525,7 @@ static bool _SPT_SET_TEXNAME(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED si
   return true;
 }
 
-static bool _SPT_SET_ALPHAB(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_SET_ALPHAB(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -535,7 +533,7 @@ static bool _SPT_SET_ALPHAB(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _SPT_INIT_SPRITE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_INIT_SPRITE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -543,7 +541,7 @@ static bool _SPT_INIT_SPRITE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED si
   return true;
 }
 
-static bool _SPT_SET_UV_SIZE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_SET_UV_SIZE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -551,7 +549,7 @@ static bool _SPT_SET_UV_SIZE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED si
   return true;
 }
 
-static bool _SPT_SET_PUT_SIZE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_SET_PUT_SIZE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -559,7 +557,7 @@ static bool _SPT_SET_PUT_SIZE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED s
   return true;
 }
 
-static bool _SPT_SET_DRAW_FLAG(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_SET_DRAW_FLAG(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -567,7 +565,7 @@ static bool _SPT_SET_DRAW_FLAG(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED 
   return true;
 }
 
-static bool _SPT_GET_DRAW_FLAG(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_GET_DRAW_FLAG(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -575,7 +573,7 @@ static bool _SPT_GET_DRAW_FLAG(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED 
   return true;
 }
 
-static bool _SPT_SET_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_SET_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -583,7 +581,7 @@ static bool _SPT_SET_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _SPT_GET_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_GET_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -591,7 +589,7 @@ static bool _SPT_GET_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _SPT_SET_ROTZ(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_SET_ROTZ(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -599,7 +597,7 @@ static bool _SPT_SET_ROTZ(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _SPT_GET_ROTZ(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_GET_ROTZ(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -607,7 +605,7 @@ static bool _SPT_GET_ROTZ(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _SPT_SET_SCALE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_SET_SCALE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -615,7 +613,7 @@ static bool _SPT_SET_SCALE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _SPT_GET_SCALE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_GET_SCALE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -623,7 +621,7 @@ static bool _SPT_GET_SCALE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _SPT_SET_COLOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_SET_COLOR(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -631,7 +629,7 @@ static bool _SPT_SET_COLOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _SPT_GET_COLOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_GET_COLOR(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -639,7 +637,7 @@ static bool _SPT_GET_COLOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _SPT_VAN_SET_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_VAN_SET_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -647,7 +645,7 @@ static bool _SPT_VAN_SET_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED si
   return true;
 }
 
-static bool _SPT_VAN_SET_ROT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_VAN_SET_ROT(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -655,7 +653,7 @@ static bool _SPT_VAN_SET_ROT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED si
   return true;
 }
 
-static bool _SPT_ADD_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_ADD_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -663,7 +661,7 @@ static bool _SPT_ADD_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _SPT_ADD_ROTZ(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_ADD_ROTZ(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -671,7 +669,7 @@ static bool _SPT_ADD_ROTZ(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _SPT_ADD_COLOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_ADD_COLOR(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -679,7 +677,7 @@ static bool _SPT_ADD_COLOR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _SPT_WORLD_ROT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_WORLD_ROT(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -687,7 +685,7 @@ static bool _SPT_WORLD_ROT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _SPT_SET_LIFE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_SET_LIFE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -695,7 +693,7 @@ static bool _SPT_SET_LIFE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _SPT_SET_VELO_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_SET_VELO_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -703,7 +701,7 @@ static bool _SPT_SET_VELO_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED s
   return true;
 }
 
-static bool _SPT_SET_ACC_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_SET_ACC_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -711,7 +709,7 @@ static bool _SPT_SET_ACC_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED si
   return true;
 }
 
-static bool _SPT_SET_VELO_ROTZ(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_SET_VELO_ROTZ(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -719,7 +717,7 @@ static bool _SPT_SET_VELO_ROTZ(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED 
   return true;
 }
 
-static bool _SPT_SET_ACC_ROTZ(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_SET_ACC_ROTZ(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -727,7 +725,7 @@ static bool _SPT_SET_ACC_ROTZ(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED s
   return true;
 }
 
-static bool _SPT_SET_VELO_COL(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_SET_VELO_COL(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -735,7 +733,7 @@ static bool _SPT_SET_VELO_COL(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED s
   return true;
 }
 
-static bool _SPT_SET_ACC_COL(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_SET_ACC_COL(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -743,7 +741,7 @@ static bool _SPT_SET_ACC_COL(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED si
   return true;
 }
 
-static bool _SPT_SET_BLINKING(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_SET_BLINKING(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -751,7 +749,7 @@ static bool _SPT_SET_BLINKING(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED s
   return true;
 }
 
-static bool _SPT_VAN_SET_COL(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_VAN_SET_COL(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -759,7 +757,7 @@ static bool _SPT_VAN_SET_COL(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED si
   return true;
 }
 
-static bool _SPT_SET_VELO_SCL(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_SET_VELO_SCL(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -767,7 +765,7 @@ static bool _SPT_SET_VELO_SCL(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED s
   return true;
 }
 
-static bool _SPT_SET_ACC_SCL(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_SET_ACC_SCL(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -775,7 +773,7 @@ static bool _SPT_SET_ACC_SCL(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED si
   return true;
 }
 
-static bool _SPT_VAN_SET_SCL(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_VAN_SET_SCL(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -783,7 +781,7 @@ static bool _SPT_VAN_SET_SCL(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED si
   return true;
 }
 
-static bool _SPT_SCALE_CONV(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_SCALE_CONV(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -791,7 +789,7 @@ static bool _SPT_SCALE_CONV(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _SPT_COLOR_CONV(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SPT_COLOR_CONV(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -799,7 +797,7 @@ static bool _SPT_COLOR_CONV(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _SCN_GET_CHR_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SCN_GET_CHR_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -807,7 +805,7 @@ static bool _SCN_GET_CHR_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED si
   return true;
 }
 
-static bool _SCN_GET_CHR_ROT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SCN_GET_CHR_ROT(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -815,7 +813,7 @@ static bool _SCN_GET_CHR_ROT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED si
   return true;
 }
 
-static bool _SCN_GET_CHR_FRM_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SCN_GET_CHR_FRM_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -823,7 +821,7 @@ static bool _SCN_GET_CHR_FRM_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSE
   return true;
 }
 
-static bool _INTERSECTION_POINT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _INTERSECTION_POINT(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -831,7 +829,7 @@ static bool _INTERSECTION_POINT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED
   return true;
 }
 
-static bool _MON_SE_PLAY(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _MON_SE_PLAY(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -839,7 +837,7 @@ static bool _MON_SE_PLAY(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _MON_SE_STOP(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _MON_SE_STOP(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -847,7 +845,7 @@ static bool _MON_SE_STOP(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _BTL_SE_PLAY(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _BTL_SE_PLAY(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -855,7 +853,7 @@ static bool _BTL_SE_PLAY(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _BTL_SE_STOP(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _BTL_SE_STOP(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -863,7 +861,7 @@ static bool _BTL_SE_STOP(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _BSE_SE_PLAY(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _BSE_SE_PLAY(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -871,7 +869,7 @@ static bool _BSE_SE_PLAY(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _BSE_SE_STOP(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _BSE_SE_STOP(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -879,7 +877,7 @@ static bool _BSE_SE_STOP(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _MON_SE_PLAY2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _MON_SE_PLAY2(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -887,7 +885,7 @@ static bool _MON_SE_PLAY2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _MON_SE_STOP2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _MON_SE_STOP2(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -895,7 +893,7 @@ static bool _MON_SE_STOP2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _SET_LIGHT_FLAG(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_LIGHT_FLAG(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -903,7 +901,7 @@ static bool _SET_LIGHT_FLAG(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _SCN_GET_CHR_ENTOBJ_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SCN_GET_CHR_ENTOBJ_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -911,7 +909,7 @@ static bool _SCN_GET_CHR_ENTOBJ_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UN
   return true;
 }
 
-static bool _SCN_GET_CHR_FRM_DIR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SCN_GET_CHR_FRM_DIR(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -919,7 +917,7 @@ static bool _SCN_GET_CHR_FRM_DIR(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSE
   return true;
 }
 
-static bool _SCN_GET_CHR_FRM_ROT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SCN_GET_CHR_FRM_ROT(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -927,7 +925,7 @@ static bool _SCN_GET_CHR_FRM_ROT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSE
   return true;
 }
 
-static bool _SCN_GET_ENTRY_OBJ_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SCN_GET_ENTRY_OBJ_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -935,7 +933,7 @@ static bool _SCN_GET_ENTRY_OBJ_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNU
   return true;
 }
 
-static bool _CREATE_DAMAGE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _CREATE_DAMAGE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -943,7 +941,7 @@ static bool _CREATE_DAMAGE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _DELETE_DAMAGE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _DELETE_DAMAGE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -951,7 +949,7 @@ static bool _DELETE_DAMAGE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint
   return true;
 }
 
-static bool _DMG_SET_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _DMG_SET_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -959,7 +957,7 @@ static bool _DMG_SET_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _DMG_SET_FRONT_VECT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _DMG_SET_FRONT_VECT(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -967,7 +965,7 @@ static bool _DMG_SET_FRONT_VECT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED
   return true;
 }
 
-static bool _DMG_SET_DAMAGE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _DMG_SET_DAMAGE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -975,7 +973,7 @@ static bool _DMG_SET_DAMAGE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _COLPRIM_CREATE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _COLPRIM_CREATE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -983,7 +981,7 @@ static bool _COLPRIM_CREATE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _COLPRIM_SET_COORD(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _COLPRIM_SET_COORD(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -991,7 +989,7 @@ static bool _COLPRIM_SET_COORD(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED 
   return true;
 }
 
-static bool _COLPRIM_DELETE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _COLPRIM_DELETE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -999,7 +997,7 @@ static bool _COLPRIM_DELETE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _COLPRIM_GET_HITCNT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _COLPRIM_GET_HITCNT(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1007,7 +1005,7 @@ static bool _COLPRIM_GET_HITCNT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED
   return true;
 }
 
-static bool _COLPRIM_SET_DAMAGE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _COLPRIM_SET_DAMAGE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1015,7 +1013,7 @@ static bool _COLPRIM_SET_DAMAGE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED
   return true;
 }
 
-static bool _COLPRIM_GET_HIT_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _COLPRIM_GET_HIT_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1023,7 +1021,7 @@ static bool _COLPRIM_GET_HIT_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSE
   return true;
 }
 
-static bool _COLPRIM_GET_GIFT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _COLPRIM_GET_GIFT(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1031,7 +1029,7 @@ static bool _COLPRIM_GET_GIFT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED s
   return true;
 }
 
-static bool _COLPRIM_GET_REVCNT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _COLPRIM_GET_REVCNT(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1039,7 +1037,7 @@ static bool _COLPRIM_GET_REVCNT(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED
   return true;
 }
 
-static bool _ES_CREATE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _ES_CREATE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1047,7 +1045,7 @@ static bool _ES_CREATE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint sta
   return true;
 }
 
-static bool _ES_SET_VECT1(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _ES_SET_VECT1(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1055,7 +1053,7 @@ static bool _ES_SET_VECT1(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _ES_SET_VECT2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _ES_SET_VECT2(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1063,7 +1061,7 @@ static bool _ES_SET_VECT2(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _ES_SET_TARGET_ID(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _ES_SET_TARGET_ID(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1071,7 +1069,7 @@ static bool _ES_SET_TARGET_ID(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED s
   return true;
 }
 
-static bool _ES_SET_COLPRIM(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _ES_SET_COLPRIM(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1079,7 +1077,7 @@ static bool _ES_SET_COLPRIM(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _ES_SET_VALUE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _ES_SET_VALUE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -1087,7 +1085,7 @@ static bool _ES_SET_VALUE(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint 
   return true;
 }
 
-static bool _GET_EOH_POS(MAYBE_UNUSED rs::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_EOH_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 

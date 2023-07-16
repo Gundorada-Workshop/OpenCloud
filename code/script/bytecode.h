@@ -5,7 +5,7 @@
 #include "common/strings.h"
 #include "common/dictionary.h"
 
-namespace script::rs
+namespace script
 {
   // the opcode for the instruction
   enum class opcode : u32
@@ -351,127 +351,115 @@ namespace script::rs
 }
 
 template<>
-struct fmt::formatter<script::rs::opcode> : formatter<string_view>
+struct fmt::formatter<script::opcode> : formatter<string_view>
 {
-  auto format(script::rs::opcode op, format_context& ctx) const -> decltype(ctx.out())
+  auto format(script::opcode op, format_context& ctx) const -> decltype(ctx.out())
   {
-    using namespace script::rs;
-
-    const std::string_view opcode_name = opcode_to_string(op);
+    const std::string_view opcode_name = script::opcode_to_string(op);
 
     return fmt::formatter<string_view>::format(opcode_name, ctx);
   }
 };
 
 template<>
-struct fmt::formatter<script::rs::value_data_type> : formatter<string_view>
+struct fmt::formatter<script::value_data_type> : formatter<string_view>
 {
-  auto format(script::rs::value_data_type vt, format_context& ctx) const -> decltype(ctx.out())
+  auto format(script::value_data_type vt, format_context& ctx) const -> decltype(ctx.out())
   {
-    using namespace script::rs;
-
-    const std::string_view value_type_name = value_data_type_to_string(vt);
+    const std::string_view value_type_name = script::value_data_type_to_string(vt);
 
     return formatter<string_view>::format(value_type_name, ctx);
   }
 };
 
 template<>
-struct fmt::formatter<script::rs::comparison_function> : formatter<string_view>
+struct fmt::formatter<script::comparison_function> : formatter<string_view>
 {
-  auto format(script::rs::comparison_function op, format_context& ctx) const -> decltype(ctx.out())
+  auto format(script::comparison_function op, format_context& ctx) const -> decltype(ctx.out())
   {
-    using namespace script::rs;
-
-    const std::string_view compare_function_name = comparison_function_to_string(op);
+    const std::string_view compare_function_name = script::comparison_function_to_string(op);
 
     return formatter<string_view>::format(compare_function_name, ctx);
   }
 };
 
 template<>
-struct fmt::formatter<script::rs::address_mode> : formatter<string_view>
+struct fmt::formatter<script::address_mode> : formatter<string_view>
 {
-  auto format(script::rs::address_mode mode, format_context& ctx) const -> decltype(ctx.out())
+  auto format(script::address_mode mode, format_context& ctx) const -> decltype(ctx.out())
   {
-    using namespace script::rs;
-
-    const std::string_view address_mode_name = address_mode_to_string(mode);
+    const std::string_view address_mode_name = script::address_mode_to_string(mode);
 
     return formatter<string_view>::format(address_mode_name, ctx);
   }
 };
 
 template<>
-struct fmt::formatter<script::rs::test_flag_mode> : formatter<string_view>
+struct fmt::formatter<script::test_flag_mode> : formatter<string_view>
 {
-  auto format(script::rs::test_flag_mode mode, format_context& ctx) const -> decltype(ctx.out())
+  auto format(script::test_flag_mode mode, format_context& ctx) const -> decltype(ctx.out())
   {
-    using namespace script::rs;
-
-    const std::string_view mode_name = test_flag_to_string(mode);
+    const std::string_view mode_name = script::test_flag_to_string(mode);
 
     return formatter<string_view>::format(mode_name, ctx);
   }
 };
 
 template<>
-struct fmt::formatter<script::rs::instruction::jump_type> : formatter<string_view>
+struct fmt::formatter<script::instruction::jump_type> : formatter<string_view>
 {
-  auto format(const script::rs::instruction::jump_type& data, format_context& ctx) const -> decltype(ctx.out())
+  auto format(const script::instruction::jump_type& data, format_context& ctx) const -> decltype(ctx.out())
   {
     return fmt::format_to(ctx.out(), "loc_{:06x}", data.address);
   }
 };
 
 template<>
-struct fmt::formatter<script::rs::instruction::integer_type> : formatter<string_view>
+struct fmt::formatter<script::instruction::integer_type> : formatter<string_view>
 {
-  auto format(const script::rs::instruction::integer_type& data, format_context& ctx) const -> decltype(ctx.out())
+  auto format(const script::instruction::integer_type& data, format_context& ctx) const -> decltype(ctx.out())
   {
     return fmt::format_to(ctx.out(), "{}", data.value);
   }
 };
 
 template<>
-struct fmt::formatter<script::rs::instruction::branch_type> : formatter<string_view>
+struct fmt::formatter<script::instruction::branch_type> : formatter<string_view>
 {
-  auto format(const script::rs::instruction::branch_type& data, format_context& ctx) const -> decltype(ctx.out())
+  auto format(const script::instruction::branch_type& data, format_context& ctx) const -> decltype(ctx.out())
   {
     return fmt::format_to(ctx.out(), "loc_{:06x} {}", data.address, data.restore_flag);
   }
 };
 
 template<>
-struct fmt::formatter<script::rs::instruction::comparison_type> : formatter<string_view>
+struct fmt::formatter<script::instruction::comparison_type> : formatter<string_view>
 {
-  auto format(const script::rs::instruction::comparison_type& data, format_context& ctx) const -> decltype(ctx.out())
+  auto format(const script::instruction::comparison_type& data, format_context& ctx) const -> decltype(ctx.out())
   {
     return fmt::format_to(ctx.out(), "{}", data.function);
   }
 };
 
 template<>
-struct fmt::formatter<script::rs::instruction::load_store_relative_type> : formatter<string_view>
+struct fmt::formatter<script::instruction::load_store_relative_type> : formatter<string_view>
 {
-  auto format(const script::rs::instruction::load_store_relative_type& data, format_context& ctx) const -> decltype(ctx.out())
+  auto format(const script::instruction::load_store_relative_type& data, format_context& ctx) const -> decltype(ctx.out())
   {
     return fmt::format_to(ctx.out(), "{}[{:#x}]", data.mode, data.address);
   }
 };
 
 template<>
-struct fmt::formatter<script::rs::instruction::load_store_immediate_type> : formatter<string_view>
+struct fmt::formatter<script::instruction::load_store_immediate_type> : formatter<string_view>
 {
-  auto format(const script::rs::instruction::load_store_immediate_type& data, format_context& ctx) const -> decltype(ctx.out())
+  auto format(const script::instruction::load_store_immediate_type& data, format_context& ctx) const -> decltype(ctx.out())
   {
-    using namespace script::rs;
-
     switch (data.type)
     {
-    case value_data_type::floating_point:
+    case script::value_data_type::floating_point:
       return fmt::format_to(ctx.out(), "{} {}", data.type, data.data.flt_);
-    case value_data_type::string:
+    case script::value_data_type::string:
       return fmt::format_to(ctx.out(), "{} {:#06x}", data.type, data.data.int_);
     }
 
@@ -480,33 +468,31 @@ struct fmt::formatter<script::rs::instruction::load_store_immediate_type> : form
 };
 
 template<>
-struct fmt::formatter<script::rs::instruction> : formatter<string_view>
+struct fmt::formatter<script::instruction> : formatter<string_view>
 {
-  auto format(const script::rs::instruction& inst, format_context& ctx) const
+  auto format(const script::instruction& inst, format_context& ctx) const
   {
-    using namespace script::rs;
-
-    const auto encoding = encoding_type_for_opcode(inst.opcode);
+    const auto encoding = script::encoding_type_for_opcode(inst.opcode);
 
     switch (encoding)
     {
-    case instruction_encoding_type::jump:
-      if (inst.opcode == opcode::call)
+    case script::instruction_encoding_type::jump:
+      if (inst.opcode == script::opcode::call)
         return fmt::format_to(ctx.out(), "{} fun_{:06x}", inst.opcode, inst.jump.address);
 
       return fmt::format_to(ctx.out(), "{} {}", inst.opcode, inst.jump);
-    case instruction_encoding_type::single_integer_argument:
+    case script::instruction_encoding_type::single_integer_argument:
       return fmt::format_to(ctx.out(), "{} {}", inst.opcode, inst.single_integer);
-    case instruction_encoding_type::conditional_branch:
+    case script::instruction_encoding_type::conditional_branch:
       return fmt::format_to(ctx.out(), "{} {}", inst.opcode, inst.conditional_branch);
-    case instruction_encoding_type::comparison:
+    case script::instruction_encoding_type::comparison:
       return fmt::format_to(ctx.out(), "{} {}", inst.opcode, inst.comparison); 
-    case instruction_encoding_type::load_store_relative:
-      if(inst.opcode == opcode::push_pointer)
+    case script::instruction_encoding_type::load_store_relative:
+      if(inst.opcode == script::opcode::push_pointer)
         return fmt::format_to(ctx.out(), "{} ptr {}", inst.opcode, inst.load_store_relative);
 
       return fmt::format_to(ctx.out(), "{} {}", inst.opcode, inst.load_store_relative);
-    case instruction_encoding_type::load_store_immediate:
+    case script::instruction_encoding_type::load_store_immediate:
       return fmt::format_to(ctx.out(), "{} {}", inst.opcode, inst.load_store_immediate);
     }
 

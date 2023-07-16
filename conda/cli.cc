@@ -14,8 +14,8 @@
 #include "common/file_helpers.h"
 #include "common/scoped_function.h"
 
-#include "script/rs/file.h"
-#include "script/rs/analyzer.h"
+#include "script/file.h"
+#include "script/analyzer.h"
 
 #include "iso9660/iso_file.h"
 #include "hd/hd_file.h"
@@ -563,8 +563,6 @@ static bool cmd_ls_img(const cmd_info& info, const string_list& args)
 
 static bool cmd_decompile_script(MAYBE_UNUSED const cmd_info& info, MAYBE_UNUSED const string_list& args)
 {
-  using namespace script::rs;
-
   if (args.size() != 1)
   {
     print_command_help(info);
@@ -581,7 +579,7 @@ static bool cmd_decompile_script(MAYBE_UNUSED const cmd_info& info, MAYBE_UNUSED
     return false;
   }
 
-  script::rs::header header;
+  script::header header;
   if (!input_file_stream->read(&header))
   {
     log_error("Failed to read header");
@@ -615,8 +613,8 @@ static bool cmd_decompile_script(MAYBE_UNUSED const cmd_info& info, MAYBE_UNUSED
     return false;
   }
 
-  auto functions = script::rs::discover_functions(code_memory_stream);
-  auto labels = script::rs::discover_labels(functions);
+  auto functions = script::discover_functions(code_memory_stream);
+  auto labels = script::discover_labels(functions);
 
   for (const auto& func : functions)
   {
@@ -633,7 +631,7 @@ static bool cmd_decompile_script(MAYBE_UNUSED const cmd_info& info, MAYBE_UNUSED
       // special case for strings
       // TODO: refactor this to be less icky
       // maybe rely on fmt a lot less
-      if (bytecode.inst.opcode == opcode::push && bytecode.inst.load_store_immediate.type == value_data_type::string)
+      if (bytecode.inst.opcode == script::opcode::push && bytecode.inst.load_store_immediate.type == script::value_data_type::string)
       {
         const auto citr = func.constants.find(bytecode.inst.load_store_immediate.data.str_);
         if (citr != func.constants.end())

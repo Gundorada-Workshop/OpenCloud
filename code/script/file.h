@@ -3,9 +3,9 @@
 
 #include "common/data_stream.h"
 
-#include "script/rs/bytecode.h"
+#include "script/bytecode.h"
 
-namespace script::rs
+namespace script
 {
   #pragma pack(push, 1)
   struct func_data_entry
