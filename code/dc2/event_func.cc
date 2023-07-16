@@ -206,7 +206,7 @@ static sint GetLocalCnt2(sint count)
   {
     if (EventLocalCnt[i] == count)
     {
-      return i;
+      return static_cast<sint>(i);
     }
   }
 
@@ -3580,7 +3580,7 @@ static bool _SET_SAVEDATA_ETC(script::stack_data* stack, MAYBE_UNUSED sint stack
         return false;
       }
 
-      save_data->m_unk_field_643C9 = GetStackInt(stack++);
+      save_data->m_unk_field_643C9 = static_cast<s8>(GetStackInt(stack++));
       return true;
     }
     case 4:
@@ -5641,7 +5641,7 @@ static bool _GET_NEXT_FLOOR(script::stack_data* stack, MAYBE_UNUSED sint stack_c
 
   sint i1 = GetStackInt(stack++);
   sint i2 = GetStackInt(stack++);
-  SetStack(stack++, EventScene->m_battle_area_scene.m_dng_floor_manager.GetDngMapNextFloorID(i1, i2));
+  SetStack(stack++, EventScene->m_battle_area_scene.m_dng_floor_manager.GetDngMapNextFloorID(static_cast<s8>(i1), static_cast<s8>(i2)));
   return true;
 }
 
@@ -6629,7 +6629,7 @@ static bool _SET_CHARA_DEFENCE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNU
 
   auto chara_data = save_data->m_user_data_manager.GetCharaDataPtr(chara_id);
 
-  chara_data->m_defense = defense;
+  chara_data->m_defense = static_cast<s16>(defense);
   return true;
 }
 

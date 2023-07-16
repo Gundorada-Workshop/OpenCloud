@@ -366,7 +366,7 @@ static bool _CAMERA_QUAKE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED s
   nowScene->m_battle_area_scene.m_unk_field_70 = f;
   sint i = GetStackInt(stack++);
   nowScene->m_battle_area_scene.m_unk_field_74 = f / static_cast<f32>(i);
-  nowScene->m_battle_area_scene.m_unk_field_78 = i;
+  nowScene->m_battle_area_scene.m_unk_field_78 = static_cast<s16>(i);
   return true;
 }
 
@@ -538,7 +538,7 @@ static bool _GET_RND(script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 
   // NOTE: Metrowerks does multiplication, then division, which likely results in a less precise result.
   // MSVC will likely reverse the operation for precision, but this likely won't cause any issues.
-  f32 max = GetStackInt(stack++);
+  f32 max = static_cast<f32>(GetStackInt(stack++));
   SetStack(stack++, static_cast<s32>(static_cast<f32>(rand()) * max / static_cast<f32>(common::constants::s32_max)));
   return true;
 }
@@ -753,7 +753,7 @@ static bool _SET_LOCKON_MODE(script::stack_data* stack, MAYBE_UNUSED sint stack_
   trace_script_call(stack, stack_count);
   VERIFY_STACK_COUNT(1);
 
-  nowScene->m_battle_area_scene.m_lockon_mode = GetStackInt(stack++);
+  nowScene->m_battle_area_scene.m_lockon_mode = static_cast<s16>(GetStackInt(stack++));
   return true;
 }
 

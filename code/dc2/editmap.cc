@@ -345,7 +345,7 @@ static f32 StandardPos(f32 f)
 {
   log_trace("{}({})", __func__, f);
 
-  f32 epsilon = (f > 0.0f) ? 0.001 : -0.001;
+  f32 epsilon = (f > 0.0f) ? 0.001f : -0.001f;
   return truncf(f + epsilon);
 }
 
@@ -444,7 +444,7 @@ sint CEditParts::GetLiveNPC() const
     return -1;
   }
 
-  return m_house->m_occupant_ids.front();
+  return static_cast<sint>(m_house->m_occupant_ids.front());
 }
 
 // 001B5A90
@@ -561,7 +561,7 @@ void CEditParts::CheckColorUpdate()
   {
     if (map_piece.m_material.size() > 0)
     {
-      m_n_material = std::max<sint>(map_piece.m_material.size(), m_n_material);
+      m_n_material = std::max(static_cast<sint>(map_piece.m_material.size()), m_n_material);
     }
   }
 }

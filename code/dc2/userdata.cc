@@ -2154,7 +2154,7 @@ bool CGameDataUsed::CopyDataAttach(ECommonItemData item_id)
       as.attach.m_properties[i] = attach_data->m_properties[i];
     }
 
-    as.attach.m_unk_field_1C = attach_data->m_unk_field_14;
+    as.attach.m_unk_field_1C = static_cast<s16>(attach_data->m_unk_field_14);
     as.attach.m_stack_num = 1;
   }
 
@@ -2245,9 +2245,9 @@ bool CGameDataUsed::CopyDataFish(ECommonItemData item_id)
 
   as.fish.m_unk_field_18 = static_cast<u16>((fish_data->m_unk_field_0 / 2.0 + GetRandF(30.0f)) - GetRandF(10.0f));
   as.fish.m_unk_field_1A = static_cast<u16>(400.0f + GetRandF(500.0f) + GetRandF(500.0f));
-  as.fish.m_unk_field_15 = GetRandI(2);
+  as.fish.m_unk_field_15 = static_cast<s8>(GetRandI(2));
   as.fish.m_unk_field_1C = GetRandI(4);
-  as.fish.m_unk_field_16 = GetRandI(4);
+  as.fish.m_unk_field_16 = static_cast<s8>(GetRandI(4));
   as.fish.m_hp = 100;
 
   as.fish.m_unk_field_24 = 0;
@@ -2257,12 +2257,12 @@ bool CGameDataUsed::CopyDataFish(ECommonItemData item_id)
   as.fish.m_unk_field_2A = fish_data->m_unk_field_E;
   as.fish.m_unk_field_2C = fish_data->m_unk_field_8;
 
-  as.fish.m_unk_field_36 = 200 + GetRandI(51);
+  as.fish.m_unk_field_36 = static_cast<s16>(200 + GetRandI(51));
 
   as.fish.m_unk_field_35 = 0;
   as.fish.m_unk_field_30 = 0;
   as.fish.m_unk_field_38 = 0;
-  as.fish.m_unk_field_3C = GetRandI(256);
+  as.fish.m_unk_field_3C = static_cast<s8>(GetRandI(256));
   as.fish.m_unk_field_3D = 0;
 
   return true;
@@ -2634,7 +2634,7 @@ s32 CUserDataManager::GetAbs(ECharacterID chara_id, ssize gage_index, s32* max_d
 
   if (max_dest != nullptr)
   {
-    *max_dest = gage->m_max;
+    *max_dest = static_cast<s32>(gage->m_max);
   }
 
   return static_cast<s32>(gage->m_current);
@@ -3375,7 +3375,7 @@ void CUserDataManager::AddYarikomiMedal(sint delta)
 {
   log_trace("CUserDataManager::{}({})", __func__, delta);
 
-  m_yarikomi_medal = std::clamp(m_yarikomi_medal + delta, 0, 999);
+  m_yarikomi_medal = std::clamp(static_cast<s16>(m_yarikomi_medal + delta), static_cast<s16>(0), static_cast<s16>(999));
 }
 
 // 0019DFE0

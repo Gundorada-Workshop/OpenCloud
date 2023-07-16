@@ -1985,7 +1985,7 @@ s32 CScene::SearchCharaID(ECharacterID chara_no)
 	{
 		if (GetCharaNo(i) == chara_no)
 		{
-			return i;
+			return static_cast<s32>(i);
 		}
 	}
 
