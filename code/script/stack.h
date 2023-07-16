@@ -3,7 +3,7 @@
 #include "common/debug.h"
 #include "common/strings.h"
 
-namespace script::rs
+namespace script
 {
   struct stack_data;
 
@@ -156,14 +156,14 @@ namespace script::rs
 }
 
 template<>
-struct fmt::formatter<script::rs::stack_data> : formatter<string_view>
+struct fmt::formatter<script::stack_data> : formatter<string_view>
 {
-  template<script::rs::stack_data_type type>
-  using fmt_traits = script::rs::stack_data_type_traits<type>;
+  template<script::stack_data_type type>
+  using fmt_traits = script::stack_data_type_traits<type>;
 
-  auto format(const script::rs::stack_data& data, format_context& ctx) const -> decltype(ctx.out())
+  auto format(const script::stack_data& data, format_context& ctx) const -> decltype(ctx.out())
   {
-    using enum script::rs::stack_data_type;
+    using enum script::stack_data_type;
 
     switch (data.type)
     {

@@ -6,8 +6,6 @@
 
 set_log_channel("run_script");
 
-using namespace script::rs;
-
 // 00186AE0
 void runerror(const char* msg)
 {
@@ -41,9 +39,9 @@ void stkunderflow()
 //}
 
 // 00186B90
-bool is_true(const stack_data& data)
+bool is_true(const script::stack_data& data)
 {
-  if (data.type == stack_data_type::_int)
+  if (data.type == script::stack_data_type::_int)
     return common::bits::to_bool(data._int);
 
   return true;
@@ -66,7 +64,7 @@ bool is_true(const stack_data& data)
 //}
 
 // 00186BF0
-void print(stack_data* data, usize amount)
+void print(script::stack_data* data, usize amount)
 {
   for (; amount > 0; --amount)
   {
@@ -95,7 +93,7 @@ void CRunScript::check_stack() const
 }
 
 // 00186D80
-void CRunScript::push(stack_data data)
+void CRunScript::push(script::stack_data data)
 {
   log_trace("CRunScript::{}({})", __func__, data);
 
@@ -113,7 +111,7 @@ void CRunScript::push_int(int data)
 
   check_stack();
 
-  m_stack_current->type = stack_data_type::_int;
+  m_stack_current->type = script::stack_data_type::_int;
   m_stack_current->_int = data;
 
   ++m_stack_current;
@@ -126,18 +124,18 @@ void CRunScript::push_str(char* data)
 
   check_stack();
 
-  m_stack_current->type = stack_data_type::_str;
+  m_stack_current->type = script::stack_data_type::_str;
   m_stack_current->_str = data;
 
   ++m_stack_current;
 }
 
 // 00186E70
-void CRunScript::push_ptr(stack_data* data)
+void CRunScript::push_ptr(script::stack_data* data)
 {
   log_trace("CRunScript::{}({})", __func__, fmt::ptr(data));
 
-  m_stack_current->type = stack_data_type::_ptr;
+  m_stack_current->type = script::stack_data_type::_ptr;
   m_stack_current->_ptr = data;
 
   ++m_stack_current;
@@ -148,14 +146,14 @@ void CRunScript::push_float(f32 data)
 {
   log_trace("CRunScript::{}({})", __func__, data);
 
-  m_stack_current->type = stack_data_type::_flt;
+  m_stack_current->type = script::stack_data_type::_flt;
   m_stack_current->_flt = data;
 
   ++m_stack_current;
 }
 
 // 00186F10
-stack_data CRunScript::pop()
+script::stack_data CRunScript::pop()
 {
   log_trace("CRunScript::{}()", __func__);
 
@@ -167,7 +165,7 @@ stack_data CRunScript::pop()
 }
 
 // 00186F30
-instruction* CRunScript::call_func(func_data_entry* func, instruction* return_address)
+script::instruction* CRunScript::call_func(script::func_data_entry* func, script::instruction* return_address)
 {
   log_trace("CRunScript::{}({}, {})", __func__, fmt::ptr(func), fmt::ptr(return_address));
 
@@ -193,18 +191,18 @@ instruction* CRunScript::call_func(func_data_entry* func, instruction* return_ad
   ++m_calldata_current;
 
   // Zero-Initialize our function stack frame (but not the arguments!)
-  stack_data* locals = m_function_stack_frame + func->argument_count;
-  memset(locals, 0, sizeof(stack_data) * (func->stack_byte_count - func->argument_count));
+  script::stack_data* locals = m_function_stack_frame + func->argument_count;
+  memset(locals, 0, sizeof(script::stack_data) * (func->stack_byte_count - func->argument_count));
 
   // Check for stack overflow
   check_stack();
 
   // Now return the address of the start of the function
-  return reinterpret_cast<instruction*>(static_cast<uptr>(m_script_data) + static_cast<uptr>(func->code_start_byte_offset));
+  return reinterpret_cast<script::instruction*>(static_cast<uptr>(m_script_data) + static_cast<uptr>(func->code_start_byte_offset));
 }
 
 // 00187020
-instruction* CRunScript::ret_func()
+script::instruction* CRunScript::ret_func()
 {
   log_trace("CRunScript::{}()", __func__);
 
@@ -219,7 +217,7 @@ instruction* CRunScript::ret_func()
 }
 
 // 00187050
-void CRunScript::ext(stack_data* stack_data, s32 stack_count)
+void CRunScript::ext(script::stack_data* stack_data, s32 stack_count)
 {
   log_trace("CRunScript::{}({}, {})", __func__, *stack_data, stack_count);
 
@@ -251,7 +249,7 @@ void CRunScript::ext(stack_data* stack_data, s32 stack_count)
 }
 
 // 001870F0
-void CRunScript::load(header* prog_header, stack_data* stack_buf, usize n_stack_buf, RS_CALLDATA* call_stack_buf, usize n_call_stack_buf)
+void CRunScript::load(script::header* prog_header, script::stack_data* stack_buf, usize n_stack_buf, RS_CALLDATA* call_stack_buf, usize n_call_stack_buf)
 {
   log_trace("CRunScript::{}({}, {}, {}, {}, {})", __func__, fmt::ptr(prog_header), fmt::ptr(stack_buf), n_stack_buf, fmt::ptr(call_stack_buf), n_call_stack_buf);
 
@@ -281,7 +279,7 @@ void CRunScript::load(header* prog_header, stack_data* stack_buf, usize n_stack_
     m_n_stack_buf -= prog_header->global_variable_count;
 
     // Zero-initialize global variables
-    memset(m_global_variables, 0, sizeof(stack_data) * prog_header->global_variable_count);
+    memset(m_global_variables, 0, sizeof(script::stack_data) * prog_header->global_variable_count);
   }
 }
 
@@ -322,16 +320,16 @@ sint CRunScript::run(s32 program_id)
   if (program_id < 0)
   {
     // Not sure what this is for? Script version 1 maybe? Doesn't seem valid for SB2...
-    m_current_funcdata = reinterpret_cast<func_data_entry*>(reinterpret_cast<uptr>(m_prog_header) + static_cast<uptr>(m_prog_header->unk0));
+    m_current_funcdata = reinterpret_cast<script::func_data_entry*>(reinterpret_cast<uptr>(m_prog_header) + static_cast<uptr>(m_prog_header->unk0));
   }
   else
   {
-    func_table_entry* func_list = reinterpret_cast<func_table_entry*>(reinterpret_cast<uptr>(m_prog_header) + static_cast<uptr>(m_prog_header->header_byte_count));
+    script::func_table_entry* func_list = reinterpret_cast<script::func_table_entry*>(reinterpret_cast<uptr>(m_prog_header) + static_cast<uptr>(m_prog_header->header_byte_count));
     for (usize i = 0; i < m_prog_header->function_count; ++i)
     {
       if (static_cast<s32>(func_list[i].id) == program_id)
       {
-        m_current_funcdata = reinterpret_cast<func_data_entry*>(static_cast<uptr>(func_list[i].function_data_byte_offset));
+        m_current_funcdata = reinterpret_cast<script::func_data_entry*>(static_cast<uptr>(func_list[i].function_data_byte_offset));
         break;
       }
     }
@@ -354,15 +352,15 @@ sint CRunScript::run(s32 program_id)
   check_stack();
 
   // Memset our function stack frame (but not the arguments)
-  stack_data* locals = m_function_stack_frame + m_current_funcdata->argument_count;
-  memset(locals, 0, sizeof(stack_data) * (m_current_funcdata->stack_byte_count - m_current_funcdata->argument_count));
+  script::stack_data* locals = m_function_stack_frame + m_current_funcdata->argument_count;
+  memset(locals, 0, sizeof(script::stack_data) * (m_current_funcdata->stack_byte_count - m_current_funcdata->argument_count));
 
   // Now let's run the program
   m_program_terminated = false;
   m_skip_flag = false;
   m_unk_field_50 = 0;
 
-  instruction* code = reinterpret_cast<instruction*>( // bet Rust won't let you do this
+  script::instruction* code = reinterpret_cast<script::instruction*>( // bet Rust won't let you do this
     // header
     reinterpret_cast<uptr>(m_prog_header) + 
     // data offset
@@ -382,7 +380,7 @@ bool CRunScript::check_program(s32 program_id)
   log_trace("CRunScript::{}({})", __func__, program_id);
 
   const auto addr = reinterpret_cast<uptr>(m_prog_header) + static_cast<uptr>(m_prog_header->header_byte_count);
-  const auto func_entries = reinterpret_cast<func_table_entry*>(addr);
+  const auto func_entries = reinterpret_cast<script::func_table_entry*>(addr);
 
   for (u32 i = 0; i < m_prog_header->function_count; ++i)
   {
@@ -405,7 +403,7 @@ void CRunScript::skip()
 }
 
 // 001873C0
-void CRunScript::exe(instruction* code)
+void CRunScript::exe(script::instruction* code)
 {
   log_trace("CRunScript::{}({})", __func__, fmt::ptr(code));
 
@@ -415,16 +413,16 @@ void CRunScript::exe(instruction* code)
   {
     switch (m_vmcode->opcode)
     {
-    case opcode::push_stack: // 00187414
+    case script::opcode::push_stack: // 00187414
     {
       const auto& encoding = code->load_store_relative;
 
       switch (code->load_store_relative.mode)
       {
-      case address_mode::frame_relative: // 187468
+      case script::address_mode::frame_relative: // 187468
         push(m_function_stack_frame[encoding.address]);
         break;
-      case address_mode::frame_offset: // 1874B4
+      case script::address_mode::frame_offset: // 1874B4
       {
         const auto offset = pop();
 
@@ -433,7 +431,7 @@ void CRunScript::exe(instruction* code)
         push(m_function_stack_frame[encoding.address + offset._int]);
         break;
       }
-      case address_mode::data_offset: // 1874FC
+      case script::address_mode::data_offset: // 1874FC
       {
         const auto offset = pop();
 
@@ -442,44 +440,44 @@ void CRunScript::exe(instruction* code)
         push(*(m_function_stack_frame[encoding.address]._ptr + offset._int));
         break;
       }
-      case address_mode::frame_relative_flt: // 187548
+      case script::address_mode::frame_relative_flt: // 187548
       {
         // 187548
-        m_function_stack_frame[encoding.address].type = stack_data_type::_flt;
+        m_function_stack_frame[encoding.address].type = script::stack_data_type::_flt;
         push(m_function_stack_frame[encoding.address]);
         break;
       }
-      case address_mode::frame_offset_flt: // 1875C8
+      case script::address_mode::frame_offset_flt: // 1875C8
       {
         const auto offset = pop();
 
         assert_panic(check_type_int(offset));
 
         auto data = &m_function_stack_frame[encoding.address];
-        (data + offset._int)->type = stack_data_type::_flt;
+        (data + offset._int)->type = script::stack_data_type::_flt;
 
         push(*data);
         break;
       }
-      case address_mode::data_offset_flt: // 187630
+      case script::address_mode::data_offset_flt: // 187630
       {
         const auto offset = pop();
 
         assert_panic(check_type_int(offset));
 
         auto data = &m_function_stack_frame[encoding.address];
-        (data->_ptr + offset._int)->type = stack_data_type::_flt;
+        (data->_ptr + offset._int)->type = script::stack_data_type::_flt;
 
         push(*data);
         break;
       }
-      case address_mode::global_relative: // 18748C SB2 only!
+      case script::address_mode::global_relative: // 18748C SB2 only!
         push(m_global_variables[encoding.address]);
         break;
-      case address_mode::global_relative_flt: // 187588 SB2 only!
+      case script::address_mode::global_relative_flt: // 187588 SB2 only!
       {
         auto data = m_global_variables[encoding.address];
-        data.type = stack_data_type::_flt;
+        data.type = script::stack_data_type::_flt;
 
         push(data);
         break;
@@ -489,48 +487,48 @@ void CRunScript::exe(instruction* code)
       }
       break;
     }
-    case opcode::push_pointer:
+    case script::opcode::push_pointer:
     {
       const auto& encoding = code->load_store_relative;
 
       // 001876A0
       switch (code->load_store_relative.mode)
       {
-      case address_mode::frame_relative: // 1876F0
-      case address_mode::frame_relative_flt: // 1877C0
+      case script::address_mode::frame_relative: // 1876F0
+      case script::address_mode::frame_relative_flt: // 1877C0
         push_ptr(m_function_stack_frame + encoding.address);
         break;
-      case address_mode::frame_offset: // 187730
-      case address_mode::frame_offset_flt: // 187800
+      case script::address_mode::frame_offset: // 187730
+      case script::address_mode::frame_offset_flt: // 187800
       {
         const auto offset = pop();
 
         assert_panic(check_type_int(offset));
 
         const auto addr = reinterpret_cast<uptr>(m_function_stack_frame + encoding.address);
-        const auto ptr = reinterpret_cast<stack_data*>(addr + offset._int);
+        const auto ptr = reinterpret_cast<script::stack_data*>(addr + offset._int);
 
         push_ptr(ptr);
         break;
       }
-      case address_mode::data_offset: // 187774
-      case address_mode::data_offset_flt: // 187844
+      case script::address_mode::data_offset: // 187774
+      case script::address_mode::data_offset_flt: // 187844
       {
         const auto offset = pop();
 
         assert_panic(check_type_int(offset));
 
         const auto addr = reinterpret_cast<uptr>((m_function_stack_frame + encoding.address)->_ptr);
-        const auto ptr = reinterpret_cast<stack_data*>(addr + offset._int);
+        const auto ptr = reinterpret_cast<script::stack_data*>(addr + offset._int);
 
         push_ptr(ptr);
         break;
       }
-      case address_mode::global_relative: // 187710
-      case address_mode::global_relative_flt: // 1877E0
+      case script::address_mode::global_relative: // 187710
+      case script::address_mode::global_relative_flt: // 1877E0
       {
-        const auto addr = reinterpret_cast<uptr>(m_global_variables) + (encoding.address * sizeof(stack_data));
-        const auto ptr = reinterpret_cast<stack_data*>(addr);
+        const auto addr = reinterpret_cast<uptr>(m_global_variables) + (encoding.address * sizeof(script::stack_data));
+        const auto ptr = reinterpret_cast<script::stack_data*>(addr);
 
         push_ptr(ptr);
         break;
@@ -538,19 +536,19 @@ void CRunScript::exe(instruction* code)
       }
       break;
     }
-    case opcode::push: // 001878E8
+    case script::opcode::push: // 001878E8
     {
       const auto& encoding = code->load_store_immediate;
 
       switch (encoding.type)
       {
-      case value_data_type::integer:
+      case script::value_data_type::integer:
         push_int(encoding.data.int_);
         break;
-      case value_data_type::floating_point:
+      case script::value_data_type::floating_point:
         push_float(encoding.data.flt_);
         break;
-      case value_data_type::string:
+      case script::value_data_type::string:
       {
         const auto addr = static_cast<uptr>(m_script_data) + static_cast<uptr>(encoding.data.str_);
         const auto str = reinterpret_cast<char*>(addr);
@@ -563,10 +561,10 @@ void CRunScript::exe(instruction* code)
       }
       break;
     }
-    case opcode::pop: // 00187958
+    case script::opcode::pop: // 00187958
       pop();
       break;
-    case opcode::deference_pointer: // 00187890
+    case script::opcode::deference_pointer: // 00187890
     {
       // NOTE: an intermediate variable, var_130, is used here, but I don't think it's necessary
       auto val = pop();
@@ -578,7 +576,7 @@ void CRunScript::exe(instruction* code)
       push(val);
       break;
     }
-    case opcode::add: // 00187D00
+    case script::opcode::add: // 00187D00
     {
       auto rhs = pop();
       auto lhs = pop();
@@ -591,20 +589,20 @@ void CRunScript::exe(instruction* code)
         const auto left = extract_int(lhs);
         const auto right = extract_int(rhs);
 
-        lhs = stack_data::from(left + right);
+        lhs = script::stack_data::from(left + right);
       }
       else
       {
         const auto left = extract_flt(lhs);
         const auto right = extract_flt(rhs);
 
-        lhs = stack_data::from(left + right);
+        lhs = script::stack_data::from(left + right);
       }
 
       push(lhs);
       break;
     }
-    case opcode::sub: // 00187E30
+    case script::opcode::sub: // 00187E30
     {
       auto rhs = pop();
       auto lhs = pop();
@@ -617,21 +615,21 @@ void CRunScript::exe(instruction* code)
         const auto left = extract_int(lhs);
         const auto right = extract_int(rhs);
 
-        lhs = stack_data::from(left - right);
+        lhs = script::stack_data::from(left - right);
       }
       else
       {
         const auto left = extract_flt(lhs);
         const auto right = extract_flt(rhs);
 
-        lhs = stack_data::from(left - right);
+        lhs = script::stack_data::from(left - right);
       }
 
       push(lhs);
 
       break;
     }
-    case opcode::mul: // 00187F60
+    case script::opcode::mul: // 00187F60
     {
       auto rhs = pop();
       auto lhs = pop();
@@ -644,20 +642,20 @@ void CRunScript::exe(instruction* code)
         const auto left = extract_int(lhs);
         const auto right = extract_int(rhs);
 
-        lhs = stack_data::from(left * right);
+        lhs = script::stack_data::from(left * right);
       }
       else
       {
         const auto left = extract_flt(lhs);
         const auto right = extract_flt(rhs);
 
-        lhs = stack_data::from(left * right);
+        lhs = script::stack_data::from(left * right);
       }
 
       push(lhs);
       break;
     }
-    case opcode::div: // 00188090
+    case script::opcode::div: // 00188090
     {
       auto rhs = pop();
       auto lhs = pop();
@@ -672,7 +670,7 @@ void CRunScript::exe(instruction* code)
 
         assert_panic(right != 0);
 
-        lhs = stack_data::from(left / right);
+        lhs = script::stack_data::from(left / right);
       }
       else
       {
@@ -681,13 +679,13 @@ void CRunScript::exe(instruction* code)
 
         assert_panic(right != 0.0f);
 
-        lhs = stack_data::from(left / right);
+        lhs = script::stack_data::from(left / right);
       }
 
       push(lhs);
       break;
     }
-    case opcode::mod: // 00188208
+    case script::opcode::mod: // 00188208
     {
       auto rhs = pop();
       auto lhs = pop();
@@ -700,12 +698,12 @@ void CRunScript::exe(instruction* code)
 
       assert_panic(right != 0);
 
-      lhs = stack_data::from(left % right);
+      lhs = script::stack_data::from(left % right);
 
       push(lhs);
       break;
     }
-    case opcode::neg: // 00188300
+    case script::opcode::neg: // 00188300
     {
       auto lhs = pop();
 
@@ -714,42 +712,42 @@ void CRunScript::exe(instruction* code)
       if (check_type_int(lhs))
       {
         const auto left = extract_int(lhs);
-        lhs = stack_data::from(common::math::negate(left));
+        lhs = script::stack_data::from(common::math::negate(left));
       }
       else
       {
         const auto left = extract_flt(lhs);
-        lhs = stack_data::from(common::math::negate(left));
+        lhs = script::stack_data::from(common::math::negate(left));
       }
 
       push(lhs);
       break;
     }
-    case opcode::int_to_float: // 00188550
+    case script::opcode::int_to_float: // 00188550
     {
       auto lhs = pop();
 
       assert_panic(check_type_number(lhs));
 
       const auto left = extract_flt(lhs);
-      lhs = stack_data::from(left);
+      lhs = script::stack_data::from(left);
 
       push(lhs);
       break;
     }
-    case opcode::float_to_int: // 001885E0
+    case script::opcode::float_to_int: // 001885E0
     {
       auto lhs = pop();
 
       assert_panic(check_type_number(lhs));
 
       const auto left = extract_flt(lhs);
-      lhs = stack_data::from(left);
+      lhs = script::stack_data::from(left);
 
       push(lhs);
       break;
     }
-    case opcode::compare: // 00187A38
+    case script::opcode::compare: // 00187A38
     {
       const auto& encoding = code->comparison;
 
@@ -768,22 +766,22 @@ void CRunScript::exe(instruction* code)
 
         switch (encoding.function)
         {
-        case comparison_function::equal:
+        case script::comparison_function::equal:
           result = (lVal == rVal);
           break;
-        case comparison_function::not_equal:
+        case script::comparison_function::not_equal:
           result = (lVal != rVal);
           break;
-        case comparison_function::less_than:
+        case script::comparison_function::less_than:
           result = (lVal < rVal);
           break;
-        case comparison_function::less_than_equal:
+        case script::comparison_function::less_than_equal:
           result = (lVal <= rVal);
           break;
-        case comparison_function::greater_than:
+        case script::comparison_function::greater_than:
           result = (lVal > rVal);
           break;
-        case comparison_function::greater_than_equal:
+        case script::comparison_function::greater_than_equal:
           result = (lVal >= rVal);
           break;
         default:
@@ -797,22 +795,22 @@ void CRunScript::exe(instruction* code)
 
         switch (encoding.function)
         {
-        case comparison_function::equal:
+        case script::comparison_function::equal:
           result = (lVal == rVal);
           break;
-        case comparison_function::not_equal:
+        case script::comparison_function::not_equal:
           result = (lVal != rVal);
           break;
-        case comparison_function::less_than:
+        case script::comparison_function::less_than:
           result = (lVal < rVal);
           break;
-        case comparison_function::less_than_equal:
+        case script::comparison_function::less_than_equal:
           result = (lVal <= rVal);
           break;
-        case comparison_function::greater_than:
+        case script::comparison_function::greater_than:
           result = (lVal > rVal);
           break;
-        case comparison_function::greater_than_equal:
+        case script::comparison_function::greater_than_equal:
           result = (lVal >= rVal);
           break;
         default:
@@ -823,7 +821,7 @@ void CRunScript::exe(instruction* code)
       }
       break;
     }
-    case opcode::return_: // 0018871C
+    case script::opcode::return_: // 0018871C
     {
       auto return_value = pop();
 
@@ -843,19 +841,19 @@ void CRunScript::exe(instruction* code)
       push(return_value);
       break;
     }
-    case opcode::jump: // 00187968
+    case script::opcode::jump: // 00187968
     {
       const auto& encoding = code->jump;
 
       if (!m_skip_flag)
       {
         const auto addr = static_cast<uptr>(m_script_data);
-        m_vmcode = reinterpret_cast<instruction*>(addr + encoding.address);
+        m_vmcode = reinterpret_cast<script::instruction*>(addr + encoding.address);
       }
 
       break;
     }
-    case opcode::branch_false: // 001879E0
+    case script::opcode::branch_false: // 001879E0
     {
       const auto& encoding = code->conditional_branch;
 
@@ -864,14 +862,14 @@ void CRunScript::exe(instruction* code)
       if (m_skip_flag || is_true(lhs))
         break;
 
-      if (encoding.restore_flag == test_flag_mode::preserve)
+      if (encoding.restore_flag == script::test_flag_mode::preserve)
         push_int(false);
 
       const auto addr = static_cast<uptr>(m_script_data);
-      m_vmcode = reinterpret_cast<instruction*>(addr + encoding.address);
+      m_vmcode = reinterpret_cast<script::instruction*>(addr + encoding.address);
       break;
     }
-    case opcode::branch_true: // 00187988
+    case script::opcode::branch_true: // 00187988
     {
       const auto& encoding = code->conditional_branch;
 
@@ -880,25 +878,25 @@ void CRunScript::exe(instruction* code)
       if (m_skip_flag || !is_true(lhs))
         break;
 
-      if (encoding.restore_flag == test_flag_mode::preserve)
+      if (encoding.restore_flag == script::test_flag_mode::preserve)
         push_int(true);
 
       const auto addr = static_cast<uptr>(m_script_data);
-      m_vmcode = reinterpret_cast<instruction*>(addr + encoding.address);
+      m_vmcode = reinterpret_cast<script::instruction*>(addr + encoding.address);
       break;
     }
-    case opcode::call: // 001886F0
+    case script::opcode::call: // 001886F0
     {
       const auto& encoding = code->jump;
 
-      func_data_entry* fn = reinterpret_cast<func_data_entry*>(static_cast<uptr>(m_script_data) + encoding.address);
+      script::func_data_entry* fn = reinterpret_cast<script::func_data_entry*>(static_cast<uptr>(m_script_data) + encoding.address);
         
       // call_func returns the address of the code at the start of the function;
       // we have to decrement it once, since the loop will increment it at the end.
       m_vmcode = call_func(fn, code) - 1;
       break;
     }
-    case opcode::print: // 00188670
+    case script::opcode::print: // 00188670
     {
       const auto& encoding = code->single_integer;
 
@@ -906,7 +904,7 @@ void CRunScript::exe(instruction* code)
       print(m_stack_current, encoding.value);
       break;
     }
-    case opcode::extended_function: // 0018869C
+    case script::opcode::extended_function: // 0018869C
     {
       const auto& encoding = code->single_integer;
 
@@ -917,7 +915,7 @@ void CRunScript::exe(instruction* code)
 
       break;
     }
-    case opcode::yield: // 001887A8
+    case script::opcode::yield: // 001887A8
     {
       if (!m_skip_flag)
       {
@@ -927,7 +925,7 @@ void CRunScript::exe(instruction* code)
 
       break;
     }
-    case opcode::and_: // 00188270
+    case script::opcode::and_: // 00188270
     {
       const auto rhs = pop();
       const auto lhs = pop();
@@ -938,7 +936,7 @@ void CRunScript::exe(instruction* code)
       push_int(lhs._int & rhs._int);
       break;
     }
-    case opcode::or_: // 001882B8
+    case script::opcode::or_: // 001882B8
     {
       const auto rhs = pop();
       const auto lhs = pop();
@@ -949,7 +947,7 @@ void CRunScript::exe(instruction* code)
       push_int(lhs._int | rhs._int);
       break;
     }
-    case opcode::not_: // 001884D8
+    case script::opcode::not_: // 001884D8
     {
       const auto lhs = pop();
 
@@ -960,12 +958,12 @@ void CRunScript::exe(instruction* code)
       push_int(static_cast<sint>(value));
       break;
     }
-    case opcode::exit: // 001886DC
+    case script::opcode::exit: // 001886DC
       m_program_terminated = true;
       m_vmcode = nullptr;
 
       return;
-    case opcode::unknown_1: // 001887BC
+    case script::opcode::unknown_1: // 001887BC
       ++m_unk_field_50;
 
       if (!m_skip_flag)
@@ -975,7 +973,7 @@ void CRunScript::exe(instruction* code)
       m_vmcode += 1;
 
       return;
-    case opcode::sin: // 00188398
+    case script::opcode::sin: // 00188398
     {
       const auto lhs = pop();
 
@@ -991,7 +989,7 @@ void CRunScript::exe(instruction* code)
       push_float(result);
       break;
     }
-    case opcode::cos: // 00188438
+    case script::opcode::cos: // 00188438
     {
       const auto lhs = pop();
 
@@ -1007,8 +1005,8 @@ void CRunScript::exe(instruction* code)
       push_float(result);
       break;
     }
-    case opcode::end:
-    case opcode::unknown_0:
+    case script::opcode::end:
+    case script::opcode::unknown_0:
     default: // 00187C08
       break;
     }

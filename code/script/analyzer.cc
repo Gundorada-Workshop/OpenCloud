@@ -3,7 +3,7 @@
 #include "script/file.h"
 #include "script/analyzer.h"
 
-namespace script::rs
+namespace script
 {
   using namespace common;
 

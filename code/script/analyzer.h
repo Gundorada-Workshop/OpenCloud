@@ -7,10 +7,11 @@
 #include "common/bits.h"
 #include "common/strings.h"
 #include "common/data_stream.h"
+#include "common/helpers.h"
 
 #include "script/bytecode.h"
 
-namespace script::rs
+namespace script
 {
   using stream = std::unique_ptr<common::memory_stream_base>;
   
@@ -53,20 +54,18 @@ namespace script::rs
 }
 
 template<>
-struct fmt::formatter<script::rs::label_type> : formatter<string_view>
+struct fmt::formatter<script::label_type> : formatter<string_view>
 {
-  auto format(script::rs::label_type type, format_context& ctx) const -> decltype(ctx.out())
+  auto format(script::label_type type, format_context& ctx) const -> decltype(ctx.out())
   {
-    using enum script::rs::label_type;
-
-    static constexpr std::array<string_view, std::to_underlying(count)> table =
+    static constexpr std::array<string_view, common::to_underlying(script::label_type::count)> table =
     {
       "loc",
       "fun",
       "str"
     };
 
-    if (type > count)
+    if (type > script::label_type::count)
       ctx.on_error("Label type out of bounds");
 
     return formatter<string_view>::format(table[std::to_underlying(type)], ctx);
@@ -74,9 +73,9 @@ struct fmt::formatter<script::rs::label_type> : formatter<string_view>
 };
 
 template<>
-struct fmt::formatter<script::rs::label_entry> : formatter<string_view>
+struct fmt::formatter<script::label_entry> : formatter<string_view>
 {
-  auto format(const script::rs::label_entry& label, format_context& ctx) const -> decltype(ctx.out())
+  auto format(const script::label_entry& label, format_context& ctx) const -> decltype(ctx.out())
   {
     return fmt::format_to(ctx.out(), "{}_{:06x}:", label.type, label.address);
   }
