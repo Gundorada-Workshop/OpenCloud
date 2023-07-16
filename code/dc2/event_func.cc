@@ -178,7 +178,7 @@ static std::array<sint, 64> EventLocalCnt{ 0 };
 // 002610D0
 sint GetLocalCnt(ssize index) // Not static as it's used by ClsMes apparently
 {
-  if (index < 0 || index >= EventLocalCnt.size())
+  if (index < 0 || index >= static_cast<ssize>(EventLocalCnt.size()))
   {
     return -1;
   }
@@ -189,7 +189,7 @@ sint GetLocalCnt(ssize index) // Not static as it's used by ClsMes apparently
 // 00261110
 static bool SetLocalCnt(ssize index, sint value)
 {
-  if (index < 0 || index >= EventLocalCnt.size())
+  if (index < 0 || index >= static_cast<ssize>(EventLocalCnt.size()))
   {
     return false;
   }

@@ -372,7 +372,7 @@ void PrintCursor(char* buffer, usize index)
 {
   log_trace("{}()", __func__);
 
-  if (index == Select)
+  if (static_cast<ssize>(index) == Select)
   {
     sprintf(buffer, "->");
   }

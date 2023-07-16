@@ -319,7 +319,7 @@ EditPartsMaterial* CEditPartsInfo::GetMaterial(ssize index)
 {
   log_trace("CEditPartsInfo::{}({})", __func__, index);
 
-  if (index < 0 || index >= m_material.size())
+  if (index < 0 || index >= static_cast<ssize>(m_material.size()))
   {
     return nullptr;
   }
@@ -599,7 +599,7 @@ CEditPartsInfo* CEditInfoMngr::GetePartsInfo(ssize index)
 {
   log_trace("CEditInfoMngr::{}({})", __func__, index);
 
-  if (index < 0 || index >= m_eparts_info.size())
+  if (index < 0 || index >= static_cast<ssize>(m_eparts_info.size()))
   {
     return nullptr;
   }

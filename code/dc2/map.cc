@@ -592,7 +592,7 @@ PieceMaterial* CMapPiece::GetMaterial(ssize index)
 {
   log_trace("CMapPiece::{}({})", __func__, index);
 
-  if (index < 0 || index > m_material.size())
+  if (index < 0 || index > static_cast<ssize>(m_material.size()))
   {
     return nullptr;
   }
@@ -1243,7 +1243,7 @@ CPartsGroup* CMap::GetPartsGroup(ssize index)
 {
   log_trace("CMap::{}({})", __func__, index);
 
-  if (index < 0 || index >= m_parts_group_buf.size())
+  if (index < 0 || index >= static_cast<ssize>(m_parts_group_buf.size()))
   {
     return nullptr;
   }
