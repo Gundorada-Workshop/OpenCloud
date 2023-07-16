@@ -1,5 +1,6 @@
 #include "common/log.h"
 #include "common/debug.h"
+#include "common/macros.h"
 
 #include "dc2/character.h"
 #include "dc2/mg/mg_lib.h"
@@ -19,7 +20,7 @@ CScene* nowScene{ nullptr };
 //}
 
 // 00172DE0
-void CCharacter2::SetPosition(f32 x, f32 y, f32 z)
+void CCharacter2::SetPosition(MAYBE_UNUSED f32 x, MAYBE_UNUSED f32 y, MAYBE_UNUSED f32 z)
 {
   log_trace("CCharacter2::{}({}, {}, {})", __func__, x, y, z);
 
@@ -477,7 +478,7 @@ void CCharacter2::StepDA(s32 steps)
 //}
 
 // 00174AD0
-CHRINFO_KEY_SET* CCharacter2::GetKeyListPtr(std::string key_name, s32* index_dest)
+CHRINFO_KEY_SET* CCharacter2::GetKeyListPtr(MAYBE_UNUSED std::string key_name, MAYBE_UNUSED s32* index_dest)
 {
   log_trace("CCharacter2::{}()", __func__);
 
@@ -720,7 +721,7 @@ void CActionChara::StepEffect()
 
 // if you call either of these instead of creating/using a constructor/copy constructor I'll keelhaul you
 // 001720E0
-void CActionChara::Initialize(mgCMemory* memory)
+void CActionChara::Initialize(MAYBE_UNUSED mgCMemory* memory)
 {
   log_trace("CActionChara::{}()", __func__);
 
@@ -728,7 +729,7 @@ void CActionChara::Initialize(mgCMemory* memory)
 }
 
 // 00172380
-void CActionChara::Copy(CActionChara& other, mgCMemory* memory)
+void CActionChara::Copy(MAYBE_UNUSED CActionChara& other, MAYBE_UNUSED mgCMemory* memory)
 {
   log_trace("CActionChara::{}()", __func__);
 
@@ -768,7 +769,7 @@ void CActionChara::CheckRunEvent()
 }
 
 // 0016A4E0
-void CActionChara::SetMaskFlag(u32 mask, bool active)
+void CActionChara::SetMaskFlag(MAYBE_UNUSED u32 mask, MAYBE_UNUSED bool active)
 {
   log_trace("CActionChara::{}({}, {})", __func__, mask, active);
 
@@ -776,7 +777,7 @@ void CActionChara::SetMaskFlag(u32 mask, bool active)
 }
 
 // 0016A510
-unkptr CActionChara::EntryObject(std::string frame_name, ssize i)
+unkptr CActionChara::EntryObject(MAYBE_UNUSED std::string frame_name, MAYBE_UNUSED ssize i)
 {
   log_trace("CActionChara::{}({}, {})", __func__, frame_name, i);
 
@@ -793,7 +794,7 @@ void CActionChara::CalcCollision()
 }
 
 // 0016A620
-unkptr CActionChara::EntryBodyCol(ssize i, f32 f)
+unkptr CActionChara::EntryBodyCol(MAYBE_UNUSED ssize i, MAYBE_UNUSED f32 f)
 {
   log_trace("CActionChara::{}({}, {})", __func__, i, f);
 
@@ -802,7 +803,9 @@ unkptr CActionChara::EntryBodyCol(ssize i, f32 f)
 }
 
 // 0016A6B0
-COLLISION_INFO* CActionChara::EntryDamage2(std::string s1, std::string s2, std::string s3, f32 f1, std::string s4, f32 f2, f32 f3, std::string s5)
+COLLISION_INFO* CActionChara::EntryDamage2(MAYBE_UNUSED std::string s1, MAYBE_UNUSED std::string s2, MAYBE_UNUSED std::string s3,
+                                           MAYBE_UNUSED f32 f1, MAYBE_UNUSED std::string s4, MAYBE_UNUSED f32 f2, MAYBE_UNUSED f32 f3,
+                                           MAYBE_UNUSED std::string s5)
 {
   log_trace("CActionChara::{}({}, {}, {}, {}, {}, {}, {}, {})", __func__, s1, s2, s3, f1, s4, f2, f3, s5);
 
@@ -811,7 +814,9 @@ COLLISION_INFO* CActionChara::EntryDamage2(std::string s1, std::string s2, std::
 }
 
 // 0016A850
-COLLISION_INFO* CActionChara::EntryDamage2(mgCFrame* frame1, mgCFrame* frame2, std::string s3, f32 f1, std::string s4, f32 f2, f32 f3, std::string s5)
+COLLISION_INFO* CActionChara::EntryDamage2(MAYBE_UNUSED mgCFrame* frame1, MAYBE_UNUSED mgCFrame* frame2, MAYBE_UNUSED std::string s3,
+                                           MAYBE_UNUSED f32 f1, MAYBE_UNUSED std::string s4, MAYBE_UNUSED f32 f2, MAYBE_UNUSED f32 f3,
+                                           MAYBE_UNUSED std::string s5)
 {
   log_trace("CActionChara::{}({}, {}, {}, {}, {}, {}, {}, {})", __func__, fmt::ptr(frame1), fmt::ptr(frame2), s3, f1, s4, f2, f3, s5);
 
@@ -845,7 +850,7 @@ void CActionChara::SetSoundInfoCopy()
 }
 
 // 0016AC60
-bool CActionChara::CheckKeri(std::string frame_name, bool b)
+bool CActionChara::CheckKeri(MAYBE_UNUSED std::string frame_name, MAYBE_UNUSED bool b)
 {
   log_trace("CActionChara::{}({})", __func__, frame_name, b);
 
@@ -854,7 +859,7 @@ bool CActionChara::CheckKeri(std::string frame_name, bool b)
 }
 
 // 0016AD30
-bool CActionChara::CheckEnemyCatch(std::string frame_name)
+bool CActionChara::CheckEnemyCatch(MAYBE_UNUSED std::string frame_name)
 {
   log_trace("CActionChara::{}({})", __func__, frame_name);
 
@@ -896,7 +901,7 @@ void CActionChara::RemoveThrowItem()
 }
 
 // 0016B420
-f32 CActionChara::GetNowFrameWait(std::string key_name) const
+f32 CActionChara::GetNowFrameWait(MAYBE_UNUSED std::string key_name) const
 {
   log_trace("CActionChara::{}({})", __func__, key_name);
 
@@ -932,7 +937,7 @@ f32 CActionChara::GetWaitToFrame(MAYBE_UNUSED std::string key_name)
 }
 
 // 0016BC90
-CActionChara* CActionChara::SearchChara(std::string chara_name)
+CActionChara* CActionChara::SearchChara(MAYBE_UNUSED std::string chara_name)
 {
   log_trace("CActionChara::{}({})", __func__, chara_name);
 
@@ -958,7 +963,7 @@ void CActionChara::ResetParent()
 }
 
 // 0016BD90
-bool CActionChara::SetRef(CActionChara* parent_chara, std::string frame_name)
+bool CActionChara::SetRef(MAYBE_UNUSED CActionChara* parent_chara, MAYBE_UNUSED std::string frame_name)
 {
   log_trace("CActionChara::{}({}, {})", __func__, fmt::ptr(parent_chara), frame_name);
 
@@ -967,7 +972,7 @@ bool CActionChara::SetRef(CActionChara* parent_chara, std::string frame_name)
 }
 
 // 0016BE50
-f32 CActionChara::GetTargetDist(CScene* scene)
+f32 CActionChara::GetTargetDist(MAYBE_UNUSED CScene* scene)
 {
   log_trace("CActionChara::{}({})", __func__, fmt::ptr(scene));
 
@@ -1018,7 +1023,7 @@ void CActionChara::HumanChargeUpMoveIF()
 }
 
 // 0016DAA0
-void CActionChara::HumanGunMoveIF(std::string key_name1, std::string key_name2)
+void CActionChara::HumanGunMoveIF(MAYBE_UNUSED std::string key_name1, MAYBE_UNUSED std::string key_name2)
 {
   log_trace("CActionChara::{}({}, {})", __func__, key_name1, key_name2);
 
@@ -1026,7 +1031,7 @@ void CActionChara::HumanGunMoveIF(std::string key_name1, std::string key_name2)
 }
 
 // 0016DD80
-void CActionChara::RoboWalkMoveIF(sint i)
+void CActionChara::RoboWalkMoveIF(MAYBE_UNUSED sint i)
 {
   log_trace("CActionChara::{}({})", __func__, i);
 
@@ -1034,7 +1039,7 @@ void CActionChara::RoboWalkMoveIF(sint i)
 }
 
 // 0016E2A0
-void CActionChara::RoboTankMoveIF(sint i)
+void CActionChara::RoboTankMoveIF(MAYBE_UNUSED sint i)
 {
   log_trace("CActionChara::{}({})", __func__, i);
 
@@ -1042,7 +1047,7 @@ void CActionChara::RoboTankMoveIF(sint i)
 }
 
 // 0016E9F0
-void CActionChara::RoboBikeMoveIF(sint i)
+void CActionChara::RoboBikeMoveIF(MAYBE_UNUSED sint i)
 {
   log_trace("CActionChara::{}({})", __func__, i);
 
@@ -1050,7 +1055,7 @@ void CActionChara::RoboBikeMoveIF(sint i)
 }
 
 // 0016F330
-void CActionChara::RoboAirMoveIF(sint i1, sint i2)
+void CActionChara::RoboAirMoveIF(MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2)
 {
   log_trace("CActionChara::{}({}, {})", __func__, i1, i2);
 
@@ -1075,7 +1080,7 @@ bool CActionChara::CheckDamage()
 }
 
 // 001710C0
-void CActionChara::LoadActionFile(char* c, int i, mgCMemory* memory)
+void CActionChara::LoadActionFile(MAYBE_UNUSED char* c, MAYBE_UNUSED int i, MAYBE_UNUSED mgCMemory* memory)
 {
   log_trace("CActionChara::{}({}, {}, {})", __func__, fmt::ptr(c), i, fmt::ptr(memory));
 
@@ -1091,7 +1096,7 @@ void CActionChara::InitScript()
 }
 
 // 00171210
-void CActionChara::RunScript(CScene* scene, RUN_SCRIPT_ENV* script_env)
+void CActionChara::RunScript(MAYBE_UNUSED CScene* scene, MAYBE_UNUSED RUN_SCRIPT_ENV* script_env)
 {
   log_trace("CActionChara::{}({}, {})", __func__, fmt::ptr(scene), fmt::ptr(script_env));
 
@@ -1100,7 +1105,7 @@ void CActionChara::RunScript(CScene* scene, RUN_SCRIPT_ENV* script_env)
 
 // 001719C0
 // "CheckReleaseTimming"
-s16 CActionChara::CheckReleaseTiming(sint i)
+s16 CActionChara::CheckReleaseTiming(MAYBE_UNUSED sint i)
 {
   log_trace("CActionChara::{}({})", __func__, i);
 

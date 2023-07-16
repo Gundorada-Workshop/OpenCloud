@@ -592,7 +592,7 @@ PieceMaterial* CMapPiece::GetMaterial(ssize index)
 {
   log_trace("CMapPiece::{}({})", __func__, index);
 
-  if (index < 0 || index > m_material.size())
+  if (index < 0 || index > static_cast<ssize>(m_material.size()))
   {
     return nullptr;
   }
@@ -720,7 +720,7 @@ void CMapParts::Step()
 }
 
 // 00167970
-void CMapParts::AnimeStep(CFuncPointCheck* point_check, CObjAnimeEnv* anime_env)
+void CMapParts::AnimeStep(MAYBE_UNUSED CFuncPointCheck* point_check, MAYBE_UNUSED CObjAnimeEnv* anime_env)
 {
   log_trace("CMapParts::{}()", __func__);
 
@@ -1243,7 +1243,7 @@ CPartsGroup* CMap::GetPartsGroup(ssize index)
 {
   log_trace("CMap::{}({})", __func__, index);
 
-  if (index < 0 || index >= m_parts_group_buf.size())
+  if (index < 0 || index >= static_cast<ssize>(m_parts_group_buf.size()))
   {
     return nullptr;
   }
@@ -1476,7 +1476,7 @@ void CMap::CreateFuncCheck(CFuncPointCheck* point_check)
 //}
 
 // 0015DBE0
-usize CMap::GetCharaLight(mgCObject* object, CFuncPoint* func_point, sint i1, sint i2)
+usize CMap::GetCharaLight(MAYBE_UNUSED mgCObject* object, MAYBE_UNUSED CFuncPoint* func_point, MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2)
 {
   log_trace("CMap::{}()", __func__);
 

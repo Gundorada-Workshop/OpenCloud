@@ -36,7 +36,7 @@ static usize now_texb{ 0 };
 // 00376C3C
 static bool texBugPatch{ false };
 
-static bool texTEX_ANIME(SPI_STACK* stack, sint count)
+static bool texTEX_ANIME(SPI_STACK* stack, MAYBE_UNUSED sint count)
 {
   const char* s = spiGetStackString(stack);
 

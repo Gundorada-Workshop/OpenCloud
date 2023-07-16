@@ -200,7 +200,7 @@ void CScene::SetStack(ssize stack_index, mgCMemory& stack)
 {
 	log_trace("CScene::{}({}, {})", __func__, stack_index, fmt::ptr(&stack));
 
-	if (stack_index < 0 || stack_index >= m_stacks.size())
+	if (stack_index < 0 || stack_index >= static_cast<ssize>(m_stacks.size()))
 	{
 		return;
 	}
@@ -213,7 +213,7 @@ mgCMemory* CScene::GetStack(ssize stack_index)
 {
 	log_trace("CScene::{}({})", __func__, stack_index);
 
-	if (stack_index < 0 || stack_index >= m_stacks.size())
+	if (stack_index < 0 || stack_index >= static_cast<ssize>(m_stacks.size()))
 	{
 		return nullptr;
 	}
@@ -226,7 +226,7 @@ void CScene::ClearStack(ssize stack_index)
 {
 	log_trace("CScene::{}({})", __func__, stack_index);
 
-	for (auto i = stack_index; i < m_stacks.size(); ++i)
+	for (auto i = stack_index; i < static_cast<ssize>(m_stacks.size()); ++i)
 	{
 		if (m_stacks[i] != nullptr)
 		{
@@ -277,7 +277,7 @@ CSceneCharacter* CScene::GetSceneCharacter(ssize character_index)
 {
 	log_trace("CScene::{}({})", __func__, character_index);
 
-	if (character_index < 0 || character_index >= m_characters.size())
+	if (character_index < 0 || character_index >= static_cast<ssize>(m_characters.size()))
 	{
 		return nullptr;
 	}
@@ -290,7 +290,7 @@ CSceneMap* CScene::GetSceneMap(ssize map_index)
 {
 	log_trace("CScene::{}({})", __func__, map_index);
 
-	if (map_index < 0 || map_index >= m_maps.size())
+	if (map_index < 0 || map_index >= static_cast<ssize>(m_maps.size()))
 	{
 		return nullptr;
 	}
@@ -303,7 +303,7 @@ CSceneMessage* CScene::GetSceneMessage(ssize message_index)
 {
 	log_trace("CScene::{}({})", __func__, message_index);
 
-	if (message_index < 0 || message_index >= m_messages.size())
+	if (message_index < 0 || message_index >= static_cast<ssize>(m_messages.size()))
 	{
 		return nullptr;
 	}
@@ -316,7 +316,7 @@ CSceneCamera* CScene::GetSceneCamera(ssize camera_index)
 {
 	log_trace("CScene::{}({})", __func__, camera_index);
 
-	if (camera_index < 0 || camera_index >= m_cameras.size())
+	if (camera_index < 0 || camera_index >= static_cast<ssize>(m_cameras.size()))
 	{
 		return nullptr;
 	}
@@ -329,7 +329,7 @@ CSceneSky* CScene::GetSceneSky(ssize sky_index)
 {
 	log_trace("CScene::{}({})", __func__, sky_index);
 
-	if (sky_index < 0 || sky_index >= m_skies.size())
+	if (sky_index < 0 || sky_index >= static_cast<ssize>(m_skies.size()))
 	{
 		return nullptr;
 	}
@@ -342,7 +342,7 @@ CSceneGameObj* CScene::GetSceneGameObj(ssize gameobj_index)
 {
 	log_trace("CScene::{}({})", __func__, gameobj_index);
 
-	if (gameobj_index < 0 || gameobj_index >= m_gameobjs.size())
+	if (gameobj_index < 0 || gameobj_index >= static_cast<ssize>(m_gameobjs.size()))
 	{
 		return nullptr;
 	}
@@ -355,7 +355,7 @@ CSceneEffect* CScene::GetSceneEffect(ssize effect_index)
 {
 	log_trace("CScene::{}({})", __func__, effect_index);
 
-	if (effect_index < 0 || effect_index >= m_effects.size())
+	if (effect_index < 0 || effect_index >= static_cast<ssize>(m_effects.size()))
 	{
 		return nullptr;
 	}
@@ -1985,7 +1985,7 @@ s32 CScene::SearchCharaID(ECharacterID chara_no)
 	{
 		if (GetCharaNo(i) == chara_no)
 		{
-			return i;
+			return static_cast<s32>(i);
 		}
 	}
 

@@ -319,7 +319,7 @@ EditPartsMaterial* CEditPartsInfo::GetMaterial(ssize index)
 {
   log_trace("CEditPartsInfo::{}({})", __func__, index);
 
-  if (index < 0 || index >= m_material.size())
+  if (index < 0 || index >= static_cast<ssize>(m_material.size()))
   {
     return nullptr;
   }
@@ -345,7 +345,7 @@ static f32 StandardPos(f32 f)
 {
   log_trace("{}({})", __func__, f);
 
-  f32 epsilon = (f > 0.0f) ? 0.001 : -0.001;
+  f32 epsilon = (f > 0.0f) ? 0.001f : -0.001f;
   return truncf(f + epsilon);
 }
 
@@ -444,7 +444,7 @@ sint CEditParts::GetLiveNPC() const
     return -1;
   }
 
-  return m_house->m_occupant_ids.front();
+  return static_cast<sint>(m_house->m_occupant_ids.front());
 }
 
 // 001B5A90
@@ -509,7 +509,7 @@ bool CEditParts::IsBurn() const
 //}
 
 // 001B5BD0
-bool CEditParts::GetWallPlane(sint i, WallInfo* wall_info) const
+bool CEditParts::GetWallPlane(MAYBE_UNUSED sint i, MAYBE_UNUSED WallInfo* wall_info) const
 {
   log_trace("CEditParts::{}()", __func__);
 
@@ -544,7 +544,7 @@ EEPartsType CEditParts::GetPartsType() const
 }
 
 // 001B5E20
-bool CEditParts::CheckTerritory(const CEditParts* other) const
+bool CEditParts::CheckTerritory(MAYBE_UNUSED const CEditParts* other) const
 {
   log_trace("CEditParts::{}()", __func__);
 
@@ -561,7 +561,7 @@ void CEditParts::CheckColorUpdate()
   {
     if (map_piece.m_material.size() > 0)
     {
-      m_n_material = std::max<sint>(map_piece.m_material.size(), m_n_material);
+      m_n_material = std::max(static_cast<sint>(map_piece.m_material.size()), m_n_material);
     }
   }
 }
@@ -599,7 +599,7 @@ CEditPartsInfo* CEditInfoMngr::GetePartsInfo(ssize index)
 {
   log_trace("CEditInfoMngr::{}({})", __func__, index);
 
-  if (index < 0 || index >= m_eparts_info.size())
+  if (index < 0 || index >= static_cast<ssize>(m_eparts_info.size()))
   {
     return nullptr;
   }
