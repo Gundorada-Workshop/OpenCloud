@@ -55,7 +55,7 @@ public:
   //}
 
   // 00131420
-  inline void SetNextPos(f32 x, f32 y, f32 z)
+  inline void SetNextPos(MAYBE_UNUSED f32 x, MAYBE_UNUSED f32 y, MAYBE_UNUSED f32 z)
   {
     //SetNextPos(vec3(x, y, z));
   }
@@ -79,7 +79,7 @@ public:
   //}
 
   // 00131470
-  inline void SetNextRef(f32 h, f32 p, f32 r)
+  inline void SetNextRef(MAYBE_UNUSED f32 h, MAYBE_UNUSED f32 p, MAYBE_UNUSED f32 r)
   {
     //SetNextRef(vec3(h, p, r));
   }

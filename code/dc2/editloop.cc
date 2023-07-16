@@ -550,7 +550,7 @@ void EditModeChgStep(CScene* scene)
 }
 
 // 001A9ED0
-void PreExitLoop(CScene* scene)
+void PreExitLoop(MAYBE_UNUSED CScene* scene)
 {
   log_trace("{}()", __func__, fmt::ptr(scene));
 
@@ -558,7 +558,7 @@ void PreExitLoop(CScene* scene)
 }
 
 // 001A9F40
-void EditInit(INIT_LOOP_ARG init_arg)
+void EditInit(MAYBE_UNUSED INIT_LOOP_ARG init_arg)
 {
   log_trace("{}()", __func__);
 

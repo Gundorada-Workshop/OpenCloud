@@ -509,7 +509,7 @@ bool CEditParts::IsBurn() const
 //}
 
 // 001B5BD0
-bool CEditParts::GetWallPlane(sint i, WallInfo* wall_info) const
+bool CEditParts::GetWallPlane(MAYBE_UNUSED sint i, MAYBE_UNUSED WallInfo* wall_info) const
 {
   log_trace("CEditParts::{}()", __func__);
 
@@ -544,7 +544,7 @@ EEPartsType CEditParts::GetPartsType() const
 }
 
 // 001B5E20
-bool CEditParts::CheckTerritory(const CEditParts* other) const
+bool CEditParts::CheckTerritory(MAYBE_UNUSED const CEditParts* other) const
 {
   log_trace("CEditParts::{}()", __func__);
 

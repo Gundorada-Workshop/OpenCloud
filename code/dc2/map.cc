@@ -720,7 +720,7 @@ void CMapParts::Step()
 }
 
 // 00167970
-void CMapParts::AnimeStep(CFuncPointCheck* point_check, CObjAnimeEnv* anime_env)
+void CMapParts::AnimeStep(MAYBE_UNUSED CFuncPointCheck* point_check, MAYBE_UNUSED CObjAnimeEnv* anime_env)
 {
   log_trace("CMapParts::{}()", __func__);
 
@@ -1476,7 +1476,7 @@ void CMap::CreateFuncCheck(CFuncPointCheck* point_check)
 //}
 
 // 0015DBE0
-usize CMap::GetCharaLight(mgCObject* object, CFuncPoint* func_point, sint i1, sint i2)
+usize CMap::GetCharaLight(MAYBE_UNUSED mgCObject* object, MAYBE_UNUSED CFuncPoint* func_point, MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2)
 {
   log_trace("CMap::{}()", __func__);
 

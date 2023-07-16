@@ -2641,7 +2641,7 @@ s32 CUserDataManager::GetAbs(ECharacterID chara_id, ssize gage_index, s32* max_d
 }
 
 // 0019b9a0
-void CUserDataManager::JoinPartyMember(ECharacterID chara_id)
+void CUserDataManager::JoinPartyMember(MAYBE_UNUSED ECharacterID chara_id)
 {
   log_trace("CUserDataManager::{}()", __func__);
 
@@ -2649,7 +2649,7 @@ void CUserDataManager::JoinPartyMember(ECharacterID chara_id)
 }
 
 // 0019b9a0
-void CUserDataManager::LeavePartyMember(ECharacterID chara_id)
+void CUserDataManager::LeavePartyMember(MAYBE_UNUSED ECharacterID chara_id)
 {
   log_trace("CUserDataManager::{}()", __func__);
 
@@ -2711,7 +2711,7 @@ void CUserDataManager::DisableCharaChange(ECharacterID chara_id)
 }
 
 // 0019BB40
-bool CUserDataManager::CheckEnableCharaChange(ECharacterID chara_id, sint* p)
+bool CUserDataManager::CheckEnableCharaChange(MAYBE_UNUSED ECharacterID chara_id, MAYBE_UNUSED sint* p)
 {
   log_trace("CUserDataManager::{}({}, {})", __func__, common::to_underlying(chara_id), fmt::ptr(p));
 
@@ -2720,7 +2720,7 @@ bool CUserDataManager::CheckEnableCharaChange(ECharacterID chara_id, sint* p)
 }
 
 // 0019BD20
-uint CUserDataManager::CheckQuickChange(ECharacterID chara_id, uint* p)
+uint CUserDataManager::CheckQuickChange(MAYBE_UNUSED ECharacterID chara_id, MAYBE_UNUSED uint* p)
 {
   log_trace("CUserDataManager::{}()", __func__);
 
@@ -2729,7 +2729,7 @@ uint CUserDataManager::CheckQuickChange(ECharacterID chara_id, uint* p)
 }
 
 // 0019BF00
-void CUserDataManager::EnableCharaChangeMask(ECharacterID chara_id)
+void CUserDataManager::EnableCharaChangeMask(MAYBE_UNUSED ECharacterID chara_id)
 {
   log_trace("CUserDataManager::{}()", __func__);
 
@@ -2737,7 +2737,7 @@ void CUserDataManager::EnableCharaChangeMask(ECharacterID chara_id)
 }
 
 // 0019BF30
-void CUserDataManager::DisableCharaChangeMask(ECharacterID chara_id)
+void CUserDataManager::DisableCharaChangeMask(MAYBE_UNUSED ECharacterID chara_id)
 {
   log_trace("CUserDataManager::{}()", __func__);
 
@@ -2762,7 +2762,7 @@ uint CUserDataManager::GetEnableCharaChangeFlag()
 }
 
 // 0019C060
-ECharaStatusAttribute* CUserDataManager::GetCharaStatusAttributePtr(ECharacterID chara_id)
+ECharaStatusAttribute* CUserDataManager::GetCharaStatusAttributePtr(MAYBE_UNUSED ECharacterID chara_id)
 {
   log_trace("CUserDataManager::{}()", __func__);
 
@@ -2771,7 +2771,7 @@ ECharaStatusAttribute* CUserDataManager::GetCharaStatusAttributePtr(ECharacterID
 }
 
 // 0019C0C0
-void CUserDataManager::SetCharaStatusAttribute(ECharacterID chara_id, ECharaStatusAttribute status, bool b)
+void CUserDataManager::SetCharaStatusAttribute(MAYBE_UNUSED ECharacterID chara_id, MAYBE_UNUSED ECharaStatusAttribute status, MAYBE_UNUSED bool b)
 {
   log_trace("CUserDataManager::{}({}, {}, {})", __func__, common::to_underlying(chara_id), common::to_underlying(status), b);
 
@@ -2779,7 +2779,7 @@ void CUserDataManager::SetCharaStatusAttribute(ECharacterID chara_id, ECharaStat
 }
 
 // 0019C190
-void CUserDataManager::SetCharaStatusAttributeVol(ECharacterID chara_id, ECharaStatusAttribute status, bool b)
+void CUserDataManager::SetCharaStatusAttributeVol(MAYBE_UNUSED ECharacterID chara_id, MAYBE_UNUSED ECharaStatusAttribute status, MAYBE_UNUSED bool b)
 {
   log_trace("CUserDataManager::{}({}, {}, {})", __func__, common::to_underlying(chara_id), common::to_underlying(status), b);
 
@@ -2812,7 +2812,7 @@ SMonsterBadgeData* CUserDataManager::GetMonsterBadgeDataPtr()
 }
 
 // 0019C300
-SMonsterBadgeData* CUserDataManager::GetMonsterBadgeDataPtrMosId(EMonsterID monster_id)
+SMonsterBadgeData* CUserDataManager::GetMonsterBadgeDataPtrMosId(MAYBE_UNUSED EMonsterID monster_id)
 {
   log_trace("CUserDataManager::{}({})", __func__, common::to_underlying(monster_id));
 
@@ -2830,7 +2830,7 @@ usize CUserDataManager::GetItemBoardOverNum() const
 }
 
 // 0019C350
-usize CUserDataManager::GetItemBoardMaxNum(bool b) const
+usize CUserDataManager::GetItemBoardMaxNum(MAYBE_UNUSED bool b) const
 {
   log_trace("CUserDataManager::{}({})", __func__, b);
 
@@ -2839,7 +2839,7 @@ usize CUserDataManager::GetItemBoardMaxNum(bool b) const
 }
 
 // 0019c420
-void CUserDataManager::SetRoboName(std::string name)
+void CUserDataManager::SetRoboName(MAYBE_UNUSED std::string name)
 {
   log_trace("CUserDataManager::{}({})", __func__, name);
 
@@ -2927,7 +2927,7 @@ float CUserDataManager::GetRoboAbs() const
 }
 
 // 0019C750
-void CUserDataManager::SetPartyCharaStatus(EPartyCharacterID chara_id, EPartyCharacterStatus status) const
+void CUserDataManager::SetPartyCharaStatus(MAYBE_UNUSED EPartyCharacterID chara_id, MAYBE_UNUSED EPartyCharacterStatus status) const
 {
   log_trace("CUserDataManager::{}({}, {})", __func__, common::to_underlying(chara_id), common::to_underlying(status));
 
@@ -2976,7 +2976,7 @@ PARTY_CHARA* CUserDataManager::GetPartyCharaInfo(EPartyCharacterID chara_id)
 }
 
 // 0019CA20
-bool CUserDataManager::UseNpcAbility(EPartyCharacterID chara_id, sint cost, bool b)
+bool CUserDataManager::UseNpcAbility(MAYBE_UNUSED EPartyCharacterID MAYBE_UNUSED chara_id, MAYBE_UNUSED sint cost, MAYBE_UNUSED bool b)
 {
   log_trace("CUserDataManager::{}({}, {}, {})", __func__, common::to_underlying(chara_id), cost, b);
 
