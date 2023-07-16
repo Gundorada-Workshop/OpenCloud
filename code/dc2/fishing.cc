@@ -5,13 +5,13 @@
 #include "dc2/mg/mg_lib.h"
 
 // 01F59880
-static mgCMemory EsaStack{};
+static mgCMemory BaitStack{};
 // 01F598B0
 static mgCMemory SndStack{};
 // 01F598E0
 static CCameraControl CameraInfo{};
 // 01F59AD0
-static CCameraControl UkiCameraInfo{};
+static CCameraControl BobberCameraInfo{};
 // 01F59D30
 static mgCMemory MotionBuff{};
 // 01F59D60

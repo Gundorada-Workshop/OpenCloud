@@ -28,7 +28,7 @@ static u32 BattleFlag;
 // 00378750
 static float BattleLineDist;
 // 00378754
-static bool ShowHari;
+static bool ShowHook;
 // 00378758
 static bool LureLessFlag;
 // 0037875C
@@ -77,9 +77,9 @@ static std::array<float, 8> SaoDist;
 // 01F5EDC0
 static CFishObj LureObj{};
 // 01F5F190
-static CFishObj UkiObj{};
+static CFishObj BobberObj{};
 // 01F5F560
-static CFishObj HariObj{};
+static CFishObj HookObj{};
 // 01F5F930
 //static vec4 ChanceBarPos;
 
@@ -148,25 +148,25 @@ f32 GetWaterLevel()
 }
 
 // 0030F9F0
-CFishObj* GetActiveHariObj()
+CFishObj* GetActiveHookObj()
 {
-	log_trace("GetActiveHariObj()");
+	log_trace("GetActiveHookObj()");
 
 	if (NowMode != 2)
 	{
-		return &HariObj;
+		return &HookObj;
 	}
 	return &LureObj;
 }
 
 // 0030FA20
-CFishObj* GetActiveUkiObj()
+CFishObj* GetActiveBobberObj()
 {
-	log_trace("GetActiveUkiObj()");
+	log_trace("GetActiveBobberObj()");
 
 	if (NowMode != 2)
 	{
-		return &UkiObj;
+		return &BobberObj;
 	}
 	return nullptr;
 }
@@ -217,47 +217,47 @@ void InitRodPoint(MAYBE_UNUSED mgCFrame& fr1, MAYBE_UNUSED mgCFrame& fr2)
 //}
 
 // 003101F0
-//void GetHariPos(vec4& v1, vec4& v2)
+//void GetHookPos(vec4& v1, vec4& v2)
 //{
-//	log_trace("GetHariPos({}, {})", fmt::ptr(&v1), fmt::ptr(&v2));
+//	log_trace("GetHookPos({}, {})", fmt::ptr(&v1), fmt::ptr(&v2));
 //
 //	v1 = LinePoint[LinePoint.size() - 1][0];
 //	v2 = LinePoint[LinePoint.size() - 1][1];
 //}
 
 // 00310220
-//void GetUkiPos(vec4& v1, vec4& v2)
+//void GetBobberPos(vec4& v1, vec4& v2)
 //{
-//	log_trace("GetUkiPos({}, {})", fmt::ptr(&v1), fmt::ptr(&v2));
+//	log_trace("GetBobberPos({}, {})", fmt::ptr(&v1), fmt::ptr(&v2));
 //
 //	v1 = LinePoint[LinePoint.size() - 4][0];
 //	v2 = LinePoint[LinePoint.size() - 4][1];
 //}
 
 // 00310250
-//void PullUki(f32 f)
+//void PullBobber(f32 f)
 //{
-//	log_trace("PullUki({})", f);
+//	log_trace("PullBobber({})", f);
 //
 //	LinePoint[LinePoint.size() - 1][2][1] -= f;
 //}
 
 // 00310270
-void SetShowHari(bool enabled)
+void SetShowHook(bool enabled)
 {
-	log_trace("SetShowHari({})", enabled);
+	log_trace("SetShowHook({})", enabled);
 
-	ShowHari = enabled;
+	ShowHook = enabled;
 }
 
 // 00310280
-//bool GetShowHari()
+//bool GetShowHook()
 //{
-//	log_trace("GetShowHari()");
+//	log_trace("GetShowHook()");
 //
 //	vec4 v1;
 //	vec4 v2;
-//	GetHariPos(v1, v2);
+//	GetHookPos(v1, v2);
 //
 //	f32 water_level = GetWaterLevel() - 3.0f;
 //
@@ -265,7 +265,7 @@ void SetShowHari(bool enabled)
 //	{
 //		return false;
 //	}
-//	return ShowHari;
+//	return ShowHook;
 //}
 
 // 003102E0
@@ -277,9 +277,9 @@ void SetLurePose(MAYBE_UNUSED mgCFrame& frame)
 }
 
 // 003103D0
-void SetUkiPose(MAYBE_UNUSED mgCFrame& fr1, MAYBE_UNUSED mgCFrame& fr2)
+void SetBobberPose(MAYBE_UNUSED mgCFrame& fr1, MAYBE_UNUSED mgCFrame& fr2)
 {
-	log_trace("SetUkiPose({}, {})", fmt::ptr(&fr1), fmt::ptr(&fr2));
+	log_trace("SetBobberPose({}, {})", fmt::ptr(&fr1), fmt::ptr(&fr2));
 
 	todo;
 }
@@ -487,9 +487,9 @@ void InitLureObj(MAYBE_UNUSED sint i, MAYBE_UNUSED mgCFrame& frame)
 }
 
 // 00312D20
-void InitUkiObj(MAYBE_UNUSED sint i, MAYBE_UNUSED mgCFrame& frame1, MAYBE_UNUSED mgCFrame& frame2)
+void InitBobberObj(MAYBE_UNUSED sint i, MAYBE_UNUSED mgCFrame& frame1, MAYBE_UNUSED mgCFrame& frame2)
 {
-	log_trace("InitUkiObj({}, {}, {})", i, fmt::ptr(&frame1), fmt::ptr(&frame2));
+	log_trace("InitBobberObj({}, {}, {})", i, fmt::ptr(&frame1), fmt::ptr(&frame2));
 
 	todo;
 }
