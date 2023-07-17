@@ -70,6 +70,10 @@ public:
   CCharacter2();
 
 public:
+  using CObjectFrame::Copy;
+
+  virtual ~CCharacter2() {}
+
   // 10  00172DE0
   //virtual void SetPosition(const vec3& v) override;
 
@@ -622,7 +626,19 @@ constexpr f32 DEFAULT_CHARACTER_MOVE_SPEED = 3.0f;
 class CActionChara : public CCharacter2
 {
 public:
-  
+  using CCharacter2::SetMotion;
+  using CCharacter2::Show;
+  using CCharacter2::GetShow;
+  using CCharacter2::GetNowFrameWait;
+  using CCharacter2::GetNowFrame;
+  using CCharacter2::CheckMotionEnd;
+  using CCharacter2::GetMotionStatus;
+  using CCharacter2::Initialize;
+  using CCharacter2::Copy;
+  using CCharacter2::GetWaitToFrame;
+
+  virtual ~CActionChara() {}
+
   // 0016B850
   virtual unkptr Draw() override;
 
@@ -678,7 +694,7 @@ public:
   virtual bool CheckMotionEnd(std::string key_name) const;
 
   // 0016B5B0
-  virtual ECharacterMotionStatus GetMotionStatus(std::string key_name = "");
+  virtual ECharacterMotionStatus GetMotionStatus(std::string key_name);
 
   // 0016BB00
   virtual void StepEffect();

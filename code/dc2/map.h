@@ -68,6 +68,8 @@ public:
 
   // 00168850
   CMapPiece(const CMapPiece& other);
+
+  virtual ~CMapPiece() {}
 public:
   // 00166E40
   virtual unkptr Draw() override;
@@ -126,6 +128,8 @@ public:
   CMapParts(const CMapParts& other);
 
   // make a destructor please :)
+  // ok
+  virtual ~CMapParts() {}
 public:
   // 0015E3D0
   virtual unkptr Draw() override;
@@ -267,6 +271,8 @@ public:
 class CMap
 {
 public:
+
+  virtual ~CMap() {}
 
   static constexpr const char CMapName[] = "CMap";
 
