@@ -60,6 +60,8 @@ public:
 class CObjectFrame : public CObject
 {
 public:
+	using CObject::Copy;
+
 	// 34 00169FD0
 	virtual unkptr Draw() override;
 	// 38 0016A010

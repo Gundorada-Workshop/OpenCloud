@@ -439,7 +439,7 @@ void LoadGyorace()
 }
 
 // 001A9B10
-static CUserDataManager* GetUserData()
+MAYBE_UNUSED static CUserDataManager* GetUserData()
 {
   log_trace("{}()", __func__);
 
