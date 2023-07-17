@@ -456,6 +456,8 @@ class CLockOnModel : CObjectFrame
   // 74 00169E80 (CObjectFrame::UpdatePosition)
   // 78 0016A050 (CObjectFrame::Copy)
 
+  using CObjectFrame::Initialize;
+
   // 7C 001CB3E0
   virtual void* Draw();
 

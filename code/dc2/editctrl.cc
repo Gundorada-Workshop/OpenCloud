@@ -175,7 +175,7 @@ void CEditCollision::PickupVerticalPoly()
 }
 
 // 001A40E0
-static CUserDataManager* GetUserData()
+MAYBE_UNUSED static CUserDataManager* GetUserData()
 {
   log_trace("{}()", __func__);
 

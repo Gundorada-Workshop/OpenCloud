@@ -681,7 +681,7 @@ bool CMapParts::PreDraw()
 
   UpdatePosition();
 
-  f32 alpha_result;
+  MAYBE_UNUSED f32 alpha_result;
   return 0.0f;
   //return FarClip(mgGetDistFromCamera(m_position), &alpha_result);
 }

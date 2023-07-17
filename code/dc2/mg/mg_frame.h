@@ -186,6 +186,8 @@ public:
   mgCVisualMDT();
 
 public:
+  using mgCVisual::CreatePacket;
+
   // VTABLE 00375190
   // 0  0
   // 4  0
@@ -218,7 +220,7 @@ public:
   // 30 0013EAC0
   //virtual void Initialize();
   // 34 0013F6A0
-  virtual unk32 CreatePacket(mgCDrawManager& draw_man);
+  virtual unk32 CreatePacket(MAYBE_UNUSED mgCDrawManager& draw_man);
 
   // 38 0013FF60
   virtual unk32 CreateFacePacket(unkptr p, mgCFace& face);
