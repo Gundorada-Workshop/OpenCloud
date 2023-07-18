@@ -830,7 +830,7 @@ static bool _GET_INDEX_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED 
   return true;
 }
 
-static bool _GET_POS(script::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -901,7 +901,7 @@ static bool _RESET_MOVE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _GET_TARGET_POS(script::stack_data* stack, sint stack_count)
+static bool _GET_TARGET_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
   //if (stack_count < 3 || stack_count > 4)
@@ -929,7 +929,7 @@ static bool _GET_TARGET_POS(script::stack_data* stack, sint stack_count)
   return true;
 }
 
-static bool _GET_TARGET_DIST(script::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_TARGET_DIST(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
   VERIFY_STACK_COUNT(1);
@@ -984,7 +984,7 @@ static bool _GET_TARGET_ROT(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED
   return true;
 }
 
-static bool _GET_REF_ANGLE(script::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_REF_ANGLE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
   VERIFY_STACK_COUNT(4);
@@ -1362,7 +1362,7 @@ static bool _CHECK_PIYORI(script::stack_data* stack, MAYBE_UNUSED sint stack_cou
   return true;
 }
 
-static bool _GET_SCALE(script::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_SCALE(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
   VERIFY_STACK_COUNT(3);

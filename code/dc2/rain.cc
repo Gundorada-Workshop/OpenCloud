@@ -16,7 +16,7 @@ static f32 f_rand(f32 min, f32 max)
 }
 
 // 00281350
-static s32 i_rand(s32 min, s32 max)
+MAYBE_UNUSED static s32 i_rand(s32 min, s32 max)
 {
   log_trace("{}({}, {})", __func__, min, max);
 
@@ -29,7 +29,7 @@ inline static f32 frame_step(f32 scale = 1.0f)
 }
 
 // 002813A0
-MAYBE_UNUSED static f32 RandXYinViewArea(f32 f1, f32 f2, f32 f3, f32* x_dest, f32* y_dest)
+MAYBE_UNUSED static f32 RandXYinViewArea(MAYBE_UNUSED f32 f1, MAYBE_UNUSED f32 f2, MAYBE_UNUSED f32 f3, MAYBE_UNUSED f32* x_dest, MAYBE_UNUSED f32* y_dest)
 {
   log_trace("{}({}, {}, {}, {}, {})", __func__, f1, f2, f3, fmt::ptr(x_dest), fmt::ptr(y_dest));
 

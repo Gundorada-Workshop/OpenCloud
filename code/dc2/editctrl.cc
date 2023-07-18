@@ -107,7 +107,7 @@ static vec3 LdrCamPos{ };
 //}
 
 // 001A32A0
-void CEditCollision::Copy(CEditCollision& other, sint i) const
+void CEditCollision::Copy(MAYBE_UNUSED CEditCollision& other, MAYBE_UNUSED sint i) const
 {
   log_trace("CEditCollision::{}({}, {})", __func__, fmt::ptr(&other), i);
 
@@ -338,7 +338,7 @@ std::string GetFootEffName(sint id)
 //}
 
 // 001A57B0
-void CharaControl(CScene* scene, CPadControl* pad)
+void CharaControl(MAYBE_UNUSED CScene* scene, MAYBE_UNUSED CPadControl* pad)
 {
   log_trace("{}({}, {})", __func__, fmt::ptr(scene), fmt::ptr(pad));
   
@@ -354,7 +354,7 @@ void CancelEyeViewMode()
 }
 
 // 001A5FC0
-void CameraControl(CScene* scene, CPadControl* pad)
+void CameraControl(MAYBE_UNUSED CScene* scene, MAYBE_UNUSED CPadControl* pad)
 {
   log_trace("{}({}, {})", __func__, fmt::ptr(scene), fmt::ptr(pad));
 
@@ -400,7 +400,7 @@ void CameraControl(CScene* scene, CPadControl* pad)
 //}
 
 // 001A63F0
-void EyeCamera(mgCCamera* camera, CCharacter2* chara, bool b)
+void EyeCamera(MAYBE_UNUSED mgCCamera* camera, MAYBE_UNUSED CCharacter2* chara, MAYBE_UNUSED bool b)
 {
   log_trace("{}({}, {}, {})", __func__, fmt::ptr(camera), fmt::ptr(chara), b);
 
@@ -408,7 +408,7 @@ void EyeCamera(mgCCamera* camera, CCharacter2* chara, bool b)
 }
 
 // 001A66F0
-void InitLadder(ELadderMode ladder_mode, CScene* scene, CSceneEventData* event_data)
+void InitLadder(MAYBE_UNUSED ELadderMode ladder_mode, MAYBE_UNUSED CScene* scene, MAYBE_UNUSED CSceneEventData* event_data)
 {
   log_trace("{}({}, {}, {})", __func__, common::to_underlying(ladder_mode), fmt::ptr(scene), fmt::ptr(event_data));
 
@@ -424,7 +424,7 @@ void EndLadder()
 }
 
 // 001A6AC0
-void LadderControl(CScene* scene, CPadControl* pad)
+void LadderControl(MAYBE_UNUSED CScene* scene, MAYBE_UNUSED CPadControl* pad)
 {
   log_trace("{}({}, {})", __func__, fmt::ptr(scene), fmt::ptr(pad));
 

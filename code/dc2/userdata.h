@@ -5,6 +5,7 @@
 #include "common/debug.h"
 #include "common/helpers.h"
 #include "common/types.h"
+#include "common/macros.h"
 
 #include "dc2/gamedata.h"
 #include "dc2/inventmn.h"
@@ -547,6 +548,8 @@ public:
 };
 
 // Equipment for human players
+MSVC_WARNING_PUSH;
+MSVC_WARNING_SILENCE(WARNING_ID_NAMELESS_STRUCT_UNION)
 union EQUIP_TABLE
 {
   std::array<CGameDataUsed, 5> data{};
@@ -559,8 +562,11 @@ union EQUIP_TABLE
     CGameDataUsed torso;
   };
 };
+MSVC_WARNING_POP;
 
 // Equipment for ridepod
+MSVC_WARNING_PUSH;
+MSVC_WARNING_SILENCE(WARNING_ID_NAMELESS_STRUCT_UNION)
 union ROBO_EQUIP_TABLE
 {
   std::array<CGameDataUsed, 4> data{};
@@ -572,6 +578,7 @@ union ROBO_EQUIP_TABLE
     CGameDataUsed leg;
   };
 };
+MSVC_WARNING_POP
 
 struct SCharaData
 {
