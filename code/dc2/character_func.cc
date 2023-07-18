@@ -264,7 +264,7 @@ static bool _GET_MONS_ID(script::stack_data* stack, sint stack_count)
   return true;
 }
 
-static bool _GET_FRONT_VEC(script::stack_data* stack, sint stack_count)
+static bool _GET_FRONT_VEC(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -402,7 +402,7 @@ static bool _SET_MENU_FLAG(script::stack_data* stack, MAYBE_UNUSED sint stack_co
   return true;
 }
 
-static bool _GET_POS(script::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
   VERIFY_STACK_COUNT(3);
@@ -415,7 +415,7 @@ static bool _GET_POS(script::stack_data* stack, MAYBE_UNUSED sint stack_count)
   return true;
 }
 
-static bool _GET_ROT(script::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_ROT(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
   VERIFY_STACK_COUNT(3);
@@ -1002,7 +1002,7 @@ static const RS_TAG_PARAM ext_func_info[]
 };
 
 // 002D20D0
-bool SetActionScript(CRunScript* run_script, char* rs_program, mgCMemory* stack)
+bool SetActionScript(MAYBE_UNUSED CRunScript* run_script, MAYBE_UNUSED char* rs_program, MAYBE_UNUSED mgCMemory* stack)
 {
   log_trace("{}({}, {}, {})", __func__, fmt::ptr(run_script), fmt::ptr(rs_program), fmt::ptr(stack));
 

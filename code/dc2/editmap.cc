@@ -205,7 +205,7 @@ bool CEditGrid::ResetRiver(usize x, usize y)
 }
 
 // 00297D10
-bool CEditGrid::UpdateRiver(usize x, usize y)
+bool CEditGrid::UpdateRiver(MAYBE_UNUSED usize x, MAYBE_UNUSED usize y)
 {
   log_trace("CEditGrid::{}({}, {})", __func__, x, y);
 
@@ -341,7 +341,7 @@ EditPartsMaterial* CEditPartsInfo::GetMaterial(ssize index)
 //}
 
 // 001B57F0
-static f32 StandardPos(f32 f)
+MAYBE_UNUSED static f32 StandardPos(f32 f)
 {
   log_trace("{}({})", __func__, f);
 
@@ -677,7 +677,7 @@ void CEditInfoMngr::LoadEditInfo(char* file, usize file_len)
 }
 
 // 001B4130
-unkptr CEditMap::DrawSub(bool b)
+unkptr CEditMap::DrawSub(MAYBE_UNUSED bool b)
 {
   log_trace("CEditMap::{}({})", __func__, b);
 
@@ -703,7 +703,7 @@ void CEditMap::DrawEffect()
 }
 
 // 0029BFD0
-void CEditMap::DrawFireEffect(sint i)
+void CEditMap::DrawFireEffect(MAYBE_UNUSED sint i)
 {
   log_trace("CEditMap::{}({})", __func__, i);
 
@@ -736,7 +736,7 @@ void CEditMap::DrawFireRaster()
 //}
 
 // 002EF530
-void CEditMap::InScreenFunc(InScreenFuncInfo* func_info)
+void CEditMap::InScreenFunc(MAYBE_UNUSED InScreenFuncInfo* func_info)
 {
   log_trace("CEditMap::{}({})", __func__, fmt::ptr(func_info));
 
@@ -744,7 +744,7 @@ void CEditMap::InScreenFunc(InScreenFuncInfo* func_info)
 }
 
 // 002EF630
-void CEditMap::DrawScreenFunc(mgCFrame* frame)
+void CEditMap::DrawScreenFunc(MAYBE_UNUSED mgCFrame* frame)
 {
   log_trace("CEditMap::{}({})", __func__, fmt::ptr(frame));
 
@@ -752,7 +752,7 @@ void CEditMap::DrawScreenFunc(mgCFrame* frame)
 }
 
 // 002EF6D0
-void CEditMap::GetSeSrcVolPan(sint* ip, f32* fp1_dest, f32* fp2_dest, sint i)
+void CEditMap::GetSeSrcVolPan(MAYBE_UNUSED sint* ip, MAYBE_UNUSED f32* fp1_dest, MAYBE_UNUSED f32* fp2_dest, MAYBE_UNUSED sint i)
 {
   log_trace("CEditMap::{}({}, {}, {}, {})", __func__, fmt::ptr(ip), fmt::ptr(fp1_dest), fmt::ptr(fp2_dest), i);
 
@@ -760,7 +760,7 @@ void CEditMap::GetSeSrcVolPan(sint* ip, f32* fp1_dest, f32* fp2_dest, sint i)
 }
 
 // 0029C330
-void CEditMap::AnimeStep(CObjAnimeEnv* env)
+void CEditMap::AnimeStep(MAYBE_UNUSED CObjAnimeEnv* env)
 {
   log_trace("CEditMap::{}({})", __func__, fmt::ptr(env));
 
@@ -818,7 +818,7 @@ void CEditMap::ClearAllParts()
 }
 
 // 001B0660
-void CEditMap::InitialPlaceParts(CEditData* edit_data)
+void CEditMap::InitialPlaceParts(MAYBE_UNUSED CEditData* edit_data)
 {
   log_trace("CEditMap::{}({})", __func__, fmt::ptr(edit_data));
 
@@ -826,7 +826,7 @@ void CEditMap::InitialPlaceParts(CEditData* edit_data)
 }
 
 // 001B0960
-void CEditMap::CreateTable(sint i1, sint i2)
+void CEditMap::CreateTable(MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2)
 {
   log_trace("CEditMap::{}({}, {})", __func__, i1, i2);
 
@@ -905,7 +905,7 @@ CEditHouse* CEditMap::eNewHouseInfo()
 }
 
 // 001B0C40
-CEditParts* CEditMap::GetePlaceParts(ssize index)
+CEditParts* CEditMap::GetePlaceParts(MAYBE_UNUSED ssize index)
 {
   log_trace("CEditMap::{}({})", __func__, index);
 
@@ -914,7 +914,7 @@ CEditParts* CEditMap::GetePlaceParts(ssize index)
 }
 
 // 001B0CA0
-CEditParts* CEditMap::GetePlaceParts(const std::string& name)
+CEditParts* CEditMap::GetePlaceParts(MAYBE_UNUSED const std::string& name)
 {
   log_trace("CEditMap::{}({})", __func__, name);
 
@@ -923,7 +923,7 @@ CEditParts* CEditMap::GetePlaceParts(const std::string& name)
 }
 
 // 001B0D60
-void CEditMap::GetePlaceIDList(sint* ids_dest, usize max_size)
+void CEditMap::GetePlaceIDList(MAYBE_UNUSED sint* ids_dest, MAYBE_UNUSED usize max_size)
 {
   log_trace("CEditMap::{}({}, {})", __func__, fmt::ptr(ids_dest), max_size);
 
@@ -1063,7 +1063,7 @@ f32 CEditMap::GetEditAlt(f32 f) const
 //}
 
 // 001B13C0
-usize CEditMap::ConvertParts(CEditParts* parts)
+usize CEditMap::ConvertParts(MAYBE_UNUSED CEditParts* parts)
 {
   log_trace("CEditMap::{}({})", __func__, fmt::ptr(parts));
 
@@ -1072,7 +1072,7 @@ usize CEditMap::ConvertParts(CEditParts* parts)
 }
 
 // 001B13F0
-std::optional<usize> CEditMap::GetSameParts(ssize index)
+std::optional<usize> CEditMap::GetSameParts(MAYBE_UNUSED ssize index)
 {
   log_trace("CEditMap::{}({})", __func__, index);
 
@@ -1096,7 +1096,7 @@ std::optional<usize> CEditMap::BuildEditParts(EEPartsInfoID id)
 }
 
 // 001B14F0
-usize CEditMap::GetTotalPolyn(sint* ip1, sint* ip2)
+usize CEditMap::GetTotalPolyn(MAYBE_UNUSED sint* ip1, MAYBE_UNUSED sint* ip2)
 {
   log_trace("CEditMap::{}({}, {})", __func__, fmt::ptr(ip1), fmt::ptr(ip2));
 
@@ -1105,7 +1105,7 @@ usize CEditMap::GetTotalPolyn(sint* ip1, sint* ip2)
 }
 
 // 001B1630
-std::optional<usize> CEditMap::BuildEditParts(const std::string& name)
+std::optional<usize> CEditMap::BuildEditParts(MAYBE_UNUSED const std::string& name)
 {
   log_trace("CEditMap::{}({})", __func__, name);
 
@@ -1149,7 +1149,7 @@ bool CEditMap::PlaceBurnParts()
 }
 
 // 001B1CE0
-bool CEditMap::BurnEditParts(const RemoveInfo* remove_info)
+bool CEditMap::BurnEditParts(MAYBE_UNUSED const RemoveInfo* remove_info)
 {
   log_trace("CEditMap::{}({})", __func__, fmt::ptr(remove_info));
 
@@ -1198,7 +1198,7 @@ bool CEditMap::BurnEditParts(const RemoveInfo* remove_info)
 //}
 
 // 001B2220
-bool CEditMap::CreatePlaceLog(sint i, const EP_PLACE_INFO* place_info)
+bool CEditMap::CreatePlaceLog(MAYBE_UNUSED sint i, MAYBE_UNUSED const EP_PLACE_INFO* place_info)
 {
   log_trace("CEditMap::{}({}, {})", __func__, i, fmt::ptr(place_info));
 
@@ -1288,7 +1288,7 @@ bool CEditMap::CreatePlaceLog(sint i, const EP_PLACE_INFO* place_info)
 //}
 
 // 001B4AC0
-void CEditMap::LoadEditInfo(char* script_buf, usize script_size)
+void CEditMap::LoadEditInfo(MAYBE_UNUSED char* script_buf, MAYBE_UNUSED usize script_size)
 {
   log_trace("CEditMap::{}({}, {})", __func__, fmt::ptr(script_buf), script_size);
 
@@ -1320,7 +1320,7 @@ void CEditMap::LoadEditInfo(char* script_buf, usize script_size)
 //}
 
 // 00296B80
-usize CEditMap::GetRiverNum(f32* fp)
+usize CEditMap::GetRiverNum(MAYBE_UNUSED f32* fp)
 {
   log_trace("CEditMap::{}({})", __func__, fmt::ptr(&fp));
 
@@ -1338,7 +1338,7 @@ usize CEditMap::GetRiverNum(f32* fp)
 //};
 
 // 00296DA0
-usize CEditMap::GetRiverNum(ssize index, f32 f)
+usize CEditMap::GetRiverNum(MAYBE_UNUSED ssize index, MAYBE_UNUSED f32 f)
 {
   log_trace("CEditMap::{}({}, {})", __func__, index, f);
 
@@ -1363,7 +1363,7 @@ void CEditMap::DrawRiver()
 }
 
 // 002A8B40
-void CEditMap::SaveData(CEditData* data)
+void CEditMap::SaveData(MAYBE_UNUSED CEditData* data)
 {
   log_trace("CEditMap::{}({})", __func__, fmt::ptr(data));
 
@@ -1371,7 +1371,7 @@ void CEditMap::SaveData(CEditData* data)
 }
 
 // 002A9110
-void CEditMap::LoadData(CEditData* data)
+void CEditMap::LoadData(MAYBE_UNUSED CEditData* data)
 {
   log_trace("CEditMap::{}({})", __func__, fmt::ptr(data));
 
@@ -1379,7 +1379,7 @@ void CEditMap::LoadData(CEditData* data)
 }
 
 // 002A9820
-sint CEditMap::CultureAnalyzeParts(sint i1, sint i2)
+sint CEditMap::CultureAnalyzeParts(MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2)
 {
   log_trace("CEditMap::{}({}, {})", __func__, i1, i2);
 
@@ -1388,7 +1388,7 @@ sint CEditMap::CultureAnalyzeParts(sint i1, sint i2)
 }
 
 // 002A9A20
-sint CEditMap::CultureAnalyze(sint i)
+sint CEditMap::CultureAnalyze(MAYBE_UNUSED sint i)
 {
   log_trace("CEditMap::{}({})", __func__, i);
 
@@ -1400,7 +1400,7 @@ sint CEditMap::CultureAnalyze(sint i)
 std::pair<
   std::vector<std::shared_ptr<CMapParts>>,
   std::vector<std::shared_ptr<CMapPiece>>
-> CEditMap::GetOnOffParts(const std::string& name)
+> CEditMap::GetOnOffParts(MAYBE_UNUSED const std::string& name)
 {
   log_trace("CEditMap::{}({})", __func__, name);
 
@@ -1412,7 +1412,7 @@ std::pair<
 }
 
 // 002A9C60
-void CEditMap::PartsOnOff(sint i, CEditData* data)
+void CEditMap::PartsOnOff(MAYBE_UNUSED sint i, MAYBE_UNUSED CEditData* data)
 {
   log_trace("CEditMap::{}({}, {})", __func__, i, fmt::ptr(data));
 
@@ -1456,7 +1456,7 @@ void CEditMap::PartsOnOff(sint i, CEditData* data)
 //}
 
 // 002EE5F0
-bool CEditMap::CheckNormalPlaceParts(ssize index)
+bool CEditMap::CheckNormalPlaceParts(MAYBE_UNUSED ssize index)
 {
   log_trace("CEditMap::{}({})", __func__, index);
 
@@ -1465,7 +1465,7 @@ bool CEditMap::CheckNormalPlaceParts(ssize index)
 }
 
 // 002EE620
-bool CEditMap::CheckNormalPlaceParts(CEditParts* parts)
+bool CEditMap::CheckNormalPlaceParts(MAYBE_UNUSED CEditParts* parts)
 {
   log_trace("CEditMap::{}({})", __func__, fmt::ptr(parts));
 
@@ -1474,7 +1474,7 @@ bool CEditMap::CheckNormalPlaceParts(CEditParts* parts)
 }
 
 // 002EE660
-bool CEditMap::CheckLiveNPC(sint i1, sint i2)
+bool CEditMap::CheckLiveNPC(MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2)
 {
   log_trace("CEditMap::{}({}, {})", __func__, i1, i2);
 
@@ -1483,7 +1483,7 @@ bool CEditMap::CheckLiveNPC(sint i1, sint i2)
 }
 
 // 002EE770
-usize CEditMap::GetePlacePartsAtInfoID(EEPartsInfoID id, sint* ip, sint i)
+usize CEditMap::GetePlacePartsAtInfoID(MAYBE_UNUSED EEPartsInfoID id, MAYBE_UNUSED sint* ip, MAYBE_UNUSED sint i)
 {
   log_trace("CEditMap::{}({}, {}, {})", __func__, common::to_underlying(id), fmt::ptr(ip), i);
 
@@ -1492,7 +1492,7 @@ usize CEditMap::GetePlacePartsAtInfoID(EEPartsInfoID id, sint* ip, sint i)
 }
 
 // 002EE920
-usize CEditMap::GetTerritoryParts(sint i1, sint* ip, sint i2)
+usize CEditMap::GetTerritoryParts(MAYBE_UNUSED sint i1, MAYBE_UNUSED sint* ip, MAYBE_UNUSED sint i2)
 {
   log_trace("CEditMap::{}({}, {}, {})", __func__, i1, fmt::ptr(ip), i2);
 
@@ -1501,7 +1501,7 @@ usize CEditMap::GetTerritoryParts(sint i1, sint* ip, sint i2)
 }
 
 // 002EEA30
-usize CEditMap::GetChildParts(sint i1, sint* ip, sint i2)
+usize CEditMap::GetChildParts(MAYBE_UNUSED sint i1, MAYBE_UNUSED sint* ip, MAYBE_UNUSED sint i2)
 {
   log_trace("CEditMap::{}({}, {}, {})", __func__, i1, fmt::ptr(ip), i2);
 
@@ -1527,7 +1527,7 @@ sint CEditMap::RepaintNum(sint i)
 //}
 
 // 002EEDE0
-usize CEditMap::PaintFence(CEditParts* parts)
+usize CEditMap::PaintFence(MAYBE_UNUSED CEditParts* parts)
 {
   log_trace("CEditMap::{}({})", __func__, fmt::ptr(parts));
 
@@ -1544,7 +1544,7 @@ void CEditMap::UpdateHouse()
 }
 
 // 002EF0B0
-void CEditMap::GroundBalance(sint i)
+void CEditMap::GroundBalance(MAYBE_UNUSED sint i)
 {
   log_trace("CEditMap::{}({})", __func__, i);
 

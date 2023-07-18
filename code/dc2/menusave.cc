@@ -20,7 +20,7 @@ void CMenuSystemData::MenuSystemDataInit()
   memset(this, 0, sizeof(this));
 }
 
-void CSaveData::ForceBootTour(sint i, bool b)
+void CSaveData::ForceBootTour(MAYBE_UNUSED sint i, MAYBE_UNUSED bool b)
 {
   log_trace("CSaveData::{}({}, {})", __func__, i, b);
 

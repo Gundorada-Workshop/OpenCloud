@@ -607,7 +607,7 @@ void mgCObject::UseParam()
 //}
 
 // 00136220
-void mgCObject::SetPosition(f32 x, f32 y, f32 z)
+void mgCObject::SetPosition(MAYBE_UNUSED f32 x, MAYBE_UNUSED f32 y, MAYBE_UNUSED f32 z)
 {
   log_trace("mgCObject::SetPosition({}, {}, {})", x, y, z);
 
@@ -639,7 +639,7 @@ void mgCObject::SetPosition(f32 x, f32 y, f32 z)
 //}
 
 // 001362F0
-void mgCObject::SetRotation(f32 x, f32 y, f32 z)
+void mgCObject::SetRotation(MAYBE_UNUSED f32 x, MAYBE_UNUSED f32 y, MAYBE_UNUSED f32 z)
 {
   log_trace("mgCObject::SetRotation({}, {}, {})", x, y, z);
 
@@ -670,7 +670,7 @@ void mgCObject::SetRotation(f32 x, f32 y, f32 z)
 //}
 
 // 001363C0
-void mgCObject::SetScale(f32 x, f32 y, f32 z)
+void mgCObject::SetScale(MAYBE_UNUSED f32 x, MAYBE_UNUSED f32 y, MAYBE_UNUSED f32 z)
 {
   log_trace("mgCObject::SetScale({}, {}, {})", x, y, z);
 
