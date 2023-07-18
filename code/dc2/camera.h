@@ -56,7 +56,7 @@ public:
   virtual void Stay();
 
   // 002EC110
-  virtual void Step(sint steps = 1);
+  virtual void Step(MAYBE_UNUSED sint steps = 1);
 
   // 002ED250
   //virtual matrix4 GetCameraMatrix() const override;
@@ -102,7 +102,7 @@ public:
   void MoveCamera(const CPadControl* pad_control, const vec3& v, CCPoly* c_poly, usize i);
 
   // 002EC710
-  void Rotate(f32 delta);
+  void Rotate(MAYBE_UNUSED f32 delta);
 
   // 002EC790
   void SetRotate(f32 rot);

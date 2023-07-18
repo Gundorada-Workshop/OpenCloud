@@ -48,7 +48,7 @@ void CCameraControl::Stay()
   }
 }
 // 002EC110
-void CCameraControl::Step(sint steps)
+void CCameraControl::Step(MAYBE_UNUSED sint steps)
 {
   log_trace("CCameraControl::Step({})", steps);
 
@@ -227,7 +227,7 @@ void CCameraControl::MoveCamera(MAYBE_UNUSED const Control& control, MAYBE_UNUSE
 }
 
 // 002EC710
-void CCameraControl::Rotate(f32 delta)
+void CCameraControl::Rotate(MAYBE_UNUSED f32 delta)
 {
   log_trace("CCameraControl::{}({})", __func__, delta);
 
