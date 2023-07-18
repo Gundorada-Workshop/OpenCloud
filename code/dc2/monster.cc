@@ -56,9 +56,9 @@ void CPiyori::Set(CActiveMonster* monster, f32 f0, f32 f1, s16 i)
   m_unk_field_14 = f0;
   m_unk_field_18 = f1;
 
-  for (usize i = 0; i < m_unk_field_4.size(); ++i)
+  for (usize j = 0; j < m_unk_field_4.size(); ++j)
   {
-    m_unk_field_4[i] = fRand(common::math::pi2()) - common::math::pi();
+    m_unk_field_4[j] = fRand(common::math::pi2()) - common::math::pi();
   }
 
   m_unk_field_1E = 0;

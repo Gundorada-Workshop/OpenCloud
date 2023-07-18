@@ -873,4 +873,4 @@ public:
 };
 
 // 00378294
-extern CScene* nowScene;
+//extern CScene* nowScene;

@@ -1059,7 +1059,7 @@ TEST(mgMathTest, mgAngleInterpolate)
 
 TEST(mgMathTest, mgAngleCmp)
 {
-  EXPECT_EQ(mgAngleCmp(1.343752, 1.343500, 0.785398), 0);
+  EXPECT_EQ(mgAngleCmp(1.343752f, 1.343500f, 0.785398f), 0);
 }
 
 TEST(mgMathTest, mgAngleLimit)
