@@ -39,7 +39,7 @@ CBPot::CBPot()
 }
 
 // 002CD050
-CPot::CPot(bool b)
+CPot::CPot(MAYBE_UNUSED bool b)
 {
   log_trace("CPot::CPot({})", b);
 

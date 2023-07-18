@@ -524,7 +524,7 @@ CMapPiece::CMapPiece()
 }
 
 // 00168850
-CMapPiece::CMapPiece(const CMapPiece& other)
+CMapPiece::CMapPiece(MAYBE_UNUSED const CMapPiece& other)
 {
   log_trace("CMapPiece::{}({})", __func__, fmt::ptr(&other));
 
@@ -562,7 +562,7 @@ void CMapPiece::SetMaterial(usize capacity)
 }
 
 // 00168520
-void CMapPiece::AssignMds(CMdsInfo* mds_info)
+void CMapPiece::AssignMds(MAYBE_UNUSED CMdsInfo* mds_info)
 {
   log_trace("CMapPiece::{}({})", __func__, fmt::ptr(mds_info));
 
@@ -629,7 +629,7 @@ void CMapPiece::Step()
 //}
 
 // 00168730
-unkptr CMapPiece::DrawSub(bool b)
+unkptr CMapPiece::DrawSub(MAYBE_UNUSED bool b)
 {
   log_trace("CMapPiece::{}({})", __func__, b);
 
@@ -646,7 +646,7 @@ CMapParts::CMapParts()
 }
 
 // 00167AA0
-CMapParts::CMapParts(const CMapParts& other)
+CMapParts::CMapParts(MAYBE_UNUSED const CMapParts& other)
 {
   log_trace("CMapParts::{}({})", __func__, fmt::ptr(&other));
 
@@ -945,7 +945,7 @@ CMapPiece* CMapParts::SearchPieceColType(sint col_type)
 //}
 
 // 00166A70
-unkptr CMapParts::DrawSub(bool b)
+unkptr CMapParts::DrawSub(MAYBE_UNUSED bool b)
 {
   log_trace("CMapParts::{}({})", __func__, b);
 
@@ -1042,7 +1042,7 @@ bool CMapParts::InsideScreen() const
 }
 
 // 001673A0
-bool CMapParts::InsideScreen(const std::vector<COcclusion>& occlusion, sint i) const
+bool CMapParts::InsideScreen(MAYBE_UNUSED const std::vector<COcclusion>& occlusion, MAYBE_UNUSED sint i) const
 {
   log_trace("CMapParts::{}({}, {})", __func__, fmt::ptr(&occlusion), i);
 
@@ -1051,7 +1051,7 @@ bool CMapParts::InsideScreen(const std::vector<COcclusion>& occlusion, sint i) c
 }
 
 // 001674B0
-void CMapParts::InScreenFunc(InScreenFuncInfo* func_info)
+void CMapParts::InScreenFunc(MAYBE_UNUSED InScreenFuncInfo* func_info)
 {
   log_trace("CMapParts::{}({})", __func__, fmt::ptr(func_info));
 
@@ -1059,7 +1059,7 @@ void CMapParts::InScreenFunc(InScreenFuncInfo* func_info)
 }
 
 // 00167730
-void CMapParts::DrawScreenFunc(mgCFrame* frame)
+void CMapParts::DrawScreenFunc(MAYBE_UNUSED mgCFrame* frame)
 {
   log_trace("CMapParts::{}({})", __func__, fmt::ptr(frame));
 
@@ -1067,7 +1067,7 @@ void CMapParts::DrawScreenFunc(mgCFrame* frame)
 }
 
 // 001679F0
-void CMapParts::StepFuncPoint(CFuncPointCheck& point_check)
+void CMapParts::StepFuncPoint(MAYBE_UNUSED CFuncPointCheck& point_check)
 {
   log_trace("CMapParts::{}({})", __func__, fmt::ptr(&point_check));
 
@@ -1075,7 +1075,7 @@ void CMapParts::StepFuncPoint(CFuncPointCheck& point_check)
 }
 
 // 00167A60
-void CMapParts::CopyFuncPointCheck(CFuncPointCheck& other)
+void CMapParts::CopyFuncPointCheck(MAYBE_UNUSED CFuncPointCheck& other)
 {
   log_trace("CMapParts::{}({})", __func__, fmt::ptr(&other));
 
@@ -1092,7 +1092,7 @@ bool CMapParts::AssignFuncAnime()
 }
 
 // 0015E250
-unkptr CMap::DrawSub(bool b)
+unkptr CMap::DrawSub(MAYBE_UNUSED bool b)
 {
   log_trace("CMap::{}({})", __func__, b);
 
@@ -1134,7 +1134,7 @@ void CMap::DrawEffect()
 }
 
 // 0015E5D0
-void CMap::DrawFireEffect(sint texture_id)
+void CMap::DrawFireEffect(MAYBE_UNUSED sint texture_id)
 {
   log_trace("CMap::{}({})", __func__, texture_id);
 
@@ -1150,7 +1150,7 @@ void CMap::DrawFireRaster()
 }
 
 // 0015E800
-void CMap::DrawWater(mgCCamera* camera, mgCTexture* tex1, mgCTexture* tex2)
+void CMap::DrawWater(MAYBE_UNUSED mgCCamera* camera, MAYBE_UNUSED mgCTexture* tex1, MAYBE_UNUSED mgCTexture* tex2)
 {
   log_trace("CMap::{}({}, {}, {})", __func__, fmt::ptr(camera), fmt::ptr(tex1), fmt::ptr(tex2));
 
@@ -1191,7 +1191,7 @@ void CMap::DrawWater(mgCCamera* camera, mgCTexture* tex1, mgCTexture* tex2)
 //}
 
 // 0015FC00
-void CMap::InScreenFunc(InScreenFuncInfo* func_info)
+void CMap::InScreenFunc(MAYBE_UNUSED InScreenFuncInfo* func_info)
 {
   log_trace("CMap::{}({})", __func__, fmt::ptr(func_info));
 
@@ -1199,7 +1199,7 @@ void CMap::InScreenFunc(InScreenFuncInfo* func_info)
 }
 
 // 0015FD00
-void CMap::DrawScreenFunc(mgCFrame* frame)
+void CMap::DrawScreenFunc(MAYBE_UNUSED mgCFrame* frame)
 {
   log_trace("CMap::{}({})", __func__, fmt::ptr(frame));
 
@@ -1207,7 +1207,7 @@ void CMap::DrawScreenFunc(mgCFrame* frame)
 }
 
 // 0015FF60
-void CMap::GetSeSrcVolPan(sint* ip, f32* fp1_dest, f32* fp2_dest, sint i)
+void CMap::GetSeSrcVolPan(MAYBE_UNUSED sint* ip, MAYBE_UNUSED f32* fp1_dest, MAYBE_UNUSED f32* fp2_dest, MAYBE_UNUSED sint i)
 {
   log_trace("CMap::{}({}, {}, {}, {})", __func__, fmt::ptr(ip), fmt::ptr(fp1_dest), fmt::ptr(fp2_dest), i);
 
@@ -1215,7 +1215,7 @@ void CMap::GetSeSrcVolPan(sint* ip, f32* fp1_dest, f32* fp2_dest, sint i)
 }
 
 // 0015FDF0
-void CMap::AnimeStep(CObjAnimeEnv* env)
+void CMap::AnimeStep(MAYBE_UNUSED CObjAnimeEnv* env)
 {
   log_trace("CMap::{}({})", __func__, fmt::ptr(env));
 
@@ -1252,7 +1252,7 @@ CPartsGroup* CMap::GetPartsGroup(ssize index)
 }
 
 // 0015C640
-ssize CMap::AddPartsGroup(const std::string& group_name, CMapParts* parts)
+ssize CMap::AddPartsGroup(MAYBE_UNUSED const std::string& group_name, MAYBE_UNUSED CMapParts* parts)
 {
   log_trace("CMap::{}({}, {})", __func__, group_name, fmt::ptr(parts));
 
@@ -1261,7 +1261,7 @@ ssize CMap::AddPartsGroup(const std::string& group_name, CMapParts* parts)
 }
 
 // 0015C750
-CPartsGroup* CMap::SearchPartsGroup(const std::string& group_name)
+CPartsGroup* CMap::SearchPartsGroup(MAYBE_UNUSED const std::string& group_name)
 {
   log_trace("CMap::{}({})", __func__, group_name);
 
@@ -1270,7 +1270,7 @@ CPartsGroup* CMap::SearchPartsGroup(const std::string& group_name)
 }
 
 // 0015C780
-ssize CMap::SearchPartsGroupNo(const std::string& group_name)
+ssize CMap::SearchPartsGroupNo(MAYBE_UNUSED const std::string& group_name)
 {
   log_trace("CMap::{}({})", __func__, group_name);
 
@@ -1288,7 +1288,7 @@ ssize CMap::SearchEmptyPartsGroupNo()
 }
 
 // 0015CA30
-void CMap::SetPlacePartsBuff(usize capacity)
+void CMap::SetPlacePartsBuff(MAYBE_UNUSED usize capacity)
 {
   log_trace("CMap::{}({})", __func__, capacity);
 
@@ -1304,7 +1304,7 @@ std::vector<CMapParts>& CMap::GetPlacePartsTable()
 }
 
 // 0015CBE0
-void CMap::SetCameraInfoTable(usize capacity)
+void CMap::SetCameraInfoTable(MAYBE_UNUSED usize capacity)
 {
   log_trace("CMap::{}({})", __func__, capacity);
 
@@ -1312,7 +1312,7 @@ void CMap::SetCameraInfoTable(usize capacity)
 }
 
 // 0015CBF0
-CCameraInfo* CMap::GetCameraInfo(ssize index)
+CCameraInfo* CMap::GetCameraInfo(MAYBE_UNUSED ssize index)
 {
   log_trace("CMap::{}({})", __func__, index);
 
@@ -1330,7 +1330,7 @@ CMapParts* CMap::NewPlaceParts()
 }
 
 // 0015CCB0
-CMdsInfo* CMap::SearchMDS(const std::string& mds_name)
+CMdsInfo* CMap::SearchMDS(MAYBE_UNUSED const std::string& mds_name)
 {
   log_trace("CMap::{}({})", __func__, mds_name);
 
@@ -1339,7 +1339,7 @@ CMdsInfo* CMap::SearchMDS(const std::string& mds_name)
 }
 
 // 0015CCE0
-void CMap::CreateEffect(uint* p, sint i)
+void CMap::CreateEffect(MAYBE_UNUSED uint* p, MAYBE_UNUSED sint i)
 {
   log_trace("CMap::{}({}, {})", __func__, fmt::ptr(p), i);
 
@@ -1347,7 +1347,7 @@ void CMap::CreateEffect(uint* p, sint i)
 }
 
 // 0015CD00
-ssize CMap::SearchEffectIndex(const std::string& effect_name)
+ssize CMap::SearchEffectIndex(MAYBE_UNUSED const std::string& effect_name)
 {
   log_trace("CMap::{}({})", __func__, effect_name);
 
@@ -1356,7 +1356,7 @@ ssize CMap::SearchEffectIndex(const std::string& effect_name)
 }
 
 // 0015CD10
-void CMap::AddParts(std::list<CMapParts>& parts)
+void CMap::AddParts(MAYBE_UNUSED std::list<CMapParts>& parts)
 {
   log_trace("CMap::{}({})", __func__, fmt::ptr(&parts));
 
@@ -1364,7 +1364,7 @@ void CMap::AddParts(std::list<CMapParts>& parts)
 }
 
 // 0015CD60
-CMapParts* CMap::GetParts(const std::string& parts_name)
+CMapParts* CMap::GetParts(MAYBE_UNUSED const std::string& parts_name)
 {
   log_trace("CMap::{}({})", __func__, parts_name);
 
@@ -1413,7 +1413,7 @@ void CMap::ClearPlaceParts()
 }
 
 // 0015D420
-CMapParts* CMap::GetPlaceParts(const std::string& parts_name)
+CMapParts* CMap::GetPlaceParts(MAYBE_UNUSED const std::string& parts_name)
 {
   log_trace("CMap::{}({})", __func__, parts_name);
 
@@ -1422,7 +1422,7 @@ CMapParts* CMap::GetPlaceParts(const std::string& parts_name)
 }
 
 // 0015D4C0
-CMapParts* CMap::GetPlaceParts(ssize parts_index)
+CMapParts* CMap::GetPlaceParts(MAYBE_UNUSED ssize parts_index)
 {
   log_trace("CMap::{}({})", __func__, parts_index);
 
@@ -1431,7 +1431,7 @@ CMapParts* CMap::GetPlaceParts(ssize parts_index)
 }
 
 // 0015D510
-ssize CMap::ConvertParts(CMapParts* parts)
+ssize CMap::ConvertParts(MAYBE_UNUSED CMapParts* parts)
 {
   log_trace("CMap::{}({})", __func__, fmt::ptr(parts));
 
@@ -1456,7 +1456,7 @@ ssize CMap::ConvertParts(CMapParts* parts)
 //}
 
 // 0015D730
-void CMap::CreateFuncCheck(CFuncPointCheck* point_check)
+void CMap::CreateFuncCheck(MAYBE_UNUSED CFuncPointCheck* point_check)
 {
   log_trace("CMap::{}({})", __func__, fmt::ptr(point_check));
 
@@ -1493,7 +1493,7 @@ usize CMap::GetCharaLight(MAYBE_UNUSED mgCObject* object, MAYBE_UNUSED CFuncPoin
 //}
 
 // 0015E1F0
-void CMap::ResetFuncPLight(ssize light_index)
+void CMap::ResetFuncPLight(MAYBE_UNUSED ssize light_index)
 {
   log_trace("CMap::{}({})", __func__, light_index);
 
@@ -1561,7 +1561,7 @@ void CMap::EffectStep()
 }
 
 // 001600D0
-void CMap::CreateMap(CMdsListSet* mds_list)
+void CMap::CreateMap(MAYBE_UNUSED CMdsListSet* mds_list)
 {
   log_trace("CMap::{}({})", __func__, fmt::ptr(mds_list));
 
@@ -1577,7 +1577,7 @@ void CMap::AssignFuncPoint()
 }
 
 // 001602C0
-void CMap::CreateTrBox(CMapTreasureBox* treasure_box, sint i)
+void CMap::CreateTrBox(MAYBE_UNUSED CMapTreasureBox* treasure_box, MAYBE_UNUSED sint i)
 {
   log_trace("CMap::{}({}, {})", __func__, fmt::ptr(treasure_box), i);
 
@@ -1585,7 +1585,7 @@ void CMap::CreateTrBox(CMapTreasureBox* treasure_box, sint i)
 }
 
 // 00160620
-CMapTreasureBox* CMap::GetTrBox(ssize index)
+CMapTreasureBox* CMap::GetTrBox(MAYBE_UNUSED ssize index)
 {
   log_trace("CMap::{}({})", __func__, index);
 
@@ -1594,7 +1594,7 @@ CMapTreasureBox* CMap::GetTrBox(ssize index)
 }
 
 // 00160670
-void CMap::DeleteTrBox(ssize index, CMapFlagData* flag_data)
+void CMap::DeleteTrBox(MAYBE_UNUSED ssize index, MAYBE_UNUSED CMapFlagData* flag_data)
 {
   log_trace("CMap::{}({}, {})", __func__, index, fmt::ptr(flag_data));
 
@@ -1602,7 +1602,7 @@ void CMap::DeleteTrBox(ssize index, CMapFlagData* flag_data)
 }
 
 // 001606E0
-void CMap::UpdateTrBoxFlag(CMapFlagData* flag_data) const
+void CMap::UpdateTrBoxFlag(MAYBE_UNUSED CMapFlagData* flag_data) const
 {
   log_trace("CMap::{}({})", __func__, fmt::ptr(flag_data));
 
@@ -1610,7 +1610,7 @@ void CMap::UpdateTrBoxFlag(CMapFlagData* flag_data) const
 }
 
 // 00160780
-void CMap::LoadData(uint* p1, uint* p2, sint* p3)
+void CMap::LoadData(MAYBE_UNUSED uint* p1, MAYBE_UNUSED uint* p2, MAYBE_UNUSED sint* p3)
 {
   log_trace("CMap::{}({}, {}, {})", __func__, fmt::ptr(p1), fmt::ptr(p2), fmt::ptr(p3));
 
@@ -1686,7 +1686,7 @@ ETimeBand CMap::GetNowTimeLightBand() const
 //}
 
 // 00161360
-sint CMap::GetLightNoTime(ETimeBand time)
+sint CMap::GetLightNoTime(MAYBE_UNUSED ETimeBand time)
 {
   log_trace("CMap::{}({})", __func__, static_cast<sint>(time));
 
@@ -1722,7 +1722,7 @@ sint CMap::GetActiveLightNo() const
 }
 
 // 00161790
-CMapLightingInfo CMap::GetLightInfo(f32* f_buf, usize buf_size) const
+CMapLightingInfo CMap::GetLightInfo(MAYBE_UNUSED f32* f_buf, MAYBE_UNUSED usize buf_size) const
 {
   log_trace("CMap::{}({}, {})", __func__, fmt::ptr(f_buf), buf_size);
 
@@ -1731,7 +1731,7 @@ CMapLightingInfo CMap::GetLightInfo(f32* f_buf, usize buf_size) const
 }
 
 // 00164480
-void CMap::LoadMapFile(char* file, uint size, sint add_mode)
+void CMap::LoadMapFile(MAYBE_UNUSED char* file, MAYBE_UNUSED uint size, MAYBE_UNUSED sint add_mode)
 {
   log_trace("CMap::{}({}, {}, {})", __func__, fmt::ptr(file), size, add_mode);
 
@@ -1739,7 +1739,7 @@ void CMap::LoadMapFile(char* file, uint size, sint add_mode)
 }
 
 // 00164510
-void CMap::SetPieceLoadSkip(bool skip)
+void CMap::SetPieceLoadSkip(MAYBE_UNUSED bool skip)
 {
   log_trace("CMap::{}({})", __func__, skip);
 

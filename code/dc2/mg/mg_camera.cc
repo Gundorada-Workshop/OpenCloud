@@ -29,7 +29,7 @@ mgCCamera::mgCCamera(f32 speed)
 }
 
 // 00131110
-void mgCCamera::Step(sint steps)
+void mgCCamera::Step(MAYBE_UNUSED sint steps)
 {
   log_trace("mgCCamera::Step({})", steps);
 
@@ -160,7 +160,7 @@ mgCCameraFollow::mgCCameraFollow(f32 follow_distance, f32 height, f32 angle, f32
 }
 
 // 00131740
-void mgCCameraFollow::Step(sint steps)
+void mgCCameraFollow::Step(MAYBE_UNUSED sint steps)
 {
   log_trace("mgCCameraFollow::{}({})", __func__, steps);
 

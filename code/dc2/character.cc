@@ -381,7 +381,7 @@ void CCharacter2::DrawEffect()
 }
 
 // 00172DF0
-void CCharacter2::AddOutLine(const char* frame_name, COutLineDraw* outline)
+void CCharacter2::AddOutLine(MAYBE_UNUSED const char* frame_name, MAYBE_UNUSED COutLineDraw* outline)
 {
   log_trace("CCharacter2::{}({}, {})", __func__, frame_name, fmt::ptr(outline));
 
@@ -389,7 +389,7 @@ void CCharacter2::AddOutLine(const char* frame_name, COutLineDraw* outline)
 }
 
 // 00172F00
-void CCharacter2::CopyOutLine(CCharacter2* other)
+void CCharacter2::CopyOutLine(MAYBE_UNUSED CCharacter2* other)
 {
   log_trace("CCharacter2::{}({})", __func__, fmt::ptr(other));
 
@@ -429,7 +429,7 @@ void CCharacter2::SetMotionPara(MAYBE_UNUSED std::string key_name, MAYBE_UNUSED 
 }
 
 // 00173B00
-void CCharacter2::SetDAnimeEnable(bool flag)
+void CCharacter2::SetDAnimeEnable(MAYBE_UNUSED bool flag)
 {
   log_trace("CCharacter2::{}({})", __func__, flag);
 
@@ -437,7 +437,7 @@ void CCharacter2::SetDAnimeEnable(bool flag)
 }
 
 // 00173B30
-void CCharacter2::GetSoundInfoCopy(mgCMemory* memory)
+void CCharacter2::GetSoundInfoCopy(MAYBE_UNUSED mgCMemory* memory)
 {
   log_trace("CCharacter2::{}({})", __func__, fmt::ptr(memory));
 
@@ -462,7 +462,7 @@ void CCharacter2::SePlay()
 }
 
 // 001742E0
-void CCharacter2::StepDA(s32 steps)
+void CCharacter2::StepDA(MAYBE_UNUSED s32 steps)
 {
   log_trace("CCharacter2::{}({})", __func__, steps);
 
@@ -530,7 +530,7 @@ void CCharacter2::DeleteImage()
 //}
 
 // 00175160
-f32 CCharacter2::GetWaitToFrame(std::string key_name, f32 rate)
+f32 CCharacter2::GetWaitToFrame(MAYBE_UNUSED std::string key_name, MAYBE_UNUSED f32 rate)
 {
   log_trace("CCharacter2::{}({}, {})", __func__, key_name, rate);
 
@@ -539,7 +539,7 @@ f32 CCharacter2::GetWaitToFrame(std::string key_name, f32 rate)
 }
 
 // 001751C0
-void CCharacter2::LoadSkin(uint* i1, char* c1, char* c2, mgCMemory* memory, sint i2)
+void CCharacter2::LoadSkin(MAYBE_UNUSED uint* i1, MAYBE_UNUSED char* c1, MAYBE_UNUSED char* c2, MAYBE_UNUSED mgCMemory* memory, MAYBE_UNUSED sint i2)
 {
   log_trace("CCharacter2::{}({}, {}, {}, {}, {})", __func__, fmt::ptr(i1), c1, c2, fmt::ptr(memory), i2);
 
@@ -547,7 +547,7 @@ void CCharacter2::LoadSkin(uint* i1, char* c1, char* c2, mgCMemory* memory, sint
 }
 
 // 00177A30
-void CCharacter2::ExecEntryEffect(CHRINFO_KEY_SET* keys)
+void CCharacter2::ExecEntryEffect(MAYBE_UNUSED CHRINFO_KEY_SET* keys)
 {
   log_trace("CCharacter2::{}({})", __func__, fmt::ptr(keys));
 
@@ -571,7 +571,7 @@ void CCharacter2::StepEffect()
 }
 
 // 00178A60
-void CCharacter2::ChangeLOD(usize lod)
+void CCharacter2::ChangeLOD(MAYBE_UNUSED usize lod)
 {
   log_trace("CCharacter2::{}({})", __func__, lod);
 
@@ -606,7 +606,7 @@ f32 CActionChara::GetCameraDist()
 }
 
 // 0016AB00
-void CActionChara::SetFarDist(f32 far_dist)
+void CActionChara::SetFarDist(MAYBE_UNUSED f32 far_dist)
 {
   log_trace("CActionChara::{}({})", __func__, far_dist);
 
@@ -614,7 +614,7 @@ void CActionChara::SetFarDist(f32 far_dist)
 }
 
 // 0016AB30
-void CActionChara::SetNearDist(f32 near_dist)
+void CActionChara::SetNearDist(MAYBE_UNUSED f32 near_dist)
 {
   log_trace("CActionChara::{}({})", __func__, near_dist);
 
@@ -630,7 +630,7 @@ void CActionChara::ResetMotion()
 }
 
 // 0016AAD0
-void CActionChara::SetFadeFlag(bool flag)
+void CActionChara::SetFadeFlag(MAYBE_UNUSED bool flag)
 {
   log_trace("CActionChara::{}({})", __func__, flag);
 
@@ -671,7 +671,7 @@ void CActionChara::DrawEffect()
 }
 
 // 0016ABA0
-void CActionChara::Show(sint i1, sint i2)
+void CActionChara::Show(MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2)
 {
   log_trace("CActionChara::{}({}, {})", __func__, i1, i2);
 
@@ -679,7 +679,7 @@ void CActionChara::Show(sint i1, sint i2)
 }
 
 // 0016ABE0
-void CActionChara::GetShow(std::string chara_name)
+void CActionChara::GetShow(MAYBE_UNUSED std::string chara_name)
 {
   log_trace("CActionChara::{}({})", __func__, chara_name);
 
@@ -687,7 +687,7 @@ void CActionChara::GetShow(std::string chara_name)
 }
 
 // 0016B780
-void CActionChara::SetMotion(std::string key_name, sint i1)
+void CActionChara::SetMotion(MAYBE_UNUSED std::string key_name, MAYBE_UNUSED sint i1)
 {
   log_trace("CActionChara::{}({}, {})", __func__, key_name, i1);
 
@@ -695,7 +695,7 @@ void CActionChara::SetMotion(std::string key_name, sint i1)
 }
 
 // 0016B780
-void CActionChara::SetMotion(std::string key_name, sint i1, sint i2)
+void CActionChara::SetMotion(MAYBE_UNUSED std::string key_name, MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2)
 {
   log_trace("CActionChara::{}({}, {}, {})", __func__, key_name, i1, i2);
 
@@ -703,7 +703,7 @@ void CActionChara::SetMotion(std::string key_name, sint i1, sint i2)
 }
 
 // 0016B5B0
-ECharacterMotionStatus CActionChara::GetMotionStatus(std::string key_name)
+ECharacterMotionStatus CActionChara::GetMotionStatus(MAYBE_UNUSED std::string key_name)
 {
   log_trace("CActionChara::{}({})", __func__, key_name);
 

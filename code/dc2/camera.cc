@@ -245,7 +245,7 @@ void CCameraControl::Rotate(MAYBE_UNUSED f32 delta)
 }
 
 // 002EC790
-void CCameraControl::SetRotate(f32 rot)
+void CCameraControl::SetRotate(MAYBE_UNUSED f32 rot)
 {
   log_trace("CCameraControl::{}({})", __func__, rot);
 

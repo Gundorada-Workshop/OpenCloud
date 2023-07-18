@@ -11,7 +11,7 @@
 
 set_log_channel("effect_script");
 
-static sint GetStackInt(script::stack_data* stack)
+MAYBE_UNUSED static sint GetStackInt(script::stack_data* stack)
 {
   log_trace("{}()", __func__, fmt::ptr(stack));
 
@@ -21,7 +21,7 @@ static sint GetStackInt(script::stack_data* stack)
   return stack->_int;
 }
 
-static f32 GetStackFloat(script::stack_data* stack)
+MAYBE_UNUSED static f32 GetStackFloat(script::stack_data* stack)
 {
   log_trace("{}()", __func__, fmt::ptr(stack));
 
@@ -49,7 +49,7 @@ MAYBE_UNUSED static const char* GetStackString(script::stack_data* stack)
   return stack->_str;
 }
 
-static void SetStack(script::stack_data* stack, sint value)
+MAYBE_UNUSED static void SetStack(script::stack_data* stack, sint value)
 {
   log_trace("{}()", __func__, fmt::ptr(stack));
 
@@ -1228,7 +1228,7 @@ static const RS_TAG_PARAM ext_func_info[]
 };
 
 // 002D20D0
-bool SetEffectScript(CRunScript* run_script, char* rs_program, mgCMemory* stack)
+bool SetEffectScript(MAYBE_UNUSED CRunScript* run_script, MAYBE_UNUSED char* rs_program, MAYBE_UNUSED mgCMemory* stack)
 {
   log_trace("{}({}, {}, {})", __func__, fmt::ptr(run_script), fmt::ptr(rs_program), fmt::ptr(stack));
 
