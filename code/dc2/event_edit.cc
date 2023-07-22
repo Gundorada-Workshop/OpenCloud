@@ -32,7 +32,7 @@ void CEditEvent::Reset()
 }
 
 // 002EF9E0
-bool CEditEvent::StartEvent(CSceneEventData* event_data)
+bool CEditEvent::StartEvent(MAYBE_UNUSED CSceneEventData* event_data)
 {
   log_trace("CEditEvent::{}({})", __func__, fmt::ptr(event_data));
 

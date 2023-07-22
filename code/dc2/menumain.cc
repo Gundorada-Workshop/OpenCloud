@@ -57,7 +57,7 @@ f32 GetRandF(f32 n)
 }
 
 // 002507D0
-f32 MenuAdjustPolygonScale(mgCFrame* frame, f32 scale)
+f32 MenuAdjustPolygonScale(MAYBE_UNUSED mgCFrame* frame, MAYBE_UNUSED f32 scale)
 {
   log_trace("{}({}, {})", __func__, fmt::ptr(frame), scale);
 

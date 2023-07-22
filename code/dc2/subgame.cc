@@ -8,7 +8,7 @@ set_log_channel("subgame");
 static SubGameInfo GameInfo{};
 
 // 00303FC0
-void sgInitSubGame(ESubGameID game_id, SubGameInfo* sub_game_info)
+void sgInitSubGame(MAYBE_UNUSED ESubGameID game_id, MAYBE_UNUSED SubGameInfo* sub_game_info)
 {
   log_trace("{}({}, {})", __func__, s32(game_id), fmt::ptr(sub_game_info));
 
