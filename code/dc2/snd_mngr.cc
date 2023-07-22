@@ -157,7 +157,7 @@ void sndSePlay(MAYBE_UNUSED uint u1, MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2)
 }
 
 // 0018E0C0
-void sndSePlayVPf(uint i0, sint i1, f32 f0, f32 f1, sint i2)
+void sndSePlayVPf(MAYBE_UNUSED uint i0, MAYBE_UNUSED sint i1, MAYBE_UNUSED f32 f0, MAYBE_UNUSED f32 f1, MAYBE_UNUSED sint i2)
 {
   log_trace("{}({}, {}, {}, {}, {})", __func__, i0, i1, f0, f1, i2);
 

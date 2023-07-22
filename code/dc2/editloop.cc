@@ -383,7 +383,7 @@ void PrintCursor(char* buffer, usize index)
 }
 
 // 001A7930
-void EditDebugLoop(CScene* scene, EditDebugInfo* debug_info)
+void EditDebugLoop(MAYBE_UNUSED CScene* scene, MAYBE_UNUSED EditDebugInfo* debug_info)
 {
   log_trace("{}({}, {})", __func__, fmt::ptr(scene), fmt::ptr(debug_info));
 
@@ -423,7 +423,7 @@ bool IsLightingEditMode()
 }
 
 // 001A8440
-void LightingEdit(CScene* scene)
+void LightingEdit(MAYBE_UNUSED CScene* scene)
 {
   log_trace("{}({})", __func__, fmt::ptr(scene));
 
@@ -652,7 +652,7 @@ void EditDraw()
 }
 
 // 001AF140
-void UpdateTrBoxFlag(sint box_index)
+void UpdateTrBoxFlag(MAYBE_UNUSED sint box_index)
 {
   log_trace("{}({})", __func__, box_index);
 
@@ -668,7 +668,7 @@ void BurnEditParts()
 }
 
 // 001AF3A0
-void editLoadSound(sint sound_id)
+void editLoadSound(MAYBE_UNUSED sint sound_id)
 {
   log_trace("{}({})", __func__, sound_id);
 
@@ -676,7 +676,7 @@ void editLoadSound(sint sound_id)
 }
 
 // 001AF4C0
-void EditMapJump(sint map_id)
+void EditMapJump(MAYBE_UNUSED sint map_id)
 {
   log_trace("{}({})", __func__, map_id);
 
@@ -684,7 +684,7 @@ void EditMapJump(sint map_id)
 }
 
 // 001AFBD0
-void EditGotoInterior(sint interior_id, bool b)
+void EditGotoInterior(MAYBE_UNUSED sint interior_id, MAYBE_UNUSED bool b)
 {
   log_trace("{}({}, {})", __func__, interior_id, b);
 

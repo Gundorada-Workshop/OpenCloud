@@ -151,7 +151,7 @@ uint CInventUserData::GetInventionNum()
 }
 
 // 00200350
-bool CheckInventItem(ECommonItemData item_id)
+bool CheckInventItem(MAYBE_UNUSED ECommonItemData item_id)
 {
   log_trace("{}({})", __func__, common::to_underlying(item_id));
 
@@ -160,7 +160,7 @@ bool CheckInventItem(ECommonItemData item_id)
 }
 
 // 002005D0
-usize CheckInventPhoto(sint i1, sint i2)
+usize CheckInventPhoto(MAYBE_UNUSED sint i1, MAYBE_UNUSED sint i2)
 {
   log_trace("{}({}, {})", __func__, i1, i2);
 

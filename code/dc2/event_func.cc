@@ -474,7 +474,7 @@ static bool _SET_MARKER(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sin
   return true;
 }
 
-static bool _SET_WORLD_COORD(script::stack_data* stack, sint stack_count)
+static bool _SET_WORLD_COORD(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -942,7 +942,7 @@ static bool _LOAD_CHARA_NPC(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED
   return true;
 }
 
-static bool _AUTO_SET_TREASURE_BOX(script::stack_data* stack, sint stack_count)
+static bool _AUTO_SET_TREASURE_BOX(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2730,7 +2730,7 @@ static bool _GET_CONTENTS_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUS
   return true;
 }
 
-static bool _GET_BPOT_POS(script::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_BPOT_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2914,7 +2914,7 @@ static bool _DNGMAP_SET_FADE(script::stack_data* stack, MAYBE_UNUSED sint stack_
   return true;
 }
 
-static bool _GET_BEFORE_CAMERA_NEXT_POS(script::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_BEFORE_CAMERA_NEXT_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2932,7 +2932,7 @@ static bool _GET_BEFORE_CAMERA_NEXT_POS(script::stack_data* stack, MAYBE_UNUSED 
   return true;
 }
 
-static bool _GET_BEFORE_CAMERA_NEXT_REF(script::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_BEFORE_CAMERA_NEXT_REF(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2966,7 +2966,7 @@ static bool _CHK_INTERSECTION_POINT(MAYBE_UNUSED script::stack_data* stack, MAYB
   return true;
 }
 
-static bool _SET_FCAMERA_FOLLOW(script::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_FCAMERA_FOLLOW(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -2983,7 +2983,7 @@ static bool _SET_FCAMERA_FOLLOW(script::stack_data* stack, MAYBE_UNUSED sint sta
   return true;
 }
 
-static bool _SET_FCAMERA_FOLLOW_A(script::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_FCAMERA_FOLLOW_A(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3000,7 +3000,7 @@ static bool _SET_FCAMERA_FOLLOW_A(script::stack_data* stack, MAYBE_UNUSED sint s
   return true;
 }
 
-static bool _SET_FCAMERA_FOLLOW_OFS(script::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_FCAMERA_FOLLOW_OFS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -3899,7 +3899,7 @@ static bool _GET_OMAKE_FLAG(script::stack_data* stack, MAYBE_UNUSED sint stack_c
   return true;
 }
 
-static bool _SET_WIND(script::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _SET_WIND(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5083,7 +5083,7 @@ static bool _ZERO_VECTOR(script::stack_data* stack, sint stack_count)
   return true;
 }
 
-static bool _NORMAL_VECTOR(script::stack_data* stack, sint stack_count)
+static bool _NORMAL_VECTOR(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5108,7 +5108,7 @@ static bool _NORMAL_VECTOR(script::stack_data* stack, sint stack_count)
   return true;
 }
 
-static bool _COPY_VECTOR(script::stack_data* stack, sint stack_count)
+static bool _COPY_VECTOR(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5126,7 +5126,7 @@ static bool _COPY_VECTOR(script::stack_data* stack, sint stack_count)
   return true;
 }
 
-static bool _ADD_VECTOR(script::stack_data* stack, sint stack_count)
+static bool _ADD_VECTOR(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5146,7 +5146,7 @@ static bool _ADD_VECTOR(script::stack_data* stack, sint stack_count)
   return true;
 }
 
-static bool _SUB_VECTOR(script::stack_data* stack, sint stack_count)
+static bool _SUB_VECTOR(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5166,7 +5166,7 @@ static bool _SUB_VECTOR(script::stack_data* stack, sint stack_count)
   return true;
 }
 
-static bool _SCALE_VECTOR(script::stack_data* stack, sint stack_count)
+static bool _SCALE_VECTOR(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5186,7 +5186,7 @@ static bool _SCALE_VECTOR(script::stack_data* stack, sint stack_count)
   return true;
 }
 
-static bool _DIV_VECTOR(script::stack_data* stack, sint stack_count)
+static bool _DIV_VECTOR(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5215,7 +5215,7 @@ static bool _DIV_VECTOR(script::stack_data* stack, sint stack_count)
   return true;
 }
 
-static bool _DIST_VECTOR(script::stack_data* stack, sint stack_count)
+static bool _DIST_VECTOR(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5228,7 +5228,7 @@ static bool _DIST_VECTOR(script::stack_data* stack, sint stack_count)
   return true;
 }
 
-static bool _DIST_VECTOR2(script::stack_data* stack, sint stack_count)
+static bool _DIST_VECTOR2(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5316,7 +5316,7 @@ static bool _GET_RAND(script::stack_data* stack, sint stack_count)
   return true;
 }
 
-static bool _LINE_POINT_DIST(script::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _LINE_POINT_DIST(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5392,7 +5392,7 @@ static bool _SWORD_EFFECT_ADD_POINT(MAYBE_UNUSED script::stack_data* stack, MAYB
   return true;
 }
 
-static bool _ADD_CHARA_POS(script::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _ADD_CHARA_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5410,7 +5410,7 @@ static bool _ADD_CHARA_POS(script::stack_data* stack, MAYBE_UNUSED sint stack_co
   return true;
 }
 
-static bool _ADD_CHARA_ROT(script::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _ADD_CHARA_ROT(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -5493,7 +5493,7 @@ static bool _CTRLC_MOVE_RANGE(script::stack_data* stack, MAYBE_UNUSED sint stack
   return true;
 }
 
-static bool _GET_NEAR_TBOX_POS(script::stack_data* stack, MAYBE_UNUSED sint stack_count)
+static bool _GET_NEAR_TBOX_POS(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUSED sint stack_count)
 {
   trace_script_call(stack, stack_count);
 
@@ -7992,7 +7992,7 @@ void CSceneObjSeq::Clear()
 }
 
 // 0025FF40
-void CRaster::SetParam(f32 f1, f32 f2, f32 f3)
+void CRaster::SetParam(MAYBE_UNUSED f32 f1, MAYBE_UNUSED f32 f2, MAYBE_UNUSED f32 f3)
 {
   log_trace("CRaster::{}({}, {}, {})", __func__, f1, f2, f3);
 
@@ -8000,7 +8000,7 @@ void CRaster::SetParam(f32 f1, f32 f2, f32 f3)
 }
 
 // 0025FF50
-void CRaster::StartRaster(f32 f1, f32 f2, f32 f3, s32 i)
+void CRaster::StartRaster(MAYBE_UNUSED f32 f1, MAYBE_UNUSED f32 f2, MAYBE_UNUSED f32 f3, MAYBE_UNUSED s32 i)
 {
   log_trace("CRaster::{}({}, {}, {}, {})", __func__, f1, f2, f3, i);
 
@@ -8008,7 +8008,7 @@ void CRaster::StartRaster(f32 f1, f32 f2, f32 f3, s32 i)
 }
 
 // 002600A0
-void CRaster::StopRaster(f32 f1, f32 f2, f32 f3, s32 i)
+void CRaster::StopRaster(MAYBE_UNUSED f32 f1, MAYBE_UNUSED f32 f2, MAYBE_UNUSED f32 f3, MAYBE_UNUSED s32 i)
 {
   log_trace("CRaster::{}({}, {}, {}, {})", __func__, f1, f2, f3, i);
 
@@ -8040,7 +8040,7 @@ void CScreenEffect::Step()
 }
 
 // 002608D0
-void CScreenEffect::InitRaster(f32 f1, f32 f2, f32 f3)
+void CScreenEffect::InitRaster(MAYBE_UNUSED f32 f1, MAYBE_UNUSED f32 f2, MAYBE_UNUSED f32 f3)
 {
   log_trace("CScreenEffect::{}({}, {}, {})", __func__, f1, f2, f3);
 
@@ -8048,7 +8048,7 @@ void CScreenEffect::InitRaster(f32 f1, f32 f2, f32 f3)
 }
 
 // 00260930
-void CScreenEffect::StartRaster(f32 f1, f32 f2, f32 f3, s32 i)
+void CScreenEffect::StartRaster(MAYBE_UNUSED f32 f1, MAYBE_UNUSED f32 f2, MAYBE_UNUSED f32 f3, MAYBE_UNUSED s32 i)
 {
   log_trace("CScreenEffect::{}({}, {}, {}, {})", __func__, f1, f2, f3, i);
 
@@ -8056,7 +8056,7 @@ void CScreenEffect::StartRaster(f32 f1, f32 f2, f32 f3, s32 i)
 }
 
 // 00260940
-void CScreenEffect::StopRaster(f32 f1, f32 f2, f32 f3, s32 i)
+void CScreenEffect::StopRaster(MAYBE_UNUSED f32 f1, MAYBE_UNUSED f32 f2, MAYBE_UNUSED f32 f3, MAYBE_UNUSED s32 i)
 {
   log_trace("CScreenEffect::{}({}, {}, {}, {})", __func__, f1, f2, f3, i);
 
@@ -8064,7 +8064,7 @@ void CScreenEffect::StopRaster(f32 f1, f32 f2, f32 f3, s32 i)
 }
 
 // 00260950
-void CScreenEffect::SetSepiaTexture(unkptr p1, unkptr p2)
+void CScreenEffect::SetSepiaTexture(MAYBE_UNUSED unkptr p1, MAYBE_UNUSED unkptr p2)
 {
   log_trace("CScreenEffect::{}({}, {})", __func__, fmt::ptr(p1), fmt::ptr(p2));
 
@@ -8080,7 +8080,7 @@ void CScreenEffect::CaptureSepiaScreen()
 }
 
 // 00260BF0
-void CScreenEffect::SetSepiaFlag(bool flag)
+void CScreenEffect::SetSepiaFlag(MAYBE_UNUSED bool flag)
 {
   log_trace("CScreenEffect::{}({})", __func__, flag);
 
@@ -8088,7 +8088,7 @@ void CScreenEffect::SetSepiaFlag(bool flag)
 }
 
 // 00260C10
-void CScreenEffect::SetMonoFlashTexture(unkptr p1, unkptr p2)
+void CScreenEffect::SetMonoFlashTexture(MAYBE_UNUSED unkptr p1, MAYBE_UNUSED unkptr p2)
 {
   log_trace("CScreenEffect::{}({}, {})", __func__, fmt::ptr(p1), fmt::ptr(p2));
 
