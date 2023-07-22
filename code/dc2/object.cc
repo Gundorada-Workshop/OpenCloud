@@ -216,7 +216,7 @@ bool CObject::CheckDraw()
 }
 
 // 00160BC0
-void CObject::Copy(CObject& other, mgCMemory* mem)
+void CObject::Copy(MAYBE_UNUSED CObject& other, MAYBE_UNUSED mgCMemory* mem)
 {
   log_trace("CObject::{}({}, {})", __func__, fmt::ptr(&other), fmt::ptr(mem));
 
@@ -298,7 +298,7 @@ void CObjectFrame::UpdatePosition()
 }
 
 // 0016A050
-void CObjectFrame::Copy(CObjectFrame& other, mgCMemory* mem)
+void CObjectFrame::Copy(MAYBE_UNUSED CObjectFrame& other, MAYBE_UNUSED mgCMemory* mem)
 {
   log_trace("CObject::{}({}, {})", __func__, fmt::ptr(&other), fmt::ptr(mem));
 

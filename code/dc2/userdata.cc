@@ -3928,7 +3928,7 @@ CGameDataUsed* CBattleCharaInfo::GetEquipTablePtr(usize index)
 }
 
 // 0019F010
-void CBattleCharaInfo::SetChrNo(ECharacterID chara_id)
+void CBattleCharaInfo::SetChrNo(MAYBE_UNUSED ECharacterID chara_id)
 {
   log_trace("CBattleCharaInfo::{}({})", __func__, common::to_underlying(chara_id));
 
@@ -4008,7 +4008,7 @@ CGameDataUsed* CBattleCharaInfo::GetActiveItemInfo(usize index)
 }
 
 // 0019F3B0
-bool CBattleCharaInfo::UseActiveItem(CGameDataUsed* active_item)
+bool CBattleCharaInfo::UseActiveItem(MAYBE_UNUSED CGameDataUsed* active_item)
 {
   log_trace("CBattleCharaInfo::{}({})", __func__, fmt::ptr(active_item));
 
@@ -4017,7 +4017,7 @@ bool CBattleCharaInfo::UseActiveItem(CGameDataUsed* active_item)
 }
 
 // 0019F480
-ESpecialStatus CBattleCharaInfo::GetSpecialStatus(usize index)
+ESpecialStatus CBattleCharaInfo::GetSpecialStatus(MAYBE_UNUSED usize index)
 {
   log_trace("CBattleCharaInfo::{}({})", __func__, index);
 
@@ -4026,7 +4026,7 @@ ESpecialStatus CBattleCharaInfo::GetSpecialStatus(usize index)
 }
 
 // 0019F4D0
-s16 CBattleCharaInfo::GetPalletNo(usize index)
+s16 CBattleCharaInfo::GetPalletNo(MAYBE_UNUSED usize index)
 {
   log_trace("CBattleCharaInfo::{}({})", __func__, index);
 
@@ -4147,7 +4147,7 @@ s32 CBattleCharaInfo::GetWhpNowVol(usize weapon_index) const
 }
 
 // 0019FAA0
-void SetMagicSwordPow(EMagicSwordElement element, s16 i1)
+void SetMagicSwordPow(MAYBE_UNUSED EMagicSwordElement element, MAYBE_UNUSED s16 i1)
 {
   log_trace("CBattleCharaInfo::{}({}, {})", __func__, common::to_underlying(element), i1);
   
@@ -4210,7 +4210,7 @@ void CBattleCharaInfo::ClearMagicSwordPow()
 }
 
 // 0019FD30
-f32 CBattleCharaInfo::AddAbs(usize weapon_index, f32 delta, bool* has_leveled_up)
+f32 CBattleCharaInfo::AddAbs(MAYBE_UNUSED usize weapon_index, MAYBE_UNUSED f32 delta, MAYBE_UNUSED bool* has_leveled_up)
 {
   log_trace("CBattleCharaInfo::{}({}, {}, {})", __func__, weapon_index, delta, fmt::ptr(has_leveled_up));
 
@@ -4219,7 +4219,7 @@ f32 CBattleCharaInfo::AddAbs(usize weapon_index, f32 delta, bool* has_leveled_up
 }
 
 // 0019FEE0
-bool CBattleCharaInfo::AddAbsRate(usize weapon_index, f32 delta, bool* has_leveled_up)
+bool CBattleCharaInfo::AddAbsRate(MAYBE_UNUSED usize weapon_index, MAYBE_UNUSED f32 delta, MAYBE_UNUSED bool* has_leveled_up)
 {
   log_trace("CBattleCharaInfo::{}({}, {}, {})", __func__, weapon_index, delta, fmt::ptr(has_leveled_up));
 
@@ -4303,7 +4303,7 @@ f32 CBattleCharaInfo::AddHp_Point(f32 delta, f32 divisor)
 }
 
 // 001A01B0
-f32 CBattleCharaInfo::AddHp_Rate(f32 f1, s32 i1, f32 f2)
+f32 CBattleCharaInfo::AddHp_Rate(MAYBE_UNUSED f32 f1, MAYBE_UNUSED s32 i1, MAYBE_UNUSED f32 f2)
 {
   log_trace("CBattleCharaInfo::{}({}, {}, {})", __func__, f1, i1, f2);
 
@@ -4410,7 +4410,7 @@ void CBattleCharaInfo::ForceSet()
 }
 
 // 001A08D0
-ECharaStatusAttribute CBattleCharaInfo::StatusParamStep(s32* p)
+ECharaStatusAttribute CBattleCharaInfo::StatusParamStep(MAYBE_UNUSED s32* p)
 {
   log_trace("CBattleCharaInfo::{}({})", __func__, fmt::ptr(p));
 
@@ -4889,7 +4889,7 @@ void DeleteErekiFish()
 }
 
 // 001A1910
-usize GetNowBagMax(bool b)
+usize GetNowBagMax(MAYBE_UNUSED bool b)
 {
   log_trace("{}({})", __func__, b);
 
