@@ -7,7 +7,31 @@ on:
     branches: [ "main" ]
 
 jobs:
-  Ubuntu-Latest:
+  Windows:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        submodules: true
+
+    - name: Set up Visual Studio shell
+      uses: egor-tensin/vs-shell@v2
+      with:
+        arch: x64
+
+    - name: Generate Build
+      shell: cmd
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: cmake.exe -DCMAKE_BUILD_TYPE=Release -S. -B./build -G Ninja
+
+    - name: Ninja Build
+      shell: cmd
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: cmake.exe --build ./build --config Release
+ 
+  Ubuntu:
     runs-on: ubuntu-latest
     env:
       CC: clang-16
