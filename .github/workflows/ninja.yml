@@ -19,17 +19,17 @@ jobs:
         fetch-depth: 0
         submodules: true
 
+    - name: Update Apt Package List
+      run: sudo apt-get update
+
+    - name: Purge Clang
+      run: sudo apt remove -y clang-13 clang-14
+
     - name: Setup And Install LLVM 16
       run: |
         wget https://apt.llvm.org/llvm.sh
         chmod +x llvm.sh
         sudo ./llvm.sh 16
-
-    - name: Update Apt Package List
-      run: sudo apt-get update
-
-    - name: Install LibC++
-      run: sudo apt-get install -y libc++1-16 libc++abi-16-dev libc++-16-dev libc++abi1-16
 
     - name: Install Ninja
       run: sudo apt-get install -y ninja-build
