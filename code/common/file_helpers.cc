@@ -252,7 +252,7 @@ namespace common::file_helpers
       // don't try to create a drive
       // this will be something like C:\\ which is 3 characters
       // we need the drive designation for creating the paths though so we don't remove it
-      if (current_commponents.contains(":") && current_sep_position == 3)
+      if (current_commponents.find(":") != std::string_view::npos && current_sep_position == 3)
         continue;
 
       if (!create_directory(current_commponents))
