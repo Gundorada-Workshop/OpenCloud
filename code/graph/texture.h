@@ -188,8 +188,8 @@ struct fmt::formatter<graph::texture::bind_flags> : formatter<string_view>
   // TODO: this kinda sucks
   auto format(const graph::texture::bind_flags flags, format_context& ctx)
   {
-    if (std::to_underlying(flags) == 0)
-      return std::format_to(ctx.out(), "flags(none)");
+    if (common::to_underlying(flags) == 0)
+      return fmt::format_to(ctx.out(), "flags(none)");
 
     constexpr std::array<std::string_view, 3> flag_names =
     {
@@ -199,9 +199,9 @@ struct fmt::formatter<graph::texture::bind_flags> : formatter<string_view>
     };
 
     std::string flags_string;
-    for (usize i = 0; i < std::to_underlying(graph::texture::bind_flags::max); ++i)
+    for (usize i = 0; i < common::to_underlying(graph::texture::bind_flags::max); ++i)
     {
-      if (std::to_underlying(flags) & (1 << i))
+      if (common::to_underlying(flags) & (1 << i))
       {
         flags_string += flag_names[i];
         flags_string += "|";
