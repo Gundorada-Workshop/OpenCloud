@@ -68,7 +68,7 @@ struct fmt::formatter<script::label_type> : formatter<string_view>
     if (type > script::label_type::count)
       ctx.on_error("Label type out of bounds");
 
-    return formatter<string_view>::format(table[std::to_underlying(type)], ctx);
+    return formatter<string_view>::format(table[common::to_underlying(type)], ctx);
   }
 };
 
