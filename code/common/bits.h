@@ -1,7 +1,7 @@
 #pragma once
-#include <algorithm>
+#include <algorithm> // std::clamp
 #include <limits>
-#include <type_traits>
+#include <type_traits> // std::make_signed, std::make_unsigned
 
 #include "common/types.h"
 #include "common/macros.h"
