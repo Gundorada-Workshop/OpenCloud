@@ -15,8 +15,8 @@ target_include_directories(ProjectConfiguration INTERFACE
 target_compile_features(ProjectConfiguration INTERFACE cxx_std_20)
 
 target_compile_options(ProjectConfiguration INTERFACE
-  # warning level 4 utf8
-  $<$<CXX_COMPILER_ID:MSVC>:/W4 /utf-8 -D_UNICODE -DUNICODE /Zc:wchar_t /permissive->
+  # warning level 4 utf8, disable min/max macros, lean and mean
+  $<$<CXX_COMPILER_ID:MSVC>:/W4 /utf-8 -D_UNICODE -DUNICODE -DNOMINMAX -DWIN32_LEAN_AND_MEAN /Zc:wchar_t /permissive->
   # warning level all and extra
   $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -march=x86-64-v2 -mavx -mfma>
   # enable SIMD
