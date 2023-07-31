@@ -41,3 +41,14 @@ jobs:
     - name: Run Game Tests
       working-directory: ${{env.SOLUTION_FILE_PATH}}
       run: bin\game-test-release-x64.exe
+
+    - name: Create Symbols Archive
+      working-directory: ${{env.SOLUTION_FILE_PATH}}
+      run: |
+        & "C:\Program Files\7-Zip\7z.exe" a opencloud-release-symbols-x64.zip .\bin\*.pdb
+
+    - name: Create Release Archive
+      working-directory: ${{env.SOLUTION_FILE_PATH}}
+      run: |
+        ren bin\host-release-x64.exe opencloud.exe
+        & "C:\Program Files\7-Zip\7z.exe" a opencloud-release-x64.zip .\bin\opencloud.exe
