@@ -52,3 +52,9 @@ jobs:
       run: |
         ren bin\host-release-x64.exe opencloud.exe
         & "C:\Program Files\7-Zip\7z.exe" a opencloud-release-x64.zip .\bin\opencloud.exe
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: "windows-x64-msbuild"
+        path: "opencloud-release-x64.zip"
