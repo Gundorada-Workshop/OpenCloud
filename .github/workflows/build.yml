@@ -73,12 +73,36 @@ jobs:
       with:
         arch: x64
 
-    - name: Generate Build
+    - name: Generate
+      shell: cmd
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: cmake.exe -DCMAKE_BUILD_TYPE=Release -S. -B./build -G "Visual Studio 17 2022"
+
+    - name: Build
+      shell: cmd
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: cmake.exe --build ./build --config Release
+
+  windows-latest-cmake-msbuild-msvc:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        submodules: true
+
+    - name: Set up Visual Studio shell
+      uses: egor-tensin/vs-shell@v2
+      with:
+        arch: x64
+
+    - name: Generate
       shell: cmd
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: cmake.exe -DCMAKE_BUILD_TYPE=Release -S. -B./build -G Ninja
 
-    - name: Ninja Build
+    - name: Build
       shell: cmd
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: cmake.exe --build ./build --config Release
@@ -110,10 +134,10 @@ jobs:
     - name: Install Ninja
       run: sudo apt-get install -y ninja-build
 
-    - name: Generate Build
+    - name: Generate
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: cmake -DCMAKE_BUILD_TYPE=Release -S. -B./build -G Ninja
 
-    - name: Ninja Build
+    - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: cmake --build ./build --config Release
