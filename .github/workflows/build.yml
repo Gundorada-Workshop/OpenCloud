@@ -141,3 +141,29 @@ jobs:
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: cmake --build ./build --config Release
+
+  ubuntu-latest-cmake-ninja-gcc11:
+    runs-on: ubuntu-latest
+    env:
+      CC: gcc-11
+      CXX: g++-11
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        submodules: true
+
+    - name: Update Apt Package List
+      run: sudo apt update
+
+    - name: Install Dependencies
+      run: sudo apt install -y gcc-11 ninja-build
+
+    - name: Generate
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: cmake -DCMAKE_BUILD_TYPE=Release -S. -B./build -G Ninja
+
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: cmake --build ./build --config Release
