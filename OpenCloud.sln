@@ -36,9 +36,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{189CD55B-0
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		.github\workflows\build.yml = .github\workflows\build.yml
 		CMakeLists.txt = CMakeLists.txt
-		.github\workflows\msbuild.yml = .github\workflows\msbuild.yml
-		.github\workflows\ninja.yml = .github\workflows\ninja.yml
 		resource\releases.json = resource\releases.json
 	EndProjectSection
 EndProject

@@ -1,0 +1,119 @@
+name: Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  SOLUTION_FILE_PATH: .
+  BUILD_CONFIGURATION: Release
+
+permissions:
+  contents: read
+
+jobs:
+  windows-latest-msbuild-msvc:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        submodules: true
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Restore NuGet packages
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: nuget restore ${{env.SOLUTION_FILE_PATH}}
+
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
+
+    - name: Run Common Tests
+      working-directory: ${{env.SOLUTION_FILE_PATH}}
+      run: bin\common-test-release-x64.exe
+
+    - name: Run Game Tests
+      working-directory: ${{env.SOLUTION_FILE_PATH}}
+      run: bin\game-test-release-x64.exe
+
+    - name: Create Symbols Archive
+      working-directory: ${{env.SOLUTION_FILE_PATH}}
+      run: |
+        & "C:\Program Files\7-Zip\7z.exe" a opencloud-release-symbols-x64.zip .\bin\*.pdb
+
+    - name: Create Release Archive
+      working-directory: ${{env.SOLUTION_FILE_PATH}}
+      run: |
+        ren bin\host-release-x64.exe opencloud.exe
+        & "C:\Program Files\7-Zip\7z.exe" a opencloud-release-x64.zip .\bin\opencloud.exe
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: "windows-x64-msbuild"
+        path: "opencloud-release-x64.zip"
+
+  windows-latest-cmake-ninja-msvc:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        submodules: true
+
+    - name: Set up Visual Studio shell
+      uses: egor-tensin/vs-shell@v2
+      with:
+        arch: x64
+
+    - name: Generate Build
+      shell: cmd
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: cmake.exe -DCMAKE_BUILD_TYPE=Release -S. -B./build -G Ninja
+
+    - name: Ninja Build
+      shell: cmd
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: cmake.exe --build ./build --config Release
+
+  ubuntu-latest-cmake-ninja-clang16:
+    runs-on: ubuntu-latest
+    env:
+      CC: clang-16
+      CXX: clang++-16
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        submodules: true
+
+    - name: Update Apt Package List
+      run: sudo apt-get update
+
+    - name: Purge Clang
+      run: sudo apt remove -y clang-13 clang-14
+
+    - name: Setup And Install LLVM 16
+      run: |
+        wget https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+        sudo ./llvm.sh 16
+
+    - name: Install Ninja
+      run: sudo apt-get install -y ninja-build
+
+    - name: Generate Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: cmake -DCMAKE_BUILD_TYPE=Release -S. -B./build -G Ninja
+
+    - name: Ninja Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: cmake --build ./build --config Release
