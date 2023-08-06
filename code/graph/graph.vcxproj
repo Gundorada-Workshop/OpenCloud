@@ -33,6 +33,9 @@
     <ClCompile Include="texture.cc" />
     <ClCompile Include="texture_pool.cc" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="$(SolutionDir)code\common\common.exports.props" />
 </Project>
