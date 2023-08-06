@@ -37,9 +37,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{189CD55B-0
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		CMakeLists.txt = CMakeLists.txt
+		.github\workflows\pr.yml = .github\workflows\pr.yml
 		.cmake\ProjectConfiguration.cmake = .cmake\ProjectConfiguration.cmake
 		resource\releases.json = resource\releases.json
-		.github\workflows\pr.yml = .github\workflows\pr.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "projects", "projects", "{5B4BAF44-C9E2-449A-86B5-DE883F2E2919}"
@@ -61,6 +61,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "graph", "code\graph\graph.vcxproj", "{01A149AB-39A3-4F54-A023-832781A21D1F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simdjson", "external\simdjson.vcxproj", "{123DEE7E-D3F8-4A2A-95F3-5D4E8EA26FB3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "version", "generators\version\version.vcxproj", "{7E35C3E7-B0A9-407A-A27D-E552B43602C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -129,6 +131,12 @@ Global
 		{123DEE7E-D3F8-4A2A-95F3-5D4E8EA26FB3}.FastDebug|x64.Build.0 = FastDebug|x64
 		{123DEE7E-D3F8-4A2A-95F3-5D4E8EA26FB3}.Release|x64.ActiveCfg = Release|x64
 		{123DEE7E-D3F8-4A2A-95F3-5D4E8EA26FB3}.Release|x64.Build.0 = Release|x64
+		{7E35C3E7-B0A9-407A-A27D-E552B43602C2}.Debug|x64.ActiveCfg = Debug|x64
+		{7E35C3E7-B0A9-407A-A27D-E552B43602C2}.Debug|x64.Build.0 = Debug|x64
+		{7E35C3E7-B0A9-407A-A27D-E552B43602C2}.FastDebug|x64.ActiveCfg = FastDebug|x64
+		{7E35C3E7-B0A9-407A-A27D-E552B43602C2}.FastDebug|x64.Build.0 = FastDebug|x64
+		{7E35C3E7-B0A9-407A-A27D-E552B43602C2}.Release|x64.ActiveCfg = Release|x64
+		{7E35C3E7-B0A9-407A-A27D-E552B43602C2}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -143,6 +151,7 @@ Global
 		{98B893CD-0324-441E-8EBA-0267427E25C1} = {5B4BAF44-C9E2-449A-86B5-DE883F2E2919}
 		{01A149AB-39A3-4F54-A023-832781A21D1F} = {5B4BAF44-C9E2-449A-86B5-DE883F2E2919}
 		{123DEE7E-D3F8-4A2A-95F3-5D4E8EA26FB3} = {B7584972-373B-4199-A285-5CCD599277EE}
+		{7E35C3E7-B0A9-407A-A27D-E552B43602C2} = {5B4BAF44-C9E2-449A-86B5-DE883F2E2919}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {81C91EE3-8C0D-44FC-A3A6-F4D80A915E56}
