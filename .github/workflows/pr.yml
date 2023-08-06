@@ -1,20 +1,19 @@
-name: Build
+name: PR Build Checks
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
 env:
-  SOLUTION_FILE_PATH: .
-  BUILD_CONFIGURATION: Release
+  PROJECT_PATH: .
+  CONFIG: Release
 
 permissions:
   contents: read
 
 jobs:
   windows-latest-msbuild-msvc:
+    name: "Windows Solution Build"
     runs-on: windows-latest
 
     steps:
@@ -27,39 +26,21 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
 
     - name: Restore NuGet packages
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: nuget restore ${{env.SOLUTION_FILE_PATH}}
+      working-directory: ${{env.PROJECT_PATH}}
+      run: nuget restore ${{env.PROJECT_PATH}}
 
     - name: Build
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
-
-    - name: Run Common Tests
-      working-directory: ${{env.SOLUTION_FILE_PATH}}
-      run: bin\common-test-release-x64.exe
-
-    - name: Run Game Tests
-      working-directory: ${{env.SOLUTION_FILE_PATH}}
-      run: bin\game-test-release-x64.exe
-
-    - name: Create Symbols Archive
-      working-directory: ${{env.SOLUTION_FILE_PATH}}
-      run: |
-        & "C:\Program Files\7-Zip\7z.exe" a opencloud-release-symbols-x64.zip .\bin\*.pdb
-
-    - name: Create Release Archive
-      working-directory: ${{env.SOLUTION_FILE_PATH}}
-      run: |
-        ren bin\host-release-x64.exe opencloud.exe
-        & "C:\Program Files\7-Zip\7z.exe" a opencloud-release-x64.zip .\bin\opencloud.exe
+      working-directory: ${{env.PROJECT_PATH}}
+      run: msbuild /m /p:Configuration=${{env.CONFIG}} ${{env.PROJECT_PATH}}
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v1
       with:
         name: "windows-x64-msbuild"
-        path: "opencloud-release-x64.zip"
+        path: "bin"
 
   windows-latest-cmake-ninja-msvc:
+    name: "Windows CMAKE Ninja Build"
     runs-on: windows-latest
 
     steps:
@@ -76,14 +57,15 @@ jobs:
     - name: Generate
       shell: cmd
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: cmake.exe -DCMAKE_BUILD_TYPE=Release -S. -B./build -G "Visual Studio 17 2022"
+      run: cmake.exe -DCMAKE_BUILD_TYPE=${{env.CONFIG}} -S. -B./build -G "Visual Studio 17 2022"
 
     - name: Build
       shell: cmd
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: cmake.exe --build ./build --config Release
+      run: cmake.exe --build ./build --config ${{env.CONFIG}}
 
   windows-latest-cmake-msbuild-msvc:
+    name: "Windows CMAKE Solution Build"
     runs-on: windows-latest
 
     steps:
@@ -100,14 +82,15 @@ jobs:
     - name: Generate
       shell: cmd
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: cmake.exe -DCMAKE_BUILD_TYPE=Release -S. -B./build -G Ninja
+      run: cmake.exe -DCMAKE_BUILD_TYPE=${{env.CONFIG}} -S. -B./build -G Ninja
 
     - name: Build
       shell: cmd
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: cmake.exe --build ./build --config Release
+      run: cmake.exe --build ./build --config ${{env.CONFIG}}
 
   ubuntu-latest-cmake-ninja-clang16:
+    name: "Linux Clang Build"
     runs-on: ubuntu-latest
     env:
       CC: clang-16
@@ -136,13 +119,14 @@ jobs:
 
     - name: Generate
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: cmake -DCMAKE_BUILD_TYPE=Release -S. -B./build -G Ninja
+      run: cmake -DCMAKE_BUILD_TYPE=${{env.CONFIG}} -S. -B./build -G Ninja
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: cmake --build ./build --config Release
+      run: cmake --build ./build --config ${{env.CONFIG}}
 
   ubuntu-latest-cmake-ninja-gcc11:
+    name: "Linux GCC Build"
     runs-on: ubuntu-latest
     env:
       CC: gcc-11
@@ -162,8 +146,8 @@ jobs:
 
     - name: Generate
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: cmake -DCMAKE_BUILD_TYPE=Release -S. -B./build -G Ninja
+      run: cmake -DCMAKE_BUILD_TYPE=${{env.CONFIG}} -S. -B./build -G Ninja
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: cmake --build ./build --config Release
+      run: cmake --build ./build --config ${{env.CONFIG}}
