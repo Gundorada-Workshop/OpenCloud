@@ -8,6 +8,8 @@ include(.cmake/ProjectConfiguration.cmake)
 # add external libraries
 add_subdirectory("external")
 
+add_subdirectory("generators")
+
 # add the main code directory
 add_subdirectory("code")
 

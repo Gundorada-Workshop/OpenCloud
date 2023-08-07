@@ -7,6 +7,7 @@ add_library(ProjectConfiguration INTERFACE)
 # global include directories
 target_include_directories(ProjectConfiguration INTERFACE 
   ${PROJECT_SOURCE_DIR}/code
+  ${PROJECT_SOURCE_DIR}/generators
   # WIL for windows
   $<$<CXX_COMPILER_ID:MSVC>:${PROJECT_SOURCE_DIR}/external/wil/include>
 )

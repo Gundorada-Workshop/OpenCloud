@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ItemGroup>
+    <ProjectReference Include="$(SolutionDir)generators\version\version.vcxproj">
+      <Project>{7E35C3E7-B0A9-407A-A27D-E552B43602C2}</Project>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
