@@ -4,6 +4,22 @@ PROJECT(OpenCloudHost)
 
 add_library(${PROJECT_NAME} STATIC)
 
+if (WIN32)
+    target_sources(
+        ${PROJECT_NAME}
+        PRIVATE
+        "host_interface_base.cc"
+        "host_interface_dwm.cc"
+        "xinput_pad_handler.cc"
+        
+        "host_interface_base.h" 
+        "host_interface_dwm.h"
+        "pad_handler.h"
+        "xinput_pad_handler.h"
+    )
+
+    target_link_libraries(${PROJECT_NAME} PRIVATE ProjectConfiguration OpenCloudCommon OpenCloudGraph)
+endif (WIN32)
 if (UNIX AND NOT APPLE)
     target_sources(
         ${PROJECT_NAME}
