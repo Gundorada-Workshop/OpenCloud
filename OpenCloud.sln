@@ -27,6 +27,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opencloud2", "code\dc2\open
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "external", "external", "{B7584972-373B-4199-A285-5CCD599277EE}"
 	ProjectSection(SolutionItems) = preProject
+		external\vulkan-headers.exports.props = external\vulkan-headers.exports.props
 		external\wil.exports.props = external\wil.exports.props
 	EndProjectSection
 EndProject
@@ -68,6 +69,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{CBDD
 	ProjectSection(SolutionItems) = preProject
 		generators\gen_scm_version.rb = generators\gen_scm_version.rb
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "volk", "external\volk.vcxproj", "{4CCD9127-5EE0-4D86-97A6-545D1F227804}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -142,6 +145,12 @@ Global
 		{7E35C3E7-B0A9-407A-A27D-E552B43602C2}.FastDebug|x64.Build.0 = FastDebug|x64
 		{7E35C3E7-B0A9-407A-A27D-E552B43602C2}.Release|x64.ActiveCfg = Release|x64
 		{7E35C3E7-B0A9-407A-A27D-E552B43602C2}.Release|x64.Build.0 = Release|x64
+		{4CCD9127-5EE0-4D86-97A6-545D1F227804}.Debug|x64.ActiveCfg = Debug|x64
+		{4CCD9127-5EE0-4D86-97A6-545D1F227804}.Debug|x64.Build.0 = Debug|x64
+		{4CCD9127-5EE0-4D86-97A6-545D1F227804}.FastDebug|x64.ActiveCfg = FastDebug|x64
+		{4CCD9127-5EE0-4D86-97A6-545D1F227804}.FastDebug|x64.Build.0 = FastDebug|x64
+		{4CCD9127-5EE0-4D86-97A6-545D1F227804}.Release|x64.ActiveCfg = Release|x64
+		{4CCD9127-5EE0-4D86-97A6-545D1F227804}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -157,6 +166,7 @@ Global
 		{01A149AB-39A3-4F54-A023-832781A21D1F} = {5B4BAF44-C9E2-449A-86B5-DE883F2E2919}
 		{123DEE7E-D3F8-4A2A-95F3-5D4E8EA26FB3} = {B7584972-373B-4199-A285-5CCD599277EE}
 		{7E35C3E7-B0A9-407A-A27D-E552B43602C2} = {5B4BAF44-C9E2-449A-86B5-DE883F2E2919}
+		{4CCD9127-5EE0-4D86-97A6-545D1F227804} = {B7584972-373B-4199-A285-5CCD599277EE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {81C91EE3-8C0D-44FC-A3A6-F4D80A915E56}
