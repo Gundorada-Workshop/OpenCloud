@@ -27,6 +27,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opencloud2", "code\dc2\open
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "external", "external", "{B7584972-373B-4199-A285-5CCD599277EE}"
 	ProjectSection(SolutionItems) = preProject
+		external\vulkan-headers.exports.props = external\vulkan-headers.exports.props
 		external\wil.exports.props = external\wil.exports.props
 	EndProjectSection
 EndProject
