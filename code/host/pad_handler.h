@@ -76,7 +76,7 @@ namespace host
     template<typename T>
     constexpr f32 normalize(T val)
     {
-      static constexpr f32 max = static_cast<f32>(std::numeric_limits<T>::max());
+      constexpr f32 max = static_cast<f32>(std::numeric_limits<T>::max());
       return static_cast<f32>(val) / max;
     }
 

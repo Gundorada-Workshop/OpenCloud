@@ -1,4 +1,7 @@
 #pragma once
+
+#include <atomic>
+
 #include "common/types.h"
 #include "common/bits.h"
 #include "common/math.h"
