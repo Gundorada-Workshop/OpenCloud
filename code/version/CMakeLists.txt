@@ -1,7 +1,7 @@
 add_custom_command(
   OUTPUT version.cc
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-  COMMAND ruby ${CMAKE_CURRENT_SOURCE_DIR}/gen.rb ${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/version.cc.tpl ${CMAKE_CURRENT_BINARY_DIR}/version.cc
+  COMMAND ruby ${CMAKE_SOURCE_DIR}/generators/gen_scm_version.rb ${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/version.cc.tpl ${CMAKE_CURRENT_BINARY_DIR}/version.cc
 )
 
 add_library(version
