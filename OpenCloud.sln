@@ -62,7 +62,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "graph", "code\graph\graph.v
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simdjson", "external\simdjson.vcxproj", "{123DEE7E-D3F8-4A2A-95F3-5D4E8EA26FB3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "version", "generators\version\version.vcxproj", "{7E35C3E7-B0A9-407A-A27D-E552B43602C2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "version", "code\version\version.vcxproj", "{7E35C3E7-B0A9-407A-A27D-E552B43602C2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{CBDDAB54-2881-47C5-A74B-332E13311526}"
+	ProjectSection(SolutionItems) = preProject
+		generators\gen_scm_version.rb = generators\gen_scm_version.rb
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

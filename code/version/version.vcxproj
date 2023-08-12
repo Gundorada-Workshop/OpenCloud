@@ -16,7 +16,6 @@
     <ClCompile Include="version.cc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="gen.rb" />
     <None Include="version.cc.tpl" />
     <None Include="version.exports.props" />
   </ItemGroup>
@@ -30,7 +29,7 @@
     <PreBuildEvent />
     <PreBuildEvent />
     <CustomBuildStep>
-      <Command>ruby gen.rb $(SolutionDir) version.cc.tpl version.cc</Command>
+      <Command>ruby $(SolutionDir)\generators\gen_scm_version.rb $(SolutionDir) version.cc.tpl version.cc</Command>
     </CustomBuildStep>
     <CustomBuildStep>
       <Message>Checking for source control updates...</Message>
