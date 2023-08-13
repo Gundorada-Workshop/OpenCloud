@@ -1,4 +1,6 @@
 #pragma once
+
+#include <list>
 #include <vector>
 
 #include "common/types.h"
