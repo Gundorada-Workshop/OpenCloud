@@ -1978,7 +1978,7 @@ void CGameDataUsed::CopyGameData(CGameDataUsed* other)
 
   auto robo_data = user_man->m_robo_data;
 
-  if (this == &robo_data.m_equip_table.battery)
+  if (this == &robo_data.m_equip_table.battery())
   {
     auto hp = truncf(robo_data.m_chara_hp_gage.m_max);
     robo_data.m_chara_hp_gage.m_max = as.robopart.m_battery_gage.m_max;
@@ -2025,7 +2025,7 @@ std::optional<std::string> GetMainCharaModelName(ECharacterID chara_id, bool b)
     return std::nullopt;
   }
 
-  auto model_no_opt = chara_data->m_equip_table.melee.GetModelNo();
+  auto model_no_opt = chara_data->m_equip_table.melee().GetModelNo();
   u8 model_no = 0;
 
   if (model_no_opt.has_value()) [[likely]]
@@ -2504,7 +2504,7 @@ COMMON_GAGE* CUserDataManager::GetWHpGage(ECharacterID chara_id, ssize gage_inde
   switch (chara_id)
   {
     case Ridepod:
-      return &m_robo_data.m_equip_table.arm.as.robopart.m_whp_gage;
+      return &m_robo_data.m_equip_table.arm().as.robopart.m_whp_gage;
     case Monster:
     {
       auto badge_data = m_monster_box.GetMonsterBadgeData(m_monster_id);
@@ -2990,7 +2990,7 @@ void CUserDataManager::AllWeaponRepair()
     data_used.Repair(999);
   }
 
-  m_robo_data.m_equip_table.arm.Repair(999);
+  m_robo_data.m_equip_table.arm().Repair(999);
   m_robo_data.AddPoint(999.0f);
 }
 
@@ -3000,9 +3000,9 @@ ECommonItemData CUserDataManager::GetFishingRodNo() const
   log_trace("CUserDataManager::{}()", __func__);
 
   // Return Invalid instead? The game just unconditionally returns Max's melee weapon item ID.
-  assert_msg(m_chara_data[common::to_underlying(ECharacterID::Max)].m_equip_table.melee.IsFishingRod(), "Fishing rod is not equipped!");
+  assert_msg(m_chara_data[common::to_underlying(ECharacterID::Max)].m_equip_table.melee().IsFishingRod(), "Fishing rod is not equipped!");
 
-  return m_chara_data[common::to_underlying(ECharacterID::Max)].m_equip_table.melee.m_common_index;
+  return m_chara_data[common::to_underlying(ECharacterID::Max)].m_equip_table.melee().m_common_index;
 }
 
 // 0019CEB0
@@ -3010,7 +3010,7 @@ bool CUserDataManager::NowFishingStyle() const
 {
   log_trace("CUserDataManager::{}()", __func__);
 
-  return m_chara_data[common::to_underlying(ECharacterID::Max)].m_equip_table.melee.IsFishingRod();
+  return m_chara_data[common::to_underlying(ECharacterID::Max)].m_equip_table.melee().IsFishingRod();
 }
 
 // 0019CEE0
@@ -3049,7 +3049,7 @@ void CUserDataManager::GetRodStatus(sint* params_dest)
     return;
   }
 
-  const auto& weapon = m_chara_data[common::to_underlying(ECharacterID::Max)].m_equip_table.melee.as.weapon;
+  const auto& weapon = m_chara_data[common::to_underlying(ECharacterID::Max)].m_equip_table.melee().as.weapon;
 
   params_dest[0] = weapon.m_properties[common::to_underlying(WeaponProperty::Flight)];
   params_dest[1] = weapon.m_properties[common::to_underlying(WeaponProperty::Strength)];
@@ -3069,7 +3069,7 @@ sint CUserDataManager::AddFp(sint fishing_points)
     return 0;
   }
 
-  return m_chara_data[common::to_underlying(ECharacterID::Max)].m_equip_table.melee.AddFusionPoint(fishing_points);
+  return m_chara_data[common::to_underlying(ECharacterID::Max)].m_equip_table.melee().AddFusionPoint(fishing_points);
 }
 
 // 0019D330
@@ -3788,7 +3788,7 @@ s16 ROBO_DATA::GetDefenceVol()
 {
   log_trace("ROBO_DATA::{}()", __func__);
 
-  return m_equip_table.body.as.robopart.m_defense + m_n_shield_kits * 4;
+  return m_equip_table.body().as.robopart.m_defense + m_n_shield_kits * 4;
 }
 
 // 0019A830
@@ -4433,7 +4433,7 @@ void CBattleCharaInfo::Step()
   switch (m_chara_id)
   {
     case ECharacterID::Monica:
-      if (m_equip_table.as.human->melee.m_common_index == ECommonItemData::Lambs_Sword)
+      if (m_equip_table.as.human->melee().m_common_index == ECommonItemData::Lambs_Sword)
       {
         if (GetTimeBand(GetMainScene()->m_time_of_day) != BattleParameter_TimeBand)
         {
@@ -4528,7 +4528,7 @@ void GameDataSwap(CGameDataUsed* data1, CGameDataUsed* data2, bool check_fishing
   }
 
   // Now we gotta do some checks for fishing rods, it seems?
-  CGameDataUsed* equipped_potential_rod = &GetUserDataMan()->m_chara_data[common::to_underlying(ECharacterID::Max)].m_equip_table.melee;
+  CGameDataUsed* equipped_potential_rod = &GetUserDataMan()->m_chara_data[common::to_underlying(ECharacterID::Max)].m_equip_table.melee();
   if ((data1 == equipped_potential_rod || data2 == equipped_potential_rod) && data1->IsFishingRod() != data2->IsFishingRod())
   {
     if (data1 == equipped_potential_rod)
@@ -4648,11 +4648,11 @@ bool SetRandomCircleStatus(sint trap_id, f32* abs_bonus_dest)
       auto max_chara = user_data->GetCharaDataPtr(ECharacterID::Max);
       auto monica_chara = user_data->GetCharaDataPtr(ECharacterID::Monica);
 
-      max_chara->m_equip_table.melee.Repair(999);
-      max_chara->m_equip_table.ranged.Repair(999);
+      max_chara->m_equip_table.melee().Repair(999);
+      max_chara->m_equip_table.ranged().Repair(999);
 
-      monica_chara->m_equip_table.melee.Repair(999);
-      monica_chara->m_equip_table.ranged.Repair(999);
+      monica_chara->m_equip_table.melee().Repair(999);
+      monica_chara->m_equip_table.ranged().Repair(999);
 
       result = true;
       break;

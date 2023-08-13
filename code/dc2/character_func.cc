@@ -240,7 +240,7 @@ static bool _GET_SHOT_TYPE(script::stack_data* stack, sint stack_count)
   }
 
   auto chara_info = GetBattleCharaInfo();
-  SetStack(stack++, static_cast<s32>(chara_info->m_equip_table.as.human->ranged.GetAttackType()));
+  SetStack(stack++, static_cast<s32>(chara_info->m_equip_table.as.human->ranged().GetAttackType()));
 
   return true;
 }
