@@ -1,5 +1,6 @@
 #pragma once
 #include <array>
+#include <vector>
 
 #include "common/debug.h"
 #include "common/macros.h"
