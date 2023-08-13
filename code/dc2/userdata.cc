@@ -2976,7 +2976,7 @@ PARTY_CHARA* CUserDataManager::GetPartyCharaInfo(EPartyCharacterID chara_id)
 }
 
 // 0019CA20
-bool CUserDataManager::UseNpcAbility(MAYBE_UNUSED EPartyCharacterID MAYBE_UNUSED chara_id, MAYBE_UNUSED sint cost, MAYBE_UNUSED bool b)
+bool CUserDataManager::UseNpcAbility(MAYBE_UNUSED EPartyCharacterID chara_id, MAYBE_UNUSED sint cost, MAYBE_UNUSED bool b)
 {
   log_trace("CUserDataManager::{}({}, {}, {})", __func__, common::to_underlying(chara_id), cost, b);
 
