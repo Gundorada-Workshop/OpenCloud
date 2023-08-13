@@ -62,11 +62,11 @@ static std::array<char, 0x40> PakuMotionName{};
 // 01EE0350
 static std::array<char, 0x40> PakuMotionName2{};
 // 01EE0390
-static std::array<char, 0x8010> alignas(16) event_snd_buff {};
+static std::array<char, 0x8010> ALIGN(0x10) event_snd_buff {};
 // 01EE83A0
 static mgCMemory BuffEventSnd{};
 // 01EE83D0
-static std::array<char, 0x1410> alignas(16) event_snd2_buff {};
+static std::array<char, 0x1410> ALIGN(0x10) event_snd2_buff {};
 // 01EE97E0
 static mgCMemory BuffEventSnd2{};
 // 01EE9810

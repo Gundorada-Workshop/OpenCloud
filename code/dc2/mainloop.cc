@@ -56,7 +56,7 @@ static INIT_LOOP_ARG PrevInitArg{};
 // 003D8230
 // FIXME: 0x1A000000 bytes (26MB) in PS2. Might need to adjust slightly for windows.
 // Bumped up to 40MB (0x28000000) on Windows (to adjust for slightly bigger datatypes)
-static alignas(16) std::array<char, 0x28000000> main_buffer{};
+static ALIGN(0x10) std::array<char, 0x28000000> main_buffer{};
 // 01DD8230
 static mgCMemory MainBuffer{};
 // 01DD8260
