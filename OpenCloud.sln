@@ -68,6 +68,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{CBDDAB54-2881-47C5-A74B-332E13311526}"
 	ProjectSection(SolutionItems) = preProject
 		generators\gen_scm_version.rb = generators\gen_scm_version.rb
+		generators\gen_swizzle_functions.rb = generators\gen_swizzle_functions.rb
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "volk", "external\volk.vcxproj", "{4CCD9127-5EE0-4D86-97A6-545D1F227804}"
