@@ -22,7 +22,7 @@ set_log_channel("monster_func");
   }
 
 // 0037735C
-static CScene* nowScene{ nullptr };
+CScene* nowScene{ nullptr };
 
 // 00377360
 CActiveMonster* nowMonster{ nullptr };
