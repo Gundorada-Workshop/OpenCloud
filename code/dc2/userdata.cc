@@ -948,7 +948,7 @@ void CGameDataUsed::SetName(const char* name)
     return;
   }
 
-  strcpy_s(name_buf->data(), name_buf->size(), name);
+  common::strings::safe_str_to_array(*name_buf, name);
   m_unk_field_5 = strcmp(GetItemMessage(m_common_index).data(), name_buf->data()) != 0;
 }
 
@@ -2112,11 +2112,7 @@ bool CGameDataUsed::CopyDataWeapon(ECommonItemData item_id)
   as.weapon.m_unk_field_2E = 0;
   as.weapon.m_unk_field_30 = 0;
 
-  strcpy_s(
-    as.weapon.m_name.data(),
-    as.weapon.m_name.size(),
-    GetItemMessage(item_id).c_str()
-  );
+  common::strings::safe_str_to_array(as.weapon.m_name, GetItemMessage(item_id));
 
   m_unk_field_5 = false;
 
@@ -2241,7 +2237,7 @@ bool CGameDataUsed::CopyDataFish(ECommonItemData item_id)
   m_common_index = item_id;
   m_item_data_type = GetItemDataType(item_id);
 
-  strcpy_s(as.fish.m_name.data(), as.fish.m_name.size(), GetItemMessage(item_id).c_str());
+  common::strings::safe_str_to_array(as.fish.m_name, GetItemMessage(item_id));
 
   as.fish.m_unk_field_18 = static_cast<u16>((fish_data->m_unk_field_0 / 2.0 + GetRandF(30.0f)) - GetRandF(10.0f));
   as.fish.m_unk_field_1A = static_cast<u16>(400.0f + GetRandF(500.0f) + GetRandF(500.0f));
@@ -2330,7 +2326,7 @@ bool CGameDataUsed::CopyDataRoboPart(ECommonItemData item_id)
     as.robopart.m_properties[i] = robo_data->m_properties[i];
   }
 
-  strcpy_s(as.robopart.m_name.data(), as.robopart.m_name.size(), GetItemMessage(item_id).c_str());
+  common::strings::safe_str_to_array(as.robopart.m_name, GetItemMessage(item_id));
 
   return true;
 }

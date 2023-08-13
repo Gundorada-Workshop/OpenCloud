@@ -8,6 +8,7 @@
 #include "common/log.h"
 #include "common/types.h"
 #include "common/macros.h"
+#include "common/strings.h"
 
 #include "dc2/gamedata.h"
 #include "dc2/script_interpreter.h"
@@ -104,7 +105,7 @@ static bool _DATACOM(SPI_STACK* stack, MAYBE_UNUSED sint stack_count)
 
   if (auto sprite_name = spiGetStackString(stack++); sprite_name != nullptr)
   {
-    strcpy_s(comdatapt->m_sprite_name.data(), comdatapt->m_sprite_name.size(), sprite_name);
+    common::strings::safe_str_to_array(comdatapt->m_sprite_name, sprite_name);
   }
 
   comdatapt->m_attribute = spiGetStackInt(stack++);

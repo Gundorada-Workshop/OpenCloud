@@ -45,7 +45,7 @@ static bool texTEX_ANIME(SPI_STACK* stack, MAYBE_UNUSED sint count)
     auto len = strlen(s) + 1;
     auto dest = static_cast<char*>(TexAnimeStack->Alloc(BYTES_TO_BLOCKS_STRICT(len)));
 
-    strcpy_s(dest, len, s);
+    common::strings::xplat_strcpy_s(dest, len, s);
 
     group_name = dest;
   }
@@ -486,8 +486,8 @@ mgCTexture* mgCTextureManager::SearchTextureName(const char* name, ssize uuid)
   if (m_texture_name_suffix[0] != '\0')
   {
     std::array<char, 0x80> buf;
-    strcpy_s(buf.data(), buf.size(), name);
-    strcat_s(buf.data(), buf.size(), m_texture_name_suffix.data());
+    common::strings::safe_str_to_array(buf, name);
+    common::strings::safe_arraycat(buf, m_texture_name_suffix);
     name = buf.data();
   }
 
