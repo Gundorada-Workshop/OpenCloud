@@ -23,7 +23,7 @@ namespace graph::detail
            (common::to_underlying(e3) << 6);
   }
 
-  constexpr uint shuffle_mask_repeat(element el)
+  consteval uint shuffle_mask_repeat(element el)
   {
     return shuffle_mask(el, el, el, el);
   }
