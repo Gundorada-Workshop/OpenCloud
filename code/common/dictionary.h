@@ -32,17 +32,17 @@ namespace common
 
     // array access
     // calls find_or_panic
-    constexpr value_type operator[](const key_type& k) const;
+    constexpr value_type operator[](const key_type& key) const;
 
     // find a value given a key
     // returns nullopt if not found
-    constexpr result_type find(const key_type& k) const;
+    constexpr result_type find(const key_type& key) const;
 
-    constexpr value_type find_or(const key_type& k, const value_type& fail_value) const;
+    constexpr value_type find_or(const key_type& key, const value_type& fail_value) const;
 
     // find a value given a key
     // panics if not found
-    constexpr value_type find_or_panic(const key_type& k) const;
+    constexpr value_type find_or_panic(const key_type& key) const;
 
     // returns the number of key value pairs
     constexpr size_type size() const;
@@ -65,16 +65,16 @@ namespace common
   }
 
   template<typename k, typename v, usize s>
-  constexpr auto dictionary<k, v, s>::operator[](const key_type& k) const -> value_type
+  constexpr auto dictionary<k, v, s>::operator[](const key_type& key) const -> value_type
   {
-    return find_or_panic(k);
+    return find_or_panic(key);
   }
 
   template<typename k, typename v, usize s>
-  constexpr auto dictionary<k, v, s>::find(const key_type& k) const -> result_type
+  constexpr auto dictionary<k, v, s>::find(const key_type& key) const -> result_type
   {
     const auto res = std::find_if(data_.cbegin(), data_.cend(), [&](const storage_type& item) {
-      return item.first == k;
+      return item.first == key;
     });
 
     if (res == std::end(data_))
@@ -94,9 +94,9 @@ namespace common
   }
 
   template<typename k, typename v, usize s>
-  constexpr auto dictionary<k, v, s>::find_or_panic(const key_type& k) const -> value_type
+  constexpr auto dictionary<k, v, s>::find_or_panic(const key_type& key) const -> value_type
   {
-    const auto res = find(k);
+    const auto res = find(key);
 
     assert_panic(res);
 
