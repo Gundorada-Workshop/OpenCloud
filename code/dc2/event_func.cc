@@ -29,7 +29,7 @@
 #include "dc2/subgame.h"
 #include "dc2/mg/mg_lib.h"
 
-#include "host/host_interface_dwm.h"
+#include "host/host_interface_base.h"
 
 using namespace script;
 

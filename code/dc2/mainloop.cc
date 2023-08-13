@@ -4,7 +4,7 @@
 #include "common/helpers.h"
 #include "common/log.h"
 
-#include "host/host_interface_dwm.h"
+#include "host/host_interface_base.h"
 
 #include "dc2/editdata.h"
 #include "dc2/ls_mes.h"
