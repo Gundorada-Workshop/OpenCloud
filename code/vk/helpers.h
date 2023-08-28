@@ -25,6 +25,26 @@ namespace vk
 
   // get physical devices
   std::vector<VkPhysicalDevice> enumerate_physical_devices(VkInstance instance);
+
+  // append a structure to a vk structure chain
+  template<typename head_structure_type, typename type>
+  void append_structure_to_chain(head_structure_type* head, const type* structure)
+  {
+    VkBaseOutStructure* next = static_cast<VkBaseOutStructure*>(head->pNext);
+
+    while (next)
+    {
+      // we already have this structure in the chain
+      if (next->sType == structure->sType)
+      {
+        return;
+      }
+
+      next = static_cast<VkBaseOutStructure*>(next->pNext);
+    }
+
+    next->pNext = static_cast<VkBaseOutStructure*>(structure);
+  }
 }
 
 template<>
