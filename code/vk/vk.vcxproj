@@ -14,9 +14,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="helpers.h" />
+    <ClInclude Include="loader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="helpers.cc" />
+    <ClCompile Include="loader.cc" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
