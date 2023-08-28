@@ -13,10 +13,12 @@
     <None Include="vk.exports.props" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="api.h" />
     <ClInclude Include="helpers.h" />
     <ClInclude Include="loader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="api.cc" />
     <ClCompile Include="helpers.cc" />
     <ClCompile Include="loader.cc" />
   </ItemGroup>

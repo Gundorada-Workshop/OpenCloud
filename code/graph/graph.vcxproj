@@ -19,6 +19,7 @@
     <None Include="_vector\_vector_swizzle4.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="api.h" />
     <ClInclude Include="matrix.h" />
     <ClInclude Include="rectangle.h" />
     <ClInclude Include="renderer.h" />
