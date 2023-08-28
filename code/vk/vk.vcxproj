@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(SolutionDir)\.msvc\Base.Targets.Props" />
+  <Import Project="$(SolutionDir)\.msvc\Base.Globals.Props" />
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{CFE73B5E-826E-44F9-88B6-F3EF24954890}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(SolutionDir)\.msvc\StaticLibrary.Configuration.Props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
+  <ItemGroup>
+    <None Include="vk.exports.props" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="helpers.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="helpers.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(SolutionDir)code\graph\graph.exports.props" />
+  <Import Project="$(SolutionDir)external\vulkan-headers.exports.props" />
+  <Import Project="$(SolutionDir)external\spirv-headers.exports.props" />
+  <Import Project="$(SolutionDir)external\volk.exports.props" />
+</Project>
