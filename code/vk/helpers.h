@@ -28,22 +28,24 @@ namespace vk
 
   // append a structure to a vk structure chain
   template<typename head_structure_type, typename type>
-  void append_structure_to_chain(head_structure_type* head, const type* structure)
+  void append_structure_to_chain(head_structure_type* head, type* structure)
   {
-    VkBaseOutStructure* next = static_cast<VkBaseOutStructure*>(head->pNext);
+    VkBaseOutStructure* current = reinterpret_cast<VkBaseOutStructure*>(head);
 
-    while (next)
+    while (current->pNext)
     {
+      const auto next = current->pNext;
+
       // we already have this structure in the chain
       if (next->sType == structure->sType)
       {
         return;
       }
 
-      next = static_cast<VkBaseOutStructure*>(next->pNext);
+      current = next;
     }
 
-    next->pNext = static_cast<VkBaseOutStructure*>(structure);
+    current->pNext = reinterpret_cast<VkBaseOutStructure*>(structure);
   }
 }
 
