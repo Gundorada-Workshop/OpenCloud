@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
+properties:
+  assertions:
+    - resource: Microsoft.Windows.Developer/OsVersion
+      directives:
+        description: Verify min OS version requirement
+        allowPrerelease: true
+      settings:
+        MinVersion: '10.0.22000'
+
+  resources:
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: vs
+      directives:
+        description: Install Visual Studio 2022 Community
+        allowPrerelease: true
+      settings:
+        id: Microsoft.VisualStudio.2022.Community
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: ruby
+      directives:
+        description: "Install Ruby 3.1"
+        allowPrerelease: true
+      settings:
+        id: RubyInstallerTeam.RubyWithDevKit.3.1
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: git
+      directives:
+        description: "Install Git"
+        allowPrerelease: true
+      settings:
+        id: Git.Git
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: cmake
+      directives:
+        description: "Install CMake"
+        allowPrerelease: true
+      settings:
+        id: Kitware.CMake
+        source: winget
+
+  configurationVersion: 0.2.0
