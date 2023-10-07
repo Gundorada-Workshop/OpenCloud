@@ -42,7 +42,7 @@ void stkunderflow()
 bool is_true(const script::stack_data& data)
 {
   if (data.type == script::stack_data_type::_int)
-    return common::bits::to_bool(data._int);
+    return common::to_bool(data._int);
 
   return true;
 }
@@ -953,9 +953,9 @@ void CRunScript::exe(script::instruction* code)
 
       assert_panic(check_type_int(lhs));
 
-      const auto value = common::bits::to_bool(lhs._int);
+      const auto value = common::to_bool(lhs._int);
 
-      push_int(static_cast<sint>(value));
+      push_int(common::from_bool<sint>(value));
       break;
     }
     case script::opcode::exit: // 001886DC

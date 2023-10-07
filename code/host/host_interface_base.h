@@ -74,13 +74,13 @@ namespace host
     // check if any buttons started being pressed this frame
     inline bool pad_button_any_down(pad_handler::buttons btn)
     {
-      return common::bits::to_bool(delta_frame_buttons() & btn);
+      return common::to_bool(delta_frame_buttons() & btn);
     }
 
     // check if any buttons started being released this frame
     inline bool pad_button_any_up(pad_handler::buttons btn)
     {
-      return common::bits::to_bool(delta_frame_buttons() & (~btn));
+      return common::to_bool(delta_frame_buttons() & (~btn));
     }
 
     // check if all buttons started being pressed this frame
@@ -98,13 +98,13 @@ namespace host
     // check if any button is pressed this frame
     inline bool pad_button_any_pressed(pad_handler::buttons btn)
     {
-      return common::bits::to_bool(current_frame_buttons() & btn);
+      return common::to_bool(current_frame_buttons() & btn);
     }
 
     // check if any button is not pressed this frame
     inline bool pad_button_any_unpressed(pad_handler::buttons btn)
     {
-      return common::bits::to_bool(current_frame_buttons() & (~btn));
+      return common::to_bool(current_frame_buttons() & (~btn));
     }
 
     // check if all buttons are pressed this frame

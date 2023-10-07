@@ -11,6 +11,9 @@
   <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
   <ItemGroup>
     <ClCompile Include="host_interface_base.cc" />
+    <ClCompile Include="linux_pad_handler.cc">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="winmain.cc" />
     <ClCompile Include="host_interface_dwm.cc" />
     <ClCompile Include="xinput_pad_handler.cc" />
@@ -18,6 +21,9 @@
   <ItemGroup>
     <ClInclude Include="host_interface_base.h" />
     <ClInclude Include="host_interface_dwm.h" />
+    <ClInclude Include="linux_pad_handler.h">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="pad_handler.h" />
     <ClInclude Include="xinput_pad_handler.h" />
   </ItemGroup>

@@ -301,8 +301,7 @@ static bool _SET_CAMERA_FOLLOW(script::stack_data* stack, MAYBE_UNUSED sint stac
     return false;
   }
 
-  bool follow_on = common::bits::to_bool(GetStackInt(stack++));
-  if (follow_on)
+  if (common::to_bool(GetStackInt(stack++)))
   {
     camera->FollowOn();
     camera->ControlOn();
@@ -762,7 +761,7 @@ static bool _SET_MOTION_BLUR(script::stack_data* stack, MAYBE_UNUSED sint stack_
   trace_script_call(stack, stack_count);
   VERIFY_STACK_COUNT(1);
 
-  nowScene->m_fade_in_out.m_motion_blur = common::bits::to_bool(GetStackInt(stack++));
+  nowScene->m_fade_in_out.m_motion_blur = common::to_bool(GetStackInt(stack++));
   return true;
 }
 
@@ -1302,7 +1301,7 @@ static bool _SET_MUTEKI(script::stack_data* stack, MAYBE_UNUSED sint stack_count
   trace_script_call(stack, stack_count);
   VERIFY_STACK_COUNT(1);
 
-  nowMonster->m_invincible_flag = common::bits::to_bool(GetStackInt(stack++));
+  nowMonster->m_invincible_flag = common::to_bool(GetStackInt(stack++));
   return true;
 }
 

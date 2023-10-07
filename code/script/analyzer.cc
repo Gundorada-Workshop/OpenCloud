@@ -114,7 +114,7 @@ namespace script
     for (const auto location : locations)
       size += calculate_string_length(code, location);
 
-    return common::bits::align_up(size, 16);
+    return common::align_up(size, 16);
   }
 
   std::vector<bytecode_entry> parse_instructions(const stream& code, u32 start_address)

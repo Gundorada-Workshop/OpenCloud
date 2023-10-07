@@ -6,7 +6,7 @@
 #include "common/types.h"
 #include "common/macros.h"
 
-namespace common::bits
+namespace common
 {
   // returns true if value is aligned to align_to
   template<typename type>

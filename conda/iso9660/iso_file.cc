@@ -186,7 +186,7 @@ namespace iso9660
 
       // if it's not even we need to pad so it is
       // this possible 1 byte pad is required by the spec
-      path_table_byte_offset += bits::align_up(total_entry_byte_count, 2);
+      path_table_byte_offset += common::align_up(total_entry_byte_count, 2);
 
       log_info("--> {}", entry);
 

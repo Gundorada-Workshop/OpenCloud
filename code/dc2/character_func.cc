@@ -633,7 +633,7 @@ static bool _SET_GUARD_FLAG(script::stack_data* stack, MAYBE_UNUSED sint stack_c
   trace_script_call(stack, stack_count);
   VERIFY_STACK_COUNT(1);
 
-  action_info.m_chara->m_guard_flag = common::bits::to_bool(GetStackInt(stack++));
+  action_info.m_chara->m_guard_flag = common::to_bool(GetStackInt(stack++));
   return true;
 }
 
@@ -642,7 +642,7 @@ static bool _SET_MUTEKI(script::stack_data* stack, MAYBE_UNUSED sint stack_count
   trace_script_call(stack, stack_count);
   VERIFY_STACK_COUNT(1);
 
-  action_info.m_chara->m_invincible_flag = common::bits::to_bool(GetStackInt(stack++));
+  action_info.m_chara->m_invincible_flag = common::to_bool(GetStackInt(stack++));
   return true;
 }
 

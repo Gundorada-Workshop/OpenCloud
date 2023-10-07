@@ -309,7 +309,7 @@ std::vector<pak::entry> pak_archive_entries(std::unique_ptr<data_stream_base>& f
     out.push_back(std::move(entry));
 
     // the end of the file is random garbage (dev strings)
-    file->seek_relative(bits::align_up(header.entry_byte_count, 16));
+    file->seek_relative(common::align_up(header.entry_byte_count, 16));
   }
 
   return out;

@@ -4707,7 +4707,7 @@ bool CheckBadStatus(ECharaStatusAttribute status)
 
   using enum ECharaStatusAttribute;
 
-  return common::bits::to_bool(status & (_1 | _2 | _4 | _8 | _20 | _40));
+  return common::to_bool(status & (_1 | _2 | _4 | _8 | _20 | _40));
 }
 
 // 001A1180

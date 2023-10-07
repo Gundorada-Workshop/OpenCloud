@@ -3411,9 +3411,8 @@ static bool _SET_AI(script::stack_data* stack, MAYBE_UNUSED sint stack_count)
   trace_script_call(stack, stack_count);
 
   sint villager_id = GetStackInt(stack++);
-  bool active = common::bits::to_bool(stack++);
   
-  if (active)
+  if (common::to_bool(stack++))
   {
     EventScene->CancelStayVillager(villager_id);
   }
@@ -3470,7 +3469,8 @@ static bool _SET_STATUS(script::stack_data* stack, sint stack_count)
   sint data_type = GetStackInt(stack++);
   sint data_index = GetStackInt(stack++);
   sint data_status = GetStackInt(stack++);
-  bool flag = (stack_count >= 4 ? common::bits::to_bool(GetStackInt(stack++)) : true);
+
+  bool flag = (stack_count >= 4 ? common::to_bool(GetStackInt(stack++)) : true);
 
   if (flag)
   {
@@ -5666,9 +5666,8 @@ static bool _DNG_PAUSE(script::stack_data* stack, MAYBE_UNUSED sint stack_count)
   trace_script_call(stack, stack_count);
 
   uint mask = GetStackInt(stack++);
-  bool active = common::bits::to_bool(GetStackInt(stack++));
 
-  if (active)
+  if (common::to_bool(GetStackInt(stack++)))
   {
     EventScene->m_battle_area_scene.m_unk_field_8 |= mask;
   }
@@ -6566,7 +6565,7 @@ static bool _START_MONO_FLASH(MAYBE_UNUSED script::stack_data* stack, MAYBE_UNUS
   trace_script_call(stack, stack_count);
 
   EventScreenEffect.CaptureMonoFlashScreen();
-  EventScreenEffect.SetMonoFlashFlag(true, common::bits::to_bool(GetStackInt(stack++)));
+  EventScreenEffect.SetMonoFlashFlag(true, common::to_bool(GetStackInt(stack++)));
   return true;
 }
 
@@ -6943,7 +6942,8 @@ static bool _PAUSE_ENABLE_FLAG(script::stack_data* stack, MAYBE_UNUSED sint stac
 {
   trace_script_call(stack, stack_count);
 
-  PauseEnable(common::bits::to_bool(GetStackInt(stack++)));
+  PauseEnable(common::to_bool(GetStackInt(stack++)));
+
   return true;
 }
 
