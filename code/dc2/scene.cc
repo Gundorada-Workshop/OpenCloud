@@ -28,7 +28,7 @@ bool CSceneCharacter::AssignData(CCharacter2* chara, const char* name)
 
 	m_status = ESceneDataStatus::Initial;
 	m_character = chara;
-	strcpy_s(m_name.data(), m_name.size(), name);
+	common::strings::safe_str_to_array(m_name, name);
 
 	m_status |= ESceneDataStatus::Assigned;
 	
@@ -49,7 +49,7 @@ bool CSceneMap::AssignData(CMap* map, const char* name)
 
 	m_status = ESceneDataStatus::Initial;
 	m_map = map;
-	strcpy_s(m_name.data(), m_name.size(), name);
+	common::strings::safe_str_to_array(m_name, name);
 
 	m_status |= ESceneDataStatus::Assigned;
 
@@ -73,7 +73,7 @@ bool CSceneMessage::AssignData(ClsMes* message, const char* name)
 
 	if (name != nullptr)
 	{
-		strcpy_s(m_name.data(), m_name.size(), name);
+		common::strings::safe_str_to_array(m_name, name);
 	}
 	else
 	{
@@ -102,7 +102,7 @@ bool CSceneCamera::AssignData(mgCCamera* camera, const char* name)
 
 	if (name != nullptr)
 	{
-		strcpy_s(m_name.data(), m_name.size(), name);
+		common::strings::safe_str_to_array(m_name, name);
 	}
 	else
 	{
@@ -131,7 +131,7 @@ bool CSceneSky::AssignData(CMapSky* sky, const char* name)
 
 	if (name != nullptr)
 	{
-		strcpy_s(m_name.data(), m_name.size(), name);
+		common::strings::safe_str_to_array(m_name, name);
 	}
 	else
 	{
@@ -160,7 +160,7 @@ bool CSceneEffect::AssignData(CEffectScriptMan* script_manager, const char* name
 
 	if (name != nullptr)
 	{
-		strcpy_s(m_name.data(), m_name.size(), name);
+		common::strings::safe_str_to_array(m_name, name);
 	}
 	else
 	{

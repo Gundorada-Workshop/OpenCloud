@@ -75,6 +75,49 @@ namespace common::strings
 
     return out;
   }
+
+  // Cross-platform bounds-checked strcpy
+  void xplat_strcpy_s(char* dest, size_t dest_size, const char* src);
+  
+  // Alias for common::debug::panic so that it can be used in templates with minimal
+  // source disruption
+  void local_panic_alias(const std::string&);
+
+  // Non-overflowing str->std::array<char> converter 
+  template<size_t N>
+  ALWAYS_INLINE void safe_str_to_array(std::array<char, N>& dest, const std::string& src)
+  {
+    #if defined(_MSC_VER)
+      strcpy_s(dest.data(), N, src.c_str());
+    #else
+      // Inefficient, but should work...
+      const auto& truncated_string = src.substr(0, N-1); // Room for null terminator required?
+      std::fill(dest.begin(), dest.end(), 0);
+      std::copy(src.begin(), src.end(), dest.data());
+    #endif
+  }
+
+  // Bounds-checked concatenation for two std::array<char>s
+  template<size_t N, size_t M>
+  ALWAYS_INLINE void safe_arraycat(std::array<char, N>& dest, const std::array<char, M>& src)
+  {
+    #if defined(_MSC_VER)
+      strcat_s(dest.data(), N, src.data());
+    #else
+      // No safety check on strlen...
+      size_t dest_size = strlen(dest.data());
+      size_t src_size  = strlen(src.data());
+
+      if (dest_size + src_size + 1 > N)
+      {
+        local_panic_alias("Buffer overflow in safe_arraycat");
+      }
+
+      std::fill(dest.begin() + dest_size, dest.end(), 0);
+      std::copy(src.begin(), src.end(), &dest[dest_size]);
+    #endif
+  }
+
 }
 
 FILE_WARNING_POP;

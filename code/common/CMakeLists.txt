@@ -25,6 +25,7 @@ target_sources(
     "constants.h"
     "data_stream.h"
     "debug.h"
+    "dictionary.h"
     "dynamic_library.h"
     "file_helpers.h"
     "helpers.h"

@@ -548,37 +548,40 @@ public:
 };
 
 // Equipment for human players
-MSVC_WARNING_PUSH;
-MSVC_WARNING_SILENCE(WARNING_ID_NAMELESS_STRUCT_UNION)
-union EQUIP_TABLE
+struct EQUIP_TABLE
 {
   std::array<CGameDataUsed, 5> data{};
-  struct
-  {
-    CGameDataUsed melee;
-    CGameDataUsed ranged;
-    CGameDataUsed hat;
-    CGameDataUsed shoes;
-    CGameDataUsed torso;
-  };
+
+  auto& melee () { return data[0]; }
+  auto& ranged() { return data[1]; }
+  auto& hat   () { return data[2]; }
+  auto& shoes () { return data[3]; }
+  auto& torso () { return data[4]; }
+
+  const auto& melee () const { return data[0]; }
+  const auto& ranged() const { return data[1]; }
+  const auto& hat   () const { return data[2]; }
+  const auto& shoes () const { return data[3]; }
+  const auto& torso () const { return data[4]; }
 };
-MSVC_WARNING_POP;
+
 
 // Equipment for ridepod
-MSVC_WARNING_PUSH;
-MSVC_WARNING_SILENCE(WARNING_ID_NAMELESS_STRUCT_UNION)
-union ROBO_EQUIP_TABLE
+struct ROBO_EQUIP_TABLE
 {
   std::array<CGameDataUsed, 4> data{};
-  struct
-  {
-    CGameDataUsed arm;
-    CGameDataUsed body;
-    CGameDataUsed battery;
-    CGameDataUsed leg;
-  };
+
+  auto& arm    () { return this->data[0]; }
+  auto& body   () { return this->data[1]; }
+  auto& battery() { return this->data[2]; }
+  auto& leg    () { return this->data[3]; }
+
+  const auto& arm    () const { return this->data[0]; }
+  const auto& body   () const { return this->data[1]; }
+  const auto& battery() const { return this->data[2]; }
+  const auto& leg    () const { return this->data[3]; }
 };
-MSVC_WARNING_POP
+
 
 struct SCharaData
 {

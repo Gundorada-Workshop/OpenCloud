@@ -3,7 +3,7 @@
 #include "common/types.h"
 #include "common/macros.h"
 
-#include "host/host_interface_dwm.h"
+#include "host/host_interface_base.h"
 
 #include "dc2/mainloop.h"
 #include "dc2/title.h"

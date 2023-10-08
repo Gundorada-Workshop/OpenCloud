@@ -170,4 +170,32 @@ namespace common::strings
 
     return utf8.value();
   }
+
+
+  void xplat_strcpy_s(char* dest, size_t dest_size, const char* src)
+  {
+    #if defined(_MSC_VER)
+      strcpy_s(dest, dest_size, src);
+    #else
+      // No safety check on strlen...
+      size_t srclen = strlen(src);
+
+      if ((srclen + 1) > dest_size)
+      {
+        common::debug::panic("Destination buffer in xplat_strcpy_s is too small");
+      }
+
+      for (size_t i=0; i < srclen; ++i)
+        dest[i] = src[i];
+      
+      std::fill(&dest[srclen], &dest[dest_size], 0);
+    #endif
+  }
+
+  void local_panic_alias(const std::string& str)
+  {
+    // Exists to prevent circular dependencies in templates
+    common::debug::panic(str);
+  }
+
 }

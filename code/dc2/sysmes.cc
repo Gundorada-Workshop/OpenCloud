@@ -9,9 +9,9 @@ set_log_channel("sysmes")
 // 01E74210
 static mgCMemory SystemMesStack{};
 // 01E74240
-static std::array<char, 0xD000> alignas(16) SystemMesBuffer{};
+static std::array<char, 0xD000> ALIGN(0x10) SystemMesBuffer{};
 // 01E81240
-static std::array<char, 80000> alignas(16) SysMesBuffer{};
+static std::array<char, 80000> ALIGN(0x10) SysMesBuffer{};
 // 01E94AC0
 static ClsMes SystemMessage{};
 // 01E96CA0
