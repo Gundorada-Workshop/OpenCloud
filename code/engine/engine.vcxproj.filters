@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="camera.cc" />
-    <ClCompile Include="character.cc" />
     <ClCompile Include="dbg_font.cc" />
     <ClCompile Include="effect.cc" />
     <ClCompile Include="effect_script.cc" />
@@ -97,13 +96,15 @@
     <ClCompile Include="character_func.cc" />
     <ClCompile Include="object_anime.cc" />
     <ClCompile Include="editmap.cc" />
+    <ClCompile Include="character\character.cc">
+      <Filter>character</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effect_script.h" />
     <ClInclude Include="font.h" />
-    <ClInclude Include="character.h" />
     <ClInclude Include="gamepad.h" />
     <ClInclude Include="mds_img.h" />
     <ClInclude Include="collision.h" />
@@ -197,10 +198,16 @@
     <ClInclude Include="character_func.h" />
     <ClInclude Include="object_anime.h" />
     <ClInclude Include="editmap.h" />
+    <ClInclude Include="character\character.h">
+      <Filter>character</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="mg">
       <UniqueIdentifier>{1fc531f4-72e4-42d6-8f3b-c5ad119417da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="character">
+      <UniqueIdentifier>{411983d3-73a5-4867-ab02-c69d19761d19}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

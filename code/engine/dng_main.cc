@@ -7,8 +7,9 @@
 #include "common/debug.h"
 #include "common/macros.h"
 
+#include "engine/character/character.h"
+
 #include "engine/camera.h"
-#include "engine/character.h"
 #include "engine/collision.h"
 #include "engine/dng_main.h"
 #include "engine/dng_event.h"

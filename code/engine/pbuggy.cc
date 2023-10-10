@@ -3,7 +3,8 @@
 #include "common/log.h"
 #include "common/macros.h"
 
-#include "engine/character.h"
+#include "engine/character/character.h"
+
 #include "engine/effect_script.h"
 #include "engine/mg/mg_lib.h"
 #include "engine/mg/mg_memory.h"

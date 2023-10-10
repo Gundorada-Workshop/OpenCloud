@@ -2,7 +2,8 @@
 #include "common/debug.h"
 #include "common/macros.h"
 
-#include "engine/character.h"
+#include "engine/character/character.h"
+
 #include "engine/mg/mg_lib.h"
 #include "engine/script_interpreter.h"
 

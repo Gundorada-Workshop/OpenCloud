@@ -5,7 +5,8 @@
 #include "common/helpers.h"
 #include "common/types.h"
 
-#include "engine/character.h"
+#include "engine/character/character.h"
+
 #include "engine/collision.h"
 #include "engine/effect.h"
 #include "engine/effect_script.h"

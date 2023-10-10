@@ -6,8 +6,9 @@
 #include "common/log.h"
 #include "common/types.h"
 
+#include "engine/character/character.h"
+
 #include "engine/camera.h"
-#include "engine/character.h"
 #include "engine/editctrl.h"
 #include "engine/mainloop.h"
 #include "engine/menusave.h"

@@ -9,7 +9,6 @@ target_sources(
     # ROOT
     "camera.cc"
     "character_func.cc"
-    "character.cc"
     "collision.cc"
     "convviewlp.cc"
     "dbg_font.cc"
@@ -85,7 +84,6 @@ target_sources(
     
     "camera.h"
     "character_func.h"
-    "character.h"
     "collision.h"
     "convviewlp.h"
     "dbg_font.h"
@@ -160,6 +158,10 @@ target_sources(
     "villager.h"
     "vlgr_info.h"
     "weapon.h"
+
+    # Character
+    "character/character.cc"
+    "character/character.h"
 
     # MG
     "mg/mg_camera.cc"
