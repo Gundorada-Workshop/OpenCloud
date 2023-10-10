@@ -12,7 +12,7 @@
 
 #include "host/host_interface_dwm.h"
 
-#include "dc2/mainloop.h"
+#include "engine/mainloop.h"
 
 set_log_channel("main");
 

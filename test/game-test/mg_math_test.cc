@@ -4,7 +4,7 @@
 #include "common/strings.h"
 #include "common/types.h"
 
-#include "dc2/mg/mg_math.h"
+#include "engine/mg/mg_math.h"
 
 //TEST(mgMathTest, mgFtoI4)
 //{
