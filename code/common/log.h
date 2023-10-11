@@ -6,6 +6,7 @@
 #include "common/types.h"
 #include "common/strings.h"
 #include "common/debug.h"
+#include "common/macros.h"
 
 namespace common::log
 {
@@ -121,4 +122,4 @@ namespace common::log
 #endif
 
 #define set_log_channel(ch) \
-  namespace{ const char* log_channel = ch; }
+  namespace{ MAYBE_UNUSED const char* log_channel = ch; }
