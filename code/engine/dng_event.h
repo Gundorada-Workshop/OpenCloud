@@ -1,7 +1,7 @@
 #pragma once
 #include <array>
 
-#include "engine/character/character.h"
+#include "engine/character/CCharacter2.h"
 
 #include "engine/dng_main.h"
 #include "engine/event_func.h"

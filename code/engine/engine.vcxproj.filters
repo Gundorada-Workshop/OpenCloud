@@ -96,7 +96,13 @@
     <ClCompile Include="character_func.cc" />
     <ClCompile Include="object_anime.cc" />
     <ClCompile Include="editmap.cc" />
-    <ClCompile Include="character\character.cc">
+    <ClCompile Include="character\CActionChara.cc">
+      <Filter>character</Filter>
+    </ClCompile>
+    <ClCompile Include="character\CCharacter2.cc">
+      <Filter>character</Filter>
+    </ClCompile>
+    <ClCompile Include="character\CDynamicAnime.cc">
       <Filter>character</Filter>
     </ClCompile>
   </ItemGroup>
@@ -198,7 +204,19 @@
     <ClInclude Include="character_func.h" />
     <ClInclude Include="object_anime.h" />
     <ClInclude Include="editmap.h" />
-    <ClInclude Include="character\character.h">
+    <ClInclude Include="character\CCharacter2.h">
+      <Filter>character</Filter>
+    </ClInclude>
+    <ClInclude Include="character\CDynamicAnime.h">
+      <Filter>character</Filter>
+    </ClInclude>
+    <ClInclude Include="character\CActionChara.h">
+      <Filter>character</Filter>
+    </ClInclude>
+    <ClInclude Include="character\CSwordAfterEffect.h">
+      <Filter>character</Filter>
+    </ClInclude>
+    <ClInclude Include="character\CDACollision.h">
       <Filter>character</Filter>
     </ClInclude>
   </ItemGroup>

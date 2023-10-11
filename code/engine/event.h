@@ -1,7 +1,7 @@
 #pragma once
 #include <array>
 
-#include "engine/character/character.h"
+#include "engine/character/CCharacter2.h"
 
 #include "engine/scene.h"
 #include "engine/mg/mg_camera.h"

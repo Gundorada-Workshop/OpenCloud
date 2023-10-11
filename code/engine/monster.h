@@ -3,7 +3,7 @@
 #include "common/debug.h"
 #include "common/types.h"
 
-#include "engine/character/character.h"
+#include "engine/character/CActionChara.h"
 
 #include "engine/gamedata.h"
 

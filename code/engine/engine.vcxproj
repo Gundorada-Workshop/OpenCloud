@@ -12,7 +12,11 @@
   <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
   <ItemGroup>
     <ClInclude Include="camera.h" />
-    <ClInclude Include="character\character.h" />
+    <ClInclude Include="character\CActionChara.h" />
+    <ClInclude Include="character\CCharacter2.h" />
+    <ClInclude Include="character\CDACollision.h" />
+    <ClInclude Include="character\CDynamicAnime.h" />
+    <ClInclude Include="character\CSwordAfterEffect.h" />
     <ClInclude Include="character_func.h" />
     <ClInclude Include="editmap.h" />
     <ClInclude Include="effect.h" />
@@ -98,7 +102,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cc" />
-    <ClCompile Include="character\character.cc" />
+    <ClCompile Include="character\CActionChara.cc" />
+    <ClCompile Include="character\CCharacter2.cc" />
+    <ClCompile Include="character\CDynamicAnime.cc" />
     <ClCompile Include="character_func.cc" />
     <ClCompile Include="dbg_font.cc" />
     <ClCompile Include="editmap.cc" />

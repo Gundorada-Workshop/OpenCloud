@@ -2,6 +2,7 @@
 #include "common/types.h"
 
 #include "engine/collision.h"
+#include "engine/scene.h"
 
 // ~ 001A2080 - 001A76C0
 

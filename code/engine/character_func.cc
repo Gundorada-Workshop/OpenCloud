@@ -5,7 +5,7 @@
 
 #include "script/stack.h"
 
-#include "engine/character/character.h"
+#include "engine/character/CActionChara.h"
 
 #include "engine/character_func.h"
 #include "engine/dng_main.h"

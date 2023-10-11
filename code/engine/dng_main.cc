@@ -7,7 +7,7 @@
 #include "common/debug.h"
 #include "common/macros.h"
 
-#include "engine/character/character.h"
+#include "engine/character/CCharacter2.h"
 
 #include "engine/camera.h"
 #include "engine/collision.h"

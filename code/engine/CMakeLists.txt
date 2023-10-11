@@ -160,8 +160,15 @@ target_sources(
     "weapon.h"
 
     # Character
-    "character/character.cc"
-    "character/character.h"
+    "character/CActionChara.cc"
+    "character/CCharacter2.cc"
+    "character/CDynamicAnime.cc"
+
+    "character/CActionChara.h"
+    "character/CCharacter2.h"
+    "character/CDACollision.h"
+    "character/CDynamicAnime.h"
+    "character/CSwordAfterEffect.h"
 
     # MG
     "mg/mg_camera.cc"

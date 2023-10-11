@@ -2,7 +2,7 @@
 #include "common/helpers.h"
 #include "common/log.h"
 
-#include "engine/character/character.h"
+#include "engine/character/CCharacter2.h"
 
 #include "engine/scene.h"
 #include "engine/userdata.h"

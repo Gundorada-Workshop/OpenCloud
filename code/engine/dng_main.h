@@ -5,8 +5,6 @@
 #include "common/types.h"
 #include "common/math.h"
 
-#include "engine/character/character.h"
-
 #include "engine/ls_mes.h"
 #include "engine/map.h"
 #include "engine/mg/mg_frame.h"
