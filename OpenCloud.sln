@@ -73,6 +73,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{CBDD
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "volk", "external\volk.vcxproj", "{4CCD9127-5EE0-4D86-97A6-545D1F227804}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vk", "code\vk\vk.vcxproj", "{CFE73B5E-826E-44F9-88B6-F3EF24954890}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -152,6 +154,12 @@ Global
 		{4CCD9127-5EE0-4D86-97A6-545D1F227804}.FastDebug|x64.Build.0 = FastDebug|x64
 		{4CCD9127-5EE0-4D86-97A6-545D1F227804}.Release|x64.ActiveCfg = Release|x64
 		{4CCD9127-5EE0-4D86-97A6-545D1F227804}.Release|x64.Build.0 = Release|x64
+		{CFE73B5E-826E-44F9-88B6-F3EF24954890}.Debug|x64.ActiveCfg = Debug|x64
+		{CFE73B5E-826E-44F9-88B6-F3EF24954890}.Debug|x64.Build.0 = Debug|x64
+		{CFE73B5E-826E-44F9-88B6-F3EF24954890}.FastDebug|x64.ActiveCfg = FastDebug|x64
+		{CFE73B5E-826E-44F9-88B6-F3EF24954890}.FastDebug|x64.Build.0 = FastDebug|x64
+		{CFE73B5E-826E-44F9-88B6-F3EF24954890}.Release|x64.ActiveCfg = Release|x64
+		{CFE73B5E-826E-44F9-88B6-F3EF24954890}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -168,6 +176,7 @@ Global
 		{123DEE7E-D3F8-4A2A-95F3-5D4E8EA26FB3} = {B7584972-373B-4199-A285-5CCD599277EE}
 		{7E35C3E7-B0A9-407A-A27D-E552B43602C2} = {5B4BAF44-C9E2-449A-86B5-DE883F2E2919}
 		{4CCD9127-5EE0-4D86-97A6-545D1F227804} = {B7584972-373B-4199-A285-5CCD599277EE}
+		{CFE73B5E-826E-44F9-88B6-F3EF24954890} = {5B4BAF44-C9E2-449A-86B5-DE883F2E2919}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {81C91EE3-8C0D-44FC-A3A6-F4D80A915E56}
