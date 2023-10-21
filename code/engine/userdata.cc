@@ -4676,6 +4676,7 @@ bool SetRandomCircleStatus(sint trap_id, f32* abs_bonus_dest)
       auto whp = battle_chara_info->GetNowAccessWHp(1);
       whp->m_current *= 0.5f;
       result = true;
+      break;
     }
     case 9:
     case 11:
@@ -4684,6 +4685,7 @@ bool SetRandomCircleStatus(sint trap_id, f32* abs_bonus_dest)
       auto whp = battle_chara_info->GetNowAccessWHp(0);
       whp->m_current *= 0.5f;
       result = true;
+      break;
     }
     default:
       break;
