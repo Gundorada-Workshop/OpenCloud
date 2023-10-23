@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 23)
 ######################
 add_subdirectory("version")
 add_subdirectory("common")
+add_subdirectory("data")
 #add_subdirectory("script")
 add_subdirectory("graph")
 add_subdirectory("engine")

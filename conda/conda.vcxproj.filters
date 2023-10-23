@@ -2,13 +2,5 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="cli.cc" />
-    <ClCompile Include="iso9660\iso_file.cc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="hd\hd_file.h" />
-    <ClInclude Include="iso9660\iso_file.h" />
-    <ClInclude Include="iso9660\types.h" />
-    <ClInclude Include="pak.h" />
-    <ClInclude Include="img.h" />
   </ItemGroup>
 </Project>

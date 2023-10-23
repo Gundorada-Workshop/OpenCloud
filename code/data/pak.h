@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+
 #include "common/types.h"
 
 namespace pak

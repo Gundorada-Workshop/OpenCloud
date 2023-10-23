@@ -1,15 +1,14 @@
-#include "iso_file.h"
-
 #include "common/bits.h"
 #include "common/file_helpers.h"
 #include "common/log.h"
 
+#include "data/iso/stream.h"
+#include "data/iso/dual_endian.h"
+
 set_log_channel("iso9660");
 
-namespace iso9660
+namespace data
 {
-  using namespace common;
-
   static inline std::string_view trim_version_id(std::string_view s)
   {
     const auto pos = s.find_last_of(';');
@@ -20,21 +19,21 @@ namespace iso9660
     return s.substr(0, pos);
   }
 
-  file::file(std::string_view path, std::unique_ptr<common::data_stream_base> stream)
-    : m_file_stream( std::move(stream) )
+  iso_stream::iso_stream(std::string_view path, std::unique_ptr<common::data_stream_base> stream)
+    : m_file_stream{ std::move(stream) }
     , m_iso_file_path{ std::string{path} }
-    , m_logical_block_size( constants::assumed_sector_size )
-    , m_logical_block_count( m_file_stream->size() / constants::assumed_sector_size )
+    , m_logical_block_size{ iso_default_sector_size }
+    , m_logical_block_count{ m_file_stream->size() / iso_default_sector_size }
   {
   }
 
-  file::~file() = default;
+  iso_stream::~iso_stream() = default;
 
-  std::unique_ptr<file> file::open(std::string_view path)
+  std::unique_ptr<iso_stream> iso_stream::open(std::string_view path)
   {
     log_info("Opening iso file {}", path);
 
-    auto iso_file_stream = file_stream::open(path, "rb");
+    auto iso_file_stream = common::file_stream::open(path, "rb");
 
     if (!iso_file_stream)
     {
@@ -43,18 +42,26 @@ namespace iso9660
       return nullptr;
     }
 
-    auto out = std::make_unique<file>(path, std::move(iso_file_stream));
+    auto out = std::make_unique<iso_stream>(path, std::move(iso_file_stream));
 
     if (!out->open_primary_volume_descriptor())
+    {
+      log_error("Failed to open primary volume descriptor");
+
       return nullptr;
+    }
 
     if (!out->open_path_table())
+    {
+      log_error("Failed to open path table");
+
       return nullptr;
+    }
 
     return out;
   }
 
-  void file::seek_to_logical_block(u64 logical_block_address)
+  void iso_stream::seek_to_logical_block(u64 logical_block_address)
   {
     log_trace("Seeking to logical block {}", logical_block_address);
 
@@ -67,7 +74,7 @@ namespace iso9660
       panicf("Failed to seek to logical block {}", logical_block_address);
   }
 
-  void file::seek_relative_to_logical_block(u64 byte_offset)
+  void iso_stream::seek_relative_to_logical_block(u64 byte_offset)
   {
     seek_to_logical_block(m_current_logical_block);
 
@@ -75,22 +82,22 @@ namespace iso9660
       panicf("Failed to seek to byte {} of logical block {}", byte_offset, m_current_logical_block);
   }
 
-  bool file::open_primary_volume_descriptor()
+  bool iso_stream::open_primary_volume_descriptor()
   {
-    log_info("Searching for primary volume descriptor at logical block {}", constants::data_lba_start);
+    log_info("Searching for primary volume descriptor at logical block {}", iso_data_start_logical_block_address);
 
     // ECMA 6.2.1
     // everything before this is application defined data
     // the spec reserves the first 15 LBAs for that purpose
-    seek_to_logical_block(constants::data_lba_start);
+    seek_to_logical_block(iso_data_start_logical_block_address);
 
     // ECMA 8.1
     // start with a base descriptor
     // this just has the required fields needed to check the type and magic\
     //
     // this descriptor happens to be 1 logical block in size
-    volume_descriptor_base base{ };
-    if (!m_file_stream->read_buffer_checked(&base, sizeof(volume_descriptor_base)))
+    iso_volume_descriptor_base base{ };
+    if (!m_file_stream->read_buffer_checked(&base, sizeof(iso_volume_descriptor_base)))
     {
       log_error("Failed to read volume descriptor block");
 
@@ -99,7 +106,7 @@ namespace iso9660
 
     // EMCA 8.3.2
     // make sure the magic is right
-    if (strncmp(base.header.magic, iso9660::volume_descriptor_primary::magic_id, 5) != 0)
+    if (strncmp(base.header.magic, iso_primary_volume_magic_id, 5) != 0)
     {
       log_error("Block magic doesn't match primary volume descriptor");
 
@@ -109,18 +116,18 @@ namespace iso9660
     // ECMA 8.3.1
     // now make sure it's a primary volume deescriptor type
     // there are other types (secondary, partition, etc) but I did not write support for them
-    if (base.header.type != iso9660::volume_descriptor_types::vd_primary)
+    if (base.header.type != iso_volume_descriptor_type::vd_primary)
     {
       log_error("Descriptor type doesn't match primary volume type");
 
       return false;
     }
 
-    m_volume_descriptor = std::move(std::bit_cast<volume_descriptor_primary>(base));
+    m_volume_descriptor = std::move(std::bit_cast<iso_volume_descriptor_primary>(base));
 
     // cache a few useful values
-    m_logical_block_size  = deget(m_volume_descriptor.logical_block_size);
-    m_logical_block_count = deget(m_volume_descriptor.volume_space_size);
+    m_logical_block_size  = iso_get_native_endian(m_volume_descriptor.logical_block_size);
+    m_logical_block_count = iso_get_native_endian(m_volume_descriptor.volume_space_size);
 
     log_info("Logical block size (bytes): {}", m_logical_block_size);
     log_info("Number of logical blocks:   {}", m_logical_block_count);
@@ -128,9 +135,9 @@ namespace iso9660
     return true;
   }
 
-  bool file::open_path_table()
+  bool iso_stream::open_path_table()
   {
-    const auto path_table_total_byte_count = deget(m_volume_descriptor.path_table_size);
+    const auto path_table_total_byte_count = iso_get_native_endian(m_volume_descriptor.path_table_size);
 
     // zero length path table
     if (!path_table_total_byte_count)
@@ -142,13 +149,13 @@ namespace iso9660
 
     log_info("Opening path table {} bytes", path_table_total_byte_count);
 
-    seek_to_logical_block(deget(m_volume_descriptor.path_table_lba).table);
+    seek_to_logical_block(iso_get_native_endian(m_volume_descriptor.path_table_lba).table);
 
     u64 path_table_byte_offset = 0;
     while (path_table_byte_offset < path_table_total_byte_count)
     {
-      path_table_entry current_path_table_entry;
-      if (!m_file_stream->read_buffer_checked(&current_path_table_entry, sizeof(path_table_entry)))
+      iso_path_table_entry current_path_table_entry;
+      if (!m_file_stream->read_buffer_checked(&current_path_table_entry, sizeof(iso_path_table_entry)))
       {
         log_error("Failed to read path table entry");
 
@@ -160,7 +167,7 @@ namespace iso9660
 
       // we need the total size of the entry plus the string
       // this way we get the next path table entry and not the string following this entry
-      auto total_entry_byte_count = sizeof(path_table_entry) + path_string_byte_count;
+      auto total_entry_byte_count = sizeof(iso_path_table_entry) + path_string_byte_count;
 
       std::string file_iso_relative_path;
       file_iso_relative_path.resize(path_string_byte_count);
@@ -196,7 +203,7 @@ namespace iso9660
     return true;
   }
 
-  file::directory_list file::directories()
+  iso_stream::directory_list iso_stream::directories()
   {
     log_info("Reading {} directory records", m_paths.size());
 
@@ -214,11 +221,11 @@ namespace iso9660
       // construct the full path by looking up the parents till we reach root
       while (parent > 0)
       {
-        full_path = file_helpers::append(m_paths[parent].path, full_path);
+        full_path = common::file_helpers::append(m_paths[parent].path, full_path);
         parent = m_paths[parent].table.parent - 1;
       }
 
-      full_path = file_helpers::append(full_path, path.path);
+      full_path = common::file_helpers::append(full_path, path.path);
 
       directory_entry entry =
       {
@@ -235,7 +242,7 @@ namespace iso9660
     return list;
   }
 
-  file::file_list file::files_for_directory(std::string_view dir_path)
+  iso_stream::file_list iso_stream::files_for_directory(std::string_view dir_path)
   {
     log_info("Searching for entry records for {}", dir_path);
 
@@ -261,16 +268,16 @@ namespace iso9660
 
     seek_to_logical_block(entry_record_logical_block_address);
 
-    dirent dir{ };
-    if (!m_file_stream->read_buffer_checked(&dir, sizeof(dirent)))
+    iso_dirent dir{ };
+    if (!m_file_stream->read_buffer_checked(&dir, sizeof(iso_dirent)))
     {
       log_error("Failed to read directory record at logical block address {}", entry_record_logical_block_address);
 
       return {};
     }
 
-    const auto record_byte_count            = deget(dir.file_section_length);
-    const auto record_logical_block_address = deget(dir.extent_logical_block_number);
+    const auto record_byte_count            = iso_get_native_endian(dir.file_section_length);
+    const auto record_logical_block_address = iso_get_native_endian(dir.extent_logical_block_number);
 
     seek_to_logical_block(record_logical_block_address);
 
@@ -279,7 +286,7 @@ namespace iso9660
 
     while (directory_record_byte_offset < record_byte_count)
     {
-      if (!m_file_stream->read_buffer_checked(&dir, sizeof(dirent)))
+      if (!m_file_stream->read_buffer_checked(&dir, sizeof(iso_dirent)))
       {
         log_error("Failed to read directory entry");
 
@@ -298,20 +305,20 @@ namespace iso9660
         break;
       }
 
-      const usize remaining_bytes = dir.bytes - (sizeof(dirent) + entry_iso_relative_path_byte_count);
+      const usize remaining_bytes = dir.bytes - (sizeof(iso_dirent) + entry_iso_relative_path_byte_count);
       m_file_stream->seek_relative(remaining_bytes);
 
       directory_record_byte_offset += dir.bytes;
 
-      if (dir.flags & dirent::file_flag_directory)
+      if (dir.flags & iso_dirent::file_flag_directory)
         continue;
 
-      const auto entry_logical_block_address = deget(dir.extent_logical_block_number);
-      const auto entry_total_bytes           = deget(dir.file_section_length);
+      const auto entry_logical_block_address = iso_get_native_endian(dir.extent_logical_block_number);
+      const auto entry_total_bytes           = iso_get_native_endian(dir.file_section_length);
 
       file_entry entry =
       {
-        .path                  = file_helpers::append(dir_path, trim_version_id(entry_iso_relative_path)),
+        .path                  = common::file_helpers::append(dir_path, trim_version_id(entry_iso_relative_path)),
         .logical_block_address = entry_logical_block_address,
         .total_bytes           = entry_total_bytes
       };
@@ -324,26 +331,26 @@ namespace iso9660
     return list;
   }
 
-  bool file::copy_logical_block_to_buffer(void* buff)
+  bool iso_stream::copy_logical_block_to_buffer(void* buff)
   {
     return m_file_stream->read_buffer_checked(buff, m_logical_block_size);
   }
 
-  bool file::copy_bytes_to_buffer(void* buff, usize size)
+  bool iso_stream::copy_bytes_to_buffer(void* buff, usize size)
   {
     return m_file_stream->read_buffer_checked(buff, size);
   }
 
-  bool file::copy_file_entry_to_stream(const file_entry& entry, common::data_stream_base* stream)
+  bool iso_stream::copy_file_entry_to_stream(const file_entry& entry, common::data_stream_base* stream)
   {
     if (!stream->seek_to_start())
       return false;
 
     seek_to_logical_block(entry.logical_block_address);
 
-    usize write_size = data_stream_base::block_size;
+    usize write_size = common::data_stream_base::block_size;
 
-    std::array<u8, data_stream_base::block_size> temp_buffer{ };
+    std::array<u8, common::data_stream_base::block_size> temp_buffer{ };
 
     usize bytes_written = 0;
     while (bytes_written < entry.total_bytes)
@@ -352,7 +359,7 @@ namespace iso9660
       {
         write_size = entry.total_bytes - bytes_written;
 
-        log_trace("Unaligned block write {} bytes instead of {}", write_size, data_stream_base::block_size);
+        log_trace("Unaligned block write {} bytes instead of {}", write_size, common::data_stream_base::block_size);
       }
 
       if (!m_file_stream->read_buffer_checked(temp_buffer.data(), write_size))
@@ -367,14 +374,14 @@ namespace iso9660
     return true;
   }
 
-  bool file::copy_bytes_to_stream(data_stream_base* stream, usize size)
+  bool iso_stream::copy_bytes_to_stream(common::data_stream_base* stream, usize size)
   {
     if (!stream->seek_to_start())
       return false;
 
-    usize write_size = data_stream_base::block_size;
+    usize write_size = common::data_stream_base::block_size;
 
-    std::array<u8, data_stream_base::block_size> temp_buffer{ };
+    std::array<u8, common::data_stream_base::block_size> temp_buffer{ };
 
     usize bytes_written = 0;
     while (bytes_written < size)

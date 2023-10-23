@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(SolutionDir)\.msvc\Base.Targets.Props" />
+  <Import Project="$(SolutionDir)\.msvc\Base.Globals.Props" />
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{48A9C8FB-BD91-4115-B90D-0A62DF1857FF}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(SolutionDir)\.msvc\StaticLibrary.Configuration.Props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
+  <ItemGroup>
+    <ClInclude Include="hd.h" />
+    <ClInclude Include="img.h" />
+    <ClInclude Include="iso\datetime.h" />
+    <ClInclude Include="iso\dirent.h" />
+    <ClInclude Include="iso\dual_endian.h" />
+    <ClInclude Include="iso\stream.h" />
+    <ClInclude Include="iso\types.h" />
+    <ClInclude Include="iso\volume.h" />
+    <ClInclude Include="pak.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="iso\stream.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data.exports.props" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)external\fmt.exports.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

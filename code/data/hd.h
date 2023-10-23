@@ -4,7 +4,7 @@
 #include "common/strings.h"
 #include "common/file_helpers.h"
 
-#include "../iso9660/iso_file.h"
+#include "data/iso/stream.h"
 
 namespace hdx
 {

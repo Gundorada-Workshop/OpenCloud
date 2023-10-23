@@ -1,21 +1,25 @@
 #pragma once
 #include <optional>
+#include <vector>
+#include <memory>
 
 #include "common/strings.h"
 #include "common/types.h"
 #include "common/data_stream.h"
 
-#include "types.h"
+#include "data/iso/types.h"
+#include "data/iso/volume.h"
+#include "data/iso/dirent.h"
 
-namespace iso9660
+namespace data
 {
-  class file
+  class iso_stream
   {
   public:
     struct path_entry
     {
       std::string path{ };
-      iso9660::path_table_entry table;
+      iso_path_table_entry table;
     };
 
     struct directory_entry
@@ -28,24 +32,27 @@ namespace iso9660
     struct file_entry
     {
       std::string path{ };
+
       u64 logical_block_address{ 0 };
       u64 total_bytes{ 0 };
-      iso9660::dirent entry{ };
+
+      iso_dirent entry{ };
     };
 
     using path_list = std::vector<path_entry>;
     using directory_list = std::vector<directory_entry>;
     using file_list = std::vector<file_entry>;
 
+  public:
     // ctor
-    file(std::string_view path, std::unique_ptr<common::data_stream_base> stream);
+    iso_stream(std::string_view path, std::unique_ptr<common::data_stream_base> stream);
 
     // dtor
-    ~file();
+    ~iso_stream();
 
   public:
     // open an iso file
-    static std::unique_ptr<file> open(std::string_view path);
+    static std::unique_ptr<iso_stream> open(std::string_view path);
 
     // close an iso file
     void close();
@@ -94,6 +101,13 @@ namespace iso9660
     }
 
   private:
+    // read the PVD into m_volume_descriptor
+    bool open_primary_volume_descriptor();
+
+    // open the path table
+    bool open_path_table();
+
+  private:
     // current path to the iso
     std::string m_iso_file_path{ };
 
@@ -110,24 +124,17 @@ namespace iso9660
     u64 m_current_logical_block{ 0 };
 
     // primary volume descriptor
-    volume_descriptor_primary m_volume_descriptor{ };
+    iso_volume_descriptor_primary m_volume_descriptor{ };
 
     // path table list
     path_list m_paths{ };
-
-  private:
-    // read the PVD into m_volume_descriptor
-    bool open_primary_volume_descriptor();
-
-    // open the path table
-    bool open_path_table();
   };
 }
 
 template<>
-struct fmt::formatter<iso9660::file::path_entry> : formatter<std::string_view>
+struct fmt::formatter<data::iso_stream::path_entry> : formatter<std::string_view>
 {
-  auto format(const iso9660::file::path_entry& entry, format_context& ctx)
+  auto format(const data::iso_stream::path_entry& entry, format_context& ctx)
   {
     constexpr std::string_view tpl =
     {
@@ -139,9 +146,9 @@ struct fmt::formatter<iso9660::file::path_entry> : formatter<std::string_view>
 };
 
 template<>
-struct fmt::formatter<iso9660::file::directory_entry> : formatter<std::string_view>
+struct fmt::formatter<data::iso_stream::directory_entry> : formatter<std::string_view>
 {
-  auto format(const iso9660::file::directory_entry& entry, format_context& ctx)
+  auto format(const data::iso_stream::directory_entry& entry, format_context& ctx)
   {
     constexpr std::string_view tpl =
     {
@@ -155,9 +162,9 @@ struct fmt::formatter<iso9660::file::directory_entry> : formatter<std::string_vi
 };
 
 template<>
-struct fmt::formatter<iso9660::file::file_entry> : formatter<std::string_view>
+struct fmt::formatter<data::iso_stream::file_entry> : formatter<std::string_view>
 {
-  auto format(const iso9660::file::file_entry& entry, format_context& ctx)
+  auto format(const data::iso_stream::file_entry& entry, format_context& ctx)
   {
     constexpr std::string_view tpl =
     {
