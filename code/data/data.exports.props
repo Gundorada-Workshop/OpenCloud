@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ItemGroup>
+    <ProjectReference Include="$(SolutionDir)code\data\data.vcxproj">
+      <Project>{48A9C8FB-BD91-4115-B90D-0A62DF1857FF}</Project>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

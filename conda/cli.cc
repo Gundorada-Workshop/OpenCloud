@@ -17,10 +17,10 @@
 #include "script/file.h"
 #include "script/analyzer.h"
 
-#include "iso9660/iso_file.h"
-#include "hd/hd_file.h"
-#include "pak.h"
-#include "img.h"
+#include "data/iso/stream.h"
+#include "data/hd.h"
+#include "data/pak.h"
+#include "data/img.h"
 
 set_log_channel("conda")
 
@@ -36,11 +36,6 @@ struct cmd_info
 
 using string_list = std::vector<std::string>;
 using cmd_pfn = std::add_pointer_t<bool(const cmd_info&, const string_list&)>;
-
-using iso_file_entry = iso9660::file::file_entry;
-using iso_file_list = iso9660::file::file_list;
-using iso_file = iso9660::file;
-
 
 static constexpr std::array command_info_list =
 {
@@ -133,11 +128,11 @@ static void print_program_help()
     console::writeln_format("  {:<20}{:<20}", arg.name, arg.short_description);
 }
 
-static std::optional<iso9660::file::file_entry> search_iso_for_file_entry(std::unique_ptr<iso_file>& iso, std::string_view iso_relative_path)
+static std::optional<data::iso_stream::file_entry> search_iso_for_file_entry(std::unique_ptr<data::iso_stream>& iso, std::string_view iso_relative_path)
 {
   const auto file_list = iso->files_for_directory(file_helpers::parent_directory(iso_relative_path));
 
-  const auto itr = std::find_if(file_list.begin(), file_list.end(), [&](const iso_file_entry& entry) {
+  const auto itr = std::find_if(file_list.begin(), file_list.end(), [&](const data::iso_stream::file_entry& entry) {
     if (entry.path == iso_relative_path)
       return true;
 
@@ -150,7 +145,7 @@ static std::optional<iso9660::file::file_entry> search_iso_for_file_entry(std::u
   return *itr;
 }
 
-static bool extract_file_entry_from_iso(std::unique_ptr<iso_file>& iso, const iso_file_entry& entry, std::string_view output_path)
+static bool extract_file_entry_from_iso(std::unique_ptr<data::iso_stream>& iso, const data::iso_stream::file_entry& entry, std::string_view output_path)
 {
   const auto utf8_path = strings::sjis_to_utf8_or_panic(entry.path);
   const auto full_output_path = file_helpers::append(output_path, utf8_path);
@@ -182,7 +177,7 @@ static bool extract_file_entry_from_iso(std::unique_ptr<iso_file>& iso, const is
   return true;
 }
 
-static bool extract_file_from_iso(std::unique_ptr<iso_file>& iso, std::string_view iso_relative_path, std::string_view output_directory)
+static bool extract_file_from_iso(std::unique_ptr<data::iso_stream>& iso, std::string_view iso_relative_path, std::string_view output_directory)
 {
   const auto file = search_iso_for_file_entry(iso, file_helpers::native_path(iso_relative_path));
 
@@ -193,7 +188,7 @@ static bool extract_file_from_iso(std::unique_ptr<iso_file>& iso, std::string_vi
 }
 
 
-static bool extract_directory_from_iso(std::unique_ptr<iso_file>& iso, std::string_view iso_relative_path, std::string_view output_directory)
+static bool extract_directory_from_iso(std::unique_ptr<data::iso_stream>& iso, std::string_view iso_relative_path, std::string_view output_directory)
 {
   for (const auto& file : iso->files_for_directory(file_helpers::native_path(iso_relative_path)))
   {
@@ -208,7 +203,7 @@ static bool extract_directory_from_iso(std::unique_ptr<iso_file>& iso, std::stri
   return true;
 }
 
-static bool extract_hdx_file_from_iso(std::unique_ptr<iso_file>& iso, std::string_view iso_relative_path, std::string_view output_directory)
+static bool extract_hdx_file_from_iso(std::unique_ptr<data::iso_stream>& iso, std::string_view iso_relative_path, std::string_view output_directory)
 {
   const auto basename = file_helpers::basename(iso_relative_path);
   const auto parent_directory = file_helpers::parent_directory(iso_relative_path);
@@ -309,7 +304,7 @@ std::vector<pak::entry> pak_archive_entries(std::unique_ptr<data_stream_base>& f
     out.push_back(std::move(entry));
 
     // the end of the file is random garbage (dev strings)
-    file->seek_relative(bits::align_up(header.entry_byte_count, 16));
+    file->seek_relative(common::align_up(header.entry_byte_count, 16));
   }
 
   return out;
@@ -383,7 +378,7 @@ static bool cmd_extract_iso(const cmd_info& info, const string_list& args)
   if (args.size() == 4)
     output_path = args[3];
 
-  std::unique_ptr<iso_file> iso = iso_file::open(iso_file_path);
+  std::unique_ptr<data::iso_stream> iso = data::iso_stream::open(iso_file_path);
 
   if (!iso)
     return false;

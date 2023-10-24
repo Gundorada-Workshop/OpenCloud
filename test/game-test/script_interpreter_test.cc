@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-#include "dc2/script_interpreter.h"
+#include "engine/script_interpreter.h"
 
 class input_strTest : public ::testing::Test {
 protected:

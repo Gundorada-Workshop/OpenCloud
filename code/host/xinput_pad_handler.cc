@@ -157,7 +157,7 @@ namespace host
 
     while (xinput_buttons)
     {
-      auto lsb = common::bits::lsb(xinput_buttons);
+      auto lsb = common::lsb(xinput_buttons);
 
       current_buttons |= m_mapping[lsb];
       xinput_buttons &= ~(lsb);

@@ -136,7 +136,7 @@ namespace host
     {
       while (key_map[k])
       {
-        auto lsb = common::bits::lsb(key_map[k]);
+        auto lsb = common::lsb(key_map[k]);
         auto it = m_mapping.find(k*8 + lsb);
         if (it != m_mapping.end())
         {

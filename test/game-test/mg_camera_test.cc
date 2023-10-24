@@ -4,7 +4,7 @@
 #include "common/math.h"
 #include "common/constants.h"
 
-#include "dc2/mg/mg_camera.h"
+#include "engine/mg/mg_camera.h"
 
 using namespace common;
 

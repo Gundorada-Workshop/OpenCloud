@@ -53,6 +53,8 @@
   #define ALIGN(width) __attribute__((aligned(width)))
 #endif
 
+#define assert_type_size_static(type, expected_size) static_assert(sizeof(type) == expected_size) 
+
 // Enum class bitwise operators
 #define IMPLEMENT_ENUM_CLASS_BITWISE_OPERATORS(type_)               \
   ALWAYS_INLINE constexpr type_ operator &(type_ lhs, type_ rhs)    \
