@@ -41,6 +41,9 @@ target_sources(
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ProjectConfiguration PUBLIC fmt::fmt simdjson)
+if(WIN32) 
+    target_link_libraries(${PROJECT_NAME} PUBLIC Dbghelp) 
+endif (WIN32)
 
 # Include pthread for Linux
 IF (UNIX)
