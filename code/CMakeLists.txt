@@ -26,9 +26,9 @@ ELSEIF(APPLE)
 ELSEIF(UNIX AND NOT APPLE)
     add_executable(${PROJECT_NAME})
     SET(mainfunc host/linuxmain.cc)
-ELSE()
+ELSE(WIN32)
     message(FATAL_ERROR "Unrecognised operating system")
-ENDIF()
+ENDIF(WIN32)
 
 
 target_sources(
