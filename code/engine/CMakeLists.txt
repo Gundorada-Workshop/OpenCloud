@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(OpenCloudDC2)
+project(OpenCloudEngine)
 add_library(${PROJECT_NAME} STATIC)
 
 target_sources(
