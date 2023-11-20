@@ -12,6 +12,7 @@
   <ItemGroup>
     <ClCompile Include="aligned-allocator-test.cc" />
     <ClCompile Include="dictionary-test.cc" />
+    <ClCompile Include="portable_bool.cc" />
     <ClCompile Include="string-test.cc" />
     <ClCompile Include="vector-comparison-tests.cc" />
     <ClCompile Include="vector-math-tests.cc" />

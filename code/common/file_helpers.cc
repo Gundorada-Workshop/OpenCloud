@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 #include "common/file_helpers.h"
 #include "common/debug.h"
 

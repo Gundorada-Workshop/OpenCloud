@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 #pragma once
 #include <fmt/core.h>
 #include "common/strings.h"
