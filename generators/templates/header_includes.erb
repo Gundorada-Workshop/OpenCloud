@@ -1,0 +1,6 @@
+<% system_includes.each do |path| -%>
+#include <<%= path %>>
+<% end -%>
+<% local_includes.each do |path| -%>
+#include "<%= path %>"
+<% end -%>

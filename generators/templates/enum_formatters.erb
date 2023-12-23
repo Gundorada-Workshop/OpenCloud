@@ -1,0 +1,22 @@
+<%= render_header_includes(system_includes, local_includes) %>
+<%= render_header_comment(script_path) %>
+
+<% enum_name_data.each_key do |name| -%>
+// <%= name %>
+template<>
+struct fmt::formatter<<%= name %>> : formatter<string_view>
+{
+  auto format(<%= name %> value, format_context& ctx) const -> decltype(ctx.out())
+  {
+    static constexpr common::dictionary<<%= name %>, std::string_view, <%= enum_name_data[name].count %>> s_map =
+    {
+<% enum_name_data[name].each do |value_name| -%>
+      { <%= value_name %>, "<%= value_name %>" },
+<% end -%>
+    };
+
+    return fmt::format_to(ctx.out(), "{}", s_map.find_or_panic(value));
+  }
+};
+
+<% end -%>
