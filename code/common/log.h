@@ -7,6 +7,7 @@
 #include "common/strings.h"
 #include "common/debug.h"
 #include "common/macros.h"
+#include "common/dictionary.h"
 
 namespace common::log
 {
@@ -62,25 +63,19 @@ namespace common::log
     write(channel, lvl, file, func_name, msg);
   }
 
-  inline std::string level_string(level lvl)
+  inline std::string_view level_string(level lvl)
   {
-    switch (lvl)
+    static constexpr common::dictionary<level, std::string_view, 6> s_map =
     {
-    case level::debug:
-      return "DBG";
-    case level::error:
-      return "ERR";
-    case level::warning:
-      return "WRN";
-    case level::info:
-      return "INF";
-    case level::performance:
-      return "PRF";
-    case level::trace:
-      return "TRC";
-    }
+      { level::debug,       "DBG" },
+      { level::error,       "ERR" },
+      { level::warning,     "WRN" },
+      { level::info,        "INF" },
+      { level::performance, "PRF" },
+      { level::trace,       "TRC" }
+    };
 
-    return "[UNK]";
+    return s_map.find_or(lvl, "NUL");
   }
 }
 
