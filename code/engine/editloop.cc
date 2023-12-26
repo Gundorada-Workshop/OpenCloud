@@ -3,6 +3,7 @@
 #include "common/debug.h"
 #include "common/log.h"
 #include "common/math.h"
+#include "common/macros.h" // MAYBE_UNUSED
 
 #include "graph/rectangle.h"
 
@@ -27,82 +28,82 @@ static ssize EditDebugTexb{};
 static ssize Select{};
 
 // 0037710C
-static ssize SelTAG{};
+MAYBE_UNUSED static ssize SelTAG{};
 
 // 00377110
-static ESubGameID sg_type{};
+MAYBE_UNUSED static ESubGameID sg_type{};
 
 // 00377114
-static sint map_jump{};
+MAYBE_UNUSED static sint map_jump{};
 
 // 00377118
-static sint save_no{};
+MAYBE_UNUSED static sint save_no{};
 
 // 0037711C
-static sint load_no{};
+MAYBE_UNUSED static sint load_no{};
 
 // 00377120
-static sint condition{};
+MAYBE_UNUSED static sint condition{};
 
 // 00377124
-static sint map_flag_no{};
+MAYBE_UNUSED static sint map_flag_no{};
 
 // 00377128
 static bool LEditFlag{};
 
 // 0037712C
-static sint LightType{};
+MAYBE_UNUSED static sint LightType{};
 
 // 00377130
-static ssize DirLightNo{};
+MAYBE_UNUSED static ssize DirLightNo{};
 
 // 00377134
-static sint fish_num{};
+MAYBE_UNUSED static sint fish_num{};
 
 // 00377138
 MAYBE_UNUSED static mgCFrame* WaterFrame{};
 
 // 0037713C
-static mgCFrame* RedBicMark{};
+MAYBE_UNUSED static mgCFrame* RedBicMark{};
 
 // 00377140
-static mgCFrame* BlueBicMark{};
+MAYBE_UNUSED static mgCFrame* BlueBicMark{};
 
 // 00377144
-static CMapTreasureBox* TreasureBox{};
+MAYBE_UNUSED static CMapTreasureBox* TreasureBox{};
 
 // 00377148
-static sint MapNo{};
+MAYBE_UNUSED static sint MapNo{};
 
 // 0037714C
-static mgCCamera* Camera{};
+MAYBE_UNUSED static mgCCamera* Camera{};
 
 // 00377150
-static mgCCamera* EventCamera{};
+MAYBE_UNUSED static mgCCamera* EventCamera{};
 
 // 00377154
-static mgCCamera* FixCamera{};
+MAYBE_UNUSED static mgCCamera* FixCamera{};
 
 // 00377158
-static mgCCamera* EditCamera{};
+MAYBE_UNUSED static mgCCamera* EditCamera{};
 
 // 0037715C
-static sint ActiveCharaNo{};
+MAYBE_UNUSED static sint ActiveCharaNo{};
 
 // 00377160
-static sint ControlCharaID{};
+MAYBE_UNUSED static sint ControlCharaID{};
 
 // 00377164
-static CCharacter2* WalkChara{};
+MAYBE_UNUSED static CCharacter2* WalkChara{};
 
 // 00377168
-static sint LoopCounter{};
+MAYBE_UNUSED static sint LoopCounter{};
 
 // 0037716C
 static EEditLoopMode LoopMode{};
 
 // 00377170
-static EEditControlMode ControlMode{};
+MAYBE_UNUSED static EEditControlMode ControlMode{};
 
 // 00377174
 static bool SubMapLoadBG{};
@@ -114,19 +115,19 @@ static sint now_load_map_nop{};
 MAYBE_UNUSED static bool EventSquareJump{};
 
 // 00377180
-static bool EditDrawFlag{};
+MAYBE_UNUSED static bool EditDrawFlag{};
 
 // 00377184
-static bool EditDrawCancelFlag{};
+MAYBE_UNUSED static bool EditDrawCancelFlag{};
 
 // 00377188
-static bool PauseFlag{};
+MAYBE_UNUSED static bool PauseFlag{};
 
 // 0037718C
 static sint LockChara{};
 
 // 00377190
-static sint PreEditMenuCnt{};
+MAYBE_UNUSED static sint PreEditMenuCnt{};
 
 // 00377194
 static bool EditModeChgFlag{};
@@ -141,28 +142,28 @@ static sint EditModeChgEvent{};
 static CScene* MainScene{};
 
 // 003771AC
-static char* read_buffer_end{};
+MAYBE_UNUSED static char* read_buffer_end{};
 
 // 003771B0
-static char* MenuDataBuf{};
+MAYBE_UNUSED static char* MenuDataBuf{};
 
 // 003771B4
-static usize MenuDataSize{};
+MAYBE_UNUSED static usize MenuDataSize{};
 
 // 003771BC
-static char* CrossFadeBuff{};
+MAYBE_UNUSED static char* CrossFadeBuff{};
 
 // 00377204
-static bool DelMainNPCFlag{};
+MAYBE_UNUSED static bool DelMainNPCFlag{};
 
 // 00377208
-static CEditMap* emapMap{};
+MAYBE_UNUSED static CEditMap* emapMap{};
 
 // 0037720C
-static CEditInfoMngr* emapInfo{};
+MAYBE_UNUSED static CEditInfoMngr* emapInfo{};
 
 // 00377210
-static mgCMemory* emapStack{};
+MAYBE_UNUSED static mgCMemory* emapStack{};
 
 // 00377214
 MAYBE_UNUSED static sint emapIdx{};
@@ -180,91 +181,91 @@ MAYBE_UNUSED static sint emapRectNum{};
 MAYBE_UNUSED static sint emapRectIdx{};
 
 // 00377228
-static sint emapFixNum{};
+MAYBE_UNUSED static sint emapFixNum{};
 
 // 0037722C
-static sint emapInitNum{};
+MAYBE_UNUSED static sint emapInitNum{};
 
 // 00377230
-static sint emapFixIdx{};
+MAYBE_UNUSED static sint emapFixIdx{};
 
 // 00377234
-static sint emapInitIdx{};
+MAYBE_UNUSED static sint emapInitIdx{};
 
 // 00377238
-static sint emapFix{};
+MAYBE_UNUSED static sint emapFix{};
 
 // 0037723C
-static sint emapInit{};
+MAYBE_UNUSED static sint emapInit{};
 
 // 01E9B440
 static CWaveTable WaveTable{ };
 
 // 01E9C650
-static vec4 CharaOldPos{ };
+MAYBE_UNUSED static vec4 CharaOldPos{ };
 
 // 01E9C660
 static ClsMes EventMes1{ };
 
 // 01E9E840
-static mgCMemory buf0{ };
+MAYBE_UNUSED static mgCMemory buf0{ };
 
 // 01E9E870
-static mgCMemory buf1{ };
+MAYBE_UNUSED static mgCMemory buf1{ };
 
 // 01E9E8A0
-static std::array<mgCMemory, 2> data_buf{ };
+MAYBE_UNUSED static std::array<mgCMemory, 2> data_buf{ };
 
 // 01E9E900
-static std::array<mgCMemory, 2> init_dbuf{ };
+MAYBE_UNUSED static std::array<mgCMemory, 2> init_dbuf{ };
 
 // 01E9E960
-static mgCMemory WorkBuffer{ };
+MAYBE_UNUSED static mgCMemory WorkBuffer{ };
 
 // 01E9E990
-static mgCMemory MenuBuffer{ };
+MAYBE_UNUSED static mgCMemory MenuBuffer{ };
 
 // 01E9E9C0
-static mgCMemory ChrEffBuffer{ };
+MAYBE_UNUSED static mgCMemory ChrEffBuffer{ };
 
 // 01E9E990
-static mgCMemory Script_Buffer{ };
+MAYBE_UNUSED static mgCMemory Script_Buffer{ };
 
 // 01E9EA20
-static mgCMemory TotalDataBuff{ };
+MAYBE_UNUSED static mgCMemory TotalDataBuff{ };
 
 // 01E9EA50
-static mgCMemory ControlCharaBuff{ };
+MAYBE_UNUSED static mgCMemory ControlCharaBuff{ };
 
 // 01E9EA80
-static mgCMemory MainDataBuff{ };
+MAYBE_UNUSED static mgCMemory MainDataBuff{ };
 
 // 01E9EA80
-static mgCMemory MainCharaBuff{ };
+MAYBE_UNUSED static mgCMemory MainCharaBuff{ };
 
 // 01E9EAE0
-static mgCMemory SubDataBuff{ };
+MAYBE_UNUSED static mgCMemory SubDataBuff{ };
 
 // 01E9EB10
-static mgCMemory SubCharaBuff{ };
+MAYBE_UNUSED static mgCMemory SubCharaBuff{ };
 
 // 01E9EB40
-static std::array<mgCMemory, 4> EventBuff{ };
+MAYBE_UNUSED static std::array<mgCMemory, 4> EventBuff{ };
 
 // 01E9EC00
-static std::array<mgCMemory, 8> CharaBufs{ };
+MAYBE_UNUSED static std::array<mgCMemory, 8> CharaBufs{ };
 
 // 01E9ED80
-static mgCMemory FishingBuff{ };
+MAYBE_UNUSED static mgCMemory FishingBuff{ };
 
 // 01E9EDB0
-static mgCMemory SkyBuff{ };
+MAYBE_UNUSED static mgCMemory SkyBuff{ };
 
 // 01E9EDE0
 static CEditEvent EditEvent{ };
 
 // 01E9EF30
-static EditDebugInfo EdDebugInfo{ };
+MAYBE_UNUSED static EditDebugInfo EdDebugInfo{ };
 
 // 01E9EF70
 static mgCVisualMDT TestVisual{ };
@@ -273,7 +274,7 @@ static mgCVisualMDT TestVisual{ };
 static std::shared_ptr<mgCFrame> TestFrame = mgCFrame::Create();
 
 // 01E9F0F0
-static std::array<unk32, 0x10> beforeAnalyze{ };
+MAYBE_UNUSED static std::array<unk32, 0x10> beforeAnalyze{ };
 
 // 001A76C0
 void EditStepChara(CScene* scene)
