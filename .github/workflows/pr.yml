@@ -102,8 +102,8 @@ jobs:
     name: "Linux Clang Build"
     runs-on: ubuntu-latest
     env:
-      CC: clang-16
-      CXX: clang++-16
+      CC: clang-17
+      CXX: clang++-17
 
     steps:
     - uses: actions/checkout@v3
@@ -117,11 +117,11 @@ jobs:
     - name: Purge Clang
       run: sudo apt remove -y clang-13 clang-14
 
-    - name: Setup And Install LLVM 16
+    - name: Setup And Install LLVM 17
       run: |
         wget https://apt.llvm.org/llvm.sh
         chmod +x llvm.sh
-        sudo ./llvm.sh 16
+        sudo ./llvm.sh 17
 
     - name: Install Ninja
       run: sudo apt-get install -y ninja-build
