@@ -8,19 +8,19 @@
 set_log_channel("dngmenu");
 
 // 00368640
-static graph::irect dng_light_circle{ graph::irect::from_extent(388, 304, 124, 80) };
+MAYBE_UNUSED static graph::irect dng_light_circle{ graph::irect::from_extent(388, 304, 124, 80) };
 
 // 00368650
-static graph::irect dngfreemap_num{ graph::irect::from_extent(0, 0, 12, 18) };
+MAYBE_UNUSED static graph::irect dngfreemap_num{ graph::irect::from_extent(0, 0, 12, 18) };
 
 // 01EC8DE0
-static graph::rect treemap_root_put{ 0, 0, 0, 0 };
+MAYBE_UNUSED static graph::rect treemap_root_put{ 0, 0, 0, 0 };
 
 // 01EC8DF0
-static graph::irect Floor_Info{ graph::irect::from_extent(0, 238, 256, 18) };
+MAYBE_UNUSED static graph::irect Floor_Info{ graph::irect::from_extent(0, 238, 256, 18) };
 
 // 01EC8E00
-static mgCMemory MenuTreeMapStack{ };
+MAYBE_UNUSED static mgCMemory MenuTreeMapStack{ };
 
 // 001EA760
 CDngFreeMap::CDngFreeMap()

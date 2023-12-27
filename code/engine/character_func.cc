@@ -23,7 +23,7 @@ set_log_channel("character_func");
   }
 
 // 01F0D430
-extern ACTION_INFO action_info{};
+ACTION_INFO action_info{ };
 
 static sint GetStackInt(script::stack_data* stack)
 {
@@ -496,6 +496,8 @@ static bool _RUN_ROBO_MOVE(script::stack_data* stack, MAYBE_UNUSED sint stack_co
     case RoboAir6:
     case RoboAir7:
       action_info.m_chara->RoboAirMoveIF(1, i);
+      break;
+    default:
       break;
   }
 
