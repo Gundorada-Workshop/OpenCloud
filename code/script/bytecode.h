@@ -461,6 +461,8 @@ struct fmt::formatter<script::instruction::load_store_immediate_type> : formatte
       return fmt::format_to(ctx.out(), "{} {}", data.type, data.data.flt_);
     case script::value_data_type::string:
       return fmt::format_to(ctx.out(), "{} {:#06x}", data.type, data.data.int_);
+    default:
+      break;
     }
 
     return fmt::format_to(ctx.out(), "{} {}", data.type, data.data.int_);
@@ -494,6 +496,8 @@ struct fmt::formatter<script::instruction> : formatter<string_view>
       return fmt::format_to(ctx.out(), "{} {}", inst.opcode, inst.load_store_relative);
     case script::instruction_encoding_type::load_store_immediate:
       return fmt::format_to(ctx.out(), "{} {}", inst.opcode, inst.load_store_immediate);
+    default:
+      break;
     }
 
     return fmt::format_to(ctx.out(), "{}", inst.opcode);   

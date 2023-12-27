@@ -110,8 +110,10 @@ namespace common::debug
     symbols = ::backtrace_symbols(frame_stack.data(), depth); // Warning: uses malloc() under the hood, requires free()
     
     // Convert to std::string
-    for (int i=0; i < depth; ++i)
+    for (uint i = 0; i < depth; ++i)
+    {
       out.emplace_back(symbols[i]);
+    }
     
     // Cleaning up after backtrace_symbols
     free(symbols);

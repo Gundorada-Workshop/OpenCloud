@@ -139,6 +139,8 @@ namespace script
       return static_cast<traits::type>(stack._int);
     case _flt:
       return static_cast<traits::type>(stack._flt);
+    default:
+      break;
     }
 
     unreachable_code;

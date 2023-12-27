@@ -2,6 +2,7 @@
 #include <array>
 
 #include "common/debug.h"
+#include "common/macros.h" // MAYBE_UNUSED
 
 #include "engine/sce_temp.h"
 
@@ -10,7 +11,7 @@
 class mgCTextureAnime
 {
   // 124
-  std::array<char*, 0x18> m_group_name;
+  MAYBE_UNUSED std::array<char*, 0x18> m_group_name;
 };
 
 class mgCTexAnimeData 

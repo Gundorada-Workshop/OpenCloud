@@ -887,7 +887,7 @@ public:
   // 7DB0
   std::array<PARTY_CHARA, 0x20> m_party_chara_status{};
   // 7F30
-  CInventUserData m_invent_user_data{ 0 };
+  CInventUserData m_invent_user_data{ };
 
   // ??
 
