@@ -22,7 +22,7 @@ set_log_channel("editctrl");
 // 00377088
 static ELadderMode LadderMode{ ELadderMode::Off };
 // 0037708C
-static sint LadderStep{ 0 };
+MAYBE_UNUSED static sint LadderStep{ 0 };
 // 00377090
 static ECharaMotionMode CharaMotionMode{ 0 };
 // 00377094
@@ -54,40 +54,40 @@ static bool InitEyeViewFlag{ false };
 // 003770C8
 MAYBE_UNUSED static CCharacter2* move_chara{ nullptr };
 // 003770E4
-static mgCCamera* LadderCamera{ nullptr };
+MAYBE_UNUSED static mgCCamera* LadderCamera{ nullptr };
 // 003770E8
-static f32 LdrNext{ 0.0f };
+MAYBE_UNUSED static f32 LdrNext{ 0.0f };
 // 003770EC
-static f32 LdrRot{ 0.0f };
+MAYBE_UNUSED static f32 LdrRot{ 0.0f };
 // 003770F0
-static f32 OldMtnRate{ 0.0f };
+MAYBE_UNUSED static f32 OldMtnRate{ 0.0f };
 // 003770F4
-static s32 LdrSound{ 0 };
+MAYBE_UNUSED static s32 LdrSound{ 0 };
 // 003770F8
-static s32 LdrBtmFoot{ 0 };
+MAYBE_UNUSED static s32 LdrBtmFoot{ 0 };
 // 003770FC
-static s32 LdrTopFoot{ 0 };
+MAYBE_UNUSED static s32 LdrTopFoot{ 0 };
 
 // 01E9B1C0
 static MoveCheckInfo MoveInfo{ };
 // 01E9B2D0
-static vec3 OldFixCameraPos{ };
+MAYBE_UNUSED static vec3 OldFixCameraPos{ };
 // 01E9B2E0
-static vec3 OldCameraPos{ };
+MAYBE_UNUSED static vec3 OldCameraPos{ };
 // 01E9B2F0
-static SLadderData LadderData{ };
+MAYBE_UNUSED static SLadderData LadderData{ };
 // 01E9B3C0
-static vec3 LdrPos{ };
+MAYBE_UNUSED static vec3 LdrPos{ };
 // 01E9B3D0
-static vec3 StdPos{ };
+MAYBE_UNUSED static vec3 StdPos{ };
 // 01E9B3E0
-static vec3 LdrBottomPos{ };
+MAYBE_UNUSED static vec3 LdrBottomPos{ };
 // 01E9B3F0
-static vec3 LdrTopPos{ };
+MAYBE_UNUSED static vec3 LdrTopPos{ };
 // 01E9B400
-static vec3 LdrTopWalk{ };
+MAYBE_UNUSED static vec3 LdrTopWalk{ };
 // 01E9B410
-static vec3 LdrCamPos{ };
+MAYBE_UNUSED static vec3 LdrCamPos{ };
 
 // 001A2C70
 //static bool ClipBoxXZ(const vec4& max_corner1, const vec4& min_corner1, const vec4& max_corner2, const vec4& min_corner2)
