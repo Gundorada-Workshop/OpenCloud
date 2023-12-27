@@ -7871,7 +7871,7 @@ void CSceneCmrSeq::Clear()
 
   if (m_sequences != nullptr)
   {
-    for (int i = 0; i < m_n_sequences; ++i)
+    for (uint i = 0; i < m_n_sequences; ++i)
     {
       m_sequences[i].Initialize();
     }
@@ -7937,7 +7937,7 @@ void CSceneObjSeq::Initialize(_SEN_OBJ_SEQ* seq, usize length)
 
   if (m_sequences != nullptr)
   {
-    for (int i = 0; i < m_n_sequences; ++i)
+    for (uint i = 0; i < m_n_sequences; ++i)
     {
       m_sequences[i].Initialize();
     }

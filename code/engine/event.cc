@@ -1,4 +1,5 @@
 #include "common/log.h"
+#include "common/macros.h" // MAYBE_UNUSED
 
 #include "engine/event.h"
 #include "engine/run_script.h"
@@ -8,7 +9,7 @@ set_log_channel("event");
 // 00377CCC
 CScene* EventScene{ nullptr };
 
-static CRunScript EventScript{ };
+MAYBE_UNUSED static CRunScript EventScript{ };
 
 // 002554C0
 void SkipEventStart()

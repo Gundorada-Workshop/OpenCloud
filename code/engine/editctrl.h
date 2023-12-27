@@ -1,5 +1,6 @@
 #pragma once
 #include "common/types.h"
+#include "common/macros.h" // MAYBE_UNUSED
 
 #include "engine/collision.h"
 #include "engine/scene.h"
@@ -37,7 +38,7 @@ public:
   void PickupVerticalPoly();
 private:
   // 0
-  CCollisionMDT m_collision_mdt{};
+  MAYBE_UNUSED CCollisionMDT m_collision_mdt{};
   // SIZE 0x50
 };
 

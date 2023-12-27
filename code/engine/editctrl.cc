@@ -314,7 +314,7 @@ std::string GetFootEffName(sint id)
     "足芝生", // Foot grass
   };
 
-  if (id < 0 || id >= std::size(name_id) || name[name_id[id]] == nullptr)
+  if (id < 0 || id >= static_cast<sint>(std::size(name_id)) || name[name_id[id]] == nullptr)
   {
     return "";
   }
