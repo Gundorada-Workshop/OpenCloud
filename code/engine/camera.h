@@ -54,10 +54,10 @@ public:
 
 public:
   // 002EC0D0
-  virtual void Stay();
+  virtual void Stay() override;
 
   // 002EC110
-  virtual void Step(MAYBE_UNUSED sint steps = 1);
+  virtual void Step(MAYBE_UNUSED sint steps = 1) override;
 
   // 002ED250
   //virtual matrix4 GetCameraMatrix() const override;

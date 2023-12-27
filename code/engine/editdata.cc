@@ -27,7 +27,7 @@ void CEditData::Initialize()
 {
   log_trace("CEditData::Initialize()");
 
-  memset(this, 0, sizeof(this));
+  memset(this, 0, sizeof(CEditData));
   InitPlaceData();
   memset(&m_unk_field_5040, 0, sizeof(m_unk_field_5040));
 }
