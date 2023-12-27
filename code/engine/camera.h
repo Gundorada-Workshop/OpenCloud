@@ -1,6 +1,7 @@
 #pragma once
 #include "common/debug.h"
 #include "common/types.h"
+#include "common/macros.h" // MAYBE_UNUSED
 
 #include "engine/collision.h"
 #include "engine/gamepad.h"
@@ -53,10 +54,10 @@ public:
 
 public:
   // 002EC0D0
-  virtual void Stay();
+  virtual void Stay() override;
 
   // 002EC110
-  virtual void Step(MAYBE_UNUSED sint steps = 1);
+  virtual void Step(MAYBE_UNUSED sint steps = 1) override;
 
   // 002ED250
   //virtual matrix4 GetCameraMatrix() const override;
@@ -203,5 +204,5 @@ private:
   vec3 m_unk_field_1D0{ };
 
   // 1E0
-  bool m_unk_field_1E0{ false };
+  MAYBE_UNUSED bool m_unk_field_1E0{ false };
 };

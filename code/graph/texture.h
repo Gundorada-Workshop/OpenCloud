@@ -176,6 +176,8 @@ struct fmt::formatter<graph::texture::data_format> : formatter<string_view>
       return fmt::format_to(ctx.out(), "{}", "R8");
     case graph::texture::data_format::d16:
       return fmt::format_to(ctx.out(), "{}", "D16");
+    default:
+      break;
     }
 
     return fmt::format_to(ctx.out(), "{}", "UNKNOWN");

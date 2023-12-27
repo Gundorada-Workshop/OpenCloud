@@ -4,6 +4,7 @@
 #include "common/debug.h"
 #include "common/types.h"
 #include "common/math.h"
+#include "common/macros.h" // MAYBE_UNSED
 
 #include "engine/ls_mes.h"
 #include "engine/map.h"
@@ -473,7 +474,7 @@ class CLockOnModel : CObjectFrame
   CScene* m_scene{ nullptr };
 
   // 84
-  ClsMes* m_mes{ nullptr };
+  MAYBE_UNUSED ClsMes* m_mes{ nullptr };
 
   // 88
   f32 m_unk_field_88{ 0.0f };

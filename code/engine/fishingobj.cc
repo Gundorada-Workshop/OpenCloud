@@ -3,7 +3,7 @@
 
 #include "common/debug.h"
 #include "common/log.h"
-#include "common/macros.h"
+#include "common/macros.h" // MAYBE_UNUSED
 
 #include "engine/fishingobj.h"
 
@@ -30,13 +30,13 @@ static float BattleLineDist;
 // 00378754
 static bool ShowHook;
 // 00378758
-static bool LureLessFlag;
+MAYBE_UNUSED static bool LureLessFlag;
 // 0037875C
 static u32 NowMode;
 // 00378760
-static s32 NowFishSpeed;
+MAYBE_UNUSED static s32 NowFishSpeed;
 // 00378764
-static float NowFishRot;
+MAYBE_UNUSED static float NowFishRot;
 // 00378768
 static s32 ActionChanceNextCnt;
 // 0037876C
@@ -49,9 +49,9 @@ static s32 ActionChanceDir;
 // 01F5E010
 //static std::array<vec4, 5> RodPointDist;
 // 01F5E060
-static std::array<mgCFrame*, 8> SaoFrame;
+MAYBE_UNUSED static std::array<mgCFrame*, 8> SaoFrame;
 // 01F5E080
-static std::array<float, 8> SaoDist;
+MAYBE_UNUSED static std::array<float, 8> SaoDist;
 // 01F5E0A0
 //static std::array<std::array<vec4, 3>, 64> LinePoint;
 // 01F5ECA0

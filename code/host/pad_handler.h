@@ -77,14 +77,13 @@ namespace host
     constexpr f32 normalize(T val)
     {
       constexpr f32 max = static_cast<f32>(std::numeric_limits<T>::max());
+
       return static_cast<f32>(val) / max;
     }
 
     template<typename T>
     constexpr T deadzone(T val, T strength)
     {
-      using signed_type = std::make_signed_t<T>;
-
       if (std::abs(val) < strength)
         return 0;
 

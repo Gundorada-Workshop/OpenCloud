@@ -13,7 +13,7 @@ namespace common::file_helpers
 {
   static std::string s_application_directory{ };
 
-  static consteval const char native_path_seperator()
+  static consteval char native_path_seperator()
   {
 #if defined(_WIN32)
     return '\\';

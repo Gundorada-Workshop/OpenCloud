@@ -511,7 +511,7 @@ public:
   void Initialize();
 
   // 0
-  std::array<CEventSprite, 8> m_sprites{ 0 };
+  std::array<CEventSprite, 8> m_sprites{ };
 };
 
 class CEventSprite2

@@ -123,7 +123,7 @@ namespace data
       return false;
     }
 
-    m_volume_descriptor = std::move(std::bit_cast<iso_volume_descriptor_primary>(base));
+    m_volume_descriptor = std::bit_cast<iso_volume_descriptor_primary>(base);
 
     // cache a few useful values
     m_logical_block_size  = iso_get_native_endian(m_volume_descriptor.logical_block_size);

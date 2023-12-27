@@ -3,7 +3,7 @@
 #include "common/bits.h"
 #include "common/log.h"
 #include "common/math.h"
-#include "common/macros.h"
+#include "common/macros.h" // MAYBE_UNUSED
 #include "common/constants.h"
 #include "common/types.h"
 
@@ -36,7 +36,7 @@ using namespace script;
 set_log_channel("event_func");
 
 // 00377CD4
-static CMarker EventMarker{};
+MAYBE_UNUSED static CMarker EventMarker{};
 // 00377CD8
 static std::unique_ptr<CSwordAfterImage> SwordEffect{ nullptr };
 // 00377CE4
@@ -44,45 +44,45 @@ static bool SetWorldCoordFlg{};
 // 01ECD5F0
 static MENU_INIT_ARG MenuArg{};
 // 01ECE880
-static CEohMother EventObjHandleMother{};
+MAYBE_UNUSED static CEohMother EventObjHandleMother{};
 // 01ECEA80
-static CEventSpriteMother esMother{};
+MAYBE_UNUSED static CEventSpriteMother esMother{};
 // 01ECEEC0
-static std::array<u32, 0x40> EventLocalFlag{};
+MAYBE_UNUSED static std::array<u32, 0x40> EventLocalFlag{};
 // 01ECF0C0
 static CRain EventRain{};
 // 01EE00B0
-static std::array<CHitEffectImage, 5> HitEffect{};
+MAYBE_UNUSED static std::array<CHitEffectImage, 5> HitEffect{};
 // 01EE0290
-static std::array<char, 0x40> PakuAnimName{};
+MAYBE_UNUSED static std::array<char, 0x40> PakuAnimName{};
 // 01EE02D0
-static std::array<char, 0x40> PakuAnimName2{};
+MAYBE_UNUSED static std::array<char, 0x40> PakuAnimName2{};
 // 01EE0310
-static std::array<char, 0x40> PakuMotionName{};
+MAYBE_UNUSED static std::array<char, 0x40> PakuMotionName{};
 // 01EE0350
-static std::array<char, 0x40> PakuMotionName2{};
+MAYBE_UNUSED static std::array<char, 0x40> PakuMotionName2{};
 // 01EE0390
-static std::array<char, 0x8010> ALIGN(0x10) event_snd_buff {};
+MAYBE_UNUSED static std::array<char, 0x8010> ALIGN(0x10) event_snd_buff{};
 // 01EE83A0
-static mgCMemory BuffEventSnd{};
+MAYBE_UNUSED static mgCMemory BuffEventSnd{};
 // 01EE83D0
-static std::array<char, 0x1410> ALIGN(0x10) event_snd2_buff {};
+MAYBE_UNUSED static std::array<char, 0x1410> ALIGN(0x10) event_snd2_buff{};
 // 01EE97E0
-static mgCMemory BuffEventSnd2{};
+MAYBE_UNUSED static mgCMemory BuffEventSnd2{};
 // 01EE9810
 static CDngFreeMap EventDngMap{};
 // 01EE9920
-static std::array<_SEN_CMR_SEQ, 0x100> cmr_seq_tbl{};
+MAYBE_UNUSED static std::array<_SEN_CMR_SEQ, 0x100> cmr_seq_tbl{};
 // 01EEF920
 static CSceneCmrSeq CameraSeq{};
 // 01EF0430
-static std::array<_SEN_OBJ_SEQ, 0x100> obj_seq_tbl{};
+MAYBE_UNUSED static std::array<_SEN_OBJ_SEQ, 0x100> obj_seq_tbl{};
 // 01EF5430
 static std::array<CSceneObjSeq, 0x20> ObjectSeq{};
 // 01F01230
 static std::array<CEventSprite2, 0x30> EventSprite2{};
 // 01F02A30
-static CEventScriptArg EventScriptArg{};
+MAYBE_UNUSED static CEventScriptArg EventScriptArg{};
 // 01F02A40
 static CScreenEffect EventScreenEffect{};
 
@@ -7871,7 +7871,7 @@ void CSceneCmrSeq::Clear()
 
   if (m_sequences != nullptr)
   {
-    for (int i = 0; i < m_n_sequences; ++i)
+    for (uint i = 0; i < m_n_sequences; ++i)
     {
       m_sequences[i].Initialize();
     }
@@ -7937,7 +7937,7 @@ void CSceneObjSeq::Initialize(_SEN_OBJ_SEQ* seq, usize length)
 
   if (m_sequences != nullptr)
   {
-    for (int i = 0; i < m_n_sequences; ++i)
+    for (uint i = 0; i < m_n_sequences; ++i)
     {
       m_sequences[i].Initialize();
     }

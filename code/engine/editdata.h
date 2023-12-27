@@ -83,19 +83,19 @@ public:
   usize m_n_unk_field_C{ 0 };
 
   // C
-  std::array<unks<0x24>, 300> m_unk_field_C{ 0 };
+  std::array<unks<0x24>, 300> m_unk_field_C{ };
 
   // 2A3C
   usize m_n_unk_field_2A40{ 0 };
 
   // 2A40
-  std::array<unks<0x10>, 32> m_unk_field_2A40{ 0 };
+  std::array<unks<0x10>, 32> m_unk_field_2A40{ };
 
   // 2C40
-  std::array<s16, 0x800> m_unk_field_2C40{ 0 };
+  std::array<s16, 0x800> m_unk_field_2C40{ };
 
   // 4C40
-  std::array<u8, 0x400> m_unk_field_4C40{ 0 };
+  std::array<u8, 0x400> m_unk_field_4C40{ };
 
   // 5040
   unks<0xD0> m_unk_field_5040 { 0 };
