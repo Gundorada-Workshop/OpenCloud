@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 #include <limits>
 
 #include "common/log.h"

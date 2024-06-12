@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 #include <chrono>
 #include "common/log.h"
 #include "common/debug.h"
