@@ -1,10 +1,14 @@
 #if defined(_WIN32)
     #include <Windows.h>
-#elif defined(__linux__)
+#endif
+
+#if defined(__linux__) || defined(__APPLE__)
     #include <pthread.h>
     #include <time.h>
-#else
-  static_assert(false, "synchro.cc not defined for this operating system");
+#endif
+
+#if defined(__APPLE__)
+  #include <mach/mach.h>
 #endif
 
 #include "common/debug.h"
@@ -24,6 +28,8 @@ namespace common::synchro
         return GetCurrentThreadId();
     #elif defined(__linux__)
         return static_cast<sint>(pthread_self()); // Return type might need to be OS-dependent
+    #elif defined(__APPLE__)
+        return mach_thread_self();
     #else
         static_assert(false, "Not implemented");
     #endif
@@ -43,6 +49,8 @@ namespace common::synchro
       p_set_thread_description(GetCurrentThread(), wname.c_str());
     #elif defined(__linux__)
       pthread_setname_np(pthread_self(), name.data());
+    #elif defined(__APPLE__)
+      pthread_setname_np(name.data());
     #else
       static_assert(false, "Not implemented");
     #endif
@@ -52,7 +60,7 @@ namespace common::synchro
   {
     #if defined(_WIN32)
       Sleep(ms);
-    #elif defined(__linux__)
+    #elif defined(__linux__) || defined(__APPLE__)
       timespec ts;
       ts.tv_sec  = ms / 1000;
       ts.tv_nsec = (ms % 1000) * 1000000;
