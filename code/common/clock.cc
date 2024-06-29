@@ -1,9 +1,7 @@
 #if defined(_WIN32)
     #include <Windows.h>
-#elif defined(__linux__)
-    #include <time.h>
 #else
-    static_assert(false, "clock.cc is not implemented for this operating system");
+    #include <time.h>
 #endif
 
 #include <mutex>
@@ -27,13 +25,11 @@ namespace common::time
     QueryPerformanceCounter(&count);
 
     return count.QuadPart;
-    #elif defined(__linux__)
+    #else
     timespec ts;
     if (clock_gettime(CLOCK_MONOTONIC_RAW, &ts))
       debug::panic("Failed to get time!");
     return (u64)ts.tv_nsec + (u64)1E9 * (u64)ts.tv_sec;
-    #else
-    static_assert(false, "Not implemented");
     #endif
   }
 
@@ -49,10 +45,8 @@ namespace common::time
       QueryPerformanceFrequency(&freq);
 
       s_cached_cycles_per_second = freq.QuadPart;
-      #elif defined(__linux__)
-      return (u64)1E9;
       #else
-      static_assert(false, "Not implemented");
+      return (u64)1E9;
       #endif
     }
 

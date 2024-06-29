@@ -1,9 +1,7 @@
 #if defined(_WIN32)
 #include <wil/resource.h>
-#elif defined(__linux__)
-#include <dlfcn.h>
 #else
-#error Not Implemented
+#include <dlfcn.h>
 #endif
 
 #include "common/strings.h"
@@ -15,10 +13,8 @@ namespace common
 {
   #if defined(_WIN32)
   using handle_type = wil::unique_hmodule;
-  #elif defined(__linux__)
-  using handle_type = void*;
   #else
-  #error Not Implemented
+  using handle_type = void*;
   #endif
 
   class dynamic_library::impl
@@ -68,7 +64,7 @@ namespace common
 
     return reinterpret_cast<void*>(addr);
   }
-  #elif defined(__linux__)
+  #else
   bool dynamic_library::impl::open(std::string_view name)
   {
     const auto name_string = std::string{ name };
@@ -90,8 +86,6 @@ namespace common
 
     return dlsym(m_handle, name_string.c_str());
   }
-  #else
-  #error Not Implemented
   #endif
 
   dynamic_library::dynamic_library()
