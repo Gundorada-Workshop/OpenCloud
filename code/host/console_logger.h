@@ -1,6 +1,6 @@
 #pragma once
 
-namespace common::log::console_logger
+namespace host::console_logger
 {
   // start the consoler logger
   // must be done after the console is initialized

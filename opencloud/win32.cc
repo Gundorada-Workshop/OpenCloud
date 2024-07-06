@@ -3,7 +3,6 @@
 #include <thread>
 
 #include "common/console.h"
-#include "common/console_logger.h"
 #include "common/file_helpers.h"
 #include "common/log.h"
 #include "common/strings.h"
@@ -11,6 +10,7 @@
 #include "common/scoped_function.h"
 
 #include "host/host_interface_dwm.h"
+#include "host/console_logger.h"
 
 #include "engine/mainloop.h"
 
@@ -33,11 +33,12 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
   if (!console::initialize())
     return EXIT_FAILURE;
 
-  log::console_logger::initialize();
+  host::console_logger::initialize();
 
-  scoped_function cleanup([&]() {
+  scoped_function cleanup([&]()
+  {
     // free the console
-    log::console_logger::shutdown();
+    host::console_logger::shutdown();
     console::shutdown();
   });
 

@@ -3,7 +3,6 @@
   <ItemGroup>
     <ClCompile Include="clock.cc" />
     <ClCompile Include="console.cc" />
-    <ClCompile Include="console_logger.cc" />
     <ClCompile Include="data_stream.cc" />
     <ClCompile Include="debug.cc" />
     <ClCompile Include="dynamic_library.cc" />
@@ -16,7 +15,6 @@
     <ClInclude Include="bits.h" />
     <ClInclude Include="clock.h" />
     <ClInclude Include="console.h" />
-    <ClInclude Include="console_logger.h" />
     <ClInclude Include="data_stream.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="dynamic_library.h" />

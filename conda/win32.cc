@@ -10,7 +10,6 @@
 #include "common/strings.h"
 #include "common/console.h"
 #include "common/log.h"
-#include "common/console_logger.h"
 #include "common/file_helpers.h"
 #include "common/scoped_function.h"
 
@@ -21,6 +20,8 @@
 #include "data/hd.h"
 #include "data/pak.h"
 #include "data/img.h"
+
+#include "host/console_logger.h"
 
 set_log_channel("conda")
 
@@ -688,7 +689,7 @@ static bool initialize_console_logger()
   if (!console::initialize())
     return false;
 
-  if (!log::console_logger::initialize())
+  if (!host::console_logger::initialize())
     return false;
 
   return true;
@@ -703,7 +704,7 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
     return EXIT_FAILURE;
 
   scoped_function cleanup([&]() {
-    log::console_logger::shutdown();
+    host::console_logger::shutdown();
     console::shutdown();
   });
 

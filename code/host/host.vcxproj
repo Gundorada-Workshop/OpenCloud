@@ -10,6 +10,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
   <ItemGroup>
+    <ClCompile Include="console_logger.cc" />
     <ClCompile Include="host_interface_base.cc" />
     <ClCompile Include="linux_pad_handler.cc">
       <ExcludedFromBuild>true</ExcludedFromBuild>
@@ -18,6 +19,7 @@
     <ClCompile Include="xinput_pad_handler.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="console_logger.h" />
     <ClInclude Include="host_interface_base.h" />
     <ClInclude Include="host_interface_dwm.h" />
     <ClInclude Include="linux_pad_handler.h">

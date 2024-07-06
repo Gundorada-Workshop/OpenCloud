@@ -19,6 +19,7 @@
     <ClCompile Include="win32.cc" />
   </ItemGroup>
   <Import Project="$(SolutionDir)code\common\common.exports.props" />
+  <Import Project="$(SolutionDir)code\host\host.exports.props" />
   <Import Project="$(SolutionDir)code\data\data.exports.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
