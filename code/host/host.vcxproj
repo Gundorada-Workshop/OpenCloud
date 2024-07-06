@@ -16,6 +16,7 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="host_interface_dwm.cc" />
+    <ClCompile Include="visual_studio_debug_logger.cc" />
     <ClCompile Include="xinput_pad_handler.cc" />
   </ItemGroup>
   <ItemGroup>
@@ -26,6 +27,7 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="pad_handler.h" />
+    <ClInclude Include="visual_studio_debug_logger.h" />
     <ClInclude Include="xinput_pad_handler.h" />
   </ItemGroup>
   <ItemGroup>
