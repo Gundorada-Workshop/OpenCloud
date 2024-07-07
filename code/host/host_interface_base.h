@@ -51,7 +51,7 @@ namespace host
     void end_game_frame();
 
   public:
-    inline void set_frame_divider(uint divider)
+    ALWAYS_INLINE void set_frame_divider(uint divider)
     {
       if (!divider)
         return;
@@ -60,67 +60,67 @@ namespace host
     }
 
     // request the message pump exit
-    inline void request_message_pump_quit()
+    ALWAYS_INLINE void request_message_pump_quit()
     {
       m_message_pump_quit_requested = true;
     }
 
     // check if the message pump was requested to exit
-    inline bool message_pump_quit_requested() const
+    ALWAYS_INLINE bool message_pump_quit_requested() const
     {
       return m_message_pump_quit_requested;
     }
 
     // check if any buttons started being pressed this frame
-    inline bool pad_button_any_down(pad_handler::buttons btn)
+    ALWAYS_INLINE bool pad_button_any_down(pad_handler::buttons btn)
     {
       return common::to_bool(delta_frame_buttons() & btn);
     }
 
     // check if any buttons started being released this frame
-    inline bool pad_button_any_up(pad_handler::buttons btn)
+    ALWAYS_INLINE bool pad_button_any_up(pad_handler::buttons btn)
     {
       return common::to_bool(delta_frame_buttons() & (~btn));
     }
 
     // check if all buttons started being pressed this frame
-    inline bool pad_button_all_down(pad_handler::buttons btn)
+    ALWAYS_INLINE bool pad_button_all_down(pad_handler::buttons btn)
     {
       return (delta_frame_buttons() & btn) == btn;
     }
 
     // check if all buttons started being released this frame
-    inline bool pad_button_all_up(pad_handler::buttons btn)
+    ALWAYS_INLINE bool pad_button_all_up(pad_handler::buttons btn)
     {
       return (delta_frame_buttons() & (~btn)) == btn;
     }
 
     // check if any button is pressed this frame
-    inline bool pad_button_any_pressed(pad_handler::buttons btn)
+    ALWAYS_INLINE bool pad_button_any_pressed(pad_handler::buttons btn)
     {
       return common::to_bool(current_frame_buttons() & btn);
     }
 
     // check if any button is not pressed this frame
-    inline bool pad_button_any_unpressed(pad_handler::buttons btn)
+    ALWAYS_INLINE bool pad_button_any_unpressed(pad_handler::buttons btn)
     {
       return common::to_bool(current_frame_buttons() & (~btn));
     }
 
     // check if all buttons are pressed this frame
-    inline bool pad_button_all_pressed(pad_handler::buttons btn)
+    ALWAYS_INLINE bool pad_button_all_pressed(pad_handler::buttons btn)
     {
       return (current_frame_buttons() & btn) == btn;
     }
 
     // check if all buttons are not pressed this frame
-    inline bool pad_button_all_unpressed(pad_handler::buttons btn)
+    ALWAYS_INLINE bool pad_button_all_unpressed(pad_handler::buttons btn)
     {
       return (current_frame_buttons() & (~btn)) == btn;
     }
 
     // sample the left stick x value
-    inline f32 sample_pad_left_stick_x()
+    ALWAYS_INLINE f32 sample_pad_left_stick_x()
     {
       const auto axis = sample_pad_left_stick_xy();
 
@@ -128,7 +128,7 @@ namespace host
     }
 
     // sample the left stick y value
-    inline f32 sample_pad_left_stick_y()
+    ALWAYS_INLINE f32 sample_pad_left_stick_y()
     {
       const auto axis = sample_pad_left_stick_xy();
 
@@ -136,7 +136,7 @@ namespace host
     }
 
     // sample the right stick x value
-    inline f32 sample_pad_right_stick_x()
+    ALWAYS_INLINE f32 sample_pad_right_stick_x()
     {
       const auto axis = sample_pad_right_stick_xy();
 
@@ -144,7 +144,7 @@ namespace host
     }
 
     // sample the right stick y value
-    inline f32 sample_pad_right_stick_y()
+    ALWAYS_INLINE f32 sample_pad_right_stick_y()
     {
       const auto axis = sample_pad_right_stick_xy();
 
@@ -152,22 +152,22 @@ namespace host
     }
 
   protected:
-    inline pad_handler::buttons current_frame_buttons()
+    ALWAYS_INLINE pad_handler::buttons current_frame_buttons()
     {
       return m_game_button_buffer[m_game_button_buffer_index];
     }
 
-    inline pad_handler::buttons previous_frame_buttons()
+    ALWAYS_INLINE pad_handler::buttons previous_frame_buttons()
     {
       return m_game_button_buffer[m_game_button_buffer_index ^ 1];
     }
 
-    inline pad_handler::buttons delta_frame_buttons()
+    ALWAYS_INLINE pad_handler::buttons delta_frame_buttons()
     {
       return current_frame_buttons() ^ previous_frame_buttons();
     }
 
-    inline void set_window_title(std::string_view name)
+    ALWAYS_INLINE void set_window_title(std::string_view name)
     {
       m_window_title = std::string{ name };
     }
