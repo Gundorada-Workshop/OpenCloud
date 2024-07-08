@@ -1,12 +1,12 @@
 #include <thread>
 
 #include "common/console.h"
-#include "common/console_logger.h"
 #include "common/file_helpers.h"
 #include "common/log.h"
 #include "common/synchro.h"
 #include "common/scoped_function.h"
 
+#include "host/console_logger.h"
 #include "host/host_interface_x11.h"
 #undef None
 
@@ -29,11 +29,11 @@ int main(int argc, char** argv)
   if (!console::initialize())
     return EXIT_FAILURE;
 
-  log::console_logger::initialize();
+  host::console_logger::initialize();
 
   scoped_function cleanup([&]() {
     // free the console
-    log::console_logger::shutdown();
+    host::console_logger::shutdown();
     console::shutdown();
   });
 
