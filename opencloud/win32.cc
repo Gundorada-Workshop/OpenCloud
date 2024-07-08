@@ -31,7 +31,9 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
   // start the console
   // todo: report message box to user
   if (!console::initialize())
+  {
     return EXIT_FAILURE;
+  }
 
   host::console_logger::initialize();
 
@@ -44,16 +46,10 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
 
   log_info("Starting");
 
-  // set the application directory
-  WCHAR w_path[MAX_PATH];
-  GetModuleFileNameW(NULL, w_path, MAX_PATH);
-
-  auto path = strings::wstring_to_utf8_or_panic(w_path);
-
-  file_helpers::set_application_directory(file_helpers::parent_directory(path));
-
-  if (!host::dwm_interface::create(file_helpers::basename(path)))
+  if (!host::dwm_interface::create("OpenCloud"))
+  {
     return EXIT_FAILURE;
+  }
 
   // create the render window
   if (!g_host_interface->create_render_window())
@@ -63,7 +59,8 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
     return EXIT_FAILURE;
   }
 
-  s_game_thread = std::jthread([]() {
+  s_game_thread = std::jthread([]()
+  {
     log_info("Starting game thread");
 
     synchro::set_current_thread_name("game-thread");

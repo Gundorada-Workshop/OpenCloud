@@ -42,12 +42,10 @@ namespace common::file_helpers
   // but attempts to create all directories in the path
   bool create_directories(std::string_view path);
 
-  // set the application directory
-  // should be called with an argv from main
-  void set_application_directory(std::string_view path);
+  std::string get_executable_path();
 
   // get the application directory
-  std::string_view get_application_directory();
+  std::string get_application_directory();
 
   // get the data directory
   std::string get_data_directory();

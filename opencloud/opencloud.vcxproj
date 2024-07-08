@@ -10,6 +10,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
   <ItemGroup>
+    <ClCompile Include="unix.cc">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="win32.cc" />
   </ItemGroup>
   <ItemGroup>

@@ -11,8 +11,6 @@
 
 namespace common::file_helpers
 {
-  static std::string s_application_directory{ };
-
   static consteval char native_path_seperator()
   {
 #if defined(_WIN32)
@@ -264,23 +262,45 @@ namespace common::file_helpers
     return create_directory(path);
   }
 
-  void set_application_directory(std::string_view path)
+  std::string get_executable_path()
   {
-    assert_msg(s_application_directory.empty(), "Application directory already set");
+  #if defined(WIN32)
+    WCHAR wpath[MAX_PATH];
+    GetModuleFileNameW(NULL, wpath, MAX_PATH);
 
-    s_application_directory = std::string{ path };
+    return common::strings::wstring_to_utf8_or_panic(wpath);
+  #endif
+
+  #if defined(__linux__)
+    char path[PATH_MAX];
+
+    ssize_t len = ::readlink("/proc/self/exe", path, sizeof(path));
+
+    if (len == -1 || len == sizeof(path))
+    {
+      len = 0;
+    }
+
+    path[len] = '\0';
+
+    return std::string{ path };
+  #endif
+
+    return { };
   }
 
-  std::string_view get_application_directory()
+  std::string get_application_directory()
   {
-    assert_msg(!s_application_directory.empty(), "Application directory needs to be set before calling get_parent_directory()");
+    const auto exe_path = get_executable_path();
 
-    return s_application_directory;
+    return std::string{ parent_directory(exe_path) };
   }
 
   std::string get_data_directory()
   {
-    return file_helpers::append(file_helpers::get_application_directory(), "DATA");
+    return file_helpers::append(
+      file_helpers::get_application_directory(), "DATA"
+    );
   }
 
   std::string get_working_directory()

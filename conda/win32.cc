@@ -701,9 +701,12 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
 {
   // we need the console for this
   if (!initialize_console_logger())
+  {
     return EXIT_FAILURE;
+  }
 
-  scoped_function cleanup([&]() {
+  scoped_function cleanup([&]()
+  {
     host::console_logger::shutdown();
     console::shutdown();
   });
@@ -712,10 +715,6 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
 
   auto arg_list = get_cmd_line_utf8();
 
-  // set the application directory to the parent of this app
-  file_helpers::set_application_directory(file_helpers::parent_directory(arg_list.front()));
-
-  // get the program name as the basename of the app name
   s_program_name = file_helpers::basename(arg_list.front());
 
   arg_list.erase(arg_list.begin());
@@ -730,12 +729,16 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
   for (usize i = 0; i < command_info_list.size(); i++)
   {
     if (command_info_list[i].name != arg_list.front())
+    {
       continue;
+    }
 
     arg_list.erase(arg_list.begin());
 
     if (!command_function_list[i](command_info_list[i], arg_list))
+    {
       return EXIT_FAILURE;
+    }
 
     return EXIT_SUCCESS;
   }

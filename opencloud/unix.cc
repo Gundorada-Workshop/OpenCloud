@@ -39,16 +39,10 @@ int main(int argc, char** argv)
 
   log_info("Starting");
 
-  // set the application directory
-  std::array<char, PATH_MAX> result;
-  ssize_t count = readlink("/proc/self/exe", result.data(), PATH_MAX);
-  std::string path;
-  if (count != -1)
-      path = result.data();
-  file_helpers::set_application_directory(file_helpers::parent_directory(path));
-
-  if (!host::x11_interface::create(file_helpers::basename(path)))
+  if (!host::x11_interface::create("OpenCloud"))
+  {
     return EXIT_FAILURE;
+  }
 
   // create the render window
   if (!g_host_interface->create_render_window())
