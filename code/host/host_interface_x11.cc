@@ -5,6 +5,9 @@
 #include "host/host_interface_x11.h"
 #include "host/linux_pad_handler.h"
 
+#include <X11/X.h>
+#include <X11/Xlib.h>
+
 set_log_channel("x11");
 
 using namespace common;
@@ -15,7 +18,9 @@ namespace host
   {
     // Acquire XServer display
     m_display = XOpenDisplay(NULL);
-    if (m_display == NULL) {
+
+    if (m_display == NULL)
+    {
         common::debug::panic("Cannot open display");
     }
   };
@@ -101,8 +106,8 @@ namespace host
   {
     common::native_window_handle_type handle =
     {
-      .connection = m_display,
-      .handle     = &m_window_handle
+      .display = m_display,
+      .window  = m_window_handle
     };
 
     return handle;

@@ -1,17 +1,15 @@
 #pragma once
 
-#include <X11/X.h>
-#include <X11/Xlib.h>
-
 #include <memory>
 #include <string_view>
 
 #include "common/types.h"
 #include "common/bits.h"
-#include "common/window_handle.h"
 
 #include "host/host_interface_base.h"
 #include "host/pad_handler.h"
+
+#include "common/window_handle.h"
 
 namespace host
 {

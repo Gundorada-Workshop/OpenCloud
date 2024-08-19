@@ -1,3 +1,5 @@
+#include <Windows.h>
+
 #include "common/log.h"
 #include "common/strings.h"
 #include "common/dynamic_library.h"
@@ -162,7 +164,7 @@ namespace host
   {
     common::native_window_handle_type handle =
     {
-      .window_handle = m_window_handle.get()
+      .window = m_window_handle.get()
     };
 
     return handle;

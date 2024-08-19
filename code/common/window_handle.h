@@ -1,33 +1,76 @@
 #pragma once
-#if defined(_WIN32)
-  #include <Windows.h>
-#elif defined(__linux__)
-#else
-  static_assert(false, "Not implemented");
-#endif
 
 #include "common/platform.h"
 
+// Don't include those nasty headers
+#if PLATFORM_OS_LINUX
+typedef ulong Window;
+typedef struct _XDisplay Display;
+#endif
+
+#if PLATFORM_OS_WINDOWS
+typedef struct HWND__* HWND;
+#endif
 
 namespace common
 {
-  template<enum platform>
+  enum class window_system
+  {
+    headless,
+    dwm,
+    x11,
+    wayland,
+    cocoa
+  };
+
+  template<window_system type>
   struct window_handle_t;
 
-  #if defined(_WIN32)
   template<>
-  struct window_handle_t<platform::windows>
+  struct window_handle_t<window_system::headless>
   {
-    HWND window_handle{ nullptr };
   };
-  #elif defined(__linux__)
+
+  #if PLATFORM_OS_WINDOWS
   template<>
-  struct window_handle_t<platform::linux_x11>
+  struct window_handle_t<window_system::dwm>
   {
-    void* connection; // Display from e.g. XOpenDisplay(NULL)
-    void* handle;     // Window from e.g. XCreateSimpleWindow(...)
+    HWND window{ nullptr };
   };
+
+  using native_window_handle_type = window_handle_t<window_system::dwm>;
   #endif
 
-  using native_window_handle_type = window_handle_t<platform_type()>;
+  #if PLATFORM_OS_LINUX
+  template<>
+  struct window_handle_t<window_system::x11>
+  {
+    Display* display{ nullptr };
+    Window   window{ 0 };
+  };
+
+  using native_window_handle_type = window_handle_t<window_system::x11>;
+  #endif
+
+  // TODO
+  #if PLATFORM_OS_LINUX && PLATFORM_USE_WAYLAND
+  //#include <wayland-client-protocol.h>
+
+  //template<>
+  //struct window_handle_t<window_system::wayland>
+  //{
+  //  wl_display* display{ nullptr };
+  //  wl_surface* surface{ nullptr };
+  //};
+  #endif
+
+  // TODO
+  // this will probably need more work than just NSView* because objc nonsense
+  #if PLATFORM_OS_MACOS
+  //template<>
+  //struct window_handle_t<window_system::cocoa>
+  //{
+  //  NSView* view{ nullptr };
+  //};
+  #endif
 }
