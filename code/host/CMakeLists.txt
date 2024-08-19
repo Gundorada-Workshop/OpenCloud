@@ -27,11 +27,13 @@ if (UNIX AND NOT APPLE)
         "host_interface_base.cc"
         "host_interface_x11.cc"
         "linux_pad_handler.cc"
-        
+        "console_logger.cc"
+
         "host_interface_base.h" 
         "host_interface_x11.h"
         "pad_handler.h"
         "linux_pad_handler.h"
+        "console_logger.h"
     )
 
     find_package(X11 REQUIRED)

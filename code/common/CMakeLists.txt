@@ -7,7 +7,6 @@ target_sources(
     ${PROJECT_NAME}
     PRIVATE
     "clock.cc"
-    "console_logger.cc"
     "console.cc"
     "data_stream.cc"
     "debug.cc"
@@ -16,11 +15,10 @@ target_sources(
     "log.cc"
     "strings.cc"
     "synchro.cc"
-    
+
     "aligned_allocator.h"
     "bits.h"
     "clock.h"
-    "console_logger.h"
     "console.h"
     "constants.h"
     "data_stream.h"
