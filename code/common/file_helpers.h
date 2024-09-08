@@ -63,6 +63,13 @@ namespace common::file_helpers
   // seek to position (64 bit)
   common::result<bool, errno_t> seek64(std::FILE* file, u64 offset, u64 whence);
 
+  // read entire file contents as binary
+  common::result<std::vector<u8>, errno_t> read_all_binary(std::FILE* file);
+
+  // read entire file contents as binary
+  // short hand for opening, reading, closing
+  common::result<std::vector<u8>, errno_t> read_all_binary(std::string_view path);
+
   // create a directory
   // if directory already exists returns true
   bool create_directory(std::string_view path);
@@ -81,7 +88,10 @@ namespace common::file_helpers
   std::string get_data_directory();
 
   // get the current working directory
-  std::string get_working_directory();
+  std::optional<std::string> get_working_directory();
+
+  // set the working directory
+  bool set_working_directory(std::string_view path);
 
   // formats a path string and combines it with the data directory path
   // note: fmtpath must be constexpr

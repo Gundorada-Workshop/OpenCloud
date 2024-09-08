@@ -273,9 +273,61 @@ namespace common::file_helpers
     return true;
   }
 
+  common::result<std::vector<u8>, errno_t> read_all_binary(std::FILE* file)
+  {
+    const auto size = size64(file);
+
+    if (size.failed()) UNLIKELY
+    {
+      return common::unexpected{ size.error() };
+    }
+
+    // don't try for an empty file
+    if (size.value() == 0) UNLIKELY
+    {
+      return std::vector<u8>{ };
+    }
+
+    std::vector<u8> data{ };
+    data.resize(size.value());
+
+    const auto res = seek64(file, SEEK_SET, 0);
+
+    if (res.failed()) UNLIKELY
+    {
+        return common::unexpected{ res.error() };
+    }
+
+    const auto read_size = fread(data.data(), 1, data.size(), file);
+
+    // EOF should not be possible
+    if (read_size != data.size()) UNLIKELY
+    {
+      return common::unexpected{ errno };
+    }
+
+    return data;
+  }
+
+  common::result<std::vector<u8>, errno_t> read_all_binary(std::string_view path)
+  {
+    const auto file = open_native(path, "rb");
+
+    if (file.failed()) UNLIKELY
+    {
+      return common::unexpected{ file.error() };
+    }
+
+    auto res = read_all_binary(file.value());
+
+    fclose(file.value());
+
+    return res;
+  }
+
   bool create_directory(std::string_view path)
   {
-    #if defined(_WIN32)
+    #if PLATFORM_OS_WINDOWS
       const auto wdir = common::strings::utf8_to_wstring_or_panic(path);
       const auto res  = CreateDirectoryW(wdir.c_str(), NULL);
 
@@ -288,7 +340,7 @@ namespace common::file_helpers
       }
 
       return true;
-    #elif defined(__linux__)
+    #else
       auto status = mkdir(path.data(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
       if (status > 0) UNLIKELY
@@ -297,8 +349,6 @@ namespace common::file_helpers
       }
 
       return true;
-    #else
-      return false;
     #endif
   }
 
@@ -307,9 +357,12 @@ namespace common::file_helpers
     // just try it non-recursive
     // it'll work if the path exists or we only have to create the last directory component
     if (create_directory(path))
+    {
       return true;
+    }
 
     std::string_view::size_type current_sep_position = 0;
+
     while (true)
     {
       // get the remaining components view of the path string
@@ -321,7 +374,9 @@ namespace common::file_helpers
       const auto next_seperator = remaining_path_components.find_first_of("\\/");
 
       if (next_seperator == std::string_view::npos)
+      {
         break;
+      }
 
       // we want to include the seperator in the current components view
       current_sep_position += next_seperator + 1;
@@ -334,10 +389,14 @@ namespace common::file_helpers
       // this will be something like C:\\ which is 3 characters
       // we need the drive designation for creating the paths though so we don't remove it
       if (current_commponents.find(":") != std::string_view::npos && current_sep_position == 3)
+      {
         continue;
+      }
 
       if (!create_directory(current_commponents))
+      {
         return false;
+      }
     }
 
     // finally create the last directory as the loop ends early if there is no final path seperator
@@ -347,14 +406,12 @@ namespace common::file_helpers
 
   std::string get_executable_path()
   {
-  #if defined(WIN32)
+  #if PLATFORM_OS_WINDOWS
     WCHAR wpath[MAX_PATH];
     GetModuleFileNameW(NULL, wpath, MAX_PATH);
 
     return common::strings::wstring_to_utf8_or_panic(wpath);
-  #endif
-
-  #if defined(__linux__)
+  #else
     char path[PATH_MAX];
 
     ssize_t len = ::readlink("/proc/self/exe", path, sizeof(path));
@@ -386,19 +443,49 @@ namespace common::file_helpers
     );
   }
 
-  std::string get_working_directory()
+  std::optional<std::string> get_working_directory()
   {
-    #if defined(_WIN32)
-      TCHAR dir[MAX_PATH];
-      GetCurrentDirectoryW(MAX_PATH, dir);
+    #if PLATFORM_OS_WINDOWS
+      auto size = GetCurrentDirectoryW(0, NULL);
 
-      return common::strings::wstring_to_utf8_or_panic(dir);
-    #elif defined(__linux__)
+      if (size == 0) UNLIKELY
+      {
+        return { };
+      }
+
+      std::wstring path{ };
+      path.resize(size);
+
+      size = GetCurrentDirectoryW(static_cast<DWORD>(path.size()), path.data());
+
+      if (size != path.size()) UNLIKELY
+      {
+        return { };
+      }
+
+      return strings::wstring_to_utf8(path);
+    #else
       char cwd[PATH_MAX];
-      if (getcwd(cwd, sizeof(cwd)) != NULL)
-        return std::string(cwd);
-      else
-        common::debug::panic("Could not obtain CWD!");
+
+      if (getcwd(cwd, sizeof(cwd)) == NULL) UNLIKELY
+      {
+        return { };
+      }
+
+      return std::string{ cwd };
     #endif
+  }
+
+  bool set_working_directory(std::string_view path)
+  {
+  #if PLATFORM_OS_WINDOWS
+    const auto wpath = strings::utf8_to_wstring_or_panic(path);
+
+    return SetCurrentDirectoryW(wpath.c_str());
+  #else
+    const auto upath = std::string{ path };
+
+    return chdir(upath) == 0;
+  #endif
   }
 }
