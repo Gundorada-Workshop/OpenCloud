@@ -28,13 +28,13 @@ namespace common::file_helpers
   std::string native_path(std::string_view path);
 
   // open a file using the native method
-  result<std::FILE*, errno_t> open_native(std::string_view path, std::string_view mode);
+  common::result<std::FILE*, errno_t> open_native(std::string_view path, std::string_view mode);
 
   // tell a file (64 bit)
-  u64 tell64(std::FILE* file);
+  common::result<u64, errno_t> tell64(std::FILE* file);
 
   // seek to position (64 bit)
-  bool seek64(std::FILE* file, u64 offset, u64 whence);
+  common::result<bool, errno_t> seek64(std::FILE* file, u64 offset, u64 whence);
 
   // create a directory
   // if directory already exists returns true

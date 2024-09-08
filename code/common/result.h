@@ -33,8 +33,8 @@ namespace common
     {
     }
 
-    ALWAYS_INLINE result(const error_type& err)
-      : m_value{failure_wrapper_type{ err }}
+    ALWAYS_INLINE result(const failure_wrapper_type& err)
+      : m_value{ err }
     {
     }
 
@@ -43,8 +43,8 @@ namespace common
     {
     }
 
-    ALWAYS_INLINE result(error_type&& err)
-      : m_value{failure_wrapper_type{ std::move(err) }}
+    ALWAYS_INLINE result(failure_wrapper_type&& err)
+      : m_value{ std::move(err) }
     {
     }
 

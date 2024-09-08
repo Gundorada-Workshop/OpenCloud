@@ -1,23 +1,29 @@
 #include "common/file_helpers.h"
 #include "common/debug.h"
+#include "common/platform.h"
 
-#if defined(_WIN32)
+#if PLATFORM_OS_WINDOWS
 #include "Windows.h"
-#elif defined(__linux__)
+#else
 #include <cstdio>
 #include <sys/stat.h>
 #include <unistd.h>
+#endif
+
+#if PLATFORM_OS_WINDOWS
+#define ftello64 _ftelli64
+#define fseeko64 _fseeki64
 #endif
 
 namespace common::file_helpers
 {
   static consteval char native_path_seperator()
   {
-#if defined(_WIN32)
+  #if PLATFORM_OS_WINDOWS
     return '\\';
-#else
+  #else
     return '/';
-#endif
+  #endif
   }
 
   static std::string_view::size_type last_seperator_position(std::string_view path)
@@ -146,67 +152,69 @@ namespace common::file_helpers
     return out;
   }
 
-  result<std::FILE*, errno_t> open_native(std::string_view path, std::string_view mode)
+  common::result<std::FILE*, errno_t> open_native(std::string_view path, std::string_view mode)
   {
     std::FILE* file{ nullptr };
 
-#if defined(_WIN32)
-    const auto wfilename = common::strings::utf8_to_wstring_or_panic(path);
-    const auto wmode = common::strings::utf8_to_wstring_or_panic(mode);
+    #if PLATFORM_OS_WINDOWS
+      const auto wfilename = common::strings::utf8_to_wstring_or_panic(path);
+      const auto wmode     = common::strings::utf8_to_wstring_or_panic(mode);
 
-    errno_t res = _wfopen_s(&file, wfilename.c_str(), wmode.c_str());
+      const errno_t res = _wfopen_s(&file, wfilename.c_str(), wmode.c_str());
 
-    if (res != 0)
-    {
-      return res;
-    }
+      if (res != 0) UNLIKELY
+      {
+        return common::unexpected{ res };
+      }
 
-    return file;
-#elif defined(__linux__)
-    file = std::fopen(path.data(), "r");
-
-    if (file == nullptr)
-    {
-      return errno;
-    }
-
-    return file;
-#endif
-  }
-
-  u64 tell64(std::FILE* file)
-  {
-    assert_panic(file);
-
-    #if defined(_WIN32)
-      return _ftelli64(file);
-    #elif defined(__linux__)
-      return ftello64(file);
+      return file;
     #else
-      return 0;
+      file = std::fopen(path.data(), "r");
+
+      if (file == nullptr) UNLIKELY
+      {
+        return common::unexpected{ errno };
+      }
+
+      return file;
     #endif
   }
 
-  bool seek64(std::FILE* file, u64 offset, u64 whence)
+  common::result<u64, errno_t> tell64(std::FILE * file)
   {
     assert_panic(file);
 
-    #if defined(_WIN32)
-      return _fseeki64(file, offset, static_cast<int>(whence)) == 0;
-    #elif defined(__linux__)
-      return fseeko64(file, offset, static_cast<int>(whence)) == 0;
-    #else
-      return false;
-    #endif
+    const auto res = ftello64(file);
+
+    if (res == -1) UNLIKELY
+    {
+      return common::unexpected{ errno };
+    }
+
+    return res;
+  }
+
+  common::result<bool, errno_t> seek64(std::FILE* file, u64 offset, u64 whence)
+  {
+    assert_panic(file);
+
+    const auto res = fseeko64(file, offset, static_cast<int>(whence));
+
+    if (res == -1) UNLIKELY
+    {
+      return common::unexpected{ errno };
+    }
+
+    return true;
   }
 
   bool create_directory(std::string_view path)
   {
     #if defined(_WIN32)
       const auto wdir = common::strings::utf8_to_wstring_or_panic(path);
-      const auto res = CreateDirectoryW(wdir.c_str(), NULL);
+      const auto res  = CreateDirectoryW(wdir.c_str(), NULL);
 
-      if (!res)
+      if (!res) UNLIKELY
       {
         const auto err = GetLastError();
 
@@ -217,12 +225,16 @@ namespace common::file_helpers
       return true;
     #elif defined(__linux__)
       auto status = mkdir(path.data(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-      if (status > 0)
+
+      if (status > 0) UNLIKELY
+      {
         return false;
+      }
+
       return true;
     #else
       return false;
-#endif
+    #endif
   }
 
   bool create_directories(std::string_view path)

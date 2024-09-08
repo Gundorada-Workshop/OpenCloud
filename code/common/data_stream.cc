@@ -122,22 +122,22 @@ namespace common
 
   bool file_stream::seek(usize pos)
   {
-    return file_helpers::seek64(m_file, pos, SEEK_SET);
+    return file_helpers::seek64(m_file, pos, SEEK_SET).succeeded();
   }
 
   bool file_stream::seek_relative(usize pos)
   {
-    return file_helpers::seek64(m_file, pos, SEEK_CUR);
+    return file_helpers::seek64(m_file, pos, SEEK_CUR).succeeded();
   }
 
   bool file_stream::seek_to_end()
   {
-    return file_helpers::seek64(m_file, 0, SEEK_END);
+    return file_helpers::seek64(m_file, 0, SEEK_END).succeeded();
   }
 
   usize file_stream::pos()
   {
-    return file_helpers::tell64(m_file);
+    return file_helpers::tell64(m_file).succeeded();
   }
 
   usize file_stream::size()
