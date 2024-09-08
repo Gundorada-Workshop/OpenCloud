@@ -180,7 +180,19 @@ namespace common::file_helpers
     #endif
   }
 
-  common::result<u64, errno_t> tell64(std::FILE * file)
+  common::result<managed_ptr, errno_t> open_managed(std::string_view path, std::string_view mode)
+  {
+    auto res = open_native(path, mode);
+
+    if (res.failed()) UNLIKELY
+    {
+      return common::unexpected{ res.error() };
+    }
+
+    return managed_ptr{ res.value() };
+  }
+
+  common::result<u64, errno_t> tell64(std::FILE* file)
   {
     assert_panic(file);
 
@@ -192,6 +204,59 @@ namespace common::file_helpers
     }
 
     return res;
+  }
+
+  common::result<u64, errno_t> size64(std::FILE* file)
+  {
+    const auto pos = tell64(file);
+
+    if (pos.failed()) UNLIKELY
+    {
+      return common::unexpected{ pos.error() };
+    }
+
+    {
+      const auto res = seek64(file, SEEK_END, 0);
+
+      if (res.failed()) UNLIKELY
+      {
+        return common::unexpected{ res.error() };
+      }
+    }
+
+    const auto size = tell64(file);
+
+    if (size.failed()) UNLIKELY
+    {
+      return common::unexpected{ size.error() };
+    }
+
+    {
+      const auto res = seek64(file, SEEK_SET, pos.value());
+
+      if (res.failed()) UNLIKELY
+      {
+        return common::unexpected{ res.error() };
+      }
+    }
+
+    return size.value();
+  }
+
+  common::result<u64, errno_t> size64(std::string_view path)
+  {
+    const auto res = open_native(path, "r");
+
+    if (res.failed()) UNLIKELY
+    {
+      return common::unexpected{ res.error() };
+    }
+
+    auto size = size64(res.value());
+
+    fclose(res.value());
+
+    return size;
   }
 
   common::result<bool, errno_t> seek64(std::FILE* file, u64 offset, u64 whence)
