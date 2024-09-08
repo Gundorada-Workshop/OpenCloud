@@ -146,25 +146,31 @@ namespace common::file_helpers
     return out;
   }
 
-  bool open_native(std::FILE** file, std::string_view path, std::string_view mode)
+  result<std::FILE*, errno_t> open_native(std::string_view path, std::string_view mode)
   {
-    assert_panic(file);
+    std::FILE* file{ nullptr };
 
 #if defined(_WIN32)
     const auto wfilename = common::strings::utf8_to_wstring_or_panic(path);
     const auto wmode = common::strings::utf8_to_wstring_or_panic(mode);
 
-    if (_wfopen_s(file, wfilename.c_str(), wmode.c_str()) != 0)
-      return false;
+    errno_t res = _wfopen_s(&file, wfilename.c_str(), wmode.c_str());
 
-    return true;
+    if (res != 0)
+    {
+      return res;
+    }
+
+    return file;
 #elif defined(__linux__)
-    *file = std::fopen(path.data(), "r");
-    if (*file == nullptr)
-        return false;
-    return true;
-#else
-    return false;
+    file = std::fopen(path.data(), "r");
+
+    if (file == nullptr)
+    {
+      return errno;
+    }
+
+    return file;
 #endif
   }
 

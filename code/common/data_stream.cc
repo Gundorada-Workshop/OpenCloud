@@ -98,11 +98,16 @@ namespace common
 
   std::unique_ptr<data_stream_base> file_stream::open(std::string_view file_path, std::string_view mode)
   {
-    std::FILE* file;
-    if (!file_helpers::open_native(&file, file_path, mode))
-      return nullptr;
+    const auto res = file_helpers::open_native(file_path, mode);
 
-    return std::make_unique<file_stream>(file);
+    if (res.failed())
+    {
+      log_error("Failed to open file {}", res.error());
+
+      return nullptr;
+    }
+
+    return std::make_unique<file_stream>(res.value());
   }
 
   usize file_stream::read_buffer(void* buff, usize size)

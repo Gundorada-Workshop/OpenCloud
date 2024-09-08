@@ -9,30 +9,32 @@ namespace common
   // should probably be replaced at a later date
   // this implementation is inspired by Rust's std::result and C++ std::optional
 
+  template<typename type>
+  struct unexpected
+  {
+    type value{ };
+  };
+
   template<typename result_type, typename error_type>
   class result final
   {
-    using result_ptr_type = result_type*;
-    using result_ref_type = result_type&;
+    using failure_wrapper_type = unexpected<error_type>;
 
-    using result_const_ptr_type = const result_type*;
-    using result_const_ref_type = const result_type&;
+    using underlying_type = std::variant<result_type , failure_wrapper_type>;
  
   public:
-    static_assert(!std::is_same_v<result_type, error_type>, "Result type and error type must not be the same");
-
     ALWAYS_INLINE result(result&& other)
       : m_value{ std::move(other.m_value) }
     {
     }
 
-    ALWAYS_INLINE result(result_const_ref_type res)
+    ALWAYS_INLINE result(const result_type& res)
       : m_value{ res }
     {
     }
 
     ALWAYS_INLINE result(const error_type& err)
-      : m_value{ err }
+      : m_value{failure_wrapper_type{ err }}
     {
     }
 
@@ -42,7 +44,7 @@ namespace common
     }
 
     ALWAYS_INLINE result(error_type&& err)
-      : m_value{ std::move(err) }
+      : m_value{failure_wrapper_type{ std::move(err) }}
     {
     }
 
@@ -55,7 +57,7 @@ namespace common
     // error result?
     ALWAYS_INLINE auto failed() const -> bool
     {
-      return std::holds_alternative<error_type>(m_value);
+      return std::holds_alternative<failure_wrapper_type>(m_value);
     }
 
     // success result
@@ -67,7 +69,7 @@ namespace common
     // error result
     ALWAYS_INLINE auto error() const -> error_type
     {
-      return std::get<error_type>(m_value);
+      return std::get<failure_wrapper_type>(m_value).value;
     }
 
     // overload boolean operator like an optional
@@ -79,33 +81,33 @@ namespace common
 
     // overload to do *result like an optional
     // only call if no error type is held
-    ALWAYS_INLINE auto operator*() const -> result_const_ref_type
+    ALWAYS_INLINE auto operator*() const -> const result_type&
     {
       return std::get<result_type>(m_value);
     }
 
     // overload to do *result like an optional
     // only call if no error type is held
-    ALWAYS_INLINE auto operator*() -> result_ref_type
+    ALWAYS_INLINE auto operator*() -> result_type&
     {
       return std::get<result_type>(m_value);
     }
 
     // overload to do result->member like an optional
     // only call if no error type is held
-    ALWAYS_INLINE auto operator->() const -> result_const_ptr_type
+    ALWAYS_INLINE auto operator->() const -> const result_type*
     {
       return &std::get<result_type>(m_value);
     }
 
     // overload to do result->member like an optional
     // only call if no error type is held
-    ALWAYS_INLINE auto operator->() -> result_ptr_type
+    ALWAYS_INLINE auto operator->() -> result_type*
     {
       return &std::get<result_type>(m_value);
     }
 
   private:
-    std::variant<result_type, error_type> m_value;
+    underlying_type m_value;
   };
 }

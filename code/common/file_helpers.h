@@ -2,6 +2,7 @@
 #include <cstdio>
 #include "common/types.h"
 #include "common/strings.h"
+#include "common/result.h"
 
 namespace common::file_helpers
 {
@@ -17,6 +18,7 @@ namespace common::file_helpers
   // get the directory of a file
   std::string_view parent_directory(std::string_view path);
 
+  // append to path
   std::string append(std::string_view path, std::string_view item);
 
   // append a path to another path
@@ -26,7 +28,7 @@ namespace common::file_helpers
   std::string native_path(std::string_view path);
 
   // open a file using the native method
-  bool open_native(std::FILE** file, std::string_view path, std::string_view mode);
+  result<std::FILE*, errno_t> open_native(std::string_view path, std::string_view mode);
 
   // tell a file (64 bit)
   u64 tell64(std::FILE* file);
