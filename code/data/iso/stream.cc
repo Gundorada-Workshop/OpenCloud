@@ -1,5 +1,5 @@
 #include "common/bits.h"
-#include "common/file_helpers.h"
+#include "common/path.h"
 #include "common/log.h"
 
 #include "data/iso/stream.h"
@@ -221,11 +221,11 @@ namespace data
       // construct the full path by looking up the parents till we reach root
       while (parent > 0)
       {
-        full_path = common::file_helpers::append(m_paths[parent].path, full_path);
+        full_path = common::path::append(m_paths[parent].path, full_path);
         parent = m_paths[parent].table.parent - 1;
       }
 
-      full_path = common::file_helpers::append(full_path, path.path);
+      full_path = common::path::append(full_path, path.path);
 
       directory_entry entry =
       {
@@ -318,7 +318,7 @@ namespace data
 
       file_entry entry =
       {
-        .path                  = common::file_helpers::append(dir_path, trim_version_id(entry_iso_relative_path)),
+        .path                  = common::path::append(dir_path, trim_version_id(entry_iso_relative_path)),
         .logical_block_address = entry_logical_block_address,
         .total_bytes           = entry_total_bytes
       };

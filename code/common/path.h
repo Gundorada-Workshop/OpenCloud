@@ -6,23 +6,8 @@
 #include "common/strings.h"
 #include "common/result.h"
 
-namespace common::file_helpers
+namespace common::path
 {
-  struct managed_ptr_deleter
-  {
-    ALWAYS_INLINE void operator()(std::FILE* file)
-    {
-      if (!file)
-      {
-        return;
-      }
-
-      std::fclose(file);
-    }
-  };
-
-  using managed_ptr = std::unique_ptr<std::FILE, managed_ptr_deleter>;
-
   // returns the file name (with ext)
   std::string_view filename(std::string_view path);
 
@@ -43,32 +28,6 @@ namespace common::file_helpers
 
   // converts a path to the native
   std::string native_path(std::string_view path);
-
-  // open a file using the native method
-  common::result<std::FILE*, errno_t> open_native(std::string_view path, std::string_view mode);
-
-  // open a file but wrap it in a smart ptr
-  common::result<managed_ptr, errno_t> open_managed(std::string_view path, std::string_view mode);
-
-  // tell a file (64 bit)
-  common::result<u64, errno_t> tell64(std::FILE* file);
-
-  // get file size (64 bit)
-  common::result<u64, errno_t> size64(std::FILE* file);
-
-  // get file size (64 bit) given a path
-  // short hand for opening, getting the size, closing
-  common::result<u64, errno_t> size64(std::string_view path);
-
-  // seek to position (64 bit)
-  common::result<bool, errno_t> seek64(std::FILE* file, u64 offset, u64 whence);
-
-  // read entire file contents as binary
-  common::result<std::vector<u8>, errno_t> read_all_binary(std::FILE* file);
-
-  // read entire file contents as binary
-  // short hand for opening, reading, closing
-  common::result<std::vector<u8>, errno_t> read_all_binary(std::string_view path);
 
   // create a directory
   // if directory already exists returns true
@@ -98,6 +57,6 @@ namespace common::file_helpers
   template<typename ...Args>
   std::string resolve_data_path(fmt::format_string<Args...> fmtpath, Args&&... args)
   {
-    return append(file_helpers::get_data_directory(), common::format(fmtpath, std::forward<Args>(args)...));
+    return path::append(path::get_data_directory(), common::format(fmtpath, std::forward<Args>(args)...));
   }
 }

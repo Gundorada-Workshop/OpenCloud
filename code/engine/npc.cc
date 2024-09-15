@@ -1,7 +1,7 @@
 #include <array>
 
 #include "common/data_stream.h"
-#include "common/file_helpers.h"
+#include "common/path.h"
 #include "common/helpers.h"
 #include "common/log.h"
 #include "common/strings.h"
@@ -82,7 +82,7 @@ void LoadNPCCfg()
   npc_spi_count_num = 0;
 
   using namespace common;
-  auto file_path = file_helpers::resolve_data_path("npc{}.cfg", common::to_underlying(LanguageCode));
+  auto file_path = path::resolve_data_path("npc{}.cfg", common::to_underlying(LanguageCode));
 
   auto fs = file_stream::open(file_path, "rb");
   auto file_size = fs->size();
@@ -158,13 +158,13 @@ std::string GetPartyCharaModelName(ENPCID npc_id, int i)
   switch (i)
   {
     case 0:
-      return file_helpers::resolve_data_path("chara/{}.chr", model_name);
+      return path::resolve_data_path("chara/{}.chr", model_name);
     case 1:
-      return file_helpers::resolve_data_path("info.cfg");
+      return path::resolve_data_path("info.cfg");
     case 2:
-      return file_helpers::resolve_data_path("event/train/t{}.chr", model_name);
+      return path::resolve_data_path("event/train/t{}.chr", model_name);
     case 3:
-      return file_helpers::resolve_data_path("menu/npc/t{}.chr", model_name);
+      return path::resolve_data_path("menu/npc/t{}.chr", model_name);
     default:
       return "";
   }

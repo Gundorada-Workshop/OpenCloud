@@ -21,7 +21,8 @@
     <ClInclude Include="debug.h" />
     <ClInclude Include="dictionary.h" />
     <ClInclude Include="dynamic_library.h" />
-    <ClInclude Include="file_helpers.h" />
+    <ClInclude Include="file.h" />
+    <ClInclude Include="path.h" />
     <ClInclude Include="fmt.h" />
     <ClInclude Include="helpers.h" />
     <ClInclude Include="log.h" />
@@ -44,7 +45,8 @@
     <ClCompile Include="console.cc" />
     <ClCompile Include="data_stream.cc" />
     <ClCompile Include="dynamic_library.cc" />
-    <ClCompile Include="file_helpers.cc" />
+    <ClCompile Include="file.cc" />
+    <ClCompile Include="path.cc" />
     <ClCompile Include="log.cc" />
     <ClCompile Include="panic.cc" />
     <ClCompile Include="strings.cc" />

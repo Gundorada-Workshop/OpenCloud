@@ -5,13 +5,14 @@
     <ClCompile Include="console.cc" />
     <ClCompile Include="data_stream.cc" />
     <ClCompile Include="dynamic_library.cc" />
-    <ClCompile Include="file_helpers.cc" />
+    <ClCompile Include="path.cc" />
     <ClCompile Include="log.cc" />
     <ClCompile Include="strings.cc" />
     <ClCompile Include="synchro.cc" />
     <ClCompile Include="assert.cc" />
     <ClCompile Include="backtrace.cc" />
     <ClCompile Include="panic.cc" />
+    <ClCompile Include="file.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bits.h" />
@@ -20,7 +21,7 @@
     <ClInclude Include="data_stream.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="dynamic_library.h" />
-    <ClInclude Include="file_helpers.h" />
+    <ClInclude Include="path.h" />
     <ClInclude Include="log.h" />
     <ClInclude Include="math.h" />
     <ClInclude Include="platform.h" />
@@ -40,6 +41,7 @@
     <ClInclude Include="assert.h" />
     <ClInclude Include="backtrace.h" />
     <ClInclude Include="fmt.h" />
+    <ClInclude Include="file.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="common.exports.props" />

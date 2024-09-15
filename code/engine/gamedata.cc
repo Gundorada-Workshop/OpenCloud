@@ -1,7 +1,7 @@
 #include <array>
 #include <unordered_map>
 
-#include "common/file_helpers.h"
+#include "common/path.h"
 #include "common/data_stream.h"
 #include "common/debug.h"
 #include "common/helpers.h"
@@ -657,7 +657,7 @@ void CGameData::LoadItemSystemMes(Language language)
   log_trace("CGameData::{}({})", __func__, common::to_underlying(language));
 
   using namespace common;
-  auto file_path = file_helpers::resolve_data_path("menu/cfg7/comdatmes{}.cfg", common::to_underlying(language));
+  auto file_path = path::resolve_data_path("menu/cfg7/comdatmes{}.cfg", common::to_underlying(language));
 
   auto fs = file_stream::open(file_path, "rb");
   auto file_size = fs->size();
@@ -897,7 +897,7 @@ bool LoadGameDataAnalyze(const char* config_file_name)
   log_trace("LoadGameDataAnalyze({})", config_file_name);
 
   using namespace common;
-  auto file_path = file_helpers::resolve_data_path("menu/cfg7/{}", config_file_name);
+  auto file_path = path::resolve_data_path("menu/cfg7/{}", config_file_name);
 
   auto fs = file_stream::open(file_path, "rb");
   auto file_size = fs->size();

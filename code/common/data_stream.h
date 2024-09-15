@@ -1,9 +1,9 @@
 #pragma once
 #include <memory>
 #include <string_view>
+#include <cstdio>
 
 #include "common/types.h"
-#include "common/file_helpers.h"
 
 namespace common
 {

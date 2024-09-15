@@ -10,7 +10,7 @@
 #include "common/strings.h"
 #include "common/console.h"
 #include "common/log.h"
-#include "common/file_helpers.h"
+#include "common/path.h"
 #include "common/scoped_function.h"
 
 #include "script/file.h"
@@ -131,7 +131,7 @@ static void print_program_help()
 
 static std::optional<data::iso_stream::file_entry> search_iso_for_file_entry(std::unique_ptr<data::iso_stream>& iso, std::string_view iso_relative_path)
 {
-  const auto file_list = iso->files_for_directory(file_helpers::parent_directory(iso_relative_path));
+  const auto file_list = iso->files_for_directory(path::parent_directory(iso_relative_path));
 
   const auto itr = std::find_if(file_list.begin(), file_list.end(), [&](const data::iso_stream::file_entry& entry) {
     if (entry.path == iso_relative_path)
@@ -149,10 +149,10 @@ static std::optional<data::iso_stream::file_entry> search_iso_for_file_entry(std
 static bool extract_file_entry_from_iso(std::unique_ptr<data::iso_stream>& iso, const data::iso_stream::file_entry& entry, std::string_view output_path)
 {
   const auto utf8_path = strings::sjis_to_utf8_or_panic(entry.path);
-  const auto full_output_path = file_helpers::append(output_path, utf8_path);
-  const auto parent_directory_path = file_helpers::parent_directory(full_output_path);
+  const auto full_output_path = path::append(output_path, utf8_path);
+  const auto parent_directory_path = path::parent_directory(full_output_path);
 
-  if (!file_helpers::create_directories(parent_directory_path))
+  if (!path::create_directories(parent_directory_path))
   {
     log_error("Failed to create output directory {}", parent_directory_path);
 
@@ -180,7 +180,7 @@ static bool extract_file_entry_from_iso(std::unique_ptr<data::iso_stream>& iso, 
 
 static bool extract_file_from_iso(std::unique_ptr<data::iso_stream>& iso, std::string_view iso_relative_path, std::string_view output_directory)
 {
-  const auto file = search_iso_for_file_entry(iso, file_helpers::native_path(iso_relative_path));
+  const auto file = search_iso_for_file_entry(iso, path::native_path(iso_relative_path));
 
   if (!file)
     return false;
@@ -191,7 +191,7 @@ static bool extract_file_from_iso(std::unique_ptr<data::iso_stream>& iso, std::s
 
 static bool extract_directory_from_iso(std::unique_ptr<data::iso_stream>& iso, std::string_view iso_relative_path, std::string_view output_directory)
 {
-  for (const auto& file : iso->files_for_directory(file_helpers::native_path(iso_relative_path)))
+  for (const auto& file : iso->files_for_directory(path::native_path(iso_relative_path)))
   {
     if (!extract_file_entry_from_iso(iso, file, output_directory))
     {
@@ -206,10 +206,10 @@ static bool extract_directory_from_iso(std::unique_ptr<data::iso_stream>& iso, s
 
 static bool extract_hdx_file_from_iso(std::unique_ptr<data::iso_stream>& iso, std::string_view iso_relative_path, std::string_view output_directory)
 {
-  const auto basename = file_helpers::basename(iso_relative_path);
-  const auto parent_directory = file_helpers::parent_directory(iso_relative_path);
+  const auto basename = path::basename(iso_relative_path);
+  const auto parent_directory = path::parent_directory(iso_relative_path);
 
-  const auto archive_path = file_helpers::append(parent_directory, std::string{ basename } + ".DAT");
+  const auto archive_path = path::append(parent_directory, std::string{ basename } + ".DAT");
 
   auto descriptor_file_entry = search_iso_for_file_entry(iso, iso_relative_path);
   auto archive_file_entry = search_iso_for_file_entry(iso, archive_path);
@@ -246,10 +246,10 @@ static bool extract_hdx_file_from_iso(std::unique_ptr<data::iso_stream>& iso, st
 
     auto name = strings::sjis_to_utf8_or_panic({str_of_unknown_size, name_size});
 
-    const auto output_path = file_helpers::append(output_directory, name);
-    const auto parent_directory_path = file_helpers::parent_directory(output_path);
+    const auto output_path = path::append(output_directory, name);
+    const auto parent_directory_path = path::parent_directory(output_path);
 
-    if (!file_helpers::create_directories(parent_directory_path))
+    if (!path::create_directories(parent_directory_path))
     {
       log_warn("Failed to create output directory {}... skipping file", parent_directory_path);
 
@@ -370,7 +370,7 @@ static bool cmd_extract_iso(const cmd_info& info, const string_list& args)
     return false;
   }
 
-  auto output_path = file_helpers::append(file_helpers::get_application_directory(), "game_data");
+  auto output_path = path::append(path::get_application_directory(), "game_data");
 
   const std::string_view iso_file_path = args[0];
   const std::string_view entry_type = args[1];
@@ -384,7 +384,7 @@ static bool cmd_extract_iso(const cmd_info& info, const string_list& args)
   if (!iso)
     return false;
 
-  if (!file_helpers::create_directory(output_path))
+  if (!path::create_directory(output_path))
     return false;
 
   if (entry_type == "file")
@@ -411,14 +411,14 @@ static bool cmd_extract_pak(const cmd_info& info, const string_list& args)
   }
 
   const std::string_view input_file_path = args[0];
-  const std::string_view input_file_basename = file_helpers::basename(args[0]);
-  const std::string_view input_file_parent = file_helpers::parent_directory(args[0]);
+  const std::string_view input_file_basename = path::basename(args[0]);
+  const std::string_view input_file_parent = path::parent_directory(args[0]);
 
-  std::string output_path = file_helpers::append(input_file_parent, input_file_basename);
+  std::string output_path = path::append(input_file_parent, input_file_basename);
   if (args.size() == 2)
     output_path = args[1];
 
-  if (!file_helpers::create_directory(output_path))
+  if (!path::create_directory(output_path))
   {
     log_error("Failed to create output directory {}", output_path);
 
@@ -438,7 +438,7 @@ static bool cmd_extract_pak(const cmd_info& info, const string_list& args)
   {
     input_file_stream->seek(entry.file_byte_offset);
 
-    const auto full_output_path = file_helpers::append(output_path, entry.name);
+    const auto full_output_path = path::append(output_path, entry.name);
     std::unique_ptr<data_stream_base> output_file_stream = file_stream::open(full_output_path, "wb");
 
     if (!output_file_stream)
@@ -487,14 +487,14 @@ static bool cmd_extract_img(const cmd_info& info, const string_list& args)
   }
 
   const std::string_view input_file_path = args[0];
-  const std::string_view input_file_basename = file_helpers::basename(args[0]);
-  const std::string_view input_file_parent = file_helpers::parent_directory(args[0]);
+  const std::string_view input_file_basename = path::basename(args[0]);
+  const std::string_view input_file_parent = path::parent_directory(args[0]);
 
-  std::string output_path = file_helpers::append(input_file_parent, input_file_basename);
+  std::string output_path = path::append(input_file_parent, input_file_basename);
   if (args.size() == 2)
     output_path = args[1];
 
-  if (!file_helpers::create_directory(output_path))
+  if (!path::create_directory(output_path))
   {
     log_error("Failed to create output directory {}", output_path);
 
@@ -514,7 +514,7 @@ static bool cmd_extract_img(const cmd_info& info, const string_list& args)
   {
     input_file_stream->seek(entry.file_byte_offset);
 
-    const auto full_output_path = file_helpers::append(output_path, entry.name);
+    const auto full_output_path = path::append(output_path, entry.name);
     std::unique_ptr<data_stream_base> output_file_stream = file_stream::open(full_output_path, "wb");
 
     if (!output_file_stream)
@@ -715,7 +715,7 @@ INT WINAPI WinMain(_In_ HINSTANCE /*hInstance*/, _In_opt_ HINSTANCE /*hPrevInsta
 
   auto arg_list = get_cmd_line_utf8();
 
-  s_program_name = file_helpers::basename(arg_list.front());
+  s_program_name = path::basename(arg_list.front());
 
   arg_list.erase(arg_list.begin());
 

@@ -2,6 +2,7 @@
 #include "common/debug.h"
 #include "common/macros.h"
 #include "common/data_stream.h"
+#include "common/file.h"
 
 set_log_channel("data_stream");
 
@@ -98,7 +99,7 @@ namespace common
 
   std::unique_ptr<data_stream_base> file_stream::open(std::string_view file_path, std::string_view mode)
   {
-    const auto res = file_helpers::open_native(file_path, mode);
+    const auto res = common::file::open_native(file_path, mode);
 
     if (res.failed())
     {
@@ -122,22 +123,22 @@ namespace common
 
   bool file_stream::seek(usize pos)
   {
-    return file_helpers::seek64(m_file, pos, SEEK_SET).succeeded();
+    return common::file::seek64(m_file, pos, SEEK_SET).succeeded();
   }
 
   bool file_stream::seek_relative(usize pos)
   {
-    return file_helpers::seek64(m_file, pos, SEEK_CUR).succeeded();
+    return common::file::seek64(m_file, pos, SEEK_CUR).succeeded();
   }
 
   bool file_stream::seek_to_end()
   {
-    return file_helpers::seek64(m_file, 0, SEEK_END).succeeded();
+    return common::file::seek64(m_file, 0, SEEK_END).succeeded();
   }
 
   usize file_stream::pos()
   {
-    return file_helpers::tell64(m_file).succeeded();
+    return common::file::tell64(m_file).succeeded();
   }
 
   usize file_stream::size()
