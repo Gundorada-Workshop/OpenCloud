@@ -1,10 +1,10 @@
 #pragma once
 #include <functional>
 #include <optional>
-#include <fmt/core.h>
+#include <string_view>
 
 #include "common/types.h"
-#include "common/strings.h"
+#include "common/fmt.h"
 #include "common/debug.h"
 #include "common/macros.h"
 #include "common/dictionary.h"
@@ -58,7 +58,7 @@ namespace common::log
   template<typename ...Args>
   void write_format(std::string_view channel, level lvl, std::string_view file, std::string_view func_name, fmt::format_string<Args...> fmtstr, Args&&... args)
   {
-    std::string msg = strings::format(fmtstr, std::forward<Args>(args)...);
+    std::string msg = common::format(fmtstr, std::forward<Args>(args)...);
 
     write(channel, lvl, file, func_name, msg);
   }

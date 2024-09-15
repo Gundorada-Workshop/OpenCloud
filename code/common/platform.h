@@ -1,7 +1,8 @@
 #pragma once
 
+#include <string_view>
+
 #include "common/types.h"
-#include "common/strings.h"
 
 // Compiler
 #if defined(_MSC_VER)

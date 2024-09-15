@@ -18,7 +18,7 @@ namespace host::console_logger
   {
     const auto now = std::chrono::system_clock::now();
 
-    std::string out = common::strings::format("{} [{}] {:<15} {}\n", now, level_string(lvl), channel, msg);
+    std::string out = common::format("{} [{}] {:<15} {}\n", now, level_string(lvl), channel, msg);
 
     common::console::write(out);
   }

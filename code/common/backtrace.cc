@@ -1,25 +1,24 @@
-#include <vector>
-#include <limits>
+#include "common/platform.h"
 
-#if defined(_WIN32)
+#if PLATFORM_OS_WINDOWS
 #include <Windows.h>
 #include <DbgHelp.h>
-#elif defined(__linux__)
+#elif PLATFORM_OS_LINUX
 #include <execinfo.h>
 #include <signal.h>
 #endif
 
-#include "common/types.h"
+#include "common/backtrace.h"
 #include "common/console.h"
-#include "common/debug.h"
+#include "common/strings.h"
 
-namespace common::debug
+namespace common
 {
   static std::vector<std::string> backtrace(uint depth)
   {
     std::vector<std::string> out;
 
-  #if defined(_WIN32)
+#if defined(_WIN32)
     const auto process = GetCurrentProcess();
     const auto thread = GetCurrentThread();
 
@@ -66,7 +65,7 @@ namespace common::debug
     // pop off the top
     // https://learn.microsoft.com/en-us/windows/win32/api/dbghelp/nf-dbghelp-stackwalk64
     while (StackWalk64(IMAGE_FILE_MACHINE_AMD64, process, thread, &frame, &context, NULL,
-                          SymFunctionTableAccess64, SymGetModuleBase64, NULL) && depth--)
+      SymFunctionTableAccess64, SymGetModuleBase64, NULL) && depth--)
     {
       DWORD64 unused;
       // https://learn.microsoft.com/en-us/windows/win32/api/dbghelp/nf-dbghelp-symfromaddr
@@ -84,7 +83,7 @@ namespace common::debug
         {
           // note: null terminated
           auto path = strings::wstring_to_utf8_or_none({ line_info.FileName });
-          name = strings::format("{}:{} {}", path, line_info.LineNumber, name);
+          name = common::format("{}:{} {}", path, line_info.LineNumber, name);
         }
 
         out.push_back(std::move(name));
@@ -95,12 +94,12 @@ namespace common::debug
       }
 
       // we didn't get anything other than an addr
-      out.push_back(strings::format("{:x}", frame.AddrPC.Offset));
+      out.push_back(common::format("{:x}", frame.AddrPC.Offset));
     }
 
     LocalFree(symbols);
 
-  #elif defined(__linux__)
+#elif defined(__linux__)
     // Extract the backtrace to the requested depth
     // Note that this doesn't give particularly useful results without
     // the -rdynamic linker option
@@ -108,16 +107,16 @@ namespace common::debug
     ::backtrace(frame_stack.data(), depth);
     char** symbols;
     symbols = ::backtrace_symbols(frame_stack.data(), depth); // Warning: uses malloc() under the hood, requires free()
-    
+
     // Convert to std::string
     for (uint i = 0; i < depth; ++i)
     {
       out.emplace_back(symbols[i]);
     }
-    
+
     // Cleaning up after backtrace_symbols
     free(symbols);
-  #endif
+#endif
 
     return out;
   }
@@ -128,39 +127,5 @@ namespace common::debug
 
     for (const auto& line : bt)
       console::write_format("{}\n", line);
-  }
-
-  void runtime_assert(std::string_view msg)
-  {
-    console::write("ASSERTION FAILURE!!!\n");
-    console::write_format("{}\n", msg);
-
-    print_trace(50);
-
-    #if defined(_WIN32)
-      if (IsDebuggerPresent() && console::prompt("Would you like to start debugging?"))
-       DebugBreak();
-    #elif defined(__linux__)
-      #if defined(SIGTRAP)
-        raise(SIGTRAP);
-      #endif
-    #endif
-  }
-
-  void panic(std::string_view msg)
-  {
-    console::write("PANIC!!!\n");
-    console::write_format("{}\n", msg);
-    #if defined(_WIN32)
-      if (IsDebuggerPresent())
-        DebugBreak();
-
-      TerminateProcess(GetCurrentProcess(), 0xDEADBEEF);
-    #elif defined(__linux__)
-      #if defined(SIGTRAP)
-        raise(SIGTRAP);
-      #endif
-      kill(getpid(), SIGKILL);
-    #endif
   }
 }

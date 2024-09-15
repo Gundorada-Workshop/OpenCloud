@@ -11,7 +11,7 @@ void runerror(const char* msg)
 {
   log_trace("{}()", __func__);
 
-  panicf("RUNTIME ERROR: {}\n", msg);
+  panic_msg("RUNTIME ERROR: {}\n", msg);
 }
 
 // 00186B20
@@ -171,7 +171,7 @@ script::instruction* CRunScript::call_func(script::func_data_entry* func, script
 
   if (m_calldata_current >= m_calldata_top)
   {
-    panicf("CRunScript: Function call stack overflow!");
+    panic_msg("CRunScript: Function call stack overflow!");
   }
 
   // Set up our call information

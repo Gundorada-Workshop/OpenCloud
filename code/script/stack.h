@@ -2,6 +2,7 @@
 #include "common/types.h"
 #include "common/debug.h"
 #include "common/strings.h"
+#include "common/unreachable.h"
 
 namespace script
 {
@@ -143,7 +144,7 @@ namespace script
       break;
     }
 
-    unreachable_code;
+    common::unreachable();
   }
 
   ALWAYS_INLINE s32 extract_int(const stack_data& stack)
@@ -343,6 +344,6 @@ struct fmt::formatter<script::stack_data> : formatter<string_view>
       return fmt::format_to(ctx.out(), "{}", fmt::ptr(data._ptr));
     }
 
-    unreachable_code;
+    common::unreachable();
   }
 };

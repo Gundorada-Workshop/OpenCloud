@@ -1,5 +1,6 @@
 #pragma once
 #include "common/macros.h"
+#include "common/assert.h"
 
 #include "data/iso/types.h"
 #include "data/iso/datetime.h"
@@ -68,6 +69,6 @@ namespace data
     iso711_t name_length;
   };
 
-  assert_type_size_static(iso_dirent, 33);
+  compile_assert_type_size(iso_dirent, 33);
   #pragma pack(pop)
 }

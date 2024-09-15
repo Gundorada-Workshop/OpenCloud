@@ -1,17 +1,19 @@
-#if defined(_WIN32)
+#include "common/platform.h"
+
+#if PLATFORM_OS_WINDOWS
   #include <Windows.h>
-#elif defined(__linux__)
+#elif PLATFORM_OS_LINUX
   #include <cstdlib>
   #include <iconv.h>
   #include <wchar.h>
 #endif
 
 #include "common/strings.h"
-#include "common/debug.h"
+#include "common/panic.h"
 
 namespace common::strings
 {
-  #if defined(_WIN32)
+  #if PLATFORM_OS_WINDOWS
   std::optional<std::string> wstring_to_utf8(std::wstring_view wide)
   {
     if (wide.empty())
@@ -63,7 +65,7 @@ namespace common::strings
     if (sjis.empty())
       return "";
 
-    #if defined(_WIN32)
+    #if PLATFORM_OS_WINDOWS
     static constexpr UINT CP_SJIS = 932;
     auto size = MultiByteToWideChar(CP_SJIS, 0, sjis.data(), static_cast<int>(sjis.size()), nullptr, 0);
     if (size < 1)
@@ -79,7 +81,7 @@ namespace common::strings
       return std::nullopt;
 
     return wstring_to_utf8(out);
-    #elif defined(__linux__)
+    #elif PLATFORM_OS_LINUX
     // Make a null-terminated copy of the input string because
     // 1) string_views are not guaranteed to be null-terminated
     // 2) The input argument to iconv is mutable
@@ -116,9 +118,7 @@ namespace common::strings
 
   }
 
-
-
-  #if defined(_WIN32)
+  #if PLATFORM_OS_WINDOWS
   std::string wstring_to_utf8_or_none(std::wstring_view wide)
   {
     const auto utf8 = wstring_to_utf8(wide);
@@ -131,7 +131,9 @@ namespace common::strings
     auto utf8 = wstring_to_utf8(wide);
 
     if (!utf8)
-      common::debug::panic("Failed to convert wide string to utf8 string");
+    {
+      common::panic("Failed to convert wide string to utf8 string");
+    }
 
     return utf8.value();
   }
@@ -147,8 +149,10 @@ namespace common::strings
   {
     const auto wide = utf8_to_wstring(utf8);
 
-    if(!wide)
-      common::debug::panic("Failed to convert utf8 string to wide string");
+    if (!wide)
+    {
+      common::panic("Failed to convert utf8 string to wide string");
+    }
 
     return wide.value();
   }
@@ -166,7 +170,9 @@ namespace common::strings
     auto utf8 = sjis_to_utf8(sjis);
 
     if (!utf8)
-      common::debug::panic("Failed to convert sjis string to utf8 string");
+    {
+      common::panic("Failed to convert sjis string to utf8 string");
+    }
 
     return utf8.value();
   }
@@ -191,11 +197,4 @@ namespace common::strings
       std::fill(&dest[srclen], &dest[dest_size], 0);
     #endif
   }
-
-  void local_panic_alias(const std::string& str)
-  {
-    // Exists to prevent circular dependencies in templates
-    common::debug::panic(str);
-  }
-
 }

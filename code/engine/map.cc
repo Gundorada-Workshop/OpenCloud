@@ -1,5 +1,6 @@
 #include "common/log.h"
 #include "common/macros.h"
+#include "common/unreachable.h"
 
 #include "engine/map.h"
 #include "engine/scene.h"
@@ -1777,5 +1778,5 @@ ETimeBand GetTimeBand(f32 time)
     return Evening;
   }
 
-  unreachable_code;
+  common::unreachable();
 }

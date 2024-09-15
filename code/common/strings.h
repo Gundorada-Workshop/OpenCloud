@@ -5,15 +5,10 @@
 #include <string>
 #include <string_view>
 
-#include <fmt/core.h>
-#include <fmt/chrono.h>
-
 #include "common/types.h"
+#include "common/panic.h"
 #include "common/macros.h"
-
-FILE_WARNING_PUSH;
-// fmt lib throws a bunch of this warning
-FILE_WARNING_DISABLE(WARNING_ID_CONDITIONAL_EXPRESSION_IS_CONSTANT)
+#include "common/platform.h"
 
 namespace common::strings
 {
@@ -23,30 +18,42 @@ namespace common::strings
     requires(std::same_as<type, char> || std::same_as<type, wchar_t>);
   };
 
-  #if defined(_WIN32)
+  #if PLATFORM_OS_WINDOWS
+  // convert a wide utf16 string to narrow utf8
+  // use at windows api boundary
   std::optional<std::string>  wstring_to_utf8(std::wstring_view wide);
-  std::optional<std::wstring> utf8_to_wstring(std::string_view utf8);
-  #endif
-  std::optional<std::string> sjis_to_utf8(std::string_view sjis);
 
-  #if defined(_WIN32)
+  // convert a narrow utf8 string to wide utf16
+  // use at windows api boundary
+  std::optional<std::wstring> utf8_to_wstring(std::string_view utf8);
+
+  // converts a wide utf16 string to a narrow utf8 string
+  // if the string cannot be converted returns an empty string
   std::string wstring_to_utf8_or_none(std::wstring_view wide);
+
+  // converts a wide utf16 string to a narrow utf8 string
+  // if the string cannot be converted panics the application
   std::string wstring_to_utf8_or_panic(std::wstring_view wide);
 
+  // convert a narrow utf8 string to wide utf16
+  // if the string cannot be converted returns an empty string
   std::wstring utf8_to_wstring_or_none(std::string_view utf8);
+
+  // convert a narrow utf8 string to wide utf16
+  // if the string cannot be converted panics the application
   std::wstring utf8_to_wstring_or_panic(std::string_view utf8);
   #endif
 
-  std::string sjis_to_utf8_or_none(std::string_view sjis);
-  std::string sjis_to_utf8_or_panic(std::string_view sjis);
+  // converts a narrow shift-jis string to a narrow utf8
+  std::optional<std::string> sjis_to_utf8(std::string_view sjis);
 
-  // format a string
-  // note: fmtstr must be constexpr
-  template<typename ...Args>
-  ALWAYS_INLINE std::string format(fmt::format_string<Args...> fmtstr, Args&&... args)
-  {
-    return fmt::format(fmtstr, std::forward<Args>(args)...);
-  }
+  // converts a narrow shift-jis string to a narrow utf8
+  // the the string cannot be converted returns an empty string
+  std::string sjis_to_utf8_or_none(std::string_view sjis);
+
+  // converts a narrow shift-jis string to a narrow utf8
+  // if the string cannot be converted panics the application
+  std::string sjis_to_utf8_or_panic(std::string_view sjis);
 
   // convert string to lowercase
   template<typename type>
@@ -78,10 +85,6 @@ namespace common::strings
 
   // Cross-platform bounds-checked strcpy
   void xplat_strcpy_s(char* dest, size_t dest_size, const char* src);
-  
-  // Alias for common::debug::panic so that it can be used in templates with minimal
-  // source disruption
-  void local_panic_alias(const std::string&);
 
   // Non-overflowing str->std::array<char> converter 
   template<size_t N>
@@ -110,14 +113,11 @@ namespace common::strings
 
       if (dest_size + src_size + 1 > N)
       {
-        local_panic_alias("Buffer overflow in safe_arraycat");
+        common::panic("Buffer overflow in safe_arraycat");
       }
 
       std::fill(dest.begin() + dest_size, dest.end(), 0);
       std::copy(src.begin(), src.end(), &dest[dest_size]);
     #endif
   }
-
 }
-
-FILE_WARNING_POP;

@@ -11,6 +11,8 @@
   <Import Project="$(SolutionDir)\.msvc\All.Compile.Props" />
   <ItemGroup>
     <ClInclude Include="aligned_allocator.h" />
+    <ClInclude Include="assert.h" />
+    <ClInclude Include="backtrace.h" />
     <ClInclude Include="bits.h" />
     <ClInclude Include="clock.h" />
     <ClInclude Include="console.h" />
@@ -20,26 +22,31 @@
     <ClInclude Include="dictionary.h" />
     <ClInclude Include="dynamic_library.h" />
     <ClInclude Include="file_helpers.h" />
+    <ClInclude Include="fmt.h" />
     <ClInclude Include="helpers.h" />
     <ClInclude Include="log.h" />
     <ClInclude Include="macros.h" />
     <ClInclude Include="math.h" />
+    <ClInclude Include="panic.h" />
     <ClInclude Include="platform.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="scoped_function.h" />
     <ClInclude Include="strings.h" />
     <ClInclude Include="synchro.h" />
     <ClInclude Include="types.h" />
+    <ClInclude Include="unreachable.h" />
     <ClInclude Include="window_handle.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="assert.cc" />
+    <ClCompile Include="backtrace.cc" />
     <ClCompile Include="clock.cc" />
     <ClCompile Include="console.cc" />
     <ClCompile Include="data_stream.cc" />
-    <ClCompile Include="debug.cc" />
     <ClCompile Include="dynamic_library.cc" />
     <ClCompile Include="file_helpers.cc" />
     <ClCompile Include="log.cc" />
+    <ClCompile Include="panic.cc" />
     <ClCompile Include="strings.cc" />
     <ClCompile Include="synchro.cc" />
   </ItemGroup>

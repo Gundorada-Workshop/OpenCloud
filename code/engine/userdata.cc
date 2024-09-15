@@ -1166,9 +1166,9 @@ std::string CGameDataUsed::GetRoboJointName() const
   switch (m_item_data_type)
   {
     case ECommonItemDataType::Ridepod_Arm:
-      return common::strings::format("body{}", robo_data->GetOffsetNo());
+      return common::format("body{}", robo_data->GetOffsetNo());
     case ECommonItemDataType::Ridepod_Body:
-      return common::strings::format("arm{}", robo_data->GetOffsetNo());
+      return common::format("arm{}", robo_data->GetOffsetNo());
     default:
       return "";
   }
@@ -1197,7 +1197,7 @@ std::string CGameDataUsed::GetRoboSoundFileName() const
   {
     offset_no = 40;
   }
-  return strings::format("CH_0{}", offset_no);
+  return common::format("CH_0{}", offset_no);
 }
 
 // 00198550
@@ -1812,7 +1812,7 @@ void CGameDataUsed::CheckParamLimit()
       {
         if (*p_param > 500)
         {
-          panicf("Woah dude, your fish parameters are way too high!!!");
+          panic_msg("Woah dude, your fish parameters are way too high!!!");
         }
       }
 
@@ -2046,11 +2046,11 @@ std::optional<std::string> GetMainCharaModelName(ECharacterID chara_id, bool b)
 
   if (b)
   {
-    return common::strings::format("{}.chr", base_model_names[common::to_underlying(chara_id)]);
+    return common::format("{}.chr", base_model_names[common::to_underlying(chara_id)]);
   }
   else
   {
-    return common::strings::format("{}{}.chr", base_model_names[common::to_underlying(chara_id)], model_no);
+    return common::format("{}{}.chr", base_model_names[common::to_underlying(chara_id)], model_no);
   }
 }
 
@@ -2865,7 +2865,7 @@ std::string CUserDataManager::GetRoboNameDefault() const
 
   if (!robo_nametable.contains(LanguageCode)) [[unlikely]]
   {
-    panicf("No default robo name for language {}", common::to_underlying(LanguageCode));
+    panic_msg("No default robo name for language {}", common::to_underlying(LanguageCode));
   }
 
   return robo_nametable.at(LanguageCode);

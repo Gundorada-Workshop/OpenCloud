@@ -98,6 +98,6 @@ namespace common::file_helpers
   template<typename ...Args>
   std::string resolve_data_path(fmt::format_string<Args...> fmtpath, Args&&... args)
   {
-    return append(file_helpers::get_data_directory(), strings::format(fmtpath, std::forward<Args>(args)...));
+    return append(file_helpers::get_data_directory(), common::format(fmtpath, std::forward<Args>(args)...));
   }
 }

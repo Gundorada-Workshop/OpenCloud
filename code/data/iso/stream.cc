@@ -66,12 +66,12 @@ namespace data
     log_trace("Seeking to logical block {}", logical_block_address);
 
     if (logical_block_address > m_logical_block_count)
-      panicf("Tried to seek to logical block {} but there are only {}", logical_block_address, m_logical_block_count);
+      panic_msg("Tried to seek to logical block {} but there are only {}", logical_block_address, m_logical_block_count);
 
     m_current_logical_block = logical_block_address;
 
     if (!m_file_stream->seek(logical_block_address * m_logical_block_size))
-      panicf("Failed to seek to logical block {}", logical_block_address);
+      panic_msg("Failed to seek to logical block {}", logical_block_address);
   }
 
   void iso_stream::seek_relative_to_logical_block(u64 byte_offset)
@@ -79,7 +79,7 @@ namespace data
     seek_to_logical_block(m_current_logical_block);
 
     if (!m_file_stream->seek_relative(byte_offset))
-      panicf("Failed to seek to byte {} of logical block {}", byte_offset, m_current_logical_block);
+      panic_msg("Failed to seek to byte {} of logical block {}", byte_offset, m_current_logical_block);
   }
 
   bool iso_stream::open_primary_volume_descriptor()

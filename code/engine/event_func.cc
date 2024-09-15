@@ -5361,7 +5361,7 @@ static bool _CREATE_SWORD_EFFECT(script::stack_data* stack, MAYBE_UNUSED sint st
   if (SwordEffect == nullptr)
   {
     // panicf likely will not work with OOM
-    common::debug::panic("_CREATE_SWORD_EFFECT: Out Of Memory");
+    common::panic("_CREATE_SWORD_EFFECT: Out Of Memory");
   }
 
   SwordEffect->Initialize(EventScene->GetStack(stack_id), i1, i2);

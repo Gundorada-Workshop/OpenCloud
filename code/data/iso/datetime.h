@@ -2,6 +2,7 @@
 #include <fmt/format.h>
 
 #include "common/macros.h"
+#include "common/assert.h"
 
 #include "data/iso/types.h"
 
@@ -38,8 +39,8 @@ namespace data
     iso712_t gmt_offset;
   };
 
-  assert_type_size_static(iso_datetime_short, 7);
-  assert_type_size_static(iso_datetime_long, 17);
+  compile_assert_type_size(iso_datetime_short, 7);
+  compile_assert_type_size(iso_datetime_long, 17);
   #pragma pack(pop)
 }
 

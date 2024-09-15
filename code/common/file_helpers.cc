@@ -425,8 +425,6 @@ namespace common::file_helpers
 
     return std::string{ path };
   #endif
-
-    return { };
   }
 
   std::string get_application_directory()

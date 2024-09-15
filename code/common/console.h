@@ -1,6 +1,7 @@
 #pragma once
-#include <fmt/core.h>
-#include "common/strings.h"
+#include <string_view>
+
+#include "common/fmt.h"
 
 namespace common::console
 {
@@ -25,7 +26,7 @@ namespace common::console
   template<typename ...Args>
   void write_format(fmt::format_string<Args...> fmtstr, Args&&... args)
   {
-    const std::string msg = common::strings::format(fmtstr, std::forward<Args>(args)...);
+    const std::string msg = common::format(fmtstr, std::forward<Args>(args)...);
 
     write(msg);
   }

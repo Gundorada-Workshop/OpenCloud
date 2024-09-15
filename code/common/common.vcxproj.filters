@@ -4,12 +4,14 @@
     <ClCompile Include="clock.cc" />
     <ClCompile Include="console.cc" />
     <ClCompile Include="data_stream.cc" />
-    <ClCompile Include="debug.cc" />
     <ClCompile Include="dynamic_library.cc" />
     <ClCompile Include="file_helpers.cc" />
     <ClCompile Include="log.cc" />
     <ClCompile Include="strings.cc" />
     <ClCompile Include="synchro.cc" />
+    <ClCompile Include="assert.cc" />
+    <ClCompile Include="backtrace.cc" />
+    <ClCompile Include="panic.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bits.h" />
@@ -33,6 +35,11 @@
     <ClInclude Include="helpers.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="dictionary.h" />
+    <ClInclude Include="panic.h" />
+    <ClInclude Include="unreachable.h" />
+    <ClInclude Include="assert.h" />
+    <ClInclude Include="backtrace.h" />
+    <ClInclude Include="fmt.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="common.exports.props" />

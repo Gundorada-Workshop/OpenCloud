@@ -1,4 +1,5 @@
 #include "common/strings.h"
+#include "common/fmt.h"
 
 #include "script/file.h"
 #include "script/analyzer.h"
@@ -14,7 +15,7 @@ namespace script
       "// func_{:#06x}(argc: {}, stack_size: {})"
     };
 
-    return strings::format(tpl, entry.code_address, entry.argument_count, entry.stack_entry_count);
+    return common::format(tpl, entry.code_address, entry.argument_count, entry.stack_entry_count);
   }
 
   ALWAYS_INLINE static u32 calculate_string_length(const stream& code, u32 address)

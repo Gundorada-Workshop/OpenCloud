@@ -155,7 +155,7 @@ void CActionChara::Initialize(MAYBE_UNUSED mgCMemory* memory)
 {
   log_trace("CActionChara::{}()", __func__);
 
-  panicf("please create and use a constructor instead");
+  panic_msg("please create and use a constructor instead");
 }
 
 // 00172380
@@ -163,7 +163,7 @@ void CActionChara::Copy(MAYBE_UNUSED CActionChara& other, MAYBE_UNUSED mgCMemory
 {
   log_trace("CActionChara::{}()", __func__);
 
-  panicf("please create and use a copy constructor instead");
+  panic_msg("please create and use a copy constructor instead");
 }
 
 // 0016A140

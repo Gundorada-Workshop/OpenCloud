@@ -19,7 +19,7 @@ namespace host::visual_studio_debug_logger
   {
     const auto now = std::chrono::system_clock::now();
 
-    std::string fmt = common::strings::format(
+    std::string fmt = common::format(
       "{} [{}] {:<15} {}\n", now, level_string(lvl), channel, msg
     );
 

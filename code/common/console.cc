@@ -4,7 +4,8 @@
 #include <cstdio>
 #include <iostream>
 
-#include "console.h"
+#include "common/console.h"
+#include "common/strings.h"
 
 namespace common::console
 {

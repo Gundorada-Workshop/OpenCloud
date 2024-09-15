@@ -2,6 +2,7 @@
 #include <fmt/format.h>
 
 #include "common/macros.h"
+#include "common/assert.h"
 
 #include "data/iso/types.h"
 #include "data/iso/dirent.h"
@@ -175,9 +176,9 @@ namespace data
 
   constexpr auto foo = sizeof(iso_volume_descriptor_primary);
 
-  assert_type_size_static(iso_volume_descriptor_header, 7);
-  assert_type_size_static(iso_volume_descriptor_base, iso_default_sector_size);
-  assert_type_size_static(iso_volume_descriptor_primary, iso_default_sector_size);
+  compile_assert_type_size(iso_volume_descriptor_header, 7);
+  compile_assert_type_size(iso_volume_descriptor_base, iso_default_sector_size);
+  compile_assert_type_size(iso_volume_descriptor_primary, iso_default_sector_size);
   #pragma pack(pop)
 }
 
